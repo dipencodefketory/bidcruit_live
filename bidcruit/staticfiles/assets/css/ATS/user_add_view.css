@@ -1,0 +1,139 @@
+
+.add_view_main_section .card-header{
+    border-bottom: 2px solid #e2e8f5;
+    padding-bottom: 12px !important;
+}
+.add_view_main_section table.dataTable tbody tr {
+    background-color: #f8fafc;
+}
+.add_view_main_section table.dataTable tbody th, table.dataTable tbody td {
+    padding: 14px 10px;
+}
+.add_view_main_section .table {
+    color: #041b4e;
+}
+.add_view_main_section table.dataTable thead th, .add_view_main_section table.dataTable thead td {
+    padding: 14px 10px;
+}
+.action_icons i.fas.fa-eye {
+    color: #0068ff;
+}
+.action_icons i.fas.fa-edit {
+    color: #0068ff;
+    padding-left: 6px;
+}
+.action_icons i.fas.fa-trash-alt {
+    color: #ff5353;
+    padding-left: 6px;
+}
+.search_icon_cus{
+    position: relative;
+    width: 100%;
+    display: inline-block;
+}
+.search_icon_cus i{
+    position: absolute;
+    top: -47px;
+    right: 14px;
+    font-size: 18px;
+}
+.candidate_filters_header {
+    float: left;
+}
+.candidate_filters_header a {
+    color: #041b4e;
+    margin: 0 15px;
+    font-size: 16px;
+}
+.candidate_filters_header a:hover {
+    color: #0068ff;
+}
+.add_view_main_section table.dataTable.no-footer {
+    border-bottom: 2px solid #e4ebf7;
+}
+.add_view_main_section table.dataTable {
+    border: 2px solid #e2e8f5;
+}
+.add_view_main_section .table td {
+    border-top: 2px solid #e4ebf7;
+}
+.add_view_main_section .dataTables_length, .add_view_main_section .dataTables_filter{
+    display: none !important;
+}
+.main_user_add_view label {
+    font-size: 14px;
+    color: #031b4e;
+    font-weight: bold;
+}
+.main_user_add_view .form-control {
+    height: 48px;
+    border: 1px solid #e2e8f5;
+    border-radius: 10px !important;    
+}
+.add_views_btn button {
+    border-radius: 10px;
+}
+.add_views_btn {
+    float: right;
+}
+a.credentials_link {
+    color: #0068ff;
+}
+
+.onoffswitch {
+    position: relative; width: 35px;
+    
+}
+.onoffswitch-checkbox {
+    position: absolute;
+    opacity: 0;
+    pointer-events: none;
+}
+.onoffswitch-label {
+    display: block; overflow: hidden; cursor: pointer;
+    border: 2px solid #FFFFFF; border-radius: 20px;
+}
+.onoffswitch-inner {
+    display: block; width: 200%; margin-left: -100%;
+    transition: margin 0.3s ease-in 0s;
+}
+.onoffswitch-inner:before, .onoffswitch-inner:after {
+    display: block; float: left; width: 50%; height: 15px; padding: 0; line-height: 15px;
+    font-size: 10px; color: white; font-family: Trebuchet, Arial, sans-serif; font-weight: bold;
+    box-sizing: border-box;
+}
+.onoffswitch-inner:before {
+    content: "";
+    padding-left: 5px;
+    background-color: #19B15A; color: #FFFFFF;
+}
+.onoffswitch-inner:after {
+    content: "";
+    padding-right: 5px;
+    background-color: #CED4DA;
+    text-align: right;
+}
+.onoffswitch-switch {
+    display: block; width: 10px; margin: 4px;
+    background: #FFFFFF;
+    position: absolute; top: 0; bottom: 0;
+    right: 16px;
+    border: 2px solid #FFFFFF; border-radius: 20px;
+    transition: all 0.3s ease-in 0s; 
+}
+.onoffswitch-checkbox:checked + .onoffswitch-label .onoffswitch-inner {
+    margin-left: 0;
+}
+.onoffswitch-checkbox:checked + .onoffswitch-label .onoffswitch-switch {
+    right: 0px; 
+}
+.form-control:hover, .form-control:focus {
+    box-shadow: 0 0 5pt 0.5pt #d3d3d3;
+}
+
+input[type=checkbox].form-control:hover, input[type=checkbox].form-control:focus {
+    box-shadow: 0 0 5pt 0.5pt #d3d3d3;
+}
+input[type=checkbox].form-control:hover, input[type=checkbox].form-control:focus {
+    box-shadow: none;
+}

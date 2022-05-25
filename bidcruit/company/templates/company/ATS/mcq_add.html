@@ -1,0 +1,209 @@
+{% extends 'company/base.html' %}
+{% load static %}
+{% load candidate_extras %}
+{% block title %}MCQ ADD{% endblock %}
+{% block css %}
+		<link href="{% static 'assets/plugins/sweet-alert/sweetalert.css' %}" rel="stylesheet">
+
+		<link href="{% static 'assets/css/ATS/mcq_add.css' %}" rel="stylesheet">
+{% endblock %}
+{% block main %}
+				<!-- Container-fluid -->
+				<div class="container-fluid">
+
+					<!-- Main-content-body -->
+					<div class="main-content-body">
+
+						<!-- header-title -->
+						<div class="header-title">
+							<div class="mb-0 mb-lg-0 mb-xl-0">
+								<h4 class="mb-2">Components</h4>
+								<div class="main-content-breadcrumb"> <span>Components</span> <span>Data-tables</span> </div>
+							</div>
+							<div class="ml-auto my-auto">
+								<a href="#" class="btn btn-primary"><i class="fe fe-plus-square"></i> Create Report</a>
+								<a href="#" class="btn btn-pink"><i class="fe fe-external-link"></i> Export</a>
+							</div>
+						</div>
+						<!-- header-title -->
+
+						<!-- row opened -->
+						<div class="row row-sm">
+							<div class="col-xl-12">
+								<div class="card add_view_main_section">
+									
+									<div class="row card-body mcq_list_inner pt-0 pb-0">
+										
+										<div class="col-md-3 pl-2">
+											<div class="title_stage">Add New Question</div>
+											<div class="main_user_add_view">
+
+													<form action="" id="add_mcq" method="POST" >
+														{% csrf_token %}
+														<div class="form-group">
+															<label class="form-label">Question Level :</label>
+														    <select class="form-control" id="subject" name="question_level" required="required">
+																<option selected disabled label="" value="">Select Question Level</option>
+																{% for levels in level %}
+																	<option value="{{levels.id}}" label="">{{levels.level_name}}</option>
+																{% endfor %}
+																
+															</select>
+															<label id="msg" style="color: red;"></label>
+														</div>
+														<div class="form-group">
+															<label class="form-label">Enter New Question :</label>
+															<textarea class="form-control" name="question" required></textarea>
+														</div>
+														<div class="form-group">
+															<label class="form-label">A : <input  required class="correct_answer_radio" name="correct_answer" type="radio" value="a"><span style="display: none;" class="correct_answer_title">Marked As Correct Answer</span></label>
+															<input class="form-control" placeholder="" type="text" name="option_1" required>
+														</div>
+														<div class="form-group">
+															<label class="form-label">B : <input required class="correct_answer_radio" name="correct_answer" type="radio" value="b"><span style="display: none;" class="correct_answer_title">Marked As Correct Answer</span></label>
+															<input class="form-control" placeholder="" type="text" name="option_2" required>
+														</div>
+														<div class="form-group">
+															<label class="form-label">C : <input required class="correct_answer_radio" name="correct_answer" type="radio" value="c"><span style="display: none;" class="correct_answer_title">Marked As Correct Answer</span></label>
+															<input class="form-control" placeholder="" type="text" name="option_3" required>
+														</div>
+														<div class="form-group">
+															<label class="form-label">D : <input required class="correct_answer_radio" name="correct_answer" type="radio" value="d"><span style="display: none;" class="correct_answer_title">Marked As Correct Answer</span></label>
+															<input class="form-control" placeholder="" type="text" name="option_4" required>
+														</div>
+														
+														<div class="add_views_btn"><button id='add' class="btn btn-main-primary btn-block">Add</button></div>
+													
+													</form>
+											</div>												
+											
+										</div>
+
+										<div class="col-md-9 mcq_list p-0">
+
+											<div class="mcq_header_listing">
+												<div class="title_stage m-0">MCQ <span class="cap_text">Subject:</span> {{sub_name}}</div>
+												
+												
+											</div>
+											
+											<div class="view_list_of_mcq">
+
+												<ul class="template_question_list">
+
+
+												{% if question %}
+													{% for questions in question %}
+													<li>
+														<div class="slide-list row row-sm card mb-0">
+															<div class="title-section col-12">
+																<div class="info-section fx-row">
+																	<div class="fx-col-sm left-side">
+																		<label class="tab-counter-label">{{forloop.counter}}</label>
+																		<label class="main-content-label mb-0">{{questions.question_description}}</label>
+																	</div>
+																	<div class="fx-col-sm right-side">
+																		<label class="category-type__info text-capitalize">{{questions.question_level.level_name}}</label>
+																		<div class="edit-btn edit-que" data-id="11"><i class="fas fa-edit"></i></div>
+																		<div class="delete-btn"><i class="fas fa-trash-alt"></i></div>
+																		
+																		
+																	</div>
+																</div>
+																<div class="short-details">
+																	<div class="para-description">
+																		<ul class="list_view_option">
+																			<li {% ifequal questions.correct_option 'a' %} class="correct_ans" {% endifequal %}>(A) {{questions.option_a}}</li>
+																			<li {% ifequal questions.correct_option 'b' %} class="correct_ans" {% endifequal %}>(B) {{questions.option_b}}</li>
+																			<li {% ifequal questions.correct_option 'c' %} class="correct_ans" {% endifequal %}>(C) {{questions.option_c}}</li>
+																			<li {% ifequal questions.correct_option 'd' %} class="correct_ans" {% endifequal %}>(D) {{questions.option_d}}</li>
+																		</ul>
+																	</div>			
+																</div>
+															</div>
+														</div>
+													</li>
+
+													{% endfor %}
+												{% endif %}
+
+
+
+
+													
+													
+												</ul>
+
+												<div class="template_question_footer">
+<!--													<h3>Total Count : 3</h3>-->
+													{% if question.has_other_pages %}
+													<ul class="pagination mb-0">
+														{% if question.has_previous %}
+														<li class="page-item"><a class="page-link" href="?page={{ question.previous_page_number }}">Prev</a></li>
+														{% else %}
+														<li></li>
+														{% endif %}
+															{% for i in question.paginator.page_range %}
+																{% if question.number == i %}
+																	<li class="page-item active"><a class="page-link" type="button" >{{i}}</a></li>
+														{% else %}
+															<li class="page-item"><a class="page-link" href="?page={{ i }}">{{i}}</a></li>
+														{% endif %}
+														{% endfor %}
+														{% if question.has_next %}
+															<li class="page-item"><a class="page-link" href="?page={{ question.next_page_number }}">Next</a>
+														</li>
+														{% else %}
+															<li></li>
+															{% endif %}
+													</ul>
+													{% endif %}
+												</div>
+
+											</div>
+
+
+										</div>
+
+									</div>
+								</div>
+							</div>
+							<!--/div-->
+					
+						</div>
+						<!-- /row -->
+					</div>
+					<!-- Main-content-body closed -->
+				</div>
+				<!-- Container-fluid closed -->
+		
+{% endblock %}
+
+{% block script %}
+		<!--- Internal Sweet-Alert js -->
+		<script src="{% static 'assets/plugins/sweet-alert/sweetalert.min.js' %}"></script>
+		<script src="{% static 'assets/plugins/sweet-alert/jquery.sweet-alert.js' %}"></script>
+		<!-- mcq add js -->
+		<script src="{% static 'assets/js/ATS/mcq_add.js' %}"></script>
+		<script>
+			$('input[type=radio][name=correct_answer]').change(function() {				 
+				$(".correct_answer_title").css("display", "none")
+				$(this).next(".correct_answer_title").css("display", "inline-block");
+			});
+			$('#add').click(function(){
+				var subject = $("#subject option:selected").val();
+				console.log(subject);
+				if(subject == "")
+				{
+					$("#msg").html("Please select at least One option");
+					return false;
+				}
+				else
+				{
+					return true;
+				}
+			});
+		</script>
+
+
+{% endblock %}

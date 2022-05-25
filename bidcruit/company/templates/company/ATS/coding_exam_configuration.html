@@ -1,0 +1,263 @@
+{% extends 'company/base.html' %}
+{% load static %}
+{% block title %}Coding Exam Configuration{% endblock %}
+{% block css %}
+    <!--custom desciptive list css-->
+    <link href="{% static 'assets/css/ATS/coding_exam_configuration.css' %}" rel="stylesheet">
+{% endblock %}
+{% block main %}
+
+      
+    <!-- Main-content-body -->
+    <div class="main-content-body">
+
+        <!-- row -->
+        <div class="row row-sm">
+            <div class="col-12">
+                <div class="card audiencemetric">
+                    <div class="card-body pb-0 p-0">
+                        <div class="row">
+                            <div class="col-lg-12 col-md-12 col-sm-12">
+                                <div class="template_selection_header one_header">
+                                    <div class="h5 t_ty_50">Template Type : <span>Coding</span></div>
+                                    <div class="h5">Template Name : <span>{{template_obj.name}}</span></div>
+                                    
+                                </div>
+                                
+                            </div>
+                            <div class="col-12">
+                                <div class="add__exam-form">
+                                    
+                                    <form method="post" name="exam_templateform">
+                                        <h5 class="card-title mb-3">exam configuration</h5>
+                                        {% csrf_token %}
+                                        <div class="row">
+                                            <div class="col-12 col-md-6 col-lg-4">
+                                                <div class="form-group">
+                                                    <label class="main-content-label">Exam Name :</label>
+                                                    <input class="form-control" name="exam_name" required="true" type="text" value="{{exam_template.exam_name}}">
+                                                </div>
+                                            </div>
+                                            <div class="col-12 col-md-6 col-lg-4">
+                                                <div class="form-group">
+                                                    <label class="main-content-label">Total Exam Time :</label>
+                                                    <input class="form-control"  name="total_time" onkeypress="formatTime(this)" placeholder="HH:MM" required="true" type="text" value="{{exam_template.total_time}}">
+                                                </div>
+                                            </div>
+                                            <div class="col-12 col-md-6 col-lg-4">
+                                                <div class="form-group">
+                                                    <label class="main-content-label mb-4">Assignment Type :</label>
+                                                    <div class="d-flex mt-3">
+                                                        {%if exam_template%}
+                                                        <label class="rdiobox mr-5"><input name="assignment_type" value="marks" type="radio" {%if exam_template.assignment_type == 'marks'%}checked{%endif%}> <span>Marks</span></label>
+                                                        <label class="rdiobox"><input name="assignment_type" value="rating" type="radio" {%if exam_template.assignment_type == 'rating'%}checked{%endif%}> <span>Rating</span></label>
+                                                        {%else%}
+                                                        <label class="rdiobox mr-5"><input name="assignment_type" value="marks" type="radio" checked> <span>Marks</span></label>
+                                                        <label class="rdiobox"><input name="assignment_type" value="rating" type="radio"> <span>Rating</span></label>
+                                                        {%endif%}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                           
+                                            <!--      <div class="col-12 col-md-6 col-lg-4">-->
+                                            <!--   <div class="form-group">-->
+                                            <!--         <label class="main-content-label mb-4">Exam Type :</label>-->
+                                            <!--      <div class="d-flex mt-3">-->
+                                            <!--       <label class="rdiobox mr-5"><input name="examtype" type="radio" value="custom" checked> <span>Custom</span></label>-->
+                                            <!--      <label class="rdiobox"><input  name="examtype" type="radio" value="random"> <span>Random</span></label>-->
+                                            <!--                 </div>-->
+                                            <!--             </div>-->
+                                            <!--      </div>-->
+
+                                            <div class="col-12 col-md-6 col-lg-4">
+                                                <div class="form-group">
+                                                    <label class="main-content-label mb-4">Technology:</label>
+                                                    <div class="d-flex mt-3">
+                                                        {%if exam_template%}
+                                                        <label class="rdiobox mr-5"><input name="technology-type" type="radio" value="frontend" {%if exam_template.technology == 'frontend'%}checked{%endif%} > <span>Front-End</span></label>
+                                                        <label class="rdiobox"><input  name="technology-type" type="radio" value="backend" {%if exam_template.technology == 'backend'%}checked{%endif%}> <span>Back-End</span></label>
+                                                        {%else%}
+                                                        <label class="rdiobox mr-5"><input name="technology-type" type="radio" value="frontend" > <span>Front-End</span></label>
+                                                        <label class="rdiobox"><input  name="technology-type" type="radio" value="backend" checked> <span>Back-End</span></label>
+                                                        {%endif%}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            
+                                            <div class="col-12 col-md-6 col-lg-4">
+                                                <div class="form-group backend-subject" {%if exam_template%} {%if exam_template.technology == 'frontend'%} style="display:none" {%endif%}{%endif%}>
+                                                    <label class="main-content-label">Subject:</label>
+                                                    <select required="true" id="backend_selected_subject" name="backend_selected_subject" class="form-control">
+                                                        <option label="Select subject" disabled selected></option>
+                                                        {% for sub in backend_subjects %}
+                                                            
+                                                            <option value="{{sub.id}}" {%if exam_template.coding_subject_id == sub%}selected{%endif%}>{{sub.api_subject_id.name}}</option>
+                                                        {% endfor %}
+                                                    </select>
+                                                </div>
+                                                
+                                                <div class="form-group frontend-subject"  {%if exam_template%} {%if exam_template.technology == 'backend'%} style="display:none" {%endif%} {%else%} style="display:none" {%endif%}>
+                                                    <label class="main-content-label">Subject:</label>
+                                                    <select id="frontend_selected_subject" name="frontend_selected_subject" class="form-control">
+                                                        <option label="Select subject" disabled selected></option>
+                                                        {% for sub in frontend_subjects %}
+                                                            <option value="{{sub.id}}" {%if exam_template.coding_subject_id == sub%}selected{%endif%}>(Html/css/Js)</option>
+                                                        {% endfor %}
+                                                    </select>
+                                                </div>
+                                            </div>
+                                           
+                                            <div class="col-12 col-md-6 col-lg-4" style="display: none;">
+                                                <div class="form-group backend-subject-category">
+                                                    <label class="main-content-label">Category:</label>
+                                                    <select id="backend_selected_subject_category" name="backend_selected_subject_category" class="form-control">
+                                                        <option label="Select Category" disabled selected></option>
+                                                        {%if exam_template%}
+                                                        <option value="{{exam_template.coding_category_id.id}}" selected>{{exam_template.coding_category_id.category_name}}</option>    
+                                                        {%endif%}
+                                                <!--    <option value="1">Cat 1</option>-->
+                                                    </select>
+                                                </div>
+
+                                            </div>
+
+                                            <div class="col-12 col-md-6 col-lg-4">
+                                                <div class="form-group">
+                                                    <label class="main-content-label">Total Question : <span class="que_count" style="display: none;">(Available - ) </span></label>
+                                                    <input class="form-control" name="total_question" min="1"  required="true" type="number" value="{{exam_template.total_question}}">
+                                                </div>
+                                            </div>
+                                            
+
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="col">
+                                                <div class="d-flex add__exam-form-action cus_line">
+                                                    <button class="btn btn-primary rounded-20 mr-2" type="submit">Next</button>
+                                                    <button type="button" class="btn btn-danger rounded-20 close-action">Close</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- row -->
+    </div>
+    <!-- Main-content-body closed -->
+          
+
+{% endblock %}
+
+{% block script %}
+
+ <!-- jquery validation plugin -->
+     <script src="{% static 'assets/js/jquery-validation-1.19.3/dist/jquery.validate.js' %}"></script>
+
+<script>
+    $(document).ready(function(){
+        $(document).on('click','input[name=technology-type]',function(){
+           let flag = $(this).val();
+           if(flag == 'frontend'){
+                $('.backend-subject').css('display','none');
+                $('.frontend-subject').css('display','block');
+                $('#backend_selected_subject option:first').prop('selected',true);
+                // $('.backend-subject_category').css('visibility','none');
+           }
+           if(flag == 'backend'){
+                $('.frontend-subject').css('display','none');
+                $('.backend-subject').css('display','block');
+                $('#frontend_selected_subject option:first').prop('selected',true);
+                // $('.backend-subject_category').css('visibility','block');
+           }
+           $(".que_count").hide();
+        });
+        $(document).on('change','[name="backend_selected_subject"],[name="frontend_selected_subject"]',function(){
+            let subject_id = $(this).val();
+            var url = "/company/coding_total_questions/"+subject_id
+            $.ajax({
+                    url: url,
+                    headers: {'X-CSRFToken': $("input[name=csrfmiddlewaretoken]").val() },
+                    type:'POST',
+                    contentType: false,
+                    processData: false,
+                    data: {},
+                    error: function (request, status, error) {
+                        alert(error);
+                    }
+            }).done(function(response){
+                let text = "(Available -"+ response + ")";
+                $(".que_count").text(text);
+                $(".que_count").show();
+                $("input[name=total_question]").attr('max', response);
+            })
+        });
+
+
+    });
+    function formatTime(timeInput) {
+
+          intValidNum = timeInput.value;
+
+          if (intValidNum < 24 && intValidNum.length == 2) {
+              timeInput.value = timeInput.value + ":";
+              return false;
+          }
+          if (intValidNum == 24 && intValidNum.length == 2) {
+              timeInput.value = timeInput.value.length - 2 + "0:";
+              return false;
+          }
+          if (intValidNum > 24 && intValidNum.length == 2) {
+              timeInput.value = "";
+              return false;
+          }
+         
+    }
+</script>
+
+
+<script>            
+
+    $.validator.addMethod("time24", function(value, element) { 
+        if (!/^\d{2}:\d{2}$/.test(value)) return false;
+        var parts = value.split(':');
+        if (parts[0] > 23 || parts[1] > 59 ) return false;
+        return true;
+    }, "Invalid time format.");
+
+
+    $(function() {
+        $("form[name='exam_templateform']").validate({
+        // Specify validation rules
+        rules: {
+          // The key name on the left side is the name attribute
+          // of an input field. Validation rules are defined
+          // on the right side
+            total_time: {
+               required: true,
+               time24: true
+            },
+            backend_selected_subject:{
+                required: true
+            },           
+         
+        },
+        // Specify validation error messages
+        messages: {
+         
+
+        },
+        // Make sure the form is submitted to the destination defined
+        // in the "action" attribute of the form when valid
+        
+      });
+    });
+
+</script>
+
+{% endblock %}

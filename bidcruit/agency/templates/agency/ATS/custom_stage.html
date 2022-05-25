@@ -1,0 +1,95 @@
+{% extends 'agency/base.html' %}
+{% load static %}
+{% block title %} Custom Stage {% endblock %}
+{% block css %}
+<link href="{% static 'assets/css/ATS/custom_template.css' %}" rel="stylesheet">
+{% endblock %}
+
+
+{% block main %}
+<div class="main-content-body">
+    <div class="row row-sm">
+        <div class="col-xl-12">
+            <div class="card">
+                    <div class="custom-form" style="padding:20px;">
+
+                      <div class="left_side_assess"> 
+                        <h3 class="mb-3 name_c">Interview Assessment</h3>
+                         <div class="border_line_a"></div>
+                        <div class="rowCustom">
+                            <div class="form-group">
+                                <label class="form-label text-capitalize font-weight-bold">Title: <span>{{custom_round_data.title}}</span></label>
+                                
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label text-capitalize font-weight-bold">Interview Instructions:</label>
+                                <span>{{custom_round_data.description}}</span>
+                            </div>
+                            {% if custom_round_data.file_input %}
+                                <div class="form-group">
+                                    <label class="form-label text-capitalize font-weight-bold">File: <span><a href="{{custom_round_data.file_input.url}}" target="_blank" class="file_dw_link">click here to view file</a></span></label>
+                                    
+                                </div>
+                            {% endif %}
+                        </div>
+                      
+
+                         <h3 class="mb-3 name_c mt-4">Candidate Response</h3>
+                         <div class="border_line"></div>
+                        <div class="rowCandidate">
+                            <div class="form-group">
+                                <label class="form-label text-capitalize font-weight-bold">Instructions by candidate:</label>
+                                <span>{{custom_result_data.description_by_candidate}}</span>
+                            </div>
+                            {% if custom_result_data.submitted_file_by_candidate %}
+                                <div class="form-group">
+                                    <label class="form-label text-capitalize font-weight-bold">Submitted file: <span><a href="{{custom_result_data.submitted_file_by_candidate.url}}" target="_blank" class="file_dw_link">click here to view file</a></span></label>
+                                    
+                                </div>
+                            {% endif %}
+                        </div>
+                      </div>
+                      <div class="Scorecards_section">
+                        <h3 class="mb-3 name_c">Scorecards</h3>
+                        <div class="border_line_2"></div>
+                        <form role="form" method="POST">
+                            {% csrf_token %}
+                            <div class="rating_section_main">
+                                {% for scorecard in scorecards %}
+                                <div class="rating_section_list mt-2 mb-3">
+                                      <label class="form-label text-capitalize font-weight-bold">Title : <span>{{scorecard.title}}</span></label>
+                                     
+                                      <div class="stars mb-2">
+                                          <span class="Rating_title">Rating :</span>
+                                          <input type="radio" name="rating{{scorecard.id}}" value="1" required>
+                                          <input type="radio" name="rating{{scorecard.id}}" value="2">
+                                          <input type="radio" name="rating{{scorecard.id}}" value="3">
+                                          <input type="radio" name="rating{{scorecard.id}}" value="4">
+                                          <input type="radio" name="rating{{scorecard.id}}" value="5">
+                                          <i></i>
+                                      </div>
+                                      <label class="form-label text-capitalize font-weight-bold">Comment :</label>
+                                      <textarea rows="3" class="form-control comment" name="comment{{scorecard.id}}" placeholder="comment.." required></textarea>
+                                  </div>
+                                {% endfor %}
+                            </div>
+
+                            <label class="form-label text-capitalize font-weight-bold mt-2">Description Box :</label>
+                            <textarea class="form-control" name="description" required></textarea>
+
+                            <div class="submit_btn_rating">
+                                <input class="rating_submit" id="rating_submit_button" type="submit" name="rating_submit">
+                            </div>
+                        </form>
+                      </div>
+                    </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+
+
+{% block script %}
+{% endblock %}

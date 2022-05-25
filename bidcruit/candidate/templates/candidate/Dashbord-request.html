@@ -1,0 +1,442 @@
+{% extends 'candidate/base.html' %}
+{% load static %}
+{% load candidate_extras %}
+{% block title %}Request page{% endblock %}
+
+{% block main %}
+
+			<!-- Container-fluid -->
+			<div class="container-fluid">
+
+				<!-- Main-content-body -->
+				<div class="main-content-body">
+					<!-- row -->
+					<div class="row">
+						<div class="col-lg-12 col-md-12">
+							<div class="card">
+								<div class="card-body">
+                                    <div class="d-md-flex">
+                                      
+                                        <div class="left-side-bar">
+                                            <div class="head-tab-custom">
+                                                <div class="tabs-menu ">
+                                                    <!-- Tabs -->
+                                                    <ul class="nav panel-tabs">
+                                                        
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                            <div class="panel panel-primary tabs-style-4">
+                                                <div class="tab-menu-heading">
+                                                    <div class="tabs-menu ">
+                                                       
+                                                        <!-- Tabs -->
+                                                        <ul class="nav panel-tabs">
+                                                            <li class=""><a href="#tab21" class="active" data-toggle="tab"><i data-v-e08301e8="" class="fas fa-user-plus"></i> Hire Request</a></li>
+                                                            <li><a href="#tab22" data-toggle="tab"><i data-v-e08301e8="" class="fas fa-clipboard-list"></i> Data Request</a></li>
+                                                            <!-- <li><a href="#tab23" data-toggle="tab"><i class="fe fe-settings mr-1"></i> Tab Style 03</a></li>
+                                                            <li><a href="#tab24" data-toggle="tab"><i class="fe fe-layers mr-1"></i> Tab Style 04</a></li> -->
+                                                        </ul>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="tabs-style-4 panel-custom">
+                                          
+                                            <div class="panel-body tabs-menu-body">
+                                              
+                                                <div class="tab-content">
+                                                    <div class="tab-pane active" id="tab21">
+														<div class="panel-headcustom">
+															<ul class="nav nav-tabs" role="tablist">
+																<li><a  class="active" data-toggle="tab" href="#tabs-1" role="tab">Active <!--<span>1</span>--></a></li>
+																<li><a data-toggle="tab" href="#tabs-2" role="tab">New <!--<span>1</span>--></a></li>
+																<li><a data-toggle="tab" href="#tabs-3" role="tab">Archive <!--<span>1</span>--></a></li>
+															</ul>
+															<div class="tab-content">
+																<div class="tab-pane active" id="tabs-1" role="tabpanel">
+																	<!-- loop start -->
+																	{% for actives in active %}
+																	<!-- Modal effects -->
+																	<div class="modal" id="reject_request">
+																		<div class="modal-dialog modal-dialog-centered" role="document">
+																			<div class="modal-content modal-content-demo">
+																				<div class="modal-header">
+																					<h6 class="modal-title">Reject Request</h6><button aria-label="Close" class="close" data-dismiss="modal" type="button"><span aria-hidden="true">&times;</span></button>
+																				</div>
+																				<form method="POST" action="{% url 'candidate:reject_request' actives.profile_id actives.company_id actives.id %}">
+																					{% csrf_token %}
+																				<div class="modal-body">
+																					<h6>Message</h6>
+																					<input class="form-control" type="text" value="" name='reject_message' required="required">
+																				</div>
+																				<div class="modal-footer">
+																					<button type="submit" class="btn btn-danger btn-block" type="button">Reject
+																					</button></form>
+																					<button class="btn ripple btn-secondary" data-dismiss="modal">Close</button>
+																				</div>
+																			</div>
+																		</div>
+																	</div>
+																	<!-- End Modal effects-->
+																	<div class="tab-description row">
+																		<div class="left-area col-lg-2 col-md-2 col-sm-3 col-xs-12">
+																			<div class="circle-logo-brand">
+																			<img src="{{actives.company_id|get_company_image}}" alt="img-responsive">
+																		</div>
+																		</div>
+																		<div class="right-area col-lg-10 col-md-10 col-sm-9 col-xs-12">
+																			<div class="acc-haeding">
+																				<h4>{{actives.company_id|get_companyname}}</h4>
+																				
+																				<span class="acc-year">Oct 2019 to Current</span>
+
+																			</div>
+																			<!-- <span class="acc-sub">Sr. Software Engineer</span> -->
+																			<p>{{actives.message}}</p>
+																		</div>
+																		<div>
+																			<a data-effect="effect-sign" data-toggle="modal" href="#reject_request" class="btn btn-danger btn-block">Reject</a>
+																		</div>
+																	</div>
+																	{% endfor %}
+																	<!-- endloop -->
+																	
+																</div>
+
+																<div class="tab-pane" id="tabs-2" role="tabpanel">
+																	<!-- start loop new -->
+																	{% for new in new_request %}
+																	<!-- Modal accept -->
+																	<div class="modal" id="accept">
+																		<div class="modal-dialog modal-dialog-centered" role="document">
+																			<div class="modal-content modal-content-demo">
+																				<div class="modal-header">
+																					<h6 class="modal-title">Accept Request</h6><button aria-label="Close" class="close" data-dismiss="modal" type="button"><span aria-hidden="true">&times;</span></button>
+																				</div>
+																				<form method="POST" action="{% url 'candidate:accept_request' new.profile_id new.company_id new.id %}">
+																					{% csrf_token %}
+																				<div class="modal-body">
+																					<h6>Message</h6>
+																					<input class="form-control" type="text" value="" name='accept_message' required="required">
+																				</div>
+																				<div class="modal-footer">
+																					<button type="submit" class="btn btn-primary btn-block">Accept
+																					</button></form>
+																					<button class="btn ripple btn-secondary" data-dismiss="modal" type="button">Close</button>
+																				</div>
+																			</div>
+																		</div>
+																	</div>
+																	<!-- End Modal effects-->       
+																   <!-- Modal effects -->
+																	<div class="modal" id="reject">
+																		<div class="modal-dialog modal-dialog-centered" role="document">
+																			<div class="modal-content modal-content-demo">
+																				<div class="modal-header">
+																					<h6 class="modal-title">Reject Request</h6><button aria-label="Close" class="close" data-dismiss="modal" type="button"><span aria-hidden="true">&times;</span></button>
+																				</div>
+																				<form method="POST" action="{% url 'candidate:reject_request' new.profile_id new.company_id new.id %}">
+																					{% csrf_token %}
+																				<div class="modal-body">
+																					<h6>Message</h6>
+																					<input class="form-control" type="text" value="" name='reject_message' required="required">
+																				</div>
+																				<div class="modal-footer">
+																					<button type="submit" class="btn btn-danger btn-block" type="button">Reject
+																					</button></form>
+																					<button class="btn ripple btn-secondary" data-dismiss="modal">Close</button>
+																				</div>
+																			</div>
+																		</div>
+																	</div>
+																	<!-- End Modal effects-->
+																	<div class="tab-description row">
+																		<div class="left-area col-lg-2 col-md-2 col-sm-3 col-xs-12">
+																			<div class="circle-logo-brand">
+																			<img src="{{new.company_id|get_company_image}}" alt="img-responsive">
+																		</div>
+																		</div>
+																		<div class="right-area col-lg-10 col-md-10 col-sm-9 col-xs-12">
+																			<div class="acc-haeding">
+																				<h4>{{new.company_id|get_companyname}}</h4>
+																			
+																				<span class="acc-year">Oct 2019 to Current</span>
+																			</div>
+																			<!-- <span class="acc-sub">Sr. Software Engineer</span> -->
+																			<p>{{new.message}}</p>
+																			
+																			<div class="butn-form">
+										                                         <button type="submit" data-effect="effect-sign" data-toggle="modal" href="#accept" class="btn btn-primary btn-block">Accept</button>
+										                                         <button data-effect="effect-sign" data-toggle="modal" href="#reject" class="btn btn-danger btn-block">Reject</button>
+										                                 </div>
+																		</div>
+																	</div>
+																	{% endfor %}
+																	<!-- end loop new -->
+																</div>
+
+																<div class="tab-pane" id="tabs-3" role="tabpanel">
+																<!-- start loop archive -->
+																{% for archives in archive %}
+																	<!-- Modal effects -->
+																	<div class="modal" id="accept_request">
+																		<div class="modal-dialog modal-dialog-centered" role="document">
+																			<div class="modal-content modal-content-demo">
+																				<div class="modal-header">
+																					<h6 class="modal-title">Reject Request</h6><button aria-label="Close" class="close" data-dismiss="modal" type="button"><span aria-hidden="true">&times;</span></button>
+																				</div>
+																				<form method="POST" action="{% url 'candidate:accept_request' archives.profile_id archives.company_id archives.id %}">
+																					{% csrf_token %}
+																				<div class="modal-body">
+																					<h6>Message</h6>
+																					<input class="form-control" type="text" value="" name='accept_message' required="required">
+																				</div>
+																				<div class="modal-footer">
+																					<button type="submit" class="btn btn-primary btn-block">Accept
+																					</button></form>
+																					<button class="btn ripple btn-secondary" data-dismiss="modal" type="button">Close</button>
+																				</div>
+																			</div>
+																		</div>
+																	</div>
+																	<!-- End Modal effects-->
+																	<div class="tab-description row">
+																		<div class="left-area col-lg-2 col-md-2 col-sm-3 col-xs-12">
+																			<div class="circle-logo-brand">
+																			<img src="{{archives.company_id|get_company_image}}" alt="img-responsive">
+																		</div>
+																		</div>
+																		<div class="col-lg-10 col-md-10 col-sm-9 col-xs-12">
+																			<div class="acc-haeding">
+																				<h4>{{archives.company_id|get_companyname}}</h4>
+																				
+																				<span class="acc-year">Oct 2019 to Current</span>
+																			</div>
+																			<!-- <span class="acc-sub">Sr. Software Engineer</span> -->
+																			<p>{{archives.message}}
+																			   </p>
+																			<div>
+																				<a data-effect="effect-sign" data-toggle="modal" href="#accept_request" class="btn btn-primary btn-block" type="button">Accept</a>
+																			</div>
+																		</div>
+																	</div>
+																{% endfor %}
+																	<!-- loop end archive -->
+																	
+																</div>
+															</div>
+															
+
+
+
+														</div>
+                                                        
+                                                     
+                                                    </div>
+                                                    <div class="tab-pane" id="tab22">
+														
+														<div class="panel-headcustom">
+															<ul class="nav nav-tabs" role="tablist">
+
+																<li><a  class="active" data-toggle="tab" href="#tabs-4" role="tab">Active<!--<span>1</span>--></a></li>
+																<li><a data-toggle="tab" href="#tabs-5" role="tab">New <!--<span>1</span>--></a></li>
+																<li><a data-toggle="tab" href="#tabs-6" role="tab">Archive <!--<span>1</span>--></a></li>
+															</ul>
+															<div class="tab-content">
+																<div class="tab-pane active" id="tabs-4" role="tabpanel">
+																	<!-- loop start -->
+																	{% for actives in data_active %}
+																	<!-- Modal effects -->
+																	<div class="modal" id="data_reject_request">
+																		<div class="modal-dialog modal-dialog-centered" role="document">
+																			<div class="modal-content modal-content-demo">
+																				<div class="modal-header">
+																					<h6 class="modal-title">Reject Request</h6><button aria-label="Close" class="close" data-dismiss="modal" type="button"><span aria-hidden="true">&times;</span></button>
+																				</div>
+																				<form method="POST" action="{% url 'candidate:data_reject_request' actives.profile_id actives.company_id actives.id%}">
+																					{% csrf_token %}
+																				<div class="modal-body">
+																					<h6>Message</h6>
+																					<input class="form-control" type="text" value="" name='reject_message' required="required">
+																				</div>
+																				<div class="modal-footer">
+																					<button type="submit" class="btn btn-danger btn-block" type="button">Reject
+																					</button></form>
+																					<button class="btn ripple btn-secondary" data-dismiss="modal">Close</button>
+																				</div>
+																			</div>
+																		</div>
+																	</div>
+																	<!-- End Modal effects-->
+																	<div class="tab-description row">
+																		<div class="left-area col-lg-2 col-md-2 col-sm-3 col-xs-12">
+																			<div class="circle-logo-brand">
+																			<img src="{{actives.company_id|get_company_image}}" alt="img-responsive">
+																		</div>
+																		</div>
+																		<div class="right-area col-lg-10 col-md-10 col-sm-9 col-xs-12">
+																			<div class="acc-haeding">
+																				<h4>{{actives.company_id|get_companyname}}</h4>
+																				
+																				<span class="acc-year">Oct 2019 to Current</span>
+
+																			</div>
+																			<!-- <span class="acc-sub">Sr. Software Engineer</span> -->
+																			<p>{{actives.message}}</p>
+																		</div>
+																		<div>
+																			<a data-effect="effect-sign" data-toggle="modal" href="#data_reject_request" class="btn btn-danger btn-block">Reject</a>
+																		</div>
+																	</div>
+																	{% endfor %}
+																	<!-- endloop -->
+																	
+																</div>
+
+																<div class="tab-pane" id="tabs-5" role="tabpanel">
+																	<!-- start loop new -->
+																	{% for new in data_new_request %}
+																	<!-- Modal accept -->
+																	<div class="modal" id="data_accept">
+																		<div class="modal-dialog modal-dialog-centered" role="document">
+																			<div class="modal-content modal-content-demo">
+																				<div class="modal-header">
+																					<h6 class="modal-title">Accept Request</h6><button aria-label="Close" class="close" data-dismiss="modal" type="button"><span aria-hidden="true">&times;</span></button>
+																				</div>
+																				<form method="POST" action="{% url 'candidate:data_accept_request' new.profile_id new.company_id new.id %}">
+																					{% csrf_token %}
+																				<div class="modal-body">
+																					<h6>Message</h6>
+																					<input class="form-control" type="text" value="" name='accept_message' required="required">
+																				</div>
+																				<div class="modal-footer">
+																					<button type="submit" class="btn btn-primary btn-block">Accept
+																					</button></form>
+																					<button class="btn ripple btn-secondary" data-dismiss="modal" type="button">Close</button>
+																				</div>
+																			</div>
+																		</div>
+																	</div>
+																	<!-- End Modal effects-->       
+																	<!-- Modal effects -->
+																	<div class="modal" id="data_reject">
+																		<div class="modal-dialog modal-dialog-centered" role="document">
+																			<div class="modal-content modal-content-demo">
+																				<div class="modal-header">
+																					<h6 class="modal-title">Reject Request</h6><button aria-label="Close" class="close" data-dismiss="modal" type="button"><span aria-hidden="true">&times;</span></button>
+																				</div>
+																				<form method="POST" action="{% url 'candidate:data_reject_request' new.profile_id new.company_id new.id %}">
+																					{% csrf_token %}
+																				<div class="modal-body">
+																					<h6>Message</h6>
+																					<input class="form-control" type="text" value="" name='reject_message' required="required">
+																				</div>
+																				<div class="modal-footer">
+																					<button type="submit" class="btn btn-danger btn-block" type="button">Reject
+																					</button></form>
+																					<button class="btn ripple btn-secondary" data-dismiss="modal">Close</button>
+																				</div>
+																			</div>
+																		</div>
+																	</div>
+																	<!-- End Modal effects-->
+																	<div class="tab-description row">
+																		<div class="left-area col-lg-2 col-md-2 col-sm-3 col-xs-12">
+																			<div class="circle-logo-brand">
+																			<img src="{{new.company_id|get_company_image}}" alt="img-responsive">
+																		</div>
+																		</div>
+																		<div class="right-area col-lg-10 col-md-10 col-sm-9 col-xs-12">
+																			<div class="acc-haeding">
+																				<h4>{{new.company_id|get_companyname}}</h4>
+																			
+																				<span class="acc-year">Oct 2019 to Current</span>
+																			</div>
+																			<!-- <span class="acc-sub">Sr. Software Engineer</span> -->
+																			<p>{{new.message}}</p>
+																			
+																			<div class="butn-form">
+										                                         <button type="submit" data-effect="effect-sign" data-toggle="modal" href="#data_accept" class="btn btn-primary btn-block">Accept</button>
+										                                         <button data-effect="effect-sign" data-toggle="modal" href="#data_reject" class="btn btn-danger btn-block">Reject</button>
+										                                 </div>
+																		</div>
+																	</div>
+																	{% endfor %}
+																	<!-- end loop new -->
+																</div>
+
+																<div class="tab-pane" id="tabs-6" role="tabpanel">
+																<!-- start loop archive -->
+																{% for archives in data_archive %}
+																	<!-- Modal effects -->
+																	<div class="modal" id="data_accept_request">
+																		<div class="modal-dialog modal-dialog-centered" role="document">
+																			<div class="modal-content modal-content-demo">
+																				<div class="modal-header">
+																					<h6 class="modal-title">Reject Request</h6><button aria-label="Close" class="close" data-dismiss="modal" type="button"><span aria-hidden="true">&times;</span></button>
+																				</div>
+																				<form method="POST" action="{% url 'candidate:data_accept_request' archives.profile_id archives.company_id archives.id %}">
+																					{% csrf_token %}
+																				<div class="modal-body">
+																					<h6>Message</h6>
+																					<input class="form-control" type="text" value="" name='accept_message' required="required">
+																				</div>
+																				<div class="modal-footer">
+																					<button type="submit" data-effect="effect-sign" data-toggle="modal" href="#data_accept" class="btn btn-primary btn-block">Accept</button>
+																					<button class="btn ripple btn-secondary" data-dismiss="modal" type="button">Close</button>
+																				</div>
+																			</div>
+																		</div>
+																	</div>
+																	<!-- End Modal effects-->
+																	<div class="tab-description row">
+																		<div class="left-area col-lg-2 col-md-2 col-sm-3 col-xs-12">
+																			<div class="circle-logo-brand">
+																			<img src="{{archives.company_id|get_company_image}}" alt="img-responsive">
+																		</div>
+																		</div>
+																		<div class="col-lg-10 col-md-10 col-sm-9 col-xs-12">
+																			<div class="acc-haeding">
+																				<h4>{{archives.company_id|get_companyname}}</h4>
+																				
+																				<span class="acc-year">Oct 2019 to Current</span>
+																			</div>
+																			<!-- <span class="acc-sub">Sr. Software Engineer</span> -->
+																			<p>{{archives.message}}
+																			   </p>
+																			<div>
+																				<div class="modal-footer">
+																					<button type="submit" data-effect="effect-sign" data-toggle="modal" href="#data_accept_request" class="btn btn-primary btn-block">Accept</button>
+																			</div>
+																		</div>
+																	</div>
+																{% endfor %}
+																	<!-- loop end archive -->
+																	
+																</div>
+															</div>
+															
+
+
+
+														</div>
+                                                    </div>
+                                                 
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+								
+								</div>
+							</div>
+						</div>
+					</div>
+					<!-- /row -->
+				</div>
+				<!-- Main-content-body closed -->
+			</div>
+			<!-- Container-fluid closed -->
+		</div>
+		<!-- Main-content closed -->
+{% endblock %}

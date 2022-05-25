@@ -1,0 +1,150 @@
+.profile-page .agency-head__view .cover .cover-body {z-index: unset;}
+.agency-head__view .cover .profile-cover-image {max-height: 170px;width: 100%;}
+.profile-page .agency-head__view .header-links {justify-content: flex-end;}
+.cover-short-detail {display: flex;flex-direction: column;justify-content: flex-start;padding-left: 160px;width: 100%;position: relative;}
+.allabout_viewer {width: 90%;display: flex;flex-wrap: wrap;}
+.allabout_viewer .fx-icotext {flex: 30%;margin-bottom: 5px;}
+.top-main__info .subtitle {margin: 5px 0;font-size: 14px;font-weight: 500;}
+.fx-icotext lable {font-size: 14px;padding-left: 5px;}
+.fx-icotext i {color: #0068ff;}
+.right-wrapper .fx-sticky-right-col{ position: fixed; padding: 0 15px 0 0;}
+.agency-head__view .d-flex img { background-color: #fff;}
+.job-suggest-list .align-items-center { align-items: flex-start !important;}
+.job-suggest-list .tx-11 {font-size: 12px;}
+.comp-name.text-capitalize {font-weight: 600;text-transform: capitalize;}
+.comp-address { color: #9e9e9e; padding: 4px 0;}
+.post-time {color: #0068ff;}
+.view-points-ls {margin: 0;padding: 0;list-style: none;display: flex;flex-direction: column;}
+.view-points-ls li {display: flex;justify-content: flex-start;gap: 7px;padding-bottom: 8px;}
+.view-points-ls li i {padding-top: 4px;}
+.view-points-ls li p {margin: 0;}
+.fx-sticky-right-col .row.row-sm .col-md-12 { overflow-y: scroll; max-height: calc(100vh - 100px);}
+.profilepic_radius{
+    border-radius: 50%;
+    width: 122px;
+    border: 5px solid #ffffff;
+    box-shadow: 2px 0 10px 3px rgb(126 130 136 / 50%);
+    height: 122px;
+    background-color: #fff;
+    align-items: center;
+}
+.profile-page .profile-header .cover .cover-body .profilepic_radius .profile-pic {
+    border-radius: 50%;
+    height: 100px;
+    object-fit: scale-down;
+    text-align: center;
+    width: 100px;
+    margin: auto;
+    border: none;
+    box-shadow: none;
+}
+.profile-page .profile-header.agency-head__view .cover .cover-body {
+    bottom: -60px;
+}
+.descriptive_contract_details .cardtitle,.descriptive_contract_details .chat_action {
+    color: #324069;
+    font-size: 16px;
+    text-transform: uppercase;
+    font-weight: bold;
+}
+.descriptive_contract_details .chat_action i{
+    color: #0068ff;
+}
+.descriptive_contract_details .descriptive_detail_no {
+    float: left;
+}
+.descriptive_contract_details .chat_action {
+    float: right;
+}
+.descriptive_contract_details{
+    display: inline-block;
+    width: 100%;
+}
+.descriptive_contract_details .details_text {
+    width: 100%;
+    display: inline-block;
+    color: #041b4e;
+    font-size: 14px;
+    line-height: normal;
+    margin-top: 14px;
+}
+.descriptive_contract_details .details_text a{
+    color: #0068ff;
+}
+.details_text p {
+    margin: 0;
+    padding: 3px 0;
+}
+.details_text_location {
+    float: left;
+    width: 50%;
+    line-height: 22px;
+}
+.clients_total_users .inbox-item-img i{
+    width: 40px;
+    height: 40px;
+    font-size: 18px;
+    text-align: center;
+    padding: 11px 0;
+    border-radius: 50%!important;
+}
+.clients_total_users .inbox-item-img .fa-users{
+    background: #d9e8ff;
+    color: #0269ff;
+}
+.clients_total_users .inbox-item-img .fa-user-check{
+    background: #d4f2e1;
+    color: #2aaf30;
+}
+.clients_total_users .inbox-item-img .fa-user-tie{
+    background: #fee5f1;
+    color: #fd5aa9;
+}
+.clients_total_users .inbox-item-img .fa-industry{
+    background: #fdf6de;
+    color: #eba02d;
+}
+.clients_total_users .inbox-item .inbox-item-text{
+    color: #324069;
+    text-align: center;
+    font-size: 14px;
+}
+.clients_total_users .inbox-item .inbox-item-author{
+    text-align: center;
+    font-size: 16px;
+}
+.clients_total_users .inbox-item .inbox-item-author.fb{
+    color: #0269ff;
+}
+.clients_total_users .inbox-item .inbox-item-author.fg{
+    color: #2aaf30;
+}
+.clients_total_users .inbox-item .inbox-item-author.fp{
+    color: #fd5aa9;
+}
+.clients_total_users .inbox-item .inbox-item-author.fy{
+    color: #eba02d;
+}
+.completed_user_job_details{
+    background: transparent;
+    box-shadow: none;
+}
+.completed_user_job_details .clients_total_users {
+    margin-bottom: 15px;
+    background: #fff;
+    border-radius: 6px;
+}
+.completed_user_job_details .clients_total_users:last-child {
+    margin-bottom: 0px;
+}
+.candidate_view_Accept {
+    float: right;
+}
+.candidate_view_Accept a {
+    color: #19b15a;
+    border: 1px solid #19b15a;
+    border-radius: 10px;
+    margin: 0;
+    padding: 4px 18px;
+    font-weight: 500;
+}

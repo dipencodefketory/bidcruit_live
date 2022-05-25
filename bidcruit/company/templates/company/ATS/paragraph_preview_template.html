@@ -1,0 +1,166 @@
+{% extends 'company/base.html' %}
+{% load static %}
+{% load candidate_extras %}
+{% block title %}View Paragraph {% endblock %}
+{% block css %}
+<!--custome paragraph-card-list css-->
+<link href="{% static 'assets/css/ATS/paragraph-preview-template.css' %}" rel="stylesheet">
+<!--- Internal Sweet-Alert css -->
+<link href="{% static 'assets/plugins/sweet-alert/sweetalert.css' %}" rel="stylesheet">
+{% endblock %}
+{% block main %}
+
+
+					<!-- Main-content-body -->
+					<div class="main-content-body">
+						<!-- header-title -->
+						<div class="header-title">
+							<div class="mb-0 mb-lg-0 mb-xl-0">
+								<h4 class="mb-2">Ecommerce Dashboard</h4>
+								<div class="main-content-breadcrumb"> <span>Dashboard</span> <span>Ecommerce</span> </div>
+							</div>
+						</div>
+                        {% csrf_token %}
+						<!-- header-title -->
+                        <!--Paragraph Preview Template Container-->
+						<div class="row row-sm paragraph-preview" id="paraPreviewTemplate">
+							<div class="col-12 top-section">
+                                <div class="fx-row card flex-box-col">
+                                    <div class="fx-search-view">
+                                        <!--add search box-->
+                                        <div class="search-wrapper">
+                                            <input type="search" value="" name="search-inputs" class="form-control form-control-sm top-search-box"  placeholder="Search Template">
+                                            <button class="half-search-btn fe fe-search btn btn-sm btn-primary"></button>
+                                        </div>
+                                    </div>
+                                    <div class="fx-right grp-action-btn">
+                                        <div class="fx-right-nav-view">
+                                            <!--right side navigation button group-->
+                                            <ul class="fx-right__top-nav">
+                                                <li class="nav-item">
+                                                    <div class="fxs-btn upload-action fa fa-upload"></div>
+                                                </li>
+                                                <li class="nav-item">
+                                                    <div class="fxs-btn print-action fa fa-print"></div>
+                                                </li>
+                                                <li class="nav-item">
+                                                    <div class="mini-nav fxs-btn bx bx-dots-vertical-rounded"></div>
+                                                </li>
+                                                <li class="nav-item">
+                                                    <div class="addnew-action">
+                                                        <a class="btn btn-primary rounded-20 btn-sm text-capitalize" href="{% url 'company:add_paragraph' sub_id %}" id="addNewItem">add new</a>
+                                                    </div>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!--card list view-->
+                            <div class="col-12 para-preview-slidelist" id="paraPreviewSlideList">
+                            {% for para in paragraphs %}
+                                <div class="slide-list row row-sm card">
+                                    <div class="title-section col-12">
+                                        <div class="info-section fx-row">
+                                            <div class="fx-col-sm left-side">
+                                                <label class="tab-counter-label">{{ forloop.counter }}</label>
+                                                <label class="category-type__info text-capitalize">{{para.para.paragraph_type}}
+                                                </label>
+                                            </div>
+                                            <div class="fx-col-sm right-side">
+                                                <div class="ques-count-info_tab">
+                                                    <label class="mark-label text-capitalize">total question :-</label>
+                                                    <label class="que-nums">{{ para.questions|length }}
+                                                    </label>
+                                                </div>
+                                                <div class="edit-btn"><i class="fas fa-edit"></i></div>
+                                                <div class="delete-btn"><i class="fas fa-trash-alt"></i></div>
+                                                <div class="slide-tab-btn"><i class="fas fa-chevron-down"></i></div>
+                                            </div>
+                                        </div>
+                                        <div class="short-details">
+                                            <div class="para-description">
+                                                <p>
+                                                    {% autoescape off %}
+                                                        {{para.para.paragraph_description}}
+                                                    {% endautoescape off %}
+                                                </p>
+                                                <input type="text" name="para-id" value="{{para.para.id}}" hidden readonly> 
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="detail-section col-12">
+                                        <div class="row row-sm para-with-quotes">
+                                            <div class="col-6 para-left">
+                                                <div class="max-show-viewer">
+                                                    <p>
+                                                        {% autoescape off %}
+                                                            {{para.para.paragraph_description}}
+                                                        {% endautoescape off %}
+                                                    </p>
+                                                </div>
+                                            </div>
+                                            <div class="col-6 quotes-right">
+                                                {% for que in para.questions %}
+                                                <div class="quote-tab">
+                                                    <div class="quote-view">
+                                                        <label class="rounded-10 quote-num-view">Q-{{ forloop.counter }}</label>
+                                                        <label class="h6 question-view">{{que.question}}</label>
+                                                    </div>
+                                                    <div class="flex-option-viewer">
+                                                        <ul class="option-list">
+                                                            <li class="questionListItem {% if que.answer == 'a' %} active {% endif %}">
+                                                                <label class="opt-label">{{que.option1}}</label>
+                                                                <div class="markbox"></div>
+                                                                <!-- <input type="radio" class="form-control form-control-sm option-check" value="" checked disabled> -->
+                                                            </li>
+                                                            <li class="questionListItem {% if que.answer == 'b' %} active {% endif %}">
+                                                                <label class="opt-label">{{que.option2}}</label>
+                                                                <div class="markbox"></div>
+                                                                <!-- <input type="radio" class="form-control form-control-sm option-check" value="" disabled> -->
+                                                            </li>
+                                                            <li class="questionListItem {% if que.answer == 'c' %} active {% endif %}">
+                                                                <label class="opt-label">{{que.option3}}</label>
+                                                                <div class="markbox"></div>
+                                                                <!-- <input type="radio" class="form-control form-control-sm option-check" value="" disabled> -->
+                                                            </li>
+                                                            <li class="questionListItem {% if que.answer == 'd' %} active {% endif %}">
+                                                                <label class="opt-label">{{que.option4}}</label>
+                                                                <div class="markbox"></div>
+                                                                <!-- <input type="radio" class="form-control form-control-sm option-check" value="" disabled> -->
+                                                            </li>
+                                                        </ul>
+                                                    </div>
+                                                </div>
+                                                {% endfor %}
+                                            </div>
+                                        </div>  
+                                    </div>
+                                </div>
+                            {% endfor %}
+                                
+                            </div>
+						</div>
+                <!--Paragraph Preview Template Container End-->
+
+
+					</div>
+					<!-- Main-content-body closed -->
+
+
+{% endblock %}
+
+{% block script %}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tinymce/4.5.6/tinymce.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tinymce/4.5.6/jquery.tinymce.min.js"></script>
+   
+    <!-- Custom js -->
+    <script src="{% static 'assets/js/custom.js' %}"></script>
+    <script src="{% static 'assets/js/ATS/paragraph-preview-template.js' %}"></script>
+
+	<!--- Internal Sweet-Alert js -->
+    <script src="{% static 'assets/plugins/sweet-alert/sweetalert.min.js' %}"></script>
+    <script src="{% static 'assets/plugins/sweet-alert/jquery.sweet-alert.js' %}"></script>
+		
+{% endblock %}

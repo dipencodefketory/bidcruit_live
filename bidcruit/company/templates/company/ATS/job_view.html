@@ -1,0 +1,903 @@
+{% extends 'company/base.html' %}
+{% load static %}
+{% load custom_filters %}
+{% block title %}Job View{% endblock %}
+{% block css %}
+		<link href="{% static 'assets/css/ATS/job_view.css' %}" rel="stylesheet">
+		<link href="{% static 'assets/css/ATS/job_creation_view.css' %}" rel="stylesheet">
+		
+{% endblock %}
+{% block main %}
+				<!-- Container-fluid -->
+				<div class="container-fluid">
+
+					<!-- Main-content-body -->
+					<div class="main-content-body">
+
+						<!-- header-title -->
+						<div class="header-title">
+							<div class="mb-0 mb-lg-0 mb-xl-0">
+								<h4 class="mb-2">Components</h4>
+								<div class="main-content-breadcrumb"> <span>Components</span> <span>Data-tables</span> </div>
+							</div>
+							<div class="ml-auto my-auto">
+								<a href="#" class="btn btn-primary"><i class="fe fe-plus-square"></i> Create Report</a>
+								<a href="#" class="btn btn-pink"><i class="fe fe-external-link"></i> Export</a>
+							</div>
+						</div>
+						<!-- header-title -->
+
+						<!-- row opened -->
+						<div class="row row-sm">
+							
+							<div class="col-xl-12">
+								<!-- profile-page -->
+						<div class="profile-page tx-13">
+							
+							<div class="row row-sm profile-body">
+								{% if Publish and job_obj.is_publish %}
+								{% else %}
+									<div class="jobview-head__section col-12">
+										<div class="card-upper-title card">
+											<div class="fx-left-view">
+												<h4>This job is not published yet.{% if job_workflow %}(Selected Workflow:{% if job_workflow.onthego %} OntheGo {% else %} {{main_workflow.name}}{% endif %}){% else %}(Need to select Workflow){% endif %} </h4>
+											</div>
+											<div class="fx-right-view">
+												{% if job_workflow %}
+												<form method="post">
+													{% csrf_token %}
+													<button type="submit" class="btn btn-primary rounded-10 text-capitalize">publish</button>
+												</form>
+												{% else %}
+												<a class="btn btn-primary rounded-10 text-capitalize" href="{% url 'company:job_edit' job_obj.id %}">Edit</a>
+												{%  endif %}
+											</div>
+										</div>
+									</div>
+								{% endif %}
+								<div class="col-md-12 col-xl-8 col-lg-8 middle-wrapper">
+									<div class="main-profile-body p-0">
+                                        <!--header cover section-->
+                                        <div class="profile-header agency-head__view">
+                                            
+                                            <div class="header-links">
+                                                <div class="cover-short-detail">
+                                                    <div class="top-main__info">
+                                                        <h3 class="cover-main__title text-capitalize">{{job_obj.job_title}}
+															<div class="candidate_view_Accept">
+																{% if workflow %}	
+																	<a class="btn_users-cog" href="#"><i class="fas fa-users-cog"></i></a>		
+																{% endif %}														
+																<a class="btn_bookmark" href="#"><i class="far fa-bookmark"></i></a>
+																<div class="btn_share_cog">
+																	<i class="fas fa-share-alt"></i>
+																	<p class="shar-button-url">
+																		<a target="_blank" href="https://facebook.com/sharer/sharer.php?u=https://www.bidcruit.com/nirav/&amp;p[title]=MYPROFILE" class="text"><i class="lab la-facebook-f"></i></a>
+																		<a target="_blank" href="https://web.whatsapp.com/send?text=https://www.bidcruit.com/nirav/" data-action="share/whatsapp/share" class="text"><i class="fab la-whatsapp"></i></a>
+																		<!-- <a target="_blank" class="text"><i class="fab la-instagram"></i></a> -->
+																		<a href="http://www.linkedin.com/shareArticle?mini=true&amp;url=https://www.bidcruit.com/nirav/" target="_blank" class="text"><i class="lab la-linkedin-in"></i></a>
+																		<a target="_blank" href="http://twitter.com/share?url=https://www.bidcruit.com/nirav/" class="text"><i class="lab fa-twitter"></i></a>			
+																	</p>
+																</div>
+															</div>
+														</h3>
+                                                        <p class="subtitle text-capitalize job_date_id"><span> Last Updated : {% if job_obj.is_publish %}{{job_obj.updated_at|whenpublished}}{% endif %} </span>
+<!--															<span>Job ID : 6651182</span></p>-->
+                                                    </div>
+                                                    <div class="allabout_viewer">
+                                                        <div class="fx-icotext">
+                                                            <i class="fas fa-map-marker-alt"></i>
+                                                            <lable>{{job_obj.city.city_name}}</lable>
+                                                        </div>
+                                                        <div class="fx-icotext">
+                                                            <i class="fas fa-briefcase"></i>
+                                                            <lable>{{job_obj.job_type.name}}</lable>
+                                                        </div>
+														{% if job_obj.remote_job %}
+                                                        <div class="fx-icotext">
+															<i class="fas fa-laptop-code"></i>
+                                                            <lable>Remote (Worldwide)</lable>
+                                                        </div>
+														{% endif %}
+														<div class="fx-icotext">
+                                                            <i class="fas fa-user"></i>
+                                                            <lable><a href="{% url 'company:applied_candidates_view' job_obj.id %}">Applicant : {{job_obj|total_applied_candidates}}</a></lable>
+                                                        </div> 
+														<div class="fx-icotext">
+                                                            <i class="fas fa-user"></i>
+															{% ifequal job_obj.experience_year_max '0' %}
+															<lable>Exp: {{job_obj.experience_year_min}} Years of Above </lable>
+															{% endifequal %}
+															{% ifequal job_obj.experience_year_min '0' %}
+                                                            <lable>Exp: Up to {{job_obj.experience_year_max}} Years</lable>
+															{% endifequal %}
+															{% ifnotequal job_obj.experience_year_min '0' %}
+															{% ifnotequal job_obj.experience_year_max '0' %}
+															<lable>Exp: {{job_obj.experience_year_min}} to {{job_obj.experience_year_max}} Years</lable>
+															{% endifnotequal %}
+															{% endifnotequal %}
+                                                        </div>                                                  
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    <!--header cover section-->
+									<!--Assign start-->
+										<div class="card">
+                                            <div class="about-profile pd-t-20 pd-b-20 pd-l-15 pd-r-15">
+                                                <div class="info--section internal_external">
+                                                    <div class="panel panel-primary mt-0 tabs-style-8">
+                                                        <div class="tab-menu-heading">
+                                                            <div class="tabs-menu ">
+                                                                <!-- Tabs -->
+                                                                <ul class="nav panel-tabs">
+                                                                    <li class=""><a href="#tab209" class="active" data-toggle="tab"> internal</a></li>
+                                                                    <li><a href="#tab300" data-toggle="tab">external</a></li>
+                                                                </ul>
+																{% if job_obj.close_job %}
+																{% else %}
+                                                                <div class="condidate_Assign_btn">
+                                                                    <button {% if Publish and job_obj.is_publish %}{% else %} type="button"{% endif %} class="AssignList btn rounded-20 text-capitalize" id="assignMERForm">Assign</button>
+                                                                </div>
+																{% endif %}
+                                                            </div>
+                                                        </div>
+                                                        <div class="panel-body tabs-menu-body">
+                                                            <div class="tab-content">
+                                                                <div class="tab-pane active" id="tab209">
+																	<div class="custom-form">
+                                                                        <div class="row row-sm">
+                                                                            <div class="col-lg-12 col-sm-12 col-xs-12">
+                                                                                <div class="row title-section__row">
+                                                                                    <div class="col-3"><h5 class="h5 super-title text-uppercase">Name</h5></div>
+                                                                                    <div class="col-3"><h5 class="h5 super-title text-uppercase">Department</h5></div>
+                                                                                    <div class="col-3"><h5 class="h5 super-title text-uppercase">contact no</h5></div>
+                                                                                    {% if Publish and job_obj.is_publish %}
+																					{% else %}
+																					<div class="col-3"><h5 class="h5 super-title text-uppercase">Action</h5></div>
+																					{% endif %}
+                                                                                </div>
+																				{% for internal in job_owner %}
+																				{% if internal.employee_id.id in internal_assign %}
+																				<div class="row details-section__row">
+                                                                                    <div class="col-3">
+                                                                                        <label class="super-title text-capitalize">{{internal.first_name}} {{internal.last_name}}</label>
+                                                                                    </div>
+                                                                                    <div class="col-3">
+                                                                                        <label class="super-title text-capitalize">{{internal.department.name}}</label>
+                                                                                    </div>
+                                                                                    <div class="col-3">
+                                                                                        <label class="super-title text-capitalize">{{internal.contact_num}}</label>
+                                                                                    </div>
+																					{% if job_obj.is_publish %}
+																					{% else %}
+																						<div class="col-3">
+																							<button type="button" class="removeAssignList btn btn-sm btn-outline-danger rounded-20 text-capitalize remove" data-id="{{internal.employee_id.id}}" data-type="internal">Unassign</button>
+																						</div>
+																					{% endif %}
+                                                                                </div>
+																				{% endif %}
+																				{% endfor %}
+
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+																</div>
+                                                                <div class="tab-pane" id="tab300">
+																	<div class="custom-form">
+                                                                        <div class="row row-sm">
+                                                                            <div class="col-lg-12 col-sm-12 col-xs-12">
+                                                                                <div class="row title-section__row">
+                                                                                    <div class="col-3"><h5 class="h5 super-title text-uppercase">Type</h5></div>
+                                                                                    <div class="col-3"><h5 class="h5 super-title text-uppercase">Name</h5></div>
+                                                                                    <div class="col-3"><h5 class="h5 super-title text-uppercase">contact no</h5></div>
+                                                                                    {% if Publish and job_obj.is_publish %}
+																					{% else %}
+																					<div class="col-3"><h5 class="h5 super-title text-uppercase">Action</h5></div>
+																					{% endif %}
+                                                                                </div>
+																				{% for i in external_agency %}
+																				{% if i.agency_id.agency_id.id in external_assign %}
+                                                                                <div class="row details-section__row">
+                                                                                    <div class="col-3">
+                                                                                        <label class="super-title text-capitalize">Agency</label>
+                                                                                    </div>
+                                                                                    <div class="col-3">
+                                                                                        <label class="super-title text-capitalize">{{i.agency_id.agency_id.company_name}}</label>
+                                                                                    </div>
+                                                                                    <div class="col-3">
+                                                                                        <label class="super-title text-capitalize">{{i.contact_no}}</label>
+                                                                                    </div>
+                                                                                    {% if Publish and job_obj.is_publish %}
+																					{% else %}
+																					<div class="col-3">
+                                                                                        <button type="button" class="removeAssignList btn btn-sm btn-outline-danger rounded-20 text-capitalize remove" data-id="{{i.agency_id.agency_id.id}}" data-type="external">Unassign</button>
+                                                                                    </div>
+																					{% endif %}
+                                                                                </div>
+																				{% endif %}
+																				{% endfor %}
+																				{% for i in external_freelancer %}
+																				{% if i.agency_id.agency_id.id in external_assign %}
+                                                                                <div class="row details-section__row">
+                                                                                    <div class="col-3">
+                                                                                        <label class="super-title text-capitalize">Freelancer</label>
+                                                                                    </div>
+                                                                                    <div class="col-3">
+                                                                                        <label class="super-title text-capitalize">{{i.agency_id.agency_id.first_name}} {{i.agency_id.agency_id.last_name}}</label>
+                                                                                    </div>
+                                                                                    <div class="col-3">
+                                                                                        <label class="super-title text-capitalize">{{i.contact_no}}</label>
+                                                                                    </div>
+																					{% if Publish and job_obj.is_publish %}
+																					{% else %}
+                                                                                    <div class="col-3">
+                                                                                        <button type="button" class="removeAssignList btn btn-sm btn-outline-danger rounded-20 text-capitalize remove" data-id="{{i.agency_id.agency_id.id}}" data-type="external">Unassign</button>
+                                                                                    </div>
+																					{% endif %}
+                                                                                </div>
+																				{% endif %}
+																				{% endfor %}
+
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+																</div>
+															</div>
+                                                        </div>
+                                                    </div>
+												</div>
+                                            </div>
+                                        </div>
+									<!--Assign end-->
+									    <!--description container-->
+                                        <div class="card">
+                                            <div class="about-profile pd-t-20 pd-b-20 pd-l-15 pd-r-15">
+                                                <div class="info--section">
+                                                    <h5 class="text-uppercase">Job Description :</h5>
+													<div class="read_more_to_job_des_text">
+                                                   	 	{% autoescape off %}{{job_obj.job_description}}{% endautoescape %}
+													</div>	   
+													<button type="button" class="read-more-job_des">Read more</button>
+                                                </div>
+                                                <div class="info--section">
+                                                    <h5 class="text-uppercase mg-t-20">Benefits :</h5>
+                                                    {% autoescape off %}{{job_obj.benefits}}{% endautoescape %}
+                                                </div>
+												<div class="info--section">
+                                                    <h5 class="text-uppercase mg-t-20">Requirements :</h5>
+                                                    {% autoescape off %}{{job_obj.requirements}}{% endautoescape %}
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!--description container end-->
+
+									</div><!-- main-profile-body -->
+								</div>
+								<!-- middle wrapper end -->
+								<!-- right wrapper start -->
+								<div class="d-none d-xl-block col-lg-12 col-xl-4 right-wrapper">
+                                    <div class="fx-sticky-right-col">
+                                        <div class="row row-sm">
+                                            <div class="col-md-12">
+
+												<div class="card">
+													<div class="card-body day_section_sa">
+														<div class="row row-sm ">
+
+															<div class="col-lg-6 pl-1 pr-1 mb-2">
+															 	<div class="day_left_section d-c">
+																	<div class="title_day_name">Closing In</div>
+																	<div class="day_value_get">{% if job_obj.is_publish %}{{job_obj.target_date|closing_in}}{% else%}00{% endif %}</div>
+																</div>
+															</div>
+															<div class="col-lg-6 pl-1 pr-1 mb-2">
+																<div class="day_left_section y-c">
+																	<div class="title_day_name">Yearly Salary (INR)</div>
+																	<div class="inr_yearly_s">
+																		{% if job_obj.salary_as_per_market %}
+																		<div class="day_value_get">As Per Market Rate</div>
+																		{% else %}
+																		<div class="day_value_get">{{job_obj.min_salary}} <span>LPA</span></div>
+																		<div class="day_value_get">-</div>
+																		<div class="day_value_get">{{job_obj.max_salary}} <span>LPA</span></div>
+																		{% endif %}
+																	</div>
+																</div>
+															</div>
+
+															<div class="right_side_btn_section pl-1 pr-1">
+																{% if job_obj.is_publish %}
+																	{% if job_obj.close_job %}
+																		<button class="btn btn_submit btn-full" type="button">SUBMIT</button>
+																	{% else %}
+																		<a class="btn btn_submit btn-full" href="{% url 'company:submit_candidate' job_obj.id %}">SUBMIT</a>
+																	{% endif %}
+																{% else %}
+																	<button class="btn btn_submit btn-full" type="button">SUBMIT</button>
+
+															    {% endif %}
+<!--																<a class="btn btn_submit btn-haft" href="">Edit</a>-->
+<!--																{% if Publish and job_obj.is_publish %}-->
+<!--																{% else %}-->
+<!--																<form method="post">-->
+<!--																	{% csrf_token %}-->
+<!--																	<button type="submit" class="btn btn_submit btn-full" href="">Publish</button>-->
+<!--																</form>-->
+<!--																{% endif %}-->
+
+<!--																	<a class="btn btn_submit btn-full" id="assignMERForm">Assign</a>-->
+
+<!--																<a class="btn btn_submit btn-haft" href="">Edit</a>-->
+<!--																<a class="btn btn_submit btn-full" href="">Apply</a>-->
+<!--														    	<a class="btn btn_cancel btn-danger btn-haft" href="">Cancel</a>-->
+
+															</div>
+															
+															<div class="apply_job_info_view">
+																<a class="profile_view_l" href="#">
+																	<div class="company_profile_logo"><img src="{{job_obj.company_id.id|get_company_image}}"></div>
+																	<div class="name_dev">
+																		<h1 class="mb-0 mg-t-0 name">{{job_obj.company_id.company_id.company_name}}</h1>
+																		<span class="text-muted">{{job_obj.company_id.id|get_company_industry}}</span>
+																	</div>	
+																</a>																															
+															</div>															
+															
+														</div>
+													</div>
+												</div>
+
+												<div class="card skills completed_user_job_details">
+                                                   
+                                                    <div class="card-body p-0">
+                                                        <div class="inbox-widget">
+															<div class="jobs_details_box_c">
+																<div class="clients_total_users">
+																	<div class="inbox-item">
+																		<p class="inbox-item-text">Active Jobs</p>
+																		<p class="inbox-item-author fb">{{active_job_count}}</p>
+																	</div>
+																</div>
+																<div class="clients_total_users">
+																	<div class="inbox-item">
+																		<p class="inbox-item-text">Close Jobs</p>
+																		<p class="inbox-item-author fg">{{close_job_count}}</p>
+																	</div>
+																</div>
+																<div class="clients_total_users">
+																	<div class="inbox-item">
+																		<p class="inbox-item-text">Hiring Ratio</p>
+																		<p class="inbox-item-author fp">12 %</p>                                                                                                                                      
+																	</div>
+																</div>
+																<div class="clients_total_users">
+																	<div class="inbox-item">
+																		<p class="inbox-item-text">Last Close Jobs</p>
+																		<p class="inbox-item-author fy">{% if last_close_job %}{{last_close_job.close_job_at|date:'d-m-Y'}}{% else %}-{% endif %}</p>
+																	</div>
+																</div>
+															</div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+												
+                                                <div class="card suggestions job-suggest-list">
+                                                    <div class="card-body p-0">
+                                                        <div class="card-header pb-0">
+                                                            <h5 class="card-title pb-0 text-uppercase">similer jobs with organization</h5>
+                                                        </div>
+                                                        <div class="latestListView">
+                                                            {% if latest_10_job %}
+																{% for jobs in latest_10_job %}
+																	<div class="d-flex justify-content-between  p-3  border-bottom">
+																		<div class="d-flex align-items-center hover-pointer">
+																			<img class="img-xs rounded-circle" src="{{jobs.company_id.id|get_company_image}}" alt="">
+																			<div class="ml-2">
+																				<p class="comp-name">{{jobs.job_title}}</p>
+																				<p class="tx-11 comp-type">{{jobs.industry_type.name}}</p>
+																				<p class="tx-11 comp-address">{{jobs.city.city_name}}, {{jobs.city.state_code.state_name}}, {{jobs.country.country_name}}</p>
+																				<p class="tx-11 post-time">{{jobs.publish_at|whenpublished}}</p>
+																			</div>
+																		</div>
+																	</div>
+																{% endfor %}
+															{% endif %}
+
+															<!-- <div class="p-3">
+                                                                <button class="btn btn-primary btn-block border">
+                                                                    Load more
+                                                                </button>
+                                                            </div> -->
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                               
+                                            </div>
+                                        </div>
+                                    </div>
+								</div>
+								<!-- right wrapper end -->
+							</div>
+						</div>
+						<!--profile page end -->
+							</div>
+							<!--/div-->
+						</div>
+						<!-- /row -->
+					</div>
+					<!-- Main-content-body closed -->
+				</div>
+				<!-- Container-fluid closed -->
+				<!--Side Panel container-->
+				{% if workflow %}
+				<div class="row row-sm sidebar-preview">
+                    <div class="slideClose"><i class="fa fa-chevron-right"></i></div>
+					<div class="col-12 card side-barContainer rounded-0">
+
+						
+                        <div class="row row-sm preview-list-container side-bar-row pt-2 pb-2">
+                            <div class="col-12 full-list">
+                                <div class="fx-preview-head">
+                                    <div class="preview-title">
+                                        <h4 class="h4 title">Workflow : {{main_workflow.name}}</h4>
+                                    </div>
+                                </div>                               
+                            </div>
+                        </div>
+						{% for stages in workflow_data %}
+
+							{% ifequal stages.stage.stage.name 'Job Applied' %}
+								<div class="row row-sm preview-list-container side-bar-row">
+								<div class="col-12 full-list">
+									<div class="fx-preview-head">
+										<div class="preview-title">
+											<h4 class="h4 title">Stage {{forloop.counter}}: Job Apply</h4>
+										</div>
+									</div>
+								</div>
+							</div>
+							{% endifequal %}
+							
+							{% ifequal stages.stage.stage.name 'Prerequisites' %}
+								<div class="row row-sm preview-list-container side-bar-row">
+								<div class="col-12 full-list">
+									<div class="fx-preview-head">
+										<div class="preview-title">
+											<h4 class="h4 title">Stage {{forloop.counter}}: Prerequisites</h4>
+										</div>
+									</div>
+									<div class="fx-preview-main">
+										<div class="preview-short-desc">
+											<label class="sub-title text-capitalize">template name:</label>
+											<label class="desc-text">{{stages.stage.template.name}}</label>
+										</div>
+									</div>
+								</div>
+							</div>
+							{% endifequal %}
+
+							{% ifequal stages.stage.stage.name 'MCQ Test' %}
+								<div class="row row-sm mcq-text-preview side-bar-row">
+								<div class="col-12 full-list">
+									<div class="fx-preview-head">
+										<div class="preview-title">
+											<h4 class="h4 title">Stage {{forloop.counter}}: MCQ Test</h4>
+										</div>
+									</div>
+									<div class="fx-preview-main">
+										<div class="preview-short-desc">
+											<label class="sub-title text-capitalize">template name:</label>
+											<label class="desc-text">{{stages.stage.template.name}}</label>
+										</div>
+									</div>
+									<div class="mini__card-layout">
+										<div class="fx-row title_list">
+										   <div class="fx-col">
+											  <label class="text-capitalize h6">Total Question</label>
+										   </div>
+										   <div class="fx-col">
+											  <label class="text-capitalize h6">Time</label>
+										   </div>
+										   <div class="fx-col">
+											  <label class="text-capitalize h6">Total Marks</label>
+										   </div>
+										</div>
+										<div class="fx-row fx-details__ls">
+										   <div class="fx-col col-view_caption">
+											  <p class="result_view h6">{{stages.data.total_question}}</p>
+										   </div>
+										   <div class="fx-col col-view_caption">
+											  <p class="result_view h6">{{stages.mcq_time|date:'H:i:s'}}</p>
+										   </div>
+										   <div class="fx-col col-view_caption">
+											  <p class="result_view h6">{{stages.mcq_marks}}</p>
+										   </div>
+										</div>
+									 </div>
+								</div>
+							</div>
+							{% endifequal %}
+
+							{% ifequal stages.stage.stage.name 'Image Test' %}
+								 <div class="row row-sm mcq-text-preview side-bar-row">
+								<div class="col-12 full-list">
+									<div class="fx-preview-head">
+										<div class="preview-title">
+											<h4 class="h4 title">Stage {{forloop.counter}}: Image Test</h4>
+										</div>
+									</div>
+									<div class="fx-preview-main">
+										<div class="preview-short-desc">
+											<label class="sub-title text-capitalize">template name:</label>
+											<label class="desc-text">{{stages.stage.template.name}}</label>
+										</div>
+									</div>
+									<div class="mini__card-layout">
+										<div class="fx-row title_list">
+										   <div class="fx-col">
+											  <label class="text-capitalize h6">Total Question</label>
+										   </div>
+										   <div class="fx-col">
+											  <label class="text-capitalize h6">Time</label>
+										   </div>
+										   <div class="fx-col">
+											  <label class="text-capitalize h6">Total Marks</label>
+										   </div>
+										</div>
+										<div class="fx-row fx-details__ls">
+										   <div class="fx-col col-view_caption">
+											  <p class="result_view h6">{{stages.data.total_question}}</p>
+										   </div>
+										   <div class="fx-col col-view_caption">
+											  <p class="result_view h6">{{stages.image_time|date:'H:i:s'}}</p>
+										   </div>
+										   <div class="fx-col col-view_caption">
+											  <p class="result_view h6">{{stages.image_marks}}</p>
+										   </div>
+										</div>
+									 </div>
+								</div>
+							</div>
+						 	{% endifequal %}
+
+							{% ifequal stages.stage.stage.name 'Descriptive Test' %}
+								<div class="row row-sm mcq-text-preview side-bar-row">
+								<div class="col-12 full-list">
+									<div class="fx-preview-head">
+										<div class="preview-title">
+											<h4 class="h4 title">Stage {{forloop.counter}}: Descriptive Test</h4>
+										</div>
+									</div>
+									<div class="fx-preview-main">
+										<div class="preview-short-desc">
+											<label class="sub-title text-capitalize">template name:</label>
+											<label class="desc-text">{{stages.stage.template.name}}</label>
+										</div>
+									</div>
+									<div class="mini__card-layout">
+										<div class="fx-row title_list">
+										   <div class="fx-col">
+											  <label class="text-capitalize h6">Total Question</label>
+										   </div>
+										   <div class="fx-col">
+											  <label class="text-capitalize h6">Time</label>
+										   </div>
+										   <div class="fx-col">
+											  <label class="text-capitalize h6">Total Marks</label>
+										   </div>
+										</div>
+										<div class="fx-row fx-details__ls">
+										   <div class="fx-col col-view_caption">
+											  <p class="result_view h6">{{stages.data.total_question}}</p>
+										   </div>
+										   <div class="fx-col col-view_caption">
+											  <p class="result_view h6">{{stages.descriptive_time|date:'H:i:s'}}}</p>
+										   </div>
+										   <div class="fx-col col-view_caption">
+											  <p class="result_view h6">{{stages.descriptive_marks}}</p>
+										   </div>
+										</div>
+									 </div>
+								</div>
+							</div>
+							{% endifequal %}
+
+							{% ifequal stages.stage.stage.name 'Audio Test' %}
+								<div class="row row-sm mcq-text-preview side-bar-row">
+								<div class="col-12 full-list">
+									<div class="fx-preview-head">
+										<div class="preview-title">
+											<h4 class="h4 title">Stage {{forloop.counter}}: Audio Test</h4>
+										</div>
+									</div>
+									<div class="fx-preview-main">
+										<div class="preview-short-desc">
+											<label class="sub-title text-capitalize">template name:</label>
+											<label class="desc-text">{{stages.stage.template.name}}</label>
+										</div>
+									</div>
+									<div class="mini__card-layout">
+										<div class="fx-row title_list">
+										   <div class="fx-col">
+											  <label class="text-capitalize h6">Total Question</label>
+										   </div>
+										   <div class="fx-col">
+											  <label class="text-capitalize h6">Time</label>
+										   </div>
+										   <div class="fx-col">
+											  <label class="text-capitalize h6">Total Marks</label>
+										   </div>
+										</div>
+										<div class="fx-row fx-details__ls">
+										   <div class="fx-col col-view_caption">
+											  <p class="result_view h6">{{stages.data.total_question}}</p>
+										   </div>
+										   <div class="fx-col col-view_caption">
+											  <p class="result_view h6">{{stages.data.total_exam_time}}</p>
+										   </div>
+										   <div class="fx-col col-view_caption">
+											  <p class="result_view h6">{{stages.audio_marks}}</p>
+										   </div>
+										</div>
+									 </div>
+								</div>
+							</div>
+							{% endifequal %}
+
+							{% ifequal stages.stage.stage.name 'Coding Test' %}
+								<div class="row row-sm mcq-text-preview side-bar-row">
+								<div class="col-12 full-list">
+									<div class="fx-preview-head">
+										<div class="preview-title">
+											<h4 class="h4 title">Stage {{forloop.counter}}: Coding Test</h4>
+										</div>
+									</div>
+									<div class="fx-preview-main">
+										<div class="preview-short-desc">
+											<label class="sub-title text-capitalize">template name:</label>
+											<label class="desc-text">{{stages.stage.template.name}}</label>
+										</div>
+									</div>
+									<div class="mini__card-layout">
+										<div class="fx-row title_list">
+										   <div class="fx-col">
+											  <label class="text-capitalize h6">Total Question</label>
+										   </div>
+										   <div class="fx-col">
+											  <label class="text-capitalize h6">Time</label>
+										   </div>
+											{% ifequal stages.data.assignment_type 'marks' %}
+										   <div class="fx-col">
+											  <label class="text-capitalize h6">Total Marks</label>
+										   </div>
+											{% endifequal %}
+										</div>
+										<div class="fx-row fx-details__ls">
+										   <div class="fx-col col-view_caption">
+											  <p class="result_view h6">{{stages.data.total_question}}</p>
+										   </div>
+										   <div class="fx-col col-view_caption">
+											  <p class="result_view h6">{{stages.data.total_time}}</p>
+										   </div>
+											{% ifequal stages.data.assignment_type 'marks' %}
+										   <div class="fx-col col-view_caption">
+											  <p class="result_view h6">{{stages.total_marks}}</p>
+										   </div>
+											{% endifequal %}
+										</div>
+									 </div>
+								</div>
+							</div>
+							{% endifequal %}
+
+							{% ifequal stages.stage.stage.name 'Interview' %}
+								<div class="row row-sm mcq-text-preview side-bar-row">
+									<div class="col-12 full-list">
+										<div class="fx-preview-head">
+											<div class="preview-title">
+												<h4 class="h4 title">Stage {{forloop.counter}}: Interview</h4>
+											</div>
+										</div>
+										<div class="fx-preview-main">
+											<div class="preview-short-desc">
+												<label class="sub-title text-capitalize">template name:</label>
+												<label class="desc-text">{{stages.stage.template.name}}</label>
+											</div>
+										</div>
+									</div>
+								</div>
+							{% endifequal %}
+
+						{% endfor %}
+					</div>
+				</div>
+				{% endif %}
+				<!--Side Panel container End-->
+ 				<!--Model 2 start-->
+				<div class="modal fade" id="external-recruiter-modal" tabindex="-1" role="dialog" aria-labelledby="jcrModalForm" aria-hidden="true">
+					<div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+						<div class="modal-content">
+							<div class="modal-header border-bottom-0">
+									  <!-- <h5 class="modal-title" id="jcrModalForm">Add Prefered field</h5> -->
+									  <button type="button" id="popUpModelClose" class="close" data-dismiss="modal" aria-label="Close">
+										<span aria-hidden="true">&times;</span>
+									  </button>
+									</div>
+								<form method="post" action="{% url 'company:assign_job' %}">
+								 {% csrf_token %}
+									<div class="tablist_section-jcr">
+										<div class="jcr-tabcontainer">
+											<div class="panel">
+												<div class="panel panel-primary mt-3 tabs-style-9">
+													<div class="tab-menu-heading">
+														<div class="tabs-menu ">
+															<!-- Tabs -->
+															<ul class="nav panel-tabs">
+																<li>
+																	<a href="#tab210" class="active text-capitalize" data-toggle="tab">Internal</a>
+																</li>
+																<li class="tab-ls">
+																	<a href="#tab310" data-toggle="tab">External</a>
+																</li>
+															</ul>
+														</div>
+													</div>
+													<div class="panel-body tabs-menu-body">
+														<div class="tab-content">
+															<input type="text" hidden readonly value="{{job_obj.id}}" name="job_obj">
+															<div class="tab-pane active" id="tab210">
+																<!--table start-->
+																<div class="table-responsive">
+																	<table class="table bd bd-10 internal">
+																	  <thead>
+																		<tr>
+																		  <th scope="col text-uppercase">Select</th>
+																		  <th scope="col text-uppercase">Name</th>
+																		  <th scope="col text-uppercase">Department</th>
+																		  <th scope="col text-uppercase">Role</th>
+																		  <th scope="col text-uppercase">Email</th>
+																		  <th scope="col text-uppercase">Contact no</th>
+																		</tr>
+																	  </thead>
+																	  <tbody>
+																		{% for internaluser in job_owner %}
+																		<tr>
+																			<td scope="row" class="align-center">
+																			{% if internaluser.employee_id.id in internal_assign %}
+																			Assign
+																			{% else %}
+																			<input type="checkbox" name="internal-selector-1" value="{{internaluser.employee_id.id}}" class="irSelectorRowItem">
+																			{% endif %}
+																			</td>
+																		  <td hidden>{{internaluser.employee_id.id}}</td>
+																		  <td>{{internaluser.first_name}} {{internaluser.last_name}}</td>
+																		  <td>{{internaluser.department.name}}</td>
+																		  <td>{{internaluser.role.name}}</td>
+																		  <td>{{internaluser.employee_id.email}}</td>
+																		  <td>{{internaluser.contact_num}}</td>
+																		</tr>
+																		{% endfor %}
+																	  </tbody>
+																	</table>
+																</div>
+																<!--table end-->
+															</div>
+															<div class="tab-pane" id="tab310">
+
+																<!--table start-->
+																<div class="table-responsive">
+																	<table class="table table-bordered mg-b-1 text-md-nowrap">
+																		<thead>
+																			<tr>
+																				<th class="text-uppercase">Select</th>
+																				<th class="text-uppercase">Name</th>
+																				<!-- <th class="text-uppercase">Office location</th> -->
+																				<th class="text-uppercase">Email</th>
+																				<th class="text-uppercase">Contact no</th>
+																			</tr>
+																		</thead>
+																		<tbody>
+
+																			{% for i in  external_agency %}
+																			<tr>
+																				<td scope="row">
+																					{% if i.agency_id.agency_id.id in external_assign %}
+																					Assign
+																					{% else %}
+																						<input type="checkbox" id="{{i.agency_id.id}}" name="external-selector-1" value="{{i.agency_id.agency_id.id}}" class="rd-selector">
+																					{% endif %}
+																				</td>
+																				<td hidden>{{i.agency_id.agency_id.id}}</td>
+																				<td>{{i.agency_id.agency_id.company_name}}</td>
+																				<td>{{i.contact_email}}</td>
+																				<td>{{i.contact_no}}</td>
+																			</tr>
+																			{% endfor %}
+																			{% for i in external_freelancer %}
+																			<tr>
+																				<td scope="row">
+																					{% if i.agency_id.agency_id.id in external_assign %}
+																					Assign
+																					{% else %}
+																					<input type="checkbox" id="{{i.agency_id.agency_id.id}}" name="external-selector-1" value="{{i.agency_id.agency_id.id}}" class="rd-selector">
+																					{% endif %}
+																				</td>
+																				<td hidden>{{i.agency_id.agency_id.id}}</td>
+																				<td>{{i.agency_id.agency_id.first_name}} {{i.agency_id.agency_id.last_name}}</td>
+																				<td>{{i.agency_id.agency_id.email}}</td>
+																				<td>{{i.contact_no}}</td>
+																			</tr>
+																			{% endfor %}
+																		</tbody>
+																	</table>
+																</div>
+																<!--table end-->
+															</div>
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+									<div class="row row-sm mg-10">
+										<div class="col-lg col-md col-sm">
+											<div class="form-btn">
+												<button type="submit" class="btn btn-primary btn-sm rounded-20" id="assi-gnErInfo">Assign</button>
+											</div>
+										</div>
+									</div>
+								</form>
+
+					  </div>
+
+					</div>
+				  </div>
+        <!--Model 2 End-->
+
+
+{% endblock %}
+
+{% block script %}
+		<!-- Custom-->
+        <script src="{% static 'assets/js/ATS/job_view.js' %}"></script>
+		<script>
+			$(document).ready(function(){
+				$("#assignMERForm").on('click',function(e){
+                        $('#external-recruiter-modal').modal('show');
+                });
+			})
+		</script>
+		<script>
+			$(document).ready(function() {
+				$('.read-more-job_des').click(function() {
+					if ($('.read-more-job_des').text() == "Read more") {
+						$('.read_more_to_job_des_text').addClass('selecionado');
+						$(this).text("Read less");
+					} else {
+						$(this).text("Read more");
+						$('.read_more_to_job_des_text').removeClass('selecionado');
+					}
+				});
+				$(document).on('click','.remove',function(){
+                    var getUserId = $(this).data('id');
+                    $.ajax({
+                          url:"{% url 'company:unassign_recruiter' %}",
+                          type:'POST',
+                          headers: {'X-CSRFToken': '{{ csrf_token }}'},
+                          data:{getUserId:getUserId,job_id:{{job_obj.id}},getUsertype: $(this).data('type')}
+				        })
+                        .done(function(response){
+                            if(response=="True"){
+								location.reload();
+                            }
+
+                        }).fail(function(){
+                              console.log("failed");
+                        })
+                    })
+			});
+
+		</script>
+{% endblock %}
+

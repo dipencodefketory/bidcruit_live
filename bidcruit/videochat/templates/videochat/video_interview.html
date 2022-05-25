@@ -1,0 +1,228 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+
+		<meta charset="UTF-8">
+		<meta name='viewport' content='width=device-width, initial-scale=1.0, user-scalable=0'>
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="Description" content="">
+		<meta name="Author" content="">
+		<meta name="Keywords" content=""/>
+
+		<!-- Title -->
+		<title>Video Job</title>
+
+		<!-- Favicon -->
+		<link rel="icon" href="{% static 'assets/img/brand/favicon.png' %}" type="image/x-icon"/>
+
+		<!-- Icons css -->
+		<link href="{% static 'assets/css/icons.css' %}" rel="stylesheet">
+
+		<!-- Bootstrap css -->
+		<link rel="stylesheet" href="{% static 'assets/plugins/bootstrap/css/bootstrap.min.css' %}">
+
+		<!-- Style css -->
+		<link rel="stylesheet" type="text/css" media="all" href="{% static 'assets/css/style.css' %}">
+
+		<link href="{% static 'assets/videochat/video_interview.css' %}" rel="stylesheet">
+
+	</head>
+
+	<body class="main-body app sidebar-mini sidenav-toggled video_interview_screen">
+		<!-- Page -->
+		<div class="page">
+			<!-- Loader -->
+			<div id="global-loader">
+				<img src="{% static 'assets/img/loader.svg" class="loader-img" alt="Loader">
+			</div>
+			<!-- /Loader -->
+			<h3 id="label-username" style="display:none"></h3>
+
+			{% if request.user.is_company %}
+			<!-- main-sidebar -->
+			<div class="app-sidebar__overlay" data-toggle="sidebar"></div>
+			<aside class="appsidebar sidebar-scroll">
+				<div class="Comment_title_main">Comment <span data-toggle="sidebar" class="toggle"><i class="fas fa-times"></i></span></div>
+				<div class="rating_section_video">
+					<form id="rating-submit">
+						{% csrf_token %}
+						<div class="rating_section_main">
+							{% for scorecard in scorecards %}
+							<div class="rating_section_list">
+								<div class="title_rating_m">Title :{{scorecard.title}}</div>
+								<span class="Rating_title">Rating :</span>
+								<div class="stars">
+									<input type="radio" name="rating{{scorecard.id}}" value="1" required>
+									<input type="radio" name="rating{{scorecard.id}}" value="2">
+									<input type="radio" name="rating{{scorecard.id}}" value="3">
+									<input type="radio" name="rating{{scorecard.id}}" value="4">
+									<input type="radio" name="rating{{scorecard.id}}" value="5">
+									<i></i>
+								</div>
+								<div class="text_field_title">Comment :</div>
+								<textarea rows="3" class="form-control comment" name="comment{{scorecard.id}}" placeholder="comment.." required></textarea>
+							</div>
+							{% endfor %}
+						</div>
+						<div class="submit_btn_rating">
+							<input class="rating_submit" id="rating_submit_button" type="submit" name="rating_submit">
+						</div>
+					</form>
+				</div>
+			</aside>
+			<!-- main-sidebar -->
+			{% endif %}
+
+			<!-- Main-content -->
+			<div class="main-content singlemenu">
+				
+				<!-- Main-header closed -->
+
+				<!-- Container-fluid -->
+				<div class="container-fluid main_video_box">
+
+					<!-- Main-content-body -->
+					<div class="main-content-body">
+
+						<!-- row opened -->
+						<div class="row row-sm">
+							<div class="col-xl-12">
+								<div class="descriptive_add mg-b-0">
+
+									<div class="video_get_section card-header mg-b-10 p-0">
+										<div class="video_get_section_inner">
+											<video class="main_video" id="local-video" autoplay playsinline></video>
+										</div>
+									</div>
+
+									<input type="text" value="{{request.user.email}}" id="username-input" style="display:none">
+
+									<div class="main-header-left">
+										<a href="#" id="btn-toggle-audio" class="audio_play_btn"><i class="fas fa-microphone-alt"></i></a>
+										<a href="#"  id="btn-toggle-video" class="video_show_btn"><i class="fas fa-video"></i></a>
+
+										<a href="#" class="Leave_video_btn" data-toggle="modal"  data-target="#leave-modal" style="display:none"><i class="fas fa-phone-alt"></i> Leave</a>
+										<a href="#" id="btn-join" class="join_video_btn"><i class="fas fa-user-plus"></i> Join</a>
+										{% if request.user.is_company %}
+										<a href="#" data-toggle="sidebar" class="Comments_btn icon toggle"><i class="fas fa-comment-alt"></i> Comments</a>
+										{% endif %}
+									</div>
+
+								</div>
+							</div>
+							<!--/div-->
+					
+						</div>
+						<!-- /row -->
+					</div>
+					<!-- Main-content-body closed -->
+				</div>
+				<!-- Container-fluid closed -->
+			</div>
+			<!-- Main-content closed -->
+
+		</div>
+
+		<div class="modal" id="leave-modal">
+			<div class="modal-dialog modal-dialog-centered" role="document">
+				<div class="modal-content modal-content-demo">
+					<form method="POST">
+						{% csrf_token %}
+						<input type="hidden" value="" name="interview_schedule_data">
+						<div class="modal-header">
+							<h6 class="modal-title">Leave this Interview</h6>
+							<button aria-label="Close" class="close" data-dismiss="modal" type="button"><span aria-hidden="true">&times;</span></button>
+						</div>
+						<div class="modal-body">
+							Are you sure you want to leave this interview ?
+						</div>
+						<div class="modal-footer">
+							{% if request.user.is_candidate %}
+								<button class="btn ripple btn-primary text-uppercase" data-dismiss="modal" type="button">No</button>
+								<button class="btn ripple btn-primary text-uppercase end_interview" name="leave_interview" type="button">Yes</button>
+							{% else %}
+								<button class="btn ripple btn-primary text-uppercase" name="leave_interview" type="submit">Leave Alone</button>
+								<button class="btn ripple btn-danger text-uppercase end_interview" name="end_interview" type="button">End Interview</button>
+							{% endif %}
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+
+		<div class="modal" id="interview-ended">
+			<div class="modal-dialog modal-dialog-centered" role="document">
+				<div class="modal-content modal-content-demo">
+						<div class="modal-header">
+							<h6 class="modal-title">Meeting Ended</h6>
+						</div>
+						<div class="modal-footer">
+							{% if request.user.is_candidate %}
+								<a href="{% url 'candidate:applied_job_detail' jobid 'company' %}" class="btn ripple btn-primary text-uppercase" name="end_interview">Ok</a>
+							{% else %}
+								<a href="{% url 'company:company_portal_candidate_tablist' candidate_id jobid %}" class="btn ripple btn-primary text-uppercase" name="end_interview">Ok</a>
+							{% endif %}
+						</div>
+				</div>
+			</div>
+		</div>
+		<!-- Page closed -->
+
+		<!-- Back-to-top -->
+		<a href="#top" id="back-to-top"><i class="las la-angle-double-up"></i></a>
+
+		<!-- JQuery min js -->
+		<script src="{% static 'assets/plugins/jquery/jquery.min.js' %}"></script>
+
+		<!-- Bootstrap Bundle js -->
+		<script src="{% static 'assets/plugins/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+
+		<!-- Sidemenu js -->
+		<script src="{% static 'assets/plugins/side-menu/single-menu.js' %}"></script>
+
+		<!-- Custom js -->
+		<script src="{% static 'assets/js/custom.js' %}"></script>
+		<script src="{% static 'assets/videochat/videochat.js' %}"></script>
+
+		<script>
+			var room_no = "{{link}}"
+
+			function get_room_no()
+			{
+				return room_no
+			}
+		</script>
+
+		<script>
+			$(document).ready(function(){
+				$("#rating-submit").on("submit", function(e){
+					e.preventDefault();
+					var form = document.getElementById("rating-submit");
+					var fd = new FormData(form);
+					var url = "/videochat/"+get_room_no()+"/";
+					$.ajax({
+						url: url,
+						headers: {'X-CSRFToken': $("input[name=csrfmiddlewaretoken]").val() },
+						type:'POST',
+						data: fd,
+						cache: false,
+						processData: false,
+						contentType: false,
+					}).done(function(response){
+						console.log('response data>>>>>', response);
+						if(response == "True"){
+							var button = document.getElementById("rating_submit_button");
+							button.value = "Submitted";
+							button.disabled = true;
+							button.style.opacity = "50%";
+						}else{
+							alert('Something Wrong')
+						}
+					});
+				})
+		 	});
+		</script>
+
+	</body>
+</html>

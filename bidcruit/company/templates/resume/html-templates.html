@@ -1,0 +1,565 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+    
+<!-- Mirrored from nicepage.com/html-templates by HTTrack Website Copier/3.x [XR&CO'2014], Mon, 12 Apr 2021 06:54:02 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=utf-8" /><!-- /Added by HTTrack -->
+<head>
+
+<meta charset="utf-8" />
+
+   
+    <link href="http://fonts.googleapis.com/css?family=Roboto|Open+Sans:200,300,400,700,800,900&amp;subset=latin" rel="preload" as="font" />
+
+    
+
+<script src="{% static 'resume1/BundledScripts/templates-page-libs52e3.js' %}" defer></script>
+<link href="{% static 'resume1/BundledScripts/templates-page-libs52e3.css' %}" rel="stylesheet" />
+
+<!-- <script>
+    function receiveCountryCode() {
+        if ($.cookie('UserCountryCode') !== undefined) {
+            return;
+        }
+
+        $.ajax({
+            type: 'HEAD',
+            url: 'https://d57e01lyo0mq2.cloudfront.net/location',
+            success: function(data, status, jqXHR) {
+                var countryCode = jqXHR.getResponseHeader('cloudfront-viewer-country');
+                if (countryCode) {
+                    $.cookie('UserCountryCode', countryCode, { expires: 7, path: '/' });
+                }
+            },
+            error: function (jqXHR) {
+                var date = new Date();
+                var minutes = 15;
+                date.setTime(date.getTime() + (minutes * 60 * 1000));
+                $.cookie('UserCountryCode', '', { expires: date, path: '/' });
+            }
+        });
+    }
+
+    document.addEventListener('DOMContentLoaded',
+        function() {
+            receiveCountryCode();
+    });
+</script> -->
+    <!--[if lt IE 9]>
+    <script src="https://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+<![endif]-->
+
+
+  
+    <style>
+        h1 {
+            text-transform: capitalize;
+            font-weight: bold;
+            margin: 0 0 40px 0;
+        }
+
+        h2, h3 {
+            text-transform: capitalize;
+            margin: 40px 0 20px;
+            text-align: center;
+        }
+
+
+        h2 > a, h2 > a:hover, h2 > a:focus {
+            color: #333;
+        }
+
+        h2 > a:hover {
+            text-decoration: none;
+        }
+
+        #main {
+            margin-left: 0;
+            margin-right: 0;
+        }
+
+        .navbar {
+            margin-bottom: 0;
+        }
+
+        #top-navbar {
+            position: sticky;
+            top: 0;
+            z-index: 200;
+        }
+        @media (min-width: 768px) {
+            .search-input {
+                width: 500px !important;
+            }
+        }
+        .pages-content {
+            max-width: 1920px;
+            padding: 35px;
+            margin: 0 auto;
+        }
+
+        .heading-container {
+            position: relative;
+            box-sizing: border-box;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 350px;
+            text-align: center;
+            background-position: 50% 50%;
+        }
+
+        .thumbnails-grid {
+            margin: 0 auto;
+            max-width: 1450px;
+        }
+
+        .thumbnails-grid h3 {
+            margin: 0;
+            font-size: 13px;
+            line-height: 1.4;
+            font-family: "Roboto", "Arial", "sans-serif";
+        }
+
+        .thumbnails-grid .one-row h3 {
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .thumbnail:hover:after {
+            cursor: zoom-in;
+        }
+
+        @media (max-width: 768px) {
+            .heading-container {
+                margin: 0 -15px;
+            }
+            .templates-block {
+                padding: 0 20px;
+            }
+        }
+
+        .heading-block {
+            color: #fff;
+            max-width: 630px;
+            display: inline-block;
+        }
+
+        .page-builder.heading-block {
+            max-width: 650px;
+        }
+
+        .heading-block form {
+            position: relative;
+            width: 90%;
+            max-width: 500px;
+            margin: 0 auto;
+        }
+
+        .heading-description {
+            font-size: 14px;
+            line-height: 1.5;
+            margin-top: 20px;
+            width: 90%;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .builder-page.heading-description {
+            font-size: 16px;
+            width: 95%;
+        }
+
+        .heading-description a {
+            color: #fff;
+        }
+
+        .heading-description a:hover {
+            text-decoration: none;
+        }
+
+        .heading-block-buttons {
+            text-align: center;
+            margin-top: 30px;
+        }
+
+        .block-slider, .block-styles {
+            padding: 40px 0 20px 0;
+        }
+
+        .block-slider h2, .block-styles h2 {
+            margin: 0 0 20px;
+        }
+
+        .block-slider .thumbnail-slider-list a[data-title] {
+            padding: 31px 0 0;
+        }
+
+        .block-slider .thumbnail-slider-list a[data-title]:before {
+            font-size: 18px;
+            margin: -31px 0 0;
+        }
+        .gray-block {
+            background-color: #f7f7f7;
+            margin: 0 -35px;
+            padding: 0 35px;
+        }
+        .last-custom-block {
+            max-width: 1920px;
+            margin: 0 auto;
+            padding: 30px;
+            background-color: #f7f7f7;
+            text-align: left;
+        }
+
+        .last-custom-block h2:first-child {
+            margin: 0 0 20px;
+        }
+        .last-custom-block h2:not(:first-child) {
+            margin: 30px 0 20px;
+        }
+
+        .last-custom-block p {
+            line-height: 1.5;
+            margin-bottom: 20px;
+        }
+
+        .block-styles-container .block-styles {
+            max-width: 1425px;
+            margin: 0 auto;
+            padding-bottom: 0px;
+        }
+
+        @media (max-width: 1520px) {
+            .block-styles-container .block-styles {
+                max-width: 1140px;
+            }
+            .thumbnails-grid {
+                max-width: 1140px;
+            }
+        }
+
+        @media (max-width: 1270px) {
+            .block-styles-container .block-styles {
+                max-width: 860px;
+            }
+            .thumbnails-grid {
+                max-width: 860px;
+            }
+        }
+
+        @media (max-width: 960px) {
+            .block-styles-container .block-styles {
+                max-width: 570px;
+            }
+            .thumbnails-grid {
+                margin: 0 auto;
+                max-width: 570px;
+            }
+        }
+
+        @media (max-width: 660px) {
+            .block-styles-container .block-styles {
+                max-width: 265px;
+            }
+            .thumbnails-grid {
+                max-width: 265px;
+            }
+        }
+
+        .block-styles-container a[data-title] {
+            white-space: nowrap;
+            vertical-align: top;
+            display: inline-block;
+            position: relative;
+            padding: 31px 0;
+            margin: 0 10px;
+        }
+
+        .block-styles-container a[data-title]:before {
+            display: block;
+            position: absolute;
+            font-size: 18px;
+            font-weight: 600;
+            margin: -31px 0 0;
+            padding: 0 0 6px 5px;
+            content: attr(data-title);
+            width: 100%;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            text-decoration: none;
+            color: #333;
+        }
+
+        .block-styles a > span {
+            display: block;
+            max-height: 100%;
+            overflow: hidden;
+            border: 1px solid rgba(211, 211, 211, .7);
+            border-radius: 4px;
+            background-color: rgba(211, 211, 211, 0.25);
+            background-image: linear-gradient(90deg, rgba(0, 0, 0, .01), rgba(0, 0, 0, .1));
+        }
+
+        .block-styles-container .thumbnail-slider-control-btn {
+            top: 100%;
+            bottom: -40px;
+            left: calc(50% - 20px);
+            z-index: 1;
+        }
+
+        .last-updated-block {
+            display: block;
+            font-weight: bold;
+            text-align: center;
+            margin-bottom: 20px;
+            font-size: 14px;
+        }
+
+        .auto-suggest-keyword .auto-suggest-link {
+            margin-left: 12px;
+        }
+
+        .ui-autocomplete-category {
+            background-color:rgb(247, 247, 247);
+            margin: 5px 0 !important;
+            padding: 5px 20px 5px 5px !important;
+            font-size: 14px;
+            text-transform: uppercase;
+        }
+
+        .templates-block p {
+            max-width: 700px;
+            margin: 20px auto;
+            text-align: center;
+            line-height: 1.5;
+            font-size: 14px;
+        }
+
+        .templates-block.gray-block p {
+            margin: 0 auto;
+            padding: 30px;
+        }
+
+        .win-download,
+        .mac-download {
+            color: #fff;
+            padding: 10px 30px;
+            margin-bottom: 10px;
+            font-size: 20px;
+            line-height: 1.4;
+            display: inline-block;
+            box-shadow: 2px 2px 10px 0 rgb(0 0 0 / 25%);
+        }
+
+
+        .mac-download {
+            margin-left: 10px;
+            background-color: #4399fa;
+            border-color: #4399fa;
+        }
+
+        .mac-download:hover, .mac-download:focus {
+            color: #fff;
+            background-color: #2e8dfa;
+            border-color: #2e8dfa;
+        }
+
+        .win-download {
+            background-color: #f15048;
+            border-color: #f15048;
+        }
+
+        .win-download:hover, .win-download:focus {
+            color: #fff;
+            background-color: #ef342b;
+            border-color: #ef342b;
+        }
+
+        .search-form-container {
+            margin-bottom: 20px;
+        }
+
+        .search-form-container form {
+            width: 500px;
+            margin: 0 auto;
+            position: relative;
+        }
+    </style>
+    <style>
+        .heading-container {
+           background-color: #53a865;
+        }
+
+        @media (min-width: 576px) and (max-width: 1281px) {
+            .heading-container {
+                background-size: 1200px 350px;
+                background-image: url('../csite.nicepage.com/Images/Site/free-html-templates-12005ed3.jpg?v4');
+            }
+        }
+        @media (min-width: 1281px) and (max-width: 1700px) {
+            .heading-container {
+                background-size: 1600px 350px;
+                background-image: url('../csite.nicepage.com/Images/Site/free-html-templates-16005ed3.jpg?v4');
+            }
+        }
+        @media (min-width: 1700px) {
+            .heading-container {
+                background-size: 1920px 350px;
+                background-image: url('../csite.nicepage.com/Images/Site/free-html-templates-19205ed3.jpg?v4');
+            }
+        }
+
+        .search-btn {
+            background-image: url('../csite.nicepage.com/Images/Site/icon-input-search.png');
+        }
+    </style>
+
+    <script type="text/javascript">
+        var submitSearchTimer = false;
+        document.addEventListener("DOMContentLoaded", function() {
+                var lazy = new IOlazy();
+
+                var thumbSlider = $('.thumbnail-slider');
+                thumbSlider.thumbnailSlider();
+
+                $('.block-styles-all').on('click', function(e) {
+                    e.preventDefault();
+                    $(this).css('display', 'none');
+                    $('.block-styles').find('a').css('display', '');
+                });
+
+                $('#search-button').on('click', function (e) {
+                    e.preventDefault();
+                    var searchTerm = $('#search').val();
+                    if (false && typeof sendAmplitudeAnalyticsData === "function") {
+                        sendAmplitudeAnalyticsData('Page Search', { "Type": "Page", "Term": searchTerm });
+                    }
+                    setTimeout(function() {
+                        $('#search-form').submit();
+                    }, 200);
+                    return false;
+                });
+
+                SearchController.init('https://np-index.nicepage.com/api/');
+
+                $("#key").catcomplete({
+                    source: function (request, response) {
+                        SearchController.search({ q: request.term, lang: 'en'},
+                            function (err, result) {
+                                if (err) {
+                                    alert(err);
+                                    return;
+                                }
+                                result = result.filter(r => r.items && r.items.length > 0);
+                                response(result);
+                        });
+                    },
+                    minLength: 1,
+                    select: function(event, ui) {
+                        if (!ui.item) {
+                            return;
+                        }
+
+                        if (false && typeof sendAmplitudeAnalyticsData === "function") {
+                            sendAmplitudeAnalyticsData('Page Search', { "Type": "Page", "Term": ui.item.value });
+                        }
+                        setTimeout(function() {
+                            location.href = location.origin + ui.item.url;
+                        }, 200);
+                    }
+                });
+
+                $(window).resize(function() {
+                    $("#search").autocomplete("close");
+                });
+            });
+
+        function submitSearchForm(e) {
+            e.preventDefault();
+            clearTimeout(submitSearchTimer);
+            submitSearchTimer = setTimeout(function() {
+                $('#term').val($('#key').val().trim().replace(/\s+/g, ' '));
+                $('#key').attr('disabled', true);
+                $('#search-form').submit();
+            }, 0);
+            return true;
+        }
+    </script>
+
+
+
+
+        
+    </head>
+    <body>
+        
+        <div class="wrap wrap-fluid">
+            
+            
+
+
+
+<div class="pages-content">
+   
+    
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="templates-block">
+                <h2>Resume Template Categories</h2>
+                
+                <div class="thumbnail-slider">
+                    <div class="thumbnail-slider-viewport-wrapper">
+                        <div class="thumbnail-slider-viewport">
+                            <div class="thumbnail-slider-list">
+                                {% for themes in theme %}
+                                <a href="{% url 'candidate:active_theme' themes.id %}" data-title="Resume1">
+                                    <span style="width: 200px; height: 375px;">
+                                        <img alt="Resume" src="" data-src="{{themes.preview_image.url}}" class="lazyload" />
+                                    </span>
+                                </a>
+                               {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+                    <a class="thumbnail-slider-control left off" href="#" rel="noopener" aria-label="thumbnail slider show more">
+                        <span class="thumbnail-slider-control-btn">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16">
+                                <path fill="currentColor" d="M9.53 11.71L5.99 8.18a.25.25 0 0 1 0-.36L9.53 4.3a.75.75 0 1 0-1.06-1.06L4.93 6.76c-.68.69-.68 1.8 0 2.48l3.54 3.53a.75.75 0 0 0 1.06-1.06z"></path>
+                            </svg>
+                        </span>
+                    </a>
+                    <a class="thumbnail-slider-control right" href="#" rel="noopener" aria-label="thumbnail slider show more">
+                        <span class="thumbnail-slider-control-btn">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16">
+                                <path fill="currentColor" d="M6.47 4.29l3.54 3.53c.1.1.1.26 0 .36L6.47 11.7a.75.75 0 1 0 1.06 1.06l3.54-3.53c.68-.69.68-1.8 0-2.48L7.53 3.23a.75.75 0 0 0-1.06 1.06z"></path>
+                            </svg>
+                        </span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    
+    </div>
+    <script type="text/javascript">
+        var sliders = document.querySelectorAll('.thumbnail-slider-viewport-wrapper');
+        for (var i = 0; i < sliders.length; i++) {
+            var slider = sliders[i];
+            if (slider.firstElementChild) {
+                slider.style.height = slider.firstElementChild.scrollHeight + 'px';
+            }
+        }
+    </script>
+    
+            </div>
+        </div>
+    </div>
+</div>
+   
+ </body>
+
+</html>

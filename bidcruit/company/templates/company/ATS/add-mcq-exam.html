@@ -1,0 +1,251 @@
+{% extends 'company/base.html' %}
+{% load static %}
+{% block title %}Mcq Exam Configuration{% endblock %}
+{%load custom_filters%}
+{% block css %}
+
+    <link href="{% static 'assets/css/ATS/add-exam.css' %}" rel="stylesheet">
+
+    {% endblock %}
+    {% block main %}
+           
+            <!-- Main-content-body -->
+            <div class="main-content-body">
+
+                <!-- row -->
+                <div class="row row-sm">
+                    <div class="col-12">
+
+                        <div class="card audiencemetric">
+                            <div class="card-body pb-3 p-0">
+                                <div class="row">
+                                    <div class="col-lg-12 col-md-12 col-sm-12">
+                                        <div class="template_selection_header one_header">
+                                            <div class="h5 t_ty_50">Template Type : <span>MCQ</span></div>
+                                            <div class="h5">Template Name : <span>{{template_name}}</span></div>
+                                        </div>
+                                    </div>
+                                    <div class="col-12">
+                                        {% if template_id %}
+                                        <form name="exam_templateform" action="{%url 'company:add_exam_template' template_id%}" class="mcq_exam_template" method="post" id="exam_template_form">
+                                        {%else%}
+                                        <form name="exam_templateform" action="{%url 'company:add_exam_template' %}" method="post" class="mcq_exam_template" id="exam_template_form">
+                                        {%endif%}
+                                            {%csrf_token%}
+                                            <div class="add__exam-form">
+                                                <h5 class="card-title mb-3">EXAM DETAILS</h5>
+                                                <div class="row">
+                                                    <div class="col-12 col-md-6 col-lg-4 mb-3">
+                                                        <label class="main-content-label">Subject Name :</label>
+                                                        <select required name="language_name" id="subject" class="form-control SlectBox">
+                                                            <!--placeholder-->
+                                                            <option label="Select Subject" disabled selected></option>
+                                                            {% for subjects in subject %}
+                                                                {%if exam_template.subject == subjects%}
+                                                                 <option selected value="{{subjects.id}}">{{subjects.subject_name}}</option>
+                                                                {%else%}
+                                                                <option value="{{subjects.id}}">{{subjects.subject_name}}</option>
+                                                                {%endif%}
+                                                            {% endfor %}
+                                                        </select>
+                                                    </div>
+                                                    <div class="col-12 col-md-6 col-lg-4 mb-3">
+                                                        <div class="form-group">
+                                                            <label class="main-content-label">Exam Name :</label>
+                                                            <input class="form-control" required="true" type="text" name="exam_name" value="{{exam_template.exam_name}}">
+                                                        </div>
+                                                    </div>
+                                                    
+                                                    <div class="col-12 col-md-6 col-lg-4 mb-3">
+                                                        <div class="form-group">
+                                                            <label class="main-content-label mb-4">Exam Type :</label>
+                                                            <div class="d-flex mt-3">
+                                                                <label class="rdiobox mr-5"><input name="examtype" type="radio" checked value="custom"> <span>Custom</span></label>
+                                                                <label class="rdiobox"><input id="random" name="examtype" type="radio" value="random"> <span>Random</span></label>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <hr class="mb-3">
+                                                <h5 class="card-title mb-3">EXAM Configuration</h5>
+                                                <div class="row quescat">
+                                                    <div class="col-12 col-lg-6 mb-4">
+                                                        <div class="form-group">
+                                                            <div class="d-flex mt-3">
+                                                                {%if exam_template.marking_system == 'question_wise'%}
+                                                                <label class="rdiobox mr-5"><input name="eachall" type="radio"  value="category_wise"> <span>Category Type Marks</span></label>
+                                                                <label class="rdiobox"><input id="eachques" name="eachall" type="radio" value="question_wise" checked> <span>Each Question Marks</span></label>
+                                                                {%else%}
+                                                                <label class="rdiobox mr-5"><input name="eachall" type="radio" checked="checked" value="category_wise" checked> <span>Category Type Marks</span></label>
+                                                                <label class="rdiobox"><input id="eachques" name="eachall" type="radio" value="question_wise"> <span>Each Question Marks</span></label>
+                                                                {%endif%}
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="row">
+                                                    <div class="col-12 col-md-6 col-lg-4 mb-4">
+                                                        <div class="form-group">
+                                                            <label class="main-content-label">Basic Question :</label>
+                                                            <div class="row">
+                                                                <div class="col">
+                                                                    <input class="form-control text-center que" required="true" type="number" id="basic-que" placeholder="Total Questions" name="no_of_basic_questions" value="{{exam_template.basic_questions_count}}">
+                                                                </div>
+                                                                <div class="col maksbox" {%if exam_template.marking_system == 'question_wise'%} style="display: none;" {%endif%}>
+                                                                    <input class="form-control text-center mark"  {%if exam_template%} {%if exam_template.marking_system == 'category_wise'%}  required="true"{%endif%}{%else%}required="true" {%endif%} type="number" id="basic-mark"  placeholder="Marks" name="marks_of_basic_questions" value="{{exam_template.basic_question_marks}}">
+                                                                </div>
+                                                            </div>
+                                                            <label class="c_blue_note avl_basic">Available question : </label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-12 col-md-6 col-lg-4 mb-4">
+                                                        <div class="form-group">
+                                                            <label class="main-content-label">Intermediate Question :</label>
+                                                            <div class="row">
+                                                                <div class="col">
+                                                                    <input class="form-control text-center que" required="true" type="number" id="intermediate-que" placeholder="Total Questions" name="no_of_intermediate_questions" value="{{exam_template.intermediate_questions_count}}">
+                                                                </div>
+                                                                <div class="col maksbox" {%if exam_template.marking_system == 'question_wise'%} style="display: none;" {%endif%}>
+                                                                    <input class="form-control text-center mark" {%if exam_template%} {%if exam_template.marking_system == 'category_wise'%}  required="true"{%endif%}{%else%}required="true" {%endif%} type="number" id="intermediate-mark" placeholder="Marks" name="marks_of_intermediate_questions" value="{{exam_template.intermediate_question_marks}}">
+                                                                </div>
+                                                            </div>
+                                                            <label class="c_blue_note avl_inter">Available question :</label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-12 col-md-6 col-lg-4 mb-4">
+                                                        <div class="form-group">
+                                                            <label class="main-content-label">Advance Question :</label>
+                                                            <div class="row">
+                                                                <div class="col">
+                                                                    <input class="form-control text-center que" required="true" type="number" id="advance-que" placeholder="Total Questions" name="no_of_advanced_questions" value="{{exam_template.basic_questions_count}}">
+                                                                </div>
+                                                                <div class="col maksbox" {%if exam_template.marking_system == 'question_wise'%} style="display: none;" {%endif%}>
+                                                                    <input class="form-control text-center mark" {%if exam_template%} {%if exam_template.marking_system == 'category_wise'%}  required="true"{%endif%}{%else%}required="true" {%endif%} type="number" id="advance-mark" placeholder="Marks" name="marks_of_advanced_questions" value="{{exam_template.advanced_question_marks}}">
+                                                                </div>
+                                                            </div>
+                                                            <label class="c_blue_note avl_advance">Available question :</label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-12 col-md-6 col-lg-4 mb-3">
+                                                        <div class="form-group">
+                                                            <label class="main-content-label">Total Question :</label>
+                                                            <input class="form-control"  id="total-que" type="number"  readonly value="{{exam_template.total_question}}" name="no_of_total_questions">
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-12 col-md-6 col-lg-4 mb-4 maksbox" {%if exam_template.marking_system == 'question_wise'%} style="display: none;" {%endif%}>
+                                                        <div class="form-group" >
+                                                            <label class="main-content-label">Total Exam Marks :</label>
+                                                            <input class="form-control" id="total_exam_mark" type="text" disabled {%if exam_template.marking_system == 'category_wise'%}value="{{exam_template|total_exam_marks}}" {%endif%}>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-12 col-md-6 col-lg-4 mb-4">
+                                                        <div class="form-group negative-marking">
+                                                            <label class="ckbox"><input name="nagative-mark" type="checkbox"><span>Allow Negative Marking :</span></label>
+                                                            <input class="form-control nagative-mark-add" readonly="true"  type="text" name="negative_mark_percent" placeholder="Negative marking in %">
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="row">
+                                                  
+                                                    <div class="col-12 col-md-6 col-lg-4 mb-3">
+                                                        <div class="form-group">
+                                                            <label class="main-content-label">Total Exam Time (HH:MM) :</label>
+                                                            <input class="form-control" id="total-time"  value="{{exam_template.duration}}" name="exam_duration" placeholder="HH:MM" required="true" type="text">
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-12 col-md-6 col-lg-4 mb-3">
+                                                        <div class="form-group question-wise">
+                                                            <label class="main-content-label">&nbsp;</label>
+                                                            <label class="ckbox"><input name="question-wise-time" value="on" type="checkbox"{%if exam_template.question_wise_time%}checked{%endif%} ><span>Question Wise Time :</span></label>
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                
+                                                <div class="row">
+                                                    <div class="col">
+                                                        <div class="d-flex add__exam-form-action cus_line">
+                                                            <!-- <button type="submit" class="btn btn-primary add-config">Next</button> -->
+                                                            <input type="submit" class="btn btn-primary add-config" value="Next" >
+                                                        <!--  <a href="javascript:void(0);" class="btn btn-primary">Next</a>-->
+                                                        <!--   <a href="javascript:void(0);" class="btn btn-danger close-action">Close</a>-->
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- row -->
+            </div>
+            <!-- Main-content-body closed -->
+          
+{% endblock %}
+
+{% block script %}
+    <script src="{% static 'assets/js/ATS/add-exam.js' %}"></script>
+
+     <!-- jquery validation plugin -->
+	 <script src="{% static 'assets/js/jquery-validation-1.19.3/dist/jquery.validate.js' %}"></script>
+
+    <script>
+        function formatTime(timeInput) {
+            intValidNum = timeInput.value;
+            if (intValidNum < 24 && intValidNum.length == 2) {
+                timeInput.value = timeInput.value + ":";
+                return false;
+            }
+            if (intValidNum == 24 && intValidNum.length == 2) {
+                timeInput.value = timeInput.value.length - 2 + "0:";
+                return false;
+            }
+            if (intValidNum > 24 && intValidNum.length == 2) {
+                timeInput.value = "";
+                return false;
+            }
+        }
+    </script>
+
+    <script>			
+
+    $.validator.addMethod("time24", function(value, element) { 
+	    if (!/^\d{2}:\d{2}$/.test(value)) return false;
+	    var parts = value.split(':');
+	    if (parts[0] > 23 || parts[1] > 59 ) return false;
+	    return true;
+	}, "Invalid time format.");
+
+
+    $(function() {
+    	$("form[name='exam_templateform']").validate({
+        // Specify validation rules
+        rules: {
+          // The key name on the left side is the name attribute
+          // of an input field. Validation rules are defined
+          // on the right side
+            exam_duration: {
+               required: true,
+               time24: true
+            }
+         
+        },
+        // Specify validation error messages
+        messages: {
+         
+
+        },
+        // Make sure the form is submitted to the destination defined
+        // in the "action" attribute of the form when valid
+        
+      });
+    });
+
+    </script>
+{% endblock %}

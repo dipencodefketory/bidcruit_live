@@ -1,0 +1,441 @@
+{% extends 'candidate/base.html' %}
+{% load static %}
+{% block title %}Profile create page{% endblock %}
+{% block css %}<link href="{% static 'assets/css/custom.css' %}" rel="stylesheet">{% endblock %}
+{% block main %}
+
+
+				<!-- Container-fluid -->
+				<div class="container-fluid">
+
+					<!-- Main-content-body -->
+					<div class="main-content-body dashboard-profile">
+						<!-- row -->
+						<div class="row row-sm">
+							<div class="col-md-12 col-xl-12 col-lg-12">
+								<div class="card card-profile">
+								<div class="row">
+                                    <div class="col-md-6 col-lg-6 col-sm-12 col-xs-12">
+                                        <div class="heading-with-toggle">
+                                            <p>Looking for job </p>
+                                            <div class="form-group toggle-cus">
+                                            <label class="custom-switch">
+                                           
+                                                <input type="checkbox" name="custom-switch-checkbox1" class="custom-switch-input">
+                                                <span class="custom-switch-indicator"></span>
+                                            </label>
+                                        </div>
+                                        </div>
+                                       
+
+                                    </div>
+                                    <div class="col-md-6 col-lg-6 col-sm-12 col-xs-12">
+                                        <div class="heading-with-toggle">
+                                            <p>Google Search</p>
+                                            <div class="form-group toggle-cus">
+                                            <label class="custom-switch">
+                                           
+                                                <input type="checkbox" name="custom-switch-checkbox1" class="custom-switch-input">
+                                                <span class="custom-switch-indicator"></span>
+                                            </label>
+                                        </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+								</div>
+							</div>
+							
+						</div>
+						<!-- /row -->
+						<div class="row row-sm">
+							{%for i in profiles%}
+
+							<div class="col-md-6 col-xl-4 col-lg-4 col-sm-12 ">
+								<div class="card">
+								<div class="add-profile">
+									<h2>{{i.profile_name}} </h2>
+									<div class="form-group toggle-cus">
+										
+										{%if i.active%}
+										<label class="custom-switch">									   
+											<input type="radio" name="custom-switch-checkbox1" checked id='{{i.id}}' oninput="select_candidate_profile('{{i.id}}')" class="custom-switch-input">
+											<span class="custom-switch-indicator"></span>
+										</label>
+										{%else%}
+										<label class="custom-switch">									   
+											<input type="radio" name="custom-switch-checkbox1"  id='{{i.id}}' oninput="select_candidate_profile('{{i.id}}')" class="custom-switch-input">
+											<span class="custom-switch-indicator"></span>
+										</label>
+										{%endif%}
+									</div>
+									<div class="links-edit">
+										<ul>
+											<li>
+												<a href="#"><i data-v-e08301e8="" class="fas fa-eye"></i></a>
+											</li>
+											<li>
+												<a href="#"><i class="bx bx-edit"></i></a>
+											</li>
+											<li>
+												<a href="#"><i data-v-e08301e8="" class="fas fa-share-alt"></i></a>
+											</li>
+										</ul>
+									</div>
+								</div>
+								</div>
+							</div>
+							
+							{%endfor%}
+
+
+							{%if profile_count < 3 %}
+							<div class="col-md-6 col-xl-4 col-lg-4 col-sm-12 ">
+								<div class="card">
+								<div class="add-profile">
+									<h2>Add Tilte Here </h2>
+									<a href="{%url 'candidate:add_profile'%}"><button class="btn btn-primary btn-block">Add More</button></a>
+									
+								</div>
+								</div>
+							</div>
+							{%endif%}
+						</div>
+
+
+						{%for i in profiles%}
+							{%if i.id == active_profile.id%}
+							<div class="row row-sm" id="row_{{i.id}}">
+								<div class="col-md-12 col-xl-6 col-lg-6">
+									<div class="card">
+										<div class="card-header pb-0">
+											
+											<h4 class="card-title mg-b-10">Profile Detail</h4>
+
+										</div>
+										<div class="card-body ">
+											<div class="security-enable">
+												<div class="row">
+													<div class="col-md-6 col-lg-6 col-sm-6 col-xs-6">
+														<p>Phone Number</p>
+													</div>
+													<div class="col-md-6 col-lg-6 col-sm-6 col-xs-6">
+														<ul class="security-lock">
+															{%if active_profile_hide_fields.contact == 0%}
+															<li>
+																<a title=""><i data-v-e08301e8="" class="fas fa-lock" id='toggle_contact' onclick="element_lock_toggle('contact',0)"></i></a>
+															</li>
+															{%else%}
+															<li>
+																<a title=""><i data-v-e08301e8="" class="fas fa-lock-open" id='toggle_contact' onclick="element_lock_toggle('contact',1)" ></i></a>
+															</li>
+															{%endif%}
+														</ul>
+													</div>
+												</div>
+										
+												<div class="row">
+													<div class="col-md-6 col-lg-6 col-sm-6 col-xs-6">
+														<p>Email</p>
+													</div>
+													<div class="col-md-6 col-lg-6 col-sm-6 col-xs-6">
+														<ul class="security-lock">
+															{%if active_profile_hide_fields.email == 0%}
+															<li>
+																<a title=""><i data-v-e08301e8="" class="fas fa-lock" id='toggle_email' onclick="element_lock_toggle('email',0)"></i></a>
+															</li>
+															{%else%}
+															<li>
+																<a title=""><i data-v-e08301e8="" class="fas fa-lock-open" id='toggle_email' onclick="element_lock_toggle('email',1)" ></i></a>
+															</li>
+															{%endif%}
+														</ul>
+													</div>
+												</div>
+										</div>
+										</div>
+									</div>
+								</div>
+								<div class="col-md-12 col-xl-6 col-lg-6">
+									<div class="card">
+										<div class="card-header pb-0">
+											
+											<h4 class="card-title mg-b-10">Experience</h4>
+
+										</div>
+										<div class="card-body ">
+											<div class="security-enable">
+												<div class="row">
+													<div class="col-md-6 col-lg-6 col-sm-6 col-xs-6">
+														<p>Document</p>
+													</div>
+													<div class="col-md-6 col-lg-6 col-sm-6 col-xs-6">
+														<ul class="security-lock">
+															{%if active_profile_hide_fields.exp_document == 0%}
+															<li>
+																<a title=""><i data-v-e08301e8="" class="fas fa-lock" id='toggle_exp_document' onclick="element_lock_toggle('exp_document',0)"></i></a>
+															</li>
+															{%else%}
+															<li>
+																<a title=""><i data-v-e08301e8="" class="fas fa-lock-open" id='toggle_exp_document' onclick="element_lock_toggle('exp_document',1)" ></i></a>
+															</li>
+															{%endif%}
+														</ul>
+													</div>
+												</div>
+
+										</div>
+										</div>
+									</div>
+								</div>
+								<div class="col-md-12 col-xl-6 col-lg-6">
+									<div class="card">
+										<div class="card-header pb-0">
+											
+											<h4 class="card-title mg-b-10">Education</h4>
+
+										</div>
+										<div class="card-body ">
+											<div class="security-enable">
+												<div class="row">
+													<div class="col-md-6 col-lg-6 col-sm-6 col-xs-6">
+														<p>Document</p>
+													</div>
+													<div class="col-md-6 col-lg-6 col-sm-6 col-xs-6">
+														<ul class="security-lock">
+															{%if active_profile_hide_fields.edu_document == 0%}
+															<li>
+																<a title=""><i data-v-e08301e8="" class="fas fa-lock" id='toggle_edu_document' onclick="element_lock_toggle('edu_document',0)"></i></a>
+															</li>
+															{%else%}
+															<li>
+																<a title=""><i data-v-e08301e8="" class="fas fa-lock-open" id='toggle_edu_document' onclick="element_lock_toggle('edu_document',1)" ></i></a>
+															</li>
+															{%endif%}
+														</ul>
+													</div>
+												</div>
+
+										</div>
+										</div>
+									</div>
+								</div>
+								<div class="col-md-12 col-xl-6 col-lg-6">
+									<div class="card">
+										<div class="card-header pb-0">
+											
+											<h4 class="card-title mg-b-10">Certificate</h4>
+
+										</div>
+										<div class="card-body ">
+											<div class="security-enable">
+												<div class="row">
+													<div class="col-md-6 col-lg-6 col-sm-6 col-xs-6">
+														<p>Document</p>
+													</div>
+													<div class="col-md-6 col-lg-6 col-sm-6 col-xs-6">
+														<ul class="security-lock">
+															{%if active_profile_hide_fields.certificate_document == 0%}
+															<li>
+																<a title=""><i data-v-e08301e8="" class="fas fa-lock" id='toggle_certificate_document' onclick="element_lock_toggle('certificate_document',0)"></i></a>
+															</li>
+															{%else%}
+															<li>
+																<a title=""><i data-v-e08301e8="" class="fas fa-lock-open" id='toggle_certificate_document' onclick="element_lock_toggle('certificate_document',1)" ></i></a>
+															</li>
+															{%endif%}
+														</ul>
+													</div>
+												</div>
+
+										</div>
+										</div>
+									</div>
+								</div>
+								<!-- <div class="col-md-12 col-xl-6 col-lg-6">
+									<div class="card">
+										<div class="card-header pb-0">
+											
+											<h4 class="card-title mg-b-10">Award</h4>
+
+										</div>
+										<div class="card-body ">
+											<div class="security-enable">
+												<div class="row">
+													<div class="col-md-6 col-lg-6 col-sm-6 col-xs-6">
+														<p>Document</p>
+													</div>
+													<div class="col-md-6 col-lg-6 col-sm-6 col-xs-6">
+														<ul class="security-lock">
+															<li>
+																<a href="#" title="" class="disable"><i data-v-e08301e8="" class="fas fa-lock"></i></a>
+															</li>
+															<li>
+																<a href="#" title=""><i data-v-e08301e8="" class="fas fa-lock-open"></i></a>
+															</li>
+														</ul>
+													</div>
+												</div>
+
+										</div>
+										</div>
+									</div>
+								</div> -->
+								<div class="col-md-12 col-xl-6 col-lg-6">
+									<div class="card">
+										<div class="card-header pb-0">
+											
+											<h4 class="card-title mg-b-10">Portfolio</h4>
+
+										</div>
+										<div class="card-body ">
+											<div class="security-enable">
+												<div class="row">
+													<div class="col-md-6 col-lg-6 col-sm-6 col-xs-6">
+														<p>Portfolio</p>
+													</div>
+													<div class="col-md-6 col-lg-6 col-sm-6 col-xs-6">
+														<ul class="security-lock">
+															{%if active_profile_hide_fields.portfolio_document == 0%}
+															<li>
+																<a title=""><i data-v-e08301e8="" class="fas fa-lock" id='toggle_portfolio_document' onclick="element_lock_toggle('portfolio_document',0)"></i></a>
+															</li>
+															{%else%}
+															<li>
+																<a title=""><i data-v-e08301e8="" class="fas fa-lock-open" id='toggle_portfolio_document' onclick="element_lock_toggle('portfolio_document',1)" ></i></a>
+															</li>
+															{%endif%}
+														</ul>
+													</div>
+												</div>
+
+										</div>
+										</div>
+									</div>
+								</div>
+								
+							</div>
+							{%endif%}
+							
+						{%endfor%}
+					</div>
+					<!-- Main-content-body closed -->
+				</div>
+				<!-- Container-fluid closed -->
+			</div>
+			<!-- Main-content closed -->
+{% endblock %}
+
+{% block script %}
+		<!-- Custom js -->
+		<script src="{% static 'assets/js/custom.js' %}"></script>
+		<script>
+			function getCookie(name) {
+				var cookieValue = null;
+				if (document.cookie && document.cookie !== '') {
+					var cookies = document.cookie.split(';');
+					for (var i = 0; i < cookies.length; i++) {
+						var cookie = jQuery.trim(cookies[i]);
+						// Does this cookie string begin with the name we want?
+						if (cookie.substring(0, name.length + 1) === (name + '=')) {
+							cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+							break;
+						}
+					}
+				}
+				return cookieValue;
+			}
+
+			function element_lock_toggle(element_name,state){
+				var change_id = console.log("idddd",event.target.id)
+				console.log(change_id)
+				$.ajax({
+					type:"GET",
+					url:'/candidate/toggle_field_state/',
+					data:{
+						name:element_name,
+					}
+
+				}).done(function(response){
+					console.log(response)
+					// console.log("iddddddsdsds",change_id)
+					// let id_to_replace = '#' + 'toggle_email'
+					// console.log(id_to_replace)
+					x = document.getElementById("toggle_"+element_name)
+					console.log(x.classList)
+					
+					console.log(x.classList[1])
+
+					if(x.classList[1] == 'fa-lock-open')
+					{
+						x.classList.remove('fa-lock-open')
+						x.classList.add('fa-lock')
+					}
+					else{
+						x.classList.remove('fa-lock')
+						x.classList.add('fa-lock-open')
+					}
+					// if(state == 0)
+					// {
+					// 	console.log(0)
+					// 	// document.getElementById("toggle_"+element_name).classList.remove('fas')
+					// 	document.getElementById("toggle_"+element_name).classList.remove('fa-lock')
+					// 	document.getElementById("toggle_"+element_name).classList.add('fa-lock-open')
+					// 	// console.log(1,$(id_to_replace))
+
+					// 	// $(id_to_replace).replaceWith('<i data-v-e08301e8="" class="fas fa-lock-open" id="toggle_email" onclick="element_lock_toggle("email",1)" ></i>')
+					// }
+					// else
+					// {
+					// 	console.log(1)
+					// 	document.getElementById("toggle_"+element_name).classList.remove('fa-lock-open')
+					// 	document.getElementById("toggle_"+element_name).classList.add('fa-lock')
+					// 	// console.log(0,$(id_to_replace))
+					// 	// $(id_to_replace).replaceWith('<i data-v-e08301e8="" class="fas fa-lock-open" id="toggle_email" onclick="element_lock_toggle("email",0)" ></i>')
+					// }
+						
+
+				});
+			}
+
+			function select_candidate_profile(i)
+			{
+				$.ajax({
+					type:"GET",
+					url:'/candidate/toggle_profile/',
+					data:{
+						id:i,
+					}
+
+				}).done(function(response){
+					window.location.reload(true);
+					// console.log(response.length)
+					// console.log(response[0]['id'])
+					// console.log(response[1])
+					// console.log(response[2])
+
+					// for(var i=0;i<response.length;i++)
+					// {
+					// 	console.log("row_"+response[i]['id'])
+					// 	var profile_div = document.getElementById("row_"+response[i]['id'])
+					// 	if(response[0]['active'])
+					// 	{
+					// 		// $(profile_div).show();
+					// 		profile_div.style.display = ''
+					// 	}
+					// 	else{
+					// 		profile_div.style.display = 'none'
+					// 		// $(profile_div).hide();
+					// 	}
+					// 	console.log(profile_div)
+					// }
+
+
+				});
+			}
+
+
+		</script>
+{% endblock %}
+
+"GET /static/assets/plugins/chart.js/Chart.bundle.min.js'%20%%7D HTTP/1.1" 404 1884

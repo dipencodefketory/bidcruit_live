@@ -1,0 +1,175 @@
+{% extends 'company/base.html' %} 
+{% load static %} 
+{% block title %}View Client Deatil{% endblock %}
+{% load agency_filter %}
+{% block css %}
+
+		<link href="{% static 'assets/css/ATS/add_client_view.css' %}" rel="stylesheet">
+{% endblock %}
+{% block main %}
+
+				<!-- Container-fluid -->
+				<div class="container-fluid">
+
+					<!-- Main-content-body -->
+					<div class="main-content-body">
+
+						<!-- header-title -->
+						<div class="header-title">
+							<div class="mb-0 mb-lg-0 mb-xl-0">
+								<h4 class="mb-2">Components</h4>
+								<div class="main-content-breadcrumb"> <span>Components</span> <span>Data-tables</span> </div>
+							</div>
+							<div class="ml-auto my-auto">
+								<a href="#" class="btn btn-primary"><i class="fe fe-plus-square"></i> Create Report</a>
+								<a href="#" class="btn btn-pink"><i class="fe fe-external-link"></i> Export</a>
+							</div>
+						</div>
+						<!-- header-title -->
+
+						<!-- row opened -->
+						<div class="row row-sm">
+							<div class="col-xl-12">
+								<div class="card candidate_view_main_section mg-b-0">
+									<div class="card-header pb-0">
+										<div class="d-flex justify-content-between">
+											<h4 class="card-title mg-b-0">{%if client_detail.agency_id.agency_id.company_name %}{{client_detail.agency_id.agency_id.company_name}}{% else %}{{client_detail.agency_id.agency_id.first_name}}{{client_detail.agency_id.agency_id.last_name}}{% endif %}</h4>
+											<div class="candidate_right_filters_section">
+												
+												<div class="candidate_view_header">
+													<a class="btn btn-success btn-block" onclick="update_connection('{{client_detail.id}}',true)">Accept</a>
+												</div>
+												<div class="candidate_view_header">	
+												    <a class="btn btn-cancel btn-block" onclick="update_connection('{{client_detail.id}}',false)">Reject</a>
+												</div>
+												
+												
+											</div>
+										</div>
+										
+									</div>
+									<div class="card-body condidate_view_client_details">
+										
+										<div class="row resume_main_section">
+											<div class="resume_details_section col-5">
+
+												<div class="preference_section card experience_details_box mg-b-10">
+													<div class="card-body client_detail">
+														
+														<div>
+															<a aria-controls="ExperienceDetails" aria-expanded="true" class="Preference_section_title" data-toggle="collapse" href="#ExperienceDetails" role="button">Client Details
+																<i id="coll_apseP" class="fas fa-angle-down"></i>
+																<i id="coll_apseP" class="fas fa-angle-up"></i>
+															</a>
+															<div class="collapse mg-t-0 Client-Details-box show" id="ExperienceDetails" >
+
+																<div class="media experience_list_inner">
+																    <div class="ex_title">Client Name :- {{client_detail.agency_id.agency_id.first_name}} {{client_detail.agency_id.agency_id.last_name}}</div>																		
+																</div>
+																<div class="media experience_list_inner">
+																	<div class="ex_title">Contact Number :- {{client_detail.contact_number}}</div>
+																</div>
+																{%if client_detail.agency_id.agency_id.company_name %}
+                                                                <div class="media experience_list_inner">
+																    <div class="ex_title">Company Name :- {{client_detail.agency_id.agency_id.company_name}}</div>																		
+																</div>
+                                                                {% endif %}
+																<div class="media experience_list_inner">
+																	<div class="ex_title">Industry Type :- {{client_detail.industry.name}}</div>
+																</div>
+                                                                {%if client_detail.agency_id.agency_id.website %}
+																<div class="media experience_list_inner">
+																	<div class="ex_title">Website :- {{client_detail.agency_id.agency_id.website}}</div>
+																</div>
+                                                                {% endif %}
+																<div class="media experience_list_inner">
+																	<div class="ex_title">Work Email :- {{client_detail.agency_id.agency_id.email}}</div>
+																</div>
+																<div class="media experience_list_inner">
+																	<div class="ex_title">Commission Rate :- {{client_detail.commission_rate}} %</div>
+																</div>
+																<div class="media experience_list_inner">
+																	<div class="ex_title">Payment Terms :- {{client_detail.payment_terms.name}}</div>
+																</div>
+																<div class="media experience_list_inner">
+																	<div class="ex_title">Replacement Terms :- {{client_detail.replacement_terms.name}}</div>
+																</div>
+
+
+															</div>
+														</div>
+													</div>
+												</div>
+
+												<div class="preference_section card experience_details_box mg-b-10">
+													<div class="card-body client_detail">
+														
+														<div>
+															<a aria-controls="EducationDetails" aria-expanded="true" class="Preference_section_title" data-toggle="collapse" href="#EducationDetails" role="button">Address Details
+																<i id="coll_apseP" class="fas fa-angle-down"></i>
+																<i id="coll_apseP" class="fas fa-angle-up"></i>
+															</a>
+																<div class="collapse mg-t-0 Address-Details-box show" id="EducationDetails">
+
+																<div class="media experience_list_inner">
+																	<div class="ex_title">Country :- {{client_detail.country.country_name}}</div>																	
+																</div>
+																<div class="media experience_list_inner">
+																	<div class="ex_title">State :- {{client_detail.state.state_name}}</div>																	
+																</div>
+																<div class="media experience_list_inner">
+																	<div class="ex_title">City :- {{client_detail.city.city_name}}</div>																	
+																</div>
+
+
+															</div>
+														</div>
+													</div>
+												</div>
+
+												
+										
+
+											</div>
+
+											<div class="resume_slide_section col-7">
+
+												<div class="Client_pdf_details">
+													
+													<embed type="" src="{{client_detail.contract_details.url|image_path_remove}}#toolbar=0&navpanes=0&scrollbar=0" aling="center" width="650" height="600">
+													 
+												</div>
+											</div>
+										</div>
+
+
+									</div>
+								</div>
+							</div>
+							<!--/div-->
+					
+						</div>
+						<!-- /row -->
+					</div>
+					<!-- Main-content-body closed -->
+				</div>
+				<!-- Container-fluid closed -->
+			</div>
+			<!-- Main-content closed -->
+{% endblock %}
+
+{% block script %}
+<script>
+    function update_connection(connection_id,status)
+    {   url = '/company/update_connection/'
+        $.ajax({
+            url:url,
+            method:"GET",
+            data:{'connection_id':connection_id,"status":status}
+
+        }).done(function(response){
+            window.location.href='/company/request_page/'
+        })
+    }
+</script>
+{% endblock %}

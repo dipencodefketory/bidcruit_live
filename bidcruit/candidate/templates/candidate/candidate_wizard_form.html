@@ -1,0 +1,2276 @@
+{% extends 'candidate//base.html' %}
+{% load static %}
+{% load candidate_extras %}
+{% block title %}Create Global Profile{% endblock %}
+{% block css %}
+
+		<!-- Select2 css -->
+		<link href="{% static 'assets/plugins/select2/css/select2.min.css' %}" rel="stylesheet">
+		<!-- Internal Datetimepicker-slider css -->
+		<style>
+			.hide-calendar .ui-datepicker-calendar{display: none;}
+			.dd-select{height: 33px !important;}
+			.dd-selected-text,.dd-option-text {line-height: 31px !important;display: block !important;margin: -10px !important;}
+			.dd-selected {height: 33px !important;}
+			.dd-option {height: 33px !important;}
+			.dd-option-image {margin-top: -15px !important;vertical-align: middle;float: left;margin-right: 5px;max-width: 60px;padding: 11px;}
+			.dd-selected-image{margin-top: -15px !important;max-width: 60px !important;padding: 11px;}
+			.perf-city-selector .row-sm-sm label {order: 3; margin: 0;}
+			.perf-city-selector .row-sm-sm {display: flex; flex-direction: column;}
+			.check-SalInputVisible {display: flex;justify-content: space-between;align-items: baseline;}
+			.check-SalInputVisible fieldset.question.d-flex {font-size: 12px !important;}
+			.check-SalInputVisible fieldset.question.d-flex .coupon_question {margin-right: 5px;}
+			.input-group.file-browser .form-control{height: 37px}
+			.input-group.file-browser {align-items: baseline; position: relative;}
+			select.error {border-color: red;}
+			.input-group.file-browser label.error { position: absolute; bottom: -42px;right: 0;}
+			.perf-city-selector .select2-container--default {max-width: 100%;}
+        </style>
+		
+
+{% endblock %}
+{% block header %}
+<!--	<div class="header-breadcrumb">-->
+<!--		<h5 class="mb-1">Dashboard</h5>-->
+<!--		<div class="main-content-breadcrumb"> <span>Dashboard</span> <span>Wizard</span> </div>-->
+<!--	</div>-->
+{% endblock %}
+{% block main %}
+			<!-- Main-content-body -->
+			<div class="main-content-body">
+
+
+				<!-- header-title -->
+
+
+				<!-- row -->
+				<div class="row">
+					<div class="col-lg-12 col-md-12">
+						<div class="card custom-wizard-view">
+							<div class="card-body">
+								<div id="wizard1">
+									<h5>Personal</h5>
+									<section>
+										<div>
+											<div id="wizard3">
+												<h3>Personal Details</h3>
+												<section>
+													<form method="POST" role="form" enctype="multipart/form-data" id="personalDetails">
+														{% csrf_token %}
+														<div class="row">
+															<div class="col-md-6">
+																<div class="control-group form-group">
+																	<label class="form-label">First Name</label>
+																	<input type="text" maxlength="20" class="form-control required" id="firstname" name="firstName"
+																		value="{{request.user.first_name}}" placeholder="First Name" readonly>
+																</div>
+															</div>
+															<div class="col-md-6">
+																<div class="control-group form-group">
+																	<label class="form-label">Last Name</label>
+																	<input type="text" maxlength="20" class="form-control required" name="lastName" value="{{request.user.last_name}}"
+																		placeholder="Last Name" readonly>
+																</div>
+															</div>
+														</div>
+
+														<div class="row">
+															<div class="col-md-6">
+																<div class="control-group form-group">
+																	<label class="form-label">Email</label>
+																	<input type="email" class="form-control required" maxlength="70" id="email" name="emailAddress" value="{{request.user.email}}"
+																		placeholder="Email Address" readonly>
+																</div>
+															</div>
+															<div class="col-md-6">
+																<div class="control-group form-group">
+																	<label class="form-label">Phone No</label>
+																	<input type="number" class="form-control maxlength="10" required" name="phone"
+																		placeholder="Enter phone no" value="{{candid_basic_details.contact}}">
+																</div>
+															</div>
+														</div>
+
+														<div class="row">
+															<div class="col-md-6">
+																<div class="control-group form-group">
+																	<label class="form-label">Select Country</label>
+																		<select class="form-control required" onChange="getState(this.value)" name="country">
+																			<option label="Choose one"></option>
+																			{% for countrys in country %}
+																				<option value="{{countrys.id}}" >{{countrys.country_name}}</option>
+																			{% endfor %}
+																		</select>
+																</div>
+															</div>
+															<div class="col-sm-6">
+																<div class="control-group form-group">
+																	<label class="form-label">Select State</label>
+																	<div id="statediv">
+																		<select class="form-control required" id="c_state" name="state">
+																			<option label="Choose one">
+																			</option>
+																		</select>
+																	</div>
+																</div>
+															</div>
+														</div>
+
+														<div class="row">
+															<div class="col-md-6">
+																<div class="control-group form-group">
+																	<label class="form-label">Select City</label>
+																	<div id="citydiv">
+																		<select class="form-control required" name="city">
+																			<option label="Choose one"></option>
+																		</select>
+																	</div>
+																</div>
+															</div>
+															<div class="col-md-6 mt-1">
+																<div class="control-group form-group">
+																	<label class="form-label">Birth Date</label>
+																	<div class="input-group">
+																		<input class="form-control required" name="dob" id="c_dob"
+																			placeholder="DD/MM/YYYY" type="text" readonly>
+																	</div>
+																</div>
+															</div>
+														</div>
+														<div class="row">
+															<div class="col-md-6">
+																<div class="control-group form-group">
+																	<label class="form-label">Gender {{candid_basic_details.gender}}</label>
+																	<select class="form-control required" name="gender">
+																		<option label="Choose one"></option>
+																		 {% for type in gender %}
+																			<option value="{{type.id}}" {% ifequal type.name|lower candid_basic_details.gender|lower %} selected {% endifequal %}>{{type.name}}</option>
+																		 {% endfor %}
+																	</select>
+																</div>
+															</div>
+															<div class="col-md-6 mt-1">
+																<div class="control-group form-group">
+																	<label class="form-label">Maritial Status</label>
+																	<select class="form-control required" name="marital_status">
+																		<option label="Choose one"></option>
+																		 {% for type in maritial_type %}
+																				<option value="{{type.id}}">{{type.name}}</option>
+																		 {% endfor %}
+																	</select>
+																</div>
+															</div>
+														</div>
+
+														<div class="row">
+															<div class="col-md-6">
+																<div class="control-group form-group">
+																	<label class="form-label required">Address</label>
+																	<textarea class="form-control required" maxlength="200" placeholder="Textarea" name="address"
+																		rows="3"></textarea>
+																</div>
+															</div>
+															<div class="col-md-6">
+																<div class="mg-t-10 mg-sm-t-0">
+																	<div class="control-group form-group">
+																		<label class="form-label" for="user_photo">
+																			Photo
+																			<br>
+																			<img id="file-ip-1-preview" style="width: 100px;height: 100px;"
+																				 src="https://i.ibb.co/ZVFsg37/default.png" alt="Profile Image">
+																		</label>
+																		<input   name="user_image" class="form-control required candidate_image" id="user_photo"
+																			   type="file" accept="image/*"  onchange="showPreviewOne(event);">
+																	</div>
+																</div>
+															</div>
+														</div>
+
+														<div class="row">
+															<div class="col-md-6">
+																<div class="control-group form-group">
+																	<label class="form-label">Designation</label>
+																	<input type="text" maxlength="50" class="form-control required" name="designation"
+																		placeholder="Designation" value="{{candid_basic_details.designation}}">
+																</div>
+															</div>
+															<div class="col-md-6">
+																<div class="control-group form-group">
+																	<label class="form-label">Total Experience</label>
+																	<div class="row row-sm">
+																		<div class="col-md-6 col-sm-6">
+																			<select class="form-control required" name="total_experience_year">
+																				<option label="Years"></option>
+																				 {% for i in exp_years %}
+																					<option value="{{i}}" {% ifequal candid_basic_details.total_exper|get_experiance_y i %} selected {% endifequal %}>{{i}}</option>
+																				 {% endfor %}
+																			</select>
+																		</div>
+																		<div class="col-md-6 col-sm-6 mg-t-10 mg-sm-t-0">
+																			<select class="form-control required" name="total_experience_month">
+																				<option label="Month"></option>
+																				{% for i in exp_months %}
+																					<option value="{{i}}" {% ifequal candid_basic_details.total_exper|get_experiance_m i %} selected {% endifequal %}>{{i}}</option>
+																				{% endfor %}
+																			</select>
+																		</div>
+																	</div>
+																</div>
+															</div>
+														</div>
+														<div class="row">
+															<div class="col-md-6">
+																<div class="control-group form-group">
+																	<label class="form-label">Current Salary(Annual)</label>
+																	<input type="number" maxlength="3" class="form-control required" name="current_salary"
+																		placeholder="Current Salary">
+																</div>
+															</div>
+															<div class="col-md-6">
+																<div class="control-group form-group">
+																	<div class="check-SalInputVisible">
+																		<label class="form-label">Expected salary(Annual in %)</label>
+																		<fieldset class="question d-flex">
+																			<input class="coupon_question" type="checkbox" name="salary_checkbox" value="1" />
+																			<label class="ckbox">As per
+																				company standard OR</label>
+																		</fieldset>
+																	</div>
+																	<!-- <input type="checkbox" id="checkbox1" checked="checked" /> -->
+																	<div class="form-group mg-b-20 salery-inputs">
+																		
+																		<fieldset class="answer">
+																			<div class="row">
+																				<div class="col-md-6 form-group">
+																					<input type="number"  name="expected_salary_min"
+																						id="coupon_field" class="form-control required"
+																						placeholder="Min(%)" min="1" max="100" />
+																				</div>
+																				<div class="col-md-6">
+																					<input type="number"
+																						id="coupon_field" class="form-control required"  name="expected_salary_max"
+																						placeholder="Max(%)" min="0" max="100" />
+																				</div>
+																			</div>
+																		</fieldset>
+																	</div>
+																</div>
+															</div>
+														</div>
+
+														<div class="row">
+															<div class="col-md-6">
+																<div class="control-group form-group">
+																	<label class="form-label">Notice Period</label>
+																	<div class="row-sm-sm">
+																		<select class="form-control required" name="notice_period">
+																			<option label="Choose one"></option>
+																			{% for notice in notice_period %}
+																				<option value="{{notice.id}}" {% ifequal notice.id candid_basic_details.notice.id %} selected {% endifequal %}>{{notice.notice_period}}</option>
+																			{% endfor %}
+																		</select>
+																	</div>
+																</div>
+															</div>
+															<div class="col-md-6">
+																<div class="control-group form-group perf-city-selector">
+																	<label class="form-label">Preferred Cities</label>
+																	<div class="row-sm-sm">
+																		<select class="form-control selectPreferredCities" required multiple="multiple" name="preferred_cities">
+																			{% if candid_basic_details.prefered_city %}
+																				{% for city in candid_basic_details.prefered_city.all %}
+																				<option value="{{city.id}}" selected>{{city.city_name}}</option>
+																				{% endfor %}
+																			{% endif %}
+																		</select>
+																	</div>
+																</div>
+															</div>
+														</div>
+														<div class="row">
+															<div class="col-md-6">
+																<div class="control-group form-group">
+																	<label class="form-label">Industry Type</label>
+																	<div class="row-sm-sm">
+																		<select class="form-control required" name="industry_type">
+																			<option label="Choose Industry Type">
+																			</option>
+																			{% for industry in industry_type %}
+																				<option value="{{industry.id}}">{{industry.name}}</option>
+																			{% endfor %}
+																		</select>
+																	</div>
+																</div>
+															</div>
+														</div>
+														<div class="row">
+															<div class="col-md-12">
+																<div class="control-group form-group">
+																	<label class="form-label">Technical Knowledge:</label>
+																	<textarea id="technical-knowledge" name="technical-knowledge"></textarea>
+																</div>
+															</div>
+														</div>
+														<div class="row">
+															<div class="col-md-12">
+																<div class="control-group form-group">
+																	<label class="form-label">About You:</label>
+																	<textarea class="form-control required" maxlength="450" id="about-you" name="about-me"></textarea>
+																</div>
+															</div>
+														</div>
+													</form>
+												</section>
+												<!-- Education -->
+												<h3 style="display:none">Education/certificate</h3>
+												<section>
+													<h3>Education</h3>
+													<div id="education-section" class="section-border">
+														<form method="POST" role="form" enctype="multipart/form-data" id="EducationForm">
+															<div id="c_education">
+																<div class="element" id="single_education">
+																	<input style="display:none" class="record_id" value="1" id="1" type="text">
+																	<div class="row">
+																	 <div class="col-md-6">
+																		<div class="control-group form-group">
+																		   <label class="form-label">Degree</label>
+																		   <input type="text" name="degree" class="form-control required" id="c_degree1"
+																			  placeholder="Degree" maxlength="20">
+																		</div>
+																	 </div>
+																	 <div class="col-md-6">
+																		<div class="control-group form-group">
+																		   <label class="form-label">University / Board</label>
+																		   <input type="text" name="university" class="form-control required" id="c_university1" maxlength="20"
+																			  placeholder="Last Name">
+																		</div>
+																	 </div>
+																	</div>
+																	<div class="row">
+																		<div class="col-md-6">
+																		<div class="control-group form-group">
+																		   <label class="form-label">Grade / Percentage</label>
+																		   <input name="grade" maxlength="10" class="form-control required" id="c_grade1"
+																			  placeholder="Percentage">
+																		</div>
+																	 </div>
+																		<div class="col-md-6">
+																			<div class="control-group form-group">
+																			   <label class="form-label">Start Date</label>
+																			   <div class="row">
+																				  <div class="control-group form-group col-md-6">
+																						<select class="form-control required" name="edu_start_month1" id="edu_start_month1">
+																							<option label="Month"></option>
+																							 {% for i in months %}
+																								<option value="{{i.id}}">{{i.name}}</option>
+																							 {% endfor %}
+																						</select>
+																				  </div>
+																				  <div class="control-group form-group col-md-6">
+																					 <div class="input-group">
+																						 <select class="form-control required year"  name="edu_start_year1" id="edu_start_year1">
+																							<option label="Year"></option>
+																						</select>
+																					 </div>
+																				  </div>
+																			   </div>
+																			</div>
+																		</div>
+																	</div>
+																	<div class="row">
+																		<div class="col-md-6">
+																			<div class="control-group form-group">
+																			   <label class="form-label">End Date</label>
+																			   <div class="row">
+																				  <div class="control-group form-group col-md-6">
+																						<select class="form-control required" name="edu_end_month" id="edu_end_month1">
+																							<option label="Month"></option>
+																							 {% for i in months %}
+																								<option value="{{i.id}}">{{i.name}}</option>
+																							 {% endfor %}
+																						</select>
+																				  </div>
+																				  <div class="control-group form-group col-md-6">
+																					 <div class="input-group">
+																						 <select class="form-control required year" name="edu_end_year" id="edu_end_year1">
+																							<option label="Year"></option>
+																						</select>
+																					 </div>
+																				  </div>
+																			   </div>
+																			</div>
+																		</div>
+																	 	<div class="col-md-6">
+																		<div class="control-group form-group">
+																		   <label class="form-label">Certificate</label>
+																		   <div class="input-group file-browser">
+																			  <input type="text"
+																				 class="form-control border-right-0 browse-file"
+																				 placeholder="upload your file" readonly>
+																			  <label class="input-group-btn">
+																				 <span class=" btn-default">
+																					Browse <input type="file" id="edu_certificate1" style="display: none;" accept=".pdf" multiple>
+																				 </span>
+																			  </label>
+																		   </div>
+																		</div>
+																	 </div>
+																	</div>
+																	<div class="row">
+																	 	<div class="col-md-12">
+																		<div class="control-group form-group">
+																		   <label class="form-label">Summary</label>
+																		   <textarea class="form-control" maxlength="500" placeholder="Textarea" id="e_summary1"
+																			  rows="3"></textarea>
+																		</div>
+																	 </div>
+																	</div>
+																</div>
+
+															</div>
+															<button type="button" class="btn btn-primary add-morc" onclick="addMoreEducation(event)">
+																<span class="fas fa-plus"></span> Add Education
+															</button>
+															<br>
+															<div class="education-gap element" id="education_gap">
+																<div class="is_education_gap">
+																	<div class="row">
+																		<div class="col-md-6">
+																			<div class="control-group form-group">
+																				<div class="d-flex">
+																					<label class="form-label" for="gap_checkbox">If Education Gap</label>
+																					<input class="filled-in" style="margin:6px" id="gap_checkbox" type="checkbox" name="gap_checkbox"/>
+																				</div>
+																			</div>
+																		</div>
+																		<div class="col-md-6 edu-gap-plus-button" style="text-align:right;display:none">
+																			<div class="control-group form-group" onclick="addEduGap(event)">
+																				<span class="fas fa-plus"></span>
+																			</div>
+																		</div>
+																	</div>
+																</div>
+																<div class="edu-gap-content" id="edu-gap-content" style="display:none">
+																	<div class="single_edu_gap">
+																		<input type="hidden" class="record_id" value="1" id="1">
+																		<div class="row">
+																			<div class="col-md-6">
+																				<div class="control-group form-group">
+																				    <label class="form-label">Start Date</label>
+																				    <div class="row">
+																						<div class="control-group form-group col-md-6">
+																							<select class="form-control required" name="edu_gap_start_month" id="edu_gap_start_month">
+																								<option label="Month"></option>
+																								 {% for i in months %}
+																									<option value="{{i.id}}">{{i.name}}</option>
+																								 {% endfor %}
+																							</select>
+																					    </div>
+																						<div class="control-group form-group col-md-6">
+																							 <div class="input-group">
+																								 <select class="form-control required year"  name="edu_gap_start_year" id="edu_gap_start_year">
+																									<option label="Year"></option>
+																								</select>
+																							 </div>
+																					  	 </div>
+																				    </div>
+																				</div>
+																			</div>
+																			<div class="col-md-6">
+																				<div class="control-group form-group">
+																					<label class="form-label">End Date</label>
+																					<div class="row">
+																						<div class="control-group form-group col-md-6">
+																							<select class="form-control required" name="edu_gap_end_month" id="edu_gap_end_month">
+																								<option label="Month"></option>
+																								 {% for i in months %}
+																									<option value="{{i.id}}">{{i.name}}</option>
+																								 {% endfor %}
+																							</select>
+																						</div>
+																						<div class="control-group form-group col-md-6">
+																							 <div class="input-group">
+																								 <select class="form-control required year"  name="edu_gap_end_year" id="edu_gap_end_year">
+																									<option label="Year"></option>
+																								</select>
+																							 </div>
+																						 </div>
+																					</div>
+																				</div>
+																			</div>
+																		</div>
+																		<div class="row">
+																			<div class="col-md-12">
+																				<div class="control-group form-group">
+																					<label class="form-label"></label>
+																					<input type="text" maxlength="250" class="form-control" id="gap_reason"
+																					name="gap_reason" placeholder="Reason">
+																				</div>
+																			</div>
+																		</div>
+																	</div>
+																</div>
+															</div>
+														</form>
+													</div>
+
+													<!-- certificate block-->
+													<div id="certificates-section">
+														<h3>Certificate</h3>
+														<section class="section-border">
+															<form method="POST" role="form" enctype="multipart/form-data" id="CertificatesForm">
+																<div id="candidateCertificate">
+																	<div class="element" id="candidate_single_certificate">
+																		<input style="display:none" class="record_id"
+																				value="1" id="1" type="text">
+																		<div class="row">
+																			<div class="col-md-6">
+																				<div class="control-group form-group">
+																					<label class="form-label">Certificate Name</label>
+																					<input type="text" maxlength="20" class="form-control required" id="c_certificate_name1" 
+																					name="certificate_name" placeholder="Certificate Name">
+																				</div>
+																			</div>
+																			<div class="col-md-6">
+																				<div class="control-group form-group">
+																					<label class="form-label">Certificate Organization</label>
+																					<input type="text" maxlength="20" class="form-control required" id="c_certificate_organization1"
+																					name="certificate_organization" placeholder="Organization">
+																				</div>
+																			</div>
+																		</div>
+																		<div class="row">
+																			<div class="col-md-6">
+																				<div class="col-md-6">
+																					<div class="control-group form-group">
+																						<label class="form-label">Year</label>
+																						 <select class="form-control required year" name="certificate_year" id="c_certificate_year1">
+																							<option label="Year"></option>
+																						</select>
+																					</div>
+																				</div>
+																			</div>
+																			<div class="col-md-6">
+																				<div class="control-group form-group">
+																					<label class="form-label">Upload Certificate :</label>
+																					<div class="input-group file-browser">
+																						<input type="text" maxlength="30"
+																							class="form-control border-right-0 browse-file"
+																							placeholder="upload your file" readonly="">
+																						<label class="input-group-btn">
+																							<span class=" btn-default">
+																								Browse
+																								<input type="file" name="certificate_file"
+																									id="c_certificate_file1"
+																									style="display: none;" class="form-control" multiple="">
+																							</span>
+																						</label>
+																					</div>
+																				</div>
+																			</div>
+																		</div>
+																		<div class="row">
+																			<div class="col-md-12">
+																				<div class="control-group form-group">
+																					<label class="form-label">Summary</label>
+																					<textarea class="form-control" maxlength="450" id="c_summary1"
+																						placeholder="Textarea" rows="3"></textarea>
+																				</div>
+																			</div>
+																		</div>
+																	</div>
+																</div>
+																<button type="button" class="btn btn-primary add-morc" onclick="addMoreCertificate(event)">
+																		<span class="fas fa-plus"></span> Add Certificate
+																</button>
+															</form>
+														</section>
+													</div>
+													<!-- end certificate block-->
+												</section>
+
+
+												<!-- Experiance portfolio  -->
+												<h3>Experience/Portfolio</h3>
+												<section>
+													<form method="POST" role="form" enctype="multipart/form-data" id="ExperienceForm">
+														{% csrf_token %}
+														<div id="work_experience" class="section-border">
+															<div id="single_work_experience" class="element">
+																<input style="display:none" class="record_id" value="1" id="1" type="text">
+																<div class="row">
+																	<div class="col-md-6">
+																		<div class="control-group form-group">
+																			<label class="form-label">Job Profile</label>
+																			<input type="text" maxlength="30" class="form-control required" id="c_job_profile1"
+																			value="" maxlength="20" placeholder="Profile">
+																		</div>
+																	</div>
+																	<div class="col-md-6">
+																		<div class="control-group form-group">
+																			<label class="form-label">Company Name</label>
+																			<input type="text" maxlength="50" class="form-control required" id="c_company_name1" name="company_name"
+																			value="" placeholder="Company name">
+																		</div>
+																	</div>
+																</div>
+																<div class="row">
+																	<div class="col-md-6">
+																		<div class="control-group form-group">
+																		   <label class="form-label">Start Date</label>
+																		   <div class="row">
+																			   <div class="control-group form-group col-md-6">
+																					<select class="form-control required" name="exp_start_month" id="exp_start_month1">
+																						<option label="Month"></option>
+																						 {% for i in months %}
+																							<option value="{{i.id}}">{{i.name}}</option>
+																						 {% endfor %}
+																					</select>
+																			   </div>
+																			   <div class="control-group form-group col-md-6">
+																				  <div class="input-group">
+																					 <select class="form-control required year"  name="exp_start_year" id="exp_start_year1">
+																						<option label="Year"></option>
+																					</select>
+																				  </div>
+																			   </div>
+																		   </div>
+																		</div>
+																	</div>
+																	<div class="col-md-6">
+																		<div class="control-group form-group">
+																		   <label class="form-label">
+																			   <div class="d-flex">
+																			   		End Date :
+																				   <input class="filled-in exp_current_checkbox"  style="margin: 3px 10px 0px 36px" id="exp_current_checkbox1"  type="checkbox" name="exp_current_checkbox1" />
+																				   <label class="form-label" for="exp_current_checkbox1">If Current</label>
+																				</div>
+																		   </label>
+																		   <div class="row" id="exp_end_date_section">
+																			   <div class="control-group form-group col-md-6">
+																					<select class="form-control required" name="exp_end_month" id="exp_end_month1">
+																						<option label="Month"></option>
+																						 {% for i in months %}
+																							<option value="{{i.id}}">{{i.name}}</option>
+																						 {% endfor %}
+																					</select>
+																			   </div>
+																			   <div class="control-group form-group col-md-6">
+																				  <div class="input-group">
+																					 <select class="form-control required year"  name="exp_end_year" id="exp_end_year1">
+																						<option label="Year"></option>
+																					</select>
+																				  </div>
+																			   </div>
+																		   </div>
+																		</div>
+																	</div>
+																</div>
+																<div class="row">
+																	<div class="col-md-6">
+																		<div class="control-group form-group">
+																			<label class="form-label">Salary(Monthly)</label>
+																			<div class="row row-sm">
+																				<div class="col-md-6 col-sm-6">
+																					<input type="number" maxlength="10" class="form-control required" id="w_start_salary1" name="w_start_salary1"
+																						placeholder="Start salary">
+																				</div>
+																				<div class="col-md-6 col-sm-6 mg-t-10 mg-sm-t-0" id="exp_end_salary_div">
+																					<input type="number" maxlength="10" class="form-control required" id="w_end_salary1" name="w_end_salary1" placeholder="End salary">
+																				</div>
+																			</div>
+																		</div>
+																	</div>
+																</div>
+																<div class="row">
+																	<div class="col-md-12">
+																		<div class="control-group form-group">
+																			<label class="form-label">Documents :</label>
+																			<div id="experience-files1">
+																				<div class="row">
+																					 <div class="col-sm-5">
+																						<input class="form-control input-sm" type="text" maxlength="20" id="w_document_name1" placeholder="Name of Document">
+																					</div>
+																					<div class="col-sm-5">
+																						<div class="input-group file-browser">
+																							<input type="text"
+																								class="form-control border-right-0 browse-file"
+																								placeholder="upload your file" readonly>
+																							<label class="input-group-btn">
+																								<span class=" btn-default">
+																									Browse <input type="file"  style="display: none;" id="w_document1"
+																										multiple>
+																								</span>
+																							</label>
+																						</div>
+																					</div>
+																					 <div class="col-sm-2">
+																						 <a onclick="addMoreFiles(1)"  title="" class="add-more"> <i data-v-e08301e8="" class="las la-plus"></i></a>
+																					 </div>
+																				</div>
+																			</div>
+
+																		</div>
+																	</div>
+																</div>
+																<div class="row">
+																	 <div class="col-md-12">
+																		<div class="control-group form-group">
+																			<label class="form-label">Job description</label>
+																			<textarea class="form-control" maxlength="500" id='w_job_description1' placeholder="Textarea"
+																				rows="3"></textarea>
+																		</div>
+																	</div>
+																</div>
+															</div>
+														</div>
+														<button type="button" class="btn btn-primary add-morc" onclick="addMoreExperience(event)">
+															<span class="fas fa-plus"></span> Add Experience
+														</button>
+														<br>
+														<div class="experience-gap element" id="experience_gap">
+															<div class="is_experience_gap">
+																<div class="row">
+																	<div class="col-md-6">
+																		<div class="control-group form-group">
+																			<div class="row">
+																				<label class="form-label" for="exp_gap_checkbox">If Experience Gap</label>
+																				<input class="filled-in" style="margin:6px" id="exp_gap_checkbox" type="checkbox" name="exp_gap_checkbox" />
+																			</div>
+																		</div>
+																	</div>
+																	<div class="col-md-6 exp-gap-plus-button" style="text-align:right;display:none">
+																		<div class="control-group form-group" onclick="addExpGap(event)">
+																			<span class="fas fa-plus"></span>
+																		</div>
+																	</div>
+																</div>
+															</div>
+															<div class="exp-gap-content" id="exp-gap-content" style="display:none">
+																<div class="single_exp_gap">
+																	<input type="hidden" class="record_id" value="1" id="1">
+																	<div class="row">
+																		<div class="col-md-6">
+																			<div class="control-group form-group">
+																				<label class="form-label">Start Date</label>
+																				<div class="row">
+																					<div class="control-group form-group col-md-6">
+																						<select class="form-control" name="exp_gap_start_month" id="exp_gap_start_month">
+																							<option label="Month"></option>
+																							 {% for i in months %}
+																								<option value="{{i.id}}">{{i.name}}</option>
+																							 {% endfor %}
+																						</select>
+																					</div>
+																					<div class="control-group form-group col-md-6">
+																						 <div class="input-group">
+																							 <select class="form-control year" name="exp_gap_start_year" id="exp_gap_start_year">
+																								<option label="Year"></option>
+																							</select>
+																						 </div>
+																					 </div>
+																				</div>
+																			</div>
+																		</div>
+																		<div class="col-md-6">
+																			<div class="control-group form-group">
+																				<label class="form-label">End Date</label>
+																				<div class="row">
+																					<div class="control-group form-group col-md-6">
+																						<select class="form-control" name="exp_gap_end_month" id="exp_gap_end_month">
+																							<option label="Month"></option>
+																							 {% for i in months %}
+																								<option value="{{i.id}}">{{i.name}}</option>
+																							 {% endfor %}
+																						</select>
+																					</div>
+																					<div class="control-group form-group col-md-6">
+																						 <div class="input-group">
+																							 <select class="form-control year"  name="exp_gap_end_year" id="exp_gap_end_year">
+																								<option label="Year"></option>
+																							</select>
+																						 </div>
+																					 </div>
+																				</div>
+																			</div>
+																		</div>
+																	</div>
+																	<div class="row">
+																		<div class="col-md-12">
+																			<div class="control-group form-group">
+																				<label class="form-label"></label>
+																				<input type="text" maxlength="250" class="form-control" id="gap_reason"
+																				name="gap_reason" placeholder="Reason">
+																			</div>
+																		</div>
+																	</div>
+																</div>
+															</div>
+														</div>
+													</form>
+
+													<!-- Experiance End -->
+
+
+													<!-- portfolio  -->
+													<form method="POST" role="form" enctype="multipart/form-data" id="PortfolioForm">
+														<div id="Portfolio-section" class="section-sart">
+														<h3>Portfolio</h3>
+														<div id="portfolios" class="section-border">
+															<div id="single_portfolio" class="element">
+																<input style="display:none" class="record_id" value="1" id="1" type="text">
+																<div class="row">
+																	<div class="col-md-6">
+																		<div class="control-group form-group">
+																			<label class="form-label">Project Title</label>
+																			<input type="text" maxlength="20" class="form-control" id="project_title1"
+																				placeholder="Project title">
+																		</div>
+																	</div>
+																	<div class="col-md-6">
+																		<div class="control-group form-group">
+																			<label class="form-label">Description</label>
+																			<input type="text" maxlength="250" class="form-control" id="project_description1"
+																				placeholder="Description">
+																		</div>
+																	</div>
+																</div>
+																<div class="row">
+																	<div class="col-md-6">
+																		<div class="col-md-6">
+																			<div class="control-group form-group">
+																				<div class="control-group form-group">
+																					<label class="form-label">Year</label>
+																					 <select class="form-control year" name="certificate_year" id="project_year1">
+																						<option label="Year"></option>
+																					</select>
+																				</div>
+																			</div>
+																		</div>
+																	</div>
+																	<div class="col-md-6">
+																		<div class="control-group form-group">
+																			<label class="form-label">Project Links</label>
+																			<input class="form-control" id="project_website1" type="url" placeholder="http://www.example.com">
+																		</div>
+																	</div>
+																</div>
+
+																<div class="row">
+																	<div class="col-md-6">
+																		<div class="control-group form-group">
+																			<label class="form-label">Project Related Document</label>
+																			<div class="input-group file-browser">
+																				<input type="text"
+																					class="form-control border-right-0 browse-file"
+																					placeholder="upload your file" readonly>
+																				<label class="input-group-btn">
+																					<span class="btn-default">
+																						Browse <input type="file" style="display: none;" id="project_document1">
+																					</span>
+																				</label>
+																			</div>
+																		 </div>
+																	</div>
+																</div>
+																<div class="row">
+																	<div class="col-md-12">
+																		<div class="control-group form-group">
+																			<label class="form-label">Learning from project</label>
+																			<textarea class="form-control" maxlength="450" placeholder="Textarea" id="project_learning1"
+																				rows="3"></textarea>
+																		</div>
+																	</div>
+																</div>
+															</div>
+														</div>
+														<button type="button" class="btn btn-primary add-morc" onclick="addMorePortfolio(event)">
+																<span class="fas fa-plus"></span> Add Portfolio
+														</button>
+													</div>
+													</form>
+												</section>
+
+
+												<h3>Skills</h3>
+												<section>
+													<form method="POST" role="form" enctype="multipart/form-data" id="SkillForm">
+														<div id="all_skill" class="section-border">
+														<div id="single_skill" class="element">
+														<input style="display:none" class="record_id" value="1" id="1" type="text">
+														<div class="row">
+															<div class="col-md-4">
+																<div class="control-group form-group">
+																	<label class="form-label">Skill Name</label>
+																	<input type="text" maxlength="50" class="form-control required" id="c_skill_name1"
+																		placeholder="Skill Name">
+																</div>
+															</div>
+															<div class="col-md-4">
+																<div class="control-group form-group">
+																	<label class="form-label">Total experience</label>
+																	<select class="form-control required" name="skill_total_experience" id="skill_total_experience1">
+																		<option label="Years"></option>
+																		 {% for i in exp_years %}
+																			<option value="{{i}}">{{i}}</option>
+																		 {% endfor %}
+																	</select>
+																</div>
+															</div>
+															<div class="col-md-4">
+																<div class="control-group form-group">
+																	<label class="form-label">Last Used(Year)</label>
+																	 <select class="form-control required skill_year" name="last_used" id="last_used1">
+																		<option label="Year"></option>
+																		<option value="present" selected>Present</option>
+																	</select>
+																</div>
+															</div>
+														</div>
+													</div>
+													</div>
+													</form>
+
+													<button type="button" class="btn btn-primary add-morc" onclick="addMoreSkill(event)">
+															<span class="fas fa-plus"></span> Add Skill
+													</button>
+												</section>
+												<!-- skill End -->
+												<h3>Other</h3>
+												<section>
+													<!-- Awards -->
+													<h3 class="title-section">Awards</h3>
+													<form method="POST" role="form" enctype="multipart/form-data" id="AwardForm">
+														<div id="all_awards" class="section-border">
+															<div id="single_award" class="element">
+																<input style="display:none" class="record_id" value="1" id="1" type="text">
+																<div class="row">
+																	<div class="col-md-4">
+																		<div class="control-group form-group">
+																			<label class="form-label">Award Title</label>
+																			<input type="text" maxlength="30" class="form-control" id="award_title1"
+																				   name="award_title" placeholder="Award title">
+																		</div>
+																	</div>
+																	<div class="col-md-4">
+																		<div class="control-group form-group">
+																			<label class="form-label">Year</label>
+																			 <select class="form-control year" name="award_date" id="award_date1">
+																				<option label="Year"></option>
+																			</select>
+																		</div>
+																	</div>
+																	<div class="col-md-4">
+																		<div class="control-group form-group">
+																			<label class="form-label">Awarder</label>
+																			<input type="text" maxlength="30" class="form-control required"
+																			id="awarder1" name="awarder" placeholder="Awarder">
+																		</div>
+																	</div>
+																</div>
+															</div>
+														</div>
+														<button type="button" class="btn btn-primary add-morc" onclick="addMoreAwards(event)">
+																<span class="fas fa-plus"></span> Add Award
+														</button>
+													</form>
+													<!-- Awards end-->
+													<br>
+													<!-- Languages -->
+													<h3 class="title-section">Languages</h3>
+													<form method="POST" role="form" enctype="multipart/form-data" id="LanguageForm">
+														<div id="languages" class="section-border">
+															<div id="single_language" class="element">
+																<input style="display:none" class="record_id" value="1" id="1" type="text">
+																<div class="row">
+																	<div class="col-md-6">
+																		<div class="control-group form-group">
+																			<label for="c_language1" class="form-label">Select language</label>
+																			<select class="form-control required" id="c_language1" name="language">
+																				<option label="Choose one"></option>
+																				{% for languages in language %}
+																				<option value="{{languages.id}}">{{languages.language_name}}</option>
+																				{% endfor %}
+																			</select>
+																		</div>
+																	</div>
+																	<div class="col-sm-6">
+																		<div class="control-group form-group">
+																			<label for="c_fluency1" class="form-label">Select
+																				Fluency</label>
+																			<select class="form-control required" id="c_fluency1" name="fluency">
+																				<option label="Choose one"></option>
+																				{% for fluencys in fluency %}
+																					<option value="{{fluencys.id}}">{{fluencys.fluency}}</option>
+																				{% endfor %}
+																			</select>
+																		</div>
+																	</div>
+																</div>
+															</div>
+														</div>
+														<button type="button" class="btn btn-primary add-morc" onclick="addMoreLanguage(event)">
+															<span class="fas fa-plus"></span> Add Language
+														</button>
+													</form>
+													<!-- Languages end-->
+
+													<br>
+													<!-- social network -->
+													<h3 class="title-section">Social Network</h3>
+													<form method="POST" role="form" enctype="multipart/form-data" id="socialForm">
+														<div id="candidateSocial" class="section-border">
+															<div id="candidate_single_social_network" class="element">
+																<input style="display:none" class="record_id" value="1" id="1" type="text">
+																<div class="row">
+																	<div class="col-md-6">
+																		<div class="control-group form-group">
+																			<input type="hidden" id="network_name1" name='network_name'>
+																			<label class="form-label">Network</label>
+																			<select class="demo-htmlselect" id="network_name1" name="network-name" class="form-control required">
+																				<option value="facebook"  data-imagesrc="https://www.logo.wine/a/logo/Facebook/Facebook-f_Logo-Blue-Logo.wine.svg"  >Facebook</option>
+																				<option value="twitter"  data-imagesrc="https://www.logo.wine/a/logo/Twitter/Twitter-Logo.wine.svg">Twitter</option>
+																				<option value="github"  data-imagesrc="{%get_media_prefix%}gf.png">Github</option>
+																			</select>
+<!--																			<input type="text" maxlength="20" class="form-control required" id="network_name1"-->
+<!--																			value="" name="Network" placeholder="Network">-->
+																		</div>
+																	</div>
+																	<div class="col-md-6">
+																		<div class="control-group form-group">
+																			<label class="form-label">Network Url</label>
+																			<input type="text" maxlength="30" class="form-control required" id="network_url1"
+																			value="" name="network_url" placeholder="Network url">
+																		</div>
+																	</div>
+																</div>
+															</div>
+														</div>
+														<button type="button" class="btn btn-primary add-morc" onclick="addMoreNetwork(event)">
+															<span class="fas fa-plus"></span> Add Social Network
+														</button>
+													</form>
+													<!-- social network end -->
+
+												</section>
+											</div>
+										</div>
+									</section>
+									<h5>Resume</h5>
+									<section class="upload-custom-file">
+										<div class="row">
+											<div class="col-md-6">
+												<label class="form-label">Upload Resume</label>
+												<form method="POST" style="width: 100%;height: 100%;border: 4px dashed black;" role="form" enctype="multipart/form-data">
+													{% csrf_token %}
+													 <input style="position: absolute;width: 100%;height: 100%;opacity: 0" accept=".jpg,.jpeg,.doc,.docx,.pdf" class="form-control required" name="candidate_resume" type="file" id="file-upload">
+													<p style="text-align: center;margin-top: 55px;color: black;font-family: Arial;">Drag your files here or click in this area.</p>
+													<div style="font-weight: 500;text-align: center;" id="file-upload-filename"></div>
+												</form>
+											</div>
+											<div class="col-md-6 align-self-center" style="text-align:center">
+												<label class="form-label">Make Resume Password Protected</label>
+												<button type="button" id="createpass" class="btn btn-primary" data-toggle="modal" data-target="#ResumePasswordModal1">
+													<span class="fas fa-lock"></span>&nbsp;Create Password
+												</button>
+																								<div
+												class="tx-danger" id="create_password_error"></div>
+												<input type="hidden" id="is_created" value="0">
+												<div class="modal fade" id="ResumePasswordModal1" tabindex="-1"
+													 role="dialog" aria-labelledby="ResumePasswordModal"
+													 aria-hidden="true">
+													<div class="modal-dialog modal-dialog-centered" role="document">
+														<div class="modal-content">
+															<div class="modal-header">
+																<h5 class="modal-title" id="exampleModalLongTitle">
+																	Create Password</h5>
+																<button type="button" class="close" data-dismiss="modal"
+																		aria-label="Close">
+																	<span aria-hidden="true">&times;</span>
+																</button>
+															</div>
+															<form method="POST" onsubmit="return false;" id="ResumePasswordForm"  role="form" enctype="multipart/form-data">
+																{% csrf_token %}
+																<div class="modal-body">
+																		<div class="control-group form-group">
+																			<label for="resume-pass" class="form-label">Enter Password:</label>
+																			<input type="password" class="form-control required" name="resume-pass"
+																				   id="resume-pass">
+																				   <div class="tx-danger" id="create_password_modal_error"></div>
+																		</div>
+																 </div>
+																<div class="modal-footer">
+																	<button type="button" class="btn btn-secondary"
+																			data-dismiss="modal">Close
+																	</button>
+																	<button type="button" id="submit-resume-pass" class="btn btn-primary">Create
+																	</button>
+																</div>
+															</form>
+
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+<!--										<form method="POST" name="ResumePassword" role="form" enctype="multipart/form-data">-->
+<!--											-->
+<!--										</form>-->
+									</section>
+									<h5>Profile Theme</h5>
+									<form method="POST" name="TEST_FORM" id="TEST_FORM" action="{% url 'candidate:test_redirect' %}" role="form" enctype="multipart/form-data">
+										{% csrf_token %}
+									</form>
+									<section>
+										<div class="row">
+											<div class="col-md-3">
+												{% for theme in profile_themes %}
+												<img src="{{theme.image.url}}">
+												<br><br>
+												<div class="align-self-center" style="text-align: center">
+													<input type="radio" checked readonly>
+												</div>
+												{% endfor %}
+											</div>
+											<div class="col-md-2 align-self-center" style="text-align: center">
+												<b><span>OR</span></b>
+											</div>
+											<div class="col-md-3">
+												<img src="{% static 'assets/img/coming_soon_theme.jpg' %}">
+												<br><br>
+												<div class="align-self-center" style="text-align: center">
+													<input type="radio" disabled>
+												</div>
+											</div>
+										</div>
+									</section>
+								</div>
+
+							</div>
+						</div>
+					</div>
+				</div>
+				<!-- /row -->
+			</div>
+{% endblock %}
+{% block script %}
+
+	<!-- Jquery.steps js -->
+	<!--	<script src="{% static 'assets/plugins/jquery-steps/build/jquery.steps.min.js' %}"></script>-->
+	<script src="https://ajax.aspnetcdn.com/ajax/jquery.validate/1.11.1/jquery.validate.min.js"></script>
+
+	<script src="{% static 'assets/plugins/jquery-steps/build/jquery.steps.js' %}"></script>
+	<script src="{% static 'assets/plugins/parsleyjs/parsley.min.js' %}"></script>
+
+	<!--- Form-wizard js --->
+	<script src="{% static 'assets/js/form-wizard.js' %}"></script>
+
+	<!-- Select2.min js -->
+    <script src="{% static 'assets/plugins/select2/js/select2.min.js' %}"></script>
+	<!-- city state -->
+    <script src="{% static 'assets/js/main.js' %}"></script>
+
+	<!-- Datepicker js -->
+	<script src="{% static 'assets/plugins/jquery-ui/ui/widgets/datepicker.js' %}"></script>
+
+
+	<!-- form-elements js -->
+	<script src="{% static 'assets/js/form-elements.js' %}"></script>
+
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/tinymce/4.5.6/tinymce.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/tinymce/4.5.6/jquery.tinymce.min.js"></script>
+
+	<script>
+		function addMoreEducation(event){
+			education_dom = document.getElementById('c_education').querySelectorAll("#single_education");
+			last_education = education_dom[education_dom.length- 1];
+			record_id = Number($(last_education).find(".record_id")[0].value) + 1;
+			$('#c_education').append(`
+									<div class="element" id="single_education">
+										<i style="float:right;color:red" class="fa fa-trash" aria-hidden="true" onclick="deleteRecord(event,record_id,'education')"></i>
+										<input style="display:none" class="record_id" value="`+record_id+`" id="`+record_id+`" type="text">
+										<div class="row">
+										 <div class="col-md-6">
+											<div class="control-group form-group">
+											   <label class="form-label">Degree</label>
+											   <input type="text" class="form-control required" maxlength="30" name="degree`+record_id+`" id="c_degree`+record_id+`"
+												  placeholder="Degree">
+											</div>
+										 </div>
+										 <div class="col-md-6">
+											<div class="control-group form-group">
+											   <label class="form-label">University / Board</label>
+											   <input type="text" class="form-control" maxlength="30" name="university`+record_id+`"  id="c_university`+record_id+`"
+												  placeholder="Last Name" required>
+											</div>
+										 </div>
+										</div>
+										<div class="row">
+										 <div class="col-md-6">
+											<div class="control-group form-group">
+											   <label class="form-label">Grade/Percentage</label>
+											   <input type="number" class="form-control required" maxlength="10" name="grade`+record_id+`"  id="c_grade`+record_id+`"
+												  placeholder="Percentage">
+											</div>
+										 </div>
+										<div class="col-md-6">
+											<div class="control-group form-group">
+											   <label class="form-label">Start Date</label>
+											   <div class="row">
+												  <div class="control-group form-group col-md-6">
+														<select class="form-control required" name="edu_start_month" id="edu_start_month`+record_id+`">
+															<option label="Month"></option>
+															 {% for i in months %}
+																<option value="{{i.id}}">{{i.name}}</option>
+															 {% endfor %}
+														</select>
+												  </div>
+												  <div class="control-group form-group col-md-6">
+													 <div class="input-group">
+														 <select class="form-control required year"  name="edu_start_year" id="edu_start_year`+record_id+`">
+															<option label="Year"></option>
+														</select>
+													 </div>
+												  </div>
+											   </div>
+											</div>
+										</div>
+										</div>
+										<div class="row">
+										<div class="col-md-6">
+											<div class="control-group form-group">
+											   <label class="form-label">End Date</label>
+											   <div class="row">
+												  <div class="control-group form-group col-md-6">
+														<select class="form-control required" name="edu_end_month" id="edu_end_month`+record_id+`">
+															<option label="Month"></option>
+															 {% for i in months %}
+																<option value="{{i.id}}">{{i.name}}</option>
+															 {% endfor %}
+														</select>
+												  </div>
+												  <div class="control-group form-group col-md-6">
+													 <div class="input-group">
+														 <select class="form-control required year" name="edu_end_year" id="edu_end_year`+record_id+`">
+															<option label="Year"></option>
+														</select>
+													 </div>
+												  </div>
+											   </div>
+											</div>
+										</div>
+										 <div class="col-md-6">
+											<div class="control-group form-group">
+											   <label class="form-label">Certificate</label>
+											   <div class="input-group file-browser">
+												  <input type="text" maxlength="30"
+													 class="form-control border-right-0 browse-file"
+													 placeholder="upload your file" readonly>
+												  <label class="input-group-btn">
+													 <span class=" btn-default">
+														Browse <input type="file" id="edu_certificate`+record_id+`" style="display: none;"
+														   multiple>
+													 </span>
+												  </label>
+											   </div>
+											</div>
+										 </div>
+										</div>
+										<div class="row">
+										 <div class="col-md-12">
+											<div class="control-group form-group">
+											   <label class="form-label">Summary</label>
+											   <textarea class="form-control" maxlength="450" placeholder="Textarea" max_length="450" id="e_summary`+record_id+`"
+												  rows="3"></textarea>
+											</div>
+										 </div>
+										</div>
+									</div>
+								`)
+								console.log('e_summary', "#e_summary"+record_id)
+								tinymce.init({
+									selector: "#e_summary"+record_id,
+									menubar: false,
+									plugins: 'lists advlist',
+									toolbar: 'bullist numlist bold',
+									branding: 'False',
+								});
+		 }
+		function addMoreCertificate(event){
+			certificates_dom = document.getElementById('candidateCertificate').querySelectorAll("#candidate_single_certificate");
+			last_certificate = certificates_dom[certificates_dom.length- 1];
+			record_id = Number($(last_certificate).find(".record_id")[0].value) + 1;
+			$('#candidateCertificate').append(`
+				<div class="element" id="candidate_single_certificate">
+					<i style="float:right;color:red" class="fa fa-trash" aria-hidden="true" onclick="deleteRecord(event,record_id,'certificate')"></i>
+					<input style="display:none" class="record_id"
+							value="`+record_id+`" id="`+record_id+`" type="text">
+					<div class="row">
+						<div class="col-md-6">
+							<div class="control-group form-group">
+								<label class="form-label">Certificate Name</label>
+								<input type="text" class="form-control required" maxlength="50" name="name`+record_id+`" id="c_certificate_name`+record_id+`"
+								name="certificate_name" placeholder="Certificate Name">
+							</div>
+						</div>
+						<div class="col-md-6">
+							<div class="control-group form-group">
+								<label class="form-label">Certificate Organization</label>
+								<input type="text" class="form-control required" maxlength="50" name="organization`+record_id+`" id="c_certificate_organization`+record_id+`"
+								name="certificate_organization" placeholder="Organization">
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-6">
+							<div class="col-md-6">
+								<div class="control-group form-group">
+									<label class="form-label">Year</label>
+									 <select class="form-control required year" name="certificate_year" id="c_certificate_year1">
+										<option label="Year"></option>
+									</select>
+								</div>
+							</div>
+						</div>
+						<div class="col-md-6">
+							<div class="control-group form-group">
+								<label class="form-label">Upload Certificate :</label>
+								<div class="input-group file-browser">
+									<input type="text"
+										class="form-control border-right-0 browse-file"
+										placeholder="upload your file" maxlength="30" readonly="">
+									<label class="input-group-btn">
+										<span class=" btn-default">
+											Browse
+											<input type="file" name="certificate_file"
+												id="c_certificate_file`+record_id+`"
+												style="display: none;" multiple="">
+										</span>
+									</label>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-12">
+							<div class="control-group form-group">
+								<label class="form-label">Summary</label>
+								<textarea class="form-control" maxlength="450" id="c_summary`+record_id+`"
+									placeholder="Textarea" rows="3"></textarea>
+							</div>
+						</div>
+					</div>
+				</div>
+			`)
+			tinymce.init({
+				selector: "#c_summary"+record_id,
+				menubar: false,
+				plugins: 'lists advlist',
+				toolbar: 'bullist numlist bold',
+				branding: 'False',
+			});
+		}
+		function addMoreExperience(event){
+			work_experience_dom = document.getElementById('work_experience').querySelectorAll("#single_work_experience");
+			last_work_experience = work_experience_dom[work_experience_dom.length- 1];
+			var last_record_id = Number($(last_work_experience).find(".record_id")[0].value) + 1;
+			console.log('last_record_id',last_record_id)
+			$('#work_experience').append(`<div class="element" id="single_work_experience">
+				<i style="float:right;color:red" class="fa fa-trash" aria-hidden="true" onclick="deleteRecord(event,`+last_record_id+`,'work_experience')"></i>
+				<input style="display:none" class="record_id" value="`+last_record_id+`" id="`+last_record_id+`" type="text">
+				<div class="row">
+					<div class="col-md-6">
+						<div class="control-group form-group">
+							<label class="form-label">Job Profile</label>
+							<input type="text" class="form-control required" maxlength="50" name="job_profile`+last_record_id+`" id="c_job_profile`+last_record_id+`"
+							value="" placeholder="Profile">
+						</div>
+					</div>
+					<div class="col-md-6">
+						<div class="control-group form-group">
+							<label class="form-label">Company Name</label>
+							<input type="text" class="form-control required" maxlength="50" name="company_name`+last_record_id+`" id="c_company_name`+last_record_id+`"
+							value="" placeholder="Company name">
+						</div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-md-6">
+						<div class="control-group form-group">
+						   <label class="form-label">Start Date</label>
+						   <div class="row">
+							   <div class="control-group form-group col-md-6">
+									<select class="form-control required" name="exp_start_month`+last_record_id+`" id="exp_start_month`+last_record_id+`">
+										<option label="Month"></option>
+										 {% for i in months %}
+											<option value="{{i.id}}">{{i.name}}</option>
+										 {% endfor %}
+									</select>
+							   </div>
+							   <div class="control-group form-group col-md-6">
+								  <div class="input-group">
+									 <select class="form-control required year"  name="exp_start_year`+last_record_id+`" id="exp_start_year`+last_record_id+`">
+										<option label="Year"></option>
+									</select>
+								  </div>
+							   </div>
+						   </div>
+						</div>
+					</div>
+					<div class="col-md-6">
+						<div class="control-group form-group">
+						  <label class="form-label">
+							   <div class="d-flex">
+									End Date :
+								   <input class="filled-in exp_current_checkbox" style="margin: 3px 10px 0px 36px" id="exp_current_checkbox`+last_record_id+`"  type="checkbox" name="exp_current_checkbox" />
+								   <label class="form-label" for="exp_current_checkbox">If Current</label>
+								</div>
+						   </label>
+						   <div class="row" id="exp_end_date_section`+last_record_id+`">
+							   <div class="control-group form-group col-md-6">
+									<select class="form-control required" name="exp_end_month`+last_record_id+`" id="exp_end_month`+last_record_id+`">
+										<option label="Month"></option>
+										 {% for i in months %}
+											<option value="{{i.id}}">{{i.name}}</option>
+										 {% endfor %}
+									</select>
+							   </div>
+							   <div class="control-group form-group col-md-6">
+								  <div class="input-group">
+									 <select class="form-control required year" name="exp_end_year`+last_record_id+`" id="exp_end_year`+last_record_id+`">
+										<option label="Year"></option>
+									</select>
+								  </div>
+							   </div>
+						   </div>
+						</div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-md-6">
+						<div class="control-group form-group">
+							<label class="form-label">Salary(Monthly)</label>
+							<div class="row row-sm">
+								<div class="col-md-6 col-sm-6">
+									<input type="number" class="form-control required" maxlength="10" name="w_start_salary`+last_record_id+`" id="w_start_salary`+last_record_id+`"
+										placeholder="Start salary">
+								</div>
+								<div class="col-md-6 col-sm-6 mg-t-10 mg-sm-t-0" id="exp_end_salary_div`+last_record_id+`">
+									<input type="number" class="form-control required" maxlength="10" name="w_end_salary`+last_record_id+`" id="w_end_salary`+last_record_id+`" placeholder="End salary">
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-md-12">
+						<div class="control-group form-group">
+							<label class="form-label">Documents :</label>
+							<div id="experience-files`+last_record_id+`">
+								<div class="row">
+									 <div class="col-sm-5">
+										<input class="form-control input-sm" maxlength="30" type="text" id="w_document_name`+last_record_id+`" placeholder="Name of Document">
+									</div>
+									<div class="col-sm-5">
+										<div class="input-group file-browser">
+											<input type="text"
+												class="form-control border-right-0 browse-file"
+												placeholder="upload your file" readonly>
+											<label class="input-group-btn">
+												<span class=" btn-default">
+													Browse <input type="file" id="w_document`+last_record_id+`" style="display: none;" id="w_document1"
+														multiple>
+												</span>
+											</label>
+										</div>
+									</div>
+									 <div class="col-sm-2">
+										 <a onclick="addMoreFiles(`+last_record_id+`)"  title="" class="add-more"> <i data-v-e08301e8="" class="las la-plus"></i></a>
+									 </div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="row">
+					 <div class="col-md-12">
+						<div class="control-group form-group">
+							<label class="form-label">Job description</label>
+							<textarea class="form-control" maxlength="450" id='w_job_description`+last_record_id+`' placeholder="Textarea"
+								rows="3"></textarea>
+						</div>
+					</div>
+				</div>
+			</div>`)
+
+			var id = "exp_current_checkbox" + last_record_id;
+			var exp_end_date_section = "exp_end_date_section" + last_record_id;
+			var exp_end_salary_section = "exp_end_salary_div" + last_record_id;
+
+			var checkbox = document.getElementById(id)
+			var exp_end_date_div = document.getElementById(exp_end_date_section)
+			var exp_end_salary_div = document.getElementById(exp_end_salary_section)
+
+			checkbox.addEventListener('change', (event) => {
+				  if (event.currentTarget.checked) {
+				  			exp_end_date_div.style.display = "none";
+				  			exp_end_salary_div.style.display = "none";
+				  } else {
+							exp_end_date_div.style.removeProperty("display");
+				  			exp_end_salary_div.style.removeProperty("display");
+				  }
+			})
+
+			tinymce.init({
+				selector: "#w_job_description"+last_record_id,
+				menubar: false,
+				plugins: 'lists advlist',
+				toolbar: 'bullist numlist bold',
+				branding: 'False',
+			});
+    	}
+    	function addMorePortfolio(event){
+			portfolio_dom = document.getElementById('portfolios').querySelectorAll("#single_portfolio");
+			last_portfolio = portfolio_dom[portfolio_dom.length- 1];
+			record_id = Number($(last_portfolio).find(".record_id")[0].value) + 1;
+			$('#portfolios').append(`<div class="element" id="single_portfolio">
+				<i style="float:right;color:red" class="fa fa-trash" aria-hidden="true" onclick="deleteRecord(event,record_id,'portfolio')"></i>
+				<input style="display:none" class="record_id" value="`+record_id+`" id="`+record_id+`" type="text">
+				<div class="row">
+					<div class="col-md-6">
+						<div class="control-group form-group">
+							<label class="form-label">Project Title</label>
+							<input type="text" class="form-control" maxlength="50" name="project_title`+record_id+`" id="project_title`+record_id+`"
+								placeholder="Project title">
+						</div>
+					</div>
+					<div class="col-md-6">
+						<div class="control-group form-group">
+							<label class="form-label">Description</label>
+							<input type="text" class="form-control" maxlength="50" name="project_description`+record_id+`" id="project_description`+record_id+`"
+								placeholder="Description">
+						</div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-md-6">
+						<div class="col-md-6">
+							<div class="control-group form-group">
+								<div class="control-group form-group">
+									<label class="form-label">Year</label>
+									 <select class="form-control year" name="certificate_year" id="project_year`+record_id+`">
+										<option label="Year"></option>
+									</select>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="col-md-6">
+						<div class="control-group form-group">
+							<label class="form-label">Project Links</label>
+							<input type="text" class="form-control" name="project_website`+record_id+`"  id="project_website`+record_id+`"
+								placeholder="Project Links">
+						</div>
+					</div>
+				</div>
+
+				<div class="row">
+					<div class="col-md-6">
+						<div class="control-group form-group">
+							<label class="form-label">Project Related Documents</label>
+							<div class="input-group file-browser">
+								<input type="text"
+									class="form-control border-right-0 browse-file"
+									placeholder="upload your file" readonly>
+								<label class="input-group-btn">
+									<span class="btn-default">
+										Browse <input type="file" style="display: none;" id="project_document`+record_id+`">
+									</span>
+								</label>
+							</div>
+						 </div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-md-12">
+						<div class="control-group form-group">
+							<label class="form-label">Learning from project</label>
+							<textarea class="form-control" maxlength="450" placeholder="Textarea" id="project_learning`+record_id+`"
+								rows="3"></textarea>
+						</div>
+					</div>
+				</div>
+			</div>`)
+			tinymce.init({
+				selector: "#project_learning"+record_id,
+				menubar: false,
+				plugins: 'lists advlist',
+				toolbar: 'bullist numlist bold',
+				branding: 'False',
+			});
+		}
+		function addMoreSkill(event){
+			skill_dom = document.getElementById('all_skill').querySelectorAll("#single_skill");
+			last_skill = skill_dom[skill_dom.length- 1];
+			record_id = Number($(last_skill).find(".record_id")[0].value) + 1;
+			$('#all_skill').append(`<div class="element" id="single_skill">
+				<i style="float:right;color:red" class="fa fa-trash" aria-hidden="true" onclick="deleteRecord(event,record_id,'skill')"></i>
+				<input style="display:none" class="record_id" value="`+record_id+`" id="`+record_id+`" type="text">
+				<div class="row">
+					<div class="col-md-4">
+						<div class="control-group form-group">
+							<label class="form-label">Skill Name</label>
+							<input type="text" class="form-control required" maxlength="10" name="c_skill_name`+record_id+`" id="c_skill_name`+record_id+`"
+								placeholder="Skill Name">
+						</div>
+					</div>
+					<div class="col-md-4">
+						<div class="control-group form-group">
+							<label class="form-label">Total experience</label>
+							<select class="form-control required" name="skill_total_experience`+record_id+`" id="skill_total_experience`+record_id+`">
+								<option label="Years"></option>
+								 {% for i in exp_years %}
+									<option value="{{i}}">{{i}}</option>
+								 {% endfor %}
+							</select>
+						</div>
+					</div>
+					<div class="col-md-4">
+						<div class="control-group form-group">
+							<label class="form-label">Last Used(Year)</label>
+							 <select class="form-control required skill_year" name="last_used" id="last_used`+record_id+`">
+								<option label="Year"></option>
+								<option value="present" selected>Present</option>
+							</select>
+						</div>
+					</div>
+				</div>
+			</div>`)
+		}
+		function addMoreAwards(event){
+			award_dom = document.getElementById('all_awards').querySelectorAll("#single_award");
+			last_award_dom = award_dom[award_dom.length- 1];
+			record_id = Number($(last_award_dom).find(".record_id")[0].value) + 1;
+			$('#all_awards').append(`<div class="element" id="single_award">
+				<i style="float:right;color:red" class="fa fa-trash" aria-hidden="true" onclick="deleteRecord(event,record_id,'award')"></i>
+				<input style="display:none" class="record_id" value="`+record_id+`" id="`+record_id+`" type="text">
+				<div class="row">
+					<div class="col-md-4">
+						<div class="control-group form-group">
+							<label class="form-label">Award Title</label>
+							<input type="text" maxlength="50" class="form-control required" id="award_title`+record_id+`"
+							value="" name="award_title`+record_id+`" placeholder="Award title">
+						</div>
+					</div>
+					<div class="col-md-4">
+						<div class="control-group form-group">
+							<label class="form-label">Year</label>
+							 <select class="form-control required year" name="award_date`+record_id+`" id="award_date`+record_id+`">
+								<option label="Year"></option>
+							</select>
+						</div>
+					</div>
+					<div class="col-md-4">
+						<div class="control-group form-group">
+							<label class="form-label">Awarder</label>
+							<input type="text" maxlength="80" class="form-control required"
+							id="awarder`+record_id+`" name="awarder`+record_id+`" placeholder="Awarder">
+						</div>
+					</div>
+				</div>
+			</div>`)
+		}
+		function addMoreLanguage(event){
+			language_dom = document.getElementById('languages').querySelectorAll("#single_language");
+			last_language_dom = language_dom[language_dom.length- 1];
+			record_id = Number($(last_language_dom).find(".record_id")[0].value) + 1;
+			$('#languages').append(`<div class="element" id="single_language">
+				<i style="float:right;color:red" class="fa fa-trash" aria-hidden="true" onclick="deleteRecord(event,record_id,'language')"></i>
+				<input style="display:none" class="record_id" value="`+record_id+`" id="`+record_id+`" type="text">
+				<div class="row">
+					<div class="col-md-6">
+						<div class="control-group form-group">
+							<label for="c_language1" class="form-label">Select language</label>
+							<select class="form-control required" id="c_language`+record_id+`" name="language`+record_id+`">
+								<option label="Choose one"></option>
+								{% for languages in language %}
+								<option value="{{languages.id}}">{{languages.language_name}}</option>
+								{% endfor %}
+							</select>
+						</div>
+					</div>
+					<div class="col-sm-6">
+						<div class="control-group form-group">
+							<label for="c_fluency1" class="form-label">Select Fluency</label>
+							<select class="form-control required" id="c_fluency`+record_id+`" name="fluency`+record_id+`">
+								<option label="Choose one"></option>
+								{% for fluencys in fluency %}
+									<option value="{{fluencys.id}}">{{fluencys.fluency}}</option>
+								{% endfor %}
+							</select>
+						</div>
+					</div>
+				</div>
+			</div>`)
+		}
+		function addMoreNetwork(event){
+			network_dom = document.getElementById('candidateSocial').querySelectorAll("#candidate_single_social_network");
+			last_network_dom = network_dom[network_dom.length- 1];
+			record_id = Number($(last_network_dom).find(".record_id")[0].value) + 1;
+			$('#candidateSocial').append(`<div class="element" id="candidate_single_social_network">
+				<i style="float:right;color:red" class="fa fa-trash" aria-hidden="true" onclick="deleteRecord(event,record_id,'social')"></i>
+				<input style="display:none" class="record_id" value="`+record_id+`" id="`+record_id+`" type="text">
+				<div class="row">
+					<div class="col-md-6">
+						<div class="control-group form-group">
+							<input type="hidden" id="network_name`+ record_id +`" name='network_name'>
+								<label class="form-label">Network</label>
+								<select class="demo-htmlselect_new" id="network_name_`+ record_id +`" name="network-name" class="form-control required">
+									<option value="facebook"  data-imagesrc="https://www.logo.wine/a/logo/Facebook/Facebook-f_Logo-Blue-Logo.wine.svg"  >Facebook</option>
+									<option value="twitter"  data-imagesrc="https://www.logo.wine/a/logo/Twitter/Twitter-Logo.wine.svg">Twitter</option>
+									<option value="github"  data-imagesrc="{%get_media_prefix%}gf.png">Github</option>
+								</select>
+						</div>
+					</div>
+					<div class="col-md-6">
+						<div class="control-group form-group">
+							<label class="form-label">Network Url</label>
+							<input type="text" class="form-control required" maxlength="50" name="network_url`+record_id+`" id="network_url`+record_id+`"
+							value="" name="network_url" placeholder="Network url">
+						</div>
+					</div>
+				</div>
+			</div>`)
+			$('.demo-htmlselect_new').each(function(index,element){
+				$(element).ddslick({
+					onSelected: function(data){
+						console.log("==========>",element.id)
+						network_id = element.id
+
+						// element.parentElement.find('#network_name').value =data.selectedData.value;
+						document.getElementById(network_id).parentElement.querySelector('#network_name'+record_id).value = data.selectedData.value
+						// $('#editcflag').submit();
+					}
+				});
+			});
+		}
+		function addEduGap(event){
+			edu_gap_dom = document.getElementById('edu-gap-content').querySelectorAll(".single_edu_gap");
+			console.log('a',edu_gap_dom)
+			last_edu_gap_dom = edu_gap_dom[edu_gap_dom.length- 1];
+			record_id = Number($(last_edu_gap_dom).find(".record_id")[0].value) + 1;
+
+			$('.edu-gap-content').append(`<div class="single_edu_gap">
+				<input type="hidden" class="record_id" value="`+record_id+`" id="`+record_id+`">
+				<div class="row">
+																			<div class="col-md-6">
+																				<div class="control-group form-group">
+																				    <label class="form-label">Start Date</label>
+																				    <div class="row">
+																						<div class="control-group form-group col-md-6">
+																							<select class="form-control required" name="edu_gap_start_month" id="edu_gap_start_month">
+																								<option label="Month"></option>
+																								 {% for i in months %}
+																									<option value="{{i.id}}">{{i.name}}</option>
+																								 {% endfor %}
+																							</select>
+																					    </div>
+																						<div class="control-group form-group col-md-6">
+																							 <div class="input-group">
+																								 <select class="form-control required year"  name="edu_gap_start_year" id="edu_gap_start_year">
+																									<option label="Year"></option>
+																								</select>
+																							 </div>
+																					  	 </div>
+																				    </div>
+																				</div>
+																			</div>
+																			<div class="col-md-6">
+																				<div class="control-group form-group">
+																					<label class="form-label">End Date</label>
+																					<div class="row">
+																						<div class="control-group form-group col-md-6">
+																							<select class="form-control required" name="edu_gap_end_month" id="edu_gap_end_month">
+																								<option label="Month"></option>
+																								 {% for i in months %}
+																									<option value="{{i.id}}">{{i.name}}</option>
+																								 {% endfor %}
+																							</select>
+																						</div>
+																						<div class="control-group form-group col-md-6">
+																							 <div class="input-group">
+																								 <select class="form-control required year"  name="edu_gap_end_year" id="edu_gap_end_year">
+																									<option label="Year"></option>
+																								</select>
+																							 </div>
+																						 </div>
+																					</div>
+																				</div>
+																			</div>
+																		</div>
+																		<div class="row">
+																			<div class="col-md-10">
+																				<div class="control-group form-group">
+																					<label class="form-label"></label>
+																					<input type="text" maxlength="100" class="form-control" id="gap_reason"
+																					name="gap_reason" placeholder="Reason">
+																				</div>
+																			</div>
+																			<div class="col-md-2" style="padding:10px;">
+																				<div class="control-group form-group">
+																					<label class="form-label"></label>
+																					<i style="float:right;color:red" class="fa fa-trash" aria-hidden="true" onclick="deleteEduGapRecord(event)"></i>
+																				</div>
+																			</div>
+																		</div>
+				</div>`)
+		}
+
+		function addExpGap(event){
+			exp_gap_dom = document.getElementById('exp-gap-content').querySelectorAll(".single_exp_gap");
+			last_exp_gap_dom = exp_gap_dom[exp_gap_dom.length- 1];
+			record_id = Number($(last_exp_gap_dom).find(".record_id")[0].value) + 1;
+
+			$('.exp-gap-content').append(`<div class="single_exp_gap">
+				<input type="hidden" class="record_id" value="`+record_id+`" id="`+record_id+`">
+				<div class="row">
+																		<div class="col-md-6">
+																			<div class="control-group form-group">
+																				<label class="form-label">Start Date</label>
+																				<div class="row">
+																					<div class="control-group form-group col-md-6">
+																						<select class="form-control required" name="exp_gap_start_month" id="exp_gap_start_month">
+																							<option label="Month"></option>
+																							 {% for i in months %}
+																								<option value="{{i.id}}">{{i.name}}</option>
+																							 {% endfor %}
+																						</select>
+																					</div>
+																					<div class="control-group form-group col-md-6">
+																						 <div class="input-group">
+																							 <select class="form-control required year"  name="exp_gap_start_year" id="exp_gap_start_year">
+																								<option label="Year"></option>
+																							</select>
+																						 </div>
+																					 </div>
+																				</div>
+																			</div>
+																		</div>
+																		<div class="col-md-6">
+																			<div class="control-group form-group">
+																				<label class="form-label">End Date</label>
+																				<div class="row">
+																					<div class="control-group form-group col-md-6">
+																						<select class="form-control required" name="exp_gap_end_month" id="exp_gap_end_month">
+																							<option label="Month"></option>
+																							 {% for i in months %}
+																								<option value="{{i.id}}">{{i.name}}</option>
+																							 {% endfor %}
+																						</select>
+																					</div>
+																					<div class="control-group form-group col-md-6">
+																						 <div class="input-group">
+																							 <select class="form-control required year"  name="exp_gap_end_year" id="exp_gap_end_year">
+																								<option label="Year"></option>
+																							</select>
+																						 </div>
+																					 </div>
+																				</div>
+																			</div>
+																		</div>
+																	</div>
+																	<div class="row">
+																		<div class="col-md-10">
+																			<div class="control-group form-group">
+																				<label class="form-label"></label>
+																				<input type="text" maxlength="100" class="form-control" id="gap_reason"
+																				name="gap_reason" placeholder="Reason">
+																			</div>
+																		</div>
+																		<div class="col-md-2" style="padding:10px;">
+																			<div class="control-group form-group">
+																				<label class="form-label"></label>
+																				<i style="float:right;color:red" class="fa fa-trash" aria-hidden="true" onclick="deleteExpGapRecord(event)"></i>
+																			</div>
+																		</div>
+																	</div>
+				</div>`)
+
+		}
+		function deleteEduGapRecord(event){
+			event.target.parentElement.parentElement.parentElement.parentElement.remove();
+		}
+		function deleteExpGapRecord(event){
+			event.target.parentElement.parentElement.parentElement.parentElement.remove();
+		}
+	</script>
+<script type="text/javascript">
+    function deleteRecord(event,record_id,step){
+    		console.log('in del rec', record_id)
+          event.target.parentElement.remove();
+          $.ajax({
+              url:"/candidate/upload_resume/remove_record",
+              type:'POST',
+              headers: {'X-CSRFToken': $("input[name=csrfmiddlewaretoken]").val() },
+              data: {'record_id':record_id,'step': step},
+              error: function (request, status, error) {
+                    alert(error);
+              }
+          }).done(function(response){
+                if(response=="True"){
+                    console.log("True");
+                }else{
+                    console.log("false");
+                }
+          })
+    }
+</script>
+<!-- CUSTOM DATE PICKER -->
+<script>
+	$(document).ready(function() {
+		$('#c_dob').datepicker({
+		onSelect: function(value, ui) {
+			var today = new Date(),
+				age = today.getFullYear() - ui.selectedYear;
+		},
+		yearRange: '-70:-18',
+		dateFormat: 'dd/mm/yy',
+		changeMonth: true,
+		changeYear: true,
+		})
+	});
+</script>
+<script>
+    $(document).on('focus','.year',function(){
+        var dob_year = $('#c_dob').val().split("/");
+        var current_year = new Date().getFullYear()
+        var yearrange =  dob_year[2]+':'+current_year;
+        $(this).empty();
+		for(let i=Number(dob_year[2]);i <= Number(current_year);i++){
+			console.log('i>>>>>>>>>>>>>>',i);
+			console.log('i>>>>>>>>>>>>>>',$(this));
+			$(this).append(`<option value="`+i+`">`+i+`</option>`)
+		}
+    });
+</script>
+<script>
+    function customyear(yearrange)
+    {
+        $('.year').datepicker({
+        onClose: function(dateText, inst) {
+            $(this).datepicker('setDate', new Date(inst.selectedYear, 1));
+        },
+        dateFormat: 'yy',
+        changeYear: true,
+        yearRange: yearrange,
+        }).focus(function () {
+            $(".ui-datepicker-next").hide();
+            $(".ui-datepicker-prev").hide();
+            $(".ui-datepicker-month").hide();
+            $(".ui-datepicker-calendar").hide();
+        });
+    }
+</script>
+<script>
+    $(document).on('focus','.month_year',function(){
+        var dob_year = $('#c_dob').val().split("/");
+        var current_year = new Date().getFullYear()
+        var yearrange =  dob_year[2]+':'+current_year;
+<!--        customdate(yearrange);-->
+    });
+</script>
+<script>
+    function customdate(yearrange)
+    {
+<!--        $('.month_year').datepicker({-->
+<!--            dateFormat: 'MM, yy',-->
+<!--            changeMonth: true,-->
+<!--            changeYear: true,-->
+<!--            yearRange: yearrange,-->
+<!--            onClose: function(dateText, inst) {-->
+<!--                $(this).datepicker('setDate', new Date(inst.selectedYear,inst.selectedMonth));-->
+<!--            },-->
+<!--		})-->
+		$('.month_year').datepicker({
+			  changeMonth: true,
+			  changeYear: true,
+<!--			  showButtonPanel: true,-->
+			  dateFormat: 'MM yy',
+			  yearRange: yearrange,
+			  beforeShow: function(input) {
+				$(input).datepicker("widget").addClass('hide-calendar');
+			  },
+			  onClose: function(dateText, inst) {
+				$(this).datepicker('setDate', new Date(inst.selectedYear, inst.selectedMonth, 1));
+				$(this).datepicker('widget').removeClass('hide-calendar');
+			  }
+			});
+			$(".month_year").click(function() {
+				setTimeout(function() {
+				  $(".ui-datepicker-month, .ui-datepicker-year").selectmenu();
+				}, 10);
+			  });
+<!--			$('.datepicker').datepicker();-->
+    }
+</script>
+ <script>
+$(document).ready(function() {
+	tinymce.init({
+		selector: '#technical-knowledge',
+		menubar: false,
+		plugins: 'lists advlist',
+		toolbar: 'bullist numlist bold',
+		branding: 'False',
+	});
+	tinymce.init({
+		selector: '#about-you',
+		menubar: false,
+		plugins: 'lists advlist',
+		toolbar: 'bullist numlist bold',
+		branding: 'False',
+	});
+	tinymce.init({
+		selector: '#e_summary1',
+		menubar: false,
+		plugins: 'lists advlist',
+		toolbar: 'bullist numlist bold',
+		branding: 'False',
+	});
+	tinymce.init({
+		selector: '#c_summary1',
+		menubar: false,
+		plugins: 'lists advlist',
+		toolbar: 'bullist numlist bold',
+		branding: 'False',
+	});
+	tinymce.init({
+		selector: '#w_job_description1',
+		menubar: false,
+		plugins: 'lists advlist',
+		toolbar: 'bullist numlist bold',
+		branding: 'False',
+	});
+	tinymce.init({
+		selector: '#project_learning1',
+		menubar: false,
+		plugins: 'lists advlist',
+		toolbar: 'bullist numlist bold',
+		branding: 'False',
+	});
+
+
+	$('.selectPreferredCities').select2({
+		ajax: {
+			url:"/candidate/job_preference",
+			dataType: 'json',
+			processResults: function (data) {
+				return {
+					results: $.map(data, function (item) {
+						return {id: item.id, text: item.city_name};
+					})
+				};
+			}
+		},
+		placeholder: 'Search Preferred Cities',
+		minimumInputLength: 1
+	});
+});
+</script>
+<script>
+$(document).ready(function(){
+	 var input = document.getElementById('file-upload');
+      var infoArea = document.getElementById('file-upload-filename');
+      input.addEventListener( 'change', showFileName);
+
+     function showFileName(event){
+	var input = event.srcElement;
+	var fileName = input.files[0];
+	if (typeof fileName !== 'undefined'){
+		infoArea.textContent = 'Uploaded File : ' + fileName.name;
+	}else{
+		infoArea.textContent = 'Uploaded File : None';
+	}
+      }
+   $("#gap_checkbox").click(function() {
+        if($(this).is(":checked")) {
+        	$(".edu-gap-plus-button").show();
+         	$(".edu-gap-content").show();
+        } else {
+           $(".edu-gap-content").hide();
+           $(".edu-gap-plus-button").hide();
+        }
+   });
+   $("#exp_gap_checkbox").click(function() {
+        if($(this).is(":checked")) {
+        	$(".exp-gap-plus-button").show();
+         	$(".exp-gap-content").show();
+        } else {
+           $(".exp-gap-content").hide();
+           $(".exp-gap-plus-button").hide();
+        }
+   });
+ });
+</script>
+<script>
+	$(document).ready(function(){
+		
+		$("button#submit-resume-pass").click(function(){
+			var ResumePasswordForm = document.getElementById("ResumePasswordForm");
+            var formData = new FormData(ResumePasswordForm);
+            console.log('formData ResumePasswordForm >>>>>>>',formData)
+			var password = document.getElementById('resume-pass')
+
+			if(password.value.length != 0)
+            {
+                document.getElementById("create_password_error").innerHTML="Please create password"
+				$.ajax({
+                    url:"/candidate/create_resume_pass/",
+                    headers: {'X-CSRFToken': $("input[name=csrfmiddlewaretoken]").val() },
+                    type:'POST',
+                    contentType: false,
+                    processData: false,
+                    data: formData,
+                    error: function (request, status, error) {
+                        alert(error);
+                    }
+            }).done(function(response){
+                if(response=="True"){
+                     $('#ResumePasswordModal1').modal('hide');
+                     var button =  document.getElementById('createpass');
+					 button.innerHTML = '<span class=""></span>&nbsp;Created';
+					 button.disabled = true;
+					 document.getElementById("create_password_error").innerHTML="";
+					 document.getElementById("is_created").value="1";
+
+                }else{
+					$('#ResumePasswordModal1').modal('hide');
+                    alert('Something Went Wrong !!');
+                }
+			});
+            }
+			else{
+				document.getElementById("create_password_modal_error").innerHTML="Password Required"
+			}
+
+		});
+
+	});
+</script>
+<script>
+	function showPreviewOne(event){
+	  if(event.target.files.length > 0){
+		let src = URL.createObjectURL(event.target.files[0]);
+		let preview = document.getElementById("file-ip-1-preview");
+		preview.src = src;
+	  }
+	}
+</script>
+<script>
+	function addMoreFiles(record_id){
+        var files_dom = document.getElementById('experience-files'+record_id)
+        $('#experience-files'+record_id).append(`<div class="row">
+			 <div class="col-sm-5">
+				<input class="form-control input-sm" type="text" id="w_document_name`+record_id+`" placeholder="Name of Document">
+			</div>
+			<div class="col-sm-5">
+				<div class="input-group file-browser">
+					<input type="text"
+						class="form-control border-right-0 browse-file"
+						placeholder="upload your file" readonly>
+					<label class="input-group-btn">
+						<span class=" btn-default">
+							Browse <input type="file" id="w_document1" style="display: none;" id="w_document1"
+								multiple>
+						</span>
+					</label>
+				</div>
+			</div>
+			<div class="col-sm-2">
+				<a title="" style="margin: 10px 10px;font-size: 17px">
+					<i style="color:red" class="fa fa-trash" aria-hidden="true" onclick="deleteExpFile(event,`+record_id+`)"></i>
+				 </a>
+			</div>
+		</div>`)
+		$(':file').on('fileselect', function(event, numFiles, label) {
+          	var input = $(this).parents('.input-group').find(':text'),
+            log = numFiles > 1 ? numFiles + ' files selected' : label;
+			if( input.length ) {
+				  input.val(log);
+		  	} else {
+				  if( log ) console.log(log);
+		  	}
+        });
+    }
+    function deleteExpFile(event,record_id){
+        event.target.parentElement.parentElement.parentElement.remove();
+    }
+</script>
+		<script type="text/javascript" src="https://cdn.rawgit.com/prashantchaudhary/ddslick/master/jquery.ddslick.min.js" ></script>
+
+<script>
+	$(document).ready(function(){
+			$('#ResumePasswordModal1').on('hidden.bs.modal', function () {
+			var is_created = document.getElementById("is_created");
+			if(is_created.value== "0")
+			{
+				var password = document.getElementById("resume-pass");
+				var error_box = document.getElementById("create_password_modal_error");
+				password.value ="";
+				error_box.innerHTML = "";
+			}
+
+			// document.getElementById("create_password_error")
+		});
+
+		$('.demo-htmlselect').each(function(index,element){
+			$(element).ddslick({
+				onSelected: function(data){
+					console.log("==========>",element.id)
+					network_id = element.id
+
+					// element.parentElement.find('#network_name').value =data.selectedData.value;
+					document.getElementById(network_id).parentElement.querySelector('#network_name1').value = data.selectedData.value
+					// $('#editcflag').submit();
+				}
+			});
+		});
+	   $("#exp_end_date_section").show();
+	   $("#exp_current_checkbox1").click(function(event) {
+			if($(this).is(":checked")) {
+				 $("#exp_end_date_section").hide();
+				 $("#exp_end_salary_div").hide();
+			} else {
+			     $("#exp_end_date_section").show();
+			     $("#exp_end_salary_div").show();
+			}
+	   });
+	});
+</script>
+
+<script>
+    $(document).on('focus','.skill_year',function(){
+        var dob_year = $('#c_dob').val().split("/");
+        var current_year = new Date().getFullYear()
+        var yearrange =  dob_year[2]+':'+current_year;
+        $(this).empty();
+		for(let i=Number(dob_year[2]);i <= Number(current_year);i++){
+			$(this).append(`<option value="`+i+`">`+i+`</option>`)
+		}
+		$(this).append(`<option value="present">Present</option>`)
+    });
+</script>
+<script>
+	function myFunction() {
+		var date1 = Date.parse("February,2012");
+		var date2= Date.parse("March,2012");
+		if (date1 < date2) {
+			alert ("correct!");
+		}
+		else{
+			alert("wrong")
+		}
+	}
+</script>
+
+{% endblock %}
+

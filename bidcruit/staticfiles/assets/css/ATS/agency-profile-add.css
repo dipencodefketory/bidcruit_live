@@ -1,0 +1,75 @@
+.company_profile_add .card-header {border-bottom: 2px solid #e2e8f5;padding-bottom: 12px !important;}
+.company_profile_right_filters_section .filters_header {float: left;}
+.company_profile_right_filters_section .filters_header a {color: #041b4e;margin: 0 15px;font-size: 16px;}
+.company_profile_add .form-label {color: #031b4e;font-weight: 600;}
+.company_profile_add .form-group__layout {border: 2px solid #e2e8f5;padding: 20px;}
+.company_profile_add .form-control.address-text-area,
+.company_profile_add .form-control.about-text-area{ height: auto;}
+.form_main_title {color: #041b4e;font-size: 16px;font-weight: 500;}
+.companyFormSubmit_btn {border: 2px solid #e2e8f5;padding: 12px 20px;border-top: 0;display: inline-block;width: 100%;}
+.companyFormSubmit {font-size: 14px;border-radius: 10px;padding: 4px 18px;background-color: #0068ff;background: #0068ff;float: right;}
+.req-field::after {content: "*";position: relative;left: 4px;top: 0;color: #f00;font-weight: 600;}
+
+.agency-head {display: flex;justify-content: space-between;align-items: center;}
+.banner-image__upload {display: flex;}
+.groupUpload-tab-1 { flex: 4;}
+.groupUpload-tab-2 { flex: 2; }
+.form-control:hover, .form-control:focus {box-shadow: 0 0 5pt 0.5pt #d3d3d3;}
+
+/*************************Agency Create Profile***************************/
+.agen-create-profile .group-gender{margin:0;padding:0;display:flex;justify-content:flex-start;align-items:center;gap:45px;list-style:none;margin-top: 6px;}
+.agen-create-profile .group-gender .g-inputs{display:flex;align-items:center;gap:7px}
+.agen-create-profile .group-gender .g-inputs .g-title{margin:0}
+.agen-create-profile .exp-inputbox{display:flex;gap:10px}
+.agen-create-profile .file-upload-section{margin-bottom: 10px;}
+.agen-create-profile .select2-container .select2-selection{display:block;width:100%;padding:.375rem .75rem;font-size:.875rem;font-weight:400;line-height:1.5;color:#596882;background-color:#fff;background-clip:padding-box;border:1px solid #e2e8f5!important;border-radius:3px;transition:border-color .15s ease-in-out,box-shadow .15s ease-in-out;}
+.agen-create-profile span.select2-selection { width: 95% !important;}
+select[name=specialties].parsley-error ~ .select2-container .select2-selection { border-color: #ff0000 !important;}
+select.parsley-error {border-color: #ff0000;}
+.countrySelector{margin-top: 15px;margin-bottom: 10px;}
+.agen-create-profile  .form-control-label,.agen-create-profile .feild-title, .agen-create-profile .form-label{font-weight: 600;}
+.input-group.file-browser{position:relative}
+.input-group.file-browser .parsley-errors-list.filled { position: absolute;left: 6px;top: 42px;}
+.agen-create-profile .fxs-file-uploader {margin-bottom: 15px;}
+.fx-col__sm.exp-inputbox{position:relative}
+.fx-col__sm.exp-inputbox ul:nth-child(2){position:absolute;top:39px;width:40%;left:0px;}
+.fx-col__sm.exp-inputbox ul:nth-child(4){position:absolute;top:39px;width:40%;right: 0;}
+/**Selector Tags**/
+.select2-results__option--highlighted{background-color:#3c82ea!important;color:#fff;font-weight:600}
+.agen-create-profile .select2-selection__choice{background-color:#3c82ea!important;border:0!important;padding:0 6px 0 26px!important;border-radius:0!important}
+.agen-create-profile .select2-selection__choice .select2-selection__choice__remove{color:#000!important;font-size:16px;background-color:#e4e4e4;padding:0 5px;opacity:1;line-height:21px;border-radius:0}
+.Gender_selection label#gender-error {
+    position: absolute;
+    bottom: 3px;
+    left: 0;
+}
+ul.Gender_selection{
+	display: flex;
+    list-style: none;
+    padding: 0;
+    gap: 15px;
+}
+.Gender_selection li input {
+    margin-right: 5px;
+}
+.specialties_box label#specialties-error {
+    position: absolute;
+    bottom: 0;
+}
+input.select2-search__field.valid {
+    width: auto !important;
+}
+span.select2.select2-container.select2-container--default.select2-container--focus.select2-container--above {
+    width: 100% !important;
+}
+.select2-container--default .select2-selection--multiple .select2-selection__choice{
+	background-color: #0068ff;
+	 padding-right: 4px;
+}
+.select2-container--default .select2-selection--multiple .select2-selection__choice__remove {
+    color: #ffffff;
+    opacity: 1;
+}
+.select2-container--default .select2-selection--multiple .select2-selection__choice__remove {
+    color: #fff;
+}

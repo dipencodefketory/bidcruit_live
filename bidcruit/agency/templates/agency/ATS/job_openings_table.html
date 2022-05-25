@@ -1,0 +1,226 @@
+{% extends 'agency/base.html' %}
+{% load static %}
+{% load agency_filter %}
+{% block title %}Job Openings {% endblock %}
+{% block css %}
+		<!-- Bootstrap css -->
+<!--		<link rel="stylesheet" href="{% static 'assets/plugins/bootstrap/css/bootstrap.min.css' %}">-->
+
+		<!-- Internal Data table css -->
+		<link href="{% static 'assets/plugins/datatable/css/dataTables.bootstrap4.min.css' %}" rel="stylesheet" />
+		<link href="{% static 'assets/plugins/datatable/css/buttons.bootstrap4.min.css' %}" rel="stylesheet">
+		<link href="{% static 'assets/plugins/datatable/css/responsive.bootstrap4.min.css' %}" rel="stylesheet" />
+		<link href="{% static 'assets/plugins/datatable/css/jquery.dataTables.min.css' %}" rel="stylesheet">
+		<link href="{% static 'assets/plugins/datatable/css/responsive.dataTables.min.css' %}" rel="stylesheet">
+		<link href="{% static 'assets/plugins/select2/css/select2.min.css' %}" rel="stylesheet">
+
+		<link href="{% static 'assets/css/ATS/job_openings_table.css' %}" rel="stylesheet">
+
+{% endblock %}
+
+{% block main %}
+				<div class="main-content-body">
+
+					<div class="row row-sm">
+						<div class="col-xl-12">
+							<div class="card job_openings_table">
+								<div class="card-header pb-0">
+									<div class="d-flex justify-content-between">
+										<h4 class="card-title mg-b-0"></h4>
+										<div class="candidate_right_filters_section">
+											
+										    <div class="candidate_filters_header">
+												<input type="text" class="search_data_t form-control" value="" placeholder="Search...">
+											</div>
+											
+											<!-- <div class="candidate_filters_header">
+												<a href=""><i class="fas fa-file-download"></i></a>
+											</div> -->
+											
+											<!-- <div class="candidate_filters_header">
+												<a href=""><i class="fas fa-print"></i></a>
+											</div>
+											<div class="candidate_filters_header">	
+												<a href=""><i class="fas fa-ellipsis-v"></i></a>
+											</div> -->
+											<div class="candidate_filters_header">
+												<a href=""><i class="fas fa-filter"></i></a>
+											</div>
+							
+										</div>
+									</div>
+									
+								</div>
+								<div class="tab-menu-heading verified_review_tabs">
+									<div class="tabs-menu ">
+										<!-- Tabs -->
+										<ul class="nav panel-tabs">
+											<li class=""><a href="#tab209" class="active" data-toggle="tab"> Job Opening</a></li>
+											<li><a href="#tab300" data-toggle="tab">Job Request</a></li>
+											{% if agencytype %}
+											<li><a href="#tab301" data-toggle="tab">Internal Job</a></li>
+											{% endif %}
+										</ul>
+									</div>
+								</div>
+								<div class="panel-body p-0">
+									<div class="tab-content connection_req">
+
+										<div class="tab-pane active" id="tab209">
+											<div class="card-body">
+												<div class="table-responsive">
+													<table class="table text-md-nowrap candidate_table" id="applicatent">
+														<thead>
+															<tr>
+	             	<!--	<th class="circle_plush_icon"><a href="javascript:void(0)"><i class="fas fa-plus-circle"></i></a></th>-->
+																<th class="border-bottom-0">Job Title</th>
+																<th class="border-bottom-0">Job Type</th>
+																<th class="border-bottom-0">Company Name</th>
+																<th class="border-bottom-0">Contact Person</th>
+																<th class="border-bottom-0">application</th>
+																<th class="border-bottom-0">Status</th>
+																
+																<th class="border-bottom-0">Action</th>
+															</tr>
+															
+														</thead>
+														<tbody>
+															{% for job in jobs %}
+															<tr>
+		          <!--		<td>&nbsp;</td>-->
+																<td class="text-capitalize">{{job.job_id.job_title}}</td>
+																<td><span class="type_full_time"><i class="fas fa-briefcase"></i> {{job.job_id.job_type.name}}</span></td>
+																
+																<td class="text-capitalize">{{job.job_id.company_id.company_id.company_name}}</td>
+																<td class="text-capitalize">{{job.job_id.contact_name}}</td>
+																<td class="text_blue"><a class="text_blue" href="{% url 'agency:applied_candidates_view' job.job_id.id %}">{{ job.job_id|total_applied_candidates }}</a></td>
+																<td>{% if job.job_id.is_publish %} Published {% else %} Draft {% endif %}</td>
+																
+																<td class="action_icons">
+																	{% if job.job_id.close_job %}
+																	{% else %}
+																	<a href="{% url 'agency:submit_candidate' job.job_id.id %}"><i class="fas fa-plus"></i></a>	
+																	{% endif %}
+																	<a href="{% url 'agency:request_job_view' job.job_id.id %}"><i class="fas fa-eye"></i></a>
+																	
+																</td>
+															</tr>
+															{% endfor %}
+														</tbody>
+													</table>
+												</div>
+											</div>
+										</div>
+										<div class="tab-pane" id="tab300">
+											<div class="card-body">
+												<div class="table-responsive">
+													<table class="table text-md-nowrap candidate_table" >
+														<thead>
+															<tr>
+																<th class="border-bottom-0">Job Title</th>
+																<th class="border-bottom-0">Job Type</th>
+																<th class="border-bottom-0">Company Name</th>
+																<th class="border-bottom-0">Contact Person</th>
+																<th class="border-bottom-0">Action</th>
+															</tr>
+														</thead>
+														<tbody>
+															{% for job in requestlist %}
+															<tr>
+		            <!--				<td>&nbsp;</td>-->
+																<td class="text-capitalize">{{job.job_id.job_title}}</td>
+																<td><span class="type_full_time"><i class="fas fa-briefcase"></i> {{job.job_id.job_type.name}}</span></td>
+																
+																<td class="text-capitalize">{{job.job_id.company_id.company_id.company_name}}</td>
+																<td class="text-capitalize">{{job.job_id.contact_name}}</td>
+																<td class="action_icons">
+																	<a href="{% url 'agency:request_job_view' job.job_id.id %}"><i class="fas fa-eye"></i></a>
+																	
+																</td>
+															</tr>
+															{% endfor %}
+														</tbody>
+													</table>
+												</div>
+											</div>
+										</div>
+										<div class="tab-pane" id="tab301">
+											<div class="card-body">
+												<div class="table-responsive">
+													<table class="table text-md-nowrap candidate_table" id="applicatent">
+														<thead>
+															<tr>
+					<!--	<th class="circle_plush_icon"><a href="javascript:void(0)"><i class="fas fa-plus-circle"></i></a></th>-->
+																<th class="border-bottom-0">Job Title</th>
+																<th class="border-bottom-0">Job Type</th>
+																<th class="border-bottom-0">job owner</th>
+																<th class="border-bottom-0">Salary</th>
+																<th class="border-bottom-0">Exprience</th>
+																<th class="border-bottom-0">application</th>
+																<th class="border-bottom-0">Status</th>
+																<th class="border-bottom-0">Action</th>
+															</tr>
+															
+														</thead>
+														<tbody>
+															{% for job in internaljobs %}
+															<tr>
+																	<td class="text-capitalize"><a href="{% url 'agency:applied_candidates_view' job.id %}">{{job.job_title}}</a></td>
+																	<td><span class="type_full_time"><i class="fas fa-briefcase"></i> {{job.job_type.name}}</span></td>
+																	<td class=""> {{job.job_owner.first_name}} {{job.job_owner.last_name}}</td>
+																	<td class="text-capitalize">{{job.max_salary}}</td>
+																	<td class="text-capitalize">{{job.experience_year_min}} to {{job.experience_year_max}}</td>
+																	<td> <a class="text_blue" href="{% url 'agency:job_applied_candidates_view' job.id %}"> {{ job.id|total_applied_candidates_internal }} </a></td>
+																	<td>{% if job.close_job %} Close {% else %}{% if job.is_publish %} Published {% else %} Draft {% endif %}{% endif %}</td>
+																	<td class="action_icons">
+																		<a href="{% url 'agency:internal_submit_candidate' job.id %}"><i class="fas fa-plus"></i></a>	
+																	
+																		<a href="{% url 'agency:created_job_view' job.id %}"><i class="fas fa-eye"></i></a>
+																	
+																	{% if Edit %}
+																		<a href="{% url 'agency:job_edit' job.id %}"><i class="fas fa-edit"></i></a>
+																	{% endif %}
+																	{% if Delete %}
+																		<a {% if job.is_publish %} onclick="return false;" {% endif %}><i class="fas fa-trash-alt" ></i></a>
+																	{% endif %}
+															</tr>
+															{% endfor %}
+														</tbody>
+													</table>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<!--/div-->
+				
+					</div>
+					<!-- /row -->
+				</div>
+		
+{% endblock %}
+
+{% block script %}
+		<!-- Internal Data tables -->
+		<script src="{% static 'assets/plugins/datatable/js/jquery.dataTables.min.js' %}"></script>
+		<script src="{% static 'assets/plugins/datatable/js/dataTables.dataTables.min.js' %}"></script>
+		<script src="{% static 'assets/plugins/datatable/js/dataTables.responsive.min.js' %}"></script>
+		<script src="{% static 'assets/plugins/datatable/js/responsive.dataTables.min.js' %}"></script>
+		<script src="{% static 'assets/plugins/datatable/js/jquery.dataTables.js' %}"></script>
+		<script src="{% static 'assets/plugins/datatable/js/dataTables.bootstrap4.js' %}"></script>
+		<script src="{% static 'assets/plugins/datatable/js/dataTables.buttons.min.js' %}"></script>
+		<script src="{% static 'assets/plugins/datatable/js/buttons.bootstrap4.min.js' %}"></script>
+		<script src="{% static 'assets/plugins/datatable/js/jszip.min.js' %}"></script>
+		<script src="{% static 'assets/plugins/datatable/js/pdfmake.min.js' %}"></script>
+		<script src="{% static 'assets/plugins/datatable/js/vfs_fonts.js' %}"></script>
+		<script src="{% static 'assets/plugins/datatable/js/buttons.html5.min.js' %}"></script>
+		<script src="{% static 'assets/plugins/datatable/js/buttons.print.min.js' %}"></script>
+		<script src="{% static 'assets/plugins/datatable/js/buttons.colVis.min.js' %}"></script>
+		<script src="{% static 'assets/plugins/datatable/js/dataTables.responsive.min.js' %}"></script>
+		<script src="{% static 'assets/plugins/datatable/js/responsive.bootstrap4.min.js' %}"></script>
+
+		<!-- datatable js -->
+		<script src="{% static 'assets/js/table-data.js' %}"></script>
+{% endblock %}

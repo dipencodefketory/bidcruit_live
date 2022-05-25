@@ -1,0 +1,380 @@
+{% load static %}
+{%load candidate_extras	%}
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<meta name='viewport' content='width=device-width, initial-scale=1.0, user-scalable=0'>
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="Description" content="Bootstrap Responsive Admin Web Dashboard HTML5 Template">
+		<meta name="Author" content="Spruko Technologies Private Limited">
+		<meta name="Keywords" content="bootstrap admin panel template,bootstrap admin template premium,bootstrap backend template,bootstrap dashboard template,bootstrap panel template,dashboard admin bootstrap 4,dashboard template bootstrap 4,html css dashboard template,html dashboard template,html web app template,modern admin template,nice admin template,simple bootstrap admin template,simple dashboard html template,simple dashboard template bootstrap,template dashboard bootstrap 4"/>
+
+		<!-- Title -->
+		<title> Admix - Admin Panel html template </title>
+
+		<!-- Favicon -->
+		<link rel="icon" href="{% static 'assets/img/brand/favicon.png' %}" type="image/x-icon"/>
+
+		<!-- Icons css -->
+		<link href="{% static 'assets/css/icons.css' %}" rel="stylesheet">
+
+		<!-- Bootstrap css -->
+		<link rel="stylesheet" href="{% static 'assets/plugins/bootstrap/css/bootstrap.min.css' %}">
+
+		<!-- Right-sidemenu css -->
+		<link href="{% static 'assets/plugins/sidebar/sidebar.css' %}" rel="stylesheet">
+
+		<!-- Style css -->
+		<link rel="stylesheet" type="text/css" media="all" href="{% static 'assets/css/style.css' %}">
+
+		<!-- Colors css -->
+		<link id="theme" rel="stylesheet" type="text/css" media="all" href="{% static 'assets/css/colors/color.css' %}">
+
+		<!-- Skinmodes css -->
+		<link href="{% static 'assets/css/skin-modes.css' %}" rel="stylesheet">
+
+		<!-- Darktheme css -->
+		<link href="{% static 'assets/css/style-dark.css' %}" rel="stylesheet">
+
+		<!-- Sidemenu css -->
+		<link rel="stylesheet" href="{% static 'assets/css/single-sidemenu/singlemenu.css' %}">
+
+		<!-- Internal Nice-select css  -->
+		<link href="{% static 'assets/plugins/jquery-nice-select/css/nice-select.css' %}" rel="stylesheet"/>
+
+		<!-- Animations css -->
+		<link href="{% static 'assets/css/animate.css' %}" rel="stylesheet">
+		
+		<link href="{% static 'assets/css/ATS/candidate_audio_video_exam_if_question.css' %}" rel="stylesheet">
+
+
+
+		<!-- recoreding js   css -->
+
+		 <!-- Include Video.js stylesheet (https://videojs.com/) -->
+       
+		 <link href="https://vjs.zencdn.net/7.17.0/video-js.css" rel="stylesheet" /> 
+		 ​
+		<!-- Style of VideoJS -->
+	
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/videojs-record/4.5.0/css/videojs.record.min.css" integrity="sha512-Lh6tnGieGjpRa/uz9zsknJaWcEmTa/GIyelGDqc4/8T2giyFVOM0xGIPN6T4UG/3cT/XfQb9KdJSs6gH/dc13A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+		<style>
+
+			button.vjs-paused,button.vjs-icon-record-start,button.vjs-icon-record-stop{
+				display: none;
+			}
+
+
+		</style>
+		<style>
+			
+		</style>
+	</head>
+
+	<body class="main-body app sidebar-mini sidenav-toggled">
+
+
+		<!-- Page -->
+		<div class="page">
+
+
+			<!-- main-sidebar -->
+
+			<!-- Main-content -->
+
+		    <div class="apply_job_main_header">
+				<div class="apply_job_main_content">
+					<img src="img/logo.png' %}">
+					<div class="quit_exam_btn"><a href="">Quit Exam <i class="fas fa-power-off"></i></a></div>
+				</div>
+		    </div>
+			{% csrf_token	%}
+			<div class="main-content-mcq">
+
+				<!-- Container-fluid add-candidate layout-->
+				<div class="container-fluid">
+
+					<!-- Maincontentbody -->
+					<div class="maincontentbody">						
+
+						<!-- row add new candidate layout-->
+						<div class="row candidate_mcq_layout" id="">
+							<div class="col-md-9 col-xl-9 col-xs-12 col-sm-12">
+
+
+								<div class="card mg-b-15">
+									<div class="card-body pt-2 pb-2">
+										<div class="mcq_exam_header">
+											<div class="technologies_info">
+												<div class="technologies_title">Bidcruit Technologies   <span>(Java Developer){{total_exam_time}}  </span></div>												
+												<div class="mcq_test_name">Java MCQ Test</div>												
+											</div>
+											
+											<div class="mcq_test_time_section">
+												<div class="mcq_test_time_title">Time Left</div>
+												<div id="timer_exam" class="mcq_test_time_count">{{total_exam_time}}</div>												
+											</div>										
+											
+										</div>
+									</div>										
+								</div>
+								
+								<!--div-->
+								<div class="card mg-b-15">
+									<div class="card-body">
+										
+										
+
+										<div class="Question_listing">
+
+											<div class="question_listing_inner">
+												<div class="question_listing_count">Question <span class='question-no'></span></div>
+												<input type="text" name="que_id" hidden value="" id="que_id">
+												<div class="question_text">
+
+												</div>
+												<div class="question_option_box">
+													<div class="choiceList radio-group gender-select mg-t-10">
+														<!-- <div class="option_tab_q">
+															<label class="rdiobox">
+																<input name="basic_radio" type="radio" value="Lorem Ipsum" data-parsley-multiple="basic_radio"><span>A) Lorem Ipsum</span>
+															</label>
+														</div>
+														<div class="option_tab_q">
+															<label class="rdiobox">
+																<input name="basic_radio" type="radio" value="Lorem Ipsum" data-parsley-multiple="basic_radio"><span>B) Lorem Ipsum</span>
+															</label>
+														</div>
+														<div class="option_tab_q">
+															<label class="rdiobox">
+																<input name="basic_radio" type="radio" value="Lorem Ipsum" data-parsley-multiple="basic_radio"><span>C) Lorem Ipsum</span>
+															</label>
+														</div>
+														<div class="option_tab_q">
+															<label class="rdiobox">
+																<input name="basic_radio" type="radio" value="Lorem Ipsum" data-parsley-multiple="basic_radio"><span>D) Lorem Ipsum</span>
+															</label>
+														</div> -->
+
+
+													</div>
+												</div>
+
+
+												<div class="QuestionSubmit_btn">
+													
+													<div class="previous_next_btn">
+														<button class="btn btn-sm btn_prev QuestionSubmit btn-sm btn-rounded" type="submit">Previous</button>
+														<button class="btn btn-sm btn_next QuestionSubmit btn-sm btn-rounded" type="submit">Next</button>
+													</div>
+													
+												</div>	
+
+											</div>
+
+											
+                                               
+
+										</div>
+										
+
+									
+									</div>
+									
+								</div>
+							</div>
+
+							<div class="col-md-3 col-xl-3 col-xs-12 col-sm-12 calendar_view_selection">
+								<div class="calendar_view_inner">
+									<div class="card mg-b-15">
+										<div class="card-body p-2">
+											<div class="calendar_user_img">
+												<img src="img/candidate_user.png' %}">
+											</div>
+											<div class="calendar_user_name">Jone Lare</div>
+										</div>
+									</div>
+									<div class="card mg-b-15">
+										<div class="card-body p-2">
+											<div class="calendar_view_box">
+												<div class="selection_info">
+													<ul>
+														<li class="answer_t">Answer</li>
+													
+														<li class="skip_miss_t">Miss</li>
+														<li class="not_visited_t">Not Visited</li>
+													</ul>
+												</div>
+												<div class="question_selection_info">
+													<ul class='question-no-list'>
+														<!-- <li class="answer">1</li>
+														<li class="answer">2</li>
+														<li class="skip">3</li>
+														<li class="answer">4</li>
+														<li class="review">5</li>
+														<li class="answer">6</li> -->
+														<!-- <li id="que-1" class="notvisited">7</li> -->
+														
+														
+													</ul>
+												</div>
+											</div>
+										</div>
+									</div>
+
+								</div>
+							</div>
+							
+						</div>
+						<!-- /row -->
+					</div>
+					<!-- Main-content-body closed -->
+				</div>
+				<!-- Container-fluid add-candidate layout closed -->
+
+
+				<input type="text" hidden readOnly value="{{job_obj.id}}" id="job_id">
+				<input type="text" hidden readOnly value="{{temp_id}}" id="temp_id">
+
+
+			</div>
+			<!-- Main-content closed -->
+
+			<!-- Footer opened -->
+			<div class="main-footer ht-40">
+				<div class="container-fluid pd-t-0-f ht-100p">
+					<span>Copyright &copy; 2020 <a href="#">Admix</a>. Designed by <a href="https://www.spruko.com/">Spruko</a> All rights reserved.</span>
+				</div>
+			</div>
+			<!-- Footer closed -->
+
+		</div>
+		<!-- Page closed -->
+
+        <!-- Back-to-top -->
+		<a href="#top" id="back-to-top"><i class="las la-angle-double-up"></i></a>
+
+		<!-- JQuery min js -->
+		<script src="{% static 'assets/plugins/jquery/jquery.min.js' %}"></script>
+
+		<!-- Popper js -->
+		<script src="{% static 'assets/plugins/popper/popper.min.js' %}"></script>
+
+		<!-- Bootstrap Bundle js -->
+		<script src="{% static 'assets/plugins/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+
+		<!-- Ionicons js -->
+		<script src="{% static 'assets/plugins/ionicons/ionicons.js' %}"></script>
+
+		<!-- Moment js -->
+		<script src="{% static 'assets/plugins/moment/moment.js' %}"></script>
+
+		<!-- JQuery sparkline js -->
+		<script src="{% static 'assets/plugins/jquery-sparkline/jquery.sparkline.min.js' %}"></script>
+
+		
+		<!-- Rating js -->
+		<script src="{% static 'assets/plugins/rating/jquery.rating-stars.js' %}"></script>
+		<script src="{% static 'assets/plugins/rating/jquery.barrating.js' %}"></script>
+
+		
+		<!-- Right-sidebar js -->
+		<script src="{% static 'assets/plugins/sidebar/sidebar-custom.js' %}"></script>
+
+		<!-- Internal Nice-select js-->
+		<script src="{% static 'assets/plugins/jquery-nice-select/js/jquery.nice-select.js' %}"></script>
+		<script src="{% static 'assets/plugins/jquery-nice-select/js/nice-select.js' %}"></script>
+		<!-- Custom js -->
+		
+      
+		<!-- recording js js files		 -->
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/recorderjs/0.1.0/recorder.min.js" integrity="sha512-Dc8aBUPSsnAiEtyqTYZrldxDfs2FnS8cU7BVHIJ1m5atjKrtQCoPRIn3gsVbKm2qY8NwjpTVTnawoC4XBvEZiQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+		<!-- Load video.js -->
+      
+        
+        <script src="https://vjs.zencdn.net/7.17.0/video.min.js"></script>
+        <!-- Load RecordRTC core and adapter -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/RecordRTC/5.6.2/RecordRTC.min.js" integrity="sha512-IMLquIKoKQeQ+kYuec3BvLYjy3yF2nH/ojHPkXQnQTeGKRliZcVed19I6E0t+WBt+9uPuEba0t2iyZAVP8mdlw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+​
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/webrtc-adapter/6.1.4/adapter.js" integrity="sha512-r8cn1OoZ21KHc0zmav3+MtQS24AJLAaDdNNWYkOborAznLETtfBKMb6xkpqXnjcH1GmKG9BqPOW9tU/Jzy98kQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/recorderjs/0.1.0/recorder.js" integrity="sha512-zSq4Vvm00k8M01OLF/SmwKryVpA7YVXIbEFHU1rvNw3pgH50SjL6O4nDbB65V76YKWmr3rPABOXJ+uz+Z3BEmw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+​
+        <script src="https://unpkg.com/wavesurfer.js"></script>
+​
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/videojs-wavesurfer/3.8.0/videojs.wavesurfer.min.js" integrity="sha512-ZhKJnW8cP/Aq0OJ+JEX0ffjAFCcrcW7SiQv4E5kEFOdDu30LjfDi1+qxSH3HjuZQ50V9sLv7rly4iHxNWPWBaw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+​
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/wavesurfer.js/2.0.4/plugin/wavesurfer.microphone.min.js" integrity="sha512-0gRzVXiPKje8UuD8iv3Ahqk3ey9JKaQeQAucGjDDLBBcdxTK7TnBOm7+RmS6Lif/cSDZqMa1w5wB2o0533d89A==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+        <!-- Load VideoJS Record Extension -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/videojs-record/4.5.0/videojs.record.min.js" integrity="sha512-KyqFiWIhWWHzDDzgeQnIlVC8NObpEc8RmggKoj2xxXoBqPMcFSd3c9MoKKfCxkspO1H3Ofw6lkOVRhUw4snV1g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/videojs-record/4.5.0/plugins/videojs.record.recorderjs.min.js" integrity="sha512-90fZ19yIfuOMRNt4i80P7xstQDpnd9GhlnDxljaMtL7kcJM4qiifXduKFSMzFeZvRcEv3RQwUV/OzfHEk1Eljg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+		<!-- Audio script-->
+	
+	   
+		<script>
+
+
+		
+			function get_total_exam_time()
+			{
+				return `{{total_exam_time}}`//the time will be in the format HH:MM:ss
+			}
+			console.log("function made")
+
+			function get_mcqData(){
+				var checkDescriptiveList =JSON.parse("{{getStoreData|escapejs}}");
+				return checkDescriptiveList;
+			}
+
+
+			
+
+			function get_remaining_time()
+			{
+				return `{{total_remaining_time}}`
+			}
+
+			function get_elapsed_time()
+			{
+				return `{{elapsed_time}}`
+			}
+
+			function get_exam_input_type(){
+				return `{{is_video}}`
+			}
+		</script>
+
+<script src="{% static 'assets/js/ATS/candidate_audio_video_exam_if_question.js' %}"></script>
+<script>
+	if (window.performance) {
+		console.info("window.performance works fine on this browser");
+	}
+	if (performance.navigation.type == performance.navigation.TYPE_RELOAD) {
+		alert('page reload detected');
+		var stage_id = '{{stage_id}}';
+		var data = {'stage_id': stage_id}
+		var url = '/candidate/refresh_detect/' + stage_id;
+		console.log('url', url)
+		$.ajax({
+			url:url,
+			headers: {'X-CSRFToken': $("input[name=csrfmiddlewaretoken]").val() },
+			type:'POST',
+			contentType: 'application/json; charset=UTF-8',
+			data: JSON.stringify(data),
+			error: function (request, status, error) {
+					alert(error);
+			}
+		}).done(function(response){
+			if(response == 'True'){
+				window.location.replace("/candidate/applied_job_detail/" + "{{job_obj.id}}"+"/company");
+			}
+		});
+	} else {
+		console.info( "This page is not reloaded");
+	}
+</script>
+	</body>
+</html>
+
+

@@ -1,0 +1,480 @@
+{% extends 'company/base.html' %}
+{% load static %}
+{%load custom_filters %}
+{% block title %} Task Manager {% endblock %}
+{% block css %}
+		<!-- Internal TelephoneInput css -->
+		
+		<!--Selector 2 CSS-->
+		<link href="{% static 'assets/plugins/select2/css/select2.min.css' %}" rel="stylesheet">
+
+        <!--custome css files-->
+		<link href="{% static 'assets/css/ATS/task-manager.css' %}" rel="stylesheet" type="text/css" />
+{% endblock %}
+{% block main %}
+		
+					<!-- Main-content-body -->
+					<div class="main-content-body">
+
+						<!-- header-title -->
+						<div class="header-title">
+							<div class="mb-0 mb-lg-0 mb-xl-0">
+								<h4 class="mb-2">Forms</h4>
+								<div class="main-content-breadcrumb"> <span>Forms</span> <span>Form-Element</span> </div>
+							</div>
+							<div class="ml-auto my-auto">
+								<a href="#" class="btn btn-primary"><i class="fe fe-plus-square"></i> Create Report</a>
+								<a href="#" class="btn btn-pink"><i class="fe fe-external-link"></i> Export</a>
+							</div>
+						</div>
+						<!-- header-title -->
+
+						<!-- row add new task manager layout-->
+						<div class="row task-manager-layout" id="taskManager">
+							<div class="col-3">
+								<form action="" id="filterFrom">
+									<div class="card">
+										<div class="side-panel__section">
+											<div class="add-filters">
+												<button type="button" class="btn-primary btn btn-sm add-new-task" data-target="#addNewTask" data-toggle="modal"><i class="fa fa-plus-circle"></i> &nbsp; &nbsp;Add Task</button>
+												
+											</div>
+											<div class="filter-list">
+												<div class="filter-types">
+													<h3 class="filter-title text-uppercase">Filter</h3>
+													<ul class="check-by-list">
+														<li class="check-ls">
+															<div class="fx-left">
+																<input type="checkbox" value="" class="filter-name">
+																<label class="check-label">Assign To Me</label>
+															</div>
+															<div class="fx-right">
+																<label class="check-marks">100</label>
+															</div>
+														</li>
+														<li class="check-ls">
+															<div class="fx-left">
+																<input type="checkbox" value="" class="filter-name">
+																<label class="check-label">Owner</label>
+															</div>
+															<div class="fx-right">
+																<label class="check-marks">5</label>
+															</div>
+														</li>
+														<li class="check-ls">
+															<div class="fx-left">
+																<input type="checkbox" value="" class="filter-name">
+																<label class="check-label">Archive</label>
+															</div>
+															<div class="fx-right">
+																<label class="check-marks">10</label>
+															</div>
+														</li>
+													</ul>
+												</div>
+												<div class="filter-types">
+													<h3 class="filter-title text-uppercase">Status</h3>
+													<ul class="check-by-list">
+														<li class="check-ls">
+															<div class="fx-left">
+																<input type="checkbox" value="" class="filter-name">
+																<label class="check-label">Assign To Me</label>
+															</div>
+															<div class="fx-right">
+																<label class="check-marks">100</label>
+															</div>
+														</li>
+														<li class="check-ls">
+															<div class="fx-left">
+																<input type="checkbox" value="" class="filter-name">
+																<label class="check-label">Owner</label>
+															</div>
+															<div class="fx-right">
+																<label class="check-marks">5</label>
+															</div>
+														</li>
+														<li class="check-ls">
+															<div class="fx-left">
+																<input type="checkbox" value="" class="filter-name">
+																<label class="check-label">Archive</label>
+															</div>
+															<div class="fx-right">
+																<label class="check-marks">10</label>
+															</div>
+														</li>
+													</ul>
+												</div>
+												<div class="filter-types">
+													<h3 class="filter-title text-uppercase">category</h3>
+													<ul class="check-by-list">
+														<li class="check-ls">
+															<div class="fx-left">
+																<input type="checkbox" value="" class="filter-name">
+																<label class="check-label">Assign To Me</label>
+															</div>
+															<div class="fx-right">
+																<label class="check-marks">100</label>
+															</div>
+														</li>
+														<li class="check-ls">
+															<div class="fx-left">
+																<input type="checkbox" value="" class="filter-name">
+																<label class="check-label">Owner</label>
+															</div>
+															<div class="fx-right">
+																<label class="check-marks">5</label>
+															</div>
+														</li>
+														<li class="check-ls">
+															<div class="fx-left">
+																<input type="checkbox" value="" class="filter-name">
+																<label class="check-label">Archive</label>
+															</div>
+															<div class="fx-right">
+																<label class="check-marks">10</label>
+															</div>
+														</li>
+													</ul>
+												</div>
+											</div>
+											<div class="submit-filters">
+												<button class="submit btn-primary btn btn-sm submit-task">Submit</button>
+											</div>
+										</div>
+									</div>
+								</form>
+                            </div>
+                            <div class="col-9">
+								<form id="taskListForm">
+									<!--search-short list-->
+									<div class="search-section">
+										<div class="filter-by-search">
+											<div class="input-group custom-search-bar">
+												<span class="search-icon"><i class="fa fa-search"></i></span>
+												<input class="form-control" type="text"> 
+												<span class="input-group-btn">
+													<button class="btn btn-primary" type="button">
+														<span class="input-group-btn">search</span>
+													</button>
+												</span>
+											</div>
+										</div>
+									</div>
+									<!--search-short list-->
+									{% for task in taskmanagment %}
+									<div class="task-list__container">
+										<div class="task-list card">
+											<div class="task-orientation">
+												<div class="task-tag">
+													<label class="task-batch" style="color:{{task.category_id.color}};background: {{task.category_id.color}}33;">{{task.category_id.category_name}}</label>
+												</div>
+												<div class="task-details">
+													<div class="tfxt-row">
+														<label class="task-title-bold" onclick="show_detail({{task.id}})">{{task.title}}</label>
+														<input type="text" hidden readonly id="taskid" value="{{task.id}}">
+														<span class="todo-batch">to do</span>
+													</div>
+													<div class="tfxb-row">
+														<ul class="task-info">
+															<li>
+																<label class="info-title">Assignee :</label>
+																<label class="info-decs" style="color: #0068ff;font-width:bold;">
+																{% for assign in task.assignee.all %}
+																	{{assign.employee_id.first_name}} {{assign.employee_id.last_name}},
+																{% endfor %}
+																</label>
+															</li>
+															{% if task.applied_candidate_id %}
+															<li>
+																<label class="info-title">Candidate :</label>
+																<label class="info-decs" style="color: #0068ff;font-width:bold;">{{task.applied_candidate_id}}</label>
+															</li>
+															{% endif %}
+															{% if task.internal_candidate_id %}
+															<li>
+																<label class="info-title">Candidate :</label>
+																<label class="info-decs" style="color: #0068ff;font-width:bold;">{{task.internal_candidate_id.first_name}} {{task.internal_candidate_id.last_name}}</label>
+															</li>
+															{% endif %}
+															<li>
+																<label class="info-title">Due Date :</label>
+																<label class="info-decs">{{task.due_date|date:'d-m-Y'}}</label>
+															</li>
+															<li>
+																<label class="info-title">Priority :</label>
+																<label class="info-decs">{{task.priority_id.name}}</label>
+															</li>
+														</ul>
+													</div>
+												</div>
+												<div class="task-actions">
+													<div class="classic-btns">
+														<div class="edit-btn" onclick="edit_detail({{task.id}})"><i class="fas fa-edit"></i></div>
+														<div class="delete-btn"><i class="fas fa-trash-alt"></i></div>
+													</div>
+												</div>
+											</div>
+										</div>
+										{% endfor %}
+										
+									</div>
+								</form>
+                            </div>
+						</div>
+						<!-- row end task manager-->
+						<!-- Large Modal -->
+				<div class="modal" id="taskManagerModal">
+					
+				</div>
+				<!--End Large Modal -->
+
+
+				<!-- Add New Task modal -->
+				<div class="modal" id="addNewTask">
+					<div class="modal-dialog" role="document">
+						<div class="modal-content modal-content-demo">
+							<div class="modal-header">
+								<h6 class="modal-title">Task Management</h6>
+								<button aria-label="Close" class="close" data-dismiss="modal" type="button"><span aria-hidden="true">&times;</span></button>
+							</div>
+							<div class="modal-body">
+								<div class="row row-sm taskmanager-container">
+									<form id="taskmanager-add"   data-parsley-validate="" method="POST" enctype="multipart/form-data">
+										{% csrf_token %}
+										<div class="col-12 form-group">
+											<label class="form-label">Title:<span class="tx-danger">*</span></label>
+											<input type="text" class="form-control" required="" name="title">
+										</div>
+
+										<div class="col-12 checkmark-ls form-group">
+											<label class="form-label">priority:<span class="tx-danger">*</span></label>
+											<div class="checkmark-ls req-msg-poz">
+												{% for priority in priorities %}
+													<div class="check-element">
+														<input type="radio" class="form-control-sm" name="select_priority" value="{{priority.id}}" required=""> 
+														<label class="check-label">{{priority.name}}</label>
+													</div>
+												{% endfor %}
+											</div>
+										</div>
+
+										<div class="col-12 form-group">
+											<label class="form-label">Task Description:<span class="tx-danger">*</span></label>
+											<textarea class="form-control" required="" name="description" placeholder="enter the task description...." required="" rows="3"></textarea>
+											<!-- <textarea name="task-decs" class="form-control-sm" required=""></textarea> -->
+										</div>
+
+										<div class="col-12">
+											<div class="row row-sm selector-view mg-t-10">
+												<div class="col-4 select-input form-group valid-third-last">
+													<label class="form-label">Category :<span class="tx-danger">*</span></label>
+													<select class="form-control" name="category" required="">
+														<option label="Choose one"></option>
+														{% for category in tastcategory %}
+															<option value="{{category.id}}">{{category.category_name}}</option>
+														{% endfor %}
+													</select>
+												</div>
+												<div class="col-4 select-input form-group valid-third-last">
+													<label class="form-label">Select Job :</label>
+													<select class="form-control job" name="jobid">
+														<option selected label="Choose one"></option>
+														{% for jobs in openingjobs %}
+															<option value="{{jobs.id}}">{{jobs.job_title}}</option>
+														{% endfor %}
+													</select>
+												</div>
+												<div class="col-4 select-input form-group valid-third-last">
+													<label class="form-label">Select Candidate :</label>
+													<select class="form-control candidate" name="candidate">
+														<option selected label="Choose one"></option>
+														{% for internalcandidate in internalcandidates %}
+															<option value="internal-{{internalcandidate.id}}">{{internalcandidate.first_name}} {{internalcandidate.last_name}}</option>
+														{% endfor %}
+													</select>
+												</div>
+											</div>
+										</div>
+
+										<div class="col-12">
+											<div class="row row-sm mg-t-20 search-selector">
+												<div class="col-6 form-group valid-sec-last">
+													<label class="form-label">Select Owner :<span class="tx-danger">*</span></label>
+													<select class="form-control select2" name="owner" required="">
+														<option label="Choose one"></option>
+														{% for internalemployee in internalemployees %}
+															<option value="{{internalemployee.id}}">{{internalemployee.first_name}} {{internalemployee.last_name}}</option>
+														{% endfor %}
+													</select>
+												</div>
+												<div class="col-6 form-group valid-sec-last">
+													<label class="form-label">Assignee :<span class="tx-danger">*</span></label>
+													<select class="form-control select2" name="assignee" multiple="multiple" required="">
+														{% for internalemployee in internalemployees %}
+															<option value="{{internalemployee.id}}">{{internalemployee.first_name}} {{internalemployee.last_name}}</option>
+														{% endfor %}
+													</select>
+												</div>
+											</div>
+										</div>
+
+										<div class="col-12">
+											<div class="row row-sm mg-t-20 datepicker-selector">
+												<div class="col-6 form-group valid-last">
+													<label class="form-label">Select Due Date :<span class="tx-danger">*</span></label>
+													<input class="form-control input-feild txtDate_target_Date" required=""  name="due_date" type="date">
+													<!-- <div class="date-snaped input-group">
+														<div class="input-group-prepend">
+															<div class="input-group-text">
+																<i class="typcn typcn-calendar-outline tx-24 lh--9 op-6"></i>
+															</div>
+														</div>
+														<input required="" class="form-control fc-datepicker" placeholder="MM/DD/YYYY" type="text">
+													</div> -->
+												</div>
+												<!-- <div class="col-6 status-tab form-group valid-last">
+													<label class="form-label">Status :<span class="tx-danger">*</span></label>
+													<select class="form-control" required="">
+														<option label="Choose one"></option>
+														{% for taskststus in taskststuses %}
+															<option value="{{taskststus.id}}">{{taskststus.name}}</option>
+														{% endfor %}
+													</select>
+												</div> -->
+											</div>
+										</div>
+
+										<div class="col-12 submit-btn mg-t-20">
+											<button class="btn btn-primary" type="submit" name="submit">submit</button>
+										</div>
+									</form>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<!--Add New Task modal -->
+
+				<!--Edit Task Manager Modal-->
+				<div class="modal" id="editTaskManager">
+					<div class="modal-dialog" role="document">
+						<div class="modal-content modal-content-demo">
+							<div class="modal-header">
+								<h6 class="modal-title">Task Management</h6>
+								<button aria-label="Close" class="close" data-dismiss="modal" type="button"><span aria-hidden="true">&times;</span></button>
+							</div>
+							<div class="modal-body">
+								<div class="row row-sm taskmanager-container">
+									<form id="editTaskManager-form" method="POST" data-parsley-validate="">
+										{% csrf_token %}
+										<input type="text" hidden readonly name="task_id" id="task_id" value="">
+										<div class="col-12 form-group">
+											<label class="form-label">Title:</label>
+											<input type="text" class="form-control task-editname" required="" name="edit-title" value="">
+										</div>
+										
+										<div class="col-12 checkmark-ls form-group">
+											<label class="form-label">Preority:</label>
+											<div class="checkmark-ls req-msg-poz">
+												{% for priority in priorities %}
+													<div class="check-element">
+														<input type="radio" class="form-control-sm" name="edit_select_priority" value="{{priority.id}}" required=""> 
+														<label class="check-label">{{priority.name}}</label>
+													</div>
+												{% endfor %}
+											</div>
+										</div>
+										
+										<div class="col-12 form-group">
+											<label class="form-label">Task Description:</label>
+											<textarea class="form-control task-edit-description" name="edit_description" required="" placeholder="enter the task description...." rows="3"></textarea>
+										</div>
+										
+										<div class="col-12">
+											<div class="row row-sm selector-view mg-t-10">
+												<div class="col-4 select-input form-group valid-third-last">
+													<label class="form-label">Category :</label>
+													<select class="form-control task-edit-cat" name="edit_category" required="">
+														<option label="Choose one"></option>
+														{% for category in tastcategory %}
+															<option value="{{category.id}}">{{category.category_name}}</option>
+														{% endfor %}
+													</select>
+												</div>
+												<div class="col-4 select-input form-group valid-third-last">
+													<label class="form-label">Select Job :</label>
+													<select class="form-control task-edit-job" name="edit_jobid">
+														<option label="Choose one"></option>
+														{% for jobs in openingjobs %}
+															<option value="{{jobs.id}}">{{jobs.job_title}}</option>
+														{% endfor %}
+													</select>
+												</div>
+												<div class="col-4 select-input form-group valid-third-last">
+													<label class="form-label">Select Candidate :</label>
+													<select class="form-control task-edit-candidate" name="edit_candidate">
+														<option label="Choose one"></option>
+													</select>
+												</div>
+											</div>
+										</div>
+										
+										<div class="col-12">
+											<div class="row row-sm mg-t-20 search-selector">
+												<div class="col-6 form-group valid-sec-last">
+													<label class="form-label">Select Owner :</label>
+													<select class="form-control task-edit-owner" name="edit_owner" required="">
+														<option label="Choose one"></option>
+														{% for internalemployee in internalemployees %}
+															<option value="{{internalemployee.id}}">{{internalemployee.first_name}} {{internalemployee.last_name}}</option>
+														{% endfor %}
+													</select>
+												</div>
+												<div class="col-6 form-group valid-sec-last">
+													<label class="form-label">Assignee :</label>
+													<select class="form-control select2 multi-selector task-edit-assign" multiple="multiple" name="edit_assign" required="">
+														{% for internalemployee in internalemployees %}
+															<option value="{{internalemployee.id}}">{{internalemployee.first_name}} {{internalemployee.last_name}}</option>
+														{% endfor %}
+													</select>
+												</div>
+											</div>
+										</div>
+										
+										<div class="col-12">
+											<div class="row row-sm mg-t-20 datepicker-selector">
+												<div class="col-6 form-group valid-last">
+													<label class="form-label">Select Due Date :</label>
+													<!-- <input id="editTaskDate" class="form-control input-feild txtDate_target_Date task-edit-duedate" required="" value="16-05-2022" name="target_date" type="date"> -->
+
+													<input id="editTaskDate" class="form-control input-feild txtDate_target_Date" name="edit_due_date" required="" type="date" placeholder="dd-mm-yyyy">
+												</div>
+												
+											</div>
+										</div>
+										
+										<div class="col-12 submit-btn mg-t-20">
+											<button class="btn btn-primary" type="submit" name="submit">submit</button>
+										</div>
+									</form>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<!--Edit Task Manager Modal-->
+		</div>
+		<!-- Main-content-body closed -->
+
+
+		
+		{% endblock %}
+		{% block script %}
+
+		
+		<!--Select 2 plugin-->
+		<script src="{% static 'assets/plugins/select2/js/select2.min.js' %}"></script>
+
+        <script type="text/javascript" src="{% static 'assets/js/ATS/task-manager.js' %}"></script>
+	
+{% endblock %}

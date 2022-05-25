@@ -1,0 +1,531 @@
+{% extends 'agency/base.html' %}
+{% load static %}
+{% block title %}Image Exam Edit{% endblock %}
+{% block css %}
+{%load custom_filters%}
+
+    <link href="{% static 'assets/css/ATS/exam_view.css' %}" rel="stylesheet">
+ <!-- Internal Data table css -->
+    <link href="{% static 'assets/plugins/datatable/css/dataTables.bootstrap4.min.css' %}" rel="stylesheet" />
+    <link href="{% static 'assets/plugins/datatable/css/buttons.bootstrap4.min.css' %}" rel="stylesheet">
+    <link href="{% static 'assets/plugins/datatable/css/responsive.bootstrap4.min.css' %}" rel="stylesheet" />
+    <link href="{% static 'assets/plugins/datatable/css/jquery.dataTables.min.css' %}" rel="stylesheet">
+    <link href="{% static 'assets/plugins/datatable/css/responsive.dataTables.min.css' %}" rel="stylesheet">
+    <link href="{% static 'assets/plugins/select2/css/select2.min.css' %}" rel="stylesheet">
+{% endblock %}
+{% block main %}
+         
+        <!-- Main-content-body -->
+        <div class="main-content-body">
+
+            <!-- row -->
+            <div class="row row-sm ">
+                <div class="col-12">
+                    <div class="card audiencemetric">
+                        <div class="card-header exam-view-header">
+                            <h2>Java MCQ TEST</h2>
+                            <div class="search-page">
+                                <div class="input-group">
+                                    <span class="input-group-append">
+                                        <button class="btn ripple" type="button"><i
+                                                class="fa fa-search"></i></button>
+                                    </span>
+                                    <input type="text" class="form-control border-left-0 pl-3" id="mcqsearch" placeholder="Search Template">
+                                </div>
+                            </div>
+                        </div>
+                        {% csrf_token %}
+                        <div class="card-body">
+                            <div class="main-content-body-profile exam-view">
+                                <div class="question-timing">
+                                    {%if exam_template.question_wise_time %} {% else %}<h4>Question Time : 1 min</h4>{% endif %}
+                                </div>
+                                <nav class="nav main-nav-line">
+                                    <a class="nav-link d-flex  active" data-toggle="tab" href="#basic">Basic</a>
+                                    <a class="nav-link d-flex" data-toggle="tab" href="#intermediate">Intermediate</a>
+                                    <a class="nav-link d-flex" data-toggle="tab" href="#advance">Advance</a>
+                                </nav>
+                                <div class="tab-content">
+                                    <div class="tab-pane mcq-scroll" id="basic">
+                                        <div class="card-body pl-0 pl-0">
+                                            <div class="table-responsive">
+                                                <div class="template_question_status">
+                                                    <h3>Total Count : {{exam_template.basic_questions_count}}</h3>
+                                                    {% if exam_template.marking_system == "question_wise" %} {% else %}<h3>(10 x 1 = 10)</h3>{% endif %}
+                                                </div>
+                                                <table class="table text-md-nowrap candidate_table">
+                                                    <thead>
+                                                        <tr style="display: none;">
+                                                            <th class="border-bottom-0">Job Title</th>
+
+                                                        </tr>
+
+                                                    </thead>
+                                                    <tbody>
+
+                                                        {%for i in basic_questions%}
+                                                        <tr class="template_question_list image_exam_selection_q odd" role="row">
+                                                            <td id="ques-li{{i.id}}" class="sorting_1">
+                                                                <div class="slide-list row row-sm card">
+                                                                    <input type="hidden" name="que_id" value="">
+                                                                    <div class="title-section col-12">
+                                                                        <div class="info-section fx-row">
+                                                                            <div class="fx-col-sm left-side">
+                                                                                <label class="tab-counter-label">{{forloop.counter}}</label>
+                                                                                <label class="main-content-label mb-0">{{i.image_que_description}}</label>
+                                                                               
+                                                                            </div>
+                                                                            <div class="fx-col-sm right-side selection_q_input_m_t">
+                                                                                 <label class="select_q_check_box mb-0"><span>Select </span><input class="select-que basic-que" id="markscheck{{i.id}}" value="{{i.id}}" name="viewcheck" type="checkbox" ></label>
+                                                                            </div>
+                                                                        </div>
+                                                                    
+                                                                    </div>
+                                                                    <div class="detail-section col-12" style="display: block;">
+                                                                        <div class="row row-sm para-with-quotes">
+                                                                            <div class="para-left">
+                                                                                 <div class="q_image_view">
+                                                                                        <img src="{{i.question_file.url}}">
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="quotes-right">
+                                                                                <div class="quote-tab">
+
+                                                                                    <div class="flex-option-viewer">
+                                                                                        <ul class="option-list">
+                                                                                        {% for option_ in options %}
+                                                                                            {% ifequal option_.question_id.id i.id %}
+                                                                                            <li class="questionListItem {%if option_.answer == 'a'%}active{%endif%}">
+                                                                                                <label class="opt-label">{{option_.option1}}</label>
+                                                                                                {% if option_.file1 %}
+                                                                                                    <div class="markbox_image">
+                                                                                                        <img src="{% if option_.file1 %} {{option_.file1.url}}  {% endif %}">
+                                                                                                    </div>
+                                                                                                {% endif %}
+                                                                                                
+                                                                                            </li>
+                                                                                            <li class="questionListItem {%if option_.answer == 'b'%}active{%endif%}">
+                                                                                                <label class="opt-label">{{option_.option2}}</label>
+                                                                                                {% if option_.file2 %}
+                                                                                                    <div class="markbox_image">
+                                                                                                        <img src="{% if option_.file2 %} {{option_.file2.url}}  {% endif %}">
+                                                                                                    </div>
+                                                                                                {% endif %}
+                                                                                            </li>
+                                                                                            <li class="questionListItem {%if option_.answer == 'c'%}active{%endif%}">
+                                                                                                <label class="opt-label">{{option_.option3}}</label>
+                                                                                                {% if option_.file3 %}
+                                                                                                    <div class="markbox_image">
+                                                                                                        <img src="{% if option_.file3 %} {{option_.file3.url}}  {% endif %}">
+                                                                                                    </div>
+                                                                                                {% endif %}
+                                                                                            </li>
+                                                                                            <li class="questionListItem {%if option_.answer == 'd'%}active{%endif%}">
+                                                                                                <label class="opt-label">{{option_.option4}}</label>
+                                                                                                {% if option_.file4 %}
+                                                                                                    <div class="markbox_image">
+                                                                                                        <img src="{% if option_.file4 %} {{option_.file4.url}}  {% endif %}">
+                                                                                                    </div>
+                                                                                                {% endif %}
+                                                                                            </li>  
+                                                                                            {% endifequal %}
+                                                                                        {% endfor %}                                                                                         
+                                                                                        
+                                                                                        </ul>
+                                                                                    </div>
+                                                                                </div>
+
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </td>
+                                                        </tr>
+
+                                                        {%endfor%}
+
+                                                      
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="tab-pane mcq-scroll" id="intermediate">
+                                        <div class="card-body pl-0 pl-0">
+                                            <div class="table-responsive">
+                                                <div class="template_question_status">
+                                                    <h3>Total Count : {{exam_template.intermediate_questions_count}}</h3>
+                                                    {% if exam_template.marking_system == "question_wise" %}{% else %}<h3>(10 x 1 = 10)</h3>{% endif %}
+                                                </div>
+                                                <table class="table text-md-nowrap candidate_table">
+                                                    <thead>
+                                                        <tr style="display: none;">
+                                                            <th class="border-bottom-0">Job Title</th>
+
+                                                        </tr>
+
+                                                    </thead>
+                                                    <tbody>
+
+                                                        {%for i in intermediate_questions%}
+                                                       <tr class="template_question_list image_exam_selection_q odd" role="row">
+                                                            <td id="ques-li{{i.id}}" class="sorting_1">
+                                                                <div class="slide-list row row-sm card">
+                                                                    <input type="hidden" name="que_id" value="">
+                                                                    <div class="title-section col-12">
+                                                                        <div class="info-section fx-row">
+                                                                            <div class="fx-col-sm left-side">
+                                                                                <label class="tab-counter-label">{{forloop.counter}}</label>
+                                                                                <label class="main-content-label mb-0">{{i.image_que_description}}</label>
+                                                                               
+                                                                            </div>
+                                                                            <div class="fx-col-sm right-side selection_q_input_m_t">
+                                                                                 <label class="select_q_check_box mb-0"><span>Select </span><input class="select-que basic-que" id="markscheck{{i.id}}" value="{{i.id}}" name="viewcheck" type="checkbox" ></label>
+                                                                            </div>
+                                                                        </div>
+                                                                    
+                                                                    </div>
+                                                                    <div class="detail-section col-12" style="display: block;">
+                                                                        <div class="row row-sm para-with-quotes">
+                                                                            <div class="para-left">
+                                                                                 <div class="q_image_view">
+                                                                                        <img src="{{i.question_file.url}}">
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="quotes-right">
+                                                                                <div class="quote-tab">
+
+                                                                                    <div class="flex-option-viewer">
+                                                                                        <ul class="option-list">
+                                                                                        {% for option_ in options %}
+                                                                                            {% ifequal option_.question_id.id i.id %}
+                                                                                            <li class="questionListItem {%if option_.answer == 'a'%}active{%endif%}">
+                                                                                                <label class="opt-label">{{option_.option1}}</label>
+                                                                                                {% if option_.file1 %}
+                                                                                                    <div class="markbox_image">
+                                                                                                        <img src="{% if option_.file1 %} {{option_.file1.url}}  {% endif %}">
+                                                                                                    </div>
+                                                                                                {% endif %}
+                                                                                                
+                                                                                            </li>
+                                                                                            <li class="questionListItem {%if option_.answer == 'b'%}active{%endif%}">
+                                                                                                <label class="opt-label">{{option_.option2}}</label>
+                                                                                                {% if option_.file2 %}
+                                                                                                    <div class="markbox_image">
+                                                                                                        <img src="{% if option_.file2 %} {{option_.file2.url}}  {% endif %}">
+                                                                                                    </div>
+                                                                                                {% endif %}
+                                                                                            </li>
+                                                                                            <li class="questionListItem {%if option_.answer == 'c'%}active{%endif%}">
+                                                                                                <label class="opt-label">{{option_.option3}}</label>
+                                                                                                {% if option_.file3 %}
+                                                                                                    <div class="markbox_image">
+                                                                                                        <img src="{% if option_.file3 %} {{option_.file3.url}}  {% endif %}">
+                                                                                                    </div>
+                                                                                                {% endif %}
+                                                                                            </li>
+                                                                                            <li class="questionListItem {%if option_.answer == 'd'%}active{%endif%}">
+                                                                                                <label class="opt-label">{{option_.option4}}</label>
+                                                                                                {% if option_.file4 %}
+                                                                                                    <div class="markbox_image">
+                                                                                                        <img src="{% if option_.file4 %} {{option_.file4.url}}  {% endif %}">
+                                                                                                    </div>
+                                                                                                {% endif %}
+                                                                                            </li>  
+                                                                                            {% endifequal %}
+                                                                                        {% endfor %}                                                                                         
+                                                                                        
+                                                                                        </ul>
+                                                                                    </div>
+                                                                                </div>
+
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </td>
+                                                        </tr>
+                                                        {%endfor%}
+
+
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="tab-pane mcq-scroll" id="advance">
+                                        <div class="card-body pl-0 pl-0">
+                                            <div class="table-responsive">
+                                                <div class="template_question_status">
+                                                    <h3>Total Count : {{exam_template.advanced_questions_count}}</h3>
+                                                    {% if exam_template.marking_system == "question_wise" %} {% else %}<h3>(10 x 1 = 10)</h3>{% endif %}
+                                                </div>
+                                                <table class="table text-md-nowrap candidate_table" >
+                                                    <thead>
+                                                        <tr style="display: none;">
+                                                            <th class="border-bottom-0">Job Title</th>
+
+                                                        </tr>
+
+                                                    </thead>
+                                                    <tbody>
+
+                                                        {%for i in advanced_questions%}
+                                                       <tr class="template_question_list image_exam_selection_q odd" role="row">
+                                                            <td id="ques-li{{i.id}}" class="sorting_1">
+                                                                <div class="slide-list row row-sm card">
+                                                                    <input type="hidden" name="que_id" value="">
+                                                                    <div class="title-section col-12">
+                                                                        <div class="info-section fx-row">
+                                                                            <div class="fx-col-sm left-side">
+                                                                                <label class="tab-counter-label">{{forloop.counter}}</label>
+                                                                                <label class="main-content-label mb-0">{{i.image_que_description}}</label>
+                                                                               
+                                                                            </div>
+                                                                            <div class="fx-col-sm right-side selection_q_input_m_t">
+                                                                                 <label class="select_q_check_box mb-0"><span>Select </span><input class="select-que basic-que" id="markscheck{{i.id}}" value="{{i.id}}" name="viewcheck" type="checkbox" ></label>
+                                                                            </div>
+                                                                        </div>
+                                                                    
+                                                                    </div>
+                                                                    <div class="detail-section col-12" style="display: block;">
+                                                                        <div class="row row-sm para-with-quotes">
+                                                                            <div class="para-left">
+                                                                                 <div class="q_image_view">
+                                                                                        <img src="{{i.question_file.url}}">
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="quotes-right">
+                                                                                <div class="quote-tab">
+
+                                                                                    <div class="flex-option-viewer">
+                                                                                        <ul class="option-list">
+                                                                                        {% for option_ in options %}
+                                                                                            {% ifequal option_.question_id.id i.id %}
+                                                                                            <li class="questionListItem {%if option_.answer == 'a'%}active{%endif%}">
+                                                                                                <label class="opt-label">{{option_.option1}}</label>
+                                                                                                {% if option_.file1 %}
+                                                                                                    <div class="markbox_image">
+                                                                                                        <img src="{% if option_.file1 %} {{option_.file1.url}}  {% endif %}">
+                                                                                                    </div>
+                                                                                                {% endif %}
+                                                                                                
+                                                                                            </li>
+                                                                                            <li class="questionListItem {%if option_.answer == 'b'%}active{%endif%}">
+                                                                                                <label class="opt-label">{{option_.option2}}</label>
+                                                                                                {% if option_.file2 %}
+                                                                                                    <div class="markbox_image">
+                                                                                                        <img src="{% if option_.file2 %} {{option_.file2.url}}  {% endif %}">
+                                                                                                    </div>
+                                                                                                {% endif %}
+                                                                                            </li>
+                                                                                            <li class="questionListItem {%if option_.answer == 'c'%}active{%endif%}">
+                                                                                                <label class="opt-label">{{option_.option3}}</label>
+                                                                                                {% if option_.file3 %}
+                                                                                                    <div class="markbox_image">
+                                                                                                        <img src="{% if option_.file3 %} {{option_.file3.url}}  {% endif %}">
+                                                                                                    </div>
+                                                                                                {% endif %}
+                                                                                            </li>
+                                                                                            <li class="questionListItem {%if option_.answer == 'd'%}active{%endif%}">
+                                                                                                <label class="opt-label">{{option_.option4}}</label>
+                                                                                                {% if option_.file4 %}
+                                                                                                    <div class="markbox_image">
+                                                                                                        <img src="{% if option_.file4 %} {{option_.file4.url}}  {% endif %}">
+                                                                                                    </div>
+                                                                                                {% endif %}
+                                                                                            </li>  
+                                                                                            {% endifequal %}
+                                                                                        {% endfor %}                                                                                         
+                                                                                        
+                                                                                        </ul>
+                                                                                    </div>
+                                                                                </div>
+
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </td>
+                                                        </tr>
+                                                        {%endfor%}
+
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <button name="submit" class="btn btn-primary add-exam-que submit_cut_btn">Submit</button>
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
+            <!-- row -->
+        </div>
+        <!-- Main-content-body closed -->
+         
+{% endblock %}
+
+{% block script %}
+    <!-- Internal Data tables -->
+    <script src="{% static 'assets/plugins/datatable/js/jquery.dataTables.min.js' %}"></script>
+    <script src="{% static 'assets/plugins/datatable/js/dataTables.dataTables.min.js' %}"></script>
+    <script src="{% static 'assets/plugins/datatable/js/dataTables.responsive.min.js' %}"></script>
+    <script src="{% static 'assets/plugins/datatable/js/responsive.dataTables.min.js' %}"></script>
+    <script src="{% static 'assets/plugins/datatable/js/jquery.dataTables.js' %}"></script>
+    <script src="{% static 'assets/plugins/datatable/js/dataTables.bootstrap4.js' %}"></script>
+    <script src="{% static 'assets/plugins/datatable/js/dataTables.buttons.min.js' %}"></script>
+    <script src="{% static 'assets/plugins/datatable/js/buttons.bootstrap4.min.js' %}"></script>
+    <script src="{% static 'assets/plugins/datatable/js/jszip.min.js' %}"></script>
+    <script src="{% static 'assets/plugins/datatable/js/pdfmake.min.js' %}"></script>
+    <script src="{% static 'assets/plugins/datatable/js/vfs_fonts.js' %}"></script>
+    <script src="{% static 'assets/plugins/datatable/js/buttons.html5.min.js' %}"></script>
+    <script src="{% static 'assets/plugins/datatable/js/buttons.print.min.js' %}"></script>
+    <script src="{% static 'assets/plugins/datatable/js/buttons.colVis.min.js' %}"></script>
+    <script src="{% static 'assets/plugins/datatable/js/dataTables.responsive.min.js' %}"></script>
+    <script src="{% static 'assets/plugins/datatable/js/responsive.bootstrap4.min.js' %}"></script>
+
+    <!-- datatable js -->
+    <script src="{% static 'assets/js/table-data.js' %}"></script>
+
+    <!--- Internal Vector-sampledata js -->
+    <script src="{% static 'assets/js/jquery.vmap.sampledata.js' %}"></script>
+    <script>
+    var questions = {};
+    var selected_question_buffer = [] //used as a mid point to store questions temporarily
+    var question_remove_buffer = [] // used to store deselected questions which will be updated on tab change
+    var selected_questions =[]
+    var selected_questions_count = 0
+    $(document).ready(function(){
+        var None=""
+        var exam_question_units = {{exam_paper|get_question_units|safe}};
+        var exam_question_wise_time = "{{exam_paper|timing_system}}";
+        var exam_question_wise_marks = "{{exam_paper|marking_system}}";
+        var basic_selected_questions = parseInt("{{exam_paper.exam_template.basic_questions_count}}")//this will be 0 in creation page
+        var intermediate_selected_questions =parseInt("{{exam_paper.exam_template.intermediate_questions_count}}")
+        var advanced_selected_questions = parseInt("{{exam_paper.exam_template.advanced_questions_count}}")
+        var basic_question_needed = parseInt("{{exam_paper.exam_template.basic_questions_count}}")
+        var intermediate_question_needed = parseInt("{{exam_paper.exam_template.intermediate_questions_count}}")
+        var advanced_question_needed = parseInt("{{exam_paper.exam_template.advanced_questions_count}}")
+        // console.log("question wise time ???",exam_question_wise_time)
+        // console.log("question wise marks ???",exam_question_wise_marks)
+        // console.log("exam_question_units",exam_question_units)
+        console.log("the template basic questions",basic_question_needed)
+        console.log("the template intermediate questions",intermediate_question_needed)
+        console.log("the template advanced questions",advanced_question_needed)
+        questions = exam_question_units
+        console.log("questions",questions)
+        if(exam_question_wise_time == "True" || exam_question_wise_marks)
+        {
+            $.each(exam_question_units,function(index){
+                console.log("quesrtion",questions[index])
+                console.log("index",index)
+                $("#markscheck"+index).prop("checked",true)
+                if(exam_question_wise_time == "True")
+                {
+                    $("#timeinput"+index).val(questions[index][1])
+                    $("#timeinput"+index).show()
+                }
+                if(exam_question_wise_time == "True")
+                {
+                    $("#markinput"+index).val(questions[index][0])
+                    $("#markinput"+index).show()
+                }
+            })
+        }
+        $(document).on("click","input[name=viewcheck]",function(e){
+            // console.log("stuff",this)
+            var id = this.value;
+            console.log(this,"----------------------->",questions)
+            if ($(this).prop('checked') == true) {
+                $('#markinput' + id).show();
+                $('#timeinput' + id).show();
+                var mark_div = $("#markscheck"+id).closest(".mark-group")
+                console.log("mark div here",mark_div)
+                $("#ques-li"+id).addClass("question-selected")
+                add_question_to_list(mark_div)
+                selected_question_buffer.push(id)
+                update_difficulty_variable(this,1)
+            } else {
+                $('#markinput' + id).hide();
+                $('#timeinput' + id).hide();
+                $("#ques-li"+id).removeClass("question-selected")
+                delete questions[id]
+                question_remove_buffer.push(id)
+                update_difficulty_variable(this,-1)
+            }
+            console.log("woooooooooooooooow")
+            console.log("questionsssss",questions)
+        });
+        $('.add-exam-que').click(function(){
+            if(basic_question_needed != basic_selected_questions)
+            {
+                alert("only select " +basic_question_needed + "question/s in the basic difficulty")
+                return false
+            }
+            if(intermediate_question_needed != intermediate_selected_questions)
+            {
+                alert("only select " +basic_question_needed + "question/s in the intermediate difficulty")
+                return false
+            }
+            if(advanced_question_needed != advanced_selected_questions)
+            {
+                alert("only select " +basic_question_needed + "question/s in the advanced difficulty")
+                return false
+            }
+            console.log("form questions areies",questions)
+            $.ajax({
+                url:"/agency/image_exam_edit/" + "{{exam_template.template.id}}/",
+                method:"POST",
+                headers: {"X-CSRFToken":$("input[name=csrfmiddlewaretoken]").val()},
+                data:JSON.stringify(questions)
+            }).done(function(response){
+                alert("response got!!!!")
+                window.location.replace("/agency/images_template_view/"+"{{exam_template.template.id}}")
+            })
+        });
+        $(document).on("change",".viewmarks,.viewtimes",function(){
+            var mark_group = $(this).closest(".mark-group")
+            console.log("this value is",mark_group)
+            // var question_id = mark_group.find("[name='viewcheck']").val()
+            add_question_to_list(mark_group)
+            // var question_marks = mark_group.find(".viewmarks").val()
+            // var question_time = mark_group.find(".viewtimes").val()
+            // questions[question_id] = [question_marks,question_time]
+            // console.log("all_questions",questions)
+        })
+    function add_question_to_list(mark_group)
+        {
+            // var mark_group = $("markinput"+question_id).closest(".mark-group")
+            var question_id = mark_group.find("[name='viewcheck']").val()
+            var question_marks = mark_group.find(".viewmarks").val()
+            var question_time = mark_group.find(".viewtimes").val()
+            console.log("i ma right here",questions)
+            questions[question_id] = [question_marks,question_time]
+            console.log("question added to list")
+        }
+    function update_difficulty_variable(input_element,delta)
+    {
+        if($(input_element).hasClass('basic-que'))
+        {
+            basic_selected_questions += delta
+            console.log("basiiic",basic_selected_questions)
+        }
+        else if ($(input_element).hasClass('intermediate-que'))
+        {
+            console.log("intermediate")
+            intermediate_selected_questions += delta
+        }
+        else
+        {
+            console.log("advacned")
+            advanced_selected_questions += delta
+        }
+    }
+    })
+    </script>
+{% endblock %}

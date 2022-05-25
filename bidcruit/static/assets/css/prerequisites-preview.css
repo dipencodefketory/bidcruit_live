@@ -1,0 +1,21 @@
+.preview-header {border-bottom: 1px solid #e2e8f5;margin: 0;}
+.preview-header .head-preview-left h4 { margin: 0;padding: 10px 0;}
+.head-preview-left {display: flex;justify-content: flex-start;align-items: center;}
+.head-preview-right { display: flex;justify-content: flex-end;align-items: center;}
+.head-group-btns {min-width: 80px;}
+.head-group-btns .hgp-right button {width: 100%;}
+
+/****/
+.listing_container{max-width: 980px; margin: 0 auto;margin-top: 20px;margin-bottom: 20px;}
+.list-column {border: 2px solid #e2e8f5; border-radius: 10px;padding: 10px 10px;margin-bottom: 20px;}
+.ques-list {margin: 0;}
+.question {display: flex;justify-content: flex-start;align-items: center;}
+.question-number{padding:4px 10px;background:#0068ff;border-radius:8px;font-weight:600;color:#fff;margin-right:10px}
+.question-title{margin:0}
+.fx-option_setion{display:flex;justify-content:space-between;margin: 10px 0 0 15px;flex-wrap: wrap;}
+.left-option_tab {display: flex;justify-content: center;align-items: center;}
+.left-option_tab .option-type {margin: 0; padding-left: 8px;}
+.sub-que { clear: both; flex: 1 1 auto; width: 100%; margin: 10px 0 0 15px;position: relative;width: 98%;}
+.sub-que:before {content: "";position: absolute; border-bottom: 2px solid #e2e8f5;width: 17px; top: 38px; left: -16px;}
+.sub-que-section,.subQuestionView { position: relative;}
+.subQuestionView:after {content: ''; position: absolute; top: 9px; border-top: 2px solid #e2e8f5;width: 18px; height: 62px; left: -18px; border-left: 2px solid #e2e8f5; border-radius: 2px 0 0 0;}

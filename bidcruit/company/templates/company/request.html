@@ -1,0 +1,239 @@
+{% extends 'company/base.html' %}
+{% load static %}
+{% load custom_filters %}
+{% block title %}Request page{% endblock %}
+
+{% block main %}
+</br>
+
+			<!-- Container-fluid -->
+			<div class="container-fluid">
+
+				<!-- Main-content-body -->
+				<div class="main-content-body">
+					<!-- row -->
+					<div class="row">
+						<div class="col-lg-12 col-md-12">
+							<div class="card">
+								<div class="card-body">
+                                    <div class="d-md-flex">
+                                      
+                                        <div class="left-side-bar">
+                                            <div class="head-tab-custom">
+                                                <div class="tabs-menu ">
+                                                    <!-- Tabs -->
+                                                    <ul class="nav panel-tabs">
+                                                        <li class=""><a href="#tab21" class="active" data-toggle="tab"><i data-v-e08301e8="" class="fab fa-buffer"></i>  All <span>20</span>
+                                                                </a></li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                            <div class="panel panel-primary tabs-style-4">
+                                                <div class="tab-menu-heading">
+                                                    <div class="tabs-menu ">
+                                                        <!-- Tabs -->
+                                                        <ul class="nav panel-tabs">
+                                                            <li class=""><a href="#tab21" class="active" data-toggle="tab"><i data-v-e08301e8="" class="fas fa-user-plus"></i> Hire Request </a></li>
+                                                            <li><a href="#tab22" data-toggle="tab"><i data-v-e08301e8="" class="fas fa-clipboard-list"></i> Data Request</a></li>
+                                                            <li><a href="#tab23" data-toggle="tab"><i data-v-e08301e8="" class="fas fa-clipboard-list"></i> Candidate</a></li>
+                                                            <!-- <li><a href="#tab23" data-toggle="tab"><i class="fe fe-settings mr-1"></i> Tab Style 03</a></li>
+                                                            <li><a href="#tab24" data-toggle="tab"><i class="fe fe-layers mr-1"></i> Tab Style 04</a></li> -->
+                                                        </ul>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="tabs-style-4 panel-custom">
+                                            <div class="panel-body tabs-menu-body">
+                                                <div class="tab-content">
+                                                    <div class="tab-pane active" id="tab21">
+														<div class="panel-headcustom">
+															<ul class="nav nav-tabs" role="tablist">
+																<li><a  class="active" data-toggle="tab" href="#tabs-1" role="tab">Active
+																 <!-- <span>1</span> -->
+																</a></li>
+																<li><a data-toggle="tab" href="#tabs-2" role="tab">New 
+																	<!-- <span>1</span> -->
+																</a></li>
+																<li><a data-toggle="tab" href="#tabs-3" role="tab">Archive
+																	<!-- <span>1</span> -->
+																</a></li>
+															</ul>
+															<div class="tab-content">
+																<div class="tab-pane active" id="tabs-1" role="tabpanel">
+																	{% for actives in active %}
+																	<div class="tab-description row">
+																		<div class="left-area col-lg-2 col-md-2 col-sm-3 col-xs-12">
+																			<img src="{{actives.candidate_id|get_candidate_image:actives.profile_id}}" alt="img-responsive">
+																		</div>
+																		<div class="right-area col-lg-10 col-md-10 col-sm-9 col-xs-12">
+																			<div class="acc-haeding">
+																				<a href="#"><h4>{{actives.candidate_id|get_candidatename}}</h4></a>
+																				<span class="acc-year">Oct 2019 to Current</span>
+																				
+																			</div>
+																			
+																			<!-- <span class="acc-sub">Sr. Software Engineer</span> -->
+																			<p>{{actives.message}}</p>
+																		</div>
+																	</div>
+																	{% endfor %}
+																</div>
+																<div class="tab-pane" id="tabs-2" role="tabpanel">
+																	{% for new in new_request %}
+																	<div class="tab-description row">
+																		<div class="left-area col-lg-2 col-md-2 col-sm-3 col-xs-12">
+																			<img src="{{new.candidate_id|get_candidate_image:new.profile_id}}" alt="img-responsive">
+																		</div>
+																		<div class="right-area col-lg-10 col-md-10 col-sm-9 col-xs-12">
+																			<div class="acc-haeding">
+																				<a href="#"><h4>{{new.candidate_id|get_candidatename}}</h4></a>
+																				<span class="acc-year">Oct 2019 to Current</span>
+																			</div>
+																			<!-- <span class="acc-sub">Sr. Software Engineer</span> -->
+																			<p>{{new.message}}</p>
+																		</div>
+																	</div>
+																	{% endfor %}
+																</div>
+																<div class="tab-pane" id="tabs-3" role="tabpanel">
+																	{% for archives in archive %}
+																	<div class="tab-description row">
+																		<div class="left-area col-lg-2 col-md-2 col-sm-3 col-xs-12">
+																			<img src="{{archives.candidate_id|get_candidate_image:archives.profile_id}}" alt="img-responsive">
+																		</div>
+																		<div class="right-area col-lg-10 col-md-10 col-sm-9 col-xs-12">
+																			<div class="acc-haeding">
+																				<a href="#"><h4>{{archives.candidate_id|get_candidatename}}</h4></a>
+																				<span class="acc-year">Oct 2019 to Current</span>
+																			</div>
+																			<!-- <span class="acc-sub">Sr. Software Engineer</span> -->
+																			<p>{{archives.message}}</p>
+																		</div>
+																	</div>
+																	{% endfor %}
+																</div>
+															</div>
+														</div>
+                                                    </div>
+                                                    <div class="tab-pane" id="tab22">
+														<div class="panel-headcustom">
+															<ul class="nav nav-tabs" role="tablist">
+																<li><a  class="active" data-toggle="tab" href="#tabs-4" role="tab">Active
+																 <!-- <span>1</span> -->
+																</a></li>
+																<li><a data-toggle="tab" href="#tabs-5" role="tab">New 
+																	<!-- <span>1</span> -->
+																</a></li>
+																<li><a data-toggle="tab" href="#tabs-6" role="tab">Archive
+																	<!-- <span>1</span> -->
+																</a></li>
+															</ul>
+															<div class="tab-content">
+																<div class="tab-pane active" id="tabs-4" role="tabpanel">
+																	{% for actives in data_active %}
+																	<div class="tab-description row">
+																		<div class="left-area col-lg-2 col-md-2 col-sm-3 col-xs-12">
+																			<img src="{{actives.candidate_id|get_candidate_image:actives.profile_id}}" alt="img-responsive">
+																		</div>
+																		<div class="right-area col-lg-10 col-md-10 col-sm-9 col-xs-12">
+																			<div class="acc-haeding">
+																				<a href="#"><h4>{{actives.candidate_id|get_candidatename}}</h4></a>
+																				<span class="acc-year">Oct 2019 to Current</span>
+																			</div>
+																			<div class="butn-form">
+										                                         <a href="{% url 'candidate:download_folder' actives.candidate_id %}" class="btn btn-primary btn-block" >Documents</a>
+										                                         
+										                                 </div>
+																			<!-- <span class="acc-sub">Sr. Software Engineer</span> -->
+																			<p>{{actives.message}}</p>
+																		</div>
+																	</div>
+																	{% endfor %}
+																</div>
+																<div class="tab-pane" id="tabs-5" role="tabpanel">
+																	{% for new in data_new_request %}
+																	<div class="tab-description row">
+																		<div class="left-area col-lg-2 col-md-2 col-sm-3 col-xs-12">
+																			<img src="{{new.candidate_id|get_candidate_image:new.profile_id}}" alt="img-responsive">
+																		</div>
+																		<div class="right-area col-lg-10 col-md-10 col-sm-9 col-xs-12">
+																			<div class="acc-haeding">
+																				<a href="#"><h4>{{new.candidate_id|get_candidatename}}</h4></a>
+																				<span class="acc-year">Oct 2019 to Current</span>
+																			</div>
+																			<!-- <span class="acc-sub">Sr. Software Engineer</span> -->
+																			<p>{{new.message}}</p>
+																		</div>
+																	</div>
+																	{% endfor %}
+																</div>
+																<div class="tab-pane" id="tabs-6" role="tabpanel">
+																	{% for archives in data_archive %}
+																	<div class="tab-description row">
+																		<div class="left-area col-lg-2 col-md-2 col-sm-3 col-xs-12">
+																			<img src="{{archives.candidate_id|get_candidate_image:actives.profile_id}}" alt="img-responsive">
+																		</div>
+																		<div class="right-area col-lg-10 col-md-10 col-sm-9 col-xs-12">
+																			<div class="acc-haeding">
+																				<a href="#"><h4>{{archives.candidate_id|get_candidatename}}</h4></a>
+																				<span class="acc-year">Oct 2019 to Current</span>
+																			</div>
+																			<!-- <span class="acc-sub">Sr. Software Engineer</span> -->
+																			<p>{{archives.message}}</p>
+																		</div>
+																	</div>
+																	{% endfor %}
+																</div>
+															</div>
+														</div>
+                                                    </div>
+													<div class="tab-pane" id="tab23">
+														<div class="panel-headcustom">
+															<ul class="nav nav-tabs" role="tablist">
+																<li><a  class="active" data-toggle="tab" href="#tabs-7" role="tab">Favorite 
+																	<!-- <span>1</span></a> -->
+																</li>
+
+															</ul>
+															<div class="tab-content">
+																<div class="tab-pane active" id="tabs-7" role="tabpanel">
+																	
+																	{% for candidate in shortlisted_candidates %}
+
+																	<div class="tab-description row">
+																		<div class="left-area col-lg-2 col-md-2 col-sm-3 col-xs-12">
+																			<img src="{% get_media_prefix %}{{candidate.candidate_id.id|get_profile_picture}}" alt="img-responsive">
+																		</div>
+																		<div class="right-area col-lg-10 col-md-10 col-sm-9 col-xs-12">
+																			<div class="acc-haeding">
+																				<h4>{{candidate.candidate_id.first_name}}</h4>
+																				<!-- <span class="acc-year">Oct 2019 to Current</span> -->
+																			</div>
+																			<!-- <span class="acc-sub">Sr. Software Engineer</span> -->
+																			<!-- <p>heeeeeeeeeeeeeeeeeeeeeeelo</p> -->
+																		</div>
+																	</div>
+																	{% endfor %}
+																</div>
+															</div>
+														</div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+								
+								</div>
+							</div>
+						</div>
+					</div>
+					<!-- /row -->
+				</div>
+				<!-- Main-content-body closed -->
+			</div>
+			<!-- Container-fluid closed -->
+		</div>
+		<!-- Main-content closed -->
+<!-- Main-content closed -->
+{% endblock %}

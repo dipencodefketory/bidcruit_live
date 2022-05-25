@@ -1,0 +1,212 @@
+{% extends 'company/base.html' %}
+{% load static %}
+{% block title %}Coding View{% endblock %}
+{% block css %}
+
+		<!-- - Internal Sweet-Alert css -->
+		<link href="{% static 'assets/plugins/sweet-alert/sweetalert.css' %}" rel="stylesheet">
+
+		<link href="{% static 'assets/css/ATS/coding_based_exam_view.css' %}" rel="stylesheet">
+{% endblock %}
+{% block main %}
+				
+				<!-- Main-content-body -->
+				<div class="main-content-body">
+					{% csrf_token %}
+					<!-- row opened -->
+					<div class="row row-sm">
+						<div class="col-xl-12">
+							
+							<div class="card add_view_main_section">
+									
+								<div class="row card-body mcq_list_inner pt-0 pb-0">
+									
+									<div class="col-md-12 col-xl-12 mcq_list p-0">
+
+										<div class="row header-title__section">
+        
+									        <div class="col-lg-12 col-md-12 col-sm-12">
+									            <div class="template_selection_header one_header">
+									                <div class="h5 t_ty_50">Template Type : <span>Coding</span></div>
+									            	<div class="h5">Template Name : <span>{{exam_data.template_id.name}}</span></div>
+									                
+									            </div>
+									        </div>
+									        
+									    </div>
+										
+										
+										
+										<div class="col-12 full-list">		
+											<div class="template_selection_header tow_header">
+								                
+								            	<div class="h5 ">Technology : <span>{{exam_data.technology}} / 
+								            		{% ifequal exam_data.technology 'backend' %}
+													{{exam_data.coding_subject_id.api_subject_id.name}}
+													{% else %}
+													(Html/CSS/Js)
+													{% endifequal %}
+												</span></div>
+								            	<div class="h5 ">Exam Name: <span>{{exam_data.exam_name}}</span></div>
+								            	<div class="h5 ">Total Questions : <span>{{exam_data.total_question}}</span></div>
+								                
+								            </div>
+
+											<div class="mini__card-layout">
+												<div class="fx-row title_list">
+												   <div class="fx-col">
+													  <label class="text-capitalize h6">Basic</label>
+												   </div>
+												   <div class="fx-col">
+													  <label class="text-capitalize h6">Intermediate</label>
+												   </div>
+												   <div class="fx-col">
+													  <label class="text-capitalize h6">Advanced</label>
+												   </div>
+												   
+												   <div class="fx-col">
+													  <label class="text-capitalize h6">Total Time</label>
+												   </div>
+												</div>
+												<div class="fx-row fx-details__ls">
+												   <div class="fx-col col-view_caption">
+													  <p class="result_view h6"><span>Question</span>{{basic_count}}</p>
+												   </div>
+												   <div class="fx-col col-view_caption">
+													  <p class="result_view h6"><span>Question</span>{{intermediate_count}}</p>
+												   </div>
+												   <div class="fx-col col-view_caption">
+													  <p class="result_view h6"><span>Question</span>{{advance_count}}</p>
+												   </div>
+												   
+												   <div class="fx-col col-view_caption">
+													  <p class="result_view h6">{{exam_data.total_time}}</p>
+												   </div>
+												</div>
+											</div>
+											<div class="negative-mark">
+												Assessment Type : {{exam_data.assignment_type}}
+											</div>
+										</div>
+
+
+									</div>
+
+								</div>
+							</div>
+						
+						</div>
+						
+						<!--card list view-->
+						<div class="list_coding_box">
+							<div class="col-12 para-preview-slidelist" id="paraPreviewSlideList">
+								{% if questions %}
+								{% for question in questions %}
+								<div class="slide-list row row-sm card">
+									<input type="hidden" name="que_id" value="{{question.id}}">
+									<div class="title-section col-12">
+										<div class="info-section fx-row">
+											<div class="fx-col-sm left-side">
+												<label class="tab-counter-label">{{ forloop.counter }}</label>
+												<label class="description_q_title">{{question.question_id.coding_que_title}}</label>
+											</div>
+											<div class="fx-col-sm right-side">
+												<label class="category-type__info text-capitalize">{{question.question_id.question_type}}</label>
+												{% ifequal exam_data.assignment_type 'marks' %}
+													<div class="slide-tab-btnmark">Marks : {{ question.marks }}</div>
+												{% endifequal %}
+												<div class="slide-tab-btn"><i class="fas fa-chevron-down"></i></div>
+											</div>
+										</div>
+										<div class="short-details-list">
+											
+											<div class="detail-section">
+													{% autoescape off %}
+													{{question.question_id.coding_que_description}}
+													{% endautoescape %}
+											</div>
+										</div>
+									</div>
+								</div>
+								{% endfor %}
+								{% else %}
+									<p>No Question Found</p>
+								{% endif %}
+							</div>
+						</div>
+
+
+					</div>
+					
+					<!-- /row -->
+				</div>
+				<!-- Main-content-body closed -->
+				
+
+{% endblock %}
+
+{% block script %}
+
+		<!--- Internal Sweet-Alert js -->
+		<script src="{% static 'assets/plugins/sweet-alert/sweetalert.min.js' %}"></script>
+		<script src="{% static 'assets/plugins/sweet-alert/jquery.sweet-alert.js' %}"></script>
+
+		<script>
+			$(function(){
+				
+				$(document).on('click','.slide-tab-btn',function(){
+					currentListEle = $(this);
+					if(currentListEle.closest('.slide-list').find('.detail-section').is(":visible")){
+						console.log('true')
+						$('.detail-section').slideUp();
+						currentListEle.closest('.slide-list').find('.detail-section').slideUp();
+					}else{
+						console.log('false')
+						$('.detail-section').slideUp();
+						currentListEle.closest('.slide-list').find('.detail-section').slideDown();
+					}
+				})
+
+
+				$(document).on('click','.delete-btn',function(){
+					var deletequestion = {'que_id':$(this).closest('.slide-list').find('[name="que_id"]').val()}
+					console.log('deletequestion', deletequestion)
+					var question_card = $(this).closest('.slide-list')
+					swal({
+						title: "Are you sure?",
+						text: "You will not be able to recover deleted question!",
+						type: "warning",
+						showCancelButton: true,
+						confirmButtonClass: "btn-danger",
+						confirmButtonText: "Yes, delete it!",
+						cancelButtonText: "Cancel",
+						closeOnConfirm: false,
+						closeOnCancel: false
+					},function(isConfirm) { //send ajax request for detele category action
+						if (isConfirm){
+							$.ajax({
+								url:"/company/delete_coding_question/",
+								headers: {'X-CSRFToken': $("input[name=csrfmiddlewaretoken]").val() },
+								type:'POST',
+								contentType: 'application/json; charset=UTF-8',
+								data: JSON.stringify(deletequestion),
+								error: function (request, status, error) {
+									  alert(error);
+								}
+							}).done(function(response){
+								if(response == 'True'){
+									swal("Deleted!", "Your question has been deleted.", "success");
+									question_card.remove();
+								}else{
+									swal("Error!", "Something Wrong !!", "error");
+								}
+							});
+						} else {
+							swal("Cancelled", "Your question is safe :)", "error");
+						}
+					});
+				})
+
+			})
+		</script>
+{% endblock %}

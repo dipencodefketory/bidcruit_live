@@ -1,0 +1,154 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title> Free Dental Medical Hospital Website Template | Smarteyeapps.com</title>
+
+    <link rel="shortcut icon" href="{% static 'resume2/assets/images/fav.jpg' %}">
+    <link rel="stylesheet" href="{% static 'resume2/assets/css/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'resume2/assets/css/fontawsom-all.min.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'resume2/assets/css/style.css' %}" />
+</head>
+
+<body>
+    <div class="container-fluid overcover">
+        <div class="container profile-box">
+            <div class="row">
+                {% for profiles in profile %}
+                <div class="col-lg-4 col-md-5 leftgh">
+                    <div class="image-box">
+                        <img src="{{profiles.user_image.url}}" alt="">
+                    </div>
+                    
+                    <div class="name-info">
+                        <h1>{{request.user.first_name}} {{request.user.last_name}}</h1>
+                        
+                        <div class="row no-margin">
+                            <div class="col-4 no-padding">
+                                Telephone
+                            </div>
+                            <div class="col-8">
+                                {{profiles.contact_no}}
+                            </div>
+                        </div>
+                        <div class="row no-margin">
+                            <div class="col-4 no-padding">
+                                Email
+                            </div>
+                            <div class="col-8">
+                                {{request.user.email}}
+                            </div>
+                        </div>
+                        <div class="row no-margin">
+                            <div class="col-4 no-padding">
+                                Date Of Birth
+                            </div>
+                            <div class="col-8">
+                                {{profiles.dob}}
+                            </div>
+                        </div>
+                        <div class="row no-margin">
+                            <div class="col-4 no-padding">
+                                Gender
+                            </div>
+                            <div class="col-8">
+                                {{profiles.gender.name}}
+                            </div>
+                        </div>
+                        <div class="row no-margin">
+                            <div class="col-4 no-padding">
+                                Marital Status
+                            </div>
+                            <div class="col-8">
+                                {{profiles.marital_status.name}}
+                            </div>
+                        </div>
+
+                        <div class="row no-margin">
+                            <div class="col-4 no-padding">
+                                Address
+                            </div>
+                            <div class="col-8">
+                               {{profiles.address}},{{profiles.city.city_name}},{{profiles.state.state_name}},{{profiles.country.country_name}}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="profile">
+                        <h2>summary</h2>
+                        {% for summ in summary %}
+                        <b>{{summ.tag_line}}</b>
+                        <p>{{summ.summary}}</p>
+                        
+                        {% endfor %}
+                    </div>
+                </div>
+                {% endfor %}
+                <div class="col-lg-8 col-md-7 no-padding">
+                    <div class="rit-data">
+                        <h2>Academic Qualification</h2>
+                        <ul>
+                            {% for edu in education %}
+                            <li><b>{{edu.university_board.name}} <span>{{edu.start_date}}-{{edu.end_date}}</span></b>
+                                <p>{{edu.degree.name}} <span>{{edu.grade}}</span></p>
+                            </li>
+                           
+                            {% endfor %}
+                        </ul>
+                    </div>
+                    <div class="rit-data">
+                        <h2>Skills</h2>
+                        <ul>
+                            {% for skill in skills %}
+                            <li>{{skill.skill.name}}<span>{{skill.start_year}}-{{skill.end_year}}</span></li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                    <div class="rit-data">
+                        <h2>Experience</h2>
+                        <ul>
+                            {% for experiances in experience %}
+                            <li><b>{{experiances.company.name}}<span>{{experiances.start_date}}-{{experiances.end_date}}</span></b></li>
+                            <p>{{experiances.job_description_responsibility}} </p>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                    <div class="rit-data referencess">
+                        <h2>Certification</h2>
+                        <ul>
+                            {% for certificate in certificates %}
+                            <li>
+                                <b>{{certificate.name_of_certificate}}</b>
+                                <p>{{certificate.institute_organisation}}</p>
+                                <p>{{certificate.year}}</p>
+                            </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                    <div class="rit-data referencess">
+                        <h2>Portfolio</h2>
+                        <ul>
+                            {% for portfolios in portfolio %}
+                            <li>
+                                <b>{{portfolios.project_title}}<span>{{portfolios.year}}</span></b>
+                                <p>{{portfolios.description}}</p>
+                                <p>{{portfolios.learning_from_project}}</p>
+                            </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+<script src="{% static 'resume2/assets/js/jquery-3.2.1.min.js' %}"></script>
+<script src="{% static 'resume2/assets/js/popper.min.js' %}"></script>
+<script src="{% static 'resume2/assets/js/bootstrap.min.js' %}"></script>
+<script src="{% static 'resume2/assets/js/script.js' %}"></script>
+
+
+</html>

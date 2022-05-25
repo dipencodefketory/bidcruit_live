@@ -1,0 +1,162 @@
+{% extends 'company/base.html' %}
+{% load static %}
+{%load custom_filters %}
+{% block title %} Prerequisites {% endblock %}
+{% block css %}
+		<!--add candidate custom css -->
+		<link href="{% static 'assets/plugins/select2/css/select2.min.css' %}" rel="stylesheet">
+		<link href="{% static 'assets/plugins/sweet-alert/sweetalert.css' %}" rel="stylesheet">
+		<link href="{% static 'assets/css/ATS/prerequisites-form.css' %}" rel="stylesheet" type="text/css" />
+		<!-- JQuery min js -->
+		<script src="{% static 'assets/plugins/jquery/jquery.min.js' %}"></script>
+
+		{% endblock %}
+		{% block main %}
+				<!-- Container-fluid -->
+				<div class="container-fluid">
+
+					<!-- Main-content-body -->
+					<div class="main-content-body">
+
+						<!-- header-title -->
+						<div class="header-title">
+							<div class="mb-0 mb-lg-0 mb-xl-0">
+								<h4 class="mb-2">Forms</h4>
+								<div class="main-content-breadcrumb"> <span>Forms</span> <span>Form-Element</span> </div>
+							</div>
+							<div class="ml-auto my-auto">
+								<a href="#" class="btn btn-primary"><i class="fe fe-plus-square"></i> Create Report</a>
+								<a href="#" class="btn btn-pink"><i class="fe fe-external-link"></i> Export</a>
+							</div>
+						</div>
+						<!-- header-title -->
+
+						<!--Prerequisites Layout-->
+						<form  id="mcqForm"> 
+							{%csrf_token%}
+							<div class="row add-candidate-layout" id="add-candidate-template">
+							   <div class="col-md-12 col-xl-12 col-xs-12 col-sm-12">
+								  	<div class="card">
+										<div class="card-body mcq-main-layout pt-2">
+
+											<!--Head Section-->
+											<div class="main-content-label mg-b-0 main-upper-top">
+											<div class="row head-title">
+												<div class="col-4 left-top__title-view">
+													<h1 class="text-capitalize h5">Template Type : <span class="get_name_c">Prerequisites</span></h1>
+												</div>
+												<div class="col-4 left-top__title-view">
+													<h1 class="text-capitalize h5">Template Name : <span class="get_name_c">Xyz</span></h1>
+												</div>
+												<div class="col-4 right-top btn-section">
+													<button class="btn btn-sm btn-primary btn-sm btn-rounded submitForm" data-item="submitform-false" type="button">Save & Preview</button>
+												</div>
+											</div>
+											</div>
+											<!--Head Section End-->
+											<!-- <div class="xs-form_layout bd bd-10 rounded-20" id="saved-templates"> 
+												saved templates
+												<ol>
+													<li>
+														<div class="flex-box">
+															<span class="template_name">Template Name :SOME NAME </span> <button>Use Template</button>
+														</div>
+
+													</li>
+												</ol>
+
+											</div> -->
+											<!--MCQ-Listing View-->
+											<div class="xs-form_layout bd-10 rounded-20" id="mcq-form-layout">
+												
+
+												
+
+												<div class="add-new-que__tab  mg-20 pd-l-10 pd-r-10" id="mainListSubmitBtn">
+													<div class="finish-form">
+														<label class="ckbox">
+															<input id="finishFormKey" type="checkbox"><span>I have added all the questions</span>
+														</label>
+													</div>
+													<div class="btn_align-left" id="addMoreQueList">
+														<i class="fas fa-plus-circle"></i>Add More
+													</div>
+												</div>
+											</div>
+											<!--MCQ-Listing View End-->
+											<div class="row footer_btn-group mg-t-20 pd-l-10 pd-r-10">
+												<div class="col-8 left-align-tab"></div>
+												<div class="col-4 right-align-btns">
+													
+													<button class="btn btn-sm btn-primary btn-sm btn-rounded submitForm" data-item="submitform-false" type="button" id="formSubmit" type="button">Save & Preview</button>
+												</div>
+											</div>
+
+										</div>
+								  </div>
+							   </div>
+							</div>
+						 </form>
+
+						 <!-- Prerequisites Layout End
+						 <button id="triggerModelBtn" type="button" data-toggle="modal" data-target="#conformFormSubmitModel">hiddenBtn</button>
+						 <div class="modal fade" id="conformFormSubmitModel" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+							<div class="modal-dialog" role="document">
+							  <div class="modal-content">
+								<div class="modal-header">
+								  <h5 class="modal-title" id="exampleModalLabel">Do you want to save this template?</h5>
+								  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+									<span aria-hidden="true">&times;</span>
+								  </button>
+								</div>
+								<div class="modal-body">
+								  <div class="form-row row">
+									  <div class="col ls-dialoge">
+										  <div class="left-box input-title h5">Template Name:</div>
+										  <div class="right-box template-input-field">
+											  <input type="text" name="template-name" value="" class="template-name bd rounded-10">
+											  <div class="error-msg"></div>
+										  </div>
+									  </div>
+								  </div>
+								</div>
+								<div class="modal-footer">
+								  <button type="button" class="btn btn-sm btn-rounded btn-secondary" data-dismiss="modal">Cencle</button>
+								  <button type="button" class="btn btn-sm btn-rounded btn-primary" id="dialogueOfSaveFormData">Save</button>
+								</div>
+							  </div>
+							</div>
+						  </div> -->
+
+
+						  <!--Preview Model-->
+						  <button id="previerActBtn" type="button" data-toggle="modal" data-target="#previewModelForm">hiddenBtn</button>
+						  <div class="modal fade" id="previewModelForm" tabindex="-1" role="dialog" aria-hidden="true">
+							<div class="modal-dialog" role="document">
+							  <div class="modal-content">
+								<div class="modal-body previewModelLayout" id="previewFormLayout"></div>
+							  </div>
+							</div>
+						  </div>
+					</div>
+					<!-- Main-content-body closed -->
+				</div>
+				<!-- Container-fluid closed -->
+{% endblock %}
+{% block script %}
+
+		<!-- Custom js -->
+		<script src="{% static 'assets/js/custom.js' %}"></script>
+		<script src="{% static 'assets/plugins/select2/js/select2.min.js' %}"></script>
+        <script type="text/javascript" src="{% static 'assets/js/ATS/prerequisites-edit.js' %}"></script>
+		<script type="text/javascript" src="{% static 'assets/js/ATS/prerequisites-clonemaker.js' %}"></script>
+
+		<!-- form-elements js -->
+		<script src="{% static 'assets/js/form-elements.js' %}"></script>
+		<script src="{% static 'assets/plugins/parsleyjs/parsley.min.js' %}"></script>
+		<script src="{% static 'assets/js/form-validation.js' %}"></script>
+
+		<!--- Internal Sweet-Alert js -->
+		<script src="{% static 'assets/plugins/sweet-alert/sweetalert.min.js' %}"></script>
+
+		{% endblock %}

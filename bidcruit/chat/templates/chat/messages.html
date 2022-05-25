@@ -1,0 +1,76 @@
+{% extends 'chat/chats.html' %}
+{% load static %}
+{% load candidate_extras %}
+{% block message %}
+
+                                <div class="main-chat-body" id="ChatBody">
+                                    <div class="content-inner" id="board" style="max-height:400px;overflow:auto">
+                                        {% if messages %}
+                                        {% for message in messages %}
+
+                                            {% ifequal request.user.id  message.author.id %}
+                                                <div class="media flex-row-reverse">
+                                                    <div class="main-img-user online"><img alt="" src="#"></div>
+                                                    <div class="media-body">
+                                                        <div class="main-msg-wrapper">
+                                                            {{message.text}}
+                                                        </div>
+                                                        <div>
+                                                            <span>{{message.time}}</span> <a href=""><i class="icon ion-android-more-horizontal"></i></a>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            {% else %}
+                                            <div class="media">
+                                                <div class="main-img-user online"><img alt="" src="#"></div>
+                                                <div class="media-body">
+                                                    <div class="main-msg-wrapper">
+                                                        {{message.text}}
+                                                    </div>
+                                                    <div>
+                                                        <span>{{message.time}}</span> <a href=""><i class="icon ion-android-more-horizontal"></i></a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            {% endifequal %}
+                                        {% endfor %}
+                                        {% else %}
+                                        <div class="col-xl-8 col-lg-12">
+						<div class="">
+							<a class="main-header-arrow" href="" id="ChatBodyHide"><i
+									class="icon ion-md-arrow-back"></i></a>
+							<div class="main-content-body main-content-body-chat mt-0 pt-0 br-br-0 br-bl-0 mb-lg-0 card">
+								<div class="main-chat-header">
+									<div class="main-chat-msg-name">
+										<h6>No Messages</h6><small></small>
+									</div>
+								</div>
+								<!-- main-chat-header -->
+								<div class="messages">
+									<div class="main-chat-body" id="ChatBody">
+										<div class="content-inner" id="board" style="min-height:300px;overflow:auto;line-height: 300px;">
+											<center><b>No Messages</b></center>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="main-chat-footer">
+								<form>
+									<div class="row">
+									</div>
+								</form>
+							</div>
+						</div>
+					</div>
+                                        {% endif %}
+                                    </div>
+                                </div>
+
+
+
+<script>
+
+
+</script>
+
+{% endblock %}

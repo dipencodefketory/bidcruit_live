@@ -1,0 +1,1801 @@
+{% load static %}
+{% load custom_filters %}
+<!doctype html>
+<html lang="en" dir="ltr">
+	<head>
+		<meta charset="UTF-8">
+		<meta name='viewport' content='width=device-width, initial-scale=1.0, user-scalable=0'>
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="Description" content="{{about_me}}">
+		<meta name="Author" content="BIDCRUIT">
+		<meta name="Keywords" content="{{keywoard}}"/>
+
+		<!-- Title -->
+		<title>{{user.first_name|title}} {{user.last_name|title}} - {{profile_show.designation|title}}</title>
+		<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Rubik:ital,wght@0,300;0,400;0,500;0,700;0,800;0,900;1,600&display=swap" rel="stylesheet">
+	<!-- Favicon -->
+		<link rel="icon" href="{% static 'assets/img/brand/bluelogo.png' %}" type="image/x-icon"/>
+		{% if profile_show.user_image %}
+        	<meta property="og:image" content="{{profile_show.user_image.url}}">
+        	{% endif %}
+		<!-- Icons css -->
+		<link href="{% static 'assets/css/icons.css' %}" rel="stylesheet">
+		<!-- Bootstrap css -->
+		<link rel="stylesheet" href="{% static 'assets/plugins/bootstrap/css/bootstrap.min.css' %}">
+		<!-- Right-sidemenu css -->
+		<link href="{% static 'assets/plugins/sidebar/sidebar.css' %}" rel="stylesheet">
+		<!-- Style css -->
+		<link rel="stylesheet" type="text/css" media="all" href="{% static 'assets/css/style.css' %}">
+		<!-- Colors css -->
+		<!-- <link id="theme" rel="stylesheet" type="text/css" media="all" href="{% static 'assets/css/colors/color.css' %}"> -->
+
+		<!-- Sidemenu css -->
+		<link rel="stylesheet" href="{% static 'assets/css/single-sidemenu/singlemenu.css' %}">
+
+		<!-- Animations css -->
+		<link href="{% static 'assets/css/animate.css' %}" rel="stylesheet">
+
+
+		<!--New added css-->
+        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+		<!-- Internal Sumoselect css -->
+		<link rel="stylesheet" href="{% static 'assets/plugins/sumoselect/sumoselect.css' %}">
+		<link rel="stylesheet" href="{% static 'assets/plugins/jquery-ui/themes/base/datepicker.css' %}">
+        <!-- Select2 css -->
+		<link href="{% static 'assets/plugins/select2/css/select2.min.css' %}" rel="stylesheet">
+        <link href="{% static 'assets/css/custom.css' %}" rel="stylesheet">
+        <!-- Global site tag (gtag.js) - Google Analytics -->
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-EPYQ1CCD87"></script>
+        <script>
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', 'G-EPYQ1CCD87');
+        </script>
+	</head>
+
+	<body class="main-body-second-profile dashboard-search candidate_profile_main_s">
+
+        <header id="header">
+            <div class="header-set">
+                <div class="container-fluid">
+                    <div class="top-header">
+                        <div class="brand-logo">
+                            <a href="/"><img src="{% static 'assets/img/brand/white.png' %}" alt="logo" class="img-responsive"></a>
+                        </div>
+                        <!-- candidate name show only scroolup -->
+                        <div id="nameShow" class="brand-name name-none">
+                            <h1>keyur <span>b</span></h1>
+                        </div>
+                        <div id="nameNone" class="brand-name">
+                            <h1>bidcruit</h1>
+                        </div>
+                        <div class="con-btn">
+
+                            {% if hire %}
+                            {% for hires in hire%}
+                                {% if forloop.first %}
+                                    {% ifequal hires.profile_id  profile.profile_id %}
+                                        <a href="#">Already Hire</a>
+                                    {% else %}
+                                        <a {% if request.user.is_company %} href=""data-toggle="modal" data-target=".job-preferences" {% else %} href="" data-toggle="modal" data-target="#myModal1" {% endif %}>contact</a>
+                                    {% endifequal %}
+                                {% endif %}
+                            {% endfor %}
+                        {% else %}
+                        <a {% if request.user.is_company %} href=""data-toggle="modal" data-target=".job-preferences" {% else %} href="" data-toggle="modal" data-target="#myModal1" {% endif %}>contact</a>
+                        {% endif %}
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+<!-- SELECT JOB PREFERENCE MODEL-->
+<div class="modal job-preferences" id="HireModal1" tabindex="-1" role="dialog"
+aria-labelledby="myLargeModalLabel" aria-hidden="true">
+<div class="modal-dialog modal-lg">
+   <div class="modal-content" role="document">
+       <form role="form" method="POST" id="preferenceForm" action="">
+
+           <input type="hidden" name="candidate_id" value="{{profile.candidate_id.id}}">
+
+           <div class="modal-header">
+               <h4 class="modal-title" id="PreferenceLabel1">Candidate Preferences</h4>
+               <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                   <span aria-hidden="true">&times;</span></button>
+           </div>
+
+           <div class="modal-body">
+                   {% csrf_token %}
+                   <div class="container-fluid">
+                       {%csrf_token%}
+                       {% for job_preference in job_preference%}
+                       <div class="row">
+                           <div class="col-md-6">
+                               <input type="checkbox" id="job_type"
+                                      class="filled-in" name="job_type">
+                               <label for="job_type">Job Type :
+                                   {{job_preference.job_type}}</label>
+                           </div>
+                           <div class="col-md-6">
+                               <input type="checkbox" id="number_of_employee"
+                                      class="filled-in"
+                                      name="number_of_employee">
+                               <label for="number_of_employee">Number Of
+                                   Employee :
+                                   {{job_preference.number_of_employee}}</label>
+                           </div>
+                       </div>
+                       <div class="row">
+                           <div class="col-md-6">
+                               <input type="checkbox" id="working_days"
+                                      class="filled-in" name="working_days">
+                               <label for="working_days">Working Days:
+                                   {{job_preference.working_days}}</label>
+                           </div>
+                           <div class="col-md-6">
+                               <input type="checkbox" id="preferred_shift"
+                                      class="filled-in" name="preferred_shift">
+                               <label for="preferred_shift">Preferred Shift:
+                                   {{job_preference.preferred_shift}}</label>
+                           </div>
+                       </div>
+                       <div class="row">
+                           <div class="col-md-6">
+                               <input type="checkbox" id="relocation"
+                                      class="filled-in" name="relocation">
+                               <label for="preferred_shift">Relocation :
+                                   {{job_preference.relocation}}</label>
+                           </div>
+                       </div>
+                       {% endfor %}
+                       <div class="row">
+                           {% for job_preference_other in job_preference_other%}
+                               <div class="col-md-6">
+                                   <input type="checkbox" id="{{job_preference_other.id}}"
+                                          class="filled-in" name="{{job_preference_other.id}}">
+                                   <label for="{{job_preference_other.id}}">{{job_preference_other.label}} :
+                                       {{job_preference_other.value}}</label>
+                               </div>
+                           {% endfor %}
+                       </div>
+                   </div>
+           </div>
+           <div class="modal-footer">
+               <button type="button" class="btn btn-primary preference-submit">Submit</button>
+               <button type="button" class="btn btn-secondary" data-dismiss="modal">Close
+               </button>
+           </div>
+       </form>
+   </div>
+
+</div>
+</div>
+
+
+<!-- HIRE ME MESSAGE MODAL-->
+<div class="modal job-preferences" id="HireModal2" tabindex="-1" role="dialog"
+aria-labelledby="myLargeModalLabel" aria-hidden="true">
+<div class="modal-dialog modal-lg">
+   <div class="modal-content" role="document">
+       <form role="form" method="POST" id="HireMeForm" action="">
+
+           <input type="hidden" name="candidate_id" value="{{profile.candidate_id.id}}">
+
+           <div class="modal-header">
+               <h4 class="modal-title" id="HireLabel1">Message</h4>
+               <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                   <span aria-hidden="true">&times;</span></button>
+           </div>
+           <div class="modal-body">
+                   {% csrf_token %}
+                   <div class="container-fluid">
+                       <div class="row">
+                           <div class="col-md-6">
+                               <textarea id="hire_message" maxlength="200" rows="3" name="hire_message"></textarea>
+                           </div>
+                       </div>
+                   </div>
+           </div>
+           <div class="modal-footer">
+               <button type="button" class="btn btn-primary hire-message-submit">Submit</button>
+               <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+           </div>
+       </form>
+   </div>
+</div>
+</div>
+
+<!-- resume download  -->
+
+<div class="modal job-preferences" id="download_model" tabindex="-1" role="dialog"
+aria-labelledby="myLargeModalLabel">
+<div class="modal-dialog modal-lg">
+   <div class="modal-content" role="document">
+       <form role="form" method="POST" id="HireMeForm" action="">
+
+           <input type="hidden" name="candidate_id" value="{{profile.candidate_id.id}}">
+
+           <div class="modal-header">
+               <h4 class="modal-title" id="HireLabel1">Resume Download</h4>
+               <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                   <span aria-hidden="true">&times;</span></button>
+           </div>
+           <div class="modal-body">
+                   {% csrf_token %}
+                   <div class="container-fluid">
+                       <div class="row">
+                           <div class="col-md-6">
+                                <!-- login -->
+
+
+
+
+                                                       {% csrf_token %}
+                                                       <div class="form-label-group">
+                                                           <label for="company_email">Enter Email :</label>
+                                                           <input type="email" id="company_email_resume" name="company_email" class="form-control"
+                                                                  placeholder="Email address" value="" required>
+                                                       </div>
+                                                       <br>
+                                                       <div class="text-center">
+                                                            Don't have an account ? <a  href="{% url 'company:signup' %}" target="_blank"><span>Sign Up </span></a>
+                                                       </div>
+
+                                               <div class="modal-footer">
+                                                   <button type="button" class="btn btn-primary btn-next" onclick="resume_download_email('resume')">Next</button>
+                                                   <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                               </div>
+
+                                <!-- endlogin -->
+                               <!-- password -->
+
+                                                          <form method="POST" action="detail">
+                                                             {% csrf_token %}
+                                                             password:<input type="password" id="confirm_password" name="confirmpassword">
+                                                             <input type="hidden" id="candidate_id" name="candidate_id" value="{{profile.candidate_id.id}}">
+                                                             <input type="hidden" id="profile_id" name="profile_id" value="{{profile.profile_id.id}}">
+                                                             <input type="hidden" id="recored_id" name="recored_id" value="{{profile.id}}">
+                                                             <br>
+                                                             <br>
+                                                             <button type="button" class="btn btn-primary" onclick="file_download(this)">submit</button>
+                                                         </form>
+
+                                <!-- end password -->
+                           </div>
+                       </div>
+                   </div>
+           </div>
+
+       </form>
+   </div>
+</div>
+</div>
+
+<!-- password add -->
+<div class="modal job-preferences" id="download_by_password" tabindex="-1" role="dialog"
+aria-labelledby="myLargeModalLabel" aria-hidden="true">
+<div class="modal-dialog modal-lg">
+   <div class="modal-content" role="document">
+       <form role="form" method="POST" id="HireMeForm" action="">
+
+
+
+           <div class="modal-header">
+               <h4 class="modal-title" id="HireLabel1">Message</h4>
+               <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                   <span aria-hidden="true">&times;</span></button>
+           </div>
+           <div class="modal-body">
+                   {% csrf_token %}
+                   <div class="container-fluid">
+                       <div class="row">
+                           <div class="col-md-6">
+                                 <form method="POST" action="detail">
+                                    {% csrf_token %}
+                                    password:<input type="password" id="confirm_password" name="confirmpassword">
+                                    <input type="hidden" id="candidate_id" name="candidate_id" value="{{profile.candidate_id.id}}">
+                                    <input type="hidden" id="profile_id" name="profile_id" value="{{profile.profile_id.id}}">
+                                    <input type="hidden" id="recored_id" name="recored_id" value="{{profile.id}}">
+                                    <br>
+                                    <br>
+                                    <button type="button" class="btn btn-primary" onclick="file_download(this)">submit</button>
+                                </form>
+
+                           </div>
+                       </div>
+                   </div>
+           </div>
+           <div class="modal-footer">
+               <button type="button" class="btn btn-primary hire-message-submit">Submit</button>
+               <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+           </div>
+       </form>
+   </div>
+</div>
+</div>
+<!-- end resume download -->
+<!--Modal: Login / Register Form-->
+<!-- Modal  Popup 1 -->
+<div class="modal" id="myModal1" tabindex="-1" role="dialog">
+<div class="modal-dialog">
+   <div class="modal-content" role="document">
+       <div class="modal-header">
+         <h4 class="modal-title" id="myModalLabel1">Please Login to continue.</h4>
+         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+             <span aria-hidden="true">&times;</span></button>
+       </div>
+           <div class="modal-body">
+                   {% csrf_token %}
+                   <div class="form-label-group">
+                       <label for="company_email">Enter Email :</label>
+                       <input type="email" id="company_email" required="required" name="company_email" class="form-control required"
+                              placeholder="Email address" value="">
+                   </div>
+                   <br>
+                   <div class="text-center">
+                        Don't have an account ? <a  href="{% url 'company:signup' %}" target="_blank"><span>Sign Up </span></a>
+                   </div>
+           </div>
+           <div class="modal-footer">
+               <button type="button" class="btn btn-primary btn-next" onclick="resume_download_email('hire')">Next</button>
+               <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+           </div>
+   </div>
+</div>
+</div>
+<!-- Modal  Popup 2 -->
+<div class="modal" id="login_password" tabindex="-1" role="dialog">
+<div class="modal-dialog" role="document">
+   <div class="modal-content">
+       <div class="modal-header">
+         <h4 class="modal-title" id="myModalLabel2">Company Password</h4>
+         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+             <span aria-hidden="true">&times;</span></button>
+       </div>
+       <div class="modal-body">
+           <div class="form-label-group">
+               <label for="company-password">Enter Password</label>
+               <input type="password" name="company-password" id="company-password" class="form-control"
+                   placeholder="Password" required>
+           </div>
+           <br>
+       </div>
+       <div class="modal-footer">
+           <button type="button" class="btn btn-primary btn-next" onclick="resume_download_password()">Next</button>
+           <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+       </div>
+   </div>
+</div>
+</div>
+<!-- Modal  Popup 3 -->
+<div class="modal" id="login_otp" tabindex="-1" role="dialog">
+<div class="modal-dialog">
+   <div class="modal-content">
+       <div class="modal-header">
+         <h4 class="modal-title" id="myModalLabel3">Enter OTP</h4>
+         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+             <span aria-hidden="true">&times;</span></button>
+       </div>
+       <div class="modal-body">
+          <div class="form-label-group">
+              <label for="company-login-otp">OTP</label>
+              <input type="number" name="company-login-otp" class="form-control" id="company-login-otp" placeholder="Enter OTP"  required>
+           </div>
+       </div>
+       <div class="modal-footer">
+           <button type="button" class="btn btn-primary btn-next" onclick="resume_download_otp()">Verify Otp</button>
+           <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+       </div>
+   </div>
+</div>
+</div>
+
+
+<!-- endpopup -->
+      <div class="" id="overlay-eff"></div>
+
+        <div class="space-for-timeline">
+
+            <div id="right-side" class="timeline-sidebar add-class col-md-12">
+                <div class="close-timeline">
+                    <i  class="las la-times"></i>
+                   </div>
+                <button class="btn btn-side-btn ">Timeline</button>
+                <div class="timeline">
+                    <div class="new-timline">
+                        <!-- <h2>{{df}}</h2> -->
+                        <ul class="start-time">
+                            {%for i in sorted_keys%}
+                                {%for j in year_title_pairs|get_dictonary_value:i%}
+                            <li class="{{j|get_timeline_li_color}}">
+                               <div class="timeline-alignment-d">
+                                  <div class="timeline-detail-d">
+                                     <span class="year-cheet"></span>
+                                     <h3>{{j|get_required_title}}</h3>
+                                     <p>{{j|get_required_title_giver}}</p>
+                                     <span>{{j|get_timeline_start_date}} to {{j|get_timeline_end_date}}</span>
+                                  </div>
+                               </div>
+                               <div class="ver-line">
+                                  <div class="start-time time-timeline">
+                                     {{j|get_timeline_end_date}}
+                                  </div>
+                                  <div class="end-time time-timeline">
+                                      {{j|get_timeline_start_date}}
+                                  </div>
+                               </div>
+                               <span class="ci-sapn">{{i}}</span>
+                            </li>
+                              {%endfor%}
+                            {%endfor%}
+                           <!--   <li class="cc-pink">
+                                <span class="ci-sapn">2013</span>
+                            </li> -->
+                        }
+
+<!--                            <li class="cc-green">-->
+<!--                               <div class="timeline-alignment-d">-->
+<!--                                  <div class="timeline-detail-d">-->
+<!--                                     <span class="year-cheet"></span>-->
+<!--                                     <h3>Lorem Ipsum</h3>-->
+<!--                                     <p>BCA</p>-->
+<!--                                     <span>Jun 2010 to Jun 2011</span>-->
+<!--                                  </div>-->
+<!--                               </div>-->
+<!--                               <div class="ver-line">-->
+<!--                                  <div class="start-time time-timeline">-->
+<!--                                     Jun 2011-->
+<!--                                  </div>-->
+<!--                                  <div class="end-time time-timeline">-->
+<!--                                     Jun 2010-->
+<!--                                  </div>-->
+<!--                               </div>-->
+<!--                               <span class="ci-sapn">2014</span>-->
+<!--                            </li>-->
+<!--                            <li class="cc-purple">-->
+<!--                               <div class="timeline-alignment-d">-->
+<!--                                  <div class="timeline-detail-d">-->
+<!--                                     <span class="year-cheet"></span>-->
+<!--                                     <h3>Lorem Ipsum</h3>-->
+<!--                                     <p>BCA</p>-->
+<!--                                     <span>Jun 2010 to Jun 2011</span>-->
+<!--                                  </div>-->
+<!--                               </div>-->
+<!--                               <div class="ver-line">-->
+<!--                                  <div class="start-time time-timeline">-->
+<!--                                     Jun 2011-->
+<!--                                  </div>-->
+<!--                                  <div class="end-time time-timeline">-->
+<!--                                     Jun 2010-->
+<!--                                  </div>-->
+<!--                               </div>-->
+<!--                               <span class="ci-sapn">2016</span>-->
+<!--                            </li>-->
+<!--                            <li class="cc-yellow">-->
+<!--                               <div class="timeline-alignment-d">-->
+<!--                                  <div class="timeline-detail-d">-->
+<!--                                     <span class="year-cheet"></span>-->
+<!--                                     <h3>Lorem Ipsum</h3>-->
+<!--                                     <p>BCA</p>-->
+<!--                                     <span>Jun 2010 to Jun 2011</span>-->
+<!--                                  </div>-->
+<!--                               </div>-->
+<!--                               <div class="ver-line">-->
+<!--                                  <div class="start-time time-timeline">-->
+<!--                                     Jun 2011-->
+<!--                                  </div>-->
+<!--                                  <div class="end-time time-timeline">-->
+<!--                                     Jun 2010-->
+<!--                                  </div>-->
+<!--                               </div>-->
+<!--                               <span class="ci-sapn">2006</span>-->
+<!--                            </li>-->
+<!--                            <li class="cc-pink">-->
+<!--                                <div class="timeline-alignment-d">-->
+<!--                                   <div class="timeline-detail-d">-->
+<!--                                      <span class="year-cheet"></span>-->
+<!--                                      <h3>Lorem Ipsum</h3>-->
+<!--                                      <p>BCA</p>-->
+<!--                                      <span>Jun 2010 to Jun 2011</span>-->
+<!--                                   </div>-->
+<!--                                </div>-->
+<!--                                <div class="ver-line">-->
+<!--                                   <div class="start-time time-timeline">-->
+<!--                                      Jun 2000-->
+<!--                                   </div>-->
+<!--                                   <div class="end-time time-timeline">-->
+<!--                                      Jun 2000-->
+<!--                                   </div>-->
+<!--                                </div>-->
+<!--                                <span class="ci-sapn">2000</span>-->
+<!--                             </li>-->
+<!--                             <li class="cc-red">-->
+<!--                                <span class="ci-sapn">2003</span>-->
+<!--                             </li>-->
+                         </ul>
+                    </div>
+                 </div>
+            </div>
+        </div>
+
+        <section class="main-profile-second dashboard-search">
+            <button type="button" class="mobile-nav-toggle d-xl-none"><i class="fas fa-bars"></i></button>
+            <div class="d-md-flex">
+                <div class="left-tab-detail">
+                    <div class="panel panel-primary ">
+                        <div class="tab-menu-heading">
+                            <div class="tabs-menu-section">
+                                <!-- Tabs -->
+                                <ul class="nav panel-tabs-section">
+                                    <li class="active" id="personal"><a href="javascript:void(0);"  ><i  class="fas fa-home"></i> </a></li>
+                                    <li id="skill"><a href="#skill" ><i  class="fas fa-chalkboard-teacher"></i></a></li>
+                                    {% if experiences %}
+                                    <li id="experience"><a href="javascript:void(0);" ><i  class="fas fa-briefcase"></i></a></li>
+                                    {% endif %}
+                                    {% if educations %}
+                                    <li id="education"><a  href="javascript:void(0);" ><i  class="fas fa-graduation-cap"></i> </a></li>
+                                    {% endif %}
+                                    {% if certificates %}
+                                    <li id="certificate"><a  href="javascript:void(0);" ><i  class="fas fa-file-alt"></i></a></li>
+                                    {% endif %}
+                                    {% if portfolios %}
+                                    <li id="portfolio"><a  href="javascript:void(0);" ><i  class="fas fa-briefcase"></i></a></li>
+                                    {% endif %}
+                                    {% if awards %}
+                                    <li id="Award"><a  href="javascript:void(0);" ><i  class="fas fa-trophy"></i></a></li>
+                                    {% endif %}
+                                    <li id="chart"><a  href="javascript:void(0);" ><i  class="fas fa-chart-pie"></i> </a></li>
+                                    <!-- <li><a  href="#tab27" ><i  class="fas fa-project-diagram"></i> </a></li> -->
+
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="tabs-information-user">
+                    <div class="panel-body tabs-menu-body">
+                        <div class="candidate-profile__main-section ">
+                            <div class="tab-pane-section active" id="personal" data-section-name="personal">
+                               <div class="row">
+                                    <div class=" col-lg-3 col-sm-12 col-xs-12">
+                                        <div class="user-profile-f">
+                                            <div class="user-img-f">
+                                                <div class="user-p1">
+                                                	{% if profile_show.user_image %}
+                                			<img src="{{profile_show.user_image.url}}" alt="cand-pic" class="img-fluid">
+						        {% else %}
+						        <a class="profile-user" href=""><img alt="" src="{% static 'assets/img/faces/6.jpg' %}"></a>
+						        {% endif %}
+
+                                                </div>
+                                            </div>
+                                            <div class="user-info-second-pro">
+                                                <ul>
+                                                    <li>
+                                                        {% if company_data_status %}
+                                                            {% for j in company_data_status %}
+
+                                                                {% ifequal j.type_name 'contact' %}
+
+                                                                    {% ifequal j.doc_id i.id %}
+                                                                        {% ifequal j.status 1 %}
+                                                                            <p> <a href="tel:+91 123 456 7890"><i data-v-e08301e8="" class="fas fa-phone-alt"></i> <span>{{profile_show.contact_no}}</span></a></p>
+                                                                        {% else %}
+                                                                            <p> <a href="tel:+91 123 456 7890"><i data-v-e08301e8="" class="fas fa-phone-alt"></i> <span>+91 123 456 7890</span></a></p>
+                                                                        {% endifequal %}
+                                                                    {% endifequal %}
+                                                                {% endifequal %}
+                                                            {% endfor %}
+                                                        {% else %}
+
+                                                            {% ifequal hidefield.contact 0 %}
+                                                                <p> <a href="tel:+91 123 456 7890"><i data-v-e08301e8="" class="fas fa-phone-alt"></i> <span>+** ***** *****</span></a></p>
+                                                            {% else %}
+                                                                <p> <a href="tel:+91 123 456 7890"><i data-v-e08301e8="" class="fas fa-phone-alt"></i> <span>{{profile_show.contact_no}}</span></a></p>
+                                                            {% endifequal %}
+                                                        {% endif %}
+                                                    </li>
+                                                    <li>
+                                                        <p><i data-v-e08301e8="" class="fas fa-map-marker-alt"></i><span>{{profile_show.city.city_name}}</span></p>
+                                                    </li>
+                                                    <li>
+                                                        <p> <i data-v-e08301e8="" class="fas fa-calendar-alt"></i><span>{{profile_show.dob}}</span></p>
+                                                    </li>
+                                                    <li>
+                                                        <p> <i data-v-e08301e8="" class="fas fa-transgender"></i><span>{{profile_show.gender.name}}</span></p>
+                                                    </li>
+                                                </ul>
+                                                <div class="profile-user-btn">
+                                                    {% if profile_show.resume %}
+                                                    <a id="resume_file_get"
+
+                                                    {% if request.user.is_company %}
+                                                    href="{{profile_show.resume.url}}" value="{{profile_show.resume.url}}" download="{{user.first_name}} {{user.last_name}}.pdf"
+                                                    {% else %}
+                                                       href="" value="{{profile_show.resume.url}}"  data-toggle="modal" data-target="#download_model"
+                                                    {% endif %}
+
+                                               >Resume</a>
+                                               {% else %}
+                                               <a id="resume_file_get" href="" value="">Resume</a>
+                                               {% endif %}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class=" col-lg-9 col-sm-12 col-xs-12">
+                                        <div class="candidate-information-d">
+                                            <div class="row">
+                                                <div class="col-md-6 col-lg-6 col-sm-12 col-xs-12">
+                                                    <div class="cad-nameinfo cad-nameinfo-new">
+                                                        <input type="hidden" value="{{user.first_name}}" id="fname">
+                                                        <input type="hidden" value="{{user.last_name}}" id="lname">
+                                                        <h5>{{user.first_name|title}} <span>{{user.last_name|title}}</span></h5>
+                                                        <p  class="shar-button">
+                                                            <span class="share-icon"><i class="fas fa-share-alt"></i></span>
+                                                            <a target="_blank" href="https://facebook.com/sharer/sharer.php?u=https://www.bidcruit.com/{{share_url}}/&p[title]=MYPROFILE" class="text"><i class="lab la-facebook-f"></i></a>
+                                                            <a target="_blank" href="https://web.whatsapp.com/send?text=https://www.bidcruit.com/{{share_url}}/" data-action="share/whatsapp/share" class="text"><i class="fab la-whatsapp"></i></a>
+                                                            <!-- <a target="_blank" class="text"><i class="fab la-instagram"></i></a> -->
+                                                            <a href="http://www.linkedin.com/shareArticle?mini=true&url=https://www.bidcruit.com/{{share_url}}/" target="_blank" class="text"><i class="lab la-linkedin-in"></i></a>
+                                                            <a target="_blank" href="http://twitter.com/share?url=https://www.bidcruit.com/{{share_url}}/" class="text"><i class="lab fa-twitter"></i></a>
+
+                                                        </p>
+
+                                                    </div>
+                                                    <div class="info-about-user">
+                                                        <p>{{profile_show.designation}}</p>
+                                                        {% if company_data_status %}
+                                                            {% for j in company_data_status %}
+                                                                {% ifequal j.type_name 'email' %}
+                                                                    {% ifequal j.doc_id i.id %}
+                                                                        {% ifequal j.status 1 %}
+                                                                            <a href="#" title=""><i data-v-e08301e8="" class="fas fa-envelope"></i> info.{{user.email}}</a>
+                                                                        {% else %}
+                                                                            <a href="#" title=""><i data-v-e08301e8="" class="fas fa-envelope"></i> ****@ gmail.com</a>
+                                                                        {% endifequal %}
+                                                                    {% endifequal %}
+                                                                {% endifequal %}
+                                                            {% endfor %}
+                                                        {% else %}
+                                                            {% ifequal hidefield.email 0 %}
+                                                                <a href="#" title=""><i data-v-e08301e8="" class="fas fa-envelope"></i>&nbsp;&nbsp;{{user.email|email_hide}}</a>
+                                                            {% else %}
+                                                            <a href="#" title=""><i data-v-e08301e8="" class="fas fa-envelope"></i> {{user.email}}</a>
+                                                            {% endifequal %}
+                                                        {% endif %}
+                                                    </div>
+
+                                                </div>
+                                                <div class="col-md-6 col-lg-6 col-sm-12 col-xs-12">
+                                                <!-- <button class="btn btn-primary" data-toggle="modal" data-target="#{%if request.user.is_company%}company_login_check{%else%}myModal1{%endif%}">Documents</button> -->
+
+                             <div class="modal fade" id="company_login_check" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Document access request message</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <input class="form-control" type="text" value="" name='documents_message' required="required">
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary" onclick="doc_request('{{profile_show.candidate_id.id}}','{{profile_show.profile_id}}')">Send</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+                                                    <div class="bar-code-d">
+                                                        <img src="{{profile_show.qr_code.url}}" alt="cand-pic" class="img-fluid">
+                                                    </div>
+
+                                                </div>
+
+                                            </div>
+                                            <div class="row exp-info">
+                                                <div class="col-md-6 col-lg-6 col-sm-12 col-xs-12">
+                                                    <div class="exp-d">
+                                                        <p>Total Experience - <span>{{profile_show.total_experience}} Years</span></p>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6 col-lg-6 col-sm-12 col-xs-12">
+                                                    <div class="exp-d">
+                                                        <p>Notice Period - <span>{{profile_show.notice_period.notice_period}}</span></p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12">
+                                                    <div class="cantidate-detail-view-data over-flow-data">
+                                                        <h2>ABOUT ME <span>Know Me More</span></h2>
+                                                        <div class="only-so-big">
+                                                            <p>{% autoescape off %}{{profile_show.about_me}}{% endautoescape %}</p>
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                               </div>
+                            </div>
+                            <div class="tab-pane-section" id="skill" data-section-name="skill">
+                                <div class="exp-tab-detail">
+
+                                 <div class="double-col ">
+                                    <div class="row">
+                                        <div class="col-lg-7 col-sm-6 col-xs-12">
+                                            <div class="cantidate-detail-view-data">
+                                                    <h2>Technical Knowledge <span>Technical Knowledge</span></h2>
+                                            </div>
+                                            <div class="gary-bg-for-all">
+                                                <div class="for-big-content-scroll">
+                                                    <!-- div class="cantidate-detail-view-data">-->
+                                                    <!--<h2>Technical Knowledge <span>Technical Knowledge</span></h2>-->
+                                                    <div class="only-so-big">
+                                                        <p>{% autoescape off %}{{profile_show.technical_knowledge}}{% endautoescape %}</p>
+                                                    </div>
+                                                    <!--</div>-->
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                        {% if skills_show %}
+                                        <div class="col-lg-5 col-sm-6 col-xs-12">
+                                            <div class="cantidate-detail-view-data">
+                                                <h2>Skills<span>Skills</span></h2>
+                                            </div>
+                                            <div class="gary-bg-for-all">
+                                                <div class="exp-table">
+                                                    <div class="table-responsive">
+                                                        <table class="table mg-b-0 text-md-nowrap border">
+                                                            <thead>
+                                                                <tr>
+                                                                    <th>Skills Name</th>
+                                                                    <th>Total Experience</th>
+                                                                    <th>Last Used</th>
+
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                                {% for i in skills_show %}
+                                                                <tr>
+                                                                    <th scope="row">{{i.skill.name}}</th>
+                                                                    <td>({{i.total_exp}} Years)</td>
+                                                                    <td>{{i.last_used}}</td>
+                                                                </tr>
+                                                                {% endfor %}
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                        {% endif %}
+                                    </div>
+                                 </div>
+
+                                </div>
+                             </div>
+                             {% if experiences %}
+                            <div class="tab-pane-section" id="experience" data-section-name="experience">
+                                <div class="exp-tab-detail">
+                                    <div class="cantidate-detail-view-data">
+                                        <h2>Experience <span>Experience </span></h2>
+
+                                    </div>
+                                    <div class="double-col for-big-content-scroll">
+                                       <div class="row">
+                                        {%for j,k in experiences.items%}
+                                        {% for i in k%}
+                                           <div class="col-lg-6 col-sm-6 col-xs-12">
+                                               <div class="gary-bg-for-all">
+
+                                                   <div class="for-big-content-scroll deatil-pan-start">
+                                                       <div  class="section-for-detail">
+                                                           <div class="left-area">
+                                                               <img src="{% static 'assets/img/file-icon.png' %}" alt="img-responsive">
+                                                           </div>
+                                                           <div class="right-area">
+                                                               <div class="acc-haeding">
+                                                                   <h4>{{i.company.company_name|title}}</h4>
+                                                               </div>
+                                                               <span class="acc-sub">{{i.start_date}} to {{i.end_date}}</span>
+                                                               <p class="acc-sub-sub">{{i.job_profile_name|title}}</p>
+
+                                                               <div class="only-so-big">
+                                                                {% if i.job_description_responsibility %}
+                                            <p>{% autoescape off %}{{i.job_description_responsibility}}{% endautoescape %}</p>
+                                            {% endif %}
+                                                            </div>
+                                                           </div>
+                                                       </div>
+
+                                                   </div>
+                                               </div>
+
+                                           </div>
+                                          {% endfor %}
+                                          {% endfor %}
+                                       </div>
+                                    </div>
+
+                                   </div>
+                            </div>
+                            {% endif %}
+                            {% if educations %}
+                            <div class="tab-pane-section" id="education" data-section-name="education">
+                                <div class="exp-tab-detail">
+                                    <div class="cantidate-detail-view-data">
+                                        <h2>Education <span>Education</span></h2>
+
+                                    </div>
+                                    <div class="double-col for-big-content-scroll">
+                                        <div class="row">
+                                            {%for j,k in educations.items%}
+                                            {% for i in k%}
+                                            <div class="col-lg-6 col-sm-6 col-xs-12">
+                                               <div class="gary-bg-for-all">
+
+                                                   <div class="for-big-content-scroll deatil-pan-start">
+                                                       <div  class="section-for-detail">
+                                                           <div class="left-area">
+                                                               <img src="{% static 'assets/img/file-icon.png' %}" alt="img-responsive">
+                                                           </div>
+                                                           <div class="right-area">
+                                                               <div class="acc-haeding">
+                                                                   <h4>{{i.degree.name|title}}</h4>
+                                                               </div>
+                                                               <span class="acc-sub">{{i.start_date}} to {{i.end_date}}</span>
+                                                               <p class="acc-sub-sub">{{i.university_board.name|title}}</p>
+
+                                                               <div class="only-so-big">
+                                                                {% if i.summary %}
+                                                                <p>{% autoescape off %}{{i.summary}}{% endautoescape %}</p>
+                                                                {% endif %}
+                                                            </div>
+                                                           </div>
+                                                       </div>
+
+                                                   </div>
+                                               </div>
+
+                                            </div>
+                                            {% endfor %}
+                                            {% endfor %}
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                            {% endif %}
+                            {% if certificates %}
+                            <div class="tab-pane-section" id="certificate" data-section-name="certificate">
+                                <div class="exp-tab-detail">
+                                    <div class="cantidate-detail-view-data">
+                                        <h2>Certificate <span>Certificate</span></h2>
+                                    </div>
+                                    <div class="double-col for-big-content-scroll">
+                                        <div class="row">
+                                            {%for i in certificates%}
+                                            <div class="col-lg-6 col-sm-6 col-xs-12">
+                                                <div class="gary-bg-for-all">
+
+                                                    <div class="for-big-content-scroll deatil-pan-start">
+                                                        <div  class="section-for-detail">
+                                                            <div class="left-area">
+                                                                <img src="{% static 'assets/img/file-icon.png' %}" alt="img-responsive">
+                                                            </div>
+                                                            <div class="right-area">
+                                                                <div class="acc-haeding">
+                                                                    <h4>{{i.name_of_certificate|title}}</h4>
+                                                                </div>
+                                                                <span class="acc-sub">{{i.year}}</span>
+                                                                <p class="acc-sub-sub">{{i.institute_organisation|title}}</p>
+
+                                                                <div class="only-so-big">
+                                                                    {% if i.summary %}
+                                                                    <p>{% autoescape off %}{{i.summary}}{% endautoescape %}</p>
+                                                                    {% endif %}
+                                                             </div>
+                                                            </div>
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                           {% endfor %}
+                                          
+                                        </div>
+                                     </div>
+
+                                </div>
+                            </div>
+                            {% endif %}
+                            {% if portfolios %}
+                            <div class="tab-pane-section" id="portfolio" data-section-name="portfolio">
+                                <div class="exp-tab-detail">
+                                    <div class="cantidate-detail-view-data">
+                                        <h2>Portfolio <span>Portfolio</span></h2>
+                                    </div>
+                                    <div class="double-col for-big-content-scroll">
+                                        <div class="row">
+
+                                            {%for i in portfolios%}
+
+                                            <div class="col-lg-6 col-sm-6 col-xs-12">
+                                                <div class="gary-bg-for-all">
+
+                                                    <div class="for-big-content-scroll deatil-pan-start">
+                                                        <div  class="section-for-detail">
+                                                            <div class="left-area">
+                                                                <img src="{% static 'assets/img/file-icon.png' %}" alt="img-responsive">
+                                                            </div>
+                                                            <div class="right-area">
+                                                                <div class="acc-haeding">
+                                                                    <h4>{{i.project_title|title}}</h4>
+                                                                </div>
+                                                                <span class="acc-sub">{{i.year}}</span>
+                                                                <!-- <p class="acc-sub-sub">Sr. Software Engineer</p> -->
+
+                                                                <div class="only-so-big">
+                                                                    {% if i.learning_from_project %}
+                                                                    <p>{% autoescape off %}{{i.learning_from_project}}{% endautoescape %}</p>
+                                                                    {% endif %}
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                            {% endfor %}
+
+
+                                        </div>
+                                     </div>
+
+                                </div>
+
+                            </div>
+                            {% endif %}
+                            {% if awards %}
+                            <div class="tab-pane-section" id="Award" data-section-name="Award">
+                                <div class="exp-tab-detail">
+                                    <div class="cantidate-detail-view-data">
+                                        <h2>Award <span>Award</span></h2>
+                                    </div>
+                                    <div class="double-col for-big-content-scroll">
+                                        <div class="row">
+                                            {%for i in awards%}
+                                            
+                                            <div class="col-lg-6 col-sm-6 col-xs-12">
+                                                <div class="gary-bg-for-all">
+
+                                                    <div class="for-big-content-scroll deatil-pan-start">
+                                                        <div  class="section-for-detail">
+                                                            <div class="left-area">
+                                                                <img src="{% static 'assets/img/file-icon.png' %}" alt="img-responsive">
+                                                            </div>
+                                                            <div class="right-area">
+                                                                <div class="acc-haeding">
+                                                                    <h4>{{i.title|title}}</h4>
+                                                                </div>
+                                                                <span class="acc-sub">{{i.year}}</span>
+                                                                <p class="acc-sub-sub">{{i.awarder|title}}</p>
+
+                                                                <div class="only-so-big">
+                                                                    {% if i.summary %}
+                                                                    <p>{% autoescape off %}{{i.summary}}{% endautoescape %}</p>
+                                                                    {% endif %}
+                                                             </div>
+                                                            </div>
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                            
+                                            {% endfor %}
+
+                                        </div>
+                                     </div>
+
+                                </div>
+
+                            </div>
+                            {% endif %}
+                            <div class="tab-pane-section" id="chart" data-section-name="chart">
+                                <div class="exp-tab-detail">
+                                    <div class="cantidate-detail-view-data">
+                                        <h2>chart<span>chart</span></h2>
+                                    </div>
+                                    <div class="for-big-content-scroll deatil-pan-start">
+										<div class="section-for-detail">
+                                            <div class="col-sm-12 col-md-12 col-lg-6">
+                                                <div class="card mg-b-md-20 overflow-hidden">
+                                                    <div class="card-body">
+                                                        <div class="main-content-label mg-b-5">
+                                                            Experience Chart
+                                                        </div>
+                                                        <center>
+                                                            <div style="width: 300px;height: 300px;">
+                                                                <canvas id="experience_pie_chart"></canvas>
+                                                            </div>
+                                                        </center>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                                                                        {%if skills%}
+                                            <div class="col-sm-12 col-md-12 col-lg-6">
+                                                <div class="card mg-b-md-20 overflow-hidden">
+                                                    <div class="card-body">
+                                                        <div class="main-content-label mg-b-5">
+                                                            Skill Chart
+                                                        </div>
+                                                        <!-- <p class="mg-b-20">Basic Charts Of Admix template.</p> -->
+                                                        <div class="chartjs-wrapper-demo">
+                                                            <canvas id="skill_bar_chart"></canvas>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div><!-- col-6 -->
+                                            {%endif%}
+                                            
+                                        </div>
+
+                                        <div  class="section-for-detail">
+                                            {%if year_salary_pair%}
+                                            <div class="col-sm-12 col-md-12 col-lg-6">
+                                                <div class="card mg-b-md-20 overflow-hidden">
+                                                    <div class="card-body">
+                                                        <div class="main-content-label mg-b-5">
+                                                            Salary Chart
+                                                        </div>
+                                                        <!-- <p class="mg-b-20">Basic Charts Of Admix template.</p> -->
+                                                        <div class="chartjs-wrapper-demo">
+                                                            <canvas id="salary_line_chart"></canvas>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div><!-- col-6 -->
+                                            {%endif%}
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
+		<!-- Back-to-top -->
+		<a href="#top" id="back-to-top"><i class="las la-angle-double-up"></i></a>
+		<!-- JQuery min js -->
+		<script src="{% static 'assets/plugins/jquery/jquery.min.js' %}"></script>
+        <script src="{% static 'assets/js/jquery.easing.min.js' %}"></script>
+		<!-- Popper js -->
+		<script src="{% static 'assets/plugins/popper/popper.min.js' %}"></script>
+		<!-- Bootstrap Bundle js -->
+		<script src="{% static 'assets/plugins/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+
+		<!-- JQuery sparkline js -->
+		<!-- <script src="{% static 'assets/plugins/jquery-sparkline/jquery.sparkline.min.js' %}"></script> -->
+
+		<!-- Rating js -->
+
+
+<!--new added js----------------------------------------------------------------->
+
+<script src="{% static 'assets/plugins/sumoselect/jquery.sumoselect.js' %}"></script>
+<!-- Datepicker js -->
+<script src="{% static 'assets/plugins/jquery-ui/ui/widgets/datepicker.js' %}"></script>
+<!-- Select2.min js -->
+<script src="{% static 'assets/plugins/select2/js/select2.min.js' %}"></script>
+
+
+<!-- Custom js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/scrollify/1.0.21/jquery.scrollify.js"></script>
+<script src="{% static 'assets/js/custom.js' %}"></script>
+<!-- add more js -->
+<script>
+
+    function getRandomColor() {
+      var letters = '0123456789ABCDEF';
+      var color = '#';
+      for (var i = 0; i < 6; i++) {
+        color += letters[Math.floor(Math.random() * 16)];
+      }
+      return color;
+    }
+    // Accordion all expand and callpase
+
+    $(document).ready(function () {
+
+        // code for chart js
+        var start_years = JSON.parse("{{start_years|escapejs}}");
+            console.log("staaaaaaaaaaart yeaaaaaars",start_years);
+            var end_years =JSON.parse("{{end_years|escapejs}}");
+            console.log("eeeeeeeeeeeeeend years",end_years);
+            learning_periods =[]
+            var skills ="{{skills|safe}}";
+            skills = skills.split(',')
+            // console.log("updated_skill_list",skills)
+            var my_dataset =[]
+            var temp_var = skills.pop()
+            console.log("skilllllsss",skills)
+            var company_names ="{{company_names|escapejs}}";
+            company_names = company_names.split(',')
+            console.log("company_names",company_names)
+
+            background_colors =[]
+            for(var i=0;i<skills.length;i++)
+            {
+                background_colors.push(getRandomColor())
+            }
+            console.log("background colors",background_colors)
+            for(var i=0;i<start_years.length;i++)
+            {
+                learning_periods.push([start_years[i],end_years[i]]);
+            }
+
+            console.log("learning perioooooooooooooods",learning_periods)
+            console.log("test messssssages")
+
+            console.log("{{year_salary_pair|escapejs}}")
+            // for salary charts
+            var year_salary_pair = JSON.parse("{{year_salary_pair|escapejs}}");
+
+            for(var i=0;i<year_salary_pair.length;i+=2){
+                random_color = getRandomColor()
+                my_dataset.push({
+                    label:company_names[i/2],
+                    data: [{
+                            x: year_salary_pair[i][0],
+                            y: year_salary_pair[i][1]},{x: year_salary_pair[i+1][0],y: year_salary_pair[i+1][1]
+                        }],
+                     backgroundColor:random_color,
+                     borderColor: random_color,
+                     borderWidth: 1,
+                     pointBackgroundColor: ['blue'],
+                     pointBorderColor: ['black'],
+                     pointRadius: 5,
+                     pointHoverRadius: 5,
+                     fill: false,
+                     tension: 0,
+                     showLine: true
+                })
+            }
+
+            var ctx6 = document.getElementById('skill_bar_chart');
+            new Chart(ctx6, {
+            type: 'bar',
+            data: {
+              labels:skills,
+              datasets: [{
+                label: 'skills',
+                //data: [[2017, 2021], [2015, 2021], [2013, 2021]],
+                data: learning_periods,
+
+                // backgroundColor: 'lightblue',
+                backgroundColor: background_colors,
+              }]
+            },
+            options: {
+              responsive: true,
+              scales : {
+                y : {
+                    min: Math.min(...start_years)-5,
+                    }
+                }
+            }
+          });
+          var ctx = document.getElementById('salary_line_chart');
+           new Chart(ctx, {
+           type: 'scatter',
+           data: {
+              datasets: my_dataset
+           },
+           options: {
+              legend: false,
+              tooltips: false,
+              scales: {
+                 xAxes: [{
+                    ticks: {
+                       min: 0,
+                       max: 10
+                    },
+                    gridLines: {
+                       color: '#888',
+                       drawOnChartArea: false
+                    }
+                 }],
+                 yAxes: [{
+                    ticks: {
+                       min: 0,
+                       max: 8,
+                       padding: 10
+                    },
+                    gridLines: {
+                       color: '#888',
+                       drawOnChartArea: false
+                    }
+                 }]
+              }
+           }
+    });
+
+
+
+    var exp_pie_chart_companies = JSON.parse("{{exp_pie_chart_companies|escapejs}}");
+    var exp_pie_chart_total_exp = JSON.parse("{{exp_pie_chart_total_exp|escapejs}}");
+
+    exp_bg =[]
+    for(var i=0;i<exp_pie_chart_companies.length;i++)
+    {
+        exp_bg.push(getRandomColor())
+    }
+
+    console.log('exp_pie_chart_total_exp >>>>>>>>>>>>>>>',exp_pie_chart_total_exp)
+    console.log('exp_pie_chart_total_exp >>>>>>>>>>>>>>>',exp_pie_chart_companies)
+    var chart3 = document.getElementById('experience_pie_chart');
+    new Chart(chart3, {
+        type: 'pie',
+        data: {
+          labels: exp_pie_chart_companies,
+          datasets: [{
+            label: 'Companies',
+            data: exp_pie_chart_total_exp,
+            backgroundColor: exp_bg,
+          }]
+        },
+        options: {
+            responsive: true,
+        }
+    });
+
+    //code for chart js
+
+
+
+    $(".toggle-accordion").on("click", function () {
+    var accordionId = $(this).attr("accordion-id"),
+    numPanelOpen = $(accordionId + ' .collapse.show').length;
+
+    $(this).toggleClass("active");
+
+    if (numPanelOpen == 0) {
+    openAllPanels(accordionId);
+    } else {
+    closeAllPanels(accordionId);
+    }
+    })
+    openAllPanels = function (aId) {
+    console.log("setAllPanelOpen");
+    $(aId + ' .panel-collapse:not(".show")').addClass('show').animate({duration:500});
+    }
+    closeAllPanels = function (aId) {
+    console.log("setAllPanelclose");
+    $(aId + ' .panel-collapse.show').removeClass('show').animate({duration:500});
+    }
+
+    });
+    </script>
+    <script>
+        $("div[id^='HireModal']").each(function(){
+             var HireModal = $(this);
+             HireModal.find('.preference-submit').click(function(){
+                  var preferenceForm = document.getElementById("preferenceForm");
+                  var formData = new FormData(preferenceForm);
+                  console.log('formData preferenceForm >>>>>>>',formData)
+                  $.ajax({
+                          url:"/company/candidate_preference_check",
+                          headers: {'X-CSRFToken': $("input[name=csrfmiddlewaretoken]").val() },
+                          type:'POST',
+                          contentType: false,
+                          processData: false,
+                          data: formData,
+                          error: function (request, status, error) {
+                              alert(error);
+                          }
+                  }).done(function(response){
+                      if(response=="True"){
+                          HireModal.modal('hide');
+                          HireModal.closest("div[id^='HireModal']").nextAll("div[id^='HireModal']").first().modal('show');
+                      }else{
+                          console.log("false");
+                      }
+                  })
+             });
+             HireModal.find('.hire-message-submit').click(function(){
+                  var HireMessageForm = document.getElementById("HireMeForm");
+                  var formData = new FormData(HireMessageForm);
+                  console.log('formData HireMessageForm >>>>>>>',formData)
+                  $.ajax({
+                          url:"/company/candidate_hire",
+                          headers: {'X-CSRFToken': $("input[name=csrfmiddlewaretoken]").val() },
+                          type:'POST',
+                          contentType: false,
+                          processData: false,
+                          data: formData,
+                          error: function (request, status, error) {
+                              alert(error);
+                          }
+                  }).done(function(response){
+                      if(response=="True"){
+                           window.location.reload()
+                      }else{
+                          console.log("false");
+                      }
+                  })
+             });
+        });
+      </script>
+
+      <script>
+          function doc_request(candidate,profile){
+
+              message=document.getElementsByName("documents_message")[0].value;
+
+            $.ajax({
+                    url:"/company/document_request/",
+                    headers: {'X-CSRFToken': $("input[name=csrfmiddlewaretoken]").val() },
+                    type:'POST',
+                    contentType: 'application/json; charset=UTF-8',
+                    data: JSON.stringify({message:message,candidate:candidate,profile:profile}),
+                    error: function (request, status, error) {
+                            alert(error);
+                    }
+                  }).done(function(response){
+                      if(response=="True"){
+                        $('#company_login_check').modal('hide');
+                        document.getElementsByName("documents_message")[0].value.value = "";
+
+                      }else{
+                        $('#company_login_check').modal('hide');
+                        document.getElementsByName("documents_message")[0].value.value = ""
+                      }
+                  })
+          }
+
+      </script>
+
+       <script>
+                        function file_download(button){
+                            if($('#confirm_password').val()==''){
+                                    $(".email_error").remove();
+                                    $("<span class='email_error' style='padding: 3px;color: red;'> Please Enter resume password</span>").insertAfter("#confirm_password");
+                            }
+                            else{
+                            $.ajax({
+                                url:"{% url 'candidate:file_download' %}",
+                                headers:{'X-CSRFToken':$("input[name=csrfmiddlewaretoken]").val()},
+                                type:"POST",
+                                data:JSON.stringify({password:$('#confirm_password').val(),id:$("#recored_id").val(),profile_id:$("#profile_id").val(),candidate_id:$("#candidate_id").val()}),
+                                error:function(request,status,error){
+                                    alert(error);
+                                }
+                            }).done(function(response){
+                                if(response=="True"){
+                                    var filename=document.getElementById('resume_file_get').getAttribute('value');
+                                    var a=$("<a />");
+                                    var down_filename=document.getElementById('fname').getAttribute('value')+document.getElementById('lname').getAttribute('value')+".pdf";
+                                    a.attr("download",down_filename);
+                                    a.attr("href",filename);
+                                    $("body").append(a);
+                                    a[0].click();
+                                    $("body").remove(a);
+                                    $('#confirm_password').val('');
+                                    }
+
+                                else{
+                                    alert('invalid password')
+                                }
+                            })
+                        }
+                        }
+                    </script>
+    <script>
+        function resume_download_email(type_name){
+
+            var email_resume="";
+            if(type_name="resume"){
+
+                email_resume=$('#company_email_resume').val()
+                if($('#company_email_resume').val()==''){
+
+                    $(".email_error1").remove();
+                    $("<span class='email_error1' style='padding: 3px;color: red;'> Please Enter email id</span>").insertAfter("#company_email_resume");
+
+                }
+
+            }
+            if(type_name='hire'){
+
+                email_resume=$('#company_email').val()
+
+                if($('#company_email').val()==''){
+
+                    $(".email_error").remove();
+                    $("<span class='email_error' style='padding: 3px;color: red;'> Please Enter email id</span>").insertAfter("#company_email");
+                }
+            }
+
+            if(email_resume!='')
+           {
+
+            $.ajax({
+                          url:"/company/user_login_email_popup",
+                          headers: {'X-CSRFToken': $("input[name=csrfmiddlewaretoken]").val() },
+                          type:'POST',
+                          contentType: 'application/json; charset=UTF-8',
+                          data: JSON.stringify({email:email_resume,type_name:type_name}),
+                          error: function (request, status, error) {
+                              alert(error);
+                          }
+                      }).done(function(response){
+                          if(response=="True"){
+                            $('#myModal1').modal('hide');
+                            $('#download_model').modal('hide');
+                            $('#login_password').modal('show');
+
+                          }else{
+                            $(".email_error").remove();
+                            $("<span class='email_error' style='padding: 3px;color: red;'> Please Enter Valid email id</span>").insertAfter("#company_email");
+                            $("<span class='email_error' style='padding: 3px;color: red;'> Please Enter Valid email id</span>").insertAfter("#company_email_resume");
+                              console.log("false");
+                              $('#company_email_resume').val('')
+                              $('#company_email').val('')
+                          }
+                      })
+            }
+
+        }
+    </script>
+    <script>
+        function resume_download_password(){
+
+            if($('#company-password').val()==''){
+
+                $(".email_error").remove();
+                $("<span class='email_error' style='padding: 3px;color: red;'> Please Enter password</span>").insertAfter("#company-password");
+
+            }
+            else{
+            $.ajax({
+                      url:"/company/user_login_password_popup",
+                      headers: {'X-CSRFToken': $("input[name=csrfmiddlewaretoken]").val() },
+                      type:'POST',
+                      contentType: 'application/json; charset=UTF-8',
+                      data: JSON.stringify({password:$('#company-password').val()}),
+                      error: function (request, status, error) {
+                          alert(error);
+                      }
+                  }).done(function(response){
+
+                      if(response=="True"){
+
+                        $('#login_password').modal('hide');
+                        $('#login_otp').modal('show');
+
+                      }else{
+                        $(".email_error").remove();
+                        $("<span class='email_error' style='padding: 3px;color: red;'> Please Enter Valid password</span>").insertAfter("#company-password");
+                          console.log("false");
+                          $('#company-password').val('')
+                      }
+                  })
+            }
+        }
+    </script>
+    <script>
+        function resume_download_otp(){
+            if($('#company-login-otp').val()==''){
+                $(".email_error").remove();
+                $("<span class='email_error' style='padding: 3px;color: red;'> Please Enter OTP</span>").insertAfter("#company-login-otp");
+            }
+            else{
+            $.ajax({
+                      url:"/company/user_login_verify_otp_popup",
+                      headers: {'X-CSRFToken': $("input[name=csrfmiddlewaretoken]").val() },
+                      type:'POST',
+                      contentType: 'application/json; charset=UTF-8',
+                      data: JSON.stringify({otp:$('#company-login-otp').val()}),
+                      error: function (request, status, error) {
+                          alert(error);
+                      }
+                  }).done(function(response){
+                      if(response=="resume"){
+                        var filename=document.getElementById('resume_file_get').getAttribute('value');
+                        var a=$("<a />");
+                        var down_filename=document.getElementById('fname').getAttribute('value')+document.getElementById('lname').getAttribute('value')+".pdf";
+                        a.attr("download",down_filename);
+                        a.attr("href",filename);
+                        $("body").append(a);
+                        a[0].click();
+                        $("body").remove(a);
+                        $('#login_otp').modal('hide');
+                      }
+                    else if(response=="hire"){
+                        $('#login_otp').modal('hide');
+                        window.location.reload();
+                    }else{
+                          $(".email_error").remove();
+                          $("<span class='email_error' style='padding: 3px;color: red;'> Please Enter Valid OTP</span>").insertAfter("#company-login-otp");
+                          console.log("false");
+                          $('#company-login-otp').val('')
+                      }
+                  })
+            }
+        }
+    </script>
+    </body>
+</html>
+<script>
+
+!(function ($) {
+
+
+// Smooth scroll for the navigation menu and links with .scrollto classes
+// $(document).on('click', '.tabs-menu-section a, .scrollto', function (e) {
+//   if (location.pathname.replace(/^\//, '') == this.pathname.replace(/^\//, '') && location.hostname == this.hostname) {
+//     var target = $(this.hash);
+//     if (target.length) {
+//       e.preventDefault();
+
+//       var scrollto = target.offset().top - 100;
+
+//       $('html, body').animate({
+//         scrollTop: scrollto
+//       }, 1500, 'easeInOutExpo');
+
+//       if ($(this).parents('.tabs-menu-section, .mobile-nav').length) {
+//         $('.tabs-menu-section .active, .mobile-nav .active').removeClass('active');
+//         $(this).closest('li').addClass('active');
+//       }
+
+//       if ($('body').hasClass('mobile-nav-active')) {
+//         $('body').removeClass('mobile-nav-active');
+//         $('.mobile-nav-toggle i').toggleClass('fa-times');
+//       }
+//       return false;
+//     }
+//   }
+// });
+
+// Activate smooth scroll on page load with hash links in the url
+// $(document).ready(function () {
+//   if (window.location.hash) {
+//     var initial_nav = window.location.hash;
+//     if ($(initial_nav).length) {
+//       var scrollto = $(initial_nav).offset().top;
+//       $('html, body').animate({
+//         scrollTop: scrollto
+//       }, 1500, 'easeInOutExpo');
+//     }
+//   }
+// });
+
+ $(document).on('click', '.mobile-nav-toggle', function (e) {
+   $('body').toggleClass('mobile-nav-active');
+   $('.mobile-nav-toggle i').toggleClass('fa-times');
+ });
+
+ $(document).click(function (e) {
+   var container = $(".mobile-nav-toggle");
+   if (!container.is(e.target) && container.has(e.target).length === 0) {
+     if ($('body').hasClass('mobile-nav-active')) {
+       $('body').removeClass('mobile-nav-active');
+       $('.mobile-nav-toggle i').toggleClass('fa-times');
+     }
+   }
+ });
+
+// Navigation active state on scroll
+var nav_sections = $('.tab-pane-section');
+var main_nav = $('.tabs-menu-section, #mobile-nav');
+
+$(window).on('scroll', function () {
+  var scrollObjElement = $(this);
+  viewListOnPageScroll(scrollObjElement);
+  var cur_pos = $(this).scrollTop() + 300;
+  nav_sections.each(function () {
+    var top = $(this).offset().top,
+      bottom = top + $(this).outerHeight();
+    if (cur_pos >= top && cur_pos <= bottom) {
+      if (cur_pos <= bottom) {
+        main_nav.find('li').removeClass('active');
+      }
+      main_nav.find('li[id="' + $(this).attr('id') + '"]').addClass('active');
+    }
+    if (cur_pos < 200) {
+      $(".tabs-menu-section ul:first li:first").addClass('active');
+    }
+  });
+});
+
+// $.scrollify({
+//   section: ".tab-pane-section",
+//   scrollSpeed: 2000,
+//   touchScroll: false,
+//   offset: 0
+// });
+
+
+(function() {
+  $.scrollify({
+    section : ".tab-pane-section",
+    sectionName : "section-name",
+    easing: "easeOutExpo",
+    scrollSpeed: 2000,
+    offset : -88,
+    // scrollbars: false,
+     touchScroll: false,
+    before:function() {},
+    after:function() {}
+  });
+  
+  $('.tabs-menu-section li').click(function() {
+    $.scrollify.move('#' + $(this).attr('id'))
+
+     $('.tabs-menu-section .active, .mobile-nav .active').removeClass('active');
+     $(this).addClass('active');
+  })
+  
+  $('.tabs-menu-section li').hover(function() {
+    $(this).toggleClass('isHover');
+  })
+})()
+
+
+
+
+
+
+//timeline slide
+$(document).on('click', '.btn-side-btn', function (e) {
+   $('body').toggleClass('timeline-slide');
+   $('.btn-side-btn i').toggleClass('fa-times');
+ });
+
+ $(document).click(function (e) {
+   var container = $(".btn-side-btn");
+   if (!container.is(e.target) && container.has(e.target).length === 0) {
+     if ($('body').hasClass('timeline-slide')) {
+       $('body').removeClass('timeline-slide');
+       $('.btn-side-btn i').toggleClass('fa-times');
+     }
+   }
+ });
+})(jQuery);
+
+//read more
+ var allOSB = [];
+var mxh = '';
+$(document).ready(function() {
+  // Set Variables
+  allOSB = document.getElementsByClassName("only-so-big");
+
+  if (allOSB.length > 0) {
+    mxh = window.getComputedStyle(allOSB[0]).getPropertyValue('max-height');
+    mxh = parseInt(mxh.replace('px', ''));
+
+    // Add read-more button to each OSB section
+    for (var i = 0; i < allOSB.length; i++) {
+      var el = document.createElement("button");
+      el.innerHTML = "Read More";
+      el.setAttribute("type", "button");
+      el.setAttribute("class", "read-more hid");
+
+      insertAfter(allOSB[i], el);
+    }
+  }
+
+  // Add click function to buttons
+  var readMoreButtons = document.getElementsByClassName("read-more");
+  for (var i = 0; i < readMoreButtons.length; i++) {
+    readMoreButtons[i].addEventListener("click", function() {
+      revealThis(this);
+    }, false);
+  }
+
+  // Update buttons so only the needed ones show
+  updateReadMore();
+});
+// Update on resize
+window.onresize = function() {
+  updateReadMore();
+}
+
+// show only the necessary read-more buttons
+function updateReadMore() {
+  if (allOSB.length > 0) {
+    for (var i = 0; i < allOSB.length; i++) {
+      if (allOSB[i].scrollHeight > mxh) {
+        if (allOSB[i].hasAttribute("style")) {
+          updateHeight(allOSB[i]);
+        }
+        allOSB[i].nextElementSibling.className = "read-more";
+      } else {
+        allOSB[i].nextElementSibling.className = "read-more hid";
+      }
+    }
+  }
+}
+
+function viewListOnPageScroll(getElementOnScroll){
+  var nav_sections = $('.tab-pane-section');
+  var main_nav = $('.tabs-menu-section, #mobile-nav');
+  var cur_pos = $(this).scrollTop() + 300;
+  console.log('Height::'+$(window.top).height())
+  nav_sections.each(function () {
+      var top = $(this).offset().top,
+      bottom = top + $(this).outerHeight();
+    if (cur_pos >= top && cur_pos <= bottom) {
+      if (cur_pos <= bottom) {
+       // main_nav.find('li').removeClass('active');
+
+      }
+      //main_nav.find('a[href="#' + $(this).attr('id') + '"]').parent('li').addClass('active');
+    }
+  });
+}
+
+
+function revealThis(current) {
+  var el = current.previousElementSibling;
+  if (el.hasAttribute("style")) {
+    current.innerHTML = "Read More";
+    el.removeAttribute("style");
+  } else {
+    updateHeight(el);
+    current.innerHTML = "Show Less";
+  }
+}
+
+function updateHeight(el) {
+  el.style.maxHeight = el.scrollHeight + "px";
+}
+
+
+function insertAfter(referenceNode, newNode) {
+    referenceNode.parentNode.insertBefore(newNode, referenceNode.nextSibling);
+}
+$(window).ready(function() {
+   $(document).on('click','.read-more',function(){
+    $(this).prev().toggleClass("expand-list")
+    if($(this).prev().hasClass('expand-list')){
+        console.log("less");
+         $(this).text("Less More");
+    }else{
+        console.log("read");
+        $(this).text("Read More")
+    }
+   })
+});
+</script>
+
+	</body>
+</html>

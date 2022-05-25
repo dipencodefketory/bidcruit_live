@@ -1,0 +1,314 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+
+		<meta charset="UTF-8">
+		<meta name='viewport' content='width=device-width, initial-scale=1.0, user-scalable=0'>
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="Description" content="">
+		<meta name="Author" content="">
+		<meta name="Keywords" content=""/>
+
+		<!-- Title -->
+		<title> Agency Registration </title>
+
+		<!-- Favicon -->
+		<link rel="icon" href="{% static 'assets/img/brand/bluelogo.png' %}" type="image/x-icon"/>
+
+		<!-- Icons css -->
+		<link href="{% static 'assets/css/icons.css' %}" rel="stylesheet">
+
+		<!-- Bootstrap css -->
+		<link rel="stylesheet" href="{% static 'assets/plugins/bootstrap/css/bootstrap.min.css' %}">
+
+		<!-- Right-sidemenu css -->
+		<link href="{% static 'assets/plugins/sidebar/sidebar.css' %}" rel="stylesheet">
+
+		<!-- Style css -->
+		<link rel="stylesheet" type="text/css" media="all" href="{% static 'assets/css/style.css' %}">
+
+		<!-- Colors css -->
+		<link id="theme" rel="stylesheet" type="text/css" media="all" href="{% static 'assets/css/colors/color.css' %}">
+
+		<!-- Skinmodes css -->
+		<link href="{% static 'assets/css/skin-modes.css' %}" rel="stylesheet">
+
+		<!-- Darktheme css -->
+		<link href="{% static 'assets/css/style-dark.css' %}" rel="stylesheet">
+
+		<!-- Sidemenu css -->
+		<link rel="stylesheet" href="{% static 'assets/css/sidemenu/sidemenu.css' %}">
+
+		<!-- Animations css -->
+		<link href="{% static 'assets/css/animate.css' %}" rel="stylesheet">
+
+		<!-- cadidate profile css -->
+		<link href="{% static 'assets/css/custom.css' %}" rel="stylesheet">
+
+	</head>
+	<body class="main-body">
+
+	<!-- Page -->
+		<div class="page">
+
+		<!-- Loader -->
+		<div id="global-loader">
+			<img src="{% static 'assets/img/loader.svg' %}" class="loader-img" alt="Loader">
+		</div>
+		<!-- /Loader -->
+		<div class="container-fluid">
+			{% for message in messages %}
+  <div class="alert {{ message.tags }} alert-dismissible" role="alert">
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+    {{ message }}
+  </div>
+{% endfor %}
+			<div class="row no-gutter">
+				<!-- The image half -->
+				<div class="col-md-6 col-lg-6 col-xl-7 d-md-flex bg-image d-logo-center">
+					<div class="row">
+						<div class="col-md-10 col-lg-10 col-xl-8 my-auto mx-auto">
+								<div class="logo-bg">
+								<div class="d-flex">
+									<a href="{% url 'bidcruit_home' %}">
+                                        <img src="{% static 'assets/img/brand/bluelogo.png' %}" class="sign-fav" alt="logo">
+                                    </a>
+                                    <h1 class="main-logo1 ml-1 mr-0 my-auto tx-28 text-white bl-size"><span>BidCruit</span></h1>
+								  </div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<!-- The content half -->
+				<div class="col-md-6 col-lg-6 col-xl-5 bg-white">
+					<div class="login d-flex align-items-center py-2">
+						<!-- Demo content-->
+						<div class="container p-0">
+							<div class="row">
+								<div class="col-md-10 col-lg-10 col-xl-9 mx-auto">
+									<div class="card-sigin">
+										<div class="main-signup-header">
+											<h2 class="text-primary">Get Started</h2>
+											<h5 class="font-weight-normal mb-4">It's free to signup and only takes a minute.</h5>
+											<form method="POST" name="agency_register" id="agency_register">
+												{% csrf_token %}
+												<div class="row">
+													<div class="col-md-6">
+														<div class="form-group">
+															<label>First Name</label> <input class="form-control" placeholder="Enter your first name" type="text" name="fname">
+														</div>
+													</div>
+													<div class="col-md-6">
+														<div class="form-group">
+															<label>Last Name</label> <input class="form-control" placeholder="Enter your last name" type="text" name="lname">
+														</div>
+													</div>
+												</div>
+
+												<div class="form-group">
+													<label>Email</label> <input class="form-control" placeholder="Enter your email" id="registerInputemail" type="text" name="email">
+												</div>
+												<div class="form-group">
+													<label>Password</label> <input class="form-control" placeholder="Enter your password" id="password" type="password" name="password">
+													<span id="result"></span>
+												</div>
+												<div class="form-group">
+													<label>Confirm Password</label> <input class="form-control" placeholder="Enter your password" id="confirmpassword" type="password" name="confirm_password">
+													<span  id="password_msg"></span>
+												</div>
+												<div class="form-group">
+													<label for="term_conditions">
+														By registering on this site, you agree to our use of cookies, <a href="#">Terms And Conditions<a/> & <a href="#">Privacy Policy<a/>.
+														<input type="checkbox" id="term_conditions" name="terms_conditions">
+													</label>
+												</div>
+												<button id="btn-email-proceed" disabled="disabled" class="btn btn-main-primary btn-block">Create Account</button>
+											</form>
+										</div>
+										<div class="main-signup-footer mt-5">
+											<p>Already have an account? <a href="{% url 'accounts:signin' %}">Sign In</a></p>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div><!-- End -->
+					</div>
+				</div><!-- End -->
+			</div>
+		</div>
+	</div>
+
+
+		<!-- JQuery min js -->
+		<script src="{% static 'assets/plugins/jquery/jquery.min.js' %}"></script>
+
+		<!-- jquery validation plugin -->
+		<script src="{% static 'assets/js/jquery-validation-1.19.3/dist/jquery.validate.js' %}"></script>
+
+		<!-- Popper js -->
+		<script src="{% static 'assets/plugins/popper/popper.min.js' %}"></script>
+
+		<!-- Bootstrap Bundle js -->
+		<script src="{% static 'assets/plugins/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+
+		<!-- Ionicons js -->
+		<script src="{% static 'assets/plugins/ionicons/ionicons.js' %}"></script>
+
+		<!-- JQuery sparkline js -->
+		<script src="{% static 'assets/plugins/jquery-sparkline/jquery.sparkline.min.js' %}"></script>
+
+		<!-- Moment js -->
+		<script src="{% static 'assets/plugins/moment/moment.js' %}"></script>
+
+		<!-- Rating js -->
+		<script src="{% static 'assets/plugins/rating/jquery.rating-stars.js' %}"></script>
+		<script src="{% static 'assets/plugins/rating/jquery.barrating.js' %}"></script>
+
+		<!-- Custom js -->
+		<script src="{% static 'assets/js/custom.js' %}"></script>
+	    <script src="https://cdn.jsdelivr.net/npm/exceptionless@v1.6.4/dist/exceptionless.min.js"></script>
+	    <script>
+		var client = exceptionless.ExceptionlessClient.default;
+		client.config.apiKey = 'WDqMDPk1LJMrsi46mSug2Vk7A8lXFlDRlHCLO5UF';
+		$("#registerInputemail").change(function(){
+			var email=$(this).val();
+			if(email!=""){
+				$.ajax({
+				  url:'{% url 'accounts:check_email_is_valid' %}',
+				  type:'POST',
+				  headers: {'X-CSRFToken': '{{ csrf_token }}'},
+				  data:{email:email}
+				})
+				.done(function(response){
+					if(response=="True"){
+						$(".email_error").remove();
+						$("<span class='email_error' style='padding: 3px;color: red;'>Email already exists !!</span>").insertAfter("#registerInputemail");
+						$('#btn-email-proceed').attr('disabled','disabled');
+					}else if(response=="Invalid"){
+						client.submitException('invalid email');
+						$(".email_error").remove();
+						$("<span class='email_error' style='padding: 3px;color: red;'> Invalid Email !!</span>").insertAfter("#registerInputemail");
+						$('#btn-email-proceed').attr('disabled','disabled');
+					}
+					else{
+						$(".email_error").remove();
+						$('#btn-email-proceed').removeAttr('disabled');
+					}
+				}).fail(function(){
+					  console.log("failed");
+				})
+			}else{
+				$(".email_error").remove();
+			}
+		});
+
+	</script>
+        <script>
+            $(function() {
+              $("form[name='agency_register']").validate({
+                // Specify validation rules
+                rules: {
+                  // The key name on the left side is the name attribute
+                  // of an input field. Validation rules are defined
+                  // on the right side
+                  fname: "required",
+                  lname: "required",
+                  email: {
+                    required: true,
+                    email: true
+                  },
+                  password: {
+                  	required: true,
+                    minlength: 8
+                  },
+                  confirm_password : {
+                  	required: true,
+                    minlength : 8,
+                    equalTo : "#password"
+                  },
+                  terms_conditions:{
+                  	 required:true,
+                  }
+                },
+                // Specify validation error messages
+                messages: {
+                  fname: "Please enter your firstname",
+                  lname: "Please enter your lastname",
+                  password: {
+                    required: "Please provide a password",
+                    minlength: "Your password must be at least 8 characters long !"
+                  },
+                  confirm_password:{
+                    equalTo : "Confirm Password must be same as password !"
+                  },
+                  terms_conditions:{
+                  	required: "Please accept our terms & conditions and privacy policy.",
+                  },
+                  email: "Please enter a valid email address"
+                },
+                // Make sure the form is submitted to the destination defined
+                // in the "action" attribute of the form when valid
+                submitHandler: function(form) {
+                  form.submit();
+                }
+              });
+            });
+        </script>
+        <script>
+            $(document).ready(function() {
+                $('#password').keyup(function(){
+                    $('#result').html(checkStrength($('#password').val()))
+                })
+                function checkStrength(password){
+
+                    //initial strength
+                    var strength = 0
+
+                    //if the password length is less than 6, return message.
+                    if (password.length < 6) {
+                        $('#result').removeClass()
+                        $('#result').addClass('short')
+                        return 'Too short'
+                    }
+
+                    //length is ok, lets continue.
+
+                    //if length is 8 characters or more, increase strength value
+                    if (password.length > 7) strength += 1
+
+                    //if password contains both lower and uppercase characters, increase strength value
+                    if (password.match(/([a-z].*[A-Z])|([A-Z].*[a-z])/))  strength += 1
+
+                    //if it has numbers and characters, increase strength value
+                    if (password.match(/([a-zA-Z])/) && password.match(/([0-9])/))  strength += 1
+
+                    //if it has one special character, increase strength value
+                    if (password.match(/([!,%,&,@,#,$,^,*,?,_,~])/))  strength += 1
+
+                    //if it has two special characters, increase strength value
+                    if (password.match(/(.*[!,%,&,@,#,$,^,*,?,_,~].*[!,",%,&,@,#,$,^,*,?,_,~])/)) strength += 1
+
+                    //now we have calculated strength value, we can return messages
+
+                    //if value is less than 2
+                    if (strength < 2 ) {
+                        $('#result').removeClass()
+                        $('#result').addClass('weak')
+                        return 'Weak'
+                    } else if (strength == 2 ) {
+                        $('#result').removeClass()
+                        $('#result').addClass('good')
+                        return 'Good'
+                    } else {
+                        $('#result').removeClass()
+                        $('#result').addClass('strong')
+                        return 'Strong'
+                    }
+                }
+            });
+        </script>
+	</body>
+</html>

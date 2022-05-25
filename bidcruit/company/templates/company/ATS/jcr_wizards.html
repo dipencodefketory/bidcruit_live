@@ -1,0 +1,2281 @@
+{% extends 'company/base.html' %}
+{% load static %}
+{% block title %}Job View{% endblock %}
+{% block css %}
+		<link href="{% static 'assets/css/ATS/jcr_wizards.css' %}" rel="stylesheet" type="text/css" />
+{% endblock %}
+{% block main %}
+
+				<!-- Container-fluid -->
+				<div class="container-fluid">
+
+					<!-- Main-content-body -->
+					<div class="main-content-body">
+
+						<!-- header-title -->
+						<div class="header-title">
+							<div class="mb-0 mb-lg-0 mb-xl-0">
+								<h4 class="mb-2">Forms</h4>
+								<div class="main-content-breadcrumb"><span>Forms</span> <span>Form-Wizard</span> </div>
+							</div>
+							<div class="ml-auto my-auto">
+								<a href="#" class="btn btn-primary"><i class="fe fe-plus-square"></i> Create Report</a>
+								<a href="#" class="btn btn-pink"><i class="fe fe-external-link"></i> Export</a>
+							</div>
+						</div>
+						<!-- header-title -->
+
+						<!-- row -->
+						<div class="row">
+							<div class="col-lg-12 col-md-12">
+								<div class="card">
+									<div class="card-body jcr_wizards">
+										<div class="main-content-label mg-b-0 main-upper-top">
+											<div class="row head-title">
+												<div class="col-8 left-top__title-view">
+													<h1 class="text-capitalize h5">JCR</h1>
+												</div>
+												<!-- <div class="col-4 right-top btn-section">
+													<button class="btn btn-sm btn-primary btn-sm btn-rounded" type="button"><i class="fas fa-eye"></i> Preview</button>
+												
+												</div> -->
+											</div>
+										</div>
+										
+										<div id="wizard2">
+											<h3 style="display: none;" >All</h3>
+											<section>
+
+												<div class="inner_jcr_section">
+
+													<div class="xs-form_layout">
+														<div class="row fxs-row form-title-row pl-0 pr-0">
+															<div class="headertop__left-section">
+																<h1 class="text-capitalize h3"><i class="fas fa-grip-vertical"></i> JCR</h1>
+															</div>
+															<div class="headertop__right-section top_in_no">
+																<div class="jcr_s_no">100%</div>
+															</div>
+														</div>
+		
+													</div>
+
+													<div class="xs-form_layout first_step_main_section">
+														<div class="row fxs-row form-title-row first_step_section">
+															<div class="headertop__left-section">
+																<h1 class="text-capitalize h5 mg-0">Primary</h1>
+															</div>
+															<div class="headertop__right-section top_in_no">
+																<input data-perct="%" type="number" name="myInput_primary" value="0" id="myInput_primary" class="number_field_box" maxlength="3" min="0" max="100">
+															</div>
+														</div>
+
+														<div class="row fxs-row form-title-row first_step_section">
+															<div class="headertop__left-section">
+																<h1 class="text-capitalize h5 mg-0">Secondary</h1>
+															</div>
+															<div class="headertop__right-section top_in_no">
+																<input data-perct="%" type="number" name="myInput_secondary" value="0" id="myInput_secondary" class="number_field_box" maxlength="3" min="0" max="100">
+															</div>
+														</div>
+
+														<div class="row fxs-row form-title-row first_step_section">
+															<div class="headertop__left-section">
+																<h1 class="text-capitalize h5 mg-0">Objective</h1>
+															</div>
+															<div class="headertop__right-section top_in_no">
+																<input data-perct="%" type="number"  name="myInput_objective" value="0" id="myInput_objective" class="number_field_box" maxlength="3" min="0" max="100">
+															</div>
+														</div>
+		
+													</div>
+
+												
+												</div>
+												<!-- <p class="mg-b-20">Try the keyboard navigation by clicking arrow left or right!</p>
+												<div class="row row-sm">
+													<div class="col-md-5 col-lg-4">
+														<label class="form-control-label">Firstname: <span class="tx-danger">*</span></label> <input class="form-control" id="firstname" name="firstname" placeholder="Enter firstname" required="" type="text">
+													</div>
+													<div class="col-md-5 col-lg-4 mg-t-20 mg-md-t-0">
+														<label class="form-control-label">Lastname: <span class="tx-danger">*</span></label> <input class="form-control" id="lastname" name="lastname" placeholder="Enter lastname" required="" type="text">
+													</div>
+												</div> -->
+											</section>
+
+
+
+											<h3 style="display: none;">Primary</h3>
+											<section>
+
+												<div class="inner_jcr_section particular_Primary">
+
+													<div class="xs-form_layout">
+														<div class="row fxs-row form-title-row">
+															<div class="headertop__left-section">
+																<h1 class="text-capitalize h5"><i class="fas fa-grip-vertical"></i> Primary</h1>
+															</div>
+															<div class="headertop__right-section top_in_no">
+																<input data-perct="%" type="number" disabled readonly id="get_primary_input" maxlength="3" min="0" max="100" class="number_field_box">
+																<div class="delete_option-ls"> <i class="fas fa-times-circle"></i></div>
+															</div>
+														</div>
+		
+													</div>
+													
+													<div class="xs-form_layout bd bd-10 rounded-20 section_sub_box_inner" data-list-n="0">
+														<div class="row fxs-row form-title-row sub_box_inner_input">
+															<div class="headertop__left-section">
+																<input type="text" placeholder="Add New Category" value="" class="cat-feild-text que-text__input pd-l-10" name="primary_categories_name">
+															</div>
+															<div class="headertop__right-section inner_in_no">
+																<input data-perct="%" type="number" name="primary_categories_pre" class="cat-feild-main number_field_box" maxlength="3" min="0" max="100">
+																<p class="show-btn delete-btn"><i class="fas fa-trash-alt"></i></p>
+															</div>
+														</div>
+		
+														<div class="question_main-layer parent-form">
+															<div class="row fxs-row bd rounded-20 question-section">
+																<div class="col-12 form-title-row pd-t-20 pd-b-20 pd-r-20 mg-b-0 question_text_num_cho">
+																		<div class="field-ls ques_text-area mg-0 bd bd-10 pd-5 rounded-10 sub_que_input">
+																			<input type="text" placeholder="Add New Question..." value="" class="q-feild-text que-text__input pd-l-10" name="query-text">
+
+																			<div class="switch-field">
+																				<input type="radio" id="radio-one" name="switch-one" value="single" checked/>
+																				<label for="radio-one">Single</label>
+																				<input type="radio" id="radio-two" name="switch-one" value="multiple" />
+																				<label for="radio-two">Multiple</label>
+																			</div>
+																		</div>
+																		<div class="headertop__right-section inner_in_no">
+																			<input data-perct="%" type="number" name="" class="q-feild-main number_field_box" maxlength="3" min="0" max="100">
+																			<p class="show-btn delete-btn"><i class="fas fa-trash-alt"></i></p>
+																		</div>
+																</div>
+																<div class="col-12 que_table pd-l-20 pd-r-20 mg-t-0 mg-b-20">
+																	
+																	<div class="field-ls show-option_ls parent-lavel-select">
+																		<div class="select-input__field">
+																			<div class="mid-section-col-2 p-t-0 mg-b-10">
+																				<div class="quote_fx-left fxn-col pd-t-10 pd-b-5 mg-b-10"> 
+																					<i class="far fa-circle"></i>
+																				<input type="text" name="option-text" value="" placeholder="add option text here.." class="option-label">
+																				</div>
+																				<div class="quote_fx-right fxn-col"> 
+																					<div class="headertop__right-section inner_in_no">
+																						<input data-perct="%" type="number" name="" class="number_field_box" maxlength="3" min="0" max="100">																					
+																					</div>
+																					<div class="delete_option-ls"> <i class="fas fa-trash-alt"></i></div>
+																				</div>
+																			</div>
+																		</div>
+																		<div class="select-input__field">
+																			<div class="mid-section-col-2 p-t-0 mg-b-10">
+																				<div class="quote_fx-left fxn-col pd-t-10 pd-b-5 mg-b-10"> 
+																					<i class="far fa-circle"></i>
+																					<input type="text" name="option-text" value="" placeholder="add option text here.." class="option-label">
+																				</div>
+																				<div class="quote_fx-right fxn-col"> 
+																					<div class="headertop__right-section inner_in_no">
+																						<input data-perct="%" type="number" name="" class="number_field_box" maxlength="3" min="0" max="100">																					
+																					</div>
+																					<div class="delete_option-ls"> <i class="fas fa-trash-alt"></i></div>
+																				</div>
+																			</div>
+																		</div>
+																	</div>
+
+																	<div class="add-more__option-section mg-b-10">
+																		<div class="add-more_btn-ofque"> <i class="fas fa-plus-circle"></i>Add New Option</div>
+																	</div>
+																</div>
+															</div>
+														</div>
+		
+														<div class="add-new-que__tab  mg-20 pd-l-10 pd-r-10">
+															<div class="btn_align-left Primary_addMoreQueList">
+																<i class="fas fa-plus-circle"></i>Add More
+															</div>
+														</div>
+													</div>
+
+													<div class="add-new-que__tab  mg-20 pd-l-10 pd-r-10">
+														<div class="btn_align-left" id="Primary_cat_add">
+															<i class="fas fa-plus-circle"></i>Add More
+														</div>
+													</div>
+												</div>
+
+												<!-- <p>Wonderful transition effects.</p>
+												<div class="form-group wd-xs-300">
+													<label class="form-control-label">Email: <span class="tx-danger">*</span></label> <input class="form-control" id="email" name="email" placeholder="Enter email address" required="" type="email">
+												</div> -->
+											</section>
+											<h3 style="display: none;">Secondary</h3>
+											<section>
+												<div class="inner_jcr_section particular_secondary">
+
+													<div class="xs-form_layout">
+														<div class="row fxs-row form-title-row">
+															<div class="headertop__left-section">
+																<h1 class="text-capitalize h5"><i class="fas fa-grip-vertical"></i> Secondary</h1>
+															</div>
+															<div class="headertop__right-section top_in_no">
+																<input data-perct="%" type="number" disabled readonly id="get_secondary_input" maxlength="3" min="0" max="100" class="number_field_box">
+																<div class="delete_option-ls"> <i class="fas fa-times-circle"></i></div>
+															</div>
+														</div>
+												
+													</div>
+													
+													<div class="xs-form_layout bd bd-10 rounded-20 section_sub_box_inner" data-list-n="0">
+														<div class="row fxs-row form-title-row sub_box_inner_input">
+															<div class="headertop__left-section">
+																<input type="text" placeholder="Add New Category" value="" class="cat-feild-text que-text__input pd-l-10" name="primary_categories_name">
+															</div>
+															<div class="headertop__right-section inner_in_no">
+																<input data-perct="%" type="number" name="primary_categories_pre" class="cat-feild-main number_field_box" maxlength="3" min="0" max="100">
+																<p class="show-btn delete-btn"><i class="fas fa-trash-alt"></i></p>
+															</div>
+														</div>
+												
+														<div class="question_main-layer parent-form">
+															<div class="row fxs-row bd rounded-20 question-section">
+																<div class="col-12 form-title-row pd-t-20 pd-b-20 pd-r-20 mg-b-0 question_text_num_cho">
+																		<div class="field-ls ques_text-area mg-0 bd bd-10 pd-5 rounded-10 sub_que_input">
+																			<input type="text" placeholder="Add New Question..." value="" class="q-feild-text que-text__input pd-l-10" name="query-text">
+												
+																			<div class="switch-field">
+																				<input type="radio" id="radio-one-s" name="switch-one-s" value="single" checked/>
+																				<label for="radio-one-s">Single</label>
+																				<input type="radio" id="radio-two-s" name="switch-one-s" value="multiple" />
+																				<label for="radio-two-s">Multiple</label>
+																			</div>
+																		</div>
+																		<div class="headertop__right-section inner_in_no">
+																			<input data-perct="%" type="number" name="" class="q-feild-main number_field_box" maxlength="3" min="0" max="100">
+																			<p class="show-btn delete-btn"><i class="fas fa-trash-alt"></i></p>
+																		</div>
+																</div>
+																<div class="col-12 que_table pd-l-20 pd-r-20 mg-t-0 mg-b-20">
+																	
+																	<div class="field-ls show-option_ls parent-lavel-select">
+																		<div class="select-input__field">
+																			<div class="mid-section-col-2 p-t-0 mg-b-10">
+																				<div class="quote_fx-left fxn-col pd-t-10 pd-b-5 mg-b-10"> 
+																					<i class="far fa-circle"></i>
+																				<input type="text" name="option-text" value="" placeholder="add option text here.." class="option-label">
+																				</div>
+																				<div class="quote_fx-right fxn-col"> 
+																					<div class="headertop__right-section inner_in_no">
+																						<input data-perct="%" type="number" name="" class="number_field_box" maxlength="3" min="0" max="100">																					
+																					</div>
+																					<div class="delete_option-ls"> <i class="fas fa-trash-alt"></i></div>
+																				</div>
+																			</div>
+																		</div>
+																		<div class="select-input__field">
+																			<div class="mid-section-col-2 p-t-0 mg-b-10">
+																				<div class="quote_fx-left fxn-col pd-t-10 pd-b-5 mg-b-10"> 
+																					<i class="far fa-circle"></i>
+																					<input type="text" name="option-text" value="" placeholder="add option text here.." class="option-label">
+																				</div>
+																				<div class="quote_fx-right fxn-col"> 
+																					<div class="headertop__right-section inner_in_no">
+																						<input data-perct="%" type="number" name="" class="number_field_box" maxlength="3" min="0" max="100">																					
+																					</div>
+																					<div class="delete_option-ls"> <i class="fas fa-trash-alt"></i></div>
+																				</div>
+																			</div>
+																		</div>
+																	</div>
+												
+																	<div class="add-more__option-section mg-b-10">
+																		<div class="add-more_btn-ofque_secon"> <i class="fas fa-plus-circle"></i>Add New Option</div>
+																	</div>
+																</div>
+															</div>
+														</div>
+												
+														<div class="add-new-que__tab  mg-20 pd-l-10 pd-r-10">
+															<div class="btn_align-left Secondary_addMoreQueList">
+																<i class="fas fa-plus-circle"></i>Add More
+															</div>
+														</div>
+													</div>
+												
+													<div class="add-new-que__tab  mg-20 pd-l-10 pd-r-10">
+														<div class="btn_align-left" id="secondary_cat_add">
+															<i class="fas fa-plus-circle"></i>Add More
+														</div>
+													</div>
+												</div>
+											</section>
+											<h3 style="display: none;">Objective</h3>
+											<section>
+												<div class="inner_jcr_section particular_objective">
+
+													<div class="xs-form_layout">
+														<div class="row fxs-row form-title-row">
+															<div class="headertop__left-section">
+																<h1 class="text-capitalize h5"><i class="fas fa-grip-vertical"></i> Objective</h1>
+															</div>
+															<div class="headertop__right-section top_in_no">
+																<input data-perct="%" type="number" disabled readonly id="get_objective_input" maxlength="3" min="0" max="100" class="number_field_box">
+																<div class="delete_option-ls"> <i class="fas fa-times-circle"></i></div>
+															</div>
+														</div>
+												
+													</div>
+												
+													<div class="xs-form_layout bd bd-10 rounded-20 section_sub_box_inner" data-list-n="0">
+														<div class="row fxs-row form-title-row sub_box_inner_input">
+															<div class="headertop__left-section">
+																<input type="text" placeholder="Add New Category" value="" class="cat-feild-text que-text__input pd-l-10" name="primary_categories_name">
+															</div>
+															<div class="headertop__right-section inner_in_no">
+																<input data-perct="%" type="number" name="primary_categories_pre" class="cat-feild-main number_field_box" maxlength="3" min="0" max="100">
+																<p class="show-btn delete-btn"><i class="fas fa-trash-alt"></i></p>
+															</div>
+														</div>
+												
+														<div class="question_main-layer parent-form">
+															<div class="row fxs-row bd rounded-20 question-section">
+																<div class="col-12 form-title-row pd-t-20 pd-b-20 pd-r-20 mg-b-0 question_text_num_cho">
+																		<div class="field-ls ques_text-area mg-0 bd bd-10 pd-5 rounded-10 sub_que_input">
+																			<input type="text" placeholder="Add New Question..." value="" class="q-feild-text que-text__input pd-l-10" name="query-text">
+												
+																			<div class="switch-field">
+																				<input type="radio" id="radio-one-o" name="switch-one-o" value="single" checked/>
+																				<label for="radio-one-o">Single</label>
+																				<input type="radio" id="radio-two-o" name="switch-one-o" value="multiple" />
+																				<label for="radio-two-o">Multiple</label>
+																			</div>
+																		</div>
+																		<div class="headertop__right-section inner_in_no">
+																			<input data-perct="%" type="number" name="" class="q-feild-main number_field_box" maxlength="3" min="0" max="100">
+																			<p class="show-btn delete-btn"><i class="fas fa-trash-alt"></i></p>
+																		</div>
+																</div>
+																<div class="col-12 que_table pd-l-20 pd-r-20 mg-t-0 mg-b-20">
+																	
+																	<div class="field-ls show-option_ls parent-lavel-select">
+																		<div class="select-input__field">
+																			<div class="mid-section-col-2 p-t-0 mg-b-10">
+																				<div class="quote_fx-left fxn-col pd-t-10 pd-b-5 mg-b-10"> 
+																					<i class="far fa-circle"></i>
+																				<input type="text" name="option-text" value="" placeholder="add option text here.." class="option-label">
+																				</div>
+																				<div class="quote_fx-right fxn-col"> 
+																					<div class="headertop__right-section inner_in_no">
+																						<input data-perct="%" type="number" name="" class="number_field_box" maxlength="3" min="0" max="100">																					
+																					</div>
+																					<div class="delete_option-ls"> <i class="fas fa-trash-alt"></i></div>
+																				</div>
+																			</div>
+																		</div>
+																		<div class="select-input__field">
+																			<div class="mid-section-col-2 p-t-0 mg-b-10">
+																				<div class="quote_fx-left fxn-col pd-t-10 pd-b-5 mg-b-10"> 
+																					<i class="far fa-circle"></i>
+																					<input type="text" name="option-text" value="" placeholder="add option text here.." class="option-label">
+																				</div>
+																				<div class="quote_fx-right fxn-col"> 
+																					<div class="headertop__right-section inner_in_no">
+																						<input data-perct="%" type="number" name="" class="number_field_box" maxlength="3" min="0" max="100">																					
+																					</div>
+																					<div class="delete_option-ls"> <i class="fas fa-trash-alt"></i></div>
+																				</div>
+																			</div>
+																		</div>
+																	</div>
+												
+																	<div class="add-more__option-section mg-b-10">
+																		<div class="add-more_btn-ofque_object"> <i class="fas fa-plus-circle"></i>Add New Option</div>
+																	</div>
+																</div>
+															</div>
+														</div>
+												
+														<div class="add-new-que__tab  mg-20 pd-l-10 pd-r-10">
+															<div class="btn_align-left Objective_addMoreQueList">
+																<i class="fas fa-plus-circle"></i>Add More
+															</div>
+														</div>
+													</div>
+												
+													<div class="add-new-que__tab  mg-20 pd-l-10 pd-r-10">
+														<div class="btn_align-left" id="objective_cat_add">
+															<i class="fas fa-plus-circle"></i>Add More
+														</div>
+													</div>
+												</div>
+											</section>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<!-- /row -->
+						<div class="classic-toast"></div>
+						<div id="snackbar"></div>
+						
+					</div>
+					<!-- Main-content-body closed -->
+				</div>
+				<!-- Container-fluid closed -->
+{% endblock %}
+
+{% block script %}
+<!-- JQuery min js -->
+		<script src="{% static 'assets/plugins/jquery/jquery.min.js' %}"></script>
+<!-- Jquery.steps js -->
+		<script src="{% static 'assets/plugins/jquery-steps/build/jquery.steps.js' %}"></script>
+		<script src="{% static 'assets/plugins/parsleyjs/parsley.min.js' %}"></script>
+		<!--- Form-wizard js --->
+		<script src="{% static 'assets/js/ATS/jcr_wizards.js' %}"></script>
+	<!-- Custom js -->
+		<script src="{% static 'assets/js/custom.js' %}"></script>
+
+
+		<script>
+			$(document).ready(function(){
+
+				// Input Number Field Common validation
+
+				$(document).on("keypress",".number_field_box", function (e) {
+					var keyCode = e.which ? e.which : e.keyCode
+					if (!(keyCode >= 48 && keyCode <= 57)) {
+						$(this).val(0)
+						alert('allow only numaric')
+						return false;
+					} else {
+						return true;
+					}
+				})
+
+				$(document).on("change",".number_field_box", function () {
+					var total=$(this).val();
+					if(total == ''){  
+						$(this).val(0) 
+					}
+					if(total.length<=3 && total<=100 && total>=0){
+						return true;
+					}
+					else{
+						$(this).val(0)
+						alert('enter 0 to 100');
+						return false;
+					}
+				})
+
+
+				// $(".number_field_box").bind("keypress", function (e) {
+				// 	var keyCode = e.which ? e.which : e.keyCode
+				// 	if (!(keyCode >= 48 && keyCode <= 57)) {
+				// 		$(this).val(0)
+				// 		alert('allow only numaric')
+				// 		return false;
+				// 	} else {
+				// 		return true;
+				// 	}
+				// });
+				// $(".number_field_box").bind("change", function () {
+				// 	var total=$(this).val();
+				// 	if(total == ''){  
+				// 		$(this).val(0) 
+				// 	}
+				// 	if(total.length<=3 && total<=100 && total>=0){
+				// 		return true;
+				// 	}
+				// 	else{
+				// 		$(this).val(0)
+				// 		alert('enter 0 to 100');
+				// 		return false;
+				// 	}
+				// });
+
+				// Main section validation
+
+				$("#myInput_primary").on("input", function(){
+					
+					var total_pre=parseInt($(this).val());
+					
+					if(total_pre == 100){
+						$('#myInput_secondary').val(0);
+						$('#myInput_objective').val(0);
+						$('#myInput_secondary').prop('readonly', true);
+						$('#myInput_objective').prop('readonly', true);
+					
+					}else{
+						$('#myInput_secondary').prop('readonly', false);
+						$('#myInput_objective').prop('readonly', false);
+					}
+					// else if(parseInt($(this).val()) + parseInt($('#myInput_secondary').val())==100){
+					// 	$('#myInput_objective').val(0);
+					// 	$('#myInput_objective').prop('readonly', true);
+					// }else{
+					// 	$('#myInput_objective').val(100-(parseInt($(this).val()) + parseInt($('#myInput_secondary').val())));
+					// }
+					
+				});
+
+				$("#myInput_secondary").on("input", function(){
+					
+					var total_pre=parseInt($(this).val());
+					
+					if(total_pre == 100){
+						$('#myInput_primary').val(0);
+						$('#myInput_objective').val(0);
+						$('#myInput_primary').prop('readonly', true);
+						$('#myInput_objective').prop('readonly', true);
+					}
+					else{
+						$('#myInput_primary').prop('readonly', false);
+						$('#myInput_objective').prop('readonly', false);
+					
+					}
+					// if(parseInt($(this).val()) + parseInt($('#myInput_primary').val())==100){
+					// 	$('#myInput_objective').val(0);
+					// 	$('#myInput_objective').prop('readonly', true);
+					// }
+					// else{
+					// 	$('#myInput_objective').val(100-(parseInt($(this).val()) + parseInt($('#myInput_primary').val())));
+					// }
+					// if(parseInt($(this).val()) + parseInt($('#myInput_objective').val())==100){
+					// 	$('#myInput_primary').val(0);
+						
+					// }else{
+					// 	$('#myInput_primary').val(100-(parseInt($(this).val()) + parseInt($('#myInput_objective').val())));
+					// }
+					
+				});
+
+				$("#myInput_objective").on("input", function(){
+					
+					var total_pre=parseInt($(this).val());
+					
+					if(total_pre == 100){
+						$('#myInput_primary').val(0);
+						$('#myInput_secondary').val(0);
+						$('#myInput_primary').prop('readonly', true);
+						$('#myInput_secondary').prop('readonly', true);
+					
+					}else{
+						$('#myInput_primary').prop('readonly', false);
+						$('#myInput_secondary').prop('readonly', false);
+					}
+					// else if(parseInt($(this).val()) + parseInt($('#myInput_secondary').val())==100){
+					// 	$('#myInput_objective').val(0);
+					// 	$('#myInput_objective').prop('readonly', true);
+					// }else{
+					// 	$('#myInput_objective').val(100-(parseInt($(this).val()) + parseInt($('#myInput_secondary').val())));
+					// }
+					
+				});
+				
+
+
+				// $("#txtNumber").bind("change", function () {
+				// 	var total=$(this).val();
+				// 	if(total==100){
+				// 		$('#txt').val(0)
+				// 		return true;
+				// 	}
+				// 	else{
+				// 		$(this).val(0)
+				// 		alert('enter 0 to 100');
+				// 		return false;
+				// 	}
+				// });
+
+
+				$("#Primary_cat_add").on('click',function(){
+					var Primary_main_total=1;
+					var sampleItemCount = 0;
+					var inputNotNull = true;
+					var mainCatClone = '';
+					var checkTotalSubcatTotalcval = $(this).closest('.particular_Primary').find('.section_sub_box_inner');
+					var checkSubCatListSize = $(this).closest('.particular_Primary').find('.section_sub_box_inner').length;
+					$.each(checkTotalSubcatTotalcval, function(i){
+						if(checkTotalSubcatTotalcval.eq(i).hasClass('section_sub_box_inner')){
+						//	console.log("Get percent of main >>",checkTotalSubcatTotalcval.eq(i).find('.sub_box_inner_input .cat-feild-main').val() )
+						//	console.log("Get percent of text>>",checkTotalSubcatTotalcval.eq(i).find('.sub_box_inner_input .cat-feild-text').val() )
+							if(checkTotalSubcatTotalcval.eq(i).find('.sub_box_inner_input .cat-feild-main ').val() !== "" && checkTotalSubcatTotalcval.eq(i).find('.sub_box_inner_input .cat-feild-main ').val() != 0){
+								if(checkTotalSubcatTotalcval.eq(i).find('.sub_box_inner_input .cat-feild-text').val() !== ""){
+								//	console.log("Get percent of subcate>>",checkTotalSubcatTotalcval.eq(i).find('.sub_box_inner_input .cat-feild-text').val() )
+									sampleItemCount += parseInt(checkTotalSubcatTotalcval.eq(i).find('.sub_box_inner_input .cat-feild-main').val());
+									inputNotNull = false;
+								}else{
+									inputNotNull = true;
+								//	console.log("check before tttt>>"+checkTotalSubcatTotalcval.eq(i).find('.sub_box_inner_input .cat-feild-text').val())
+									checkTotalSubcatTotalcval.eq(i).find('.sub_box_inner_input .cat-feild-text').addClass('ntValidShadow');
+									checkTotalSubcatTotalcval.eq(i).find('.sub_box_inner_input .cat-feild-text').focus();
+
+									setTimeout(function(){
+										checkTotalSubcatTotalcval.eq(i).find('.sub_box_inner_input .cat-feild-text').removeClass('ntValidShadow');
+									},2500)
+									return false;
+								}
+									
+							}else{
+									inputNotNull = true;
+								//	console.log("check before value>>"+checkTotalSubcatTotalcval.eq(i).find('.sub_box_inner_input .cat-feild-main').val())
+								//	console.log("Get percent of name>>",checkTotalSubcatTotalcval.eq(i).find('.sub_box_inner_input .cat-feild-text').val() )
+									//if(!checkTotalSubcatTotalcval.eq(i).find('.sub_box_inner_input .cat-feild-main').val()){
+										// alert('blank')
+										checkTotalSubcatTotalcval.eq(i).find('.sub_box_inner_input .cat-feild-main').addClass('ntValidShadow');
+										checkTotalSubcatTotalcval.eq(i).find('.sub_box_inner_input .cat-feild-main').focus();
+										setTimeout(function(){
+											checkTotalSubcatTotalcval.eq(i).find('.sub_box_inner_input .cat-feild-main ').removeClass('ntValidShadow');
+										},2500)
+								//	}
+									return false;
+							}
+							Primary_main_total+=i;
+						}
+						//console.log("check question percent->>",sampleItemCount)
+					})
+					console.log(inputNotNull);
+					console.log('check input value of box',sampleItemCount)
+					if(sampleItemCount < 100 && !sampleItemCount == 0 && !inputNotNull){
+
+						//if(checkSubCatListSize <= 3){
+							mainCatClone = `<div class="xs-form_layout bd bd-10 mg-t-20 rounded-20 section_sub_box_inner main_list" data-list-n=`+checkSubCatListSize+`>
+												<div class="row fxs-row form-title-row sub_box_inner_input">
+													<div class="headertop__left-section">
+														<input type="text" placeholder="Add New Category" value="" class="cat-feild-text que-text__input pd-l-10" name="primary_categories_name">
+													</div>
+													<div class="headertop__right-section inner_in_no">
+														<input data-perct="%" type="number" name="primary_categories_pre" class="cat-feild-main number_field_box" maxlength="3" min="0" max="100">
+														<p class="show-btn delete-btn Main_section_d"><i class="fas fa-trash-alt"></i></p>
+													</div>
+												</div>
+
+												<div class="question_main-layer parent-form">
+													<div class="row fxs-row bd rounded-20 question-section">
+														<div class="col-12 form-title-row pd-t-20 pd-b-20 pd-r-20 mg-b-0 question_text_num_cho">
+																<div class="field-ls ques_text-area mg-0 bd bd-10 pd-5 rounded-10 sub_que_input">
+																	<input type="text" placeholder="Add New Question..." value="" class="q-feild-text que-text__input pd-l-10" name="query-text">
+
+																	<div class="switch-field">
+																		<input type="radio" id="radio-one-m-`+Primary_main_total+`" name="switch-one-m-`+Primary_main_total+`" value="single" checked/>
+																		<label for="radio-one-m-`+Primary_main_total+`">Single</label>
+																		<input type="radio" id="radio-two-m-`+Primary_main_total+`" name="switch-one-m-`+Primary_main_total+`" value="multiple" />
+																		<label for="radio-two-m-`+Primary_main_total+`">Multiple</label>
+																	</div>
+																</div>
+																<div class="headertop__right-section inner_in_no">
+																	<input data-perct="%" type="number" name="" class="q-feild-main number_field_box" maxlength="3" min="0" max="100">
+																	<p class="show-btn delete-btn"><i class="fas fa-trash-alt"></i></p>
+																</div>
+														</div>
+														<div class="col-12 que_table pd-l-20 pd-r-20 mg-t-0 mg-b-20">
+															
+															<div class="field-ls show-option_ls parent-lavel-select">
+																<div class="select-input__field">
+																	<div class="mid-section-col-2 p-t-0 mg-b-10">
+																		<div class="quote_fx-left fxn-col pd-t-10 pd-b-5 mg-b-10"> 
+																			<i class="far fa-circle"></i>
+																		<input type="text" name="option-text" value="" placeholder="add option text here.." class="option-label">
+																		</div>
+																		<div class="quote_fx-right fxn-col"> 
+																			<div class="headertop__right-section inner_in_no">
+																				<input data-perct="%" type="number" name="" class="number_field_box" maxlength="3" min="0" max="100">																					
+																			</div>
+																			<div class="delete_option-ls"> <i class="fas fa-trash-alt"></i></div>
+																		</div>
+																	</div>
+																</div>
+																<div class="select-input__field">
+																	<div class="mid-section-col-2 p-t-0 mg-b-10">
+																		<div class="quote_fx-left fxn-col pd-t-10 pd-b-5 mg-b-10"> 
+																			<i class="far fa-circle"></i>
+																			<input type="text" name="option-text" value="" placeholder="add option text here.." class="option-label">
+																		</div>
+																		<div class="quote_fx-right fxn-col"> 
+																			<div class="headertop__right-section inner_in_no">
+																				<input data-perct="%" type="number" name="" class="number_field_box" maxlength="3" min="0" max="100">																					
+																			</div>
+																			<div class="delete_option-ls"> <i class="fas fa-trash-alt"></i></div>
+																		</div>
+																	</div>
+																</div>
+															</div>
+
+															<div class="add-more__option-section mg-b-10">
+																<div class="add-more_btn-ofque"> <i class="fas fa-plus-circle"></i>Add New Option</div>
+															</div>
+														</div>
+													</div>
+												</div>
+
+												<div class="add-new-que__tab  mg-20 pd-l-10 pd-r-10">
+													<div class="btn_align-left Primary_addMoreQueList">
+														<i class="fas fa-plus-circle"></i>Add More
+													</div>
+												</div>
+											</div>`;
+						   $(this).closest('.particular_Primary').find('.section_sub_box_inner').last().after(mainCatClone);
+						//}
+					}else{
+						if(sampleItemCount == 100){
+							var msg = "Not Allowed Add More Sections"
+						    snakBarShow(msg);
+						}else{
+							var msg = "You Must Enter a Value"
+						    snakBarShow(msg);
+						}
+						
+					}
+					
+				})
+
+
+				$(document).on('click','.Primary_addMoreQueList', function(){ 
+
+
+					
+
+					var main_cat_inputNotNull = true;
+			    	var main_cat_num = 0;
+					var checkTotalSubcatTotalcval = $(this).closest('.particular_Primary').find('.section_sub_box_inner');
+					$.each(checkTotalSubcatTotalcval, function(i){
+						if(checkTotalSubcatTotalcval.eq(i).hasClass('section_sub_box_inner')){
+							if(checkTotalSubcatTotalcval.eq(i).find('.sub_box_inner_input .cat-feild-main ').val() !== "" && checkTotalSubcatTotalcval.eq(i).find('.sub_box_inner_input .cat-feild-main ').val() != 0){
+								if(checkTotalSubcatTotalcval.eq(i).find('.sub_box_inner_input .cat-feild-text').val() !== ""){
+									main_cat_num += parseInt(checkTotalSubcatTotalcval.eq(i).find('.sub_box_inner_input .cat-feild-main').val());
+									main_cat_inputNotNull = false;
+								}else{
+									main_cat_inputNotNull = true;
+							
+									checkTotalSubcatTotalcval.eq(i).find('.sub_box_inner_input .cat-feild-text').addClass('ntValidShadow');
+									checkTotalSubcatTotalcval.eq(i).find('.sub_box_inner_input .cat-feild-text').focus();
+
+									setTimeout(function(){
+										checkTotalSubcatTotalcval.eq(i).find('.sub_box_inner_input .cat-feild-text').removeClass('ntValidShadow');
+									},2500)
+									return false;
+								}
+									
+							}else{
+							        	main_cat_inputNotNull = true;
+										checkTotalSubcatTotalcval.eq(i).find('.sub_box_inner_input .cat-feild-main').addClass('ntValidShadow');
+										checkTotalSubcatTotalcval.eq(i).find('.sub_box_inner_input .cat-feild-main').focus();
+										setTimeout(function(){
+											checkTotalSubcatTotalcval.eq(i).find('.sub_box_inner_input .cat-feild-main ').removeClass('ntValidShadow');
+										},2500)
+								
+									return false;
+							}
+						}
+						//console.log("check question percent->>",sampleItemCount)
+					})
+				
+					var questionSubcatTotalcval = $(this).parent().prev('.question_main-layer').children().last();
+					var questionSubcatTotalcval_total_no = $(this).parent().prev('.question_main-layer').find('.question-section');
+					var checkSubquestiontSize = $(this).parent().prev('.question_main-layer').find('.question-section').length;
+				
+					var main_sub_cat_inputNotNull = true;
+			    	var main_sub_cat_num = 0;
+
+					var inputNotNull_Q_option = true;
+				    var Q_option_Count = 0;
+					var checkMetchingOfSelector = questionSubcatTotalcval.find(".question_text_num_cho .switch-field input[type='radio']:checked").val();
+					var single_value_list=[];
+
+					var total_q = 1;
+					var main_div_count = $(this).parent().prev('.question_main-layer').parent().attr('data-list-n');
+					$.each(questionSubcatTotalcval_total_no, function(n){
+						main_sub_cat_num += parseInt(questionSubcatTotalcval_total_no.eq(n).find('.question_text_num_cho .q-feild-main').val());
+						total_q+=n;
+					})
+
+                    console.log('section>>>>>>>>>>>>',total_q);
+					var addMoreQueList_ListView = `<div class="row fxs-row bd mg-t-10 rounded-20 question-section question_list">
+														<div class="col-12 form-title-row pd-t-20 pd-b-20 pd-r-20 mg-b-0 question_text_num_cho">
+																<div class="field-ls ques_text-area mg-0 bd bd-10 pd-5 rounded-10 sub_que_input">
+																	<input type="text" placeholder="Add New Question..." value="" class="q-feild-text que-text__input pd-l-10" name="query-text">
+
+																	<div class="switch-field">
+																		<input type="radio" id="radio-one-`+total_q+`-`+main_div_count+`" name="switch-one-`+total_q+`-`+main_div_count+`" value="single" checked/>
+																		<label for="radio-one-`+total_q+`-`+main_div_count+`">Single</label>
+																		<input type="radio" id="radio-two-`+total_q+`-`+main_div_count+`" name="switch-one-`+total_q+`-`+main_div_count+`" value="multiple" />
+																		<label for="radio-two-`+total_q+`-`+main_div_count+`">Multiple</label>
+																	</div>
+																</div>
+																<div class="headertop__right-section inner_in_no">
+																	<input data-perct="%" type="number" name="" class="q-feild-main number_field_box" maxlength="3" min="0" max="100">
+																	<p class="show-btn delete-btn Question_section_d"><i class="fas fa-trash-alt"></i></p>
+																</div>
+														</div>
+														<div class="col-12 que_table pd-l-20 pd-r-20 mg-t-0 mg-b-20">
+															
+															<div class="field-ls show-option_ls parent-lavel-select">
+																<div class="select-input__field">
+																	<div class="mid-section-col-2 p-t-0 mg-b-10">
+																		<div class="quote_fx-left fxn-col pd-t-10 pd-b-5 mg-b-10"> 
+																			<i class="far fa-circle"></i>
+																		<input type="text" name="option-text" value="" placeholder="add option text here.." class="option-label">
+																		</div>
+																		<div class="quote_fx-right fxn-col"> 
+																			<div class="headertop__right-section inner_in_no">
+																				<input data-perct="%" type="number" name="" class="number_field_box" maxlength="3" min="0" max="100">																					
+																			</div>
+																			<div class="delete_option-ls"> <i class="fas fa-trash-alt"></i></div>
+																		</div>
+																	</div>
+																</div>
+																<div class="select-input__field">
+																	<div class="mid-section-col-2 p-t-0 mg-b-10">
+																		<div class="quote_fx-left fxn-col pd-t-10 pd-b-5 mg-b-10"> 
+																			<i class="far fa-circle"></i>
+																			<input type="text" name="option-text" value="" placeholder="add option text here.." class="option-label">
+																		</div>
+																		<div class="quote_fx-right fxn-col"> 
+																			<div class="headertop__right-section inner_in_no">
+																				<input data-perct="%" type="number" name="" class="number_field_box" maxlength="3" min="0" max="100">																					
+																			</div>
+																			<div class="delete_option-ls"> <i class="fas fa-trash-alt"></i></div>
+																		</div>
+																	</div>
+																</div>
+															</div>
+
+															<div class="add-more__option-section mg-b-10">
+																<div class="add-more_btn-ofque"> <i class="fas fa-plus-circle"></i>Add New Option</div>
+															</div>
+														</div>
+													</div>`;
+
+					$.each(questionSubcatTotalcval, function(i){						
+						if(questionSubcatTotalcval.eq(i).hasClass('question-section')){
+							if(questionSubcatTotalcval.eq(i).find('.question_text_num_cho .q-feild-main').val() !== "" && questionSubcatTotalcval.eq(i).find('.question_text_num_cho .q-feild-main').val() != 0){
+								if(questionSubcatTotalcval.eq(i).find('.question_text_num_cho .q-feild-text').val() !== ""){
+								//	main_sub_cat_num += parseInt(questionSubcatTotalcval.eq(i).find('.question_text_num_cho .q-feild-main').val());
+									main_sub_cat_inputNotNull = false;
+
+									var questi_sect = questionSubcatTotalcval.eq(i).find('.parent-lavel-select .select-input__field');
+									$.each(questi_sect, function(j){
+										if(questi_sect.eq(j).find('.number_field_box').val() !== "" ){
+
+											
+											if(questi_sect.eq(j).hasClass('select-input__field')){
+												if(questi_sect.eq(j).find('.option-label').val() !== ""){
+													
+													Q_option_Count += parseInt(questi_sect.eq(j).find('.number_field_box').val());
+													single_value_list.push(parseInt($.trim(questi_sect.eq(j).find('.number_field_box').val()))); 
+													console.log("===========",single_value_list)
+													inputNotNull_Q_option = false;
+												}else{
+													console.log("check before noooo>>"+questi_sect.eq(j).find('.option-label').val())
+
+													inputNotNull_Q_option = true;
+													questi_sect.eq(j).find('.option-label').addClass('ntValidShadow');
+													questi_sect.eq(j).find('.option-label').focus();
+
+													setTimeout(function(){
+														questi_sect.eq(j).find('.option-label').removeClass('ntValidShadow');
+													},2500)
+													return false;
+												}
+											}
+										}else{
+											inputNotNull_Q_option = true;
+											questi_sect.eq(j).find('.number_field_box').addClass('ntValidShadow');
+											questi_sect.eq(j).find('.number_field_box').focus();
+											setTimeout(function(){
+												questi_sect.eq(j).find('.number_field_box').removeClass('ntValidShadow');
+											},2500)
+											return false;
+										}
+									})
+
+								}else{
+									main_sub_cat_inputNotNull = true;
+									questionSubcatTotalcval.eq(i).find('.question_text_num_cho .q-feild-text').addClass('ntValidShadow');
+									questionSubcatTotalcval.eq(i).find('.question_text_num_cho .q-feild-text').focus();
+
+									setTimeout(function(){
+										questionSubcatTotalcval.eq(i).find('.question_text_num_cho .q-feild-text').removeClass('ntValidShadow');
+									},2500)
+									return false;
+								}
+									
+							}else{
+										main_sub_cat_inputNotNull = true;
+										questionSubcatTotalcval.eq(i).find('.question_text_num_cho .q-feild-main').addClass('ntValidShadow');
+										questionSubcatTotalcval.eq(i).find('.question_text_num_cho .q-feild-main').focus();
+										setTimeout(function(){
+											questionSubcatTotalcval.eq(i).find('.question_text_num_cho .q-feild-main').removeClass('ntValidShadow');
+										},2500)
+									return false;
+							}
+							
+						}
+						
+					})
+
+				   console.log(main_sub_cat_num);
+
+					if(checkMetchingOfSelector == 'multiple' && !inputNotNull_Q_option && !main_cat_inputNotNull && !main_sub_cat_inputNotNull && main_sub_cat_num <= 100){ 
+						if(Q_option_Count == 100)
+						{ 
+							if(main_sub_cat_num == 100){
+								var showMsg = "Total Questions 100% Done";
+								snakBarShow(showMsg);
+							}else{
+								console.log('append multiple');
+						        $(this).parent().prev('.question_main-layer').find('.question-section').last().after(addMoreQueList_ListView);
+							}
+							
+						}
+						else
+						{
+							// console.log("please fill out the remaining fields first!!!!")
+							var showMsg = "The total option field not exceed 100%";
+							snakBarShow(showMsg);
+						} 
+
+					}else if(checkMetchingOfSelector == 'single' && !inputNotNull_Q_option && !main_cat_inputNotNull && !main_sub_cat_inputNotNull && main_sub_cat_num <= 100){
+						if(find_duplicate_in_array(single_value_list)==true)
+						{
+							if(single_value_list.includes(100)) {
+								if(main_sub_cat_num == 100){
+									var showMsg = "Total Questions 100% Done";
+									snakBarShow(showMsg);
+								}else{
+									console.log('append single');
+									$(this).parent().prev('.question_main-layer').find('.question-section').last().after(addMoreQueList_ListView);
+								}
+							} else {
+								console.log(single_value_list);
+								var showMsg = "you must any one option field 100%";
+								snakBarShow(showMsg);
+								
+							}
+						}else{
+								console.log(single_value_list);
+								var showMsg = "100 Allow only one time in single type";
+								snakBarShow(showMsg);
+						}
+					}else{
+
+						  //  var showMsg = "Sorry Total Questions JCR 100% only not allow more";
+						//	snakBarShow(showMsg);
+					}
+
+
+				});
+
+
+				
+
+				$(document).on('click','.add-more_btn-ofque', function(){ 
+
+					var getCurrentListItem = $(this).parent().prev('.parent-lavel-select');
+
+					var cloneListView = `<div class="select-input__field show_list">
+											<div class="mid-section-col-2 p-t-0 mg-b-10">
+												<div class="quote_fx-left fxn-col pd-t-10 pd-b-5 mg-b-10"> 
+													<i class="far fa-circle"></i>
+												<input type="text" name="option-text" value="" placeholder="add option text here.." class="option-label">
+												</div>
+												<div class="quote_fx-right fxn-col"> 
+													<div class="headertop__right-section inner_in_no">
+														<input data-perct="%" type="number" name="" class="number_field_box" maxlength="3" min="0" max="100">																					
+													</div>
+													<div class="delete_option-ls option_list_d"> <i class="fas fa-trash-alt"></i></div>
+												</div>
+											</div>
+										</div>`;
+					
+					var main_cat_inputNotNull = true;
+			    	var main_cat_num = 0;
+					var checkTotalSubcatTotalcval = $(this).closest('.particular_Primary').find('.section_sub_box_inner');
+					
+					$.each(checkTotalSubcatTotalcval, function(i){
+						if(checkTotalSubcatTotalcval.eq(i).hasClass('section_sub_box_inner')){
+							if(checkTotalSubcatTotalcval.eq(i).find('.sub_box_inner_input .cat-feild-main ').val() !== "" && checkTotalSubcatTotalcval.eq(i).find('.sub_box_inner_input .cat-feild-main ').val() != 0){
+								if(checkTotalSubcatTotalcval.eq(i).find('.sub_box_inner_input .cat-feild-text').val() !== ""){
+									main_cat_num += parseInt(checkTotalSubcatTotalcval.eq(i).find('.sub_box_inner_input .cat-feild-main').val());
+									main_cat_inputNotNull = false;
+								}else{
+									main_cat_inputNotNull = true;
+							
+									checkTotalSubcatTotalcval.eq(i).find('.sub_box_inner_input .cat-feild-text').addClass('ntValidShadow');
+									checkTotalSubcatTotalcval.eq(i).find('.sub_box_inner_input .cat-feild-text').focus();
+
+									setTimeout(function(){
+										checkTotalSubcatTotalcval.eq(i).find('.sub_box_inner_input .cat-feild-text').removeClass('ntValidShadow');
+									},2500)
+									return false;
+								}
+									
+							}else{
+							        	main_cat_inputNotNull = true;
+										checkTotalSubcatTotalcval.eq(i).find('.sub_box_inner_input .cat-feild-main').addClass('ntValidShadow');
+										checkTotalSubcatTotalcval.eq(i).find('.sub_box_inner_input .cat-feild-main').focus();
+										setTimeout(function(){
+											checkTotalSubcatTotalcval.eq(i).find('.sub_box_inner_input .cat-feild-main ').removeClass('ntValidShadow');
+										},2500)
+								
+									return false;
+							}
+						}
+						//console.log("check question percent->>",sampleItemCount)
+					})
+
+
+					var main_sub_cat_inputNotNull = true;
+			    	var main_sub_cat_num = 0;
+				    //	var questionSubcatTotalcval = $(this).closest('.particular_Primary').find('.question-section');
+					var questionSubcatTotalcval = $(this).parent().prev('.parent-lavel-select').parent().parent('.question-section').last()
+
+
+					var inputNotNull_Q_option = true;
+				    var Q_option_Count = 0;
+					var checkMetchingOfSelector = questionSubcatTotalcval.find(".question_text_num_cho .switch-field input[type='radio']:checked").val();
+					var single_value_list=[];
+
+					$.each(questionSubcatTotalcval, function(i){						
+						if(questionSubcatTotalcval.eq(i).hasClass('question-section')){
+							if(questionSubcatTotalcval.eq(i).find('.question_text_num_cho .q-feild-main').val() !== "" && questionSubcatTotalcval.eq(i).find('.question_text_num_cho .q-feild-main').val() != 0){
+								if(questionSubcatTotalcval.eq(i).find('.question_text_num_cho .q-feild-text').val() !== ""){
+									main_sub_cat_num += parseInt(questionSubcatTotalcval.eq(i).find('.question_text_num_cho .q-feild-main').val());
+									main_sub_cat_inputNotNull = false;
+
+									var questi_sect = questionSubcatTotalcval.eq(i).find('.parent-lavel-select .select-input__field');
+									$.each(questi_sect, function(j){
+										if(questi_sect.eq(j).find('.number_field_box').val() !== "" ){
+
+											
+											if(questi_sect.eq(j).hasClass('select-input__field')){
+												if(questi_sect.eq(j).find('.option-label').val() !== ""){
+													
+													Q_option_Count += parseInt(questi_sect.eq(j).find('.number_field_box').val());
+													single_value_list.push(parseInt(questi_sect.eq(j).find('.number_field_box').val())); 
+													inputNotNull_Q_option = false;
+												}else{
+													console.log("check before noooo>>"+questi_sect.eq(j).find('.option-label').val())
+
+													inputNotNull_Q_option = true;
+													questi_sect.eq(j).find('.option-label').addClass('ntValidShadow');
+													questi_sect.eq(j).find('.option-label').focus();
+
+													setTimeout(function(){
+														questi_sect.eq(j).find('.option-label').removeClass('ntValidShadow');
+													},2500)
+													return false;
+												}
+											}
+										}else{
+											inputNotNull_Q_option = true;
+											questi_sect.eq(j).find('.number_field_box').addClass('ntValidShadow');
+											questi_sect.eq(j).find('.number_field_box').focus();
+											setTimeout(function(){
+												questi_sect.eq(j).find('.number_field_box').removeClass('ntValidShadow');
+											},2500)
+											return false;
+										}
+									})
+
+								}else{
+									main_sub_cat_inputNotNull = true;
+									questionSubcatTotalcval.eq(i).find('.question_text_num_cho .q-feild-text').addClass('ntValidShadow');
+									questionSubcatTotalcval.eq(i).find('.question_text_num_cho .q-feild-text').focus();
+
+									setTimeout(function(){
+										questionSubcatTotalcval.eq(i).find('.question_text_num_cho .q-feild-text').removeClass('ntValidShadow');
+									},2500)
+									return false;
+								}
+									
+							}else{
+										main_sub_cat_inputNotNull = true;
+										questionSubcatTotalcval.eq(i).find('.question_text_num_cho .q-feild-main').addClass('ntValidShadow');
+										questionSubcatTotalcval.eq(i).find('.question_text_num_cho .q-feild-main').focus();
+										setTimeout(function(){
+											questionSubcatTotalcval.eq(i).find('.question_text_num_cho .q-feild-main').removeClass('ntValidShadow');
+										},2500)
+									return false;
+							}
+						}
+						//console.log("check question percent->>",sampleItemCount)
+					})
+
+					if(checkMetchingOfSelector == 'multiple' && !inputNotNull_Q_option && !main_cat_inputNotNull && !main_sub_cat_inputNotNull){ 
+						if(Q_option_Count < 100)
+						{
+							console.log('in')
+							getCurrentListItem.append(cloneListView);
+						}else if(Q_option_Count == 100){
+							var showMsg = "The grand total exceed 100% Done";
+							snakBarShow(showMsg);
+						}
+						else
+						{
+							// console.log("please fill out the remaining fields first!!!!")
+							var showMsg = "The grand total must not exceed 100%";
+							snakBarShow(showMsg);
+						} 
+
+					}else if(checkMetchingOfSelector == 'single' && !inputNotNull_Q_option && !main_cat_inputNotNull && !main_sub_cat_inputNotNull){
+						getCurrentListItem.append(cloneListView);
+					}
+					
+					
+
+
+
+				})
+
+
+				$(document).on("change","input[type='radio']",function(){
+					var all_options = $(this).closest(".question-section").find('.show_list');
+
+					var options_defult = $(this).closest(".question-section").find('.select-input__field');
+					$.each(options_defult, function(j){
+						options_defult.eq(j).find('.option-label').val('');
+						options_defult.eq(j).find('.number_field_box').val('');
+
+					})					
+
+					console.log("the closest form box is ",$(this).closest(".question-section").find('.show_list'));
+					$.each(all_options,function(i){ console.log(all_options.eq(i));
+						all_options.eq(i).remove();
+					})
+				
+				})
+
+				$(document).on('click','.option_list_d',function(){
+
+					if($(this).parent().parent().parent('.select-input__field').hasClass('show_list')){
+						$(this).parent().parent().parent('.select-input__field').remove();
+					}
+					
+				})
+
+				$(document).on('click','.Main_section_d',function(){
+
+					if($(this).parent().parent().parent('.section_sub_box_inner').hasClass('main_list')){
+						$(this).parent().parent().parent('.section_sub_box_inner').remove();
+					}
+
+				})
+
+				$(document).on('click','.Question_section_d',function(){
+
+					if($(this).parent().parent().parent('.question-section').hasClass('question_list')){
+						$(this).parent().parent().parent('.question-section').remove();
+					}
+
+				})
+
+			
+
+
+			});
+
+
+			//SnakBarShow Notification
+			function snakBarShow(getParamOfMsg){ //Activity of Snackbar 
+				//{msg:"Snackbars contain a text label that directly relates to the process being performed"}
+			   //	alert(newMsg);
+				var newMsg = getParamOfMsg;
+				$("#snackbar").html('');
+				$("#snackbar").append('<p>'+newMsg+'<p>');
+				$("#snackbar").addClass('show')
+				setTimeout(function(){ $("#snackbar").removeClass('show') }, 3000);
+			}
+
+			function find_duplicate_in_array(arra1) {
+				var object = 0;
+				var result = [];
+				arra1.forEach(function (item) {
+					if(item==100){
+						object += 1;
+					}
+				})
+				if(object<=1){
+					return true;
+				}
+				else{
+					return false
+				}
+			}
+		</script>    
+		
+		<!--  Secondary >>>>>>>>>>>>>>>>>>>>>>-->
+		<script>
+			$(document).ready(function(){
+				$("#secondary_cat_add").on('click',function(){
+					var Primary_main_total=1;
+					var sampleItemCount = 0;
+					var inputNotNull = true;
+					var mainCatClone = '';
+					var checkTotalSubcatTotalcval = $(this).closest('.particular_secondary').find('.section_sub_box_inner');
+					var checkSubCatListSize = $(this).closest('.particular_secondary').find('.section_sub_box_inner').length;
+					$.each(checkTotalSubcatTotalcval, function(i){
+						if(checkTotalSubcatTotalcval.eq(i).hasClass('section_sub_box_inner')){
+						//	console.log("Get percent of main >>",checkTotalSubcatTotalcval.eq(i).find('.sub_box_inner_input .cat-feild-main').val() )
+						//	console.log("Get percent of text>>",checkTotalSubcatTotalcval.eq(i).find('.sub_box_inner_input .cat-feild-text').val() )
+							if(checkTotalSubcatTotalcval.eq(i).find('.sub_box_inner_input .cat-feild-main ').val() !== "" && checkTotalSubcatTotalcval.eq(i).find('.sub_box_inner_input .cat-feild-main ').val() != 0){
+								if(checkTotalSubcatTotalcval.eq(i).find('.sub_box_inner_input .cat-feild-text').val() !== ""){
+								//	console.log("Get percent of subcate>>",checkTotalSubcatTotalcval.eq(i).find('.sub_box_inner_input .cat-feild-text').val() )
+									sampleItemCount += parseInt(checkTotalSubcatTotalcval.eq(i).find('.sub_box_inner_input .cat-feild-main').val());
+									inputNotNull = false;
+								}else{
+									inputNotNull = true;
+								//	console.log("check before tttt>>"+checkTotalSubcatTotalcval.eq(i).find('.sub_box_inner_input .cat-feild-text').val())
+									checkTotalSubcatTotalcval.eq(i).find('.sub_box_inner_input .cat-feild-text').addClass('ntValidShadow');
+									checkTotalSubcatTotalcval.eq(i).find('.sub_box_inner_input .cat-feild-text').focus();
+		
+									setTimeout(function(){
+										checkTotalSubcatTotalcval.eq(i).find('.sub_box_inner_input .cat-feild-text').removeClass('ntValidShadow');
+									},2500)
+									return false;
+								}
+									
+							}else{
+									inputNotNull = true;
+								//	console.log("check before value>>"+checkTotalSubcatTotalcval.eq(i).find('.sub_box_inner_input .cat-feild-main').val())
+								//	console.log("Get percent of name>>",checkTotalSubcatTotalcval.eq(i).find('.sub_box_inner_input .cat-feild-text').val() )
+									//if(!checkTotalSubcatTotalcval.eq(i).find('.sub_box_inner_input .cat-feild-main').val()){
+										// alert('blank')
+										checkTotalSubcatTotalcval.eq(i).find('.sub_box_inner_input .cat-feild-main').addClass('ntValidShadow');
+										checkTotalSubcatTotalcval.eq(i).find('.sub_box_inner_input .cat-feild-main').focus();
+										setTimeout(function(){
+											checkTotalSubcatTotalcval.eq(i).find('.sub_box_inner_input .cat-feild-main ').removeClass('ntValidShadow');
+										},2500)
+								//	}
+									return false;
+							}
+							Primary_main_total+=i;
+						}
+						//console.log("check question percent->>",sampleItemCount)
+					})
+					console.log(inputNotNull);
+					console.log('check input value of box',sampleItemCount)
+					if(sampleItemCount < 100 && !sampleItemCount == 0 && !inputNotNull){
+		
+						//if(checkSubCatListSize <= 3){
+							mainCatClone = `<div class="xs-form_layout bd bd-10 mg-t-20 rounded-20 section_sub_box_inner main_list" data-list-n=`+checkSubCatListSize+`>
+												<div class="row fxs-row form-title-row sub_box_inner_input">
+													<div class="headertop__left-section">
+														<input type="text" placeholder="Add New Category" value="" class="cat-feild-text que-text__input pd-l-10" name="primary_categories_name">
+													</div>
+													<div class="headertop__right-section inner_in_no">
+														<input data-perct="%" type="number" name="primary_categories_pre" class="cat-feild-main number_field_box" maxlength="3" min="0" max="100">
+														<p class="show-btn delete-btn Main_section_d"><i class="fas fa-trash-alt"></i></p>
+													</div>
+												</div>
+		
+												<div class="question_main-layer parent-form">
+													<div class="row fxs-row bd rounded-20 question-section">
+														<div class="col-12 form-title-row pd-t-20 pd-b-20 pd-r-20 mg-b-0 question_text_num_cho">
+																<div class="field-ls ques_text-area mg-0 bd bd-10 pd-5 rounded-10 sub_que_input">
+																	<input type="text" placeholder="Add New Question..." value="" class="q-feild-text que-text__input pd-l-10" name="query-text">
+		
+																	<div class="switch-field">
+																		<input type="radio" id="radio-one-s-m-`+Primary_main_total+`" name="switch-one-s-m-`+Primary_main_total+`" value="single" checked/>
+																		<label for="radio-one-s-m-`+Primary_main_total+`">Single</label>
+																		<input type="radio" id="radio-two-s-m-`+Primary_main_total+`" name="switch-one-s-m-`+Primary_main_total+`" value="multiple" />
+																		<label for="radio-two-s-m-`+Primary_main_total+`">Multiple</label>
+																	</div>
+																</div>
+																<div class="headertop__right-section inner_in_no">
+																	<input data-perct="%" type="number" name="" class="q-feild-main number_field_box" maxlength="3" min="0" max="100">
+																	<p class="show-btn delete-btn"><i class="fas fa-trash-alt"></i></p>
+																</div>
+														</div>
+														<div class="col-12 que_table pd-l-20 pd-r-20 mg-t-0 mg-b-20">
+															
+															<div class="field-ls show-option_ls parent-lavel-select">
+																<div class="select-input__field">
+																	<div class="mid-section-col-2 p-t-0 mg-b-10">
+																		<div class="quote_fx-left fxn-col pd-t-10 pd-b-5 mg-b-10"> 
+																			<i class="far fa-circle"></i>
+																		<input type="text" name="option-text" value="" placeholder="add option text here.." class="option-label">
+																		</div>
+																		<div class="quote_fx-right fxn-col"> 
+																			<div class="headertop__right-section inner_in_no">
+																				<input data-perct="%" type="number" name="" class="number_field_box" maxlength="3" min="0" max="100">																					
+																			</div>
+																			<div class="delete_option-ls"> <i class="fas fa-trash-alt"></i></div>
+																		</div>
+																	</div>
+																</div>
+																<div class="select-input__field">
+																	<div class="mid-section-col-2 p-t-0 mg-b-10">
+																		<div class="quote_fx-left fxn-col pd-t-10 pd-b-5 mg-b-10"> 
+																			<i class="far fa-circle"></i>
+																			<input type="text" name="option-text" value="" placeholder="add option text here.." class="option-label">
+																		</div>
+																		<div class="quote_fx-right fxn-col"> 
+																			<div class="headertop__right-section inner_in_no">
+																				<input data-perct="%" type="number" name="" class="number_field_box" maxlength="3" min="0" max="100">																					
+																			</div>
+																			<div class="delete_option-ls"> <i class="fas fa-trash-alt"></i></div>
+																		</div>
+																	</div>
+																</div>
+															</div>
+		
+															<div class="add-more__option-section mg-b-10">
+																<div class="add-more_btn-ofque_secon"> <i class="fas fa-plus-circle"></i>Add New Option</div>
+															</div>
+														</div>
+													</div>
+												</div>
+		
+												<div class="add-new-que__tab  mg-20 pd-l-10 pd-r-10">
+													<div class="btn_align-left Secondary_addMoreQueList">
+														<i class="fas fa-plus-circle"></i>Add More
+													</div>
+												</div>
+											</div>`;
+						$(this).closest('.particular_secondary').find('.section_sub_box_inner').last().after(mainCatClone);
+						//}
+					}else{
+						if(sampleItemCount == 100){
+							var msg = "Not Allowed Add More Sections"
+							snakBarShow(msg);
+						}else{
+							var msg = "You Must Enter a Value"
+							snakBarShow(msg);
+						}
+						
+					}
+					
+				})
+		
+		
+				$(document).on('click','.Secondary_addMoreQueList', function(){                             
+		
+					var main_cat_inputNotNull = true;
+					var main_cat_num = 0;
+					var checkTotalSubcatTotalcval = $(this).closest('.particular_secondary').find('.section_sub_box_inner');
+					$.each(checkTotalSubcatTotalcval, function(i){
+						if(checkTotalSubcatTotalcval.eq(i).hasClass('section_sub_box_inner')){
+							if(checkTotalSubcatTotalcval.eq(i).find('.sub_box_inner_input .cat-feild-main ').val() !== "" && checkTotalSubcatTotalcval.eq(i).find('.sub_box_inner_input .cat-feild-main ').val() != 0){
+								if(checkTotalSubcatTotalcval.eq(i).find('.sub_box_inner_input .cat-feild-text').val() !== ""){
+									main_cat_num += parseInt(checkTotalSubcatTotalcval.eq(i).find('.sub_box_inner_input .cat-feild-main').val());
+									main_cat_inputNotNull = false;
+								}else{
+									main_cat_inputNotNull = true;
+							
+									checkTotalSubcatTotalcval.eq(i).find('.sub_box_inner_input .cat-feild-text').addClass('ntValidShadow');
+									checkTotalSubcatTotalcval.eq(i).find('.sub_box_inner_input .cat-feild-text').focus();
+		
+									setTimeout(function(){
+										checkTotalSubcatTotalcval.eq(i).find('.sub_box_inner_input .cat-feild-text').removeClass('ntValidShadow');
+									},2500)
+									return false;
+								}
+									
+							}else{
+										main_cat_inputNotNull = true;
+										checkTotalSubcatTotalcval.eq(i).find('.sub_box_inner_input .cat-feild-main').addClass('ntValidShadow');
+										checkTotalSubcatTotalcval.eq(i).find('.sub_box_inner_input .cat-feild-main').focus();
+										setTimeout(function(){
+											checkTotalSubcatTotalcval.eq(i).find('.sub_box_inner_input .cat-feild-main ').removeClass('ntValidShadow');
+										},2500)
+								
+									return false;
+							}
+						}
+						//console.log("check question percent->>",sampleItemCount)
+					})
+		
+					var questionSubcatTotalcval = $(this).parent().prev('.question_main-layer').children().last();
+					var questionSubcatTotalcval_total_no = $(this).parent().prev('.question_main-layer').find('.question-section');
+					var checkSubquestiontSize = $(this).parent().prev('.question_main-layer').find('.question-section').length;
+		
+					var main_sub_cat_inputNotNull = true;
+					var main_sub_cat_num = 0;
+		
+					var inputNotNull_Q_option = true;
+					var Q_option_Count = 0;
+					var checkMetchingOfSelector = questionSubcatTotalcval.find(".question_text_num_cho .switch-field input[type='radio']:checked").val();
+					var single_value_list=[];
+		
+					var total_q = 1;
+					var main_div_count = $(this).parent().prev('.question_main-layer').parent().attr('data-list-n');
+					$.each(questionSubcatTotalcval_total_no, function(n){
+						main_sub_cat_num += parseInt(questionSubcatTotalcval_total_no.eq(n).find('.question_text_num_cho .q-feild-main').val());
+						total_q+=n;
+					})
+		
+					console.log('section>>>>>>>>>>>>',total_q);
+					var addMoreQueList_ListView = `<div class="row fxs-row bd mg-t-10 rounded-20 question-section question_list">
+														<div class="col-12 form-title-row pd-t-20 pd-b-20 pd-r-20 mg-b-0 question_text_num_cho">
+																<div class="field-ls ques_text-area mg-0 bd bd-10 pd-5 rounded-10 sub_que_input">
+																	<input type="text" placeholder="Add New Question..." value="" class="q-feild-text que-text__input pd-l-10" name="query-text">
+		
+																	<div class="switch-field">
+																		<input type="radio" id="radio-one-s-`+total_q+`-`+main_div_count+`" name="switch-one-s-`+total_q+`-`+main_div_count+`" value="single" checked/>
+																		<label for="radio-one-s-`+total_q+`-`+main_div_count+`">Single</label>
+																		<input type="radio" id="radio-two-s-`+total_q+`-`+main_div_count+`" name="switch-one-s-`+total_q+`-`+main_div_count+`" value="multiple" />
+																		<label for="radio-two-s-`+total_q+`-`+main_div_count+`">Multiple</label>
+																	</div>
+																</div>
+																<div class="headertop__right-section inner_in_no">
+																	<input data-perct="%" type="number" name="" class="q-feild-main number_field_box" maxlength="3" min="0" max="100">
+																	<p class="show-btn delete-btn Question_section_d"><i class="fas fa-trash-alt"></i></p>
+																</div>
+														</div>
+														<div class="col-12 que_table pd-l-20 pd-r-20 mg-t-0 mg-b-20">
+															
+															<div class="field-ls show-option_ls parent-lavel-select">
+																<div class="select-input__field">
+																	<div class="mid-section-col-2 p-t-0 mg-b-10">
+																		<div class="quote_fx-left fxn-col pd-t-10 pd-b-5 mg-b-10"> 
+																			<i class="far fa-circle"></i>
+																		<input type="text" name="option-text" value="" placeholder="add option text here.." class="option-label">
+																		</div>
+																		<div class="quote_fx-right fxn-col"> 
+																			<div class="headertop__right-section inner_in_no">
+																				<input data-perct="%" type="number" name="" class="number_field_box" maxlength="3" min="0" max="100">																					
+																			</div>
+																			<div class="delete_option-ls"> <i class="fas fa-trash-alt"></i></div>
+																		</div>
+																	</div>
+																</div>
+																<div class="select-input__field">
+																	<div class="mid-section-col-2 p-t-0 mg-b-10">
+																		<div class="quote_fx-left fxn-col pd-t-10 pd-b-5 mg-b-10"> 
+																			<i class="far fa-circle"></i>
+																			<input type="text" name="option-text" value="" placeholder="add option text here.." class="option-label">
+																		</div>
+																		<div class="quote_fx-right fxn-col"> 
+																			<div class="headertop__right-section inner_in_no">
+																				<input data-perct="%" type="number" name="" class="number_field_box" maxlength="3" min="0" max="100">																					
+																			</div>
+																			<div class="delete_option-ls"> <i class="fas fa-trash-alt"></i></div>
+																		</div>
+																	</div>
+																</div>
+															</div>
+		
+															<div class="add-more__option-section mg-b-10">
+																<div class="add-more_btn-ofque_secon"> <i class="fas fa-plus-circle"></i>Add New Option</div>
+															</div>
+														</div>
+													</div>`;
+		
+					$.each(questionSubcatTotalcval, function(i){						
+						if(questionSubcatTotalcval.eq(i).hasClass('question-section')){
+							if(questionSubcatTotalcval.eq(i).find('.question_text_num_cho .q-feild-main').val() !== "" && questionSubcatTotalcval.eq(i).find('.question_text_num_cho .q-feild-main').val() != 0){
+								if(questionSubcatTotalcval.eq(i).find('.question_text_num_cho .q-feild-text').val() !== ""){
+								//	main_sub_cat_num += parseInt(questionSubcatTotalcval.eq(i).find('.question_text_num_cho .q-feild-main').val());
+									main_sub_cat_inputNotNull = false;
+		
+									var questi_sect = questionSubcatTotalcval.eq(i).find('.parent-lavel-select .select-input__field');
+									$.each(questi_sect, function(j){
+										if(questi_sect.eq(j).find('.number_field_box').val() !== "" ){
+		
+											
+											if(questi_sect.eq(j).hasClass('select-input__field')){
+												if(questi_sect.eq(j).find('.option-label').val() !== ""){
+													
+													Q_option_Count += parseInt(questi_sect.eq(j).find('.number_field_box').val());
+													single_value_list.push(parseInt($.trim(questi_sect.eq(j).find('.number_field_box').val()))); 
+													console.log("===========",single_value_list)
+													inputNotNull_Q_option = false;
+												}else{
+													console.log("check before noooo>>"+questi_sect.eq(j).find('.option-label').val())
+		
+													inputNotNull_Q_option = true;
+													questi_sect.eq(j).find('.option-label').addClass('ntValidShadow');
+													questi_sect.eq(j).find('.option-label').focus();
+		
+													setTimeout(function(){
+														questi_sect.eq(j).find('.option-label').removeClass('ntValidShadow');
+													},2500)
+													return false;
+												}
+											}
+										}else{
+											inputNotNull_Q_option = true;
+											questi_sect.eq(j).find('.number_field_box').addClass('ntValidShadow');
+											questi_sect.eq(j).find('.number_field_box').focus();
+											setTimeout(function(){
+												questi_sect.eq(j).find('.number_field_box').removeClass('ntValidShadow');
+											},2500)
+											return false;
+										}
+									})
+		
+								}else{
+									main_sub_cat_inputNotNull = true;
+									questionSubcatTotalcval.eq(i).find('.question_text_num_cho .q-feild-text').addClass('ntValidShadow');
+									questionSubcatTotalcval.eq(i).find('.question_text_num_cho .q-feild-text').focus();
+		
+									setTimeout(function(){
+										questionSubcatTotalcval.eq(i).find('.question_text_num_cho .q-feild-text').removeClass('ntValidShadow');
+									},2500)
+									return false;
+								}
+									
+							}else{
+										main_sub_cat_inputNotNull = true;
+										questionSubcatTotalcval.eq(i).find('.question_text_num_cho .q-feild-main').addClass('ntValidShadow');
+										questionSubcatTotalcval.eq(i).find('.question_text_num_cho .q-feild-main').focus();
+										setTimeout(function(){
+											questionSubcatTotalcval.eq(i).find('.question_text_num_cho .q-feild-main').removeClass('ntValidShadow');
+										},2500)
+									return false;
+							}
+							
+						}
+						
+					})
+		
+					console.log(main_sub_cat_num);
+		
+					if(checkMetchingOfSelector == 'multiple' && !inputNotNull_Q_option && !main_cat_inputNotNull && !main_sub_cat_inputNotNull && main_sub_cat_num <= 100){ 
+						if(Q_option_Count == 100)
+						{ 
+							if(main_sub_cat_num == 100){
+								var showMsg = "Total Questions 100% Done";
+								snakBarShow(showMsg);
+							}else{
+								console.log('append multiple');
+								$(this).parent().prev('.question_main-layer').find('.question-section').last().after(addMoreQueList_ListView);
+							}
+							
+						}
+						else
+						{
+							// console.log("please fill out the remaining fields first!!!!")
+							var showMsg = "The total option field not exceed 100%";
+							snakBarShow(showMsg);
+						} 
+		
+					}else if(checkMetchingOfSelector == 'single' && !inputNotNull_Q_option && !main_cat_inputNotNull && !main_sub_cat_inputNotNull && main_sub_cat_num <= 100){
+						if(find_duplicate_in_array(single_value_list)==true)
+						{
+							if(single_value_list.includes(100)) {
+								if(main_sub_cat_num == 100){
+									var showMsg = "Total Questions 100% Done";
+									snakBarShow(showMsg);
+								}else{
+									console.log('append single');
+									$(this).parent().prev('.question_main-layer').find('.question-section').last().after(addMoreQueList_ListView);
+								}
+							} else {
+								console.log(single_value_list);
+								var showMsg = "you must any one option field 100%";
+								snakBarShow(showMsg);
+								
+							}
+						}else{
+								console.log(single_value_list);
+								var showMsg = "100 Allow only one time in single type";
+								snakBarShow(showMsg);
+						}
+					}else{
+		
+						//  var showMsg = "Sorry Total Questions JCR 100% only not allow more";
+						//	snakBarShow(showMsg);
+					}
+		
+		
+				});
+		
+				$(document).on('click','.add-more_btn-ofque_secon', function(){ 
+		
+					var getCurrentListItem = $(this).parent().prev('.parent-lavel-select');
+		
+					var cloneListView = `<div class="select-input__field show_list">
+											<div class="mid-section-col-2 p-t-0 mg-b-10">
+												<div class="quote_fx-left fxn-col pd-t-10 pd-b-5 mg-b-10"> 
+													<i class="far fa-circle"></i>
+												<input type="text" name="option-text" value="" placeholder="add option text here.." class="option-label">
+												</div>
+												<div class="quote_fx-right fxn-col"> 
+													<div class="headertop__right-section inner_in_no">
+														<input data-perct="%" type="number" name="" class="number_field_box" maxlength="3" min="0" max="100">																					
+													</div>
+													<div class="delete_option-ls option_list_d"> <i class="fas fa-trash-alt"></i></div>
+												</div>
+											</div>
+										</div>`;
+		
+					var main_cat_inputNotNull = true;
+					var main_cat_num = 0;
+					var checkTotalSubcatTotalcval = $(this).closest('.particular_secondary').find('.section_sub_box_inner');
+		
+					$.each(checkTotalSubcatTotalcval, function(i){
+						if(checkTotalSubcatTotalcval.eq(i).hasClass('section_sub_box_inner')){
+							if(checkTotalSubcatTotalcval.eq(i).find('.sub_box_inner_input .cat-feild-main ').val() !== "" && checkTotalSubcatTotalcval.eq(i).find('.sub_box_inner_input .cat-feild-main ').val() != 0){
+								if(checkTotalSubcatTotalcval.eq(i).find('.sub_box_inner_input .cat-feild-text').val() !== ""){
+									main_cat_num += parseInt(checkTotalSubcatTotalcval.eq(i).find('.sub_box_inner_input .cat-feild-main').val());
+									main_cat_inputNotNull = false;
+								}else{
+									main_cat_inputNotNull = true;
+							
+									checkTotalSubcatTotalcval.eq(i).find('.sub_box_inner_input .cat-feild-text').addClass('ntValidShadow');
+									checkTotalSubcatTotalcval.eq(i).find('.sub_box_inner_input .cat-feild-text').focus();
+		
+									setTimeout(function(){
+										checkTotalSubcatTotalcval.eq(i).find('.sub_box_inner_input .cat-feild-text').removeClass('ntValidShadow');
+									},2500)
+									return false;
+								}
+									
+							}else{
+										main_cat_inputNotNull = true;
+										checkTotalSubcatTotalcval.eq(i).find('.sub_box_inner_input .cat-feild-main').addClass('ntValidShadow');
+										checkTotalSubcatTotalcval.eq(i).find('.sub_box_inner_input .cat-feild-main').focus();
+										setTimeout(function(){
+											checkTotalSubcatTotalcval.eq(i).find('.sub_box_inner_input .cat-feild-main ').removeClass('ntValidShadow');
+										},2500)
+								
+									return false;
+							}
+						}
+						//console.log("check question percent->>",sampleItemCount)
+					})
+		
+		
+					var main_sub_cat_inputNotNull = true;
+					var main_sub_cat_num = 0;
+					//	var questionSubcatTotalcval = $(this).closest('.particular_secondary').find('.question-section');
+					var questionSubcatTotalcval = $(this).parent().prev('.parent-lavel-select').parent().parent('.question-section').last()
+		
+		
+					var inputNotNull_Q_option = true;
+					var Q_option_Count = 0;
+					var checkMetchingOfSelector = questionSubcatTotalcval.find(".question_text_num_cho .switch-field input[type='radio']:checked").val();
+					var single_value_list=[];
+		
+					$.each(questionSubcatTotalcval, function(i){						
+						if(questionSubcatTotalcval.eq(i).hasClass('question-section')){
+							if(questionSubcatTotalcval.eq(i).find('.question_text_num_cho .q-feild-main').val() !== "" && questionSubcatTotalcval.eq(i).find('.question_text_num_cho .q-feild-main').val() != 0){
+								if(questionSubcatTotalcval.eq(i).find('.question_text_num_cho .q-feild-text').val() !== ""){
+									main_sub_cat_num += parseInt(questionSubcatTotalcval.eq(i).find('.question_text_num_cho .q-feild-main').val());
+									main_sub_cat_inputNotNull = false;
+		
+									var questi_sect = questionSubcatTotalcval.eq(i).find('.parent-lavel-select .select-input__field');
+									$.each(questi_sect, function(j){
+										if(questi_sect.eq(j).find('.number_field_box').val() !== "" ){
+		
+											
+											if(questi_sect.eq(j).hasClass('select-input__field')){
+												if(questi_sect.eq(j).find('.option-label').val() !== ""){
+													
+													Q_option_Count += parseInt(questi_sect.eq(j).find('.number_field_box').val());
+													single_value_list.push(parseInt(questi_sect.eq(j).find('.number_field_box').val())); 
+													inputNotNull_Q_option = false;
+												}else{
+													console.log("check before noooo>>"+questi_sect.eq(j).find('.option-label').val())
+		
+													inputNotNull_Q_option = true;
+													questi_sect.eq(j).find('.option-label').addClass('ntValidShadow');
+													questi_sect.eq(j).find('.option-label').focus();
+		
+													setTimeout(function(){
+														questi_sect.eq(j).find('.option-label').removeClass('ntValidShadow');
+													},2500)
+													return false;
+												}
+											}
+										}else{
+											inputNotNull_Q_option = true;
+											questi_sect.eq(j).find('.number_field_box').addClass('ntValidShadow');
+											questi_sect.eq(j).find('.number_field_box').focus();
+											setTimeout(function(){
+												questi_sect.eq(j).find('.number_field_box').removeClass('ntValidShadow');
+											},2500)
+											return false;
+										}
+									})
+		
+								}else{
+									main_sub_cat_inputNotNull = true;
+									questionSubcatTotalcval.eq(i).find('.question_text_num_cho .q-feild-text').addClass('ntValidShadow');
+									questionSubcatTotalcval.eq(i).find('.question_text_num_cho .q-feild-text').focus();
+		
+									setTimeout(function(){
+										questionSubcatTotalcval.eq(i).find('.question_text_num_cho .q-feild-text').removeClass('ntValidShadow');
+									},2500)
+									return false;
+								}
+									
+							}else{
+										main_sub_cat_inputNotNull = true;
+										questionSubcatTotalcval.eq(i).find('.question_text_num_cho .q-feild-main').addClass('ntValidShadow');
+										questionSubcatTotalcval.eq(i).find('.question_text_num_cho .q-feild-main').focus();
+										setTimeout(function(){
+											questionSubcatTotalcval.eq(i).find('.question_text_num_cho .q-feild-main').removeClass('ntValidShadow');
+										},2500)
+									return false;
+							}
+						}
+						//console.log("check question percent->>",sampleItemCount)
+					})
+		
+					if(checkMetchingOfSelector == 'multiple' && !inputNotNull_Q_option && !main_cat_inputNotNull && !main_sub_cat_inputNotNull){ 
+						if(Q_option_Count < 100)
+						{
+							console.log('in')
+							getCurrentListItem.append(cloneListView);
+						}else if(Q_option_Count == 100){
+							var showMsg = "The grand total exceed 100% Done";
+							snakBarShow(showMsg);
+						}
+						else
+						{
+							// console.log("please fill out the remaining fields first!!!!")
+							var showMsg = "The grand total must not exceed 100%";
+							snakBarShow(showMsg);
+						} 
+		
+					}else if(checkMetchingOfSelector == 'single' && !inputNotNull_Q_option && !main_cat_inputNotNull && !main_sub_cat_inputNotNull){
+						getCurrentListItem.append(cloneListView);
+					}
+		
+				})
+		
+			})
+		</script>
+		
+		<!--  objective >>>>>>>>>>>>>>>>>>>>>>-->
+		<script>
+			$(document).ready(function(){
+				$("#objective_cat_add").on('click',function(){
+					var Primary_main_total=1;
+					var sampleItemCount = 0;
+					var inputNotNull = true;
+					var mainCatClone = '';
+					var checkTotalSubcatTotalcval = $(this).closest('.particular_objective').find('.section_sub_box_inner');
+					var checkSubCatListSize = $(this).closest('.particular_objective').find('.section_sub_box_inner').length;
+					$.each(checkTotalSubcatTotalcval, function(i){
+						if(checkTotalSubcatTotalcval.eq(i).hasClass('section_sub_box_inner')){
+						//	console.log("Get percent of main >>",checkTotalSubcatTotalcval.eq(i).find('.sub_box_inner_input .cat-feild-main').val() )
+						//	console.log("Get percent of text>>",checkTotalSubcatTotalcval.eq(i).find('.sub_box_inner_input .cat-feild-text').val() )
+							if(checkTotalSubcatTotalcval.eq(i).find('.sub_box_inner_input .cat-feild-main ').val() !== "" && checkTotalSubcatTotalcval.eq(i).find('.sub_box_inner_input .cat-feild-main ').val() != 0){
+								if(checkTotalSubcatTotalcval.eq(i).find('.sub_box_inner_input .cat-feild-text').val() !== ""){
+								//	console.log("Get percent of subcate>>",checkTotalSubcatTotalcval.eq(i).find('.sub_box_inner_input .cat-feild-text').val() )
+									sampleItemCount += parseInt(checkTotalSubcatTotalcval.eq(i).find('.sub_box_inner_input .cat-feild-main').val());
+									inputNotNull = false;
+								}else{
+									inputNotNull = true;
+								//	console.log("check before tttt>>"+checkTotalSubcatTotalcval.eq(i).find('.sub_box_inner_input .cat-feild-text').val())
+									checkTotalSubcatTotalcval.eq(i).find('.sub_box_inner_input .cat-feild-text').addClass('ntValidShadow');
+									checkTotalSubcatTotalcval.eq(i).find('.sub_box_inner_input .cat-feild-text').focus();
+
+									setTimeout(function(){
+										checkTotalSubcatTotalcval.eq(i).find('.sub_box_inner_input .cat-feild-text').removeClass('ntValidShadow');
+									},2500)
+									return false;
+								}
+									
+							}else{
+									inputNotNull = true;
+								//	console.log("check before value>>"+checkTotalSubcatTotalcval.eq(i).find('.sub_box_inner_input .cat-feild-main').val())
+								//	console.log("Get percent of name>>",checkTotalSubcatTotalcval.eq(i).find('.sub_box_inner_input .cat-feild-text').val() )
+									//if(!checkTotalSubcatTotalcval.eq(i).find('.sub_box_inner_input .cat-feild-main').val()){
+										// alert('blank')
+										checkTotalSubcatTotalcval.eq(i).find('.sub_box_inner_input .cat-feild-main').addClass('ntValidShadow');
+										checkTotalSubcatTotalcval.eq(i).find('.sub_box_inner_input .cat-feild-main').focus();
+										setTimeout(function(){
+											checkTotalSubcatTotalcval.eq(i).find('.sub_box_inner_input .cat-feild-main ').removeClass('ntValidShadow');
+										},2500)
+								//	}
+									return false;
+							}
+							Primary_main_total+=i;
+						}
+						//console.log("check question percent->>",sampleItemCount)
+					})
+					console.log(inputNotNull);
+					console.log('check input value of box',sampleItemCount)
+					if(sampleItemCount < 100 && !sampleItemCount == 0 && !inputNotNull){
+
+						//if(checkSubCatListSize <= 3){
+							mainCatClone = `<div class="xs-form_layout bd bd-10 mg-t-20 rounded-20 section_sub_box_inner main_list" data-list-n=`+checkSubCatListSize+`>
+												<div class="row fxs-row form-title-row sub_box_inner_input">
+													<div class="headertop__left-section">
+														<input type="text" placeholder="Add New Category" value="" class="cat-feild-text que-text__input pd-l-10" name="primary_categories_name">
+													</div>
+													<div class="headertop__right-section inner_in_no">
+														<input data-perct="%" type="number" name="primary_categories_pre" class="cat-feild-main number_field_box" maxlength="3" min="0" max="100">
+														<p class="show-btn delete-btn Main_section_d"><i class="fas fa-trash-alt"></i></p>
+													</div>
+												</div>
+
+												<div class="question_main-layer parent-form">
+													<div class="row fxs-row bd rounded-20 question-section">
+														<div class="col-12 form-title-row pd-t-20 pd-b-20 pd-r-20 mg-b-0 question_text_num_cho">
+																<div class="field-ls ques_text-area mg-0 bd bd-10 pd-5 rounded-10 sub_que_input">
+																	<input type="text" placeholder="Add New Question..." value="" class="q-feild-text que-text__input pd-l-10" name="query-text">
+
+																	<div class="switch-field">
+																		<input type="radio" id="radio-one-o-m-`+Primary_main_total+`" name="switch-one-o-m-`+Primary_main_total+`" value="single" checked/>
+																		<label for="radio-one-o-m-`+Primary_main_total+`">Single</label>
+																		<input type="radio" id="radio-two-o-m-`+Primary_main_total+`" name="switch-one-o-m-`+Primary_main_total+`" value="multiple" />
+																		<label for="radio-two-o-m-`+Primary_main_total+`">Multiple</label>
+																	</div>
+																</div>
+																<div class="headertop__right-section inner_in_no">
+																	<input data-perct="%" type="number" name="" class="q-feild-main number_field_box" maxlength="3" min="0" max="100">
+																	<p class="show-btn delete-btn"><i class="fas fa-trash-alt"></i></p>
+																</div>
+														</div>
+														<div class="col-12 que_table pd-l-20 pd-r-20 mg-t-0 mg-b-20">
+															
+															<div class="field-ls show-option_ls parent-lavel-select">
+																<div class="select-input__field">
+																	<div class="mid-section-col-2 p-t-0 mg-b-10">
+																		<div class="quote_fx-left fxn-col pd-t-10 pd-b-5 mg-b-10"> 
+																			<i class="far fa-circle"></i>
+																		<input type="text" name="option-text" value="" placeholder="add option text here.." class="option-label">
+																		</div>
+																		<div class="quote_fx-right fxn-col"> 
+																			<div class="headertop__right-section inner_in_no">
+																				<input data-perct="%" type="number" name="" class="number_field_box" maxlength="3" min="0" max="100">																					
+																			</div>
+																			<div class="delete_option-ls"> <i class="fas fa-trash-alt"></i></div>
+																		</div>
+																	</div>
+																</div>
+																<div class="select-input__field">
+																	<div class="mid-section-col-2 p-t-0 mg-b-10">
+																		<div class="quote_fx-left fxn-col pd-t-10 pd-b-5 mg-b-10"> 
+																			<i class="far fa-circle"></i>
+																			<input type="text" name="option-text" value="" placeholder="add option text here.." class="option-label">
+																		</div>
+																		<div class="quote_fx-right fxn-col"> 
+																			<div class="headertop__right-section inner_in_no">
+																				<input data-perct="%" type="number" name="" class="number_field_box" maxlength="3" min="0" max="100">																					
+																			</div>
+																			<div class="delete_option-ls"> <i class="fas fa-trash-alt"></i></div>
+																		</div>
+																	</div>
+																</div>
+															</div>
+
+															<div class="add-more__option-section mg-b-10">
+																<div class="add-more_btn-ofque_object"> <i class="fas fa-plus-circle"></i>Add New Option</div>
+															</div>
+														</div>
+													</div>
+												</div>
+
+												<div class="add-new-que__tab  mg-20 pd-l-10 pd-r-10">
+													<div class="btn_align-left Objective_addMoreQueList">
+														<i class="fas fa-plus-circle"></i>Add More
+													</div>
+												</div>
+											</div>`;
+						$(this).closest('.particular_objective').find('.section_sub_box_inner').last().after(mainCatClone);
+						//}
+					}else{
+						if(sampleItemCount == 100){
+							var msg = "Not Allowed Add More Sections"
+							snakBarShow(msg);
+						}else{
+							var msg = "You Must Enter a Value"
+							snakBarShow(msg);
+						}
+						
+					}
+					
+				})
+
+
+				$(document).on('click','.Objective_addMoreQueList', function(){                             
+
+					var main_cat_inputNotNull = true;
+					var main_cat_num = 0;
+					var checkTotalSubcatTotalcval = $(this).closest('.particular_objective').find('.section_sub_box_inner');
+					$.each(checkTotalSubcatTotalcval, function(i){
+						if(checkTotalSubcatTotalcval.eq(i).hasClass('section_sub_box_inner')){
+							if(checkTotalSubcatTotalcval.eq(i).find('.sub_box_inner_input .cat-feild-main ').val() !== "" && checkTotalSubcatTotalcval.eq(i).find('.sub_box_inner_input .cat-feild-main ').val() != 0){
+								if(checkTotalSubcatTotalcval.eq(i).find('.sub_box_inner_input .cat-feild-text').val() !== ""){
+									main_cat_num += parseInt(checkTotalSubcatTotalcval.eq(i).find('.sub_box_inner_input .cat-feild-main').val());
+									main_cat_inputNotNull = false;
+								}else{
+									main_cat_inputNotNull = true;
+							
+									checkTotalSubcatTotalcval.eq(i).find('.sub_box_inner_input .cat-feild-text').addClass('ntValidShadow');
+									checkTotalSubcatTotalcval.eq(i).find('.sub_box_inner_input .cat-feild-text').focus();
+
+									setTimeout(function(){
+										checkTotalSubcatTotalcval.eq(i).find('.sub_box_inner_input .cat-feild-text').removeClass('ntValidShadow');
+									},2500)
+									return false;
+								}
+									
+							}else{
+										main_cat_inputNotNull = true;
+										checkTotalSubcatTotalcval.eq(i).find('.sub_box_inner_input .cat-feild-main').addClass('ntValidShadow');
+										checkTotalSubcatTotalcval.eq(i).find('.sub_box_inner_input .cat-feild-main').focus();
+										setTimeout(function(){
+											checkTotalSubcatTotalcval.eq(i).find('.sub_box_inner_input .cat-feild-main ').removeClass('ntValidShadow');
+										},2500)
+								
+									return false;
+							}
+						}
+						//console.log("check question percent->>",sampleItemCount)
+					})
+
+					var questionSubcatTotalcval = $(this).parent().prev('.question_main-layer').children().last();
+					var questionSubcatTotalcval_total_no = $(this).parent().prev('.question_main-layer').find('.question-section');
+					var checkSubquestiontSize = $(this).parent().prev('.question_main-layer').find('.question-section').length;
+
+					var main_sub_cat_inputNotNull = true;
+					var main_sub_cat_num = 0;
+
+					var inputNotNull_Q_option = true;
+					var Q_option_Count = 0;
+					var checkMetchingOfSelector = questionSubcatTotalcval.find(".question_text_num_cho .switch-field input[type='radio']:checked").val();
+					var single_value_list=[];
+
+					var total_q = 1;
+					var main_div_count = $(this).parent().prev('.question_main-layer').parent().attr('data-list-n');
+					$.each(questionSubcatTotalcval_total_no, function(n){
+						main_sub_cat_num += parseInt(questionSubcatTotalcval_total_no.eq(n).find('.question_text_num_cho .q-feild-main').val());
+						total_q+=n;
+					})
+
+					console.log('section>>>>>>>>>>>>',total_q);
+					var addMoreQueList_ListView = `<div class="row fxs-row bd mg-t-10 rounded-20 question-section question_list">
+														<div class="col-12 form-title-row pd-t-20 pd-b-20 pd-r-20 mg-b-0 question_text_num_cho">
+																<div class="field-ls ques_text-area mg-0 bd bd-10 pd-5 rounded-10 sub_que_input">
+																	<input type="text" placeholder="Add New Question..." value="" class="q-feild-text que-text__input pd-l-10" name="query-text">
+
+																	<div class="switch-field">
+																		<input type="radio" id="radio-one-o-`+total_q+`-`+main_div_count+`" name="switch-one-o-`+total_q+`-`+main_div_count+`" value="single" checked/>
+																		<label for="radio-one-o-`+total_q+`-`+main_div_count+`">Single</label>
+																		<input type="radio" id="radio-two-o-`+total_q+`-`+main_div_count+`" name="switch-one-o-`+total_q+`-`+main_div_count+`" value="multiple" />
+																		<label for="radio-two-o-`+total_q+`-`+main_div_count+`">Multiple</label>
+																	</div>
+																</div>
+																<div class="headertop__right-section inner_in_no">
+																	<input data-perct="%" type="number" name="" class="q-feild-main number_field_box" maxlength="3" min="0" max="100">
+																	<p class="show-btn delete-btn Question_section_d"><i class="fas fa-trash-alt"></i></p>
+																</div>
+														</div>
+														<div class="col-12 que_table pd-l-20 pd-r-20 mg-t-0 mg-b-20">
+															
+															<div class="field-ls show-option_ls parent-lavel-select">
+																<div class="select-input__field">
+																	<div class="mid-section-col-2 p-t-0 mg-b-10">
+																		<div class="quote_fx-left fxn-col pd-t-10 pd-b-5 mg-b-10"> 
+																			<i class="far fa-circle"></i>
+																		<input type="text" name="option-text" value="" placeholder="add option text here.." class="option-label">
+																		</div>
+																		<div class="quote_fx-right fxn-col"> 
+																			<div class="headertop__right-section inner_in_no">
+																				<input data-perct="%" type="number" name="" class="number_field_box" maxlength="3" min="0" max="100">																					
+																			</div>
+																			<div class="delete_option-ls"> <i class="fas fa-trash-alt"></i></div>
+																		</div>
+																	</div>
+																</div>
+																<div class="select-input__field">
+																	<div class="mid-section-col-2 p-t-0 mg-b-10">
+																		<div class="quote_fx-left fxn-col pd-t-10 pd-b-5 mg-b-10"> 
+																			<i class="far fa-circle"></i>
+																			<input type="text" name="option-text" value="" placeholder="add option text here.." class="option-label">
+																		</div>
+																		<div class="quote_fx-right fxn-col"> 
+																			<div class="headertop__right-section inner_in_no">
+																				<input data-perct="%" type="number" name="" class="number_field_box" maxlength="3" min="0" max="100">																					
+																			</div>
+																			<div class="delete_option-ls"> <i class="fas fa-trash-alt"></i></div>
+																		</div>
+																	</div>
+																</div>
+															</div>
+
+															<div class="add-more__option-section mg-b-10">
+																<div class="add-more_btn-ofque_object"> <i class="fas fa-plus-circle"></i>Add New Option</div>
+															</div>
+														</div>
+													</div>`;
+
+					$.each(questionSubcatTotalcval, function(i){						
+						if(questionSubcatTotalcval.eq(i).hasClass('question-section')){
+							if(questionSubcatTotalcval.eq(i).find('.question_text_num_cho .q-feild-main').val() !== "" && questionSubcatTotalcval.eq(i).find('.question_text_num_cho .q-feild-main').val() != 0){
+								if(questionSubcatTotalcval.eq(i).find('.question_text_num_cho .q-feild-text').val() !== ""){
+								//	main_sub_cat_num += parseInt(questionSubcatTotalcval.eq(i).find('.question_text_num_cho .q-feild-main').val());
+									main_sub_cat_inputNotNull = false;
+
+									var questi_sect = questionSubcatTotalcval.eq(i).find('.parent-lavel-select .select-input__field');
+									$.each(questi_sect, function(j){
+										if(questi_sect.eq(j).find('.number_field_box').val() !== "" ){
+
+											
+											if(questi_sect.eq(j).hasClass('select-input__field')){
+												if(questi_sect.eq(j).find('.option-label').val() !== ""){
+													
+													Q_option_Count += parseInt(questi_sect.eq(j).find('.number_field_box').val());
+													single_value_list.push(parseInt($.trim(questi_sect.eq(j).find('.number_field_box').val()))); 
+													console.log("===========",single_value_list)
+													inputNotNull_Q_option = false;
+												}else{
+													console.log("check before noooo>>"+questi_sect.eq(j).find('.option-label').val())
+
+													inputNotNull_Q_option = true;
+													questi_sect.eq(j).find('.option-label').addClass('ntValidShadow');
+													questi_sect.eq(j).find('.option-label').focus();
+
+													setTimeout(function(){
+														questi_sect.eq(j).find('.option-label').removeClass('ntValidShadow');
+													},2500)
+													return false;
+												}
+											}
+										}else{
+											inputNotNull_Q_option = true;
+											questi_sect.eq(j).find('.number_field_box').addClass('ntValidShadow');
+											questi_sect.eq(j).find('.number_field_box').focus();
+											setTimeout(function(){
+												questi_sect.eq(j).find('.number_field_box').removeClass('ntValidShadow');
+											},2500)
+											return false;
+										}
+									})
+
+								}else{
+									main_sub_cat_inputNotNull = true;
+									questionSubcatTotalcval.eq(i).find('.question_text_num_cho .q-feild-text').addClass('ntValidShadow');
+									questionSubcatTotalcval.eq(i).find('.question_text_num_cho .q-feild-text').focus();
+
+									setTimeout(function(){
+										questionSubcatTotalcval.eq(i).find('.question_text_num_cho .q-feild-text').removeClass('ntValidShadow');
+									},2500)
+									return false;
+								}
+									
+							}else{
+										main_sub_cat_inputNotNull = true;
+										questionSubcatTotalcval.eq(i).find('.question_text_num_cho .q-feild-main').addClass('ntValidShadow');
+										questionSubcatTotalcval.eq(i).find('.question_text_num_cho .q-feild-main').focus();
+										setTimeout(function(){
+											questionSubcatTotalcval.eq(i).find('.question_text_num_cho .q-feild-main').removeClass('ntValidShadow');
+										},2500)
+									return false;
+							}
+							
+						}
+						
+					})
+
+					console.log(main_sub_cat_num);
+
+					if(checkMetchingOfSelector == 'multiple' && !inputNotNull_Q_option && !main_cat_inputNotNull && !main_sub_cat_inputNotNull && main_sub_cat_num <= 100){ 
+						if(Q_option_Count == 100)
+						{ 
+							if(main_sub_cat_num == 100){
+								var showMsg = "Total Questions 100% Done";
+								snakBarShow(showMsg);
+							}else{
+								console.log('append multiple');
+								$(this).parent().prev('.question_main-layer').find('.question-section').last().after(addMoreQueList_ListView);
+							}
+							
+						}
+						else
+						{
+							// console.log("please fill out the remaining fields first!!!!")
+							var showMsg = "The total option field not exceed 100%";
+							snakBarShow(showMsg);
+						} 
+
+					}else if(checkMetchingOfSelector == 'single' && !inputNotNull_Q_option && !main_cat_inputNotNull && !main_sub_cat_inputNotNull && main_sub_cat_num <= 100){
+						if(find_duplicate_in_array(single_value_list)==true)
+						{
+							if(single_value_list.includes(100)) {
+								if(main_sub_cat_num == 100){
+									var showMsg = "Total Questions 100% Done";
+									snakBarShow(showMsg);
+								}else{
+									console.log('append single');
+									$(this).parent().prev('.question_main-layer').find('.question-section').last().after(addMoreQueList_ListView);
+								}
+							} else {
+								console.log(single_value_list);
+								var showMsg = "you must any one option field 100%";
+								snakBarShow(showMsg);
+								
+							}
+						}else{
+								console.log(single_value_list);
+								var showMsg = "100 Allow only one time in single type";
+								snakBarShow(showMsg);
+						}
+					}else{
+
+						//  var showMsg = "Sorry Total Questions JCR 100% only not allow more";
+						//	snakBarShow(showMsg);
+					}
+
+
+				});
+
+				$(document).on('click','.add-more_btn-ofque_object', function(){ 
+
+					var getCurrentListItem = $(this).parent().prev('.parent-lavel-select');
+
+					var cloneListView = `<div class="select-input__field show_list">
+											<div class="mid-section-col-2 p-t-0 mg-b-10">
+												<div class="quote_fx-left fxn-col pd-t-10 pd-b-5 mg-b-10"> 
+													<i class="far fa-circle"></i>
+												<input type="text" name="option-text" value="" placeholder="add option text here.." class="option-label">
+												</div>
+												<div class="quote_fx-right fxn-col"> 
+													<div class="headertop__right-section inner_in_no">
+														<input data-perct="%" type="number" name="" class="number_field_box" maxlength="3" min="0" max="100">																					
+													</div>
+													<div class="delete_option-ls option_list_d"> <i class="fas fa-trash-alt"></i></div>
+												</div>
+											</div>
+										</div>`;
+
+					var main_cat_inputNotNull = true;
+					var main_cat_num = 0;
+					var checkTotalSubcatTotalcval = $(this).closest('.particular_objective').find('.section_sub_box_inner');
+
+					$.each(checkTotalSubcatTotalcval, function(i){
+						if(checkTotalSubcatTotalcval.eq(i).hasClass('section_sub_box_inner')){
+							if(checkTotalSubcatTotalcval.eq(i).find('.sub_box_inner_input .cat-feild-main ').val() !== "" && checkTotalSubcatTotalcval.eq(i).find('.sub_box_inner_input .cat-feild-main ').val() != 0){
+								if(checkTotalSubcatTotalcval.eq(i).find('.sub_box_inner_input .cat-feild-text').val() !== ""){
+									main_cat_num += parseInt(checkTotalSubcatTotalcval.eq(i).find('.sub_box_inner_input .cat-feild-main').val());
+									main_cat_inputNotNull = false;
+								}else{
+									main_cat_inputNotNull = true;
+							
+									checkTotalSubcatTotalcval.eq(i).find('.sub_box_inner_input .cat-feild-text').addClass('ntValidShadow');
+									checkTotalSubcatTotalcval.eq(i).find('.sub_box_inner_input .cat-feild-text').focus();
+
+									setTimeout(function(){
+										checkTotalSubcatTotalcval.eq(i).find('.sub_box_inner_input .cat-feild-text').removeClass('ntValidShadow');
+									},2500)
+									return false;
+								}
+									
+							}else{
+										main_cat_inputNotNull = true;
+										checkTotalSubcatTotalcval.eq(i).find('.sub_box_inner_input .cat-feild-main').addClass('ntValidShadow');
+										checkTotalSubcatTotalcval.eq(i).find('.sub_box_inner_input .cat-feild-main').focus();
+										setTimeout(function(){
+											checkTotalSubcatTotalcval.eq(i).find('.sub_box_inner_input .cat-feild-main ').removeClass('ntValidShadow');
+										},2500)
+								
+									return false;
+							}
+						}
+						//console.log("check question percent->>",sampleItemCount)
+					})
+
+
+					var main_sub_cat_inputNotNull = true;
+					var main_sub_cat_num = 0;
+					//	var questionSubcatTotalcval = $(this).closest('.particular_objective').find('.question-section');
+					var questionSubcatTotalcval = $(this).parent().prev('.parent-lavel-select').parent().parent('.question-section').last()
+
+
+					var inputNotNull_Q_option = true;
+					var Q_option_Count = 0;
+					var checkMetchingOfSelector = questionSubcatTotalcval.find(".question_text_num_cho .switch-field input[type='radio']:checked").val();
+					var single_value_list=[];
+
+					$.each(questionSubcatTotalcval, function(i){						
+						if(questionSubcatTotalcval.eq(i).hasClass('question-section')){
+							if(questionSubcatTotalcval.eq(i).find('.question_text_num_cho .q-feild-main').val() !== "" && questionSubcatTotalcval.eq(i).find('.question_text_num_cho .q-feild-main').val() != 0){
+								if(questionSubcatTotalcval.eq(i).find('.question_text_num_cho .q-feild-text').val() !== ""){
+									main_sub_cat_num += parseInt(questionSubcatTotalcval.eq(i).find('.question_text_num_cho .q-feild-main').val());
+									main_sub_cat_inputNotNull = false;
+
+									var questi_sect = questionSubcatTotalcval.eq(i).find('.parent-lavel-select .select-input__field');
+									$.each(questi_sect, function(j){
+										if(questi_sect.eq(j).find('.number_field_box').val() !== "" ){
+
+											
+											if(questi_sect.eq(j).hasClass('select-input__field')){
+												if(questi_sect.eq(j).find('.option-label').val() !== ""){
+													
+													Q_option_Count += parseInt(questi_sect.eq(j).find('.number_field_box').val());
+													single_value_list.push(parseInt(questi_sect.eq(j).find('.number_field_box').val())); 
+													inputNotNull_Q_option = false;
+												}else{
+													console.log("check before noooo>>"+questi_sect.eq(j).find('.option-label').val())
+
+													inputNotNull_Q_option = true;
+													questi_sect.eq(j).find('.option-label').addClass('ntValidShadow');
+													questi_sect.eq(j).find('.option-label').focus();
+
+													setTimeout(function(){
+														questi_sect.eq(j).find('.option-label').removeClass('ntValidShadow');
+													},2500)
+													return false;
+												}
+											}
+										}else{
+											inputNotNull_Q_option = true;
+											questi_sect.eq(j).find('.number_field_box').addClass('ntValidShadow');
+											questi_sect.eq(j).find('.number_field_box').focus();
+											setTimeout(function(){
+												questi_sect.eq(j).find('.number_field_box').removeClass('ntValidShadow');
+											},2500)
+											return false;
+										}
+									})
+
+								}else{
+									main_sub_cat_inputNotNull = true;
+									questionSubcatTotalcval.eq(i).find('.question_text_num_cho .q-feild-text').addClass('ntValidShadow');
+									questionSubcatTotalcval.eq(i).find('.question_text_num_cho .q-feild-text').focus();
+
+									setTimeout(function(){
+										questionSubcatTotalcval.eq(i).find('.question_text_num_cho .q-feild-text').removeClass('ntValidShadow');
+									},2500)
+									return false;
+								}
+									
+							}else{
+										main_sub_cat_inputNotNull = true;
+										questionSubcatTotalcval.eq(i).find('.question_text_num_cho .q-feild-main').addClass('ntValidShadow');
+										questionSubcatTotalcval.eq(i).find('.question_text_num_cho .q-feild-main').focus();
+										setTimeout(function(){
+											questionSubcatTotalcval.eq(i).find('.question_text_num_cho .q-feild-main').removeClass('ntValidShadow');
+										},2500)
+									return false;
+							}
+						}
+						//console.log("check question percent->>",sampleItemCount)
+					})
+
+					if(checkMetchingOfSelector == 'multiple' && !inputNotNull_Q_option && !main_cat_inputNotNull && !main_sub_cat_inputNotNull){ 
+						if(Q_option_Count < 100)
+						{
+							console.log('in')
+							getCurrentListItem.append(cloneListView);
+						}else if(Q_option_Count == 100){
+							var showMsg = "The grand total exceed 100% Done";
+							snakBarShow(showMsg);
+						}
+						else
+						{
+							// console.log("please fill out the remaining fields first!!!!")
+							var showMsg = "The grand total must not exceed 100%";
+							snakBarShow(showMsg);
+						} 
+
+					}else if(checkMetchingOfSelector == 'single' && !inputNotNull_Q_option && !main_cat_inputNotNull && !main_sub_cat_inputNotNull){
+						getCurrentListItem.append(cloneListView);
+					}
+
+				})
+
+			})
+			
+		</script>
+{% endblock %}

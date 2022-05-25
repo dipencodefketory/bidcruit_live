@@ -1,0 +1,358 @@
+#candidatePortalAppliedBob {margin: 0;}
+.search-wrapper{width:60%;min-width:300px;position:relative}
+.search-wrapper .top-search-box{width:100%;padding-left:40px;border-radius:20px}
+.half-search-btn{position:absolute;left:0;top:0;height:100%;border-radius:20px 0 0 20px}
+.flex-box-col{display:flex;justify-content:space-between;align-content:baseline;margin:8px 0}
+/*****/
+.shorted-listing.view {padding-top: 14px;}
+.classcify-list{list-style:none;margin:0;padding:0;display:flex;justify-content:flex-start;align-items:center;flex: 1;}
+.classcify-list li{flex:1 1 auto;position:relative;padding-left:25px;margin-right: 18px;border-right: 2px solid #eef4fa;}
+.classcify-list li:last-child{
+	margin-right: 0px;border-right: none;
+}
+.classcify-list li i{position: absolute; left: 3px; top: 4px; color: #0068ff; width: 16px; text-align: right;}
+.c-title{margin:0}
+.fxm-mini{display:flex;justify-content:space-between;align-content:center;padding: 12px 15px;border: 2px solid #e2e8f5;border-radius: 10px;margin-bottom: 10px;position: relative;}
+.com-logo-with-info {flex: 2;display: flex;justify-content: flex-start;align-items:  center;gap: 10px;}
+.com-short-details {flex: 5;display: flex;}
+.logo-item img { width: 80px; height: 72px;}
+.listActionLs{flex: 1;display: flex;justify-content: flex-end; margin-top: 10px;padding-right: 18px;}
+.post-titlebar {display: flex;flex-direction: column;}
+.post-titlebar label {margin: 0;}
+.add-bookmark{padding:8px 10px;background:linear-gradient(#fdfdfd,#f0f0f0);border:1px solid #f0f0f0;border-radius:22px;cursor:pointer;color:#0068ff}
+.add-bookmark i {display: none;}
+.add-bookmark i.visible {display: block;}
+.notify-info{position:absolute;top:0;right:1px;background:#fd5354;padding:2px 10px;border-radius:0 3px 0 11px;color:#fff;animation:1.2s ease-out 0s infinite normal none running pulse-danger}
+.candidate_job_list_das {
+    overflow-x: auto;
+    max-height: 299px;
+    width: 100%;
+    display: inline-block;
+}
+.candidate_name span.text-muted {
+    font-weight: bold;
+    font-size: 16px;
+    padding-right: 5px;
+}
+span.view_edit_profile_d {
+    font-size: 16px; 
+}
+span.view_edit_profile_d a{
+	color: #0068ff
+}
+.candidatePortal_main_box {
+    padding: 3px 14px;
+    border-radius: 6px 6px 0px 0px !important;
+    border-bottom: 2px solid #e2e8f5;
+}
+.candidatePortal_main_box .top-search-box__section{
+	padding: 0;
+}
+.candidatePortal_main_box .card-title.name_c {
+    font-size: 16px;
+}
+.candidatePortal_sub_inner_box {
+    padding: 0px 14px;
+    margin: 0;
+    border-radius: 0px 0px 6px 6px !important;
+    padding: 16px 14px 0px 14px;
+}
+.align_items_c{
+  align-items: center;
+}
+.candidatePortal_sub_inner_box .btm-text label {
+    margin-bottom: 0;
+    font-weight: 500;
+}
+.candidatePortal_sub_inner_box .logo-item {
+    background: #f9fafc;
+    border-radius: 60px;
+    width: 60px;
+    height: 60px;
+    border: none;
+    text-align: center;
+    padding: 5px;
+}
+.candidatePortal_sub_inner_box .logo-item img {
+    width: 50px;
+    height: 50px;
+    object-fit: fill;
+}
+.post-titlebar .main-title {
+    font-size: 18px;
+    font-weight: bold;
+    color: #031b4e;
+}
+.post-titlebar .sub-title {
+    font-size: 14px;
+    color: #031b4e;
+}
+.candidate_job_list_das.candidatePortal_sub_inner_box{
+	padding: 0;
+}
+.candidate_job_list_das .com-short-details {
+    flex: 3;
+    display: flex;
+}
+
+/****
+*card layout css
+****/
+
+.company_dashbord_tracker_list .card.toggleTabSection {
+    box-shadow: none;
+    border: 2px solid #c9d0ea;
+    margin-bottom: 7px;
+    border-radius: 10px !important;
+}
+.company_dashbord_tracker_list .toggle-head {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    padding: 10px 10px;
+}
+.company_dashbord_tracker_list .toggleListContainer {
+    display: none;
+}
+.company_dashbord_tracker_list .toggleListContainer {
+    padding: 10px 10px;
+}
+.company_dashbord_tracker_list .toggle-head .lft-20 {
+    width: 10%;
+    max-width: 70px;
+}
+.company_dashbord_tracker_list .logo_box_user_track {
+    width: 57px;
+    height: 57px;
+    border-radius: 50px;
+    background-color: #f9fafc;
+    padding: 11px;
+}
+.company_dashbord_tracker_list .toggle-head .mid-80 {
+    display: flex;
+    width: 90%;
+}
+.company_dashbord_tracker_list .title-details {
+    flex: 90%;
+}
+.company_dashbord_tracker_list .titleView {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 10px;
+    align-items: center;
+}
+.company_dashbord_tracker_list .company_name_main {
+    font-size: 16px;
+    margin-bottom: 0;
+    font-weight: bold;
+}
+.company_dashbord_tracker_list .job_title_main {
+    font-size: 14px;
+    margin-bottom: 0;
+    font-weight: normal;
+}
+.company_dashbord_tracker_list .details-ls ul {
+    display: flex;
+    margin: 0;
+    padding: 0;
+    color: #97a3b9;
+    gap: 40px;
+}
+.company_dashbord_tracker_list .collapse-btn {
+    flex: 10%;
+    display: flex;
+    justify-content: flex-end;
+    padding: 10px 0;
+}
+.company_dashbord_tracker_list .collps-btn {
+    width: 32px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 18px;
+    background: #EAF2FF;
+    cursor: pointer;
+    height: 32px;
+}
+.company_dashbord_tracker_list .collps-btn .fa-minus {
+    display: none;
+}
+.company_dashbord_tracker_list .toggleListContainer.active {
+    display: block;
+}
+.company_dashbord_tracker_list .flx-container {
+    border: 2px solid #e2e8f5;
+    border-radius: 12px;
+}
+.company_dashbord_tracker_list .flx-innerSection {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    width: 100%;
+    flex: 100%;
+}
+.company_dashbord_tracker_list .flx-left.flx-40 {
+    flex: 20%;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    border-right: 2px solid #e2e8f5;
+    margin-right: 10px;
+    padding: 0 10px;
+}
+.company_dashbord_tracker_list .profile-img {
+    width: 50px;
+    height: 50px;
+    border-radius: 50px;
+    background-color: #f9fafc;
+    padding: 11px;
+}
+.company_dashbord_tracker_list .user-name {
+    display: flex;
+    justify-content: center;
+    align-items: baseline;
+    gap: 5px;
+}
+.company_dashbord_tracker_list .user-name h6 {
+    margin: 0;
+    font-size: 16px;
+    color: #031b4e;
+}
+.company_dashbord_tracker_list .user-name h6 span {
+    font-weight: normal;
+}
+.company_dashbord_tracker_list .flx-left.flx-60 {
+    flex: 80%;
+    display: flex;
+    align-items: center;
+    position: relative;
+    padding: 16px 0;
+}
+.company_dashbord_tracker_list .reject_job_c {
+    color: #ff5353;
+    font-weight: bold;
+    text-align: center;
+    width: 100%;
+}
+.company_dashbord_tracker_list .flx-sidels {
+    flex: 30%;
+}
+.company_dashbord_tracker_list lable.boldText {
+    font-weight: 600;
+}
+.company_dashbord_tracker_list .flx-sidels p {
+    padding-top: 4px;
+    color: #97a3b9;
+    margin:0px;
+}
+.company_dashbord_tracker_list .color_red_action {
+    color: #ff5353;
+}
+.company_dashbord_tracker_list .previewAction {
+    min-width: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: #EAF2FF;
+    position: absolute;
+    right: 0;
+    height: 100%;
+    top: 0;
+}
+.company_dashbord_tracker_list .preview-icon {
+    padding: 5px 10px;
+    cursor: pointer;
+}
+.company_dashbord_tracker_list .previewAction:after {
+    content: "";
+    border-top: 37px solid transparent;
+    border-bottom: 37px solid transparent;
+    border-right: 32px solid #EAF2FF;
+    position: absolute;
+    left: -32px;
+    top: 21%;
+}
+.company_dashbord_tracker_list .details-ls ul li:first-child {
+    color: #0068ff;
+    list-style: none;
+}
+.company_dashbord_tracker_list {
+    height: 320px;
+    overflow: auto;
+}
+.company_dashbord_tracker_list .collps-btn.active .fa-plus {
+    display: none;
+}
+.company_dashbord_tracker_list .collps-btn.active .fa-minus {
+    display: block;
+}
+
+
+.toggleTabSection_latest_job{
+	box-shadow: none;
+    border: 2px solid #c9d0ea;
+    margin-bottom: 7px;
+    border-radius: 10px !important;
+}
+.toggleTabSection_latest_job .toggle-head {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    padding: 10px 10px;
+}
+.toggleTabSection_latest_job .latest_job_left{
+	display: flex;
+    width: 90%;
+}
+.toggleTabSection_latest_job .title-details {
+    flex: 90%;
+}
+.toggleTabSection_latest_job .titleView {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 10px;
+    align-items: center;
+}
+.toggleTabSection_latest_job .company_name_main {
+    font-size: 16px;
+    margin-bottom: 0;
+    font-weight: bold;
+}
+.toggleTabSection_latest_job .details-ls ul {
+    display: flex;
+    margin: 0;
+    padding: 0;
+    color: #97a3b9;
+    gap: 40px;
+}
+.toggleTabSection_latest_job .details-ls ul li:first-child {
+    color: #0068ff;
+    list-style: none;
+}
+.toggleTabSection_latest_job .collapse-btn {
+    flex: 10%;
+    display: flex;
+    justify-content: flex-end;
+    padding: 10px 0;
+}
+.toggleTabSection_latest_job a.view_job_d {
+    width: 32px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 18px;
+    background: #EAF2FF;
+    cursor: pointer;
+    height: 32px;
+}
+.Candidates_list_das .toggleTabSection_latest_job .details-ls ul li:first-child {
+    color: #97a3b9;
+}
+/* .Candidates_list_das {
+    height: 520px;
+    overflow: auto;
+} */
+.agencyCard-layout-1 .fxm-mini,.agencyCard-layout-2 .fxm-mini {
+    display: inherit;
+    justify-content: unset;
+}

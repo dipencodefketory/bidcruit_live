@@ -1,0 +1,328 @@
+{% extends 'agency/base.html' %}
+{% load static %}
+{% load candidate_extras %}
+{% block title %}MCQ Questions{% endblock %}
+{% block css %}
+		<link href="{% static 'assets/css/ATS/mcq_view.css' %}" rel="stylesheet">
+ <!-- Internal Data table css -->
+ <link href="{% static 'assets/plugins/datatable/css/dataTables.bootstrap4.min.css' %}" rel="stylesheet" />
+ <link href="{% static 'assets/plugins/datatable/css/buttons.bootstrap4.min.css' %}" rel="stylesheet">
+ <link href="{% static 'assets/plugins/datatable/css/responsive.bootstrap4.min.css' %}" rel="stylesheet" />
+ <link href="{% static 'assets/plugins/datatable/css/jquery.dataTables.min.css' %}" rel="stylesheet">
+ <link href="{% static 'assets/plugins/datatable/css/responsive.dataTables.min.css' %}" rel="stylesheet">
+ <link href="{% static 'assets/plugins/select2/css/select2.min.css' %}" rel="stylesheet">
+ <link href="{% static 'assets/plugins/sweet-alert/sweetalert.css' %}" rel="stylesheet">
+ 
+{% endblock %}
+{% block main %}
+		
+
+				
+
+					<!-- Main-content-body -->
+					<div class="main-content-body">
+
+						<!-- header-title -->
+						<div class="header-title">
+							<div class="mb-0 mb-lg-0 mb-xl-0">
+								<h4 class="mb-2">Components</h4>
+								<div class="main-content-breadcrumb"> <span>Components</span> <span>Data-tables</span> </div>
+							</div>
+							<div class="ml-auto my-auto">
+								<a href="#" class="btn btn-primary"><i class="fe fe-plus-square"></i> Create Report</a>
+								<a href="#" class="btn btn-pink"><i class="fe fe-external-link"></i> Export</a>
+							</div>
+						</div>
+						<!-- header-title -->
+
+						<!-- row opened -->
+						<div class="row row-sm">
+							<div class="col-xl-12">
+								<div class="card add_view_main_section">
+									
+									<div class="row card-body mcq_list_inner pt-0 pb-0">
+										
+										<div class="col-md-12 col-xl-12 mcq_list p-0">
+
+											<div class="mcq_header_listing">
+												<h4 class="mcq_q_ques_title card-title mg-b-0">MCQ Question Bank: {{sub_name}} </h4>
+												<div class="d-flex justify-contentbetween">
+													<div class="input-group mb-0">
+													
+														<span class="input-group-append search_btn">
+															<button class="btn ripple" type="button"><i class="fa fa-search"></i></button>
+														</span>
+														<input type="text" class="search_text form-control border-right-0 pl-3" value="" placeholder="Search Template">
+			
+													</div>
+													<div class="candidate_right_filters_section">															
+													
+														<!-- <div class="candidate_filters_header">
+															<a href=""><i class="fas fa-file-download"></i></a>
+														</div>
+														<div class="candidate_filters_header">
+															<a href=""><i class="fas fa-filter"></i></a>
+														</div>
+														<div class="candidate_filters_header">
+															<a href=""><i class="fas fa-print"></i></a>
+														</div>
+														<div class="candidate_filters_header">	
+															<a href=""><i class="fas fa-ellipsis-v"></i></a>
+														</div> -->
+														<div class="candidate_filters_header">
+															<a class="Add_mcq_Question" href="{% url 'agency:add_mcq' sub_id %}">Add New</a>
+														</div>
+														
+													</div>
+												</div>
+												
+											</div>
+											
+											<div class="view_list_of_mcq">
+												{% csrf_token %}
+												<table class="table text-md-nowrap candidate_table">
+                                                            <thead>
+                                                                <tr style="display: none;">
+                                                                    <th class="border-bottom-0">Job Title</th>
+
+                                                                </tr>
+
+                                                            </thead>
+                                                            <tbody>
+                                                            	{%for i in questions %}
+                                                            	<tr class="tableResult-row">
+                                                            		<td>
+                                                            			<div class="slide-list row row-sm card mb-0">
+															<div class="title-section col-12">
+																<div class="info-section fx-row">
+																	<div class="fx-col-sm left-side">
+																		<label class="tab-counter-label">1</label>
+																		<label class="text_q main-content-label mb-0">{{i.question_description}}</label>
+																	</div>
+																	<div class="fx-col-sm right-side">
+																		<label class="category-type__info text-capitalize">{{i.question_level.level_name}}</label>
+																		{% if Edit %}
+																		<div class="edit-btn edit-que" data-id="{{i.id}}"><i class="fas fa-edit"></i></div>
+																		{% endif %}
+																		{% if Delete %}
+																		<div class="delete-btn questions_trash" id="edit-{{i.id}}"><i class="fas fa-trash-alt"></i></div>
+																		{% endif %}
+																		
+																	</div>
+																</div>
+																<div class="short-details">
+																	<div class="para-description">
+																		<ul class="list_view_option">
+																			<li {%if i.correct_option == 'a'%} class="correct_ans"{%endif%}>(A) {{i.option_a}}</li>
+																			<li {%if i.correct_option == 'b'%} class="correct_ans"{%endif%}>(B) {{i.option_b}}</li>
+																			<li {%if i.correct_option == 'c'%} class="correct_ans"{%endif%}>(C) {{i.option_c}}</li>
+																			<li {%if i.correct_option == 'd'%} class="correct_ans"{%endif%}>(D) {{i.option_d}}</li>
+																		</ul>
+																	</div>			
+																</div>
+															</div>
+														</div>
+
+                                                            		</td>
+                                                            	</tr>
+                                                            	{% endfor %}
+                                                                
+                                                            </tbody>
+                                                        </table>
+
+												
+											</div>
+
+
+										</div>
+
+									</div>
+								</div>
+							</div>
+							<!--/div-->
+					
+						</div>
+						<!-- /row -->
+					</div>
+					<!-- Main-content-body closed -->
+				
+  <!-- Basic modal Edit_subject_modal -->
+  <div class="modal" id="Edit_question_modal">
+	<div class="modal-dialog modal-dialog-centered" role="document">
+		<div class="modal-content modal-content-demo">
+			<div class="modal-header">
+				<h6 class="modal-title">Edit Question</h6><button aria-label="Close" class="close" data-dismiss="modal" type="button"><span aria-hidden="true">&times;</span></button>
+			</div>
+			<form action="{% url 'agency:update_mcq_question'%}" id="add_mcq" method="POST" >
+				{% csrf_token %}
+				<input type="text" class="queid" name="queid" value="" hidden>
+				<div class="form-group">
+					<label class="form-label">Question Level :</label>
+					<select class="form-control" id="subject" name="question_level" required="required">
+						<option selected disabled label="" value="">Select Question Level</option>
+						{% for levels in level %}
+							<option value="{{levels.id}}" label="">{{levels.level_name}}</option>
+						{% endfor %}
+						
+					</select>
+					<label id="msg" style="color: red;"></label>
+				</div>
+				<div class="form-group">
+					<label class="form-label">Enter New Question :</label>
+					<textarea class="form-control" name="question" required></textarea>
+				</div>
+				<div class="form-group">
+					<label class="form-label">A : <input  required class="correct_answer_radio" name="correct_answer" type="radio" value="a"><span style="display: none;" class="correct_answer_title">Marked As Correct Answer</span></label>
+					<input class="form-control" placeholder="" type="text" name="option_1" required>
+				</div>
+				<div class="form-group">
+					<label class="form-label">B : <input required class="correct_answer_radio" name="correct_answer" type="radio" value="b"><span style="display: none;" class="correct_answer_title">Marked As Correct Answer</span></label>
+					<input class="form-control" placeholder="" type="text" name="option_2" required>
+				</div>
+				<div class="form-group">
+					<label class="form-label">C : <input required class="correct_answer_radio" name="correct_answer" type="radio" value="c"><span style="display: none;" class="correct_answer_title">Marked As Correct Answer</span></label>
+					<input class="form-control" placeholder="" type="text" name="option_3" required>
+				</div>
+				<div class="form-group">
+					<label class="form-label">D : <input required class="correct_answer_radio" name="correct_answer" type="radio" value="d"><span style="display: none;" class="correct_answer_title">Marked As Correct Answer</span></label>
+					<input class="form-control" placeholder="" type="text" name="option_4" required>
+				</div>
+				
+				<div class="add_views_btn"><button id='update' class="btn btn-main-primary btn-block">Update</button></div>
+			
+			</form>
+		</div>
+	</div>
+</div>
+<!-- End Basic modal -->
+
+{% endblock %}
+
+{% block script %}
+ <!-- Internal Data tables -->
+ <script src="{% static 'assets/plugins/datatable/js/jquery.dataTables.min.js' %}"></script>
+ <script src="{% static 'assets/plugins/datatable/js/dataTables.dataTables.min.js' %}"></script>
+ <script src="{% static 'assets/plugins/datatable/js/dataTables.responsive.min.js' %}"></script>
+ <script src="{% static 'assets/plugins/datatable/js/responsive.dataTables.min.js' %}"></script>
+ <script src="{% static 'assets/plugins/datatable/js/jquery.dataTables.js' %}"></script>
+ <script src="{% static 'assets/plugins/datatable/js/dataTables.bootstrap4.js' %}"></script>
+ <script src="{% static 'assets/plugins/datatable/js/dataTables.buttons.min.js' %}"></script>
+ <script src="{% static 'assets/plugins/datatable/js/buttons.bootstrap4.min.js' %}"></script>
+ <script src="{% static 'assets/plugins/datatable/js/jszip.min.js' %}"></script>
+ <script src="{% static 'assets/plugins/datatable/js/pdfmake.min.js' %}"></script>
+ <script src="{% static 'assets/plugins/datatable/js/vfs_fonts.js' %}"></script>
+ <script src="{% static 'assets/plugins/datatable/js/buttons.html5.min.js' %}"></script>
+ <script src="{% static 'assets/plugins/datatable/js/buttons.print.min.js' %}"></script>
+ <script src="{% static 'assets/plugins/datatable/js/buttons.colVis.min.js' %}"></script>
+ <script src="{% static 'assets/plugins/datatable/js/dataTables.responsive.min.js' %}"></script>
+ <script src="{% static 'assets/plugins/datatable/js/responsive.bootstrap4.min.js' %}"></script>
+
+ <!-- datatable js -->
+ <script src="{% static 'assets/js/table-data.js' %}"></script>
+ 		<!--- Internal Sweet-Alert js -->
+		 <script src="{% static 'assets/plugins/sweet-alert/sweetalert.min.js' %}"></script>
+		 <script src="{% static 'assets/plugins/sweet-alert/jquery.sweet-alert.js' %}"></script>
+ <script>
+	$(document).ready(function(){
+
+
+$(document).on('click','.questions_trash',function(){
+	var q_id=$(this).attr('id')
+	var question_card = $(this).closest('.template_question_list');
+	q_id={'question_id':q_id.split("-")[1]};
+	swal({
+		title: "Are you sure?",
+		text: "You will not be able to recover deleted subjects!",
+		type: "warning",
+		showCancelButton: true,
+		confirmButtonClass: "btn-danger",
+		confirmButtonText: "Yes, delete it!",
+		cancelButtonText: "Cancel",
+		closeOnConfirm: false,
+		closeOnCancel: false
+	},function(isConfirm) { //send ajax request for detele category action
+		if (isConfirm){
+			$.ajax({
+				url:"/agency/mcq_delete_question/",
+				headers: {'X-CSRFToken': $("input[name=csrfmiddlewaretoken]").val() },
+				type:'POST',
+				contentType: 'application/json; charset=UTF-8',
+				data: JSON.stringify(q_id),
+				error: function (request, status, error) {
+					  alert(error);
+				}
+			}).done(function(response){
+				if(response == 'True'){
+					swal("Deleted!", "Your Question has been deleted.", "success");
+					question_card.remove();
+				}else{
+					swal("Error!", "Something Wrong !!", "error");
+				}
+			});
+		} else {
+			swal("Cancelled", "Your Question is safe :)", "error");
+		}
+	});
+
+});
+
+$(document).on('click','.edit-que',function(){
+        var queid=$(this).data('id');
+        // $('.edit_subject_name').val($(this).data('name'));
+		if(queid!==''){
+		$.ajax({
+                url:"/agency/get_mcq_question/",
+                headers: {'X-CSRFToken': $("input[name=csrfmiddlewaretoken]").val() },
+                type:'POST',
+                contentType: 'application/json; charset=UTF-8',
+                data: JSON.stringify(queid),
+                error: function (request, status, error) {
+                    alert(error);
+                }
+            }).done(function(response){
+				response=JSON.parse(response);
+				console.log(response.question)
+                if(response.status==true){
+					$("#Edit_question_modal").modal("show");
+					$('.queid').val(queid);
+					$('textarea[name=question]').text(response.question);
+					$('input[name=option_1]').val(response.option1);
+					$('input[name=option_2]').val(response.option2);
+					$('input[name=option_3]').val(response.option3);
+					$('input[name=option_4]').val(response.option4);
+					$("input[name=correct_answer][value=" + response.correctans + "]").attr('checked', 'checked');
+					$("input[name=correct_answer][value=" + response.correctans + "]").next(".correct_answer_title").css("display", "inline-block");
+					$("#subject [value="+response.levelid+"]").prop('selected',true);
+                    // window.location.reload();
+                }
+                else{
+                    alert('Something went wrong !');
+                    $("#Edit_question_modal").modal("hide");
+                }
+            });
+		}
+       
+    });
+	$('input[type=radio][name=correct_answer]').change(function() {				 
+				$(".correct_answer_title").css("display", "none")
+				$(this).next(".correct_answer_title").css("display", "inline-block");
+			});
+	$('#update').click(function(){
+		var subject = $("#subject option:selected").val();
+		console.log(subject);
+		if(subject == "")
+		{
+			$("#msg").html("Please select at least One option");
+			return false;
+		}
+		else
+		{
+			return true;
+		}
+	});
+  
+
+});
+ </script>
+
+{% endblock %}

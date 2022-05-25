@@ -1,0 +1,271 @@
+
+
+{% extends 'company/base.html' %}
+{% load static %}
+{% load custom_filters %}
+{% block title %}Job View{% endblock %}
+{% block css %}
+		<link href="{% static 'assets/css/ATS/job_view.css' %}" rel="stylesheet">
+		<link href="{% static 'assets/css/ATS/job_creation_view.css' %}" rel="stylesheet">
+{% endblock %}
+{% block main %}
+				<!-- Container-fluid -->
+				<div class="container-fluid">
+
+					<!-- Main-content-body -->
+					<div class="main-content-body">
+
+						<!-- header-title -->
+						<div class="header-title">
+							<div class="mb-0 mb-lg-0 mb-xl-0">
+								<h4 class="mb-2">Components</h4>
+								<div class="main-content-breadcrumb"> <span>Components</span> <span>Data-tables</span> </div>
+							</div>
+							<div class="ml-auto my-auto">
+								<a href="#" class="btn btn-primary"><i class="fe fe-plus-square"></i> Create Report</a>
+								<a href="#" class="btn btn-pink"><i class="fe fe-external-link"></i> Export</a>
+							</div>
+						</div>
+						<!-- header-title -->
+
+						<!-- row opened -->
+						<div class="row row-sm">
+
+							<div class="col-xl-12">
+								<!-- profile-page -->
+						<div class="profile-page tx-13">
+							
+							<div class="row row-sm profile-body">
+								
+									<div class="jobview-head__section col-12">
+										<div class="card-upper-title card">
+											<div class="fx-left-view">
+												<h4>Preview Job Template: {{job_obj.template.name}}</h4>
+											</div>
+											<div class="fx-right-view">
+												
+													<!-- <button type="button" class="btn btn-primary rounded-10 text-capitalize">publish</button> -->
+											
+											</div>
+										</div>
+									</div>
+								
+								<div class="col-md-12 col-xl-8 col-lg-8 middle-wrapper">
+									<div class="main-profile-body p-0">
+                                        <!--header cover section-->
+                                        <div class="profile-header agency-head__view">
+                                            
+                                            <div class="header-links">
+                                                <div class="cover-short-detail">
+                                                    <div class="top-main__info">
+                                                        <h3 class="cover-main__title text-capitalize">{{job_obj.job_title}}
+															<div class="candidate_view_Accept social_dis">
+																<a class="btn_users-cog" href="javascript:void(0)"><i class="fas fa-users-cog"></i></a>																
+																<a class="btn_bookmark" href="javascript:void(0)"><i class="far fa-bookmark"></i></a>
+																<div class="btn_share_cog social_dis">
+																	<i class="fas fa-share-alt"></i>			
+																</div>
+															</div>
+														</h3>
+                                                        <p class="subtitle text-capitalize job_date_id"><span> Last Updated : --- </span>
+<!--															<span>Job ID : 6651182</span></p>-->
+                                                    </div>
+                                                    <div class="allabout_viewer">
+                                                        <div class="fx-icotext">
+                                                            <i class="fas fa-map-marker-alt"></i>
+                                                            <lable>{{job_obj.city.city_name}}</lable>
+                                                        </div>
+                                                        <div class="fx-icotext">
+                                                            <i class="fas fa-briefcase"></i>
+                                                            <lable>{{job_obj.job_type.name}}</lable>
+                                                        </div>
+														{% if job_obj.remote_job %}
+                                                        <div class="fx-icotext">
+															<i class="fas fa-laptop-code"></i>
+                                                            <lable>Remote (Worldwide)</lable>
+                                                        </div>
+														{% endif %}
+														<div class="fx-icotext">
+                                                            <i class="fas fa-user"></i>
+                                                            <lable>Applicant : 0</lable>
+                                                        </div> 
+														<div class="fx-icotext">
+                                                            <i class="fas fa-user"></i>
+															{% ifequal job_obj.experience_year_max '0' %}
+															<lable>Exp: {{job_obj.experience_year_min}} Years of Above </lable>
+															{% endifequal %}
+															{% ifequal job_obj.experience_year_min '0' %}
+                                                            <lable>Exp: Up to {{job_obj.experience_year_max}} Years</lable>
+															{% endifequal %}
+															{% ifnotequal job_obj.experience_year_min '0' %}
+															{% ifnotequal job_obj.experience_year_max '0' %}
+															<lable>Exp: {{job_obj.experience_year_min}} to {{job_obj.experience_year_max}} Years</lable>
+															{% endifnotequal %}
+															{% endifnotequal %}
+                                                        </div>                                                  
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    <!--header cover section-->
+									
+									    <!--description container-->
+                                        <div class="card">
+                                            <div class="about-profile pd-t-20 pd-b-20 pd-l-15 pd-r-15">
+                                                <div class="info--section">
+                                                    <h5 class="text-uppercase">Job Description :</h5>
+													<div class="read_more_to_job_des_text">
+                                                   	 	{% autoescape off %}{{job_obj.job_description}}{% endautoescape %}
+													</div>	   
+													<button type="button" class="read-more-job_des">Read more</button>
+                                                </div>
+                                                <div class="info--section">
+                                                    <h5 class="text-uppercase mg-t-20">Benefits :</h5>
+                                                    {% autoescape off %}{{job_obj.benefits}}{% endautoescape %}
+                                                </div>
+												<div class="info--section">
+                                                    <h5 class="text-uppercase mg-t-20">Requirements :</h5>
+                                                    {% autoescape off %}{{job_obj.requirements}}{% endautoescape %}
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!--description container end-->
+
+									</div><!-- main-profile-body -->
+								</div>
+								<!-- middle wrapper end -->
+								<!-- right wrapper start -->
+								<div class="d-none d-xl-block col-lg-12 col-xl-4 right-wrapper">
+                                    <div class="fx-sticky-right-col">
+                                        <div class="row row-sm">
+                                            <div class="col-md-12">
+
+												<div class="card">
+													<div class="card-body day_section_sa">
+														<div class="row row-sm ">
+
+															<div class="col-lg-6 pl-1 pr-1 mb-2">
+															 	<div class="day_left_section d-c">
+																	<div class="title_day_name">Closing In</div>
+																	<div class="day_value_get">00 Day</div>
+																</div>
+															</div>
+															<div class="col-lg-6 pl-1 pr-1 mb-2">
+																<div class="day_left_section y-c">
+																	<div class="title_day_name">Yearly Salary (INR)</div>
+																	<div class="inr_yearly_s">
+																		{% if job_obj.salary_as_per_market %}
+																		<div class="day_value_get">As Per Market Rate</div>
+																		{% else %}
+																		<div class="day_value_get">{{job_obj.min_salary|convert_to_lacs}} <span>LAP</span></div>
+																		<div class="day_value_get">-</div>
+																		<div class="day_value_get">{{job_obj.max_salary|convert_to_lacs}} <span>LAP</span></div>
+																		{% endif %}
+																	</div>
+																</div>
+															</div>
+
+															<div class="right_side_btn_section pl-1 pr-1">
+															    <a class="btn btn_submit btn-full disabled_btn" href="#">SUBMIT</a>
+<!--																<a class="btn btn_submit btn-haft" href="">Edit</a>-->
+<!--																{% if Publish and job_obj.is_publish %}-->
+<!--																{% else %}-->
+<!--																<form method="post">-->
+<!--																	{% csrf_token %}-->
+<!--																	<button type="submit" class="btn btn_submit btn-full" href="">Publish</button>-->
+<!--																</form>-->
+<!--																{% endif %}-->
+
+<!--																	<a class="btn btn_submit btn-full" id="assignMERForm">Assign</a>-->
+
+<!--																<a class="btn btn_submit btn-haft" href="">Edit</a>-->
+<!--																<a class="btn btn_submit btn-full" href="">Apply</a>-->
+<!--														    	<a class="btn btn_cancel btn-danger btn-haft" href="">Cancel</a>-->
+
+															</div>
+															
+															<div class="apply_job_info_view">
+																<a class="profile_view_l" href="#">
+																	<div class="company_profile_logo"><img src="{{job_obj.company_id.id|get_company_image}}"></div>
+																	<div class="name_dev">
+																		<h1 class="mb-0 mg-t-0 name">{{job_obj.company_id.company_id.company_name}}</h1>
+																		<span class="text-muted">{{job_obj.company_id.id|get_company_industry}}</span>
+																	</div>	
+																</a>																															
+															</div>															
+															
+														</div>
+													</div>
+												</div>
+
+												<div class="card skills completed_user_job_details">
+                                                   
+                                                    <div class="card-body p-0">
+                                                        <div class="inbox-widget">
+															<div class="jobs_details_box_c">
+																<div class="clients_total_users">
+																	<div class="inbox-item">
+																		<p class="inbox-item-text">Active Jobs</p>
+																		<p class="inbox-item-author fb">{{active_job_count}}</p>
+																	</div>
+																</div>
+																<div class="clients_total_users">
+																	<div class="inbox-item">
+																		<p class="inbox-item-text">Close Jobs</p>
+																		<p class="inbox-item-author fg">{{close_job_count}}</p>
+																	</div>
+																</div>
+																<div class="clients_total_users">
+																	<div class="inbox-item">
+																		<p class="inbox-item-text">Hiring Ratio</p>
+																		<p class="inbox-item-author fp">12 %</p>                                                                                                                                      
+																	</div>
+																</div>
+																<div class="clients_total_users">
+																	<div class="inbox-item">
+																		<p class="inbox-item-text">Last Close Jobs</p>
+																		<p class="inbox-item-author fy">---</p>
+																	</div>
+																</div>
+															</div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+												
+                                                <div class="card suggestions job-suggest-list">
+                                                    <div class="card-body p-0">
+                                                        <div class="card-header pb-0">
+                                                            <h5 class="card-title pb-0 text-uppercase">similer jobs with organization</h5>
+                                                        </div>
+                                                        
+                                                    </div>
+                                                </div>
+                                               
+                                            </div>
+                                        </div>
+                                    </div>
+								</div>
+								<!-- right wrapper end -->
+							</div>
+						</div>
+						<!--profile page end -->
+							</div>
+							<!--/div-->
+						</div>
+						<!-- /row -->
+					</div>
+					<!-- Main-content-body closed -->
+				</div>
+				<!-- Container-fluid closed -->
+				
+ 			
+
+
+{% endblock %}
+
+{% block script %}
+		<!-- Custom-->
+        <script src="{% static 'assets/js/ATS/job_view.js' %}"></script>
+		
+{% endblock %}
+

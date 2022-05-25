@@ -1,0 +1,6 @@
+/***
+* add class `textCounter` with attribute `data-size="25"` for input box ex. <input type="text" class="textCounter"> or <textarea class="textCounter"></textarea>
+* data-size value must bew required for input length
+**/
+
+$(document).ready((function(){$(".textCounter").each((function(){$(this).attr("maxlength",$(this).attr("data-size")),$(this).after('<div class="counterTextShow" style="display: flex;justify-content: flex-end;"><div class="typeTxtVal">0</div>/<div class="max-text">'+$(this).attr("data-size")+"</div></div>")})),$(".textCounter").on("change keyup",(function(){var t=$(this).attr("data-size"),e=$(this).val(),a=t-20,l=parseInt(e.length);0!=l&&l<=a?($(this).parent().find(".counterTextShow .typeTxtVal").html(""),$(this).parent().find(".counterTextShow .typeTxtVal").html("<label>"+l+"</label>")):0!=l&&l>=a?($(this).parent().find(".counterTextShow .typeTxtVal").html(""),$(this).parent().find(".counterTextShow .typeTxtVal").html('<label style="color:#ff0000;">'+l+"</label>")):0==l&&$(this).parent().find(".counterTextShow .typeTxtVal").html("<label>"+l+"</label>")}))}));

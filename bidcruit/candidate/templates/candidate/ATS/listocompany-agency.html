@@ -1,0 +1,310 @@
+{% extends 'candidate/base.html' %}
+{% load static %}
+{% load custom_filters %}
+{% block title %} Agency/Company {% endblock %}
+{% block css %}
+
+		<link href="{% static 'assets/css/ATS/connection_request.css' %}" rel="stylesheet">
+{% endblock %}
+{% block main %}
+
+				<!-- Container-fluid -->
+				<div class="container-fluid">
+
+					<!-- Main-content-body -->
+					<div class="main-content-body">
+
+						<!-- header-title -->
+						<div class="header-title">
+							<div class="mb-0 mb-lg-0 mb-xl-0">
+								<h4 class="mb-2">Components</h4>
+								<div class="main-content-breadcrumb"> <span>Components</span> <span>Data-tables</span> </div>
+							</div>
+							<div class="ml-auto my-auto">
+								<a href="#" class="btn btn-primary"><i class="fe fe-plus-square"></i> Create Report</a>
+								<a href="#" class="btn btn-pink"><i class="fe fe-external-link"></i> Export</a>
+							</div>
+						</div>
+						<!-- header-title -->
+
+						<!-- row opened -->
+						<div class="row row-sm">
+							<div class="col-xl-12">
+								<div class="card candidate_view_main_section mg-b-10">
+									<div class="card-header pb-0">
+										<div class="d-flex justify-content-between" style="align-items: center;">
+
+											<div class="tab-menu-heading">
+												<div class="tabs-menu ">
+													<!-- Tabs -->
+													<ul class="nav panel-tabs">
+														<li class=""><a href="#tab209" class="active" data-toggle="tab"> Company</a></li>
+														<li><a href="#tab300" data-toggle="tab">Agency</a></li>
+													</ul>
+												</div>
+											</div>
+
+											<div class="candidate_right_filters_section">
+
+												<div class="candidate_filters_header">
+													<a href=""><i class="fas fa-file-download"></i></a>
+												</div>
+												<div class="candidate_filters_header">
+													<a href=""><i class="fas fa-filter"></i></a>
+												</div>
+												<div class="candidate_filters_header">
+													<a href=""><i class="fas fa-print"></i></a>
+												</div>
+												<div class="candidate_filters_header">
+													<a href=""><i class="fas fa-ellipsis-v"></i></a>
+												</div>
+
+												<div class="search_box_section input-group mb-0">
+
+													<span class="input-group-append search_btn">
+														<button class="btn ripple" type="button"><i class="fa fa-search"></i></button>
+													</span>
+													<input type="text" class="search_text form-control border-right-0 pl-3" value="" placeholder="Search Template">
+
+												</div>
+
+											</div>
+
+
+										</div>
+
+									</div>
+
+								</div>
+
+								<div class="panel panel-primary mt-0 tabs-style-8">
+
+									<div class="panel-body p-0">
+										<div class="tab-content connection_req">
+											<div class="tab-pane active" id="tab209">
+
+												<div class="view_profile_card card mg-b-10 mg-t-0">
+													{% if company_list %}
+													{% for company_lists in company_list %}
+													<div class="card-body">
+														<div class="cardheader">
+															<div class="media list_external_box">
+																<div class="media-user mr-2">
+																	<div class="main_img-user"><img alt="" src="{{company_lists.company_id.id|get_company_image}}"></div>
+																</div>
+																<div class="media-body name_skils_title">
+																	<div class="info_view_candidate_row mb-2 pb-2">
+																		{% if company_lists.company_id.company_id.company_name %}
+																		<h1 class="mb-0 mg-t-0 name">{{company_lists.company_id.company_id.company_name}}</h1>
+
+																		{% endif %}
+																	</div>
+
+																	<div class="media mg-t-5 profile_footer">
+
+																		<div class="candidate_profile_footer">
+																			<div class="candidate_profile_title"><i class="fas fa-envelope"></i> {{company_lists.company_id.company_id.email}}</div>
+																		</div>
+																		<div class="candidate_profile_footer">
+																			<div class="candidate_profile_title"><i class="fas fa-phone-alt"></i> {{company_lists.company_id.id|get_company_contact}}</div>
+																		</div>
+																		<div class="candidate_profile_footer">
+																			<div class="candidate_profile_title"><i class="fas fa-map-marker-alt"></i> Ahmedabad, Gujarat, India</div>
+																		</div>						
+																	</div>
+																	<!-- <div class="rate_details">
+																		<ul>
+																			<li>Commission Rate :- {{pending_connection.commission_rate}}%</li>
+																			<li>Please find the <a href="">Recruitment Policy</a>, <a href="">Payment Terms</a> and  <a href="{{pending_connection.contract_details.url|image_path_remove}}" id="contract" data-toggle="modal" data-target="#contract_details">Contract Details</a> for the recruitment agency.</li>
+
+																		</ul>
+																	</div>						 -->
+																</div>
+																<div class="Business_req_footer list_com_agency_icon">
+																	<div class="withdraw_btn">
+																		<a href="{% url 'candidate:withdraw_candidate' 'Company' company_lists.company_id.id %}">Withdraw</a>
+																	</div>
+																	<div class="req_title mr-2">
+																		<a class="pr-1" target="_blank"  href="" ><i class="fas fa-eye"></i></a>
+																	</div>
+																	<div class="candidate_view_header">
+																		<a data-toggle="modal" data-target="#company-{{company_lists.company_id.id}}"><i class="far fa-comments"></i></a>
+																	</div>
+																</div>
+
+															</div>
+														</div>
+														
+
+													</div>
+													<div class="modal fade" id="company-{{company_lists.company_id.id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+													  <div class="modal-dialog modal-dialog-centered" role="document">
+														<div class="modal-content">
+														  <div class="modal-header">
+															<h5 class="modal-title" id="exampleModalLongTitle">Select User with chat</h5>
+															<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+															  <span aria-hidden="true">&times;</span>
+															</button>
+														  </div>
+														  <div class="modal-body">
+															{% for user in chat_internal_company %}
+															  {% ifequal user.company_id company_lists.company_id %}
+															  <a href="{% url 'chat:create_privatemsg' user.employee_id.id %}">{{user.employee_id.first_name}} {{user.employee_id.last_name}}</a><br>
+															  {% endifequal%}
+															{% endfor %}
+														  </div>
+														  <div class="modal-footer">
+															<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+															<button type="button" class="btn btn-primary">Save changes</button>
+														  </div>
+														</div>
+													  </div>
+													</div>
+														{% endfor %}
+													{% else %}
+													<div class="Business_req_footer">
+														<div class="req_title">
+															<h3>No Request</h3>
+														</div>
+
+													</div>
+													{% endif %}
+												</div>
+
+
+											</div>
+
+											<div class="tab-pane" id="tab300">
+
+												<div class="view_profile_card card mg-b-10 mg-t-0">
+													{% if agency_list %}
+													{% for agency_lists in agency_list %}
+													<div class="card-body">
+														<div class="cardheader">
+															<div class="media list_external_box">
+																<div class="media-user mr-2">
+																	<div class="main_img-user"><img alt="" src="{{agency_lists.agency_id|agencyprofile:'logo'}}"></div>
+																</div>
+																<div class="media-body name_skils_title">
+																	<div class="info_view_candidate_row mb-2 pb-2">
+																		{% if agency_lists.agency_id.agency_id.company_name %}
+																		<h1 class="mb-0 mg-t-0 name">{{agency_lists.agency_id.agency_id.company_name}}</h1>
+																		{% else %}
+																		<h1 class="mb-0 mg-t-0 name">{{agency_lists.agency_id.agency_id.first_name}} {{agency_lists.agency_id.agency_id.last_name}}</h1>
+																		{% endif %}
+																	</div>
+
+																	<div class="media mg-t-5 profile_footer">
+
+																		<div class="candidate_profile_footer">
+																			<div class="candidate_profile_title"><i class="fas fa-envelope"></i> {{agency_lists.agency_id.agency_id.email}}</div>
+																		</div>
+																		<div class="candidate_profile_footer">
+																			<div class="candidate_profile_title"><i class="fas fa-phone-alt"></i> {{agency_lists.agency_id|agencyprofile:'contact'}}</div>
+																		</div>
+																		<div class="candidate_profile_footer">
+																			<div class="candidate_profile_title"><i class="fas fa-map-marker-alt"></i> Ahmedabad, Gujarat, India</div>
+																		</div>						
+																	</div>
+																	<div class="rate_details">
+
+																	</div>
+																</div>
+																<div class="Business_req_footer list_com_agency_icon">
+
+																	<div class="withdraw_btn">
+																		<a href="{% url 'candidate:withdraw_candidate' 'Agency' agency_lists.agency_id.id %}">Withdraw</a>
+																	</div>
+																	<div class="req_title">
+																		<div class="req_title mr-2">
+																				<a class="pr-1" target="_blank"  href="" ><i class="fas fa-eye"></i></a>
+																			</div>
+																	</div>
+																	<div class="candidate_view_header">
+																		<a data-toggle="modal" data-target="#agency-{{agency_lists.agency_id.id}}"><i class="far fa-comments"></i></a>
+																	</div>
+																</div>
+
+															</div>
+														</div>
+														
+
+													</div>
+
+													<div class="modal fade" id="agency-{{agency_lists.agency_id.id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+													  <div class="modal-dialog modal-dialog-centered" role="document">
+														<div class="modal-content">
+														  <div class="modal-header">
+															<h5 class="modal-title" id="exampleModalLongTitle">Select User with chat</h5>
+															<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+															  <span aria-hidden="true">&times;</span>
+															</button>
+														  </div>
+														  <div class="modal-body">
+															{% for user in chat_internal_agency %}
+															  {% ifequal user.agency_id agency_lists.agency_id %}
+															  <a href="{% url 'chat:create_privatemsg' user.InternalUserid.id %}">{{user.InternalUserid.first_name}} {{user.InternalUserid.last_name}}</a><br>
+															  {% endifequal%}
+															{% endfor %}
+														  </div>
+														  <div class="modal-footer">
+															<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+															<button type="button" class="btn btn-primary">Save changes</button>
+														  </div>
+														</div>
+													  </div>
+													</div>
+													{% endfor %}
+													{% else %}
+													<div class="Business_req_footer">
+														<div class="req_title">
+															<h3>No Request</h3>
+														</div>
+
+													</div>
+													{% endif %}
+												</div>
+
+											</div>
+
+
+										</div>
+									</div>
+								</div>
+
+							</div>
+							<!--/div-->
+
+						</div>
+						<!-- /row -->
+					</div>
+					<!-- Main-content-body closed -->
+				</div>
+				<!-- Container-fluid closed -->
+			</div>
+			<!-- Main-content closed -->
+			<!-- Modal -->
+		<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+		  <div class="modal-dialog modal-dialog-centered" role="document">
+			<div class="modal-content">
+			  <div class="modal-header">
+				<h5 class="modal-title" id="exampleModalLongTitle">Select User with chat</h5>
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+				  <span aria-hidden="true">&times;</span>
+				</button>
+			  </div>
+			  <div class="modal-body">
+				{% for user in chat_internal %}
+                  <a href="{% url 'chat:create_privatemsg' user.employee_id.id %}">{{user.employee_id.first_name}} {{user.employee_id.last_name}}</a><br>
+				{% endfor %}
+			  </div>
+			  <div class="modal-footer">
+				<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+				<button type="button" class="btn btn-primary">Save changes</button>
+			  </div>
+			</div>
+		  </div>
+		</div>
+{% endblock %}
+{% block script %}
+{% endblock %}

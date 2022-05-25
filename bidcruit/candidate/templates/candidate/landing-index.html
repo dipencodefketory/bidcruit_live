@@ -1,0 +1,239 @@
+{% load static %}
+<!doctype html>
+<html lang="en" dir="ltr">
+
+<head>
+
+	<meta charset="utf-8">
+	<meta content="width=device-width, initial-scale=1, shrink-to-fit=no" name="viewport">
+	<meta content="Responsive Bootstrap 4 Dashboard Template" name="description">
+	<meta content="BootstrapDash" name="author">
+	<title>BidCruit Home</title>
+
+	<!-- favicon -->
+	<link rel="icon" href="{% static 'assets/img/brand/bluelogo.png' %}" type="image/x-icon" />
+
+	<!-- Icons css -->
+	<link href="{% static 'assets/css/icons.css' %}" rel="stylesheet">
+
+	<!-- Bootstrap css -->
+	<link rel="stylesheet" href="{% static 'assets/plugins/bootstrap/css/bootstrap.min.css' %}">
+
+	<!-- Style css -->
+	<link rel="stylesheet" type="text/css" media="all" href="{% static 'assets/css/style.css' %}">
+
+	<!-- Colors css -->
+	<!-- <link id="theme" rel="stylesheet" type="text/css" media="all" href="{% static 'assets/css/colors/color.css' %}"> -->
+
+	<!--- Map css --->
+	<!-- <link href="{% static 'assets/plugins/jqvmap/jqvmap.min.css' %}" rel="stylesheet"> -->
+
+	<!-- Owl-carousel css-->
+	<link href="{% static 'assets/plugins/owl-carousel/owl.carousel.css' %}" rel="stylesheet" />
+
+	<!-- Sidemenu css -->
+	<link rel="stylesheet" href="{% static 'assets/css/single-sidemenu/singlemenu.css' %}">
+
+
+
+
+	<!-- Internal Spectrum-colorpicker css -->
+	<!-- <link href="{% static 'assets/plugins/spectrum-colorpicker/spectrum.css' %}" rel="stylesheet"> -->
+
+	<!-- Sidebar css -->
+	<!-- <link href="{% static 'assets/plugins/sidebar/sidebar.css' %}" rel="stylesheet"> -->
+
+	<!-- Internal Fileupload css -->
+	<link href="{% static 'assets/plugins/fileuploads/css/fileupload.css' %}" rel="stylesheet" type="text/css" />
+
+	<!-- Skinmodes css -->
+	<!-- <link href="{% static 'assets/css/skin-modes.css' %}" rel="stylesheet"> -->
+
+	<!-- Darktheme css -->
+	<!-- <link href="{% static 'assets/css/style-dark.css' %}" rel="stylesheet"> -->
+
+	<!-- Internal Fileupload css -->
+	<!-- <link href="{% static 'assets/plugins/fileuploads/css/fileupload.css' %}" rel="stylesheet" type="text/css"/> -->
+
+	<!-- Animations css -->
+	<link href="{% static 'assets/css/animate.css' %}" rel="stylesheet">
+	<!-- Select2 css -->
+	<link href="{% static 'assets/plugins/select2/css/select2.min.css' %}" rel="stylesheet">
+	<link
+		href="https://fonts.googleapis.com/css2?family=Rubik:ital,wght@0,300;0,400;0,500;0,700;0,800;0,900;1,600&display=swap"
+		rel="stylesheet">
+	<!-- Candidateprofile css -->
+	<link href="{% static 'assets/css/custom.css' %}" rel="stylesheet">
+</head>
+
+<body>
+	<div class="lending-wrapper">
+		<header class="landing-header">
+			<div class="container">
+				<div class="row">
+					<div class="col-lg-2 col-md-3 col-sm-6 col-xs-6">
+						<div class="logo">
+							<a href="" title=""><img src="{% static 'assets/img/brand/logo.png' %}" alt="Logo" title=""></a>
+						</div>
+					</div>
+					<div class="col-lg-10 col-md-9 col-sm-6 col-xs-6">
+						<div class="custom-navbar">
+							<nav class="navbar navbar-expand-lg navbar-light">
+								<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+									<span class="navbar-toggler-icon"><i data-v-e08301e8="" class="fas fa-align-justify"></i></span>
+								  </button>
+								<div class="collapse navbar-collapse" id="navbarSupportedContent">
+								  <ul class="navbar-nav ml-auto">
+									<li class="nav-item active">
+									  <a class="nav-link" href="">Home <span class="sr-only">(current)</span></a>
+									</li>
+									<li class="nav-item">
+									  <a class="nav-link" href="#">Contact</a>
+									</li>
+									<li class="nav-item dropdown">
+									  <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+										Register
+									  </a>
+									  <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+										<a class="dropdown-item" href="{% url 'candidate:signup' %}">Candidate Register</a>
+										<a class="dropdown-item" href="{% url 'company:signup' %}">Company Register</a>
+<!--										<div class="dropdown-divider"></div>-->
+<!--										<a class="dropdown-item" href="#">Something else here</a>-->
+									  </div>
+									</li>
+									<li class="nav-item">
+										<a class="nav-link" href="{% url 'accounts:signin' %}">Login</a>
+									</li>
+								
+								  </ul>
+								 
+								</div>
+							  </nav>
+							
+						</div>
+					</div>
+				</div>
+			</div>
+		</header>
+		<main class="landing-bg">
+			<section class="landing-detail">
+				<div class="container">
+					<div class="row">
+						<div class="col-lg-12">
+							<p>Find Jobs,Employment & Career Opportunities</p>
+							<h1>Drop Resume & Get <br>Your Desire Job !</h1>
+		
+							<div class="search-here">
+								<div class="row">
+									<div class="col-lg-5 col-md-6 col-sm-12 col-xs-12">
+										<div class="custom-select-ser">
+											<span class="ad-icon-select"><i data-v-e08301e8="" class="fas fa-search"></i></span>
+											<select class="form-control select2 " data-placeholder="Job Title, Keyword, Company">
+												<option value="Firefox">
+													Job Title, Keyword, Company
+												</option>
+												<option value="Chrome">
+													Chrome
+												</option>
+												<option value="Safari">
+													Safari
+												</option>
+												<option value="Opera">
+													Opera
+												</option>
+												<option value="Internet Explorer">
+													Internet Explorer
+												</option>
+											</select>
+										</div>
+										
+									</div>
+									<div class="col-lg-5 col-md-6 col-sm-12 col-xs-12">
+										<div class="custom-select-ser">
+											<span class="ad-icon-select"><i data-v-e08301e8="" class="fas fa-map-marker-alt"></i></span>
+											<select class="form-control select2" data-placeholder="City Or Post code">
+												<option value="Firefox">
+													City Or Post code
+												</option>
+												<option value="Chrome">
+													Chrome
+												</option>
+												<option value="Safari">
+													Safari
+												</option>
+												<option value="Opera">
+													Opera
+												</option>
+												<option value="Internet Explorer">
+													Internet Explorer
+												</option>
+											</select>
+										</div>
+									</div>
+									<div class="col-lg-2 col-md-12 col-sm-12 col-xs-12">
+										<div class="search-btn">
+											<button class="custom-button">Search</button>
+										</div>
+									</div>
+									<div class="last-de">
+										<a title="#" href="">Fill Job <strong>Application</strong> now !</a>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				
+			</section>
+		</main>
+	</div>
+
+	<!-- Back-to-top -->
+	<a href="#top" id="back-to-top"><i class="ti-angle-double-up"></i></a>
+	<!-- JQuery min js -->
+	<script src="{% static 'assets/plugins/jquery/jquery.min.js' %}"></script>
+	<!-- Jquery.steps js -->
+	<script src="{% static 'assets/plugins/jquery-steps/build/jquery.steps.min.js' %}"></script>
+	<script src="{% static 'assets/plugins/parsleyjs/parsley.min.js' %}"></script>
+	<!--- Form-wizard js --->
+	<script src="{% static 'assets/js/form-wizard.js' %}"></script>
+	<!-- Popper js -->
+	<script src="{% static 'assets/plugins/popper/popper.min.js' %}"></script>
+	<!-- Datepicker js -->
+	<script src="{% static 'assets/plugins/jquery-ui/ui/widgets/datepicker.js' %}"></script>
+	<!-- Bootstrap Bundle js -->
+	<script src="{% static 'assets/plugins/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+
+	<!-- Internal jquery.maskedinput js -->
+	<script src="{% static 'assets/plugins/jquery.maskedinput/jquery.maskedinput.js' %}"></script>
+	<!-- Internal Spectrum-colorpicker js -->
+	<script src="{% static 'assets/plugins/spectrum-colorpicker/spectrum.js' %}"></script>
+	<!-- Select2.min js -->
+	<script src="{% static 'assets/plugins/select2/js/select2.min.js' %}"></script>
+	<!-- Internal ion.rangeSlider.min js -->
+	<!-- <script src="{% static 'assets/plugins/ion-rangeslider/js/ion.rangeSlider.min.js' %}"></script> -->
+
+	<!-- Ionicons js -->
+
+	<!-- Rating js -->
+	<!-- <script src="{% static 'assets/plugins/rating/jquery.rating-stars.js' %}"></script>
+		<script src="{% static 'assets/plugins/rating/jquery.barrating.js' %}"></script> -->
+	<!-- P-scroll js -->
+	<!-- <script src="{% static 'assets/plugins/perfect-scrollbar/perfect-scrollbar.min.js' %}"></script>
+	<script src="{% static 'assets/plugins/perfect-scrollbar/p-scroll.js' %}"></script> -->
+	<!-- Sidemenu js -->
+	<!-- <script src="{% static 'assets/plugins/side-menu/single-menu.js' %}"></script> -->
+	<!-- Right-sidebar js -->
+	<!-- <script src="{% static 'assets/plugins/sidebar/sidebar.js' %}"></script> -->
+	<!-- <script src="{% static 'assets/plugins/sidebar/sidebar-custom.js' %}"></script> -->
+	<!-- form-elements js -->
+	<script src="{% static 'assets/js/form-elements.js' %}"></script>
+
+	<!-- Custom js -->
+	<script src="{% static 'assets/js/custom.js' %}"></script>
+
+
+
+</body>
+
+</html>

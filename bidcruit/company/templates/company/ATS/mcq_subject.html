@@ -1,0 +1,184 @@
+{% extends 'company/base.html' %}
+{% load static %}
+{% load candidate_extras %}
+{% block title %}Mcq Subject List {% endblock %}
+{% load custom_filters %}
+{% block css %}
+<!--custome paragraph-card-list css-->
+<link href="{% static 'assets/css/ATS/paragraph-card-list.css' %}" rel="stylesheet">
+<!--- Internal Sweet-Alert css -->
+<link href="{% static 'assets/plugins/sweet-alert/sweetalert.css' %}" rel="stylesheet">
+
+{% endblock %}
+{% block main %}
+
+					<!-- Main-content-body -->
+					<div class="main-content-body">
+						<!-- header-title -->
+						<div class="header-title">
+							<div class="mb-0 mb-lg-0 mb-xl-0">
+								<h4 class="mb-2">Ecommerce Dashboard</h4>
+								<div class="main-content-breadcrumb"> <span>Dashboard</span> <span>Ecommerce</span> </div>
+							</div>
+						</div>
+						<!-- header-title -->
+                        {% csrf_token %}
+						<div class="row row-sm paragraph-card-temp" id="paraCardTemplate">
+							<div class="col-12 top-search-box__section">
+                                <div class="fx-row card flex-box-col">
+                                	<h4 class="card-title mg-b-0">Mcq Question Bank</h4>
+                                    
+                                    <div class="fx-right grp-action-btn">
+                                    	<div class="fx-left search-box">
+	                                        <div class="search-wrapper">
+	                                            <input type="search" value="" name="search-table-query" class="form-control form-control-sm top-search-box" placeholder="Search Template">
+	                                            <button class="half-search-btn fe fe-search btn btn-sm btn-primary"></button>
+	                                        </div>
+	                                    </div>
+                                        <div class="addnew-action">
+                                            {% if Add %}
+                                                <button class="btn btn-primary rounded-10 btn-sm text-capitalize" id="addNewItem" data-effect="effect-scale" data-toggle="modal" href="#Add_subject_modal">Add New Subject</button>
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!--card list view-->
+                            <div class="col-12 card-view__container">
+                                <div class="grid-card-layout">
+                                   {% if subject %}
+                                       {% for sub in subject %}
+                                            <div class="fx-mini-card card">
+                                               
+                                                    <div class="fx-col title-field subject_name_e">
+                                                        <input type="text" name="card-id" value="{{sub.id}}" hidden readonly> 
+                                                        <input type="text" name="card-title" value="{{sub.subject_name}}" class="form-control form-control-sm disabledEditText" placeholder="add subject title" readonly>
+                                                         {% if Edit %}
+		                                                        <div class="edit-btn" data-id="{{sub.id}}" data-name="{{sub.subject_name}}"><i class="fas fa-edit"></i></div>
+		                                                    {% endif %}
+                                                    </div>
+                                                    <div class="fx-col bind-sm-row pt-3 pb-3">
+                                                        <div class="fx-left">
+                                                            <label class="tq-title text-capitalize">total question</label>
+                                                            <label class="tq-count">{{sub.id|mcqtotal_categories}}</label>
+                                                        </div>
+                                                        <div class="fx-right">
+                                                        	<a class="i_color" href="{% url 'company:preview_mcq' sub.id %}" target="_blank"><i class="fas fa-eye"></i></a>
+
+		                                                    <a class="i_color" href="{% url 'company:add_mcq' sub.id %}" target="_blank"><i class="fas fa-plus"></i></a>                                                    
+
+		                                                    {% if Delete %}
+		                                                        <div class="delete-btn"><i class="fas fa-trash-alt"></i></div>
+		                                                    {% endif %}
+		                                                </div>
+                                                    </div>
+                                                
+                                                
+                                            </div>
+
+                                        <!-- <a href="{% url 'company:add_paragraph' sub.id %}" target="_blank">
+                                            <div class="fx-mini-card card">
+                                                <div class="fx-col title-field">
+                                                    <input type="text" name="card-id" value="{{sub.id}}" hidden readonly>    
+                                                    <input type="text" name="card-title" value="{{sub.subject_name}}" class="form-control form-control-sm disabledEditText" placeholder="add subject title" readonly>
+                                                </div>
+                                                <div class="fx-col bind-sm-row">
+                                                    <div class="fx-left">
+                                                        <label class="tq-title text-capitalize">total question</label>
+                                                        <label class="tq-count">10</label>
+                                                    </div>
+                                                    <div class="fx-right">
+                                                        <div class="edit-btn" data-effect="effect-scale" data-toggle="modal" href="Edit_subject_modal"><i class="fas fa-edit"></i></div>
+                                                        <div class="delete-btn"><i class="fas fa-trash-alt"></i></div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </a> -->
+                                        {% endfor %}
+                                    {% else %}
+                                    <div class="fx-mini-card card no-data">
+                                        <label class="tq-title text-capitalize">No Data Found</label>
+                                    </div>
+                                    {% endif %}
+                                </div>
+                            </div>
+						</div>
+						
+					</div>
+					<!-- Main-content-body closed -->
+				
+
+                <!-- Basic modal Add_subject_modal -->
+                    <div class="modal" id="Add_subject_modal">
+                        <div class="modal-dialog modal-dialog-centered" role="document">
+                            <div class="modal-content modal-content-demo">
+                                <div class="modal-header">
+                                    <h6 class="modal-title">Add Subject</h6>
+                                    <button aria-label="Close" class="close" data-dismiss="modal" type="button"><span aria-hidden="true">&times;</span></button>
+                                </div>
+                                <form id="add-sub-form">
+                                    <div class="modal-body">
+                                        <div class="formgroup_textbox">
+                                            <label class="form-label">Enter Subject Name :</label>
+                                            <input class="form-control" maxlength="30" placeholder="" type="text" id="subject_name" name="subject_name" required>
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button class="btn ripple btn-primary add_Subject_list" type="submit">Add</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                <!-- End Basic modal -->
+
+                <!-- Basic modal Edit_subject_modal -->
+                    <div class="modal" id="Edit_subject_modal">
+                        <div class="modal-dialog modal-dialog-centered" role="document">
+                            <div class="modal-content modal-content-demo">
+                                <div class="modal-header">
+                                    <h6 class="modal-title">Edit Subject</h6><button aria-label="Close" class="close" data-dismiss="modal" type="button"><span aria-hidden="true">&times;</span></button>
+                                </div>
+                                <form id="edit-sub-form">
+                                    <div class="modal-body">
+                                        <div class="formgroup_textbox">
+                                            <label class="form-label">Edit Subject Name :</label>
+                                            <input class="form-control edit_subject_name" maxlength="30" placeholder="" type="text" name="edit_subject_name" required>
+                                            <input type="hidden" class="subid">
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button class="btn ripple btn-primary edit_Subject_list" type="submit">Update</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+		        <!-- End Basic modal -->
+
+
+{% endblock %}
+
+{% block script %}
+			
+        <!-- Custom js -->
+        <script src="{% static 'assets/js/custom.js' %}"></script>
+        <script>
+            function editsub(){
+                var edit_sub='{{Edit|escapejs}}'
+                return edit_sub
+                }
+
+            function deletesub(){
+                var delete_sub='{{Delete|escapejs}}'
+                return delete_sub
+                }
+        </script>
+        <script src="{% static 'assets/js/ATS/mcq_subject.js' %}"></script>
+
+		<!--- Internal Sweet-Alert js -->
+		<script src="{% static 'assets/plugins/sweet-alert/sweetalert.min.js' %}"></script>
+		<script src="{% static 'assets/plugins/sweet-alert/jquery.sweet-alert.js' %}"></script>
+				
+{% endblock %}

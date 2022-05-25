@@ -1,0 +1,326 @@
+{% extends 'company/base.html' %}
+{% load static %}
+{% load custom_filters %}
+<!-- {% load candidate_extras %} -->
+{% block title %}Daily Submission{% endblock %}
+{% load crispy_forms_tags %}
+{% block css %}
+		<!-- Bootstrap css -->
+		<!-- <link rel="stylesheet" href="{% static 'assets/plugins/bootstrap/css/bootstrap.min.css' %}"> -->
+
+		<!-- Internal Data table css -->
+		<link href="{% static 'assets/plugins/datatable/css/dataTables.bootstrap4.min.css' %}" rel="stylesheet" />
+		<link href="{% static 'assets/plugins/datatable/css/buttons.bootstrap4.min.css' %}" rel="stylesheet">
+		<link href="{% static 'assets/plugins/datatable/css/responsive.bootstrap4.min.css' %}" rel="stylesheet" />
+		<link href="{% static 'assets/plugins/datatable/css/jquery.dataTables.min.css' %}" rel="stylesheet">
+		<link href="{% static 'assets/plugins/datatable/css/responsive.dataTables.min.css' %}" rel="stylesheet">
+		<link href="{% static 'assets/plugins/select2/css/select2.min.css' %}" rel="stylesheet">
+
+
+		<link href="{% static 'assets/css/ATS/job_openings_table.css' %}" rel="stylesheet">
+		
+		<style>
+
+			.tab-menu-heading .tabs-menu .nav.panel-tabs li a.active {
+				color: #0068ff;
+			}
+			.tab-menu-heading .tabs-menu .nav.panel-tabs li a {
+				font-size: 14px;
+				color: #041b4e;
+				border-radius: 0;
+				padding: 10px 12px;
+				margin-right: 0;
+				border: none;
+				border-right: none;
+				text-transform: uppercase;
+				position: relative;
+				transition: all 0.3s ease 0s;
+				font-weight: 500;
+			}
+			.dataTables_filter {
+			   display: none;
+			}
+			.filter_date_submission{
+				margin-top: -6px;
+			}
+			.candidate_filters_header.filter_daily_submission a.add_job_link{
+				margin-left: 0;
+   				margin-right: 10px;
+			}
+			.filter_date_submission .formcontrol_date{
+				padding: 0px 10px;
+			    height: 33px;
+			    color: #596882;
+			    background-color: #ffffff;
+			    background-clip: padding-box;
+			    border: 1px solid #e2e8f5;
+			    border-radius: 10px;
+			    outline: none;
+			}
+			.filter_date_submission a.add_job_link{
+				margin-left: 0;
+   				margin-right: 10px;
+			}
+			.daily_submission_apply{
+				background: #007bff;
+			    color: #fff;
+			    border-radius: 10px;
+			    padding: 6px 14px;
+			    border: none;
+			    outline: none;
+			}
+			td.ui-datepicker-unselectable.ui-state-disabled {
+		    	opacity: .35;
+			}
+			.ui-datepicker{
+				z-index: 1 !important;
+			}
+			.btn_daily_table_list{
+				background: #007bff;
+			    color: #fff;
+			    border-radius: 10px;
+			    padding: 3px 10px;
+			    border: none;
+			    outline: none;
+			    text-transform: capitalize;
+			    line-height: 19px;
+			}
+		</style>
+		
+
+{% endblock %}
+{% block main %}
+
+				<!-- Main-content-body -->
+					<div class="main-content-body">
+
+						<div class="row row-sm">
+							<div class="col-xl-12">
+								<div class="card job_openings_table">
+									<div class="card-header pb-0">
+										<div class="d-flex justify-content-between">
+											<h4 class="card-title mg-b-0">Candidate</h4>
+											<div class="candidate_right_filters_section">
+												<div class="candidate_filters_header add_job_btn filter_daily_submission">	
+															<a class="add_job_link" href="{% url 'company:daily_submission' 'today' %}">Today</a>	
+															<a class="add_job_link" href="{% url 'company:daily_submission' 'yesterday' %}">Yesterday</a>	
+															<a class="add_job_link" href="{% url 'company:daily_submission' 'this_week' %}">This Week</a>	
+															<a class="add_job_link" href="{% url 'company:daily_submission' 'this_month' %}">This Month</a>	
+												</div>
+												<div class="candidate_filters_header add_job_btn filter_date_submission">
+													    <form method="GET" action="{% url 'company:daily_submission' 'custom'%}">	
+													    	<label class="form-control-label" style="font-weight: 500;">From:</label>
+															<input readonly="readonly" class="formcontrol_date" id="from_date_filter" type="text" name="from" placeholder="yyyy/mm/dd">
+
+															<label class="form-control-label" style="font-weight: 500;">To:</label>
+															<input readonly="readonly" class="formcontrol_date" id="to_date_filter" type="text" name="to" placeholder="yyyy/mm/dd">
+															
+															<input class="daily_submission_apply" type="submit" value="Apply">	
+													    </form>
+												</div>
+												<div class="candidate_filters_header add_job_btn">	
+													<a class="add_job_link" href="{% url 'company:internal_candidate_basic_detail' %}">Add Candidate</a>	
+												</div>
+												<!-- <div class="candidate_filters_header filterjob">
+													<a href="javascript:void(0)" id="candidatefilter"><i class="fas fa-filter"></i></a>
+													<div id="showfilter" class="filterform" style="display: none;">
+														<div class="row">
+															<div class="col-12">
+																<div class="card card-body">
+														
+														
+																</div>
+															</div>
+															
+														</div>
+													</div>
+												</div> -->
+											</div>
+										</div>
+									</div>
+
+									
+									<div class="panel-body p-0">
+										<div class="tab-content connection_req">
+
+											<div class="tab-pane active">
+												<div class="card-body">
+													<div class="table-responsive">
+														<table class="table text-md-nowrap candidate_table"  data-ordering="false" id="jobopening">
+															<thead>
+																<tr>
+																	<!--<th class="circle_plush_icon"><a href="javascript:void(0)"><i class="fas fa-plus-circle"></i></a></th>-->
+																	
+																	<th class="border-bottom-0">Name</th>
+                                                                    <th class="border-bottom-0">Applied job</th>
+                                                                    <th class="border-bottom-0">submitted by</th>
+																	<th class="border-bottom-0">Designation</th>
+																	<th class="border-bottom-0">experience</th>
+																	<th class="border-bottom-0">ex-salary</th>
+																	
+																	<th class="border-bottom-0">Notice period</th>
+																	<th class="border-bottom-0">City</th>
+																	
+																	<th class="border-bottom-0">Action</th>
+																</tr>
+																
+															</thead>
+															<tbody>
+																{% for candidate in candidates %}
+																
+																<tr>
+																<form method="POST" action="{% url 'company:daily_submission' %}">
+																	{% csrf_token %}
+																	<td hidden>
+																	
+																	<td class="text-capitalize"><a href="#">{{candidate.candidate.first_name}} {{candidate.candidate.last_name}}</a></td>
+                                                                    <td class="text-capitalize">
+                                                                        {{candidate.candidate.company_job_id.job_title}}
+                                                                    </td>
+                                                                    <td class="text-capitalize">Codefaktory</td>
+
+																	<td class="text-capitalize">{{candidate.candidate.designation}}</td>
+																	<td class="text-capitalize">{{candidate.candidate.total_exper|experiance_show}}</td>
+																	<td class="text-capitalize">{{candidate.candidate.expectedctc}}</td>
+																	<td class="text-capitalize">{{candidate.candidate.notice.notice_period}}</td>
+																	<td class="text-capitalize">{{candidate.candidate.current_city.city_name}}</td>
+																	
+																	
+																	
+																		{% if candidate.candidate.verify %}
+																		{% if candidate.candidate.verified %}
+																			{% if candidate.candidate.applied %}
+																				{% if candidate.get_job.is_application_review %}
+																					{%for i in candidate.candidate_stage %}
+																					{% ifequal i.stage.name 'Application Review' %}
+																						{% ifequal i.status 2 %}
+																							<td class="text-capitalize"><input type="submit" name="Withdraw" value="Withdraw" class="btn_daily_table_list"></td>
+																						{% else %}
+																						<td class="text-capitalize">
+																							<input type="text" hidden readonly value="{{candidate.candidate.candidate_id.id}}" name="candidateid">
+																							<input type="text" hidden readonly value="{{candidate.candidate.company_job_id.id}}" name="jobid">
+																							<input type="text" hidden readonly value="{{i.id}}" name="stage_id">
+																							<input type="submit" name="shortlist" value="shortlist" class="btn_daily_table_list">
+																							<input type="submit" name="reject" value="reject" class="btn_daily_table_list"></td>
+																						{% endifequal %}
+																					{% endifequal %}
+																					{% endfor %}
+																				{% else %}
+																					<td class="text-capitalize"><input type="submit" name="Withdraw" value="Withdraw" class="btn_daily_table_list"></td>
+																				{% endif %}
+																			{% else %}
+																				<td class="text-capitalize"><input type="submit" name="Submit" value="submit" class="btn_daily_table_list"></td>
+																			{% endif %}
+																		{% else %}
+																		<td class="text-capitalize">pending verification</td>
+																		{% endif %}
+																	{% else %}
+																		{% if candidate.candidate.applied %}
+																			{% if candidate.get_job.is_application_review %}
+																				{%for i in candidate.candidate_stage %}
+																					{% ifequal i.stage.name 'Application Review' %}
+																					
+																						<td class="text-capitalize">
+																						<input type="text" hidden readonly value="{{candidate.candidate.candidate_id.id}}" name="candidateid">
+																						<input type="text" hidden readonly value="{{candidate.candidate.company_job_id.id}}" name="jobid">
+																						<input type="text" hidden readonly value="{{i.id}}" name="stage_id">
+																						<input type="submit" name="shortlist" value="shortlist" class="btn_daily_table_list">
+																						<input type="submit" name="reject" value="reject" class="btn_daily_table_list"></td>
+																				
+																					{% endifequal %}
+																				{% endfor %}
+																			{% else %}
+																				<td class="text-capitalize"><input type="submit" name="Withdraw" value="Withdraw" class="btn_daily_table_list"></td>
+																			{% endif %}
+																	
+																		{% else %}
+																			<td class="text-capitalize"><input type="submit" name="Submit" value="submit" class="btn_daily_table_list"></td>
+																		{% endif %}
+																	{% endif %}
+																	
+																</form>
+																</tr>
+															{% endfor %}
+															</tbody>
+														</table>
+													</div>
+												</div>
+											</div>
+                                            
+											
+
+										</div>
+									</div>
+
+								</div>
+							</div>
+							<!--/div-->
+					
+						</div>
+						<!-- /row -->
+					</div>
+					<!-- Main-content-body closed -->	
+				
+{% endblock %}
+{% block script %}
+
+		<!-- Internal Data tables -->
+		<script src="{% static 'assets/plugins/datatable/js/jquery.dataTables.min.js' %}"></script>
+		<script src="{% static 'assets/plugins/datatable/js/dataTables.dataTables.min.js' %}"></script>
+		<script src="{% static 'assets/plugins/datatable/js/dataTables.responsive.min.js' %}"></script>
+		<script src="{% static 'assets/plugins/datatable/js/responsive.dataTables.min.js' %}"></script>
+		<script src="{% static 'assets/plugins/datatable/js/jquery.dataTables.js' %}"></script>
+		<script src="{% static 'assets/plugins/datatable/js/dataTables.bootstrap4.js' %}"></script>
+		<script src="{% static 'assets/plugins/datatable/js/dataTables.buttons.min.js' %}"></script>
+		<script src="{% static 'assets/plugins/datatable/js/buttons.bootstrap4.min.js' %}"></script>
+		<script src="{% static 'assets/plugins/datatable/js/jszip.min.js' %}"></script>
+		<script src="{% static 'assets/plugins/datatable/js/pdfmake.min.js' %}"></script>
+		<script src="{% static 'assets/plugins/datatable/js/vfs_fonts.js' %}"></script>
+		<script src="{% static 'assets/plugins/datatable/js/buttons.html5.min.js' %}"></script>
+		<script src="{% static 'assets/plugins/datatable/js/buttons.print.min.js' %}"></script>
+		<script src="{% static 'assets/plugins/datatable/js/buttons.colVis.min.js' %}"></script>
+		<script src="{% static 'assets/plugins/datatable/js/dataTables.responsive.min.js' %}"></script>
+		<script src="{% static 'assets/plugins/datatable/js/responsive.bootstrap4.min.js' %}"></script>
+
+		<!-- datatable js -->
+		<script src="{% static 'assets/js/table-data.js' %}"></script>
+		<!--Internal  Clipboard js-->
+		<script src="{% static 'assets/plugins/clipboard/clipboard.min.js' %}"></script>
+		<script src="{% static 'assets/plugins/clipboard/clipboard.js' %}"></script>
+		<script>
+		   
+		 
+		    $( "#from_date_filter" ).datepicker({ 
+				maxDate: new Date(),				
+				altFormat: "yy-mm-dd", 
+				dateFormat: 'yy-mm-dd',
+				beforeShow : function()
+				{
+					$('#to_date_filter').datepicker('setDate', null);	
+				//	jQuery( this ).datepicker('option','minDate', jQuery('#to_date_filter').val() );
+				} 
+								
+			});
+			
+
+			$( "#to_date_filter" ).datepicker({
+				maxDate: new Date(), 
+				beforeShow : function()
+				{
+					jQuery( this ).datepicker('option','minDate', jQuery('#from_date_filter').val() );
+				} , 
+				altFormat: "yy-mm-dd", 
+				dateFormat: 'yy-mm-dd',
+				
+			});
+
+
+		</script>
+		<script>
+			function myFunction(candidate) {
+				var jobid=$('#jobs_'+candidate).val()
+			  	console.log(candidate,jobid)
+			}
+			</script>
+		
+{% endblock %}

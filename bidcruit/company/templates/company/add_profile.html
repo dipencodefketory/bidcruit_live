@@ -1,0 +1,486 @@
+{% extends 'company/base.html' %}
+{% load static %}
+{% load custom_filters %}
+{% block title %}Add Company Profile{% endblock %}
+{% block css %}
+<!--		&lt;!&ndash; Select2 css &ndash;&gt;-->
+		<link href="{% static 'assets/plugins/select2/css/select2.min.css' %}" rel="stylesheet">
+        <link href="{% static 'assets/plugins/fileuploads/css/fileupload.css' %}" rel="stylesheet" type="text/css"/>
+        <link href="{% static 'assets/css/ATS/company_profile_form.css' %}" rel="stylesheet" type="text/css"/>
+{% endblock %}
+		{% block main %}
+            {% if profile_already_exists %}
+                <div class="container-fluid">
+                    <div class="main-content-body edit-profile-wrap">
+                        <div class="row row-sm">
+                            <div class="col-md-12 col-xl-12 col-lg-12">
+                                <div class="card">
+                                    
+                                    <form class="form-horizontal" action="{% url 'company:update_profile' profile_already_exists.id %}" method="POST" enctype="multipart/form-data">
+                                        {% csrf_token %}
+                                        
+                                        <div class="card-body">
+                                            
+                                            <div class="custom-form custom-form-company">
+                                                <div class="row row-sm">
+                                                    <div class=" col-lg-4 col-sm-12 col-xs-12 mb-2">
+                                                        <label class="form-control-label">Company Name: <span
+                                                                class="tx-danger">*</span></label>
+                                                        <input class="form-control"
+                                                            name="company_name" readonly
+                                                            required="" type="text" value="{{request.user.company_name}}">
+                                                    </div>
+                                                    <div class=" col-lg-4 col-sm-12 col-xs-12 mb-2">
+                                                        <label class="form-control-label">Universal Name: <span
+                                                                class="tx-danger">*</span></label> <input class="form-control" name="universal_name" placeholder=""
+                                                            required="" value="{{ profile_already_exists.universal_Name}}" type="text">
+                                                    </div>
+                                                    <div class=" col-lg-4 col-sm-12 col-xs-12 mb-2">
+                                                        <label class="form-control-label">Contact Email : <span
+                                                                class="tx-danger">*</span></label>
+                                                        <input class="form-control" name="contact-email"
+                                                            required="" type="text" value="{{profile_already_exists.contact_email}}">
+                                                    </div>
+                                                </div>
+                                               <div class="row row-sm">
+                                                    <div class=" col-lg-4 col-sm-12 col-xs-12 mb-2">
+                                                        <label class="form-control-label">Company Type : <span
+                                                            class="tx-danger">*</span></label>
+                                                        <select class="form-control select2" name="company_type" required>
+                                                            <option label="Choose one" disabled></option>
+                                                            {% for value, companytype in company_type_ %}
+                                                                <option value="{{value}}" {% ifequal value  profile_already_exists.compnay_type %} selected {% endifequal %}>{{companytype}}</option>
+                                                            {% endfor %}
+                                                        </select>
+                                                    </div>
+                                                    <div class="col-lg-4 col-sm-12 col-xs-12 mb-2">
+                                                        <label class="form-control-label">Website Url : <span
+                                                                class="tx-danger">*</span></label>
+                                                        <input class="form-control" name="websitename"
+                                                            required="" readonly type="text" value="{{request.user.website}}">
+                                                    </div>
+                                                    <div class=" col-lg-4 col-sm-12 col-xs-12 mb-2">
+                                                        <label class="form-control-label">Industrial Type : <span
+                                                                class="tx-danger">*</span></label>
+                                                        <select class="form-control select2" name="industrial_type" required>
+                                                            <option label="Select One" disabled></option>
+                                                                {% for industrytypes in industrytype %}
+                                                                    <option value="{{industrytypes.id}}" {% ifequal industrytypes.id  profile_already_exists.industry_type.id %} selected {% endifequal %}>{{industrytypes.name}}</option>
+                                                                {% endfor %}
+                                                        </select>
+                                                    </div>
+                                               </div>
+
+                                                <div class="row row-sm">
+                                                    <div class="col-md-4 col-lg-4 col-sm-12 mb-2">
+                                                        <label class="form-control-label">Employee Count <span
+                                                                class="tx-danger">*</span></label>
+                                                        <select class="form-control select2" name="employeecount" required>
+                                                            <option label="Choose one" disabled></option>
+                                                            {% for value,employeecount in employee_count_ %}
+                                                                    <option value="{{value}}" {% ifequal  value profile_already_exists.employee_count %} selected {% endifequal %}>
+                                                                        {{employeecount}}</option>
+                                                            {% endfor %}
+                                                        </select>
+                                                    </div>
+                                                    <div class="col-md-4 col-lg-4 col-sm-12 mb-2">
+                                                         <div class="mg-t-10 mg-sm-t-0">
+                                                            <div class="control-group form-group">
+                                                                <label class="form-control-label">logo:</label>
+                                                                <div class="add-inputfile-border">
+                                                                    <input  type="file" name="logo" accept="image/*" class="dropify" value="{{profile_already_exists.company_logo}}" data-default-file="{{profile_already_exists.company_logo.url}}"   data-height="100">
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-4 col-lg-4 col-sm-12 mb-2">
+                                                         <div class="mg-t-10 mg-sm-t-0">
+                                                            <div class="control-group form-group">
+                                                                <label class="form-control-label">Background Image:</label>
+                                                                <div class="add-inputfile-border">
+                                                                    <input  type="file" name="bg" accept="image/*" value="{{profile_already_exists.company_bg}}" class="dropify" data-default-file="{{profile_already_exists.company_bg.url}}"   data-height="100">
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+                                                <div class="row row-sm">
+                                                    <div class="col-lg-3 col-sm-6 col-xs-12 mb-2">
+                                                        <label class="form-control-label">Specialty : <span
+                                                            class="tx-danger">*</span></label>
+                                                        <select class="form-control skill-selector specialties"
+																								name="specialties"
+																								multiple="multiple" required>
+																	{% for i in profile_already_exists.speciality|get_spaciility_split %}
+																		<option selected>{{i}}</option>
+																	{% endfor %}
+																</select>
+                                                    </div>
+                                                        <div class="col-lg-6 col-sm-6 col-xs-12 mb-2">
+                                                            <label class="form-control-label">About Us : <span
+                                                                class="tx-danger">*</span></label>
+                                                            <textarea rows="3" cols="7" class="aboutus_text_c" maxlength="500" name="aboutus" required>{{profile_already_exists.aboutus}}</textarea>
+                                                        </div>
+                                                   
+
+                                                </div>
+                                                <div class="row row-sm">
+                                                    <div class="col-lg-3 col-sm-6 col-xs-12 mb-2">
+                                                        <label class="form-control-label">Country: <span
+                                                                class="tx-danger">*</span></label>
+                                                        <select class="form-control select2 " required onChange="getState(this.value)" name="country">
+                                                            <option label="Choose one"></option>
+                                                            {% for countrys in country %}
+                                                                <option value="{{countrys.id}}" {% ifequal countrys.id profile_already_exists.country.id %} selected {% endifequal %}>{{countrys.country_name}}</option>
+                                                            {% endfor %}
+                                                        </select>
+                                                    </div>
+                                                    <div class="col-lg-3 col-sm-6 col-xs-12 mb-2">
+                                                        <label class="form-control-label">State: <span
+                                                                class="tx-danger">*</span></label>
+                                                        <div id="statediv">
+                                                            <select class="form-control select2" id="c_state" name="state" required>
+                                                                {% if profile_already_exists.state %}
+                                                                    <option value="{{profile_already_exists.state.id}}" >{{profile_already_exists.state.state_name}}</option>
+                                                                {% else %}
+                                                                    <option label="Choose one"></option>
+                                                                {% endif %}
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-lg-3 col-sm-6 col-xs-12 mb-2">
+                                                        <label class="form-control-label">City: <span
+                                                                class="tx-danger">*</span></label>
+                                                        <div id="citydiv">
+                                                            <select class="form-control select2" name="city" required>
+
+                                                               {% if profile_already_exists.city %}
+                                                                    <option value="{{profile_already_exists.city.id}}" >{{profile_already_exists.city.city_name}}</option>
+                                                                {% else %}
+                                                                <option label="Choose one" disabled></option>
+                                                                {% endif %}
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-lg-3 col-sm-6 col-xs-12 mb-2">
+                                                        <label class="form-control-label">Address : <span
+                                                                class="tx-danger">*</span></label>
+                                                        <input class="form-control" maxlength="255"  name="address"  value="{{profile_already_exists.address}}"
+                                                            placeholder="Address" required="">
+                                                    </div>
+                                                </div>
+
+                                                <div class="row row-sm">
+                                                    <div class=" col-lg-3 col-sm-6 col-xs-12 mb-2">
+                                                        <label class="form-control-label">Zip Code: <span
+                                                                class="tx-danger">*</span></label>
+                                                        <input class="form-control" name="zipcode"
+                                                            required="" type="text" value="{{profile_already_exists.zip_code}}">
+                                                    </div>
+                                                    <div class="col-lg-3 col-sm-6 col-xs-12 mb-2">
+                                                        <label class="form-control-label">Founded Year: <span
+                                                                class="tx-danger">*</span></label>
+                                                        <select class="form-control" name="foundedyear" required="">
+                                                            <option label="Choose one"></option>
+                                                                {% for year in founded_years %}
+                                                                    <option value="{{year}}" {% ifequal year profile_already_exists.founded_year %} selected {% endifequal %}>{{year}}</option>
+                                                                {% endfor %}
+                                                        </select>
+                                                    </div>
+                                                    <div class="col-lg-3 col-sm-6 col-xs-12 mb-2">
+                                                        <label class="form-control-label">Contact Number: <span
+                                                                class="tx-danger">*</span></label>
+                                                        <input class="form-control" name="contactno1"
+                                                            placeholder="" required="" type="text" value="{{profile_already_exists.contact_no1}}" maxlength="10">
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="card-footer">
+                                            <button type="submit" class="btn btn-primary waves-effect waves-light">Save</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% else %}
+                <div class="container-fluid">
+                    <div class="main-content-body edit-profile-wrap">
+                        <div class="row row-sm">
+                            <div class="col-md-12 col-xl-12 col-lg-12">
+                                <div class="card">
+                                    <form class="form-horizontal" action="{% url 'company:add_edit_profile' %}" method="POST" enctype="multipart/form-data">
+                                        {% csrf_token %}
+                                        <div class="card-body">
+                                            <h3>Admin Profile</h3>
+                                            <div class="border_line"></div>
+                                            <div class="custom-form custom-form-company">
+                                                <div class="row row-sm">
+                                                    <div class=" col-lg-4 col-sm-12 col-xs-12 mb-2">
+                                                    
+                                                        <label class="form-control-label">First Name: <span
+                                                                class="tx-danger">*</span></label>
+                                                        <input class="form-control"
+                                                            name="first_name"
+                                                            required="" type="text" maxlength="20" value="{{admin_user.first_name}}">
+                                                    </div>
+                                                    <div class=" col-lg-4 col-sm-12 col-xs-12 mb-2">
+                                                        <label class="form-control-label">Last Name: <span
+                                                                class="tx-danger">*</span></label>
+                                                        <input class="form-control"
+                                                            name="last_name"
+                                                            required="" type="text" maxlength="20" value="{{admin_user.last_name}}">
+                                                    </div>
+                                                    <div class=" col-lg-4 col-sm-12 col-xs-12 mb-2">
+                                                        <label class="form-control-label">Working Email : <span
+                                                                class="tx-danger">*</span></label>
+                                                        <input class="form-control" readonly name="email"
+                                                            required="" type="text" value="{{request.user.email}}">
+                                                    </div>
+                                                </div>
+                                               <div class="row row-sm">
+                                                    <div class=" col-lg-4 col-sm-12 col-xs-12 mb-2">
+                                                        <label class="form-control-label">Department : <span
+                                                            class="tx-danger">*</span></label>
+                                                        <select class="form-control select2" name="department" required>
+                                                            <option label="Choose one" disabled></option>
+                                                            {% for value in departments %}
+                                                                <option value="{{value.id}}" {% ifequal value.id  admin_user.department.id %} selected {% endifequal %}>{{value.name}}</option>
+                                                            {% endfor %}
+                                                        </select>
+                                                    </div>
+                                                    <div class=" col-lg-4 col-sm-12 col-xs-12 mb-2">
+                                                        <label class="form-control-label">Role : <span
+                                                                class="tx-danger">*</span></label>
+                                                       <select class="form-control select2" name="role" required>
+                                                            <option label="Choose one" disabled></option>
+                                                            {% for value in role %}
+                                                                <option value="{{value.id}}" {% ifequal value.id  admin_user.role.id %} selected {% endifequal %}>{{value.name}}</option>
+                                                            {% endfor %}
+                                                        </select>
+                                                    </div>
+                                                    <div class="col-lg-4 col-sm-6 col-xs-12 mb-2">
+                                                        <label class="form-control-label">Admin Contact Number:</label>
+                                                        <input class="form-control" name="user_contactno"
+                                                            placeholder=""   type="text" value="{{admin_user.contact_num}}" maxlength="10" required>
+                                                    </div>
+                                               </div>                                     
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="card-body">
+                                            <h3>Company Profile</h3>
+                                            <div class="custom-form custom-form-company">
+                                                <div class="row row-sm">
+                                                    <div class=" col-lg-4 col-sm-12 col-xs-12 mb-2">
+                                                        <label class="form-control-label">Company Name: <span
+                                                                class="tx-danger">*</span></label>
+                                                        <input class="form-control"
+                                                            name="company_name" readonly
+                                                            required="" type="text" value="{{request.user.company_name}}">
+                                                    </div>
+                                                    <div class=" col-lg-4 col-sm-12 col-xs-12 mb-2">
+                                                        <label class="form-control-label">Universal Name: <span
+                                                                class="tx-danger">*</span></label> <input class="form-control" name="universal_name" placeholder=""
+                                                            required="" type="text">
+                                                    </div>
+                                                     <div class=" col-lg-4 col-sm-12 col-xs-12 mb-2">
+                                                        <label class="form-control-label">Contact Email : <span
+                                                                class="tx-danger">*</span></label>
+                                                        <input class="form-control" name="contact-email"
+                                                            required="" type="text" value="{{profile_already_exists.contact_email}}">
+                                                    </div>
+                                               
+                                                </div>
+                                               <div class="row row-sm">
+                                                    <div class=" col-lg-4 col-sm-12 col-xs-12 mb-2">
+                                                        <label class="form-control-label">Company Type : <span
+                                                            class="tx-danger">*</span></label>
+                                                        <select class="form-control select2" name="company_type" required>
+                                                            <option label="Choose one"></option>
+                                                            {% for value, companytype in company_type_ %}
+                                                                <option value="{{value}}">{{companytype}}</option>
+                                                            {% endfor %}
+                                                        </select>
+                                                    </div>
+                                                    <div class="col-lg-4 col-sm-12 col-xs-12 mb-2">
+                                                        <label class="form-control-label">Website Url : <span
+                                                                class="tx-danger">*</span></label>
+                                                        <input class="form-control" name="websitename"
+                                                            required="" readonly type="text" value="{{request.user.website}}">
+                                                    </div>
+                                                    <div class=" col-lg-4 col-sm-12 col-xs-12 mb-2">
+                                                        <label class="form-control-label">Industrial Type : <span
+                                                                class="tx-danger">*</span></label>
+                                                        <select class="form-control select2" name="industrial_type" required>
+                                                            <option label="Select One" disabled></option>
+                                                                {% for industrytypes in industrytype %}
+                                                                    <option value="{{industrytypes.id}}">{{industrytypes.name}}</option>
+                                                                {% endfor %}
+                                                        </select>
+                                                    </div>
+                                               </div>
+
+                                                <div class="row row-sm">
+                                                    <div class="col-md-4 col-lg-4 col-sm-12 mb-2">
+                                                        <label class="form-control-label">Employee Count <span
+                                                                class="tx-danger">*</span></label>
+                                                        <select class="form-control select2" name="employeecount" required>
+                                                            <option label="Choose one"></option>
+                                                            {% for value, employeecount in employee_count_ %}
+                                                                    <option value="{{value}}">{{employeecount}}</option>
+                                                            {% endfor %}
+                                                        </select>
+                                                    </div>
+                                                    <div class="col-md-4 col-lg-4 col-sm-12 mb-2">
+                                                        <div class="mg-t-10 mg-sm-t-0">
+                                                            <div class="control-group form-group">
+                                                                <label class="form-control-label">logo:</label>
+                                                                <div class="add-inputfile-border">
+                                                                    <input type="file" required name="logo" accept="image/*" class="dropify"  data-height="100">
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-4 col-lg-4 col-sm-12 mb-2">
+                                                         <div class="mg-t-10 mg-sm-t-0">
+                                                            <div class="control-group form-group">
+                                                                <label class="form-control-label">Background Image:</label>
+                                                                <div class="add-inputfile-border">
+                                                                    <input  type="file" name="bg" required accept="image/*" value="" class="dropify" data-default-file="{{profile_already_exists.company_bg.url}}"   data-height="100">
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col-md-4 col-lg-4 col-sm-12 mb-2">
+                                                        <label class="form-control-label">Specialty : <span
+                                                            class="tx-danger">*</span></label>
+                                                        <select class="form-control skill-selector specialties"
+                                                                                                name="specialties" value=""
+                                                                                                multiple="multiple" required>
+                                                                        <option></option>
+
+                                                                </select>
+                                                    </div>
+                                                     <div class="col-lg-6 col-sm-6 col-xs-12 mb-2">
+                                                            <label class="form-control-label">About Us : <span
+                                                                class="tx-danger">*</span></label>
+                                                            <textarea rows="3" maxlength="500" class="aboutus_text_c" name="aboutus" required>{{profile_already_exists.aboutus}}</textarea>
+                                                        </div>
+                                                </div>
+                                                <div class="row row-sm">
+                                                    <div class="col-lg-3 col-sm-6 col-xs-12 mb-2">
+                                                        <label class="form-control-label">Country: <span
+                                                                class="tx-danger">*</span></label>
+                                                        <select class="form-control select2" onChange="getState(this.value)" name="country" required>
+                                                            <option label="Choose one"></option>
+                                                            {% for countrys in country %}
+                                                                <option value="{{countrys.id}}" >{{countrys.country_name}}</option>
+                                                            {% endfor %}
+                                                        </select>
+                                                    </div>
+                                                    <div class="col-lg-3 col-sm-6 col-xs-12 mb-2">
+                                                        <label class="form-control-label">State: <span
+                                                                class="tx-danger">*</span></label>
+                                                        <div id="statediv">
+                                                            <select class="form-control select2" id="c_state" name="state" required>
+                                                                <option label="Choose one"></option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-lg-3 col-sm-6 col-xs-12 mb-2">
+                                                        <label class="form-control-label">City: <span
+                                                                class="tx-danger">*</span></label>
+                                                        <div id="citydiv">
+                                                            <select class="form-control select2" name="city" required>
+                                                                <option label="Choose one"></option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-lg-3 col-sm-6 col-xs-12 mb-2">
+                                                        <label class="form-control-label">Address : <span
+                                                                class="tx-danger">*</span></label>
+                                                        <input class="form-control" maxlength="255"  name="address" value=""
+                                                            placeholder="Address" required="">
+                                                    </div>
+
+                                                </div>
+
+                                                <div class="row row-sm">
+                                                    <div class=" col-lg-3 col-sm-6 col-xs-12 mb-2">
+                                                        <label class="form-control-label">Zip Code: <span
+                                                                class="tx-danger">*</span></label>
+                                                        <input class="form-control" name="zipcode"
+                                                            required="" type="text">
+                                                    </div>
+                                                    <div class="col-lg-3 col-sm-6 col-xs-12 mb-2">
+                                                        <label class="form-control-label">Founded Year: <span
+                                                                class="tx-danger">*</span></label>
+                                                        <input class="form-control" name="foundedyear" required="" type="text">
+                                                    </div>
+                                                    <div class="col-lg-3 col-sm-6 col-xs-12 mb-2">
+                                                        <label class="form-control-label">Contact Number: <span
+                                                                class="tx-danger">*</span></label>
+                                                        <input class="form-control" name="contactno1"
+                                                            placeholder="" maxlength="10" required="" type="text">
+                                                    </div>
+
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                        <div class="card-footer">
+                                            <button type="submit" class="btn btn-primary waves-effect waves-light">Save</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endif %}
+		{% endblock %}
+
+{% block script %}
+	<!-- Select2.min js -->
+	<script src="{% static 'assets/plugins/fileuploads/js/fileupload.js' %}"></script>
+	<script src="{% static 'assets/plugins/fileuploads/js/file-upload.js' %}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+	<script src="{% static 'assets/js/main.js' %}"></script>
+
+<script>
+		$(document).ready(function(){
+                $('.specialties').select2({
+                    placeholder: "Add Specialties",
+
+					 tags:true,
+					 createTag: function (params) {
+						return {
+							id: params.term,
+							text: params.term,
+							newOption: true,
+						}
+					 },
+					templateResult: function (data) {
+						var $result = $("<span></span>");
+						$result.text(data.text);
+						if (data.newOption) {
+							$result.append(" <em>(new)</em>");
+						}
+						return $result;
+					},
+					minimumInputLength: 1
+				});
+
+
+            })
+
+            
+		</script>
+{% endblock %}
+

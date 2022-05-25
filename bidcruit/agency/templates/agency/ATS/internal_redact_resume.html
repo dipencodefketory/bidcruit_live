@@ -1,0 +1,634 @@
+
+{% extends 'agency/base.html' %}
+{% load static %}
+{% load agency_filter %}
+{% block title %}Secure Resume{% endblock %}
+{% block css %}
+<meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.0.943/pdf.min.js"></script>
+    <script type="text/javascript" src="http://code.jquery.com/jquery.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jspdf/1.4.1/jspdf.min.js"></script>
+    
+    
+    
+    
+    <script>
+    
+        var rectangle_co_ordinates = []
+        var fill_color = "black" //default black 
+        var undo_buffer = []
+        var redo_buffer = []
+    
+    
+        class CanvasSquare {
+        constructor(page_num,startX, startY,width,height,canvas_fill_color) {
+          this.page_num = page_num;
+          this.startX = startX;
+          this.startY = startY;
+          this.width = width;
+          this.height = height;
+          this.canvas_fill_color = canvas_fill_color;
+        }
+      }
+    $(function(){
+    
+    
+    
+      
+      // var save  = document.getElementById("save")
+      // var save  =document.getElementsByName("save");
+
+      $(".save_button").click(function(){
+      // only jpeg is supported by jsPDF
+      // console.log("download called")
+      // $("#canvas").remove()
+      
+      // var pdf_canvas = document.getElementById("canvas-pdf")
+      // var pdf_ctx=pdf_canvas.getContext("2d");
+      
+      var pages = my_pdf.numPages
+      // console.log("pdf canvas",pdf_canvas)
+      // console.log("the rect arry",rectangle_co_ordinates)
+      //drawing on preview canvas 
+      var doc = new jsPDF();
+      var position = 0
+    
+      for (var count=0;count<rectangle_co_ordinates.length;count++)
+      {
+            var cur_box = rectangle_co_ordinates[count]
+            var current_canvas = document.querySelector("#pdf-page-canvas-"+cur_box.page_num)
+    
+            var ctx = current_canvas.getContext("2d")
+            ctx.fillStyle = cur_box.canvas_fill_color
+            // ctx.fillRect(cur_box[0],cur_box[1],cur_box[2],cur_box[3]);            
+            ctx.fillRect(cur_box.startX,cur_box.startY,cur_box.width,cur_box.height);
+    
+    
+      }
+      for(var page_num=1;page_num<=pages;page_num++)
+        {    
+    
+          position +=10
+          var current_canvas = document.querySelector("#pdf-page-canvas-"+page_num)
+          var imgData = current_canvas.toDataURL("image/jpeg", 1.0);      
+          var doc_width =  doc.internal.pageSize.getWidth();
+          var doc_heigth =  doc.internal.pageSize.getHeight();   
+          $(current_canvas).remove()
+          doc.addImage(imgData, 'JPEG', 0, position,doc_width,doc_heigth);
+    
+          if(page_num!=pages)
+          {
+            doc.addPage() 
+          }
+          
+          // position += doc_heigth
+          
+    
+        }
+    
+      var pdf_blob = doc.output()
+        ajaxLoader(true)
+        $.ajax({
+            url:'/agency/internal_save_redacted_resume/' + '{{internal_candidate.id}}/',
+            method:"POST",
+            headers: {'X-CSRFToken': $("input[name=csrfmiddlewaretoken]").val() },
+            contentType: 'application/json; charset=UTF-8',
+            processData: false,
+            contentType: false,
+            data:JSON.stringify({"pdf_blob":btoa(pdf_blob)})
+        }).done(function(response){
+            ajaxLoader(false)
+            window.location.replace("/agency/daily_submission/")
+            
+        })
+
+
+        
+
+    //   doc.save("download.pdf");//this line is for download
+    }); 
+    
+    // const c = document.querySelector("#canvas-pdf")
+    // c.addEventListener('click', e => {
+    //     console.log("called")
+    //     if (c.classList.contains('disabled')) { return }
+    //     // Do not perform default action, stop bubbling the event
+        
+    //     e.preventDefault();e.stopPropagation()
+    
+    //     // Mark event as invalid for older browsers
+    //     return false
+    // })
+    
+    
+    
+    // function render() {
+    //             myState.pdf.getPage(myState.currentPage).then((page) => {
+             
+    //                 var cover_canvas = document.getElementById("canvas");
+    
+    //                 var canvas = document.getElementById("canvas-pdf");
+    //                 var ctx = canvas.getContext('2d');
+         
+    //                 var viewport = page.getViewport(myState.zoom);
+    
+    
+    //                 canvas.width = viewport.width;
+    //                 canvas.height = viewport.height;
+                
+    //                 cover_canvas.width = viewport.width
+    //                 cover_canvas.height = viewport.height
+    
+    //                 page.render({
+    //                     canvasContext: ctx,
+    //                     viewport: viewport
+    //                 });
+    //             });
+    //         }
+    
+    var my_pdf = null
+    var scale = 1;
+    
+    function renderPage(pageNumber, canvas,cover_canvas) {
+    
+              console.log("my pdf is",my_pdf.numPages)
+              my_pdf.getPage(pageNumber).then(function(page) {
+              viewport = page.getViewport(1);
+              console.log("the viewport is",viewport)
+              
+              canvas.height = viewport.height;
+              canvas.width = viewport.width;          
+    
+              cover_canvas.width = viewport.width
+              cover_canvas.height = viewport.height
+              console.log("width",viewport.width)
+              page.render({canvasContext: canvas.getContext('2d'), viewport: viewport});
+        });
+      }
+    
+    
+      
+      var myState = {
+            pdf: null,
+            currentPage: 1,
+            zoom: 1
+        }
+     
+        // more code here
+        //pdfjslib
+        pdfjsLib.getDocument('{{internal_candidate.resume.url|image_path_remove}}').then((pdf) => {
+     
+     // more code here
+         my_pdf = pdf
+         page_numbers = pdf.numPages
+    
+    
+        //  for(var i=1;i<=page_numbers;i++)
+        //  {
+        //   rectangle_co_ordinates[i] = []
+        //  }
+    
+    
+    
+         var viewer = document.getElementById('canvas_box');
+         var canvas_box = document.getElementById('cover_canvas_box');
+         for(page = 1; page <= pdf.numPages; page++) {
+              console.log("created canvas")
+              var canvas = document.createElement("canvas");    
+              canvas.id = 'pdf-page-canvas-'+page;         
+              canvas.className = "page-canvas"
+              canvas.style.zIndex = 5
+              canvas.style.position = "relative"
+              viewer.appendChild(canvas);            
+    
+              var cover_canvas = document.createElement("canvas");    
+              cover_canvas.id = 'pdf-page-cover-canvas-'+page;       
+              cover_canvas.className = "page-cover-canvas"  
+              cover_canvas.style.zIndex = 100
+              cover_canvas.style.position = "relative"
+              canvas_box.appendChild(cover_canvas);            
+              renderPage(page, canvas,cover_canvas);
+            }
+        //  myState.pdf = pdf;
+    
+        $(".page-cover-canvas").mousedown(function(e){handleMouseDown(e);});
+        $(".page-cover-canvas").mousemove(function(e){handleMouseMove(e);});
+        $(".page-cover-canvas").mouseup(function(e){handleMouseUp(e);});
+        $(".page-cover-canvas").mouseout(function(e){handleMouseOut(e);});
+    
+        //  render();
+    
+    });
+    
+        // // get references to the canvas and context
+        // var canvas=document.getElementById("canvas");
+        // var ctx=canvas.getContext("2d");
+    
+        // // style the context
+        // ctx.strokeStyle = "blue";
+        // ctx.lineWidth=3;
+    
+        // // calculate where the canvas is on the window
+        // // (used to help calculate mouseX/mouseY)
+        // var $canvas=$("#canvas");
+        // var canvasOffset=$canvas.offset();
+        // var offsetX=canvasOffset.left;
+        // var offsetY=canvasOffset.top;
+    
+        // console.log("offsetx",offsetX)
+        // console.log("offsety",offsetY)
+        // var scrollX=$canvas.scrollLeft();
+        // var scrollY=$canvas.scrollTop();
+    
+        // // this flage is true when the user is dragging the mouse
+        var isDown=false;
+    
+        // // these vars will hold the starting mouse position
+        // var startX;
+        // var startY;
+        var offsetX
+        var offsetY
+        var current_target_canvas = null
+        function handleMouseDown(e){
+          e.preventDefault();
+          e.stopPropagation();
+          current_target_canvas = e.currentTarget
+          // console.log("the canvas iss",  e.currentTarget)
+          var current_canvas = e.currentTarget
+          var id_elements = current_canvas.id.split("-")
+          var page_no = id_elements[id_elements.length-1]
+          console.log("page number isss",page_no)
+    
+          var current_canvas = document.querySelector("#pdf-page-cover-canvas-"+page_no)
+          var ctx = current_canvas.getContext("2d")
+          console.log("the current canvas is ",current_canvas)
+          var canvasOffset=$(current_canvas).offset();
+          var offsetX=canvasOffset.left;
+          var offsetY=canvasOffset.top;
+    
+          // save the starting x/y of the rectangle
+          startX=parseInt(e.clientX-offsetX);
+          startY=parseInt((e.clientY-offsetY) + window.pageYOffset);
+    
+    
+          console.log("offsetx mouse",e.clientX)
+          console.log("offsety mouse",e.clientY)
+          console.log(" window.pageYOffset", window.pageYOffset)
+          // set a flag indicating the drag has begun
+          isDown=true;
+        }
+    
+        function handleMouseUp(e){
+          e.preventDefault();
+          e.stopPropagation();
+    
+          // the drag is over, clear the dragging flag
+          if(e.currentTarget != current_target_canvas)
+          {
+            return
+          }
+    
+          isDown=false;
+          current_target_canvas = null
+    
+          var current_canvas = e.currentTarget
+          var id_elements = current_canvas.id.split("-")
+          var page_num = id_elements[id_elements.length-1]
+          // console.log("page number isss",page_no)
+    
+          var current_canvas = document.querySelector("#pdf-page-cover-canvas-"+page_num)
+          var ctx = current_canvas.getContext("2d")
+          var canvasOffset=$(current_canvas).offset();
+          var offsetX=canvasOffset.left;
+          var offsetY=canvasOffset.top;
+    
+    
+          mouseX=parseInt(e.clientX-offsetX);
+          mouseY=parseInt((e.clientY-offsetY) + window.pageYOffset);
+    
+          // Put your mousemove stuff here
+    
+          // clear the canvas
+        //   ctx.clearRect(0,0,canvas.width,canvas.height);
+    
+          // calculate the rectangle width/height based
+          // on starting vs current mouse position
+          var width=mouseX-startX;
+          var height=mouseY-startY;
+    
+          // draw a new rect from the start position 
+          // to the current mouse position
+        //   ctx.fillRect(startX,startY,width,height);
+    
+    
+          var canvas_square = new CanvasSquare(page_num,startX,startY,width,height,fill_color)
+    
+    
+          rectangle_co_ordinates.push(canvas_square)
+          redo_buffer = [] //empty the redo buffer
+          console.log("arraaay",rectangle_co_ordinates)
+          draw_rectangles_on_canvas(page_num)
+    
+          // for(var count=0;count<rectangle_co_ordinates[page_no].length;count++)
+          // {
+          //   var cur_box = rectangle_co_ordinates[page_no][count]
+          //   ctx.fillRect(cur_box[0],cur_box[1],cur_box[2],cur_box[3]);
+          // }
+        }
+    
+        function handleMouseOut(e){
+          e.preventDefault();
+          e.stopPropagation();
+    
+          if(isDown == true)
+          {
+            var current_canvas = e.currentTarget
+            var id_elements = current_canvas.id.split("-")
+            var page_no = id_elements[id_elements.length-1]
+    
+            var current_canvas = document.querySelector("#pdf-page-cover-canvas-"+page_no)
+            var ctx = current_canvas.getContext("2d")
+            ctx.clearRect(0,0,current_canvas.width,current_canvas.height);
+            draw_rectangles_on_canvas(page_no)  
+          }
+          
+          // the drag is over, clear the dragging flag
+          isDown=false;
+    
+    
+    
+    
+    
+    
+        }
+    
+        function handleMouseMove(e){
+          e.preventDefault();
+          e.stopPropagation();
+    
+          // if we're not dragging, just return
+          if(!isDown){return;}
+          // console.log("upppppppppppppppppppppppppppppppppppppppppp")
+    
+    
+          var current_canvas = e.currentTarget
+          var id_elements = current_canvas.id.split("-")
+          var page_no = id_elements[id_elements.length-1]
+          // console.log("page number isss",page_no)
+    
+          var current_canvas = document.querySelector("#pdf-page-cover-canvas-"+page_no)
+          var ctx = current_canvas.getContext("2d")
+          var canvasOffset=$(current_canvas).offset();
+          var offsetX=canvasOffset.left;
+          var offsetY=canvasOffset.top;
+    
+          
+          // offsetX=canvasOffset.left;
+          // offsetY=canvasOffset.top;
+          // console.log("offsetx",offsetX)
+          // console.log("offsety",offsetY)
+    
+          // console.log("offsetx mouse",e.clientX)
+          // console.log("offsety mouse",e.clientY)
+          
+    
+          // get the current mouse position
+          mouseX=parseInt(e.clientX-offsetX);
+          mouseY=parseInt((e.clientY-offsetY) + window.pageYOffset);
+    
+          // Put your mousemove stuff here
+    
+          // clear the canvas
+          ctx.clearRect(0,0,current_canvas.width,current_canvas.height);
+    
+          // calculate the rectangle width/height based
+          // on starting vs current mouse position
+          var width=mouseX-startX;
+          var height=mouseY-startY;
+    
+    
+          // draw a new rect from the start position 
+          // to the current mouse position
+          console.log(rectangle_co_ordinates)
+          draw_rectangles_on_canvas(page_no)
+          ctx.strokeRect(startX,startY,width,height);
+    
+    
+          
+          // for(var count=0;count<rectangle_co_ordinates[page_no].length;count++)
+          // {
+          //   var cur_box = rectangle_co_ordinates[page_no][count]
+          //   ctx.fillRect(cur_box[0],cur_box[1],cur_box[2],cur_box[3]);
+          // }
+    
+    
+        }
+    
+    
+    
+    
+        // listen for mouse events
+    
+    
+        // $(document).on("mousedown",".page-cover-canvas",handleMouseDown(event))
+        // $(document).on("mousemove",".page-cover-canvas",handleMouseDown(event))
+        // $(document).on("mouseup",".page-cover-canvas",handleMouseDown(event))
+        // $(document).on("mouseout",".page-cover-canvas",handleMouseDown(event))
+        // $(".page-cover-canvas").mousedown(function(e){handleMouseDown(e);});
+        // $(".page-cover-canvas").mousemove(function(e){handleMouseMove(e);});
+        // $(".page-cover-canvas").mouseup(function(e){handleMouseUp(e);});
+        // $(".page-cover-canvas").mouseout(function(e){handleMouseOut(e);});
+    
+    }); // end $(function(){});
+    
+    
+    
+    function change_fill_color(color)
+    {
+      fill_color = color
+      var all_canvases = $("canvas")
+    
+      $.each(all_canvases,function(index){
+        // console.log("called button change color",all_canvases[index])
+        ctx = all_canvases[index].getContext("2d")
+        ctx.fillStyle = color
+      })
+    }
+    
+    
+    
+    
+    function draw_rectangles_on_canvas(page_num)
+    {
+      for(var count=0;count<rectangle_co_ordinates.length;count++)
+          {
+            // console.log("the element is",rectangle_co_ordinates)
+            if(rectangle_co_ordinates[count].page_num == page_num)
+            {
+              console.log("count",count)
+              var cur_box = rectangle_co_ordinates[count]
+              var current_canvas = document.querySelector("#pdf-page-cover-canvas-"+cur_box.page_num)          
+              var ctx = current_canvas.getContext("2d")
+              ctx.fillStyle = cur_box.canvas_fill_color
+    
+              ctx.fillRect(cur_box.startX,cur_box.startY,cur_box.width,cur_box.height);
+            }
+            
+          }
+          // fill_color = "black"
+    
+    }
+    
+    
+    function undo_action()
+    {
+    
+      if(rectangle_co_ordinates.length == 0){return false}
+      var last_drawn_rect = rectangle_co_ordinates.pop()
+      console.log("last drawn rec tpage num",last_drawn_rect.page_num)
+      var current_canvas = document.querySelector("#pdf-page-cover-canvas-"+last_drawn_rect.page_num)
+      ctx = current_canvas.getContext("2d")
+      ctx.clearRect(0,0,current_canvas.width,current_canvas.height);
+      draw_rectangles_on_canvas(last_drawn_rect.page_num)
+      console.log(rectangle_co_ordinates)
+    
+      redo_buffer.push(last_drawn_rect)
+    }
+    
+    function redo_action()
+    {
+      if(redo_buffer.length == 0){return false}
+      var last_drawn_rect = redo_buffer.pop()
+      rectangle_co_ordinates.push(last_drawn_rect)
+      console.log("last drawwn rect",last_drawn_rect)
+      var current_canvas = document.querySelector("#pdf-page-cover-canvas-"+last_drawn_rect.page_num)
+      ctx = current_canvas.getContext("2d")
+      ctx.clearRect(0,0,last_drawn_rect.width,last_drawn_rect.height);
+      draw_rectangles_on_canvas(last_drawn_rect.page_num)
+      
+      undo_buffer.push(last_drawn_rect)
+    }
+    </script>
+ {% endblock %}
+ {% block main %}
+
+
+      
+ <style>
+  #canvas{border:1px solid red;}   
+  .canvas_css{
+    position: absolute;
+    top: 0;
+    left: 0;
+  }
+  .resume_section_btn button {
+    color: #ffffff;
+    background-color: #0068ff;
+    border-radius: 10px;
+    border: none;
+    padding: 10px 30px;
+    font-size: 16px;
+    font-weight: 500;
+  }
+  .resume_section_main .card-header {
+    padding: 10px;
+  }
+  #canvas_container{
+    position:relative;margin: auto; text-align: center; width: 52%;
+  }
+  #cover_canvas_box{
+    top: 0;
+    position: absolute; 
+    max-height: 100%;
+    width: 100%;
+    cursor: crosshair; 
+   
+    /* border: 1px solid rgb(211, 185, 185); */
+  }
+  #canvas_box .page-canvas{
+    z-index: unset !important;
+  }
+  #cover_canvas_box .page-cover-canvas{
+    z-index: unset !important;
+  }
+</style>
+          
+
+      <!-- Container-fluid -->
+		
+			<!-- Main-content-body -->
+			<div class="main-content-body">
+
+				<div class="row row-sm">
+					<div class="col-xl-12">
+						<div class="card resume_section_main mg-b-0">
+							<div class="card-header">
+								<div class="d-flex justify-content-between">
+									<h4 class="card-title mg-b-0"></h4>
+									<div class="candidate_right_filters_section">
+										<div class="resume_section_btn">
+									    <button onclick="redo_action()">Redo</button>
+                      <button onclick="undo_action()">Undo</button>
+                      <button class="save_button" name="save">Save</button>
+										</div>
+									</div>
+								</div>
+							</div>
+							
+						</div>
+
+
+            {%csrf_token%}
+            {{internal_user_profile.resume.url|get_file_name}}
+          
+            <div class="canvas_main_section mg-t-20 mg-b-40"> 
+              <div id="canvas_container">
+                  <div id="canvas_box">
+            
+                
+                    <!-- <h4>Drag the mouse to create a rectangle</h4> -->
+                    <!-- <canvas id="canvas" width=300 height=300 style="z-index: 100; border: 1px solid brown;" class="canvas_css"></canvas> -->
+                    <!-- <canvas id="canvas-pdf" width=300 height=300 style="z-index:1;" class="disabled canvas_css"></canvas> -->
+                
+                    <!-- <button id="download" style="position:absolute;z-index: 10000000;top: 1000px;"> Download </button> -->
+                    
+                  </div>
+                
+                  <div id="cover_canvas_box">
+                
+                  </div>
+              </div> 
+            </div>  
+
+
+            <div class="card resume_section_main mg-b-0">
+							<div class="card-header">
+								<div class="d-flex justify-content-between">
+									<h4 class="card-title mg-b-0"></h4>
+									<div class="candidate_right_filters_section">
+										<div class="resume_section_btn">
+									    <button onclick="redo_action()">Redo</button>
+                      <button onclick="undo_action()">Undo</button>
+                      <button class="save_button" name="save">Save</button>
+										</div>
+									</div>
+								</div>
+							</div>
+							
+						</div>
+
+					</div>
+					<!--/div-->
+				</div>
+
+			</div>
+			<!-- Main-content-body closed -->
+
+	
+
+
+      {% endblock %}
+
+      {% block script %}
+      {% endblock %}

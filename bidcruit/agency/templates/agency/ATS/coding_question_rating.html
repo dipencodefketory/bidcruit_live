@@ -1,0 +1,125 @@
+{% extends 'agency/base.html' %}
+{% load static %}
+{% block title %}Coding Exam Rating{% endblock %}
+{% block css %}
+    <!--custom css-->
+    <link href="{% static 'assets/css/ATS/coding_question_selection.css' %}" rel="stylesheet">
+{% endblock %}
+{% block main %}
+
+               <!-- Main-content-body -->
+                <div class="main-content-body">
+
+                    <!-- row -->
+                    <div class="row row-sm ">
+                        <div class="col-12">
+                            <div class="card audiencemetric">
+
+                                <div style="border-bottom: 2px solid #e2e8f5;">
+                                    <div class="card-body p-3">
+                                        <h5 class="mb-0">Score Card</h5>
+                                    </div>
+                                </div>
+                                <div class="card-body p-3">
+                                    
+                                    <form method="post">
+                                        {% csrf_token %}
+                                        <div class="row">
+                                            <div class="col-12 p-0">
+                                                <div class="col-12 ratingFormTable">
+                                                    <div class="title-bar">
+                                                        <h5 class="card-title mb-3">score card</h5>
+                                                    </div>
+                                                    <div class="rating-miniform add__exam-form mt-3 p-3" id="ratingMiniForm">
+                                                        <div class="row row-sm rating__internalform">
+                                                            <div class="col-4">
+                                                                <label class="form-label text-capitalize">title :</label>
+                                                                <input required="true" class="form-control" type="text" name="title" value="">
+                                                            </div>
+                                                            <div class="col-4">
+                                                                <div class="form-group rating-point">
+                                                                    <label class="form-label text-capitalize">rating:</label>
+                                                                    <div class="rating-stars block rate-cover">
+                                                                        <input type="number" readonly="readonly" class="rating-value" name="rating-stars-value" id="rating-stars-value" value="2" style="display:none">
+                                                                        <div class="rating-stars-container">
+                                                                            <div class="rating-star"><i class="fa fa-star"></i></div>
+                                                                            <div class="rating-star"><i class="fa fa-star"></i></div>
+                                                                            <div class="rating-star"><i class="fa fa-star"></i></div>
+                                                                            <div class="rating-star"><i class="fa fa-star"></i></div>
+                                                                            <div class="rating-star"><i class="fa fa-star"></i></div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+            
+                                                            <div class="col-4">
+                                                                <label class="form-label text-capitalize">comment :</label>
+                                                                <div class="cmt-box">
+                                                                    <textarea class="form-control cmt-text" readonly rows="1" cols="50"></textarea>
+                                                                    <div class="comment-action">
+                                                                        <div class="delete-btn"><i class="fas fa-trash-alt"></i></div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="cloneHandler mt-2">
+                                                        <div class="clone-btn text-uppercase" id="cloneList"><i class="fas fa-plus-circle"></i> add more</div>
+                                                    </div>
+                                                </div>
+                                                
+                                                <div class="row my-3">
+                                                    <div class="col">
+                                                        <div class="d-flex add__exam-form-action">
+                                                            <button class="btn btn-primary rounded-10" type="submit">Next</button>
+                                                            <button type="button" class="btn btn-danger rounded-10 close-action ml-2">Close</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- row -->
+                </div>
+                <!-- Main-content-body closed -->
+           
+{% endblock %}
+
+{% block script %}
+<script>
+    $(document).ready(function(){
+    $('#cloneList').on('click',function(){
+     var clone = "";
+     console.log($('#ratingMiniForm .rating__internalform:last-child').clone())
+     clone = $('#ratingMiniForm .rating__internalform:last-child').clone().find("input[name='title']").val("").end();
+     $('#ratingMiniForm .rating__internalform:last-child').after(clone)
+    })
+    $(document).on('click','.delete-btn',function(){
+        var listSize = $('#ratingMiniForm .rating__internalform').length;
+        if(listSize == '1'){
+            $('.rating__internalform').find('input[type=text],input[type=number],textarea').val('')
+        }else{
+            $(this).closest('.rating__internalform').remove();
+        }
+    })
+
+    $(document).on('click','.rating-star',function(e){
+        e.preventDefault();
+        var currentItem = parseInt($(this).closest('.rate-cover').find('#rating-stars-value').val());
+        var starList = $(this).closest('.rating-stars-container .rating-star');
+       /* $(starList).each(function(i){
+            console.log($(this))
+            if(count == currentItem){
+                $(this).find('.rating-star:eq('+i+')').removeClass('is--active')
+            }
+        })*/
+    })
+})
+</script>
+<!--		<script src="{% static 'assets/js/ATS/descriptive_all.js' %}"></script>-->
+{% endblock %}

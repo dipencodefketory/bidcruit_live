@@ -1,0 +1,224 @@
+{% extends 'company/base.html' %}
+{% load static %}
+{% load candidate_extras %}
+{% block title %}Audio view{% endblock %}
+{% block css %}
+
+	<!--custom desciptive view css-->
+	<link href="{% static 'assets/css/ATS/audio_view.css' %}" rel="stylesheet">
+
+	<!-- - Internal Sweet-Alert css -->
+	<link href="{% static 'assets/plugins/sweet-alert/sweetalert.css' %}" rel="stylesheet">
+
+{% endblock %}
+{% block main %}
+
+		
+			<!-- Main-content-body -->
+			<div class="main-content-body">
+				<!-- row opened -->
+				<div class="row row-sm">
+                    {% csrf_token %}
+					<div class="col-xl-12">
+						<div class="card descriptive_add mg-b-0">
+							<div class="descriptive_view_header mg-b-0">
+								<div class="card-header pb-0">
+                                     <h4 class="audio_ques_title card-title mg-b-0">Audio/Video Question Bank: </h4>
+									<div class="d-flex justify-contentbetween">
+										<div class="input-group mb-0">
+											<span class="input-group-append search_btn">
+												<button class="btn ripple" type="button"><i class="fa fa-search"></i></button>
+											</span>
+											<input type="text" class="search_text form-control border-right-0 pl-3" value="" placeholder="Search Template">
+										</div>
+										<div class="descriptive_right_filters_section">
+											<!-- <div class="filters_section">
+												<a href=""><i class="fas fa-file-download"></i></a>
+												<a href=""><i class="fas fa-filter"></i></a>
+												<a href=""><i class="fas fa-print"></i></a>
+												<a href=""><i class="fas fa-ellipsis-v"></i></a>
+											</div> -->
+											<div class="descriptive_list_add_btn">
+												{% if Add %}
+												<a class="btn btn-add-list btn-block" href="{% url 'company:audio_add' sub_id %}">Add New</a>
+												{% endif %}
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+
+							<div class="questions_list_append_here card-header pb-0" id="Questions_list_Append">
+                                {% for que in questions %}
+                                    <div class="descriptive_questions">
+                                        <input type="hidden" name="que_id" value="{{ que.id }}">
+                                        <div class="descriptive_questions_no">
+                                            <div class="descriptive_question_heading">
+                                                <div class="cardtitle">{{ forloop.counter }}</div>
+                                               
+                                            </div>
+                                        </div>
+                                        <div class="descriptive_questions_action">
+											{% if Edit %}
+                                            <a class="questions_edit edit-que" data-id="{{que.id}}"  href="#"><i class="fas fa-edit"></i></a>
+											{% endif %}
+											{% if Delete %}
+                                            <a class="questions_trash" ><i class="fas fa-trash-alt"></i></a>
+											{% endif %}
+                                        </div>
+                                        <div class="questions_details_text">
+                                            {% autoescape off %}
+                                                {{ que.paragraph_description }}
+                                            {% endautoescape %}
+                                        </div>
+								    </div>
+                                {% endfor %}
+
+							</div>
+
+						</div>
+					</div>
+					<!--/div-->
+			
+				</div>
+				<!-- /row -->
+			</div>
+			<!-- Main-content-body closed -->
+            
+		<!-- Container-fluid closed -->
+ <!-- Basic modal Edit_subject_modal -->
+ <div class="modal" id="Edit_question_modal">
+	<div class="modal-dialog modal-dialog-centered" role="document">
+		<div class="modal-content modal-content-demo">
+			<div class="modal-header">
+				<h6 class="modal-title">Edit Question</h6><button aria-label="Close" class="close" data-dismiss="modal" type="button"><span aria-hidden="true">&times;</span></button>
+			</div>
+			<form action="{% url 'company:update_audio_question'%}" id="add_audio_question" method="POST" >
+				{% csrf_token %}
+				<input type="text" class="queid" name="queid" value="" hidden>
+				
+				<div class="form-group">
+					<label class="form-label pt-2 pb-2">Question Description</label>
+					<textarea id="description_textarea" name="description_textarea"></textarea>
+				</div>
+				
+				<div class="add_views_btn"><button id='update' class="btn btn-main-primary btn-block">Update</button></div>
+			
+			</form>
+		</div>
+	</div>
+</div>
+<!-- End Basic modal -->
+{% endblock %}
+
+{% block script %}
+
+        <!--- Internal Sweet-Alert js -->
+		<script src="{% static 'assets/plugins/sweet-alert/sweetalert.min.js' %}"></script>
+		<script src="{% static 'assets/plugins/sweet-alert/jquery.sweet-alert.js' %}"></script>
+
+		<!-- Custom  -->
+		<!-- <script src="{% static 'assets/js/ats/paragraph-card-list.js' %}"></script> -->
+
+		<script>
+        tinymce.init({
+			selector: "#description_textarea",
+			menubar: false,
+			plugins: 'lists advlist',
+			toolbar: 'bullist numlist bold',
+			branding: 'False',
+		});
+            $(document).ready(function(){
+                $(document).on('click','.questions_trash',function(){
+                    var data={'que_id':$(this).closest('.descriptive_questions').find('[name="que_id"]').val()}
+                    var question_card = $(this).closest('.descriptive_questions');
+                    swal({
+                        title: "Are you sure?",
+                        text: "You will not be able to recover deleted subjects!",
+                        type: "warning",
+                        showCancelButton: true,
+                        confirmButtonClass: "btn-danger",
+                        confirmButtonText: "Yes, delete it!",
+                        cancelButtonText: "Cancel",
+                        closeOnConfirm: false,
+                        closeOnCancel: false
+                    },function(isConfirm) { //send ajax request for detele category action
+                        if (isConfirm){
+                            $.ajax({
+                                url:"/company/delete_audio_question/",
+                                headers: {'X-CSRFToken': $("input[name=csrfmiddlewaretoken]").val() },
+                                type:'POST',
+                                contentType: 'application/json; charset=UTF-8',
+                                data: JSON.stringify(data),
+                                error: function (request, status, error) {
+                                      alert(error);
+                                }
+                            }).done(function(response){
+                                if(response == 'True'){
+                                    swal("Deleted!", "Your question has been deleted.", "success");
+                                    question_card.remove();
+                                }else{
+                                    swal("Error!", "Something Wrong !!", "error");
+                                }
+                            });
+                        } else {
+                            swal("Cancelled", "Your question is safe :)", "error");
+                        }
+                    });
+                })
+
+
+                $(document).on('click','.edit-que',function(){
+                    var queid=$(this).data('id');
+                   
+                    // $('.edit_subject_name').val($(this).data('name'));
+                    if(queid!==''){
+                    $.ajax({
+                            url:"/company/get_audio_question/",
+                            headers: {'X-CSRFToken': $("input[name=csrfmiddlewaretoken]").val() },
+                            type:'POST',
+                            contentType: 'application/json; charset=UTF-8',
+                            data: JSON.stringify(queid),
+                            error: function (request, status, error) {
+                                alert(error);
+                            }
+                        }).done(function(response){
+                            response=JSON.parse(response);
+                            console.log(response.question)
+                            if(response.status==true){
+                                $("#Edit_question_modal").modal("show");
+                                $('.queid').val(queid);
+                                // $('textarea[name=description_textarea]').val(response.question);
+                                tinymce.get('description_textarea').setContent(response.question);
+                                // window.location.reload();
+                            }
+                            else if(response.status=='replica'){
+                                swal("Error!", "replica !!", "error");
+                            }
+                            
+                            else{
+                                swal("Error!", "Something Wrong !!", "error");
+                                $("#Edit_question_modal").modal("hide");
+                            }
+                        });
+                    }
+                
+                });
+
+                $("#add_audio_question").on("submit", function(e){
+                    e.preventDefault();
+                    tinymce.triggerSave();
+
+                    var que = $('#description_textarea').val();
+                    var textmsg = $.trim($(que).text());
+                    if(textmsg == ''){
+                        alert('Please fill out the Question !!')
+                        return false;
+                    }
+                    this.submit()
+                })
+              
+            });
+        </script>
+				
+{% endblock %}

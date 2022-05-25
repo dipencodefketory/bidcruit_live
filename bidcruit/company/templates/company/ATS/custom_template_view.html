@@ -1,0 +1,82 @@
+{% extends 'company/base.html' %}
+{% load static %}
+{% block title %} Custom Template View{% endblock %}
+{% block css %}+
+    <!--custom desciptive list css-->
+    <link href="{% static 'assets/css/ATS/interview_template.css' %}" rel="stylesheet">
+{% endblock %}
+{% block main %}
+
+          	  	<!-- Main-content-body -->
+					<div class="main-content-body">
+                        <!--Interview form layout-->
+                            <div class="ratingFormLayout row row-sm card">
+
+                                <div class="col-lg-12 col-md-12 col-sm-12 p-0">
+                                    <div class="template_selection_header one_header">
+                                        <div class="h5 t_ty_50">Template Type : <span>Custom</span></div>
+                                        <div class="h5">Template Name : <span>{{custom_template.template.name}}</span></div>
+                                        
+                                    </div>
+                                </div>
+
+                                <div class="col-12">
+                                    <form id="interViewForm" method="post">
+                                        {% csrf_token %}
+                                        <div class="row row-sm form-main-container mg-t-15 mg-b-15">
+                                            
+                                            <div class="col-12 ratingFormTable">
+                                                <div class="title-bar"><h3 class="text-capitalize">score card</h3></div>
+												<div class="rating-miniform" id="ratingMiniForm">
+                                                    {% for i in custom_template.scorecards.all %}
+													<div class="row row-sm rating__internalform">
+														<div class="col-4">
+															<label class="form-label text-capitalize">title : <span class="interview_list_t">{{i.title}}</span></label>
+															
+														</div>
+														<div class="col-4">
+															<div class="form-group rating-point live_interview_r">
+																<label class="form-label text-capitalize">rating : </label>
+																<div class="rating-stars block rate-cover">	
+																	<div class="rating-stars-container">
+																		<div class="rating-star"><i class="fa fa-star"></i></div>
+																		<div class="rating-star"><i class="fa fa-star"></i></div>
+																		<div class="rating-star"><i class="fa fa-star"></i></div>
+																		<div class="rating-star"><i class="fa fa-star"></i></div>
+																		<div class="rating-star"><i class="fa fa-star"></i></div>
+																	</div>
+																</div>
+															</div>
+														</div>
+
+														<div class="col-4 comment_inter">
+															<label class="form-label text-capitalize">comment : </label>
+															<div class="cmt-box">
+																<textarea class="form-control cmt-text" readonly rows="1" cols="50"></textarea>
+																
+															</div>
+														</div>
+													</div>
+                                                    {% endfor %}
+												</div>
+                                            </div>
+                                            <div class="col-12 mg-t-20 mg-b-0">
+                                                <div class="submitHandler cus_line">
+                                                    <a class="custom_btn btn btn-sm btn-primary rounded-20 text-capitalize" href="{% url 'company:template_listing' %}" id="submit">Back</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        <!--Interview form layout-->
+
+					</div>
+					<!-- Main-content-body closed -->
+			
+
+{% endblock %}
+
+{% block script %}
+		<!-- <script src="{% static 'assets/js/ATS/interview_template.js' %}"></script> -->
+{% endblock %}

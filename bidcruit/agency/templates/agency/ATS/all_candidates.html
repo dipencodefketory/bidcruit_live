@@ -1,0 +1,244 @@
+{% extends 'agency/base.html' %}
+{% load static %}
+{% load agency_filter %}
+{% load candidate_extras %}
+{% block title %}All Candidates{% endblock %}
+{% load crispy_forms_tags %}
+{% block css %}
+		<!-- Bootstrap css -->
+		<!-- <link rel="stylesheet" href="{% static 'assets/plugins/bootstrap/css/bootstrap.min.css' %}"> -->
+
+		<!-- Internal Data table css -->
+		<link href="{% static 'assets/plugins/datatable/css/dataTables.bootstrap4.min.css' %}" rel="stylesheet" />
+		<link href="{% static 'assets/plugins/datatable/css/buttons.bootstrap4.min.css' %}" rel="stylesheet">
+		<link href="{% static 'assets/plugins/datatable/css/responsive.bootstrap4.min.css' %}" rel="stylesheet" />
+		<link href="{% static 'assets/plugins/datatable/css/jquery.dataTables.min.css' %}" rel="stylesheet">
+		<link href="{% static 'assets/plugins/datatable/css/responsive.dataTables.min.css' %}" rel="stylesheet">
+		<link href="{% static 'assets/plugins/select2/css/select2.min.css' %}" rel="stylesheet">
+
+
+		<link href="{% static 'assets/css/ATS/job_openings_table.css' %}" rel="stylesheet">
+		
+		<style>
+
+			.tab-menu-heading .tabs-menu .nav.panel-tabs li a.active {
+				color: #0068ff;
+			}
+			.tab-menu-heading .tabs-menu .nav.panel-tabs li a {
+				font-size: 14px;
+				color: #041b4e;
+				border-radius: 0;
+				padding: 10px 12px;
+				margin-right: 0;
+				border: none;
+				border-right: none;
+				text-transform: uppercase;
+				position: relative;
+				transition: all 0.3s ease 0s;
+				font-weight: 500;
+			}
+			.dataTables_filter {
+			   display: none;
+			}
+		</style>
+		
+
+{% endblock %}
+{% block main %}
+
+				<!-- Main-content-body -->
+					<div class="main-content-body">
+
+						<div class="row row-sm">
+							<div class="col-xl-12">
+								<div class="card job_openings_table">
+									<div class="card-header pb-0">
+										<div class="d-flex justify-content-between">
+											<h4 class="card-title mg-b-0">Candidate</h4>
+											<div class="candidate_right_filters_section">
+
+												<div class="candidate_filters_header mr-3">
+													<input type="text" class="search_data_t form-control" value="" placeholder="Search...">
+												</div>
+
+												<div class="candidate_filters_header copy_link">
+													<p style="font-size: 0px;width: 0px;height: 0px;margin: 0px;" id="toast1">https://bidcruit.com/invite_candidate/{{employee_obj.unique_id}}</p>
+													<button class="clipboard-icon copy_link_btn" data-clipboard-target="#toast1"><i class="bx bx-copy-alt tx-22"></i>Copy Link</button>
+												</div>
+
+												
+												<div class="candidate_filters_header add_job_btn">	
+													<a class="add_job_link" href="{% url 'agency:add_internal_candidate_basic_detail' %}">Add Candidate</a>	
+												</div>
+												<div class="candidate_filters_header filterjob">
+													<a href="javascript:void(0)" id="candidatefilter"><i class="fas fa-filter"></i></a>
+													<div id="showfilter" class="filterform" style="display: none;">
+														<div class="row">
+															<div class="col-12">
+																<div class="card card-body">
+														
+																	<form method="get">
+																		{{myFilter.form|crispy}}
+														
+																	<button class="btn btn-primary" type="submit">Search</button>
+																  </form>
+														
+																</div>
+															</div>
+															
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+
+									<div class="tab-menu-heading verified_review_tabs">
+										<div class="tabs-menu ">
+											<!-- Tabs -->
+											<ul class="nav panel-tabs">
+												<li class=""><a href="#tab209" class="active" data-toggle="tab"> Verified Candidate</a></li>
+												<li><a href="#tab300" data-toggle="tab">In Review</a></li>
+											</ul>
+										</div>
+									</div>
+									
+									<div class="panel-body p-0">
+										<div class="tab-content connection_req">
+
+											<div class="tab-pane active" id="tab209">
+												<div class="card-body">
+													<div class="table-responsive">
+														<table class="table text-md-nowrap candidate_table"  data-ordering="false" id="jobopening">
+															<thead>
+																<tr>
+																	<!--<th class="circle_plush_icon"><a href="javascript:void(0)"><i class="fas fa-plus-circle"></i></a></th>-->
+																	<th class="border-bottom-0">Name</th>
+																	<th class="border-bottom-0">Job Title</th>
+																	<th class="border-bottom-0">total experience</th>
+																	<th class="border-bottom-0">ex-salary</th>
+																	<th class="border-bottom-0">last updated</th>
+																	<th class="border-bottom-0">Notice period</th>
+																	<th class="border-bottom-0">City</th>
+																	<th class="border-bottom-0">Source</th>
+																	<th class="border-bottom-0">Action</th>
+																</tr>
+																
+															</thead>
+															<tbody>
+																{% for candidate in candidates %}
+																<tr>
+																	<td class="text-capitalize">{{candidate.first_name}} {{candidate.last_name}}</td>
+																	<td class="text-capitalize">{{candidate.designation}}</td>
+																	<td class="text-capitalize">{{candidate.total_exper|experiance_show}}</td>
+																	<td class="text-capitalize">{{candidate.expectedctc}}</td>
+																	<td class="text-capitalize">{{candidate.update_at|whenpublished}}</td>
+																	<td class="text-capitalize">{{candidate.notice.notice_period}}</td>
+																	<td class="text-capitalize">{{candidate.current_city.city_name}}</td>
+																	<td class="text-capitalize">{{candidate.source.name}}</td>
+																	<td class="action_icons">
+
+																	
+																		<a href="{% url 'agency:view_candidate' candidate.id %}"><i class="fas fa-eye"></i></a>
+																	
+																	{% if Edit %}
+																		<a href="{% url 'agency:add_internal_candidate_basic_detail' candidate.id %}"><i class="fas fa-edit"></i></a>
+																	{% endif %}
+																	{% if Delete %}
+																		<a href=""><i class="fas fa-trash-alt"></i></a>
+																	{% endif %}
+
+																	</td>
+																</tr>
+															{% endfor %}
+															</tbody>
+														</table>
+													</div>
+												</div>
+											</div>
+
+											<div class="tab-pane" id="tab300">
+												<div class="card-body">
+													<div class="table-responsive">
+														<table class="table text-md-nowrap candidate_table"  data-ordering="false" id="companyinternalcandidate">
+															<thead>
+																<tr>
+																	<th class="border-bottom-0">Name</th>
+																	<th class="border-bottom-0">Job Title</th>
+																	<th class="border-bottom-0">total experience</th>
+																	<th class="border-bottom-0">ex-salary</th>
+																	<th class="border-bottom-0">Notice period</th>
+																	<th class="border-bottom-0">City</th>
+																	<th class="border-bottom-0">Action</th>
+																</tr>
+															</thead>
+															<tbody>
+															{% for candidate in candidate_in_review %}
+																<tr>
+																	<td class="text-capitalize">{{candidate.first_name}} {{candidate.last_name}}</td>
+																	<td class="text-capitalize">{{candidate.designation}}</td>
+																	<td class="text-capitalize">{{candidate.total_exper|experiance_show}}</td>
+																	<td class="text-capitalize">{{candidate.expectedctc}}</td>
+																	<td class="text-capitalize">{{candidate.notice.notice_period}}</td>
+																	<td class="text-capitalize">{{candidate.current_city.city_name}}</td>
+																	<td class="action_icons">
+																		<a class="btn btn-primary btn-sm btn-rounded" href="{% url 'agency:verify_candidate' candidate.id %}">
+																			Verify
+																		</a>
+																	</td>
+																</tr>
+															{% endfor %}
+															</tbody>
+														</table>
+													</div>
+												</div>
+											</div>
+
+										</div>
+									</div>
+
+								</div>
+							</div>
+							<!--/div-->
+					
+						</div>
+						<!-- /row -->
+					</div>
+					<!-- Main-content-body closed -->	
+				
+{% endblock %}
+{% block script %}
+
+		<!-- Internal Data tables -->
+		<script src="{% static 'assets/plugins/datatable/js/jquery.dataTables.min.js' %}"></script>
+		<script src="{% static 'assets/plugins/datatable/js/dataTables.dataTables.min.js' %}"></script>
+		<script src="{% static 'assets/plugins/datatable/js/dataTables.responsive.min.js' %}"></script>
+		<script src="{% static 'assets/plugins/datatable/js/responsive.dataTables.min.js' %}"></script>
+		<script src="{% static 'assets/plugins/datatable/js/jquery.dataTables.js' %}"></script>
+		<script src="{% static 'assets/plugins/datatable/js/dataTables.bootstrap4.js' %}"></script>
+		<script src="{% static 'assets/plugins/datatable/js/dataTables.buttons.min.js' %}"></script>
+		<script src="{% static 'assets/plugins/datatable/js/buttons.bootstrap4.min.js' %}"></script>
+		<script src="{% static 'assets/plugins/datatable/js/jszip.min.js' %}"></script>
+		<script src="{% static 'assets/plugins/datatable/js/pdfmake.min.js' %}"></script>
+		<script src="{% static 'assets/plugins/datatable/js/vfs_fonts.js' %}"></script>
+		<script src="{% static 'assets/plugins/datatable/js/buttons.html5.min.js' %}"></script>
+		<script src="{% static 'assets/plugins/datatable/js/buttons.print.min.js' %}"></script>
+		<script src="{% static 'assets/plugins/datatable/js/buttons.colVis.min.js' %}"></script>
+		<script src="{% static 'assets/plugins/datatable/js/dataTables.responsive.min.js' %}"></script>
+		<script src="{% static 'assets/plugins/datatable/js/responsive.bootstrap4.min.js' %}"></script>
+
+		<!-- datatable js -->
+		<script src="{% static 'assets/js/table-data.js' %}"></script>
+		<!--Internal  Clipboard js-->
+		<script src="{% static 'assets/plugins/clipboard/clipboard.min.js' %}"></script>
+		<script src="{% static 'assets/plugins/clipboard/clipboard.js' %}"></script>
+		<script>
+		$(document).ready(function(){
+			  $("#candidatefilter").click(function(){
+				$("#showfilter").toggle();
+			  });
+			});
+		</script>
+
+		
+{% endblock %}

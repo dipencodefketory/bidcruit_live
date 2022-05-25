@@ -1,0 +1,158 @@
+{% extends 'company/base.html' %}
+{% load static %}
+{% load notifications_tags %}
+{% load candidate_extras %}
+{% block title %}All Notifications {% endblock %}
+{% block css %}
+		<style type="text/css">
+			.main-mail-list-items {
+			    height: auto !important;
+			}
+		</style>
+{% endblock %}
+{% block main %}
+
+					<!-- Main-content-body -->
+					<div class="main-content-body">
+
+						<!-- header-title -->
+						<div class="header-title">
+							<div class="mb-0 mb-lg-0 mb-xl-0">
+								<h4 class="mb-2">Mail</h4>
+								<div class="main-content-breadcrumb"> <span>Mail</span> <span>Mail</span> </div>
+							</div>
+							<div class="ml-auto my-auto">
+								<a href="#" class="btn btn-primary"><i class="fe fe-plus-square"></i> Create Report</a>
+								<a href="#" class="btn btn-pink"><i class="fe fe-external-link"></i> Export</a>
+							</div>
+						</div>
+						<!-- header-title -->
+
+						<!-- row -->
+						<div class="row row-sm">
+							<div class="col-md-12">
+								<div class="card mail-container task-container overflow-hidden">
+									<div class="mail-overlay"></div>
+									<div class="row row-sm">
+										
+										<div class="col-xl-12 col-lg-12 pl-0 main-content-body-mail1">
+											<div class="">
+												<div class="main-content-body-mail">
+													
+													<div class="main-mail-options pl-4 pr-4  border-top-0">
+														<label class="ckbox">Notification List</label>
+														<div class="btn-group">
+															
+														</div><!-- btn-group -->
+													</div><!-- main-mail-options -->
+													<div class="main-mail-list-items">
+														
+														<ul class="main-mail-list pl-0 mb-0">
+															{% for notification in user.notifications.all %}
+																<li class="main-mail-item unread">
+																	<div class="main-img-user"><img alt="" src="{{notification.data.image}}"></div>
+																	<div class="main-mail-body">
+																		<div class="main-mail-from">
+																			{{notification.verb}}
+																		</div>
+																		<div class="main-mail-subject">
+																			<span>{{notification.description}}</span>
+																		</div>
+																	</div>
+																	
+																	<div class="main-mail-date">
+																		11:30am
+																	</div>
+																</li>
+															{% endfor %}
+															
+														</ul>
+														<div  class="text-center col-12">
+															<span id="errmsg" class="mx-auto pt-5"></span>
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+										<div class="col-xl-9 col-lg-8 pl-0">
+											<div class="border-left">
+												<a class="main-header-mail-arrow" href="" id="ChatBodyHide"><i class="icon ion-md-arrow-back"></i></a>
+												<!-- mail-content -->
+												<div class="main-content-body pt-0 mt-0 main-mail-content-body card mb-0  custom-card">
+													<div class="main-contact-info-header pt-3">
+														<div class="email-media">
+															<div class="mt-0 d-sm-flex">
+																<img class="mr-2 rounded-circle avatar-xl" src="../../assets/img/faces/6.jpg" alt="avatar">
+																<div class="media-body mt-0">
+																	<div class="float-right d-none d-md-flex fs-15">
+																		<small class="mr-3 tx-14 my-auto">Sep 13 , 2019 12:45 pm</small>
+																		<small class="mr-3"><i class="bx bx-star tx-20" data-toggle="tooltip" title="" data-original-title="Rated"></i></small>
+																		<small class="mr-3"><i class="bx bx-share tx-20" data-toggle="tooltip" title="" data-original-title="Reply"></i></small>
+																		<div class="mr-3">
+																			<a href="#" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="bx bx-dots-horizontal-rounded tx-20" data-toggle="tooltip" title="" data-original-title="View more"></i></a>
+																			<div class="dropdown-menu">
+																				<a class="dropdown-item" href="#">Reply</a>
+																				<a class="dropdown-item" href="#">Report Spam</a>
+																				<a class="dropdown-item" href="#">Delete</a>
+																				<a class="dropdown-item" href="#">Show Original</a>
+																				<a class="dropdown-item" href="#">Print</a>
+																				<a class="dropdown-item" href="#">Filter</a>
+																			</div>
+																		</div>
+																	</div>
+																	<div class="font-weight-bold mt-3">Alica Nestle</div>
+																	<p class="mb-0">to Adam Cotter </p>
+																	<small class="mr-2 d-md-none tx-14 my-auto">Dec 13 , 2018 12:45 pm</small>
+																	<small class="mr-2 d-md-none"><i class="bx bx-star tx-20" data-toggle="tooltip" title="" data-original-title="Rated"></i></small>
+																	<small class="mr-2 d-md-none"><i class="bx bx-share tx-20" data-toggle="tooltip" title="" data-original-title="Reply"></i></small>
+																</div>
+															</div>
+														</div>
+														<div class="eamil-body mt-4">
+															<h6>Hi Sir/Madam</h6>
+															<p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. </p>
+															<p> Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia.</p>
+															<p> Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure. To take a trivial example, which of us ever undertakes laborious physical exercise, except to obtain some advantage from it?</p>
+															<p class="mb-0">Thanking you Sir/Madam</p>
+															<hr>
+															<div class="email-attch pr-3">
+																<div class="d-flex">
+																	<div class="float-right text-right">
+																		<a href="#"><i class="bx bx-downvote tx-20" data-toggle="tooltip" title="" data-original-title="Download"></i></a>
+																	</div>
+																	<p class="float-left ml-3">3 Attachments<a href="#"> View All Images</a></p>
+																</div>
+																<div class="emai-img">
+																	<div class="d-sm-flex">
+																		<div class=" m-2">
+																			<a href="#"><img class="wd-150 mb-2" src="../../assets/img/photos/1.jpg" alt="placeholder image"></a>
+																			<h6 class="mb-3 mb-lg-0">1.jpg <small class="text-muted">12kb</small></h6>
+																		</div>
+																		<div class="m-2">
+																			<a href="#"><img class="wd-150 mb-2" src="../../assets/img/photos/2.jpg" alt="placeholder image"></a>
+																			<h6 class="mb-3 mb-lg-0">2.jpg <small class="text-muted">18kb</small></h6>
+																		</div>
+																		<div class="m-2">
+																			<a href="#"><img class="wd-150 mb-2" src="../../assets/img/photos/3.jpg" alt="placeholder image"></a>
+																			<h6>3.jpg <small class="text-muted">21kb</small></h6>
+																		</div>
+																	</div>
+																</div>
+															</div>
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+										<!-- mail-content -->
+									</div>
+								</div>
+							</div>
+						</div>
+						<!-- /row -->
+					</div>
+					<!-- Main-content-body closed -->
+{% endblock %}
+
+{% block script %}
+{% endblock %}

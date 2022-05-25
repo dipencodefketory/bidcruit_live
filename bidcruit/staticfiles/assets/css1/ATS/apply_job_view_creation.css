@@ -1,0 +1,75 @@
+.main-header { background: #0068FF;}
+.login-btn{border:none;background:#fff;color:#0068FF;height:32px;min-width:100px;width:120px;text-align:center;border-radius:6px;line-height:0;margin:0 6px;border-radius:20px}
+.flex-box-col{display:flex;justify-content:space-between;}
+.bedge-tab ul{display:flex;list-style:none;padding:0;margin:0;gap:16px}
+.bedge-tab li{padding: 7px 16px;border-radius: 16px;font-size: 10px;font-weight: bold;}
+.bedge-tab i{padding-right: 8px;}
+.flex-box-col .sub-title{margin:0;font-size:16px;font-weight:500}
+.bedge-tab .primary{background:#F2F3F5;color:#0068FF}
+.bedge-tab .success{background:#E1F5D9;color:#5FA54C}
+.bedge-tab .progress { background: #fcefcc;color: #fcaf32; display: flex;font-size: 10px; padding: 14px 10px;}
+.classcify-list{list-style:none;margin:0;padding:0;display:flex;justify-content:flex-start;align-items:center}
+.classcify-list li {flex: 1 1 auto;position: relative;border: 1px solid #e2e8f5;min-height: 76px;border-left: 0px;padding: 16px 30px;}
+.c-title ,.btm-text .c-details{ margin: 0;}
+.classcify-list li i{position: absolute;left: 8px; top: 20px;color: #0068FF;}
+.classcify-list li:last-child {border-right: 0;}
+
+.job-apply-btngroup {
+    display: flex;
+    justify-content: flex-end;
+    gap: 12px;
+    align-items: center;
+    margin: 8px 10px 0 0;
+}
+.chat-btn {
+    color: #ffffff;
+    background-color: #0068FF;
+    padding: 4px 7px;
+    border-radius: 23px;
+    cursor: pointer;
+}
+.point-ls {
+    list-style: none;
+    margin: 20px 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+.point-ls li {
+    display: flex;
+    justify-content: flex-start;
+    align-content: center;
+    gap: 14px;
+}
+.point-ls li .fa-hand-point-right {
+    font-size: 20px;
+}
+.point-ls li p {
+    margin: 0;
+}
+.social-link-list {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    margin: 20px 0 30px 0;
+}
+.media-link-contants {
+    display: flex;
+    gap: 25px;
+    justify-content: flex-start;
+    align-items: center;
+}
+.media-link-contants h5{margin: 0px;}
+.sb-link {
+    display: flex;
+    justify-content: flex-start;
+    gap: 10px;
+    align-content: center;
+    font-size: 22px;
+}
+.icon-links {
+    padding: 0 8px;
+    border: 1px solid #e2e8f5;
+    border-radius: 4px;
+}

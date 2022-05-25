@@ -1,0 +1,53 @@
+
+.candidate_table_main_section .card-header{
+    border-bottom: 1px solid #e2e8f5;
+    padding-bottom: 12px !important;
+}
+.candidate_table_main_section table.dataTable tbody tr {
+    background-color: #f8fafc;
+}
+.candidate_table_main_section table.dataTable tbody th, table.dataTable tbody td {
+    padding: 14px 10px;
+}
+.candidate_table_main_section .table {
+    color: #041b4e;
+}
+.candidate_table_main_section table.dataTable thead th, .candidate_table_main_section table.dataTable thead td {
+    padding: 14px 10px;
+}
+.action_icons i.fas.fa-eye {
+    color: #0068ff;
+}
+.action_icons i.fas.fa-edit {
+    color: #0068ff;
+    padding-left: 6px;
+}
+.action_icons i.fas.fa-trash-alt {
+    color: #ff5353;
+    padding-left: 6px;
+}
+.skills_details {
+    text-align: center;
+    color: #0068ff;
+    cursor: pointer;
+}
+.skills_details a{
+    color: #0068ff;
+}
+.candidate_filters_header {
+    float: left;
+}
+.candidate_filters_header a {
+    color: #041b4e;
+    margin: 0 15px;
+    font-size: 16px;
+}
+.candidate_filters_header a:hover {
+    color: #0068ff;
+}
+spna.box_i_e_type {
+    background-color: #7987a1;
+    color: #fff;
+    border-radius: 100px;
+    padding: 5px 15px;
+}

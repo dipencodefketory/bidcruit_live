@@ -1,0 +1,210 @@
+{% extends 'company/base.html' %}
+{% load static %}
+{% load candidate_extras %}
+{% block title %}Mcq Template View{% endblock %}
+{% block css %}
+		<link href="{% static 'assets/css/ATS/mcq_view.css' %}" rel="stylesheet">
+{% endblock %}
+{% block main %}
+		
+
+					<!-- Main-content-body -->
+					<div class="main-content-body">
+
+						<!-- header-title -->
+						<div class="header-title">
+							<div class="mb-0 mb-lg-0 mb-xl-0">
+								<h4 class="mb-2">Components</h4>
+								<div class="main-content-breadcrumb"> <span>Components</span> <span>Data-tables</span> </div>
+							</div>
+							<div class="ml-auto my-auto">
+								<a href="#" class="btn btn-primary"><i class="fe fe-plus-square"></i> Create Report</a>
+								<a href="#" class="btn btn-pink"><i class="fe fe-external-link"></i> Export</a>
+							</div>
+						</div>
+						<!-- header-title -->
+						
+						<!-- row opened -->
+						<div class="row row-sm">
+
+							<div class="col-xl-12">
+								<div class="card add_view_main_section">
+									
+									<div class="row card-body mcq_list_inner pt-0 pb-0">
+										
+										<div class="col-md-12 col-xl-12 mcq_list p-0">
+
+											<div class="row header-title__section">
+            
+										        <div class="col-lg-12 col-md-12 col-sm-12">
+										            <div class="template_selection_header one_header">
+										                <div class="h5 t_ty_50">Template Type : <span>MCQ</span></div>
+										            	<div class="h5">Template Name : <span>{{exam_data.template.name}}</span></div>
+										                
+										            </div>
+										        </div>
+										        
+										    </div>
+											
+											
+											
+											<div class="col-12 full-list">		
+												<div class="template_selection_header tow_header">
+									                
+									            	<div class="h5 ">Subject Name : <span>{{exam_data.subject.subject_name}}</span></div>
+									            	<div class="h5 ">Exam Name: <span>{{exam_data.exam_name}}</span></div>
+									            	<div class="h5 ">Total Questions : <span>{{exam_data.total_question}}</span></div>
+									                
+									            </div>
+
+												<div class="mini__card-layout">
+													<div class="fx-row title_list">
+													   <div class="fx-col">
+														  <label class="text-capitalize h6">Basic</label>
+													   </div>
+													   <div class="fx-col">
+														  <label class="text-capitalize h6">Intermediate</label>
+													   </div>
+													   <div class="fx-col">
+														  <label class="text-capitalize h6">Advanced</label>
+													   </div>
+													   <div class="fx-col">
+														  <label class="text-capitalize h6">Negative Marks</label>
+													   </div>
+													   <div class="fx-col">
+														  <label class="text-capitalize h6">Exam Type</label>
+													   </div>
+													   {% if exam_data.question_wise_time %}
+													   {% else %}
+													   <div class="fx-col">
+														  <label class="text-capitalize h6">Total Time</label>
+													   </div>
+													   {% endif %}
+													</div>
+													<div class="fx-row fx-details__ls">
+													   <div class="fx-col col-view_caption">
+														  <p class="result_view h6"><span>Question</span>{{exam_data.basic_questions_count}}</p>
+														  {% ifequal exam_data.marking_system 'category_wise' %} 
+														  <p class="result_view h6"><span>Marks</span>{{exam_data.basic_question_marks}}</p>
+														  {% endifequal %}
+													   </div>
+													   <div class="fx-col col-view_caption">
+														  <p class="result_view h6"><span>Question</span>{{exam_data.intermediate_questions_count}}</p>
+														  {% ifequal exam_data.marking_system 'category_wise' %} 
+														  <p class="result_view h6"><span>Marks</span>{{exam_data.intermediate_question_marks}}</p>
+														  {% endifequal %}
+													   </div>
+													   <div class="fx-col col-view_caption">
+														  <p class="result_view h6"><span>Question</span>{{exam_data.advanced_questions_count}}</p>
+														  {% ifequal exam_data.marking_system 'category_wise' %}  
+														  <p class="result_view h6"><span>Marks</span>{{exam_data.advanced_question_marks}}</p>
+														  {% endifequal %}
+													   </div>
+													   <div class="fx-col col-view_caption">
+														  <p class="result_view h6">{{exam_data.negative_mark_percent}}%</p>
+													   </div>
+													   <div class="fx-col col-view_caption">
+														  <p class="result_view h6">{{exam_data.exam_type}}</p>
+													   </div>
+													   {% if exam_data.question_wise_time %}
+													   {% else %}
+													   <div class="fx-col col-view_caption">
+														  <p class="result_view h6">{{exam_data.duration}}</p>
+													   </div>
+													   {% endif %}
+													</div>
+												</div>
+												
+												<div class="negative-mark">
+													Assessment Type : Marks
+												</div>
+												
+												
+											</div>
+
+
+										</div>
+
+									</div>
+								</div>
+
+								<div class="card">
+									<div class="row card-body pt-0 pb-0">
+										<div class="col-md-12 col-xl-12 mcq_list p-0">
+											<ul class="template_question_list_box">	
+																								
+													{% for mcq_ques in mcq_que %}	
+													<li class="list_q">
+														<div class="slide-list row row-sm card mb-0">
+															<div class="title-section col-12">
+																<div class="info-section fx-row">
+																	<div class="fx-col-sm left-side">
+																		<label class="tab-counter-label">{{forloop.counter}}</label>
+																		<label class="text_q main-content-label mb-0">{% if exam_data.marking_system == 'question_wise' or exam_data.question_wise_time %}
+																														{{mcq_ques.question.question_description}}
+																													  {% else %}
+																													  {{mcq_ques.question_description}}
+																													  {% endif %}
+
+																													</label>
+																	</div>
+																	<div class="fx-col-sm right-side">
+																		<label class="category-type__info text-capitalize">{{mcq_ques.question.question_level.level_name}}</label>
+																		{% ifequal exam_data.marking_system 'question_wise' %}
+																		<div class="marks_time">Marks : {{mcq_ques.question_mark}}</div>
+																		{% endifequal %}
+																		{% ifequal exam_data.marking_system question_wise %}
+																			{% if exam_data.question_wise_time %}
+																				<span class="line_tm"></span>
+																			{% endif %}
+																		{% endifequal %}
+																		{% if exam_data.question_wise_time %}
+																		<div class="marks_time">Time : {{mcq_ques.question_time}} min</div>
+																		{% endif %}
+																		
+																		
+																	</div>
+																</div>
+																<div class="short-details">
+																	<div class="para-description">
+																		<ul class="list_view_option">
+																			{% if exam_data.marking_system == 'question_wise' or exam_data.question_wise_time %}
+																				<li {%if mcq_ques.question.correct_option == 'a'%} class="correct_ans"{%endif%}>(A) {{mcq_ques.question.option_a}}</li>
+																				<li {%if mcq_ques.question.correct_option == 'b'%} class="correct_ans"{%endif%}>(B) {{mcq_ques.question.option_b}}</li>
+																				<li {%if mcq_ques.question.correct_option == 'c'%} class="correct_ans"{%endif%}>(C) {{mcq_ques.question.option_c}}</li>
+																				<li {%if mcq_ques.question.correct_option == 'd'%} class="correct_ans"{%endif%}>(D) {{mcq_ques.question.option_d}}</li>
+																			{% else %}
+																				<li {%if mcq_ques.correct_option == 'a'%} class="correct_ans"{%endif%}>(A) {{mcq_ques.option_a}}</li>
+																				<li {%if mcq_ques.correct_option == 'b'%} class="correct_ans"{%endif%}>(B) {{mcq_ques.option_b}}</li>
+																				<li {%if mcq_ques.correct_option == 'c'%} class="correct_ans"{%endif%}>(C) {{mcq_ques.option_c}}</li>
+																				<li {%if mcq_ques.correct_option == 'd'%} class="correct_ans"{%endif%}>(D) {{mcq_ques.option_d}}</li>
+																			{% endif %}
+																		</ul>
+																	</div>			
+																</div>
+															</div>
+														</div>
+													</li>
+												   {% endfor %}
+
+											</ul>
+										</div>
+
+									</div>
+								</div>
+
+							</div>
+							<!--/div-->
+					
+						</div>
+						<!-- /row -->
+					</div>
+					<!-- Main-content-body closed -->
+				
+
+
+{% endblock %}
+
+{% block script %}
+
+{% endblock %}

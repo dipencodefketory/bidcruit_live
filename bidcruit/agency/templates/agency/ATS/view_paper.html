@@ -1,0 +1,42 @@
+{%load static%}
+{%load custom_filters%}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+
+
+</head>
+<body>
+    <center><h1> {{exam_name}} </h1></center>
+    <form action="{%url 'agency:process_paper'%}" method="POST">
+        {%csrf_token%}
+        <input type="hidden" name="exam_id" value="{{exam_id}}">
+        <ol>
+            {%for i in questions%}
+            <div style="border: 1px solid grey;border-radius: 5px;">
+                <li>
+                    <pre>{{i.question_description}} <span style="float: right;">Postitive marking = {{i|get_question_pos_marks}}</span><br><span style="float:right">Negative Marking = {{i|get_question_neg_marks}}</span></pre>
+                        <div class="question_box">
+                            <ol type="a">
+                                    <li>{{i.option_a}} <input type="radio" name="{{i.id}}"  value="a"></li>
+                                    <li>{{i.option_b}} <input type="radio" name="{{i.id}}" value="b"></li>
+                                    <li>{{i.option_c}} <input type="radio" name="{{i.id}}" value="c"></li>
+                                    <li>{{i.option_d}} <input type="radio" name="{{i.id}}" value="d"></li>
+
+                            </ol>
+                        </div>
+
+                </li>
+            </div>
+            {%endfor%}
+        </div>
+        </ol>
+        <input type="submit" class="btn btn-primary">
+    </form>
+</body>
+</html>

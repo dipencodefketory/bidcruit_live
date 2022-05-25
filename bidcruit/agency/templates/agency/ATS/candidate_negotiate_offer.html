@@ -1,0 +1,342 @@
+{% extends 'agency/base.html' %}
+{% load static %}
+{% load agency_filter %}
+{% load tz %}
+
+{% block css %}
+		<link href="{% static 'assets/css/ATS/candidate_negotiate_offer.css' %}" rel="stylesheet">
+{% endblock %}
+
+
+
+{% block main %}
+		<!-- Main-content-body -->
+		<div class="main-content-body">
+			<!-- row -->
+			<div class="d-flex justify-content-center row">
+				<div class="col-md-12">
+					<div class="card mg-b-0 candidate_negotiate_offer_section">
+
+						<div class="candidate_negotiate_offer_chat">
+<!--							<div class="main_chat_title">Micle (HR Department) </div>-->
+							<div class="chat_section_scroling">
+
+								{% for negotiation in negotiations %}
+
+									{% if negotiation.from_company %}
+										<div class="chat_section right_side">
+											<div class="chat_time">{% timezone "Asia/Calcutta" %}{{negotiation.create_at}}{% endtimezone %}</div>
+											<div class="inner_chat_box">
+
+												<div class="company_profile_logo_name">
+													<div class="company_profile_logo"><img src="{{job_offer_obj.agency_id.id|get_agency_image}}"></div>
+													<div class="company_profile_name">
+														<h4 class="card-title mg-b-0">{{job_offer_obj.job_id.job_title}}</h4>
+														<span>{{job_offer_obj.agency_id.agency_id.company_name}}</span>
+													</div>
+													{% if negotiation.action_name %}
+													<div class="negotiation_action">
+														<span>{{negotiation.action_name}}</span>
+													</div>
+													{% endif %}
+												</div>
+												<div class="title_section_heading">Designation : <span>{{negotiation.designation}}</span></div>
+												<div class="title_section_heading">Offered Salary(Yearly) : <span>{{negotiation.annual_ctc}}</span></div>
+												<div class="title_section_heading">Notice Period : <span>{{negotiation.notice_period}}</span></div>
+												<div class="title_section_heading">Joining Date : <span>{{negotiation.joining_date}}</span></div>
+
+												{% if negotiation.other_details %}
+													<div class="title_section_heading details_text">Details :
+														<span>
+															{% autoescape off %}
+																{{negotiation.other_details}}
+															{% endautoescape %}
+														</span>
+													</div>
+												{% endif %}
+
+												{% if negotiation.action_name == 'Rejected By Candidate' %}
+													{% if job_offer_obj.rejected_by_candidate %}
+														<div class="offer_Submit_btn">
+															<a class="Negotiate_Submit" data-effect="effect-scale" data-toggle="modal" href="#ResendOffer">Resend Offer</a>
+														</div>
+													{% endif %}
+												{% endif %}
+											</div>
+										</div>
+									{% else %}
+										<div class="chat_section left_side">
+											<div class="chat_time">{{negotiation.create_at}}</div>
+											<div class="inner_chat_box">
+
+												<div class="company_profile_logo_name">
+													<div class="company_profile_name">
+														<h4 class="card-title mg-b-0">{{job_offer_obj.job_id.job_title}}</h4>
+													</div>
+													{% if negotiation.action_name %}
+													<div class="negotiation_action">
+														<span>{{negotiation.action_name}}</span>
+													</div>
+													{% endif %}
+												</div>
+												<div class="title_section_heading">Designation : <span>{{negotiation.designation}}</span></div>
+												<div class="title_section_heading">Offered Salary(Yearly) : <span>{{negotiation.annual_ctc}}</span></div>
+												<div class="title_section_heading">Notice Period : <span>{{negotiation.notice_period}}</span></div>
+												<div class="title_section_heading">Joining Date : <span>{{negotiation.joining_date}}</span></div>
+												{% if negotiation.other_details %}
+													<div class="title_section_heading details_text">Details :
+														<span>
+															{% autoescape off %}
+																{{negotiation.other_details}}
+															{% endautoescape %}
+														</span>
+													</div>
+												{% endif %}
+
+												{% if not negotiation.action_performed %}
+													<div class="offer_Submit_btn">
+														<a class="Negotiate_Submit" data-effect="effect-scale" data-toggle="modal" href="#Negotiate">Update Offer</a>
+													</div>
+												{% endif %}
+											</div>
+										</div>
+									{% endif %}
+								{% endfor %}
+							</div>
+						</div>
+
+						<div class="candidate_negotiate_pdf">
+							<div class="pdf_view_section text-center">
+								<embed src="{{job_offer_obj.offer_letter.url|image_path_remove}}" width="600" height="500" class="pdf-docs">
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- Main-content-body closed -->
+
+		<!-- Modal effects -->
+		{% for negotiation in negotiations %}
+			{% if negotiation.action_name == 'Rejected By Candidate' %}
+				{% if job_offer_obj.rejected_by_candidate %}
+					<div class="modal" id="ResendOffer">
+					<div class="modal-dialog modal-dialog-centered" role="document">
+						<div class="modal-content modal-content-demo">
+							<div class="modal-header">
+								<h6 class="modal-title">Resend Offer</h6><button aria-label="Close" class="close" data-dismiss="modal" type="button"><span aria-hidden="true">&times;</span></button>
+							</div>
+							<div class="modal-body offer_inner_section">
+
+								<form method="post" role="form" enctype="multipart/form-data" data-parsley-validate="">
+									{% csrf_token %}
+									<input type="hidden" value="{{negotiation.id}}" name="negotiation_id">
+									<!--Start Form Section-->
+									<div class="form-group__layout">
+										<!--Basic Form-->
+										<div class="basic_form" id="basicForm">
+											<div class="row row-sm">
+												<div class="col-lg">
+													<div class="row basicInfo-offer">
+														<div class="form-group col-lg mg-t-10 mg-lg-t-0">
+															<label class="form-label req-field">Candidate Name : <input name="candidate_name_checked" type="checkbox" onclick="Activeinput('candidate_name','candidate_name_checked')" value="title_checked"></label>
+															<input class="form-control" name="candidate_name" value="{{job_offer_obj.candidate_name}}" type="text" readonly>
+														</div>
+														<div class="form-group col-lg mg-t-10 mg-lg-t-0">
+															<label class="form-label req-field">Designation : <input name="designation_checked" type="checkbox" onclick="Activeinput('designation','designation_checked')" value="title_checked"></label>
+															<input class="form-control" name="designation" value="{{negotiation.designation}}" type="text" readonly>
+														</div>
+														<div class="form-group col-lg mg-t-10 mg-lg-t-0">
+															<label class="form-label req-field">Negotiate Salary (Yearly) : <input name="salary_checked" onclick="Activeinput('negotiate_salary','salary_checked')" type="checkbox" value="salary_checked"></label>
+															<input class="form-control" name="negotiate_salary" value="{{negotiation.annual_ctc}}" placeholder="" type="text" readonly>
+														</div>
+														<div class="form-group col-lg mg-t-10 mg-lg-t-0">
+															<label class="form-label req-field">Offer Letter: <input name="offer_letter_checked" onclick="Activeinput('offer_letter','offer_letter_checked')" type="checkbox" value="offer_letter_checked"></label>
+															<input class="form-control" name="offer_letter" value="" placeholder="" type="file" disabled>
+														</div>
+
+													</div>
+												</div>
+											</div>
+											<div class="row row-sm">
+												<div class="col-lg">
+													<div class="row basicInfo-offer">
+														<div class="form-group col-lg mg-t-10 mg-lg-t-0">
+															<label class="form-label req-field">Notice Period : <input name="notice_period_checked" onclick="Activeinput('notice_period','notice_period_checked')" type="checkbox" value="notice_period_checked"></label>
+															<input class="form-control" name="notice_period" value="{{negotiation.notice_period}}" placeholder="" type="text" readonly>
+														</div>
+														<div class="form-group col-lg mg-t-10 mg-lg-t-0">
+															<label class="form-label req-field">Bond : <input name="bond_checked" type="checkbox" onclick="Activeinput('bond','bond_checked')" value="title_checked"></label>
+															<input class="form-control" name="bond" value="{{job_offer_obj.bond}}" type="text" readonly>
+														</div>
+														<div class="form-group col-lg mg-t-10 mg-lg-t-0">
+															<label class="form-label req-field">NDA : <input name="nda_checked" type="checkbox" onclick="Activeinput('nda','nda_checked')" value="title_checked"></label>
+															<input class="form-control" name="nda" value="{{job_offer_obj.NDA}}" type="text" readonly>
+														</div>
+														<div class="form-group col-lg mg-t-10 mg-lg-t-0">
+															<label class="form-label req-field">Joining date : <input name="join_date_checked" onclick="Activeinput('join_date','join_date_checked')" type="checkbox" value="join_date_checked"></label>
+															<div class="input-group date_cal">
+																<input id="join_date_pi" name="join_date" value="{{negotiation.joining_date|date:'Y-m-d'}}" class="form-control fc-datepicker" placeholder="MM/DD/YYYY" type="date" readonly>
+															</div>
+														</div>
+
+													</div>
+												</div>
+											</div>
+											<div class='text_detail_offer'>
+												<label class="form-label req-field">Details :</label>
+												<textarea name="other_details" id="Offer_detail_text"></textarea>
+											</div>
+
+										</div>
+										<!--Basic Form End-->
+									</div>
+									<!--form action button section-->
+									<div class="companyFormSubmit_btn">
+										<button name="resend_offer" class="btn btn-sm btn-primary NegotiateFormSubmit btn-sm btn-rounded" type="submit">Submit</button>
+									</div>
+									<!--form action button section End-->
+								</form>
+
+							</div>
+
+						</div>
+					</div>
+				</div>
+				{% endif %}
+			{% else %}
+				{% if forloop.first %}
+					<div class="modal" id="Negotiate">
+						<div class="modal-dialog modal-dialog-centered" role="document">
+							<div class="modal-content modal-content-demo">
+								<div class="modal-header">
+									<h6 class="modal-title">Update Offer</h6><button aria-label="Close" class="close" data-dismiss="modal" type="button"><span aria-hidden="true">&times;</span></button>
+								</div>
+								<div class="modal-body offer_inner_section">
+
+									<form method="post" role="form" enctype="multipart/form-data" data-parsley-validate="">
+										{% csrf_token %}
+										<input type="hidden" value="{{negotiation.id}}" name="negotiation_id">
+										<!--Start Form Section-->
+										<div class="form-group__layout">
+											<!--Basic Form-->
+											<div class="basic_form" id="basicForm">
+												<div class="row row-sm">
+													<div class="col-lg">
+														<div class="row basicInfo-offer">
+															<div class="form-group col-lg mg-t-10 mg-lg-t-0">
+																<label class="form-label req-field">Candidate Name : <input name="candidate_name_checked" type="checkbox" onclick="Activeinput('candidate_name','candidate_name_checked')" value="title_checked"></label>
+																<input class="form-control" name="candidate_name" value="{{job_offer_obj.candidate_name}}" type="text" readonly>
+															</div>
+															<div class="form-group col-lg mg-t-10 mg-lg-t-0">
+																<label class="form-label req-field">Designation : <input name="designation_checked" type="checkbox" onclick="Activeinput('designation','designation_checked')" value="title_checked"></label>
+																<input class="form-control" name="designation" value="{{negotiation.designation}}" type="text" readonly>
+															</div>
+															<div class="form-group col-lg mg-t-10 mg-lg-t-0">
+																<label class="form-label req-field">Negotiate Salary (Yearly) : <input name="salary_checked" onclick="Activeinput('negotiate_salary','salary_checked')" type="checkbox" value="salary_checked"></label>
+																<input class="form-control" name="negotiate_salary" value="{{negotiation.annual_ctc}}" placeholder="" type="text" readonly>
+															</div>
+															<div class="form-group col-lg mg-t-10 mg-lg-t-0">
+																<label class="form-label req-field">Offer Letter: <input name="offer_letter_checked" onclick="Activeinput('offer_letter','offer_letter_checked')" type="checkbox" value="offer_letter_checked"></label>
+																<input class="form-control" name="offer_letter" value="" placeholder="" type="file" disabled>
+															</div>
+
+														</div>
+													</div>
+												</div>
+												<div class="row row-sm">
+													<div class="col-lg">
+														<div class="row basicInfo-offer">
+															<div class="form-group col-lg mg-t-10 mg-lg-t-0">
+																<label class="form-label req-field">Notice Period : <input name="notice_period_checked" onclick="Activeinput('notice_period','notice_period_checked')" type="checkbox" value="notice_period_checked"></label>
+																<input class="form-control" name="notice_period" value="{{negotiation.notice_period}}" placeholder="" type="text" readonly>
+															</div>
+															<div class="form-group col-lg mg-t-10 mg-lg-t-0">
+																<label class="form-label req-field">Bond : <input name="bond_checked" type="checkbox" onclick="Activeinput('bond','bond_checked')" value="title_checked"></label>
+																<input class="form-control" name="bond" value="{{job_offer_obj.bond}}" type="text" readonly>
+															</div>
+															<div class="form-group col-lg mg-t-10 mg-lg-t-0">
+																<label class="form-label req-field">NDA : <input name="nda_checked" type="checkbox" onclick="Activeinput('nda','nda_checked')" value="title_checked"></label>
+																<input class="form-control" name="nda" value="{{job_offer_obj.NDA}}" type="text" readonly>
+															</div>
+															<div class="form-group col-lg mg-t-10 mg-lg-t-0">
+																<label class="form-label req-field">Joining date : <input name="join_date_checked" onclick="Activeinput('join_date','join_date_checked')" type="checkbox" value="join_date_checked"></label>
+																<div class="input-group date_cal">
+																	<input id="join_date_pi" name="join_date" value="{{negotiation.joining_date|date:'Y-m-d'}}" class="form-control fc-datepicker" placeholder="MM/DD/YYYY" type="date" readonly>
+																</div>
+															</div>
+
+														</div>
+													</div>
+												</div>
+												<div class='text_detail_offer'>
+													<label class="form-label req-field">Details :</label>
+													<textarea name="other_details" id="Offer_detail_text"></textarea>
+												</div>
+
+											</div>
+											<!--Basic Form End-->
+										</div>
+										<!--form action button section-->
+										<div class="companyFormSubmit_btn">
+											<button class="btn btn-sm btn-primary NegotiateFormSubmit btn-sm btn-rounded" type="submit">Submit</button>
+										</div>
+										<!--form action button section End-->
+									</form>
+
+								</div>
+
+							</div>
+						</div>
+					</div>
+				{% endif %}
+			{% endif %}
+		{% endfor %}
+		<!-- End Modal effects-->
+{% endblock %}
+
+
+{% block script %}
+		<!-- tinymce js -->
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/tinymce/4.5.6/tinymce.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/tinymce/4.5.6/jquery.tinymce.min.js"></script>
+
+		 <script>
+			 // tiny code
+			 let tiny_id = "#Offer_detail_text";				
+				tinymce.init({
+					selector: tiny_id,
+					menubar: false,
+					plugins: [
+						'advlist autolink lists',
+						'visualblocks code',
+
+					],
+					toolbar: 
+					'bold italic  | alignleft aligncenter ' +
+					'alignright alignjustify | bullist numlist  | ',
+					content_style: 'body { font-family:Helvetica,Arial,sans-serif; font-size:14px }'
+				});				
+		 </script>
+
+		 <script>
+			 function Activeinput(name,checkbox){
+			 	if(name == "offer_letter"){
+			 		if ($("input[name='"+checkbox+"']").is(':checked')) {
+						$("input[name='"+name+"']").removeAttr("disabled");
+						$("input[name='"+name+"']").attr("required", true);
+					} else {
+						$("input[name='"+name+"']").attr("disabled", true);
+						$("input[name='"+name+"']").removeAttr("required");
+					}
+			 	}
+				if ($("input[name='"+checkbox+"']").is(':checked')) {
+					$("input[name='"+name+"']").removeAttr("readonly");
+					$("input[name='"+name+"']").attr("required", true);
+				} else {
+					$("input[name='"+name+"']").attr("readonly", true);
+					$("input[name='"+name+"']").removeAttr("required");
+				}
+			 }
+		 </script>
+{% endblock %}

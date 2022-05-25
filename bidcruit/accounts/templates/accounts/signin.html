@@ -1,0 +1,229 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+
+		<meta charset="UTF-8">
+		<meta name='viewport' content='width=device-width, initial-scale=1.0, user-scalable=0'>
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="Description" content="">
+		<meta name="Author" content="">
+		<meta name="Keywords" content=""/>
+
+		<!-- Title -->
+		<title> Sign In </title>
+
+		<!-- Favicon -->
+		<link rel="icon" href="{% static 'assets/img/brand/bluelogo.png' %}" type="image/x-icon"/>
+
+		<!-- Icons css -->
+		<link href="{% static 'assets/css/icons.css' %}" rel="stylesheet">
+
+		<!-- Bootstrap css -->
+		<link rel="stylesheet" href="{% static 'assets/plugins/bootstrap/css/bootstrap.min.css' %}">
+
+		<!-- Right-sidemenu css -->
+		<link href="{% static 'assets/plugins/sidebar/sidebar.css' %}" rel="stylesheet">
+
+		<!-- Style css -->
+		<link rel="stylesheet" type="text/css" media="all" href="{% static 'assets/css/style.css' %}">
+
+		<!-- Colors css -->
+		<link id="theme" rel="stylesheet" type="text/css" media="all" href="{% static 'assets/css/colors/color.css' %}">
+
+		<!-- Skinmodes css -->
+		<link href="{% static 'assets/css/skin-modes.css' %}" rel="stylesheet">
+
+		<!-- Darktheme css -->
+		<link href="{% static 'assets/css/style-dark.css' %}" rel="stylesheet">
+
+		<!-- Sidemenu css -->
+		<link rel="stylesheet" href="{% static 'assets/css/sidemenu/sidemenu.css' %}">
+
+
+		<!-- Animations css -->
+		<link href="{% static 'assets/css/animate.css' %}" rel="stylesheet">
+		<!-- cadidate profile css -->
+		<link href="{% static 'assets/css/custom.css' %}" rel="stylesheet">
+		
+		<!-- Global site tag (gtag.js) - Google Analytics -->
+		<script async src="https://www.googletagmanager.com/gtag/js?id=G-EPYQ1CCD87"></script>
+		<script>
+			window.dataLayer = window.dataLayer || [];
+			function gtag(){dataLayer.push(arguments);}
+			gtag('js', new Date());
+			gtag('config', 'G-EPYQ1CCD87');
+		</script>
+
+
+	</head>
+
+	<body class="main-body">
+
+	<!-- Page -->
+		<div class="page">
+
+		<!-- Loader -->
+		<div id="global-loader">
+			<img src="{% static 'assets/img/loader.svg' %}" class="loader-img" alt="Loader">
+		</div>
+		<!-- /Loader -->
+
+		<div class="container-fluid">
+			<div class="row no-gutter">
+				<!-- The image half -->
+				<div class="col-md-6 col-lg-6 col-xl-7 d-md-flex bg-image d-logo-center">
+					<div class="row">
+						<div class="col-md-10 col-lg-10 col-xl-8 my-auto mx-auto">
+								<div class="logo-bg">
+								<div class="d-flex"> 
+									<a href="{% url 'bidcruit_home' %}">
+                                        <img src="{% static 'assets/img/brand/bluelogo.png' %}" class="sign-fav" alt="logo">
+                                    </a>
+                                    <h1 class="main-logo1 ml-1 mr-0 my-auto tx-28 text-white bl-size">
+                                        <span>BidCruit</span>
+                                    </h1>
+								  </div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<!-- The content half -->
+				<div class="col-md-6 col-lg-6 col-xl-5 bg-white">
+					<div class="login d-flex align-items-center py-2">
+						<!-- Demo content-->
+						<div class="container p-0">
+							<div class="row">
+								<div class="col-md-10 col-lg-10 col-xl-9 mx-auto">
+									<div class="card-sigin">
+										<div class="main-signup-header">
+											<h2>Welcome back!</h2>
+											<h5 class="font-weight-semibold mb-4">Please sign in to continue.</h5>
+											<form method="POST" id="signinform">
+												{% csrf_token %}
+												<div class="form-group">
+													 <input class="form-control" id="loginInputemail" placeholder="Enter your email" tabindex="1" type="text" name="email" required>
+												</div>
+												
+												<input type="submit" tabindex="2" class="btn btn-main-primary btn-block" value="Sign In">
+												
+											</form>
+										</div>
+										<div class="main-signin-footer mt-5">
+											<p><a href="{% url 'bidcruit_home' %}" tabindex="3">Back To Home</a></p>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div><!-- End -->
+					</div>
+				</div><!-- End -->
+			</div>
+		</div>
+	</div>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/exceptionless@v1.6.4/dist/exceptionless.min.js"></script>
+	<script>
+		var client = exceptionless.ExceptionlessClient.default;
+            client.config.apiKey = 'WDqMDPk1LJMrsi46mSug2Vk7A8lXFlDRlHCLO5UF';
+		// $("#loginInputemail").change(function(){
+		// 	var email=$(this).val();
+		// 	if(email!=""){
+		// 		$.ajax({
+		// 		  url:'{% url 'accounts:check_email_is_valid' %}',
+		// 		  type:'POST',
+		// 		  headers: {'X-CSRFToken': '{{ csrf_token }}'},
+		// 		  data:{email:email}
+		// 		})
+		// 		.done(function(response){
+		// 			if(response=="True"){
+		// 				$(".email_error").remove();
+		// 				$('.btn-main-primary').removeAttr('disabled');
+		// 			}else if(response=="Invalid"){
+		// 				console.log('client',client)
+		// 				client.submitException('invalid email');
+		// 				$(".email_error").remove();
+		// 				$("<span class='email_error' style='padding: 3px;color: red;'> Invalid Email !!</span>").insertAfter("#loginInputemail");
+		// 				$('.btn-main-primary').attr('disabled','disabled');
+		// 			}
+		// 			else{
+		// 				$(".email_error").remove();
+		// 				$("<span class='email_error' style='padding: 3px;color: red;'>Email does not exists !!</span>").insertAfter("#loginInputemail");
+		// 				$('.btn-main-primary').attr('disabled','disabled');
+		// 			}
+		// 		}).fail(function(){
+		// 			  console.log("failed");
+		// 		})
+		// 	}else{
+		// 		$(".email_error").remove();
+		// 	}
+		// });
+		$("#signinform").submit(function(e){
+			e.preventDefault();
+			var email=$('#loginInputemail').val();
+			console.log('/////////////////', email);
+			if(email!=""){
+				$.ajax({
+				  url:'{% url 'accounts:check_email_is_valid' %}',
+				  type:'POST',
+				  headers: {'X-CSRFToken': '{{ csrf_token }}'},
+				  data:{email:email}
+				})
+				.done(function(response){
+					console.log('response', response);
+					if(response=="True"){
+						$(".email_error").remove();
+						$('.btn-main-primary').removeAttr('disabled');
+						$("#signinform").submit();
+					}else if(response=="Invalid"){
+						console.log('client',client)
+						client.submitException('invalid email');
+						$(".email_error").remove();
+						$("<span class='email_error' style='padding: 3px;color: red;'> Invalid Email !!</span>").insertAfter("#loginInputemail");
+						// $('.btn-main-primary').attr('disabled','disabled');
+					}
+					else{
+						$(".email_error").remove();
+						$("<span class='email_error' style='padding: 3px;color: red;'>Email does not exists !!</span>").insertAfter("#loginInputemail");
+						// $('.btn-main-primary').attr('disabled','disabled');
+					}
+				}).fail(function(){
+					  console.log("failed");
+				})
+			}else{
+				console.log('///////////////// in else');
+				$(".email_error").remove();
+			}
+			return false;
+
+		});
+	</script>
+		<!-- JQuery min js -->
+		<script src="{% static 'assets/plugins/jquery/jquery.min.js' %}"></script>
+
+		<!-- Popper js -->
+		<script src="{% static 'assets/plugins/popper/popper.min.js' %}"></script>
+
+		<!-- Bootstrap Bundle js -->
+		<script src="{% static 'assets/plugins/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+
+		<!-- Ionicons js -->
+		<script src="{% static 'assets/plugins/ionicons/ionicons.js' %}"></script>
+
+		<!-- JQuery sparkline js -->
+		<script src="{% static 'assets/plugins/jquery-sparkline/jquery.sparkline.min.js' %}"></script>
+
+
+		<!-- Moment js -->
+		<script src="{% static 'assets/plugins/moment/moment.js' %}"></script>
+
+		<!-- Rating js -->
+		<script src="{% static 'assets/plugins/rating/jquery.rating-stars.js' %}"></script>
+		<script src="{% static 'assets/plugins/rating/jquery.barrating.js' %}"></script>
+
+		<!-- Custom js -->
+		<script src="{% static 'assets/js/custom.js' %}"></script>
+
+		
+	</body>
+</html>

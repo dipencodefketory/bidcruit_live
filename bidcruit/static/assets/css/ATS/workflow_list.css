@@ -1,0 +1,100 @@
+.workflow_list_main_section .card-header {
+    border-bottom: 2px solid #e2e8f5;
+    padding-bottom: 10px !important;
+    padding-top: 10px !important;
+}
+.workflow_list_main_section .card-title {
+    font-weight: 700;
+    color: #041b4e;
+    font-size: 16px;
+    text-transform: uppercase;
+    padding-top: 9px;
+}
+.workflow_list_add_btn {
+    float: left;
+    padding-left: 10px;
+}
+.workflow_list_add_btn a.btn-add-list {
+    color: #ffffff;
+    background-color: #0068ff;
+    border-color: #0068ff;
+    border-radius: 10px;
+}
+.workflow_list_section {
+    border-radius: 10px !important;
+    border: 2px solid #E2E8F5;
+    padding: 12px;
+    margin-bottom: 12px;
+}
+.workflow_recruitment_title {
+    display: inline-block;
+    width: 100%;
+}
+.recruitment_name {
+    float: left;
+    color: #041b4e;
+    font-size: 16px;
+    font-weight: 500;
+}
+.edit_delete_action {
+    float: right;
+}
+.edit_delete_action a {
+    color: #0068ff;
+    font-size: 14px;
+    padding-left: 8px;
+}
+.edit_delete_action a:last-child{
+    color:#ff5353;
+}
+ul.workflow_round_list {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    white-space: nowrap;
+}
+
+ul.workflow_round_list li {
+    display: inline-block;
+    color: #fff;
+    position: relative;
+    padding: 9px 20px 9px 40px;
+    line-height: 30px;
+    margin-left: -4px;
+}
+ul.workflow_round_list li:after {
+    content: "";
+    width: 0;
+    height: 0;
+    border-top: 24px solid transparent;
+    border-bottom: 24px solid transparent;
+    border-left: 22px solid;
+    position: absolute;
+    right: -20px;
+    top: 0;
+    z-index: 1;
+}
+ul.workflow_round_list li:first-child:before{
+    left: 0;
+    margin-left: 0;
+    border-right: 0;
+}
+.list_workflow_box {
+    overflow: hidden;
+    overflow-x: auto;
+    padding: 5px;
+}
+ul.workflow_round_list li:last-child:after {
+    border: none;
+}
+ul.workflow_round_list li:last-child{
+    border-top-right-radius: 24px;
+    border-bottom-right-radius: 24px;
+}
+ul.workflow_round_list li:first-child {
+    border-top-left-radius: 24px;
+    border-bottom-left-radius: 24px;
+}
+.app.sidebar-mini .main-header.main-header-fixed.fixed-header {
+    z-index: 2 !important;
+}

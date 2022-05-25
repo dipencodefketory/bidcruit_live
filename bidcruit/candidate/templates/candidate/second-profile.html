@@ -1,0 +1,1413 @@
+{% load static %}
+{% load custom_filters %}
+<!doctype html>
+<html lang="en" dir="ltr">
+    <head>
+        <meta charset="UTF-8">
+        <meta name='viewport' content='width=device-width, initial-scale=1.0, user-scalable=0'>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="Description" content="Bootstrap Responsive Admin Web Dashboard HTML5 Template">
+        <meta name="Author" content="Spruko Technologies Private Limited">
+        <meta name="Keywords" content="bootstrap admin panel template,bootstrap admin template premium,bootstrap backend template,bootstrap dashboard template,bootstrap panel template,dashboard admin bootstrap 4,dashboard template bootstrap 4,html css dashboard template,html dashboard template,html web app template,modern admin template,nice admin template,simple bootstrap admin template,simple dashboard html template,simple dashboard template bootstrap,template dashboard bootstrap 4"/>
+
+        <!-- Title -->
+        <title>Candidate Profile</title>
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Rubik:ital,wght@0,300;0,400;0,500;0,700;0,800;0,900;1,600&display=swap" rel="stylesheet">
+    <!-- Favicon -->
+    <link rel="icon" href="{% static 'assets/img/brand/bluelogo.png' %}" type="image/x-icon" />
+        <!-- Icons css -->
+        <link href="{% static 'assets/css/icons.css' %}" rel="stylesheet">
+        <!-- Bootstrap css -->
+        <link rel="stylesheet" href="{% static 'assets/plugins/bootstrap/css/bootstrap.min.css' %}">
+        <!-- Right-sidemenu css -->
+        <link href="{% static 'assets/plugins/sidebar/sidebar.css' %}" rel="stylesheet">
+        <!-- Style css -->
+        <link rel="stylesheet" type="text/css" media="all" href="{% static 'assets/css/style.css' %}">
+        <!-- Colors css -->
+        <!-- <link id="theme" rel="stylesheet" type="text/css" media="all" href="{% static 'assets/css/colors/color.css' %}"> -->
+
+        <!-- Sidemenu css -->
+        <link rel="stylesheet" href="{% static 'assets/css/single-sidemenu/singlemenu.css' %}">
+
+        <!-- Animations css -->
+        <link href="{% static 'assets/css/animate.css' %}" rel="stylesheet">
+
+    
+        <!--New added css-->
+        
+        <!-- Internal Sumoselect css -->
+        <link rel="stylesheet" href="{% static 'assets/plugins/sumoselect/sumoselect.css' %}">
+        <link rel="stylesheet" href="{% static 'assets/plugins/jquery-ui/themes/base/datepicker.css' %}">
+        <!-- Select2 css -->
+        <link href="{% static 'assets/plugins/select2/css/select2.min.css' %}" rel="stylesheet">
+        <link href="{% static 'assets/css/custom.css' %}" rel="stylesheet">
+         <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    </head>
+
+    <body class="main-body-second-profile">
+    
+        <header id="header">
+            <div class="header-set">
+                <div class="container-fluid">
+                    <div class="top-header">
+                        <div class="brand-logo">
+                            <a href="/"><img src="{% static 'assets/candidateprofile/images/white.png' %}" alt="logo" class="img-responsive"></a>
+                        </div>
+                        <!-- candidate name show only scroolup -->
+                        <div id="nameShow" class="brand-name name-none">
+                            <h1>keyur <span>b</span></h1>
+                        </div>
+                        <div id="nameNone" class="brand-name">
+                            <h1>bidcruit</h1>
+                        </div>
+                        <div class="con-btn">
+                            
+                            {% if hire %}
+                            {% for hires in hire%}
+                                {% if forloop.first %}
+                                    {% ifequal hires.profile_id  profile.profile_id %}
+                                        <a href="#">Already Hire</a>
+                                    {% else %}
+                                        <a {% if request.user.is_company %} href=""data-toggle="modal" data-target=".job-preferences" {% else %} href="" data-toggle="modal" data-target="#myModal1" {% endif %}>contact</a>
+                                    {% endifequal %}
+                                {% endif %}
+                            {% endfor %}
+                        {% else %}
+                        <a {% if request.user.is_company %} href=""data-toggle="modal" data-target=".job-preferences" {% else %} href="" data-toggle="modal" data-target="#myModal1" {% endif %}>contact</a>
+                        {% endif %}
+                        
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+<!-- SELECT JOB PREFERENCE MODEL-->
+<div class="modal job-preferences" id="HireModal1" tabindex="-1" role="dialog"
+aria-labelledby="myLargeModalLabel" aria-hidden="true">
+<div class="modal-dialog modal-lg">
+   <div class="modal-content" role="document">
+       <form role="form" method="POST" id="preferenceForm" action="">
+        
+           <input type="hidden" name="candidate_id" value="{{profile.candidate_id.id}}">
+          
+           <div class="modal-header">
+               <h4 class="modal-title" id="PreferenceLabel1">Candidate Preferences</h4>
+               <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                   <span aria-hidden="true">&times;</span></button>
+           </div>
+           
+           <div class="modal-body">
+                   {% csrf_token %}
+                   <div class="container-fluid">
+                       {%csrf_token%}
+                       {% for job_preference in job_preference%}
+                       <div class="row">
+                           <div class="col-md-6">
+                               <input type="checkbox" id="job_type"
+                                      class="filled-in" name="job_type">
+                               <label for="job_type">Job Type :
+                                   {{job_preference.job_type}}</label>
+                           </div>
+                           <div class="col-md-6">
+                               <input type="checkbox" id="number_of_employee"
+                                      class="filled-in"
+                                      name="number_of_employee">
+                               <label for="number_of_employee">Number Of
+                                   Employee :
+                                   {{job_preference.number_of_employee}}</label>
+                           </div>
+                       </div>
+                       <div class="row">
+                           <div class="col-md-6">
+                               <input type="checkbox" id="working_days"
+                                      class="filled-in" name="working_days">
+                               <label for="working_days">Working Days:
+                                   {{job_preference.working_days}}</label>
+                           </div>
+                           <div class="col-md-6">
+                               <input type="checkbox" id="preferred_shift"
+                                      class="filled-in" name="preferred_shift">
+                               <label for="preferred_shift">Preferred Shift:
+                                   {{job_preference.preferred_shift}}</label>
+                           </div>
+                       </div>
+                       <div class="row">
+                           <div class="col-md-6">
+                               <input type="checkbox" id="relocation"
+                                      class="filled-in" name="relocation">
+                               <label for="preferred_shift">Relocation :
+                                   {{job_preference.relocation}}</label>
+                           </div>
+                       </div>
+                       {% endfor %}
+                       <div class="row">
+                           {% for job_preference_other in job_preference_other%}
+                               <div class="col-md-6">
+                                   <input type="checkbox" id="{{job_preference_other.id}}"
+                                          class="filled-in" name="{{job_preference_other.id}}">
+                                   <label for="{{job_preference_other.id}}">{{job_preference_other.label}} :
+                                       {{job_preference_other.value}}</label>
+                               </div>
+                           {% endfor %}
+                       </div>
+                   </div>
+           </div>
+           <div class="modal-footer">
+               <button type="button" class="btn btn-primary preference-submit">Submit</button>
+               <button type="button" class="btn btn-secondary" data-dismiss="modal">Close
+               </button>
+           </div>
+       </form>
+   </div>
+
+</div>
+</div>
+
+
+<!-- HIRE ME MESSAGE MODAL-->
+<div class="modal job-preferences" id="HireModal2" tabindex="-1" role="dialog"
+aria-labelledby="myLargeModalLabel" aria-hidden="true">
+<div class="modal-dialog modal-lg">
+   <div class="modal-content" role="document">
+       <form role="form" method="POST" id="HireMeForm" action="">
+          
+           <input type="hidden" name="candidate_id" value="{{profile.candidate_id.id}}">
+           
+           <div class="modal-header">
+               <h4 class="modal-title" id="HireLabel1">Message</h4>
+               <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                   <span aria-hidden="true">&times;</span></button>
+           </div>
+           <div class="modal-body">
+                   {% csrf_token %}
+                   <div class="container-fluid">
+                       <div class="row">
+                           <div class="col-md-6">
+                               <textarea id="hire_message" maxlength="200" rows="3" name="hire_message"></textarea>
+                           </div>
+                       </div>
+                   </div>
+           </div>
+           <div class="modal-footer">
+               <button type="button" class="btn btn-primary hire-message-submit">Submit</button>
+               <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+           </div>
+       </form>
+   </div>
+</div>
+</div>
+
+<!-- resume download  -->
+
+<div class="modal job-preferences" id="download_model" tabindex="-1" role="dialog"
+aria-labelledby="myLargeModalLabel">
+<div class="modal-dialog modal-lg">
+   <div class="modal-content" role="document">
+       <form role="form" method="POST" id="HireMeForm" action="">
+          
+           <input type="hidden" name="candidate_id" value="{{profile.candidate_id.id}}">
+           
+           <div class="modal-header">
+               <h4 class="modal-title" id="HireLabel1">Resume</h4>
+               <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                   <span aria-hidden="true">&times;</span></button>
+           </div>
+           <div class="modal-body">
+                   {% csrf_token %}
+                   <div class="container-fluid">
+                       <div class="row">
+                           <div class="col-md-6">
+                                <!-- login -->
+                               
+                                  
+                                          
+                                              
+                                                       {% csrf_token %}
+                                                       <div class="form-label-group">
+                                                           <label for="company_email">Enter Email :</label>
+                                                           <input type="email" id="company_email_resume" name="company_email" class="form-control"
+                                                                  placeholder="Email address" value="" required>
+                                                       </div>
+                                                       <br>
+                                                       <div class="text-center">
+                                                            Don't have an account ? <a  href="{% url 'company:signup' %}" target="_blank"><span>Sign Up </span></a>
+                                                       </div>
+                                    
+                                               <div class="modal-footer">
+                                                   <button type="button" class="btn btn-primary btn-next" onclick="resume_download_email('resume')">Next</button>
+                                                   <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                               </div>
+                                      
+                                <!-- endlogin -->
+                               <!-- password -->
+                              
+                                                          <form method="POST" action="detail">
+                                                             {% csrf_token %}
+                                                             password:<input type="password" id="confirm_password" name="confirmpassword">
+                                                             <input type="hidden" id="candidate_id" name="candidate_id" value="{{profile.candidate_id.id}}">
+                                                             <input type="hidden" id="profile_id" name="profile_id" value="{{profile.profile_id.id}}">
+                                                             <input type="hidden" id="recored_id" name="recored_id" value="{{profile.id}}">
+                                                             <br>
+                                                             <br>
+                                                             <button type="button" class="btn btn-primary" onclick="file_download(this)">submit</button>
+                                                         </form>   
+                                              
+                                <!-- end password -->
+                           </div>
+                       </div>
+                   </div>
+           </div>
+           
+       </form>
+   </div>
+</div>
+</div>
+
+<!-- password add -->
+<div class="modal job-preferences" id="download_by_password" tabindex="-1" role="dialog"
+aria-labelledby="myLargeModalLabel" aria-hidden="true">
+<div class="modal-dialog modal-lg">
+   <div class="modal-content" role="document">
+       <form role="form" method="POST" id="HireMeForm" action="">
+          
+
+           
+           <div class="modal-header">
+               <h4 class="modal-title" id="HireLabel1">Message</h4>
+               <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                   <span aria-hidden="true">&times;</span></button>
+           </div>
+           <div class="modal-body">
+                   {% csrf_token %}
+                   <div class="container-fluid">
+                       <div class="row">
+                           <div class="col-md-6">
+                                 <form method="POST" action="detail">
+                                    {% csrf_token %}
+                                    password:<input type="password" id="confirm_password" name="confirmpassword">
+                                    <input type="hidden" id="candidate_id" name="candidate_id" value="{{profile.candidate_id.id}}">
+                                    <input type="hidden" id="profile_id" name="profile_id" value="{{profile.profile_id.id}}">
+                                    <input type="hidden" id="recored_id" name="recored_id" value="{{profile.id}}">
+                                    <br>
+                                    <br>
+                                    <button type="button" class="btn btn-primary" onclick="file_download(this)">submit</button>
+                                </form>   
+                                
+                           </div>
+                       </div>
+                   </div>
+           </div>
+           <div class="modal-footer">
+               <button type="button" class="btn btn-primary hire-message-submit">Submit</button>
+               <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+           </div>
+       </form>
+   </div>
+</div>
+</div>
+<!-- end resume download -->
+<!--Modal: Login / Register Form-->
+<!-- Modal  Popup 1 -->
+<div class="modal" id="myModal1" tabindex="-1" role="dialog">
+<div class="modal-dialog">
+   <div class="modal-content" role="document">
+       <div class="modal-header">
+         <h4 class="modal-title" id="myModalLabel1">Company Email</h4>
+         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+             <span aria-hidden="true">&times;</span></button>
+       </div>
+           <div class="modal-body">
+                   {% csrf_token %}
+                   <div class="form-label-group">
+                       <label for="company_email">Enter Email :</label>
+                       <input type="email" id="company_email" name="company_email" class="form-control"
+                              placeholder="Email address" value="" required>
+                   </div>
+                   <br>
+                   <div class="text-center">
+                        Don't have an account ? <a  href="{% url 'company:signup' %}" target="_blank"><span>Sign Up </span></a>
+                   </div>
+           </div>
+           <div class="modal-footer">
+               <button type="button" class="btn btn-primary btn-next" onclick="resume_download_email('hire')">Next</button>
+               <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+           </div>
+   </div>
+</div>
+</div>
+<!-- Modal  Popup 2 -->
+<div class="modal" id="login_password" tabindex="-1" role="dialog">
+<div class="modal-dialog" role="document">
+   <div class="modal-content">
+       <div class="modal-header">
+         <h4 class="modal-title" id="myModalLabel2">Company Password</h4>
+         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+             <span aria-hidden="true">&times;</span></button>
+       </div>
+       <div class="modal-body">
+           <div class="form-label-group">
+               <label for="company-password">Enter Password</label>
+               <input type="password" name="company-password" id="company-password" class="form-control"
+                   placeholder="Password" required>
+           </div>
+           <br>
+       </div>
+       <div class="modal-footer">
+           <button type="button" class="btn btn-primary btn-next" onclick="resume_download_password()">Next</button>
+           <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+       </div>
+   </div>
+</div>
+</div>
+<!-- Modal  Popup 3 -->
+<div class="modal" id="login_otp" tabindex="-1" role="dialog">
+<div class="modal-dialog">
+   <div class="modal-content">
+       <div class="modal-header">
+         <h4 class="modal-title" id="myModalLabel3">Enter OTP</h4>
+         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+             <span aria-hidden="true">&times;</span></button>
+       </div>
+       <div class="modal-body">
+          <div class="form-label-group">
+              <label for="company-login-otp">OTP</label>
+              <input type="number" name="company-login-otp" class="form-control" id="company-login-otp" placeholder="Enter OTP"  required>
+           </div>
+       </div>
+       <div class="modal-footer">
+           <button type="button" class="btn btn-primary btn-next" onclick="resume_download_otp()">Verify Otp</button>
+           <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+       </div>
+   </div>
+</div>
+</div>
+
+
+<!-- endpopup -->
+<!-- end header -->
+        <section class="main-profile-second">
+            <div class="d-md-flex">
+                <div class="left-tab-detail">
+                    <div class="panel panel-primary ">
+                        <div class="tab-menu-heading">
+                            <div class="tabs-menu ">
+                                <!-- Tabs -->
+                                <ul class="nav panel-tabs">
+                                    <li class=""><a href="#personal" class="active" data-toggle="tab"><i data-v-e08301e8="" class="fas fa-home"></i> </a></li>
+                                    {% if experiences %}
+                                    <li><a href="#experience" data-toggle="tab"><i data-v-e08301e8="" class="fas fa-briefcase"></i></a></li>
+                                    {% endif %}
+                                    {% if educations %}
+                                    <li><a href="#education" data-toggle="tab"><i data-v-e08301e8="" class="fas fa-graduation-cap"></i> </a></li>
+                                    {% endif %}
+                                    {% if certificates %}
+                                    <li><a href="#certificarte" data-toggle="tab"><i data-v-e08301e8="" class="fas fa-file-alt"></i></a></li>
+                                    {% endif %}
+                                    {% if portfolios %}
+                                    <li><a href="#portfolio" data-toggle="tab"><i data-v-e08301e8="" class="fas fa-trophy"></i></a></li>
+                                    {% endif %}
+                                    {% if awards %}
+                                    <li><a href="#award" data-toggle="tab"><i data-v-e08301e8="" class="fas fa-trophy"></i></a></li>
+                                    {% endif %}
+                                   
+                                    <li><a href="#chart" data-toggle="tab"><i data-v-e08301e8="" class="fas fa-chart-pie"></i> </a></li>
+                                   
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="tabs-information-user">
+                    <div class="panel-body tabs-menu-body">
+                        <div class="tab-content">
+                            <div class="tab-pane active" id="personal">
+                               <div class="row">
+                                    <div class=" col-lg-4 col-sm-12 col-xs-12">
+                                        <div class="user-profile-f">
+                                            <div class="user-img-f">
+                                                <div class="user-p">
+                                                    <img src="{{profile_show.user_image.url}}" alt="cand-pic" class="img-fluid">
+                                                </div>
+                                            </div>
+                                            <div class="user-info-second-pro">
+                                                <ul>
+                                                    <li>
+                                                        {% if company_data_status %}
+                                                            {% for j in company_data_status %}
+                                                                {% ifequal j.type_name 'contact' %}
+                                                                    {% ifequal j.doc_id i.id %}
+                                                                        {% ifequal j.status 1 %}
+                                                                            <p> <a href="tel:+91 123 456 7890"><i data-v-e08301e8="" class="fas fa-phone-alt"></i> <span>{{profile_show.contact_no}}</span></a></p>
+                                                                        {% else %}
+                                                                            <p> <a href="tel:+91 123 456 7890"><i data-v-e08301e8="" class="fas fa-phone-alt"></i> <span>+91 123 456 7890</span></a></p>
+                                                                        {% endifequal %}
+                                                                    {% endifequal %}
+                                                                {% endifequal %}
+                                                            {% endfor %}
+                                                        {% else %}
+                                                            {% ifequal hidefield.contact 0 %}
+                                                                <p> <a href="tel:+91 123 456 7890"><i data-v-e08301e8="" class="fas fa-phone-alt"></i> <span>{{profile_show.contact_no}}</span></a></p>
+                                                            {% else %}
+                                                                <p> <a href="tel:+91 123 456 7890"><i data-v-e08301e8="" class="fas fa-phone-alt"></i> <span>+91 123 456 7890</span></a></p>
+                                                            {% endifequal %}
+                                                        {% endif %}
+                                                    </li>
+                                                    <li>
+                                                        <p><i data-v-e08301e8="" class="fas fa-map-marker-alt"></i><span>{{profile_show.city.city_name}}</span></p>
+                                                    </li>
+                                                    <li>
+                                                        <p> <i data-v-e08301e8="" class="fas fa-calendar-alt"></i><span>{{profile_show.dob}}</span></p>
+                                                    </li>
+                                                    <li>
+                                                        <p> <i data-v-e08301e8="" class="fas fa-transgender"></i><span>{{profile_show.gender.name}}</span></p>
+                                                    </li>
+                                                </ul>
+                                                <div class="profile-user-btn">
+                                                    <a id="resume_file_get"
+                                                    
+                                                        {% if request.user.is_company %} 
+                                                        href="" value="" download="{{user.first_name}} {{user.last_name}}.pdf"
+                                                        {% else %}
+                                                           href="" value=""  data-toggle="modal" data-target="#download_model"
+                                                        {% endif %} 
+                                                   
+                                                   >Resume</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class=" col-lg-8 col-sm-12 col-xs-12">
+                                        <div class="candidate-information-d">
+                                            <div class="row">
+                                                <div class="col-md-6 col-lg-6 col-sm-12 col-xs-12">
+                                                    <div class="cad-nameinfo cad-nameinfo-new">
+                                                        <input type="hidden" value="{{user.first_name}}" id="fname">
+                                                        <input type="hidden" value="{{user.last_name}}" id="lname">
+                                                        <h5>{{user.first_name}} <span>{{user.last_name}}</span></h5>
+                                                        <a href="#" class="shar-button">
+                                                            <span class="share-icon"><i class="fas fa-share-alt"></i></span>
+                                                            <span class="text"><i class="fab fa-facebook-f"></i></span>
+                                                            <span class="text"><i class="fab fa-linkdin-i"></i></span>
+                                                        </a>
+                                                       
+                                                    </div>
+                                                    <div class="info-about-user">
+                                                        <p>{{profile_show.designation}}</p>
+                                                        {% if company_data_status %}
+                                                            {% for j in company_data_status %}
+                                                                {% ifequal j.type_name 'email' %}
+                                                                    {% ifequal j.doc_id i.id %}
+                                                                        {% ifequal j.status 1 %}
+                                                                            <a href="#" title=""><i data-v-e08301e8="" class="fas fa-envelope"></i> info.{{user.email}}</a>
+                                                                        {% else %}
+                                                                            <a href="#" title=""><i data-v-e08301e8="" class="fas fa-envelope"></i> info.****@ gmail.com</a>
+                                                                        {% endifequal %}
+                                                                    {% endifequal %}
+                                                                {% endifequal %}
+                                                            {% endfor %}
+                                                        {% else %}
+                                                            {% ifequal hidefield.email 0 %}
+                                                                <a href="#" title=""><i data-v-e08301e8="" class="fas fa-envelope"></i> info.****@ gmail.com</a>
+                                                            {% else %}
+                                                            <a href="#" title=""><i data-v-e08301e8="" class="fas fa-envelope"></i> info.{{user.email}}</a>
+                                                            {% endifequal %}
+                                                        {% endif %}
+                                                    </div>
+                                                   
+                                                </div>
+                                                <div class="col-md-6 col-lg-6 col-sm-12 col-xs-12">
+                                                    <div class="bar-code-d">
+                                                        <img src="{{profile_show.qr_code.url}}" alt="cand-pic" class="img-fluid">
+                                                    </div>
+
+                                                </div>
+                                                
+                                            </div>
+                                            <div class="row exp-info">
+                                                <div class="col-md-6 col-lg-6 col-sm-12 col-xs-12">
+                                                    <div class="exp-d">
+                                                        <p>Total Experience - <span>{{profile_show.total_experience}} Years</span></p>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6 col-lg-6 col-sm-12 col-xs-12">
+                                                    <div class="exp-d">
+                                                        <p>Notice Period - <span>{{profile_show.notice_period.notice_period}}</span></p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12">
+                                                    <div class="cantidate-detail-view-data">
+                                                        <h2>ABOUT ME <span>Know Me More</span></h2>
+                                                        <p>{% autoescape off %}{{profile_show.about_me}}{% endautoescape %}</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                      
+                                    </div>
+                               </div>
+                            </div>
+                            {% if experiences %}
+                            <div class="tab-pane" id="experience">
+                               <div class="exp-tab-detail">
+                                <div class="cantidate-detail-view-data">
+                                    <h2>Experience <span>Experience</span></h2>
+                                    
+                                </div>
+                                <div class="deatil-pan-start">
+                                    {%for i in experiences%}
+                                    <!--Modal: Name-->
+                                    <div class="modal fade" id="exp{{i.id}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                                        <div class="modal-dialog modal-lg" role="document">
+                                  
+                                          <!--Content-->
+                                          <div class="modal-content">
+                                  
+                                            <!--Body-->
+                                            <div class="modal-body mb-0 p-0">
+                                  
+                                              <div class="embed-responsive embed-responsive-16by9 z-depth-1-half">
+                                                     
+                                                     {% if exps.extension == 'img' %}
+                                                     <img class="embed-responsive-item" src="#"
+                                                         allowfullscreen></img>
+                                                     {% else %}
+                                                     <embed  src="#toolbar=0&navpanes=0&scrollbar=0" height="500" width="500" type="application/pdf">
+                                                     {% endif %}
+                                              </div>
+                                  
+                                            </div>
+                                  
+                                            <!--Footer-->
+                                            <div class="modal-footer justify-content-center">
+                                             <button type="button"
+                                                     class="btn btn-primary"
+                                                     data-dismiss="modal">Close
+                                             </button>
+                                         </div>
+                                          </div>
+                                          <!--/.Content-->
+                                  
+                                        </div>
+                                      </div>
+                                      <!--Modal: Name-->
+                                 <!-- Modal effects -->
+                                 <div class="modal" id="experience_request{{i.id}}">
+                                     <div class="modal-dialog modal-dialog-centered" role="document">
+                                         <div class="modal-content modal-content-demo">
+                                             <div class="modal-header">
+                                                 <h6 class="modal-title">Experience File Accept Request</h6><button aria-label="Close" class="close" data-dismiss="modal" type="button"><span aria-hidden="true">&times;</span></button>
+                                             </div>
+                                             <!-- <form method="POST" action=""> -->
+                                                 {% csrf_token %}
+                                             <div class="modal-body">
+                                                 <h6>Message</h6>
+                                                 <input class="form-control" type="text" value="" name='exp_message' required="required">
+                                             </div>
+                                             <div class="modal-footer">
+                                                 <button type="button" class="btn btn-primary btn-block" type="button" onclick="doc_request('experiance','{{i.id}}','{{i.candidate_id.id}}','{{i.profile_id}}')">Send
+                                                 </button>
+                                             <!-- </form> -->
+                                                 <button class="btn ripple btn-secondary" data-dismiss="modal">Close</button>
+                                             </div>
+                                         </div>
+                                     </div>
+                                 </div>
+                             <!-- End Modal effects-->
+                                    <div  class="section-for-detail">
+                                        <div class="left-area">
+                                            <img src="{% static 'assets/candidateprofile/candidateprofile/img/file-icon.png' %}" alt="img-responsive">
+                                        </div>
+                                        <div class="right-area">
+                                            <div class="acc-haeding">
+                                                <h4>{{i.company.company_name}}</h4>
+                                            </div>
+                                            <span class="acc-sub">{{i.start_date}} to {{i.end_date}}</span>
+                                            <p class="acc-sub-sub">{{i.job_profile_name}}</p>
+                                            {% if i.job_description_responsibility %}
+                                            <p>{% autoescape off %}{{i.job_description_responsibility}}{% endautoescape %}</p>
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                    {% endfor %}
+                                    
+                                </div>
+                               </div>
+                            </div>
+                            {% endif %}
+                            {% if educations %}
+                            <div class="tab-pane" id="education">
+                                <div class="exp-tab-detail">
+                                    <div class="cantidate-detail-view-data">
+                                        <h2>Education <span>Education</span></h2>
+                                        
+                                    </div>
+                                    <div class="deatil-pan-start">
+                                        {%for i in educations%}
+                                        <!--Modal: Name-->
+                                        <div class="modal fade" id="edu{{i.id}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                                            <div class="modal-dialog modal-lg" role="document">
+                                      
+                                              <!--Content-->
+                                              <div class="modal-content">
+                                      
+                                                <!--Body-->
+                                                <div class="modal-body mb-0 p-0">
+                                                
+                                                  <div class="embed-responsive embed-responsive-16by9 z-depth-1-half">
+                                                     {% if i.certificate %}    
+                                                         {% if i.extension == 'img' %}
+                                                         <img class="embed-responsive-item" src="{{i.certificate.url|image_path_remove}}"
+                                                             allowfullscreen></img>
+                                                         {% else %}
+                                                         <embed  src="{{i.certificate.url|image_path_remove}}#toolbar=0&navpanes=0&scrollbar=0" height="500" width="500" type="application/pdf">
+                                                         {% endif %}
+                                                     {% endif %}
+                                                  </div>
+                                      
+                                                </div>
+                                      
+                                                <!--Footer-->
+                                                <div class="modal-footer justify-content-center">
+                                                 <button type="button"
+                                                         class="btn btn-primary"
+                                                         data-dismiss="modal">Close
+                                                 </button>
+                                             </div>
+                                              </div>
+                                              <!--/.Content-->
+                                      
+                                            </div>
+                                          </div>
+                                          <!--Modal: Name-->
+                                     <!-- Modal effects -->
+                                             <div class="modal" id="edu_request">
+                                                 <div class="modal-dialog modal-dialog-centered" role="document">
+                                                     <div class="modal-content modal-content-demo">
+                                                         <div class="modal-header">
+                                                             <h6 class="modal-title">Education File Accept Request</h6><button aria-label="Close" class="close" data-dismiss="modal" type="button"><span aria-hidden="true">&times;</span></button>
+                                                         </div>
+                                                         <!-- <form method="POST" action=""> -->
+                                                             {% csrf_token %}
+                                                         <div class="modal-body">
+                                                             <h6>Message</h6>
+                                                             <input class="form-control" type="text" value="" name='edu_message' required="required">
+                                                         </div>
+                                                         <div class="modal-footer">
+                                                             <button type="button" class="btn btn-primary btn-block" type="button" onclick="doc_request('education','{{i.id}}','{{i.candidate_id.id}}','{{i.profile_id}}')">Send
+                                                             </button>
+                                                         <!-- </form> -->
+                                                             <button class="btn ripple btn-secondary" data-dismiss="modal">Close</button>
+                                                         </div>
+                                                     </div>
+                                                 </div>
+                                             </div>
+                                             <!-- End Modal effects-->
+                                        <div class="section-for-detail">
+                                            <div class="left-area">
+                                                <img src="{% static 'assets/candidateprofile/candidateprofile/img/file-icon.png' %}" alt="img-responsive">
+                                            </div>
+                                            <div class="right-area">
+                                                <div class="acc-haeding">
+                                                    <h4>{{i.degree.name}}</h4>
+                                                </div>
+                                                <span class="acc-sub">{{i.start_date}} to {{i.end_date}}</span>
+                                                <p class="acc-sub-sub">{{i.university_board.name}}</p>
+                                                {% if i.summary %}
+                                                <p>{% autoescape off %}{{i.summary}}{% endautoescape %}</p>
+                                                {% endif %}
+                                            </div>
+                                        </div>
+                                       {% endfor %}
+                                    </div>
+                                   </div>
+                            </div>
+                            {% endif %}
+                            {% if certificates %}
+                            <div class="tab-pane" id="certificarte">
+                                <div class="exp-tab-detail">
+                                    <div class="cantidate-detail-view-data">
+                                        <h2>Certificarte <span>Certificarte</span></h2>
+                                    </div>
+                                    <div class="deatil-pan-start">
+                                        {%for i in certificates%}
+                                        <!--Modal: Name-->
+                                        <div class="modal fade" id="cer{{i.id}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                                            <div class="modal-dialog modal-lg" role="document">
+                                      
+                                              <!--Content-->
+                                              <div class="modal-content">
+                                      
+                                                <!--Body-->
+                                                <div class="modal-body mb-0 p-0">
+                                      
+                                                  <div class="embed-responsive embed-responsive-16by9 z-depth-1-half">
+                                                     {% if i.attached_certificate %}    
+                                                         {% if i.extension == 'img' %}
+                                                         <img class="embed-responsive-item" src="{{i.attached_certificate.url}}"
+                                                             allowfullscreen></img>
+                                                         {% else %}
+                                                         <embed  src={{i.attached_certificate.url}}"#toolbar=0&navpanes=0&scrollbar=0" height="500" width="500" type="application/pdf">
+                                                         {% endif %}
+                                                     {% endif %}
+                                                  </div>
+                                      
+                                                </div>
+                                      
+                                                <!--Footer-->
+                                                <div class="modal-footer justify-content-center">
+                                                 <button type="button"
+                                                         class="btn btn-primary"
+                                                         data-dismiss="modal">Close
+                                                 </button>
+                                             </div>
+                                              </div>
+                                              <!--/.Content-->
+                                      
+                                            </div>
+                                          </div>
+                                          <!--Modal: Name-->
+                                     <!-- Modal effects -->
+                                     <div class="modal" id="certificates_request">
+                                         <div class="modal-dialog modal-dialog-centered" role="document">
+                                             <div class="modal-content modal-content-demo">
+                                                 <div class="modal-header">
+                                                     <h6 class="modal-title">Certificate File Accept Request</h6><button aria-label="Close" class="close" data-dismiss="modal" type="button"><span aria-hidden="true">&times;</span></button>
+                                                 </div>
+                                                 <!-- <form method="POST" action=""> -->
+                                                     {% csrf_token %}
+                                                 <div class="modal-body">
+                                                     <h6>Message</h6>
+                                                     <input class="form-control" type="text" value="" name='cer_message' required="required">
+                                                 </div>
+                                                 <div class="modal-footer">
+                                                     <button type="button" class="btn btn-primary btn-block" type="button" onclick="doc_request('certificate','{{i.id}}','{{i.candidate_id.id}}','{{i.profile_id}}')">Send
+                                                     </button>
+                                                 <!-- </form> -->
+                                                     <button class="btn ripple btn-secondary" data-dismiss="modal">Close</button>
+                                                 </div>
+                                             </div>
+                                         </div>
+                                     </div>
+                                     <!-- End Modal effects-->
+                                        <div  class="section-for-detail">
+                                            <div class="left-area">
+                                                <img src="{% static 'assets/candidateprofile/candidateprofile/img/file-icon.png' %}" alt="img-responsive">
+                                            </div>
+                                            <div class="right-area">
+                                                <div class="acc-haeding">
+                                                    <h4>{{i.name_of_certificate}}</h4>
+                                                </div>
+                                                <span class="acc-sub">{{i.year}}</span>
+                                                <p class="acc-sub-sub">{{i.institute_organisation}}</p>
+                                                {% if i.summary %}
+                                                <p>{% autoescape off %}{{i.summary}}{% endautoescape %}</p>
+                                                {% endif %}
+                                            </div>
+                                        </div>
+                                        {% endfor %}
+                                        
+                                    </div>
+                                </div>
+                            </div>
+                            {% endif %}
+                            {% if portfolios %}
+                            <div class="tab-pane" id="portfolio">
+                                <div class="exp-tab-detail">
+                                    <div class="cantidate-detail-view-data">
+                                        <h2>Portfolios <span>Portfolio</span></h2>
+                                    </div>
+                                    <div class="deatil-pan-start">
+                                        {%for i in portfolios%}
+                                        <!--Modal: Name-->
+                                            <div class="modal fade" id="por{{i.id}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                                            <div class="modal-dialog modal-lg" role="document">
+                                        
+                                                <!--Content-->
+                                                <div class="modal-content">
+                                        
+                                                <!--Body-->
+                                                <div class="modal-body mb-0 p-0">
+                                                
+                                                    <div class="embed-responsive embed-responsive-16by9 z-depth-1-half">
+                                                    {% if i.project_document %}
+                                                        {% if i.extension == 'img' %}
+                                                        <img class="embed-responsive-item" src="{{i.project_document.url|image_path_remove}}"
+                                                            allowfullscreen></img>
+                                                        {% else %}
+                                                        <embed  src="{{i.project_document.url|image_path_remove}}#toolbar=0&navpanes=0&scrollbar=0" height="500" width="500" type="application/pdf">
+                                                        {% endif %}
+                                                    {% endif %}
+                                                    </div>
+                                        
+                                                </div>
+                                        
+                                                <!--Footer-->
+                                                <div class="modal-footer justify-content-center">
+                                                <button type="button"
+                                                        class="btn btn-primary"
+                                                        data-dismiss="modal">Close
+                                                </button>
+                                            </div>
+                                                </div>
+                                                <!--/.Content-->
+                                        
+                                            </div>
+                                            </div>
+                                            <!--Modal: Name-->
+                                    <!-- Modal effects -->
+                                            <div class="modal" id="por_request">
+                                                <div class="modal-dialog modal-dialog-centered" role="document">
+                                                    <div class="modal-content modal-content-demo">
+                                                        <div class="modal-header">
+                                                            <h6 class="modal-title">portfolio File Accept Request</h6><button aria-label="Close" class="close" data-dismiss="modal" type="button"><span aria-hidden="true">&times;</span></button>
+                                                        </div>
+                                                        <!-- <form method="POST" action=""> -->
+                                                            {% csrf_token %}
+                                                        <div class="modal-body">
+                                                            <h6>Message</h6>
+                                                            <input class="form-control" type="text" value="" name='por_message' required="required">
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                            <button type="button" class="btn btn-primary btn-block" type="button" onclick="doc_request('portfolio','{{i.id}}','{{i.candidate_id.id}}','{{i.profile_id}}')">Send
+                                                            </button>
+                                                        <!-- </form> -->
+                                                            <button class="btn ripple btn-secondary" data-dismiss="modal">Close</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!-- End Modal effects-->
+                                        <div  class="section-for-detail">
+                                            <div class="left-area">
+                                                <img src="{% static 'assets/candidateprofile/candidateprofile/img/file-icon.png' %}" alt="img-responsive">
+                                            </div>
+                                            <div class="right-area">
+                                                <div class="acc-haeding">
+                                                    <h4>{{i.project_title}}</h4>
+                                                </div>
+                                                <span class="acc-sub">{{i.year}}</span>
+                                                <!-- <p class="acc-sub-sub">Sr. Software Engineer</p> -->
+                                                {% if i.description %}
+                                                <p>{% autoescape off %}{{i.description}}{% endautoescape %}</p>
+                                                {% endif %}
+                                            </div>
+                                        </div>
+                                        {% endfor %}
+                                    </div>
+                                </div>
+                            </div>
+                            {% endif %}
+                            {% if awards %}
+                            <div class="tab-pane" id="award">
+                                <div class="exp-tab-detail">
+                                    <div class="cantidate-detail-view-data">
+                                        <h2>Award <span>Award</span></h2>
+                                    </div>
+                                    <div class="deatil-pan-start">
+                                        {%for i in awards%}
+                                        <div  class="section-for-detail">
+                                            <div class="left-area">
+                                                <img src="{% static 'assets/candidateprofile/candidateprofile/img/file-icon.png' %}" alt="img-responsive">
+                                            </div>
+                                            <div class="right-area">
+                                                <div class="acc-haeding">
+                                                    <h4>{{i.title}}</h4>
+                                                </div>
+                                                <span class="acc-sub">{{i.year}}</span>
+                                                <p class="acc-sub-sub">{{i.awarder}}</p>
+                                                {% if i.summary %}
+                                                <p>{% autoescape off %}{{i.summary}}{% endautoescape %}</p>
+                                                {% endif %}
+                                            </div>
+                                        </div>
+                                        {% endfor %}
+                                    </div>
+                                </div>
+                            </div>
+                            {% endif %}
+                            <div class="tab-pane" id="tab27">
+                                <div class="exp-tab-detail">
+                                    <div class="cantidate-detail-view-data">
+                                        <h2>chart<span>chart</span></h2>
+                                    </div>
+                                    
+                                        <div class="row row-sm">
+                                            {%if skills%}
+                                            <div class="col-sm-12 col-md-12">
+                                                <div class="card mg-b-md-20 overflow-hidden">
+                                                    <div class="card-body">
+                                                        <div class="main-content-label mg-b-5">
+                                                            Skill Chart
+                                                        </div>
+                                                        <!-- <p class="mg-b-20">Basic Charts Of Admix template.</p> -->
+                                                        <div class="chartjs-wrapper-demo">
+                                                            <canvas id="skill_bar_chart"></canvas>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div><!-- col-6 -->
+                                            {%endif%}
+                                            {%if year_salary_pair%}
+                                            <div class="col-sm-12 col-md-12">
+                                                <div class="card mg-b-md-20 overflow-hidden">
+                                                    <div class="card-body">
+                                                        <div class="main-content-label mg-b-5">
+                                                            Salary Chart
+                                                        </div>
+                                                        <!-- <p class="mg-b-20">Basic Charts Of Admix template.</p> -->
+                                                        <div class="chartjs-wrapper-demo">
+                                                            <canvas id="salary_line_chart"></canvas>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div><!-- col-6 -->
+                                            {%endif%}
+                                        </div>
+                                   
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    
+        
+        <!-- Back-to-top -->
+        <a href="#top" id="back-to-top"><i class="las la-angle-double-up"></i></a>
+        <!-- JQuery min js -->
+        <script src="{% static 'assets/plugins/jquery/jquery.min.js' %}"></script>
+        <!-- Popper js -->
+        <script src="{% static 'assets/plugins/popper/popper.min.js' %}"></script>
+        <!-- Bootstrap Bundle js -->
+        <script src="{% static 'assets/plugins/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+
+        <!-- JQuery sparkline js -->
+        <!-- <script src="{% static 'assets/plugins/jquery-sparkline/jquery.sparkline.min.js' %}"></script> -->
+        <!-- P-scroll js -->
+        <script src="{% static 'assets/plugins/perfect-scrollbar/perfect-scrollbar.min.js' %}"></script>
+        <script src="{% static 'assets/plugins/perfect-scrollbar/p-scroll.js' %}"></script>
+        <!-- Rating js -->
+        <!-- Sidemenu js -->
+        <script src="{% static 'assets/plugins/side-menu/single-menu.js' %}"></script>
+        <!-- Right-sidebar js -->
+        <script src="{% static 'assets/plugins/sidebar/sidebar.js' %}"></script>
+        <script src="{% static 'assets/plugins/sidebar/sidebar-custom.js' %}"></script>
+<!--new added js----------------------------------------------------------------->
+<script src="{% static 'assets/js/advanced-form-elements.js' %}"></script>
+<script src="{% static 'assets/plugins/sumoselect/jquery.sumoselect.js' %}"></script>
+<!-- Datepicker js -->
+<script src="{% static 'assets/plugins/jquery-ui/ui/widgets/datepicker.js' %}"></script>
+<!-- Select2.min js -->
+<script src="{% static 'assets/plugins/select2/js/select2.min.js' %}"></script>
+<!--- Form-wizard js --->
+<script src="{% static 'assets/js/form-wizard.js' %}"></script>
+<!-- Custom js -->
+<script src="{% static 'assets/js/custom.js' %}"></script>
+<!-- add more js -->
+
+<!-- add more js -->
+<script>
+
+    function getRandomColor() {
+      var letters = '0123456789ABCDEF';
+      var color = '#';
+      for (var i = 0; i < 6; i++) {
+        color += letters[Math.floor(Math.random() * 16)];
+      }
+      return color;
+    }    
+    // Accordion all expand and callpase
+    
+    $(document).ready(function () {
+    
+    //code for chart js
+    
+        // code for chart js
+        
+        var start_years = JSON.parse("{{start_years|escapejs}}");
+            console.log("staaaaaaaaaaart yeaaaaaars",start_years);
+            
+            var end_years =JSON.parse("{{end_years|escapejs}}");
+            console.log("eeeeeeeeeeeeeend years",end_years);
+            learning_periods =[]
+            var skills ="{{skills|safe}}";
+            skills = skills.split(',')
+            // console.log("updated_skill_list",skills)
+            var my_dataset =[]
+            var temp_var = skills.pop()
+            console.log("skilllllsss",skills)
+            var company_names ="{{company_names|escapejs}}";
+            company_names = company_names.split(',')
+            console.log("company_names",company_names)
+    
+            background_colors =[]
+            for(var i=0;i<skills.length;i++)
+            {
+                background_colors.push(getRandomColor())
+            }
+            console.log("background colors",background_colors)
+            for(var i=0;i<start_years.length;i++)
+            {
+                learning_periods.push([start_years[i],end_years[i]]);
+            }
+    
+            console.log("learning perioooooooooooooods",learning_periods)
+            console.log("test messssssages")
+    
+            console.log("{{year_salary_pair|escapejs}}")
+            // for salary charts
+            var year_salary_pair = JSON.parse("{{year_salary_pair|escapejs}}");
+        
+            console.log("yeaaaaaaaaaar saaaaaalary pairr",year_salary_pair)
+            console.log(typeof(year_salary_pair))
+    
+            // console.log("year salary pair dataset sorted",sorted_dataset)
+    
+    
+            
+    
+            console.log("just before for loops")
+            
+            for(var i=0;i<year_salary_pair.length;i+=2)
+            {       
+                console.log("in for loop")
+                random_color = getRandomColor() 
+                    my_dataset.push({
+            label:company_names[i/2],
+             data: [{
+                x: year_salary_pair[i][0],
+                y: year_salary_pair[i][1]
+             }, 
+             {
+                x: year_salary_pair[i+1][0],
+                y: year_salary_pair[i+1][1]
+             }],
+             backgroundColor:random_color,
+             borderColor: random_color,
+             borderWidth: 1,
+             pointBackgroundColor: ['blue'],
+             pointBorderColor: ['black'],
+             pointRadius: 5,
+             pointHoverRadius: 5,
+             fill: false,
+             tension: 0,
+             showLine: true
+          })
+        
+            }
+            
+            
+    
+    
+            console.log("just before skill chart")
+            var ctx6 = document.getElementById('skill_bar_chart');
+            new Chart(ctx6, {
+            type: 'bar',
+            data: {
+              labels:skills,
+              datasets: [{
+                label: 'skills',
+                //data: [[2017, 2021], [2015, 2021], [2013, 2021]],
+                data: learning_periods,
+    
+                // backgroundColor: 'lightblue',
+                backgroundColor: background_colors, 
+              }]
+            },
+            options: {
+                
+              responsive: true,
+              scales : {
+                y : {
+                    min: Math.min(...start_years)-5,
+                    }
+                }
+            }
+          });
+          var ctx = document.getElementById('salary_line_chart');
+        new Chart(ctx, {
+       type: 'scatter',
+       data: {
+          datasets: my_dataset
+       },
+       options: {
+          legend: false,
+          tooltips: false,
+          scales: {
+             xAxes: [{
+                ticks: {
+                   min: 0,
+                   max: 10
+                },
+                gridLines: {
+                   color: '#888',
+                   drawOnChartArea: false
+                }
+             }],
+             yAxes: [{
+                ticks: {
+                   min: 0,
+                   max: 8,
+                   padding: 10
+                },
+                gridLines: {
+                   color: '#888',
+                   drawOnChartArea: false
+                }
+             }]
+          }
+       }
+    });
+    
+    
+        // code for chartjs
+    
+    
+    
+    
+    //code for chart js
+    
+    
+    
+    $(".toggle-accordion").on("click", function () {
+    var accordionId = $(this).attr("accordion-id"),
+    numPanelOpen = $(accordionId + ' .collapse.show').length;
+    
+    $(this).toggleClass("active");
+    
+    if (numPanelOpen == 0) {
+    openAllPanels(accordionId);
+    } else {
+    closeAllPanels(accordionId);
+    }
+    })
+    openAllPanels = function (aId) {
+    console.log("setAllPanelOpen");
+    $(aId + ' .panel-collapse:not(".show")').addClass('show').animate({duration:500});
+    }
+    closeAllPanels = function (aId) {
+    console.log("setAllPanelclose");
+    $(aId + ' .panel-collapse.show').removeClass('show').animate({duration:500});
+    }
+    
+    });
+    </script>
+    <script>
+        $("div[id^='HireModal']").each(function(){
+             var HireModal = $(this);
+             HireModal.find('.preference-submit').click(function(){
+                  var preferenceForm = document.getElementById("preferenceForm");
+                  var formData = new FormData(preferenceForm);
+                  console.log('formData preferenceForm >>>>>>>',formData)
+                  $.ajax({
+                          url:"/company/candidate_preference_check",
+                          headers: {'X-CSRFToken': $("input[name=csrfmiddlewaretoken]").val() },
+                          type:'POST',
+                          contentType: false,
+                          processData: false,
+                          data: formData,
+                          error: function (request, status, error) {
+                              alert(error);
+                          }
+                  }).done(function(response){
+                      if(response=="True"){
+                          HireModal.modal('hide');
+                          HireModal.closest("div[id^='HireModal']").nextAll("div[id^='HireModal']").first().modal('show');
+                      }else{
+                          console.log("false");
+                      }
+                  })
+             });
+             HireModal.find('.hire-message-submit').click(function(){
+                  var HireMessageForm = document.getElementById("HireMeForm");
+                  var formData = new FormData(HireMessageForm);
+                  console.log('formData HireMessageForm >>>>>>>',formData)
+                  $.ajax({
+                          url:"/company/candidate_hire",
+                          headers: {'X-CSRFToken': $("input[name=csrfmiddlewaretoken]").val() },
+                          type:'POST',
+                          contentType: false,
+                          processData: false,
+                          data: formData,
+                          error: function (request, status, error) {
+                              alert(error);
+                          }
+                  }).done(function(response){
+                      if(response=="True"){
+                           window.location.reload()
+                      }else{
+                          console.log("false");
+                      }
+                  })
+             });
+        });
+      </script>
+     
+      <script>
+          function doc_request(type_mame,doc_id,candidate,profile){
+                alert(candidate);
+              if(type_mame=='experiance'){
+                message=document.getElementsByName("exp_message")[0].value;
+              }
+              else if(type_mame=='education'){
+                message=document.getElementsByName("edu_message")[0].value;
+              }
+              else if(type_mame=='certificate'){
+                message=document.getElementsByName("cer_message")[0].value;
+              }
+              else if(type_mame=='ptofolio'){
+                message=document.getElementsByName("ptofolio_message")[0].value;
+              }
+              var formData = new FormData();
+              var data=JSON.stringify({'type_name':type_mame,'message':message,'doc_id':doc_id,'candidate':candidate,'profile':profile});
+              formData.append('doc_request_data',data );
+            $.ajax({
+                    url:"/company/doc_request/",
+                    headers: {'X-CSRFToken': $("input[name=csrfmiddlewaretoken]").val() },
+                    type:'POST',
+                    contentType: false,
+                    processData: false,
+                    data: formData,
+                    error: function (request, status, error) {
+                            alert(error);
+                    }
+                  }).done(function(response){
+                      if(response=="True"){
+                        $('#certificates_request').modal('hide');
+                        $('#edu_request').modal('hide');
+                        $('#experience_request').modal('hide');
+                        $('#certificates_request').modal('hide');
+                        //   HireModal.closest("div[id^='HireModal']").nextAll("div[id^='HireModal']").first().modal('show');
+                      }else{
+                          console.log("false");
+                      }
+                  })
+          }
+          
+      </script>
+    
+       <script>
+                        function file_download(button){
+                            
+                            $.ajax({
+                                url:"{% url 'candidate:file_download' %}",
+                                headers:{'X-CSRFToken':$("input[name=csrfmiddlewaretoken]").val()},
+                                type:"POST",
+                                data:JSON.stringify({password:$('#confirm_password').val(),id:$("#recored_id").val(),profile_id:$("#profile_id").val(),candidate_id:$("#candidate_id").val()}),
+                                error:function(request,status,error){
+                                    alert(error);
+                                }
+                            }).done(function(response){
+                                if(response=="True"){
+                                    var filename=document.getElementById('resume_file_get').getAttribute('value');
+                                    var a=$("<a />");
+                                    var down_filename=document.getElementById('fname').getAttribute('value')+document.getElementById('lname').getAttribute('value')+".pdf";
+                                    a.attr("download",down_filename);
+                                    a.attr("href",filename);
+                                    $("body").append(a);
+                                    a[0].click();
+                                    $("body").remove(a);
+                                    }
+                                
+                                else{
+                                    alert('invalid password')
+                                }
+                            })
+                        }   
+                    </script>
+    <script>
+        function resume_download_email(type_name){
+            
+            if(type_name="resume"){
+                var email=$('#company_email_resume').val()
+            }
+            if(type_name='hire'){
+               
+                var email=$('#company_email').val()
+            }
+            $.ajax({
+                          url:"/company/user_login_email_popup",
+                          headers: {'X-CSRFToken': $("input[name=csrfmiddlewaretoken]").val() },
+                          type:'POST',
+                          contentType: 'application/json; charset=UTF-8',
+                          data: JSON.stringify({email:email,type_name:type_name}),
+                          error: function (request, status, error) {
+                              alert(error);
+                          }
+                      }).done(function(response){
+                          if(response=="True"){
+                            $('#myModal1').modal('hide');
+                            $('#download_model').modal('hide');
+                            $('#login_password').modal('show');
+                           
+                          }else{
+                              console.log("false");
+                          }
+                      })
+        }
+    </script>
+    <script>
+        function resume_download_password(){
+            $.ajax({
+                      url:"/company/user_login_password_popup",
+                      headers: {'X-CSRFToken': $("input[name=csrfmiddlewaretoken]").val() },
+                      type:'POST',
+                      contentType: 'application/json; charset=UTF-8',
+                      data: JSON.stringify({password:$('#company-password').val()}),
+                      error: function (request, status, error) {
+                          alert(error);
+                      }
+                  }).done(function(response){
+                      if(response=="True"){
+                        $('#login_password').modal('hide');
+                        $('#login_otp').modal('show');
+                           
+                      }else{
+                          console.log("false");
+                      }
+                  })
+        }
+    </script>
+    <script>
+        function resume_download_otp(){
+            $.ajax({
+                      url:"/company/user_login_verify_otp_popup",
+                      headers: {'X-CSRFToken': $("input[name=csrfmiddlewaretoken]").val() },
+                      type:'POST',
+                      contentType: 'application/json; charset=UTF-8',
+                      data: JSON.stringify({otp:$('#company-login-otp').val()}),
+                      error: function (request, status, error) {
+                          alert(error);
+                      }
+                  }).done(function(response){
+                      if(response=="resume"){
+                        var filename=document.getElementById('resume_file_get').getAttribute('value');
+                        var a=$("<a />");
+                        var down_filename=document.getElementById('fname').getAttribute('value')+document.getElementById('lname').getAttribute('value')+".pdf";
+                        a.attr("download",down_filename);
+                        a.attr("href",filename);
+                        $("body").append(a);
+                        a[0].click();
+                        $("body").remove(a);
+                        $('#login_otp').modal('hide');
+                      }
+                    else if(response=="hire"){
+                        $('#login_otp').modal('hide');
+                        window.location.reload();
+                    }else{
+                          console.log("false");
+                      }
+                  })
+        }
+    </script>
+    </body>
+</html>

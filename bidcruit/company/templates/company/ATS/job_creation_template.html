@@ -1,0 +1,468 @@
+{% extends 'company/base.html' %}
+{% load static %}
+{% block title %}Job Create{% endblock %}
+{% block css %}
+<!-- Internal Data table css -->
+<link href="{% static 'assets/plugins/datatable/css/dataTables.bootstrap4.min.css' %}" rel="stylesheet" />
+<link href="{% static 'assets/plugins/datatable/css/buttons.bootstrap4.min.css' %}" rel="stylesheet">
+<link href="{% static 'assets/plugins/datatable/css/responsive.bootstrap4.min.css' %}" rel="stylesheet" />
+<link href="{% static 'assets/plugins/datatable/css/jquery.dataTables.min.css' %}" rel="stylesheet">
+<link href="{% static 'assets/plugins/datatable/css/responsive.dataTables.min.css' %}" rel="stylesheet">
+<link href="{% static 'assets/plugins/select2/css/select2.min.css' %}" rel="stylesheet">
+<style>
+    select.parsley-error {border-color: red;}
+    select.parsley-success {border-color: #51bb25;}
+    select.parsley-error ~ span.select2 .select2-selection--multiple {border-color: red !important;}
+    select.parsley-success ~ span.select2 .select2-selection--multiple {border-color: #51bb25 !important;}
+
+</style>
+<link rel="stylesheet" href="{% static 'assets/css/ATS/job_creation.css' %}">
+{% endblock %}
+{% block main %}
+<!--<div class="container-fluid">-->
+    <div class="card main-content-body edit-profile-wrap">
+        <div class="row header-title__section">
+            
+            <div class="col-lg-12 col-md-12 col-sm-12">
+                <div class="template-selection-list">
+                    <div class="h5 pl-3 pr-4">Template Type: Job</div>
+                    
+                	<div class="h5 pl-4 bor_left_one">Template Name: Xyz</div>
+                    
+                </div>
+            </div>
+            
+        </div>
+        <div class="row row-sm">
+            <div class="col-md-12 col-xl-12 col-lg-12">
+                <div class="main-form-section">
+                    <form class="form-horizontal" data-parsley-validate="" method="POST" enctype="multipart/form-data" {% if get_template %} action="{% url 'company:job_creation_template_edit' get_template.template.id %}"{% endif %} id="job-create-temp">
+                        <div class="frame-layout">
+                            <div class="card-body jc-inner-wrapper pb-0">
+                                {% csrf_token %}
+                                <div class="card-list-view">
+                                <div class="border_line"></div>
+                                <div class="custom-form">
+                                    <div class="row row-sm">
+                                        <div class="col-lg-4 col-sm-12 col-xs-12">
+                                            <label class="form-control-label feild-title required-label">
+                                                Job Title:
+                                                <span class="tx-danger">*</span>
+                                            </label>
+                                            <input class="form-control input-feild" required="" name="job_title" value="{{get_template.job_title}}" type="text">
+                                        </div>
+                                        <div class="col-lg-4 col-sm-12 col-xs-12">
+                                            <label class="form-control-label feild-title required-label">Job Type:
+                                                 <span class="tx-danger">*</span>
+                                            </label>
+                                            <select class="form-control input-feild" required="" name="job_type" tabindex="-1">
+                                                <option label="Select Job Type"></option>
+                                                {% for type in job_types %}
+                                                    <option value="{{ type.id }}" {% ifequal get_template.job_type.id type.id %} selected {% endifequal %}>{{type.name}}</option>
+                                                {% endfor %}
+                                            </select>
+                                        </div>
+                                        <div class=" col-lg-4 col-sm-12 col-xs-12">
+                                            <label class="form-control-label">
+                                                Target Date:
+                                                <span class="tx-danger">*</span>
+                                            </label>
+                                            <input class="form-control input-feild txtDate_target_Date" required="" value="{{get_template.target_date|date:"Y-m-d"}}" name="target_date" type="date">
+                                        </div>
+                                       
+                                    </div>
+                                    <div class="row row-sm mg-t-10">
+                                        <!-- <div class="col-lg-4 col-sm-12 col-xs-12">
+                                            <label class="form-control-label">Status:
+                                                 <span class="tx-danger">*</span></label>
+                                            <select class="form-control" name="status" tabindex="-1" required="">
+                                                <option label="Select Status" disabled></option>
+                                                {% for type in job_status %}
+                                                    <option value="{{ type.id }}" {% ifequal get_template.status.id type.id %} selected {% endifequal %}>{{type.name}}</option>
+                                                {% endfor %}
+                                            </select>
+                                        </div> -->
+                                        <div class="col-lg-4 col-sm-12 col-xs-12">
+                                            <label class="form-control-label">Industry Type:
+                                                 <span class="tx-danger">*</span></label>
+                                            <select class="form-control" name="industry_type"  required="">
+                                                <option label="Select Industry Type"></option>
+                                                {% for type in industry_types %}
+                                                    <option value="{{ type.id }}" {% ifequal get_template.industry_type.id type.id %} selected {% endifequal %}>{{type.name}}</option>
+                                                {% endfor %}
+                                            </select>
+                                        </div>
+                                        <div class="col-lg-4 col-sm-12 col-xs-12">
+                                            <label class="form-control-label remote-title">Remote Job:<span class="tx-danger">*</span></label>
+                                            <div class="fx-sm-col">
+                                                <label class="rdiobox"><input class="form-control" name="remote_job" value="yes" {% if get_template.remote_job %} checked {% endif %} type="radio"> <span class="pl-4">Yes</span></label>
+                                                <label class="rdiobox"><input class="form-control" name="remote_job" value="no" {% if get_template.remote_job %} {% else %} checked {% endif %} type="radio" checked> <span class="pl-4">No</span></label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row row-sm mg-t-10">
+                                        <div class="col-lg-4 col-sm-12 col-xs-12">
+                                            <label class="form-control-label">Salary(Annually):<span class="tx-danger">*</span></label><span class="pl-3">As per Market</span><input id="as_per_market" value="as_per_market" {% if get_template.salary_as_per_market %} checked {% endif %} name="as-per-market" type="checkbox">
+                                            <div class="fx-sm-row{% if get_template.salary_as_per_market %} salary{% else %}{% endif %}" id="salary">
+                                                <label class="fxs-col"><span>Min</span>
+                                                    <input class="form-control" name="Min" value="{{get_template.min_salary}}" required="" type="number" min=0 max=99 step=0.01>
+                                                </label>
+                                                <label class="fxs-col"><span>Max</span>
+                                                    <input class="form-control" name="Max" value="{{get_template.min_salary}}" required="" type="number" min=0 max=99 step=0.01>
+                                                </label>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-4 col-sm-12 col-xs-12">
+                                            <label class="form-control-label">Experience:<span class="tx-danger">*</span></label>
+                                            <div class="fx-sm-row add-Exp">
+                                                <label class="fxs-col"><span>Min Years</span>
+                                                    <input class="form-control" name="experience_year_min" value="{{get_template.experience_year_min}}" required="" type="number" maxlength="2" min=0>
+                                                </label>
+                                                <label class="fxs-col"><span>Max Years</span>
+                                                    <input class="form-control" name="experience_year_max" value="{{get_template.experience_year_max}}" required="" type="number" min=0 maxlength="2">
+                                                </label>
+                                            </div>
+                                        </div>
+                                        <div class="form-group col-lg-4 col-md-6 col-sm-12 skill-col">
+	                                        <label class="feild-title text-capitalize">skills:{{get_template.required_skill.all}}</label>
+	                                        <select class="form-control skill-selector professionSkills"
+	                                                                        name="job_skills" multiple="multiple" required="">
+	                                            {% for i in  get_template.required_skill.all %}
+	                                                <option value="{{i.id}}" selected>{{i.name}}</option>
+	                                            {% endfor %}
+	                                        </select>
+	                                    </div>
+                                        
+                                    </div>
+                                    <div class="row row-sm mg-t-10">
+                                        <div class=" col-lg-12 col-sm-12 col-xs-12">
+                                            <label class="field-title">Shift Details:<span class="tx-danger">*</span></label>
+                                            <div class="fx-shift-row">
+                                                {% for shift in job_shift %}
+                                                <div class="fx-shift-col">
+                                                    <input type="checkbox" required="" class="form-control" id="{{shift.name}}" name="job_shifts" {% for i in get_template.jobshift.all %} {% ifequal i.id shift.id %} checked {% endifequal %}{% endfor %} value="{{shift.id}}">
+                                                    <label for="{{shift.name}}" class="shift-label">{{shift.name}}</label>
+                                                </div>
+                                                {% endfor %}
+                                            </div>
+                                        </div>
+                                    </div>
+                                     <div class="row row-sm mg-t-10">
+                                            <div class="col-lg-4 col-sm-12 col-xs-12">
+                                               <label class="form-control-label">Department:
+                                                     <span class="tx-danger">*</span>
+                                                </label>
+                                                <select class="form-control" required="" name="department">
+                                                    <option label="Select Department"></option>
+                                                    {% for department in departments %}
+                                                        <option value="{{department.id}}">{{department.name}}</option>
+                                                    {% endfor %}
+                                                </select>
+                                            </div>
+                                     </div>
+                                    <div class="row row-sm mg-t-10">
+                                        <div class="col-lg-12 col-sm-12 col-xs-12">
+                                            <label class="form-control-label">
+                                                Job Description:
+                                                 <span class="tx-danger">*</span>
+                                             </label>
+                                             <textarea class="job-description form-control" name="job_description">{{get_template.job_description}}</textarea>
+                                             <div class="errMsg" style="color:red;font-size: 12px;"></div>
+                                        </div>
+                                    </div>
+                                    <div class="row row-sm mg-t-10">
+                                        <div class="col-lg-12 col-sm-12 col-xs-12">
+                                            <label class="form-control-label">
+                                                Benefits:
+                                                 <span class="tx-danger">*</span>
+                                             </label>
+                                             <textarea class="job-benefit form-control" name="job_benefit">{{get_template.benefits}}</textarea>
+                                             <div class="errMsg" style="color:red;font-size: 12px;"></div>
+                                        </div>
+                                    </div>
+                                    <div class="row row-sm mg-t-10">
+                                        <div class="col-lg-12 col-sm-12 col-xs-12">
+                                            <label class="form-control-label">
+                                                Requirements:
+                                                 <span class="tx-danger">*</span>
+                                             </label>
+                                             <textarea class="job-requirement form-control" name="job_requirement">{{get_template.requirements}}</textarea>
+                                             <div class="errMsg" style="color:red;font-size: 12px;"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                </div>
+                                <div class="card-list-view">
+                                <h1 class="section_main-title h5 text-uppercase pd-b-20 mg-0">job location</h1>
+                                <div class="custom-form">
+                                    <div class="row row-sm">
+                                        <div class=" col-lg-4 col-sm-12 col-xs-12">
+                                            <label class="form-control-label">
+                                                Country:
+                                                <span class="tx-danger">*</span>
+                                            </label>
+                                            <select class="form-control" name="country" required="" onChange="getCitiesByCountry(this.value)" >
+                                                <option label="Select country"></option>
+                                                {% for country in countries %}
+                                                    <option value="{{ country.id }}" {% ifequal get_template.country.id country.id %} selected {% endifequal %}>{{country.country_name}}</option>
+                                                {% endfor %}
+                                            </select>
+                                        </div>
+                                        <div class=" col-lg-4 col-sm-12 col-xs-12">
+                                            <label class="form-control-label">
+                                                City:
+                                                <span class="tx-danger">*</span>
+                                            </label>
+                                            <div id="citydiv">
+                                                <select class="form-control" required=""  name="city">
+                                                    
+                                                    {%if get_template.city %}
+                                                    <option value="{{get_template.city.id}}">{{get_template.city.city_name}}</option>
+                                                    {% else %}
+                                                    <option label="Choose one"></option>
+                                                    {% endif %}
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class=" col-lg-4 col-sm-12 col-xs-12">
+                                            <label class="form-control-label">
+                                                Zipcode:
+                                                <span class="tx-danger">*</span>
+                                            </label>
+                                            <input class="form-control"
+                                                name="zipcode" required=""  value="{{get_template.zip_code}}" type="text" pattern="[0-9]{4,6}">
+                                        </div>
+                                    </div>
+                                </div>
+                                </div>
+                                
+                            </div>
+                            <div class="card-footer">
+                                <button type="submit" class="btn btn-primary waves-effect waves-light custom_btn">Save</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+       
+
+<!--</div>-->
+
+{% endblock %}
+
+{% block script %}
+
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/tinymce/4.5.6/tinymce.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/tinymce/4.5.6/jquery.tinymce.min.js"></script>
+        <!-- city state -->
+        <script src="{% static 'assets/js/main.js' %}"></script>
+
+        <!--- Tabs JS-->
+        <script src="{% static 'assets/plugins/tabs/jquery.multipurpose_tabcontent.js' %}"></script>
+        <script src="{% static 'assets/js/tabs.js' %}"></script>
+
+        <!-- Internal Data tables -->
+        <script src="{% static 'assets/plugins/datatable/js/jquery.dataTables.min.js' %}"></script>
+        <script src="{% static 'assets/plugins/datatable/js/dataTables.dataTables.min.js' %}"></script>
+        <script src="{% static 'assets/plugins/datatable/js/dataTables.responsive.min.js' %}"></script>
+        <script src="{% static 'assets/plugins/datatable/js/responsive.dataTables.min.js' %}"></script>
+        <script src="{% static 'assets/plugins/datatable/js/jquery.dataTables.js' %}"></script>
+        <script src="{% static 'assets/plugins/datatable/js/dataTables.bootstrap4.js' %}"></script>
+        <script src="{% static 'assets/plugins/datatable/js/dataTables.buttons.min.js' %}"></script>
+        <script src="{% static 'assets/plugins/datatable/js/buttons.bootstrap4.min.js' %}"></script>
+        <script src="{% static 'assets/plugins/datatable/js/jszip.min.js' %}"></script>
+        <script src="{% static 'assets/plugins/datatable/js/pdfmake.min.js' %}"></script>
+        <script src="{% static 'assets/plugins/datatable/js/vfs_fonts.js' %}"></script>
+        <script src="{% static 'assets/plugins/datatable/js/buttons.html5.min.js' %}"></script>
+        <script src="{% static 'assets/plugins/datatable/js/buttons.print.min.js' %}"></script>
+        <script src="{% static 'assets/plugins/datatable/js/buttons.colVis.min.js' %}"></script>
+        <script src="{% static 'assets/plugins/datatable/js/dataTables.responsive.min.js' %}"></script>
+        <script src="{% static 'assets/plugins/datatable/js/responsive.bootstrap4.min.js' %}"></script>
+
+        <!-- Internal form validation plugin -->
+        <script src="{% static 'assets/js/jquery-validation-1.19.3/dist/jquery.validate.js' %}"></script>
+		<script src="{% static 'assets/js/form-elements.js' %}"></script>
+        <script src="{% static 'assets/js/parsley.min.js' %}"></script>
+        <script src="{% static 'assets/js/form-validation.js' %}"></script>
+        <script src="{% static 'assets/plugins/select2/js/select2.min.js' %}"></script>
+
+
+    <script>
+        $(document).ready(function() {
+        $("#as_per_market").on("click", function(){
+                    check = $("#as_per_market").is(":checked");
+                     if(check) {
+                        $("#salary").addClass('salary');
+                        $("#salary input[type=number]").prop('required', false)
+                    } else {
+                        $("#salary").removeClass('salary');
+                        $("#salary input[type=number]").prop('required', true)
+                    }
+                });
+                $('.professionSkills').select2({
+                placeholder: "Select Skill",
+                         ajax:{
+                               url:"/company/get_skills",
+                               dataType: 'json',
+                               processResults: function (data) {
+                                   return {
+                                       results: $.map(data, function (item) {
+                                           return {id: item.id, text: item.name};
+                                       })
+                                   };
+                               }
+                         },
+                         tags:true,
+                         createTag: function (params) {
+                            return {
+                                id: params.term,
+                                text: params.term,
+                                newOption: true,
+                            }
+                         },
+                        templateResult: function (data) {
+                            var $result = $("<span></span>");
+                            $result.text(data.text);
+                            if (data.newOption) {
+                                $result.append(" <em>(new)</em>");
+                            }
+                            return $result;
+                        },
+                        minimumInputLength: 1
+                    });
+        
+            tinymce.init({
+                selector: '.job-description',
+                menubar: false,
+                plugins: [
+                    'advlist autolink lists link image charmap print preview',
+                    'searchreplace visualblocks code fullscreen',
+                    'insertdatetime media table paste code '
+                ],
+                toolbar:'size bold italic backcolor underline  | bullist numlist | ' + 'link table insertdatetime charmap preview',
+                content_style: 'body { font-family:Helvetica,Arial,sans-serif; font-size:14px }',
+            });
+            tinymce.init({
+                selector: '.job-benefit',
+                menubar: false,
+                plugins: [
+                    'advlist autolink lists link image charmap print preview',
+                    'searchreplace visualblocks code fullscreen',
+                    'insertdatetime media table paste code '
+                ],
+                toolbar:'size bold italic backcolor underline  | bullist numlist | ' + 'link table insertdatetime charmap preview',
+                content_style: 'body { font-family:Helvetica,Arial,sans-serif; font-size:14px }',
+            });
+            tinymce.init({
+                selector: '.job-requirement',
+                menubar: false,
+                plugins: [
+                    'advlist autolink lists link image charmap print preview',
+                    'searchreplace visualblocks code fullscreen',
+                    'insertdatetime media table paste code'
+                ],
+                toolbar:'size bold italic backcolor underline  | bullist numlist | ' + 'link table insertdatetime charmap preview',
+                content_style: 'body { font-family:Helvetica,Arial,sans-serif; font-size:14px }',
+            });
+
+            $(".recruiter__selector").on('change',function(e){
+                if($(this).val() == 'internal'){
+                    $('#internal-recruiter-modal').modal('show');
+                }
+                if($(this).val() == 'external'){
+                    $('#external-recruiter-modal').modal('show');
+                }
+            });
+
+        });
+    </script>
+    <script type="text/javascript">
+        
+        $("#category").change(function (e) {
+        var category=$(this).val();
+			if(category!=""){
+				$.ajax({
+				  url:"{% url 'company:get_job_template' %}",
+				  type:'POST',
+				  headers: {'X-CSRFToken': '{{ csrf_token }}'},
+                  data: JSON.stringify({'category':category})
+				 
+				})
+				.done(function(response){
+                    console.log(response)
+					if(response=="True"){
+
+						$(".email_error").remove();
+						$("<span class='email_error' style='padding: 3px;color: red;'>ID already exists !!</span>").insertAfter("#candidatecid");
+						$('#submitAjtForm').attr('disabled','disabled');
+					}else if(response=="Invalid"){
+						$(".email_error").remove();
+						$("<span class='email_error' style='padding: 3px;color: red;'> Invalid ID !!</span>").insertAfter("#candidatecid");
+						$('#submitAjtForm').attr('disabled','disabled');
+					}
+					else{
+
+						$(".email_error").remove();
+						$('#submitAjtForm').removeAttr('disabled');
+					}
+				}).fail(function(){
+					  console.log("failed");
+				})
+			}else{
+				$(".email_error").remove();
+			}
+    });
+    $(function(){
+        var dtToday = new Date();
+        var month = dtToday.getMonth() + 1;
+        var day = dtToday.getDate();
+        var year = dtToday.getFullYear();
+        if(month < 10)
+            month = '0' + month.toString();
+        if(day < 10)
+            day = '0' + day.toString();
+        var minDate= year + '-' + month + '-' + day;
+        $('.txtDate_target_Date').attr('min', minDate);
+        
+        /***
+         * TextArea Description inputbox validation
+         * ***/
+
+    });
+
+    $(window).ready(function(){
+        setInterval(function(){
+            var jobDescp = tinyMCE.get('job_description').getContent();
+            var jobBenifit = tinyMCE.get('job_benefit').getContent();
+            var jobReq = tinyMCE.get('job_requirement').getContent();
+
+            $('.errMsg').html('');
+            if(jobDescp == ""){
+                //$("#job_description").prop('required',true);
+                $("#job_description").next('.errMsg').html('This value is required');
+            }else{
+                //$("#job_description").removeAttr('required');
+                $("#job_description").next('.errMsg').html('')
+            }
+            if(jobBenifit == ""){
+                //$("#job_benefit").prop('required',true);
+                $("#job_benefit").next('.errMsg').html('This value is required');
+            }else{
+                //$("#job_benefit").removeAttr('required');
+                $("#job_benefit").next('.errMsg').html('');
+            }
+            if(jobReq == ""){
+                //$("#job_requirement").prop('required',true);
+                $("#job_requirement").next('.errMsg').html('This value is required');
+            }else{
+                //$("#job_requirement").removeAttr('required');
+                $("#job_requirement").next('.errMsg').html('');
+            }
+        },3000)
+
+    })
+    </script>
+{% endblock %}

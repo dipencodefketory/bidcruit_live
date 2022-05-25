@@ -1,0 +1,253 @@
+.fx-row__filterTabView {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 10px;
+}
+.tab-listing label{margin-bottom: 0px;font-weight: 500;cursor: pointer;}
+.tab-listing label:hover {color: #0068ff;}
+.tab-listing {
+    display: flex;
+    gap: 12px;
+}
+.listContainerView .card-container {
+    padding: 10px;
+}
+.filter-list {
+    display: flex;
+    gap: 18px;
+    justify-content: flex-start;
+    align-items: center;
+}
+.search-btn__ls {
+    position: relative;
+    display: flex;
+    align-items: stretch;
+    width: 238px;
+}
+.search-btn__ls .search_text {
+    border-top-right-radius: 10px;
+    border-bottom-right-radius: 10px;
+    border-right: 1px solid #e2e8f5 !important;
+    height: 32px;
+}
+.search-btn__ls .btn {
+    border: none;
+    border-right: 0;
+    background: #0068ff;
+    border-radius: 10px 0px 0px 10px !important;
+    padding: 5px 15px;
+    height: 32px;
+    color: #fff;
+}
+.short-info i {
+    color: #0068ff;
+    padding-right: 3px;
+}
+/*****/
+.toggle-head {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    padding: 10px 10px;
+}
+.toggle-head .lft-20 {
+    width: 10%;
+    max-width: 70px;
+}
+.toggle-head .mid-80 {
+    display: flex;
+    width: 90%;
+}
+.title-details {
+    flex: 90%;
+}
+.collapse-btn {
+    flex: 10%;
+    display: flex;
+    justify-content: flex-end;
+    padding: 10px 0;
+}
+.titleView {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 10px;
+    align-items: center;
+}
+.details-ls ul {
+    display: flex;
+    margin: 0;
+    padding: 0;
+    justify-content: space-between;
+    color: #97a3b9;
+}
+.details-ls ul li:first-child{
+     color: #0068ff;
+     list-style: none;
+}
+#candidateDetailsSection .details-ls ul li:first-child{
+     color: #97a3b9;
+     list-style: none;
+}
+
+.collps-btn {
+    width: 32px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 18px;
+    background: #EAF2FF;
+    cursor: pointer;
+    height: 32px;
+}
+.collps-btn .fa-minus{
+    display:none;
+}
+.collps-btn.active .fa-minus{display:block;}
+.collps-btn.active .fa-plus{display:none;}
+.toggleListContainer{display: none;}
+.toggleListContainer.active{display: block;}
+
+/****/
+.toggleListContainer {
+    padding: 10px 10px;
+}
+.flx-innerSection {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    width: 100%;
+    flex: 100%;
+}
+.flx-left.flx-40 {
+    flex: 20%;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    border-right: 2px solid #e2e8f5;
+    margin-right: 10px;
+    padding: 0 10px;
+}
+.user-name {
+    display: flex;
+    justify-content: center;
+    align-items: baseline;
+    gap: 5px;
+}
+.user-name h6 {
+    margin: 0;
+    font-size: 16px;
+    color: #031b4e;
+}
+.flx-left.flx-60 {
+    flex: 80%;
+    display: flex;
+    align-items: center;
+    position: relative;
+    padding: 16px 0;
+}
+.flx-sidels {
+    flex: 30%;
+}
+.flx-left.flx-60 .flx-sidels:nth-child(3) {
+    display: flex;
+    justify-content: space-between;
+}
+.flx-sidels p {
+    margin: 0;
+}
+lable.boldText {
+    font-weight: 600;
+}
+.flx-container {
+    border: 2px solid #e2e8f5;
+    /* padding: 10px 10px; */
+    border-radius: 12px;
+}
+.previewAction{
+    min-width: 80px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background:#EAF2FF;
+    position: absolute;
+    right: 0;
+    height: 100%;
+    top: 0;
+}
+.previewAction:after {
+    content: "";
+    border-top: 37px solid transparent;
+    border-bottom: 37px solid transparent;
+    border-right: 32px solid #EAF2FF;
+    position: absolute;
+    left: -32px;
+    top: 0;
+}
+
+.preview-icon {
+    padding: 5px 10px;
+    cursor: pointer;
+}
+.candidatedetails-list,.jobdetails-list{display:none}
+.candidatedetails-list.active,.jobdetails-list.active{display:block}
+.logo_box_user_track{
+    width: 57px;
+    height: 57px;
+    border-radius: 50px;
+    background-color: #f9fafc;
+    padding: 11px;
+}
+.profile-img {
+    width: 50px;
+    height: 50px;
+    border-radius: 50px;
+    background-color: #f9fafc;
+    padding: 11px;
+}
+.flx-sidels p {
+    padding-top: 4px;
+    color: #97a3b9;
+}
+.color_red_action {
+    color: #ff5353;
+}
+.user-name h6 span {
+    font-weight: normal;
+}
+.card.toggleTabSection {
+    box-shadow: none;
+    border: 2px solid #c9d0ea;
+    margin-bottom: 7px;
+    border-radius: 10px !important;
+}
+.user-name.candidate_name{
+    display: inline-block;
+    padding: 5px;
+}
+.user-name.candidate_name h5 {
+    margin-bottom: 4px;
+}
+.company_name_main{
+    font-size: 16px;
+    margin-bottom: 0;
+    font-weight: bold;
+}
+.job_title_main{
+    font-size: 14px;
+    margin-bottom: 0;
+    font-weight: normal;
+}
+.company_name_main span {
+    font-weight: normal;
+}
+label.act_tab {
+    color: #0068ff;
+}
+.reject_job_c {
+    color: #ff5353;
+    font-weight: bold;
+    text-align: center;
+    width: 100%;
+}

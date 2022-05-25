@@ -1,0 +1,363 @@
+{% extends 'agency/base.html' %} 
+{% load static %} 
+{% load candidate_extras %}
+{% block title %}Add Client{% endblock %}
+{% block css %}
+<!-- Internal TelephoneInput css -->
+<link rel="stylesheet" href="{% static 'assets/plugins/telephoneinput/telephoneinput.css' %}">
+<link href="{% static 'assets/css/ATS/intlTelInput.css' %}" rel="stylesheet" type="text/css"/>
+<link href="{% static 'assets/plugins/fileuploads/css/fileupload.css' %}" rel="stylesheet" type="text/css"/>
+
+<!--add candidate custom css -->
+<link href="{% static 'assets/plugins/select2/css/select2.min.css' %}" rel="stylesheet">
+<link href="{% static 'assets/css/ATS/add_candidate.css' %}" rel="stylesheet" type="text/css"/>
+<style>
+    .wrk-email {display: flex; flex-direction: column;}
+    .wrk-email ul {order: 4;}
+    .contract-input-feild .input-group.file-browser, .selector_input-valid .input-group.file-browser{position: relative;}
+    .contract-input-feild .input-group.file-browser ul, .selector_input-valid .input-group.file-browser ul{position: absolute;left: 0; top: 40px;}
+</style>
+{% endblock %}
+{% block main %}
+<!-- Container-fluid -->
+<div class="container-fluid">
+    <!-- Main-content-body -->
+    <div class="main-content-body">
+        
+        <div class="row row-sm card add_client_details_f">
+
+            <div class="card-header pb-0">
+                <div class="agency-head">
+                    <h5 class="text-uppercase form_main_title">Client Details</h4>
+                    <div class="company_profile_right_filters_section">
+                        <div class="filters_header client_list_btn">
+                            <a class="client_list_btn_p" href="{% url 'agency:client_list' %}">Close</a>
+                        </div>
+                        
+                    </div>
+                </div>                
+            </div>
+
+            <div class="col-12 candidate-job-template">
+                <form class="job-new-form" action="{%url 'agency:invite_client'%}" id="formFeildsItems" enctype="multipart/form-data" method="POST" data-parsley-validate="">
+                    {% csrf_token %}
+                    <div class="basic_form" id="basicForm">
+                        
+                        <div class="row row-sm form-layout mg-t-30 mg-b-30">
+                            <div class="form-group col-lg-4 col-md-6 col-sm-12 pd-b-20">
+                                <label class="feild-title text-capitalize">Website: <span
+                                    class="tx-danger">*</span></label>
+                                <input class="form-control" required="" id='website' type="text" name="website" value="{{client_data.website}}" placeholder="Website">
+                                  
+                            </div>
+                            <div class="form-group col-lg-4 col-md-6 col-sm-12 pd-b-20 wrk-email">
+                                <label class="feild-title text-capitalize">Work Email: <span
+                                    class="tx-danger">*</span></label>
+                                <select class="form-control select2_company" type="text" name="client-email" required="">
+                                    <option selected value="{{client_data.workemail}}">{{client_data.workemail}}</option>
+                                </select>
+                            </div>
+                            <div class="form-group col-lg-4 col-md-6 col-sm-12 pd-b-20">
+                                <label class="feild-title text-capitalize">Client name: <span
+                                    class="tx-danger">*</span></label>
+                                <input class="form-control" id="client-name" type="text" value="{{client_data.client_name}}" name="client-name" placeholder="Client name" required="">
+                                  
+                            </div>
+                            <div class="form-group col-lg-4 col-md-6 col-sm-12 pd-b-20">
+                                <label class="feild-title text-capitalize">Contact Number: <span
+                                    class="tx-danger">*</span></label>
+                                <input type="tel" maxlength="10" pattern="^(\+\d{1,2}\s)?\(?\d{3}\)?[\s.-]?\d{3}[\s.-]?\d{4}$" id="contact-number"  value="{{client_data.contact_number}}" name="contact-number-rate" class="form-control" required="">
+                            </div>
+                            <div class="form-group col-lg-4 col-md-6 col-sm-12 pd-b-20">
+                                <label class="feild-title text-capitalize">Company name: <span
+                                    class="tx-danger">*</span></label>
+                                <input class="form-control" type="text" id="company-name" name="comnpany-name" value="{{client_data.company_name}}" placeholder="Company name" required="">
+                                  
+                            </div>
+                            <div class="form-group col-lg-4 col-md-6 col-sm-12 pd-b-20">
+                                <label class="feild-title text-capitalize required-label">Industry Type: <span
+                                    class="tx-danger">*</span></label>
+                                <select class="form-control select2" id="industry-type" name="industrial_type" required="">
+                                    <option label="Select Type"></option>
+                                        {% for industrytypes in industrytype %}
+                                            <option value="{{industrytypes.id}}" {% ifequal industrytypes.id  client_data.industry.id %} selected {% endifequal %}>{{industrytypes.name}}</option>
+                                        {% endfor %}
+                                </select>
+                                
+                            </div>
+                            
+                        </div>
+                    </div>
+                    <div class="basic_form" id="basicForm">
+                        <div class="row row-sm form-title-row">
+                            <div class="col-lg">
+                                <h5 class="mb-3 text-uppercase form_main_title">Address Details</h5>
+                            </div>
+                        </div>
+                        <div class="row row-sm form-layout mg-t-30 mg-b-30">
+                            <div class="form-group col-lg-4 col-md-6 col-sm-12 pd-b-20">
+                                <label class="feild-title text-capitalize">Street Address:</label>
+                                <textarea class="form-control" id="address" name="street-address"  placeholder="Street Address">{{client_data.address}}</textarea required="">
+
+                                  
+                            </div>
+                            <div class="row row-sm">
+                                <div class="col-lg-3 col-sm-6 col-xs-12">
+                                    <label class="form-control-label">Country: <span
+                                            class="tx-danger">*</span></label>
+                                    <select class="form-control select2" required="" id="country" onChange="getState(this.value)" name="country">
+                                        <option label="Choose one"></option>
+                                        {% for countrys in country %}
+                                            <option value="{{countrys.id}}" {% ifequal  client_data.country.id  countrys.id %} selected {% endifequal %} >{{countrys.country_name}}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                                <div class="col-lg-3 col-sm-6 col-xs-12">
+                                    <label class="form-control-label">State: <span
+                                            class="tx-danger">*</span></label>
+                                    <div id="statediv">
+                                        <select class="form-control select2" required="" id="state" name="state">
+                                            {% if client_data.state %}
+                                            <option value="{{client_data.state.id}}">{{client_data.state.state_name}}</option>
+                                            {% else %}
+                                            <option label="Choose one"></option>
+                                            {% endif %}
+                                            
+                                            
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-lg-3 col-sm-6 col-xs-12">
+                                    <label class="form-control-label">City: <span
+                                            class="tx-danger">*</span></label>
+                                    <div id="citydiv">
+                                        <select class="form-control select2" required="" id="city" name="city">
+                                          
+                                            {% if client_data.city %}
+                                            <option value="{{client_data.city.id}}">{{client_data.city.city_name}}</option>
+                                            {% else %}
+                                            <option label="Choose one"></option>
+                                            {% endif %}
+                                        </select>
+                                    </div>
+                                </div>
+                              
+                            </div>
+                        </div>
+                    </div>
+                    <div class="basic_form" id="basicForm">
+                        <div class="row row-sm form-title-row">
+                            <div class="col-lg">
+                                <h5 class="mb-3 text-uppercase form_main_title">Contract Details</h5>
+                            </div>
+                        </div>
+                        <div class="row row-sm form-layout mg-t-30 mg-b-30">
+                            
+                            <div class="form-group col-lg-4 col-md-6 col-sm-12 pd-b-20">
+                                <label class="feild-title text-capitalize">Commission Rate: <span
+                                    class="tx-danger">*</span></label>
+                                <input type="number" min="0" max="100" maxlength="4" pattern="^[0-9]{3}$" name="commission-rate" step="0.01" value="{{client_data.commission_rate}}" class="form-control" required="">
+                                
+                            </div>
+                            <div class="form-group col-lg-4 col-md-6 col-sm-12 pd-b-20 contract-input-feild">
+                                <label class="feild-title text-capitalize required-label">Contract Details: <span
+                                    class="tx-danger">*</span></label>
+                                <div class="input-group file-browser">
+                                    <input type="text" value="" class="browse-file form-control input-feild contract" readonly>
+                                    <label class="input-group-btn">
+                                        <span class="btn btn-default">
+                                            Select File<input type="file" name="contract"  style="display: none;" multiple accept="application/pdf" required="">
+                                        </span>
+                                    </label>
+                                </div>
+                                
+                            </div>
+                            
+                            <div class="form-group col-lg-4 col-md-6 col-sm-12 pd-b-20 selector_input-valid">
+                                <label class="feild-title text-capitalize required-label">Recuriement Policy: <span
+                                    class="tx-danger">*</span></label>
+                                <div class="input-group file-browser">
+                                    
+                                    <select class="form-control select2" required="" name="recuriement-terms">
+                                        <option label="Choose one"></option>
+                                        {% for replacement_term in replacement_terms %}
+                                            <option value="{{replacement_term.id}}" {% ifequal  client_data.replacement_terms.id  replacement_term.id %} selected {% endifequal %} >{{replacement_term.name}}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                                
+                            </div>
+                            <div class="form-group col-lg-4 col-md-6 col-sm-12 pd-b-20 selector_input-valid">
+                                <label class="feild-title text-capitalize required-label">Payment Terms: <span
+                                    class="tx-danger">*</span></label>
+                                <div class="input-group file-browser">
+                                    
+                                    <select class="form-control select2" required="" name="payment-terms">
+                                        <option label="Choose one"></option>
+                                        {% for payment_term in payment_terms %}
+                                            <option value="{{payment_term.id}}" {% ifequal  client_data.payment_terms.id  payment_term.id %} selected {% endifequal %} >{{payment_term.name}}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                                
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row row-sm bottom-action-tab">
+                        <div class="col-12 flex-box-bottom">
+                            
+                            <div class="fxc-right btm-tab Invite_btn">
+                                <button type="submit" id="submitAjtForm" name="submit" class="rounded-10 btn btn-sm btn-primary">Invite</button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+
+            </div>
+        </div>
+    </div>
+    <!-- Main-content-body closed -->
+</div>
+<!-- Container-fluid closed -->
+<!-- Main-content closed -->
+{% endblock %}
+
+{% block script %}
+
+<script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js" integrity="sha384-QJHtvGhmr9XOIpI6YVutG+2QOK9T+ZnN4kzFN1RtK3zEFEIsxhlmWl5/YESvpZ13" crossorigin="anonymous"></script>
+
+<script src="{% static 'assets/plugins/fileuploads/js/fileupload.js' %}"></script>
+<script src="{% static 'assets/plugins/fileuploads/js/file-upload.js' %}"></script>
+
+
+<!-- Internal form validation plugin -->
+<script src="{% static 'assets/js/form-elements.js' %}"></script>
+<script src="{% static 'assets/js/parsley.min.js' %}"></script>
+<script src="{% static 'assets/js/form-validation.js' %}"></script>
+
+
+<!-- city state -->
+<script src="{% static 'assets/js/main.js' %}"></script>
+<script>
+    $(document).ready(function()
+        {
+    $(".select2_company").select2({
+        allowClear:true,            
+        placeholder:"Enter email id of the company",
+        ajax:{
+            url:"/agency/get_companies/",
+            dataType:'json',
+            processResults: function(data){
+                console.log(data)
+                return {
+                            results: $.map(data, function (item) {
+                                 return {id: item.id, text: item.company_name +" "+'('+ item.email +')'};
+                        })
+                    };
+            }
+        },
+        tags:true,
+        createTag: function (params) {
+                     return {
+                         id: params.term,
+                         text: params.term,
+                         newOption: true,
+                     }
+                 },
+        templateResult: function (data) {
+         
+                     var $result = $("<span></span>");
+                     
+                     $result.text(data.text);
+                     if (data.newOption) {
+                         $result.append(" <em>(new)</em>");
+                     }
+                     return $result;
+                 },
+        minimumInputLength: 1,
+
+    });
+    $('.select2_company').change(function(){
+        value_get=$(this).val();
+        $.ajax({
+                url:"/agency/get_exists_client/",
+                headers: {'X-CSRFToken': $("input[name=csrfmiddlewaretoken]").val() },
+                type:'POST',
+                contentType: 'application/json; charset=UTF-8',
+                data: JSON.stringify({'client_value':value_get}),
+                error: function (request, status, error) {
+                        alert(error);
+                }
+            }).done(function(response){
+                console.log(response)
+                if(response.status == true){
+                    $('#website').val(response.website)
+                    $('#company-name').val(response.company_name)
+                    $('#client-name').val(response.client_name)
+                    $('#contact-number').val(response.contact_no)
+                    $('#industry-type').val(response.industry_type)
+                    $('#address').val(response.address)
+                    $('#country').val(response.country); 
+                    $('#city').append($("<option selected></option>").attr("value", response.city).text(response.cityname)); 
+                    $('#state').append($("<option selected></option>").attr("value", response.state).text(response.statename));   
+                }else{
+                    $('#website').val('')
+                    $('#company-name').val('')
+                    $('#client-name').val('')
+                    $('#contact-number').val('')
+                    $('#industry-type').val('')
+                    $('#address').val('')
+                    $('#country').val(''); 
+                    $('#city').append($("<option selected></option>").attr("value", '').text('')); 
+                    $('#state').append($("<option selected></option>").attr("value", '').text('')); 
+                    $('.select2_company').next('.select2-container--default').find('.select2-selection__rendered').html('');
+                }
+            });
+
+    })
+});
+// $('.select2_cities').select2({
+//          allowClear: true,
+//          placeholder: "Select City",
+//                     ajax: {
+//                         url:"/company/get_cities",
+//                         dataType: 'json',
+//                         processResults: function (data) {
+//                             return {
+//                                 results: $.map(data, function (item) {
+//                                      return {id: item.id, text: item.city_name +" "+'('+ item.state_name +')'};
+//                             })
+//                         };
+//                     }
+//                 },
+//                 minimumInputLength: 1
+//                 });
+function update_connection(connection_id,status)
+    {   url = '/company/update_connection/'
+        $.ajax({
+            url:url,
+            method:"GET",
+            data:{'connection_id':connection_id,"status":status}
+        }).done(function(response){
+            location.reload();
+        })
+    }
+function resend_mail(connection_id)
+    {   url = '/agency/resend_mail/'
+        $.ajax({
+            url:url,
+            method:"GET",
+            data:{'connection_id':connection_id}
+        }).done(function(response){
+            alert("Email resent")
+            location.reload();
+        })
+    }
+</script>
+
+
+
+{% endblock %}
+

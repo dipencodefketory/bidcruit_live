@@ -1,0 +1,470 @@
+{% extends 'company/base.html' %} 
+{% load static %} 
+{% load candidate_extras %}
+{% load custom_filters %}
+{% block title %} Verify Candidate{% endblock %}
+{% block css %}
+<!-- Internal TelephoneInput css -->
+<link rel="stylesheet" href="{% static 'assets/plugins/telephoneinput/telephoneinput.css' %}">
+<link href="{% static 'assets/css/ATS/intlTelInput.css' %}" rel="stylesheet" type="text/css"/>
+<link href="{% static 'assets/plugins/fileuploads/css/fileupload.css' %}" rel="stylesheet" type="text/css"/>
+
+<!--add candidate custom css -->
+<link href="{% static 'assets/plugins/select2/css/select2.min.css' %}" rel="stylesheet">
+<link href="{% static 'assets/css/ATS/add_candidate.css' %}" rel="stylesheet" type="text/css"/>
+{% endblock %}
+{% block main %}
+
+<!-- Container-fluid -->
+<div class="container-fluid">
+    <!-- Main-content-body -->
+    <div class="main-content-body">
+        <div class="row row-sm card">
+            <div class="card-body">
+
+                <div class="col-12 candidate-job-template">
+                    <h2>Verify Candidate</h2>
+                    <div class="border_line"></div>
+                    <form class="job-new-form" name="add_candidate_form" id="formFeildsItems" enctype="multipart/form-data" method="POST" data-parsley-validate="">
+                        {% csrf_token %}
+                        <div class="row row-sm form-layout mg-t-30 mg-b-0">
+
+                            <div class="form-group col-lg-4 col-md-6 col-sm-12 mb-2">
+                                <label class="feild-title text-capitalize required-label">first name:</label>
+                                <input type="text" name="f-name" maxlength="20" value="{{candid_data.first_name}}" class="form-control input-feild fname" required="">
+                            </div>
+                            <div class="form-group col-lg-4 col-md-6 col-sm-12 mb-2">
+                                <label class="feild-title text-capitalize required-label">last name:</label>
+                                <input type="text" name="l-name" maxlength="20" value="{{candid_data.last_name}}" class="form-control input-feild lname" required="">
+                            </div>
+                            <div class="form-group email-bar col-lg-4 col-md-6 col-sm-12 mb-2">
+                                <label class="feild-title text-capitalize required-label">email:</label>
+                                <div class="input-group email-input">
+                                    <input
+                                            aria-describedby="basic-addon2"
+                                            name="email" id="registerInputemail"
+                                            aria-label="Recipient's username"
+                                            class="form-control input-feild email"
+                                            required=""
+                                            maxlength="50"
+                                            value="{{candid_data.email}}"
+                                            type="text" readonly>
+                                </div>
+                            </div>
+                            <div class="form-group col-lg-4 col-md-6 col-sm-12 mb-2">
+                                <label class="feild-title text-capitalize">Gender:</label>
+                                <ul class="group-gender">
+                                    <li class="g-inputs">
+                                        <input type="radio" class="g-input" {% ifequal candid_data.gender 'male' %} checked {% endifequal %} value="male" name="gender"><label class="g-title text-capitalize">male</label>
+                                    </li>
+                                    <li class="g-inputs">
+                                        <input type="radio" class="g-input" {% ifequal candid_data.gender 'female' %} checked {% endifequal %} value="female" name="gender"><label class="g-title text-capitalize">female</label>
+                                    </li>
+                                </ul>
+                            </div>
+                             <div class="form-group col-lg-4 col-md-6 col-sm-12 mb-2">
+                                 <div class="mg-t-10 mg-sm-t-0">
+                                    <div class="control-group form-group">
+                                        <label class="form-label">Profile Picture:</label>
+                                        <div class="add-inputfile-border">
+                                            <input type="file" name="profile_pic" accept="image/*" {% if candid_data.profile_pic %} value="{{candid_data.profile_pic}}" data-default-file="{{candid_data.profile_pic.url}}" {% endif %} class="dropify"  data-height="100">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group col-lg-4 col-md-6 col-sm-12 mb-2">
+                                <label class="feild-title text-capitalize required-label">resume:</label>
+                                <div class="input-group file-browser">
+                                    <input type="text" value="" class="browse-file form-control input-feild resume" readonly>
+                                    <label class="input-group-btn">
+                                        <span class="btn btn-default">
+                                            Select File<input type="file" name="resume"  style="display: none;">
+                                        </span>
+                                    </label>
+                                </div>
+
+                            </div>
+
+                            <div class="form-group col-lg-4 col-md-6 col-sm-12 mb-2">
+                                <label class="feild-title text-capitalize required-label">contact number:</label>
+                                <input type="text" name="contact_num" value="{{candid_data.contact}}" required class="form-control input-feild contact-num">
+                            </div>
+
+                            <div class="form-group col-lg-4 col-md-6 col-sm-12 mb-2">
+                                <label class="feild-title text-capitalize">Current City:</label>
+                                <select class="form-control current_cities" name="candidate_current_city" required>
+                                    {% if candid_data.current_city %}
+                                        <option value="{{candid_data.current_city.id}}" selected>{{candid_data.current_city.city_name}}</option>
+                                    {% endif %}
+                                </select>
+                            </div>
+
+                            <div class="form-group col-lg-4 col-md-6 col-sm-12 mb-2">
+                                <label class="feild-title text-capitalize">Job Title:</label>
+                                <input type="text" name="designation-input" value="{{candid_data.designation}}"  required  class="form-control input-feild designation-input">
+                            </div>
+
+                            <div class="form-group col-lg-4 col-md-6 col-sm-12 mb-2">
+                                <label class="feild-title text-capitalize">notice period:</label>
+                                <select name="professional-notice-period" class="form-control three-ls current-salary-val">
+                                    <option label="Select Notice Period" disabled></option>
+                                    {% for notice in notice_period %}
+                                        <option {% ifequal candid_data.notice.id  notice.id %} selected {% endifequal %} value="{{notice.id}}">{{notice.notice_period}}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            <div class="form-group col-lg-4 col-md-6 col-sm-12 mb-2">
+                                <label class="feild-title text-capitalize">total experience:</label>
+                                    <div class="fx-col__sm exp-inputbox">
+                                        <input type="number" value="{{candid_data.total_exper|get_experianceYear_split}}"
+                                               name="professional-experience-year" placeholder="Year"
+                                               class="form-control three-ls experiance-val" required>
+                                        <input type="number" value="{{candid_data.total_exper|get_experianceMonth_split}}"
+                                               name="professional-experience-month" placeholder="Month"
+                                               class="form-control three-ls experiance-val" required>
+                                    </div>
+                            </div>
+
+                            <div class="form-group col-lg-4 col-md-6 col-sm-12 mb-2">
+                                <label class="feild-title text-capitalize">current CTC (Yearly):</label>
+                                <input type="number" name="ctc-input" value="{{candid_data.ctc}}" required  class="form-control input-feild ctc-input">
+                            </div>
+                            <div class="form-group col-lg-4 col-md-6 col-sm-12 mb-2">
+                                <label class="feild-title text-capitalize">expected CTC:</label>
+                                <input type="number" name="expected-ctc" value="{{candid_data.expectedctc}}"  required class="form-control input-feild expected-ctc">
+                            </div>
+
+                             <div class="form-group col-lg-4 col-md-6 col-sm-12 mb-2">
+                                <label class="feild-title text-capitalize">skills:</label>
+                                <select class="form-control skill-selector professionSkills" name="professional_skills" multiple="multiple" required>
+                                    {% for skills in candid_data.skills.all %}
+                                        <option value="{{skills.id}}" selected>{{skills.name}}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            <div class="form-group col-lg-4 col-md-6 col-sm-12 mb-2">
+                                <label class="feild-title text-capitalize">Preferred City:</label>
+                                <select class="form-control select2_cities" name="candidate_search_city" multiple="multiple" required>
+                                    <option></option>
+                                    {% for city in candid_data.prefered_city.all %}
+                                        <option value="{{city.id}}" selected>{{city.city_name}}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                             <div class="form-group col-lg-4 col-md-6 col-sm-12 mb-2">
+                                <label class="feild-title text-capitalize">Category:</label>
+                                <select class="form-control skill-selector CandidateCategory" name="candidate_category" multiple="multiple" required>
+                                        <option label="Select Category" disabled></option>
+                                </select>
+                            </div>
+                            <div class="form-group col-lg-4 col-md-6 col-sm-12 mb-2">
+                                <label class="feild-title text-capitalize">Tags:</label>
+                                <select class="form-control skill-selector tags" name="tags" multiple="multiple">
+                                    <option label="Select Tags" selected></option>
+                                </select>
+                            </div>
+                            <div class="form-group col-lg-4 col-md-6 col-sm-12 mb-2">
+                                <label class="feild-title text-capitalize">Source :</label>
+                                <select class="form-control skill-selector source" name="source" required>
+                                    <option label="Select Source" disabled></option>
+                                </select>
+                            </div>
+                            </div>
+                        <div class="row row-sm bottom-action-tab">
+                            <div class="col-12 flex-box-bottom">
+                                <div class="fxc-right btm-tab cus_line">
+                                    <button type="submit" id="submitAjtForm" name="submit" class="rounded-20 btn btn-sm btn-primary custom_btn">Verify</button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Main-content-body closed -->
+</div>
+<!-- Container-fluid closed -->
+<!-- Main-content closed -->
+{% endblock %}
+
+{% block script %}
+<!--		<script src="https://cdnjs.cloudflare.com/ajax/libs/elasticsearch/16.7.1/elasticsearch.min.js" integrity="sha512-uOHi3cdmRQ3IG8rOX4WwxQbhiHGvElsXZt0cy/2ttb3qE4N7YSb24qYVlB494GVzxJnmU2YC3b8WSJUjgqzEyg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>-->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.13.1/underscore-min.js"
+        integrity="sha512-ZuOjyqq409+q6uc49UiBF3fTeyRyP8Qs0Jf/7FxH5LfhqBMzrR5cwbpDA4BgzSo884w6q/+oNdIeHenOqhISGw=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<!--		<script src="{% static 'assets/js/jquery-mentions-input-master/lib/jquery.elastic.js' %}"></script>-->
+
+<script src="{% static 'assets/js/jquery-mentions-input-master/lib/jquery.events.input.js' %}"></script>
+<script src="{% static 'assets/js/jquery-mentions-input-master/jquery.mentionsInput.js' %}"></script>
+
+
+<!-- Datepicker js -->
+<script src="{% static 'assets/plugins/jquery-ui/ui/widgets/datepicker.js' %}"></script>
+
+
+<script src="{% static 'assets/plugins/select2/js/select2.min.js' %}"></script>
+
+<!--Internal TelephoneInput js-->
+<script src="{% static 'assets/plugins/telephoneinput/telephoneinput.js' %}"></script>
+<script src="{% static 'assets/js/ATS/intlTelInput.js' %}"></script>
+
+
+<script src="{% static 'assets/plugins/fileuploads/js/fileupload.js' %}"></script>
+<script src="{% static 'assets/plugins/fileuploads/js/file-upload.js' %}"></script>
+
+<!-- form-elements js -->
+<script src="{% static 'assets/js/form-elements.js' %}"></script>
+<!--		<script src="{% static 'assets/js/form-validation.js' %}"></script>-->
+
+
+<!-- city state -->
+<script src="{% static 'assets/js/main.js' %}"></script>
+
+<!-- jquery validation plugin -->
+<script src="{% static 'assets/js/jquery-validation-1.19.3/dist/jquery.validate.js' %}"></script>
+
+<script>
+    $(document).ready(function(){
+
+        $(".select2_cities").select2({
+                tags:true,
+        });
+
+        $('.select2_cities').select2({
+            allowClear: true,
+            placeholder: "Select City",
+                    ajax: {
+                        url:"/company/get_cities",
+                        dataType: 'json',
+                        processResults: function (data) {
+                            return {
+                                results: $.map(data, function (item) {
+                                     return {id: item.id, text: item.city_name +" "+'('+ item.state_name +')'};
+                            })
+                        };
+                    }
+            },
+            minimumInputLength: 1
+        });
+
+
+        $(".current_cities").select2({
+            tags:true,
+        });
+
+
+        $('.current_cities').select2({
+            allowClear: true,
+            placeholder: "Select City",
+                    ajax: {
+                        url:"/company/get_cities",
+                        dataType: 'json',
+                        processResults: function (data) {
+                            return {
+                                results: $.map(data, function (item) {
+                                     return {id: item.id, text: item.city_name +" "+'('+ item.state_name +')'};
+                            })
+                        };
+                    }
+                },
+            minimumInputLength: 1
+            });
+        });
+
+        $('.CandidateCategory').select2({
+             placeholder: "Select Categories",
+             ajax:{
+                   url:"/company/get_candidate_categories",
+                   dataType: 'json',
+                   processResults: function (data) {
+                       return {
+                           results: $.map(data, function (item) {
+                               return {id: item.id, text: item.name};
+                           })
+                       };
+                   }
+             },
+             tags:true,
+             createTag: function (params) {
+                return {
+                    id: params.term,
+                    text: params.term,
+                    newOption: true,
+                }
+             },
+            templateResult: function (data) {
+                var $result = $("<span></span>");
+                $result.text(data.text);
+                if (data.newOption) {
+                    $result.append(" <em>(new)</em>");
+                }
+                return $result;
+            },
+            minimumInputLength: 1
+        });
+
+
+        $('.professionSkills').select2({
+            placeholder: "Select Skill",
+             ajax:{
+                   url:"/company/get_skills",
+                   dataType: 'json',
+                   processResults: function (data) {
+                       return {
+                           results: $.map(data, function (item) {
+                               return {id: item.id, text: item.name};
+                           })
+                       };
+                   }
+             },
+             tags:true,
+             createTag: function (params) {
+                return {
+                    id: params.term,
+                    text: params.term,
+                    newOption: true,
+                }
+             },
+            templateResult: function (data) {
+                var $result = $("<span></span>");
+                $result.text(data.text);
+                if (data.newOption) {
+                    $result.append(" <em>(new)</em>");
+                }
+                return $result;
+            },
+            minimumInputLength: 1
+        });
+
+        $('.source').select2({
+            placeholder: "Select Source",
+             ajax:{
+                   url:"/company/get_source",
+                   dataType: 'json',
+                   processResults: function (data) {
+                       return {
+                           results: $.map(data, function (item) {
+                               return {id: item.id, text: item.name};
+                           })
+                       };
+                   }
+             },
+             tags:true,
+             createTag: function (params) {
+                return {
+                    id: params.term,
+                    text: params.term,
+                    newOption: true,
+                }
+             },
+            templateResult: function (data) {
+                var $result = $("<span></span>");
+                $result.text(data.text);
+                if (data.newOption) {
+                    $result.append(" <em>(new)</em>");
+                }
+                return $result;
+            },
+            minimumInputLength: 1
+        });
+    
+        $('.tags').select2({
+             placeholder: "Select tags",
+             ajax:{
+                   url:"/company/get_tags",
+                   dataType: 'json',
+                   processResults: function (data) {
+                       return {
+                           results: $.map(data, function (item) {
+                               return {id: item.id, text: item.name};
+                           })
+                       };
+                   }
+             },
+             tags:true,
+             createTag: function (params) {
+                return {
+                    id: params.term,
+                    text: params.term,
+                    newOption: true,
+                }
+             },
+            templateResult: function (data) {
+                var $result = $("<span></span>");
+                $result.text(data.text);
+                if (data.newOption) {
+                    $result.append(" <em>(new)</em>");
+                }
+                return $result;
+            },
+            minimumInputLength: 1
+        });
+
+      $("#registerInputemail").change(function (e) {
+        var email=$(this).val();
+			if(email!=""){
+				$.ajax({
+				  url:"{% url 'company:check_candidate_email_is_valid' %}",
+				  type:'POST',
+				  headers: {'X-CSRFToken': '{{ csrf_token }}'},
+				  data:{email:email}
+				})
+				.done(function(response){
+                    console.log(response)
+					if(response=="True"){
+						$(".email_error").remove();
+						$("<span class='email_error' style='padding: 3px;color: red;'>Email already exists !!</span>").insertAfter("#registerInputemail");
+						$('#submitAjtForm').attr('disabled','disabled');
+					}else if(response=="Invalid"){
+						$(".email_error").remove();
+						$("<span class='email_error' style='padding: 3px;color: red;'> Invalid Email !!</span>").insertAfter("#registerInputemail");
+						$('#submitAjtForm').attr('disabled','disabled');
+					}
+					else{
+						$(".email_error").remove();
+						$('#submitAjtForm').removeAttr('disabled');
+					}
+				}).fail(function(){
+					  console.log("failed");
+				})
+			}else{
+				$(".email_error").remove();
+			}
+    });
+
+</script>
+
+
+<script>
+            <!--    VALIDATION JS -->
+
+            $.validator.addMethod('contactNumber', function() {
+				var contact_no = $("input[name='contact_num']").val();
+                console.log('test contact no',/^\d{10}$/.test(contact_no));
+				if(/^\d{10}$/.test(contact_no)){
+				    return true;
+				}
+                return false;
+			},"");
+
+			$("form[name='add_candidate_form']").validate({
+                rules: {
+                    contact_num: {
+                       contactNumber:true,
+                    },
+                },
+                messages: {
+                    contact_num:{
+                        contactNumber : "Invalid contact number."
+                    },
+                },
+                submitHandler: function(form) {
+                  form.submit();
+                }
+            });
+
+</script>
+{% endblock %}
+

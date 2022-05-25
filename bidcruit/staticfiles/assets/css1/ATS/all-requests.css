@@ -1,0 +1,93 @@
+.fx-row__filterTabView {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    padding: 5px 10px;
+}
+.tab-listing label{margin-bottom: 0px;font-weight: 500;cursor: pointer;}
+.tab-listing label:hover {color: #0068ff;}
+.tab-listing {
+    display: flex;
+    gap: 12px;
+}
+.listContainerView .card-container {
+    padding: 10px;
+}
+.filter-list {
+    display: flex;
+    gap: 18px;
+    justify-content: flex-start;
+    align-items: center;
+}
+.search-btn__ls {
+    position: relative;
+    display: flex;
+    align-items: stretch;
+    width: 238px;
+}
+.search-btn__ls .search_text {
+    border-top-right-radius: 10px;
+    border-bottom-right-radius: 10px;
+    border-right: 1px solid #e2e8f5 !important;
+    height: 32px;
+}
+.search-btn__ls .btn {
+    border: none;
+    border-right: 0;
+    background: #0068ff;
+    border-radius: 10px 0px 0px 10px !important;
+    padding: 5px 15px;
+    height: 32px;
+    color: #fff;
+}
+.short-info i {
+    color: #0068ff;
+    padding-right: 3px;
+}
+.list-details__preivew {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: #F9FAFC;
+    padding: 10px 10px 0 10px;
+    margin-bottom: 10px;
+}
+.fx-left__section, .fx-right__section {
+    flex: 40%;
+}
+.company-title-section,.candidate-details {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    gap: 10px;
+}
+.company-logo, .candidate-avtar {
+    width: 52px;
+    height: 52px;
+}
+.main-title, .candidate-top-info {
+    display: flex;
+    gap: 10px;
+}
+.upload-btn__ls, .filter-btn__ls, .nav-btn__ls {
+    display: flex;
+    padding: 8px;
+    cursor: pointer;
+    margin-right: 5px;
+}
+.activityContent {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 !important;
+}
+.fxs-min-right .btn {
+    min-width: 80px;
+}
+.fxs-min-left {
+    color: #666363;
+}
+.fxs-min-left .user-slug {
+    margin: 0;
+}

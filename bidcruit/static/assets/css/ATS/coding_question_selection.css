@@ -1,0 +1,355 @@
+.add__exam-form {
+    border: 2px solid #e2e8f5;
+}
+.cq_e_s .add__exam-form {
+    border: none;
+    border-top: 2px solid #e2e8f5
+}
+.configuration_select_type {
+    padding: 23px 26px;
+}
+.add__exam-form h5 {
+    font-size: 16px;
+    color: #041b4e;
+    font-weight: 600;
+}
+
+.add__exam-form label.main-content-label {
+    text-transform: capitalize !important;
+    font-size: 14px;
+    color: #041b4e;
+    font-weight: 500;
+    display: block;
+}
+
+.add__exam-form .form-control {
+    height: 50px;
+    border-radius: 10px;
+}
+
+.add__exam-form .SumoSelect>.CaptionCont {
+    height: 50px;
+    line-height: 40px;
+    border-radius: 10px;
+}
+
+.add__exam-form .SumoSelect>.CaptionCont>label>i:before {
+    margin-top: 22px;
+}
+
+.add__exam-form .rdiobox span {
+    font-size: 16px;
+    color: #1e1e1e;
+    font-weight: 500;
+}
+
+.add__exam-form .rdiobox input[type='radio']:checked+span {
+    color: #0068ff;
+}
+
+.add__exam-form .rdiobox span:before {
+    top: 0;
+}
+
+.add__exam-form .rdiobox span:after {
+    top: 5px;
+}
+
+.add__exam-form hr {
+    height: 2px;
+    background-color: #e2e8f5;
+    margin-top: 0;
+}
+
+.add__exam-form .ckbox span:before,
+.add__exam-form .ckbox span:after {
+    right: -30px;
+    left: inherit;
+}
+
+.add__exam-form .ckbox {
+    margin-top: 15px;
+    display: inline-block;
+}
+
+.add__exam-form .negative-marking .ckbox {
+    margin-top: 0px;
+    margin-bottom: 8px;
+    display: inline-block;
+}
+
+.add__exam-form .ckbox span {
+    font-size: 16px;
+    color: #1e1e1e;
+    font-weight: 500;
+    padding-left: 0;
+}
+.add__exam-form-action {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    padding: 0 23px 26px;
+}
+
+.add__exam-form-action a:first-child {
+    margin-right: 12px;
+}
+
+.add__exam-form-action a {
+    border-radius: 10px;
+    padding: 0.4rem 1.875rem;
+}
+
+.add__exam-form-action a.close-action {
+    padding: 0.4rem 1.5rem;
+}
+.progress_stages{
+    list-style-type: none;
+    padding: 0;
+    margin: 0 auto;
+    width: auto;
+    text-align: center;
+}
+.progress_stages .progress_count {
+    display: inline-block;
+    position: relative;
+    margin-right: 20px;
+    white-space: nowrap;
+    width: 40px;
+    height: 40px;
+    color: #041b4e;
+    font-size: 16.72px;
+    font-weight: 500;
+    background-color: #f2f6f9;
+    border-radius: 40px;
+    text-align: center;
+    line-height: 36px;
+    border: 2px solid transparent;
+}
+.progress_stages .progress_count.completed {
+    background-color: #0068ff;
+    color: #fff;
+}
+.progress_stages .progress_count.active {
+    border: 2px solid #0068ff;
+}
+.formprogress_indicator {
+    border: 2px solid #e2e8f5;
+    padding: 18px 26px;
+    border-bottom: 0;
+}
+
+.descriptive_questions {
+    display: inline-block;
+    width: 100%;
+    background: #f8f9fb;
+    border-radius: 10px;
+    padding: 18px 18px;
+    margin-bottom: 12px;
+}
+.descriptive_questions_no {
+    float: left;
+}
+.descriptive_question_heading {
+    display: flex;
+}
+.descriptive_question_heading .cardtitle {
+    color: #031b4e;
+    font-size: 16px;
+    font-weight: 900;
+    text-transform: capitalize;
+    font-family: "Rubik", sans-serif;
+    margin-right: 15px;
+}
+.descriptive_question_heading span {
+    color: #0068ff;
+    font-size: 12px;
+    background: #ebf1ff;
+    padding: 4px 12px;
+    border-radius: 10px;
+}
+.descriptive_questions_action {
+    float: right;
+}
+.questions_details_text {
+    width: 100%;
+    display: inline-block;
+    color: #041b4e;
+    font-size: 14px;
+    line-height: normal;
+    margin-top: 18px;
+}
+.questions_title {
+    color: #041b4e;
+    font-size: 14px;
+    line-height: normal;
+    font-weight: 500;
+}
+.questions_details_text pre {
+    color: #041b4e;
+    padding: 12px 0 0;
+    overflow: auto;
+    font-size: 14px;
+    line-height: 1.45;
+    background-color: transparent;
+    border-radius: 0;
+    -moz-tab-size: 4;
+    -o-tab-size: 4;
+    tab-size: 4;
+    -webkit-hyphens: none;
+    -moz-hyphens: none;
+    -ms-hyphens: none;
+    hyphens: none;
+}
+.custom_question_get {
+    border-top: 2px solid #e2e8f5;
+    padding: 23px 26px;
+}
+.cq_e_s .custom_question_get {
+    border-top: none;
+    padding: 20px 0px 0px 9px;
+}
+.cq_e_s table.dataTable {
+     border: none; 
+}
+.template_selection_header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    border-bottom: 2px solid #e2e8f5;
+    padding: 17px 15px 12px;
+    gap: 10px;
+}
+.template_selection_header.one_header {
+    justify-content: normal;
+}
+.template_selection_header.one_header .t_ty_50 {
+    width: 50%;
+}
+
+.coding_question_edit_list .title-section {
+    padding: 0px !important;
+}
+.coding_question_edit_list .info-section.fx-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 13px 20px 13px 0;
+}
+.coding_question_edit_list .left-side {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 10px;
+}
+.coding_question_edit_list .tab-counter-label {
+    background: #0068ff;
+    color: #fff;
+    padding: 4px 18px;
+    border-radius: 0 10px 10px 0;
+    margin: 0;
+}
+.coding_question_edit_list .description_q_title{
+    margin-bottom: 0px;
+}
+.coding_question_edit_list .right-side {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 20px;
+}
+.coding_question_edit_list .category-type__info {
+    background: #E9EFFD;
+    padding: 3px 12px;
+    border-radius: 20px;
+    font-weight: 400;
+    color: #0068ff;
+    margin: 0;
+}
+.coding_question_edit_list .slide-tab-btn {
+    background: #E9EFFD;
+    padding: 5px 8px 3px 8px;
+    border-radius: 20px !important;
+}
+.coding_question_edit_list .slide-tab-btn i, .coding_question_edit_list .edit-btn i {
+    color: #0068ff;
+}
+.coding_question_edit_list .short-details-list .detail-section {
+    padding: 20px 18px 5px;
+    font-weight: 500;
+    margin: 0 16px 10px;
+    background: #f9fafc;
+    border-radius: 10px;
+    color: #041b4e;
+}
+.coding_question_edit_list .detail-section {
+    display: none;
+}
+.coding_question_edit_list .detail-section pre {
+    color: #041b4e;
+    padding: 0;
+    overflow: auto;
+    font-size: 14px;
+    line-height: 1.45;
+    background-color: transparent;
+    border-radius: 0;
+    -moz-tab-size: 4;
+    -o-tab-size: 4;
+    tab-size: 4;
+    -webkit-hyphens: none;
+    -moz-hyphens: none;
+    -ms-hyphens: none;
+    hyphens: none;
+}
+.coding_question_edit_list .detail-section pre p{
+    margin-top: 0;
+    margin-bottom: 0rem !important;
+    line-height: 6px;
+}
+.custom_question_get table.dataTable .coding_question_edit_list td .short-details-list {
+    white-space: initial !important;
+}
+.cus_line {
+    /*border-top: 2px solid #d8ddee;*/
+    padding: 16px 0px 6px;
+}
+.cus_line button {
+    border-radius: 10px;
+    padding: 8px 24px;
+    font-size: 16px;
+    font-weight: bold;
+}
+.cq_e_s .slide-list.card{
+    margin-bottom: 2px;
+}
+.cq_e_s div.dataTables_wrapper div.dataTables_filter {
+    margin-bottom: 20px;
+}
+.cq_e_s .dataTables_wrapper .dataTables_length {
+    float: left;
+    margin-top: 10px;
+}
+#questions_paginate .paginate_button {
+    padding: 0.5rem 0.75rem !important;
+}
+.cq_e_s .dataTables_wrapper .dataTables_paginate .paginate_button.current {
+    background-color: #0068ff !important;
+}
+.cq_e_s div.dataTables_wrapper div.dataTables_paginate {   
+    margin-top: -33px !important;
+}
+.cq_e_s .dataTables_wrapper .dataTables_info {
+     margin-bottom: 12px;
+}
+.cq_e_s .dataTables_wrapper .dataTables_paginate .paginate_button.disabled {
+    color: #7987a1 !important;
+    background-color: #ebeef7 !important;
+}
+.cq_e_s .dataTables_wrapper .dataTables_paginate .paginate_button.disabled:hover,
+.cq_e_s .dataTables_wrapper .dataTables_paginate .paginate_button.disabled:focus {
+    color: #7987a1 !important;
+}
+.cq_e_s .dataTables_wrapper .dataTables_paginate .paginate_button {
+    background-color: rgb(235, 238, 247) !important;
+}

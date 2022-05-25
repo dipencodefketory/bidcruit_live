@@ -1,0 +1,408 @@
+{% extends 'agency/base.html' %}
+{% load static %}
+{% block title %}Workflow View{% endblock %}
+
+{% block css %}
+		<link href="{% static 'assets/css/ATS/workflow_view.css' %}" rel="stylesheet">
+{% endblock %}
+
+{% block main %}
+
+		<!-- Container-fluid -->
+		<div class="container-fluid">
+
+			<!-- Main-content-body -->
+			<div class="main-content-body">
+
+				<!-- row opened -->
+				<div class="row row-sm">
+					<div class="col-xl-12">
+						<div class="card workflow_view_main_section mg-b-0">
+							<div class="card-header pb-0">
+								<div class="d-flex justify-content-between">
+									<h4 class="card-title mg-b-0"></h4>
+									<div class="candidate_right_filters_section">
+										<div class="candidate_view_header">
+											<a class="btn btn-cancel btn-block" href="{% url 'agency:workflow_list' %}">Close</a>
+										</div>
+									</div>
+								</div>
+							</div>
+
+							<div class="card-body workflow_view_box">
+								{% for stages in workflow_data %}
+
+									{% ifequal stages.stage.stage.name 'Prerequisites' %}
+										<div class="preference_section card">
+											<div class="card-body">
+												<div class="row row-sm workflow-text-preview">
+													<div class="col-12 full-list">
+														<div class="fx-preview-head">
+															<div class="preview-title">
+																<h4 class="stage_name title">Stage {{forloop.counter}}: Prerequisites</h4>
+															</div>
+														</div>
+														<div class="fx-preview-main">
+															<div class="preview-short-desc">
+																<label class="sub-title text-capitalize">Template Name : </label>
+																<label class="desc-text">{{stages.stage.template.name}}</label>
+															</div>
+
+															<div class="type_text_name text-capitalize">automation</div>
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+									{% endifequal %}
+
+									{% ifequal stages.stage.stage.name 'MCQ Test' %}
+										<div class="preference_section card">
+											<div class="card-body">
+												<div class="row row-sm workflow-text-preview">
+													<div class="col-12 full-list">
+														<div class="fx-preview-head">
+															<div class="preview-title">
+																<h4 class="stage_name title">Stage {{forloop.counter}}: MCQ Test</h4>
+															</div>
+														</div>
+														<div class="fx-preview-main">
+															<div class="preview-short-desc">
+																<label class="sub-title text-capitalize">Template Name : </label>
+																<label class="desc-text">{{stages.stage.template.name}}</label>
+															</div>
+															{% if stages.workflow_configuration.is_automation %}
+															<div class="precent-preview">
+																<ul class="p-ls">
+																	<li>
+																		<label class="p-title text-capitalize">short list:</label>
+																		<label class="p-sub_view">{{stages.workflow_configuration.shortlist}}</label>
+																	</li>
+																	<li>
+																		<label class="p-title text-capitalize">rejected:</label>
+																		<label class="p-sub_view">{{stages.workflow_configuration.reject}}</label>
+																	</li>
+																</ul>
+															</div>
+															<div class="type_text_name text-capitalize">automation</div>
+															{% else %}
+															<div class="type_text_name text-capitalize">manual</div>
+															{% endif %}
+														</div>
+														<div class="mini__card-layout">
+															<div class="fx-row title_list">
+															   <div class="fx-col">
+																  <label class="text-capitalize h6">Total Question</label>
+															   </div>
+															   <div class="fx-col">
+																  <label class="text-capitalize h6">Time</label>
+															   </div>
+															   <div class="fx-col">
+																  <label class="text-capitalize h6">Total Marks</label>
+															   </div>
+															</div>
+															<div class="fx-row fx-details__ls">
+															   <div class="fx-col col-view_caption">
+																  <p class="result_view h6">{{stages.data.total_question}}</p>
+															   </div>
+															   <div class="fx-col col-view_caption">
+																  <p class="result_view h6">{{stages.mcq_time|date:'H:i:s'}}</p>
+															   </div>
+															   <div class="fx-col col-view_caption">
+																  <p class="result_view h6">{{stages.mcq_marks}}</p>
+															   </div>
+															</div>
+														</div>
+														{% if stages.data.allow_negative_marking %}
+														<div class="vegative_marking">Negative Marking: {{stages.data.negative_mark_percent}}% will be deducted for each wrong answer.</div>
+														{% endif %}
+													</div>
+												</div>
+
+											</div>
+										</div>
+									{% endifequal %}
+
+									{% ifequal stages.stage.stage.name 'Image Test' %}
+										<div class="preference_section card">
+											<div class="card-body">
+												<div class="row row-sm workflow-text-preview">
+													<div class="col-12 full-list">
+														<div class="fx-preview-head">
+															<div class="preview-title">
+																<h4 class="stage_name title">Stage {{forloop.counter}}: Image Test</h4>
+															</div>
+														</div>
+														<div class="fx-preview-main">
+															<div class="preview-short-desc">
+																<label class="sub-title text-capitalize">Template Name : </label>
+																<label class="desc-text">{{stages.stage.template.name}}</label>
+															</div>
+															{% if stages.workflow_configuration.is_automation %}
+															<div class="precent-preview">
+																<ul class="p-ls">
+																	<li>
+																		<label class="p-title text-capitalize">short list:</label>
+																		<label class="p-sub_view">{{stages.workflow_configuration.shortlist}}</label>
+																	</li>
+																	<li>
+																		<label class="p-title text-capitalize">rejected:</label>
+																		<label class="p-sub_view">{{stages.workflow_configuration.reject}}</label>
+																	</li>
+																</ul>
+															</div>
+															<div class="type_text_name text-capitalize">automation</div>
+															{% else %}
+															<div class="type_text_name text-capitalize">manual</div>
+															{% endif %}
+														</div>
+														<div class="mini__card-layout">
+															<div class="fx-row title_list">
+															   <div class="fx-col">
+																  <label class="text-capitalize h6">Total Question</label>
+															   </div>
+															   <div class="fx-col">
+																  <label class="text-capitalize h6">Time</label>
+															   </div>
+															   <div class="fx-col">
+																  <label class="text-capitalize h6">Total Marks</label>
+															   </div>
+															</div>
+															<div class="fx-row fx-details__ls">
+															   <div class="fx-col col-view_caption">
+																  <p class="result_view h6">{{stages.data.total_question}}</p>
+															   </div>
+															   <div class="fx-col col-view_caption">
+																  <p class="result_view h6">{{stages.image_time|date:'H:i:s'}}</p>
+															   </div>
+															   <div class="fx-col col-view_caption">
+																  <p class="result_view h6">{{stages.image_marks}}</p>
+															   </div>
+															</div>
+														</div>
+														{% if stages.data.allow_negative_marking %}
+														<div class="vegative_marking">Negative Marking: {{stages.data.negative_mark_percent}}% will be deducted for each wrong answer.</div>
+														{% endif %}
+													</div>
+												</div>
+											</div>
+										</div>
+									{% endifequal %}
+
+									{% ifequal stages.stage.stage.name 'Descriptive Test' %}
+										<div class="preference_section card">
+											<div class="card-body">
+												<div class="row row-sm workflow-text-preview">
+													<div class="col-12 full-list">
+														<div class="fx-preview-head">
+															<div class="preview-title">
+																<h4 class="stage_name title">Stage {{forloop.counter}}: Descriptive Test</h4>
+															</div>
+														</div>
+														<div class="fx-preview-main">
+															<div class="preview-short-desc">
+																<label class="sub-title text-capitalize">Template Name : </label>
+																<label class="desc-text">{{stages.stage.template.name}}</label>
+															</div>
+															<div class="type_text_name text-capitalize">manual</div>
+														</div>
+														<div class="mini__card-layout">
+															<div class="fx-row title_list">
+															   <div class="fx-col">
+																  <label class="text-capitalize h6">Total Question</label>
+															   </div>
+															   <div class="fx-col">
+																  <label class="text-capitalize h6">Time</label>
+															   </div>
+															   <div class="fx-col">
+																  <label class="text-capitalize h6">Total Marks</label>
+															   </div>
+															</div>
+															<div class="fx-row fx-details__ls">
+															   <div class="fx-col col-view_caption">
+																  <p class="result_view h6">{{stages.data.total_question}}</p>
+															   </div>
+															   <div class="fx-col col-view_caption">
+																  <p class="result_view h6">{{stages.descriptive_time|date:'H:i:s'}}</p>
+															   </div>
+															   <div class="fx-col col-view_caption">
+																  <p class="result_view h6">{{stages.descriptive_marks}}</p>
+															   </div>
+															</div>
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+									{% endifequal %}
+
+									{% ifequal stages.stage.stage.name 'Audio Test' %}
+										<div class="preference_section card">
+											<div class="card-body">
+												<div class="row row-sm workflow-text-preview">
+													<div class="col-12 full-list">
+														<div class="fx-preview-head">
+															<div class="preview-title">
+																<h4 class="stage_name title">Stage {{forloop.counter}}: Audio Test</h4>
+															</div>
+														</div>
+														<div class="fx-preview-main">
+															<div class="preview-short-desc">
+																<label class="sub-title text-capitalize">Template Name : </label>
+																<label class="desc-text">{{stages.stage.template.name}}</label>
+															</div>
+															<div class="type_text_name text-capitalize">manual</div>
+														</div>
+														<div class="mini__card-layout">
+															<div class="fx-row title_list">
+															   <div class="fx-col">
+																  <label class="text-capitalize h6">Total Question</label>
+															   </div>
+															   <div class="fx-col">
+																  <label class="text-capitalize h6">Time</label>
+															   </div>
+															   <div class="fx-col">
+																  <label class="text-capitalize h6">Total Marks</label>
+															   </div>
+															</div>
+															<div class="fx-row fx-details__ls">
+															   <div class="fx-col col-view_caption">
+																  <p class="result_view h6">{{stages.data.total_question}}</p>
+															   </div>
+															   <div class="fx-col col-view_caption">
+																  <p class="result_view h6">{{stages.data.total_exam_time}}</p>
+															   </div>
+															   <div class="fx-col col-view_caption">
+																  <p class="result_view h6">{{stages.audio_marks}}</p>
+															   </div>
+															</div>
+														</div>
+													</div>
+												</div>
+
+											</div>
+										</div>
+									{% endifequal %}
+
+									{% ifequal stages.stage.stage.name 'Coding Test' %}
+										<div class="preference_section card">
+											<div class="card-body">
+												<div class="row row-sm workflow-text-preview">
+													<div class="col-12 full-list">
+														<div class="fx-preview-head">
+															<div class="preview-title">
+																<h4 class="stage_name title">Stage {{forloop.counter}}: Coding Test</h4>
+															</div>
+														</div>
+														<div class="fx-preview-main">
+															<div class="preview-short-desc">
+																<label class="sub-title text-capitalize">Template Name : </label>
+																<label class="desc-text">{{stages.stage.template.name}}</label>
+															</div>
+															<div class="type_text_name text-capitalize">manual</div>
+														</div>
+														<div class="mini__card-layout">
+															<div class="fx-row title_list">
+															   <div class="fx-col">
+																  <label class="text-capitalize h6">Total Question</label>
+															   </div>
+															   <div class="fx-col">
+																  <label class="text-capitalize h6">Time</label>
+															   </div>
+																{% ifequal stages.data.assignment_type 'marks' %}
+																   <div class="fx-col">
+																	  <label class="text-capitalize h6">Total Marks</label>
+																   </div>
+																{% endifequal %}
+															</div>
+															<div class="fx-row fx-details__ls">
+															   <div class="fx-col col-view_caption">
+																  <p class="result_view h6">{{stages.data.total_question}}</p>
+															   </div>
+															   <div class="fx-col col-view_caption">
+																  <p class="result_view h6">{{stages.data.total_time}}</p>
+															   </div>
+																{% ifequal stages.data.assignment_type 'marks' %}
+															   <div class="fx-col col-view_caption">
+																  <p class="result_view h6">{{stages.total_marks}}</p>
+															   </div>
+																{% endifequal %}
+															</div>
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+									{% endifequal %}
+
+									{% ifequal stages.stage.stage.name 'Interview' %}
+
+										<div class="preference_section card Interview_section">
+											<div class="card-body">
+												<div class="row row-sm workflow-text-preview">
+													<div class="col-12 full-list">
+														<div class="fx-preview-head">
+															<div class="preview-title">
+																<h4 class="stage_name title">Stage {{forloop.counter}} - Interview</h4>
+															</div>
+														</div>
+														<div class="fx-preview-main">
+															<div class="preview-short-desc">
+																<label class="sub-title text-capitalize">Template Name : </label>
+																<label class="desc-text">{{stages.stage.template.name}}</label>
+															</div>
+															<div class="interview_type">
+																<label class="p-title text-capitalize">Interview Type : </label>
+																<label class="p-sub_view">{{stages.data.interview_type}}</label>
+															</div>
+
+														</div>
+														<div class="mini__card-layout ">
+															<div class="fx-row title_list">
+															   <div class="fx-col">
+																  <label class="text-capitalize h6">{{stages.data.interview_name}}</label>
+															   </div>
+															</div>
+															{% for scorecard in stages.interview_scorecards %}
+															<div class="fx-row Interview-details_raiting">
+																<div class="Skills_interview">
+																	<div class="Skills_interview_name">{{scorecard.title}}</div>
+																	<div class="reviews_star static-rate fs-30 mg-t-0">
+																		<span>(4.0)</span>
+																		<i class="fa fa-star text-active" aria-hidden="true"></i>
+																		<i class="fa fa-star text-active" aria-hidden="true"></i>
+																		<i class="fa fa-star text-active" aria-hidden="true"></i>
+																		<i class="fa fa-star text-active" aria-hidden="true"></i>
+																		<i class="fa fa-star text-no-active" aria-hidden="true"></i>
+																	</div>
+																</div>
+																<div class="Comments_box">Comments..</div>
+															</div>
+															{% endfor %}
+
+														</div>
+													</div>
+												</div>
+
+											</div>
+										</div>
+									{% endifequal %}
+
+								{% endfor %}
+
+							</div>
+						</div>
+					</div>
+					<!--/div-->
+
+				</div>
+				<!-- /row -->
+			</div>
+			<!-- Main-content-body closed -->
+		</div>
+		<!-- Container-fluid closed -->
+
+{% endblock %}
+
+{% block script %}
+{% endblock %}

@@ -1,0 +1,291 @@
+{% extends 'company/base.html' %}
+{% load static %}
+{% load custom_filters %}
+{% block title %}Job Openings {% endblock %}
+{% load crispy_forms_tags %}
+{% block css %}
+		<!-- Bootstrap css -->
+<!--		<link rel="stylesheet" href="{% static 'assets/plugins/bootstrap/css/bootstrap.min.css' %}">-->
+
+		<!-- Internal Data table css -->
+		<link href="{% static 'assets/plugins/datatable/css/dataTables.bootstrap4.min.css' %}" rel="stylesheet" />
+		<link href="{% static 'assets/plugins/datatable/css/buttons.bootstrap4.min.css' %}" rel="stylesheet">
+		<link href="{% static 'assets/plugins/datatable/css/responsive.bootstrap4.min.css' %}" rel="stylesheet" />
+		<link href="{% static 'assets/plugins/datatable/css/jquery.dataTables.min.css' %}" rel="stylesheet">
+		<link href="{% static 'assets/plugins/datatable/css/responsive.dataTables.min.css' %}" rel="stylesheet">
+		<link href="{% static 'assets/plugins/select2/css/select2.min.css' %}" rel="stylesheet">
+
+		<link href="{% static 'assets/css/ATS/job_openings_table.css' %}" rel="stylesheet">
+        {{ form.media.css }} 
+
+{% endblock %}
+
+{% block main %}
+					<!-- Main-content-body -->
+					<div class="main-content-body">
+
+						<div class="row row-sm">
+							<div class="col-xl-12">
+								<div class="card job_openings_table">
+									<div class="card-header pb-0">
+										<div class="d-flex justify-content-between">
+											<h4 class="card-title mg-b-0">Jobs</h4>
+											<div class="candidate_right_filters_section">
+												
+												<!-- <div class="candidate_filters_header">
+													<a href=""><i class="fas fa-file-download"></i></a>
+												</div> -->
+
+											    <div class="candidate_filters_header">
+													<input id="search_data_in_filtter" type="text" class="search_data_t form-control" value="" placeholder="Search...">
+												</div>
+												
+												
+                                                
+												<!-- <div class="candidate_filters_header">
+													<a href=""><i class="fas fa-print"></i></a>
+												</div>
+												<div class="candidate_filters_header">	
+													<a href=""><i class="fas fa-ellipsis-v"></i></a>
+												</div> -->
+												<div class="candidate_filters_header add_job_btn">											
+													<a class="add_job_link" href="{% url 'company:job_creation' %}">Add Job</a>											
+												</div>
+												<div class="candidate_filters_header filterjob">
+													<a href="javascript:void(0)" id="jobfilter"><i class="fas fa-filter"></i></a>
+                                                    <div id="showfilter" class="filterform" style="display: none;">
+                                                        <div class="row">
+                                                            <div class="col-12">
+                                                                <div class="card card-body">
+                                                        
+                                                                    <form method="get">
+                                                                        {{myFilter.form|crispy}}
+                                                        
+                                                                    <button class="btn btn-primary" type="submit">Search</button>
+                                                                  </form>
+                                                        
+                                                                </div>
+                                                            </div>
+                                                            
+                                                        </div>
+                                                    </div>
+												</div>
+											</div>
+										</div>
+										
+									</div>
+
+                                    
+								    <div class="tab-menu-heading verified_review_tabs">
+										<div class="tabs-menu ">
+											<!-- Tabs -->
+											<ul class="nav panel-tabs">
+												<li class=""><a href="#tab-table1" class="active" data-toggle="tab"> All Jobs</a></li>
+												<li><a href="#tab-table2" data-toggle="tab">Archive Jobs</a></li>
+											</ul>
+										</div>
+									</div>
+									
+									
+									<div class="tab-content">
+										<div class="tab-pane active" id="tab-table1">
+                                            
+											<div class="card-body">
+												<div class="table-responsive">
+													<table class="table text-md-nowrap candidate_table" data-ordering="false" id="jobopening">
+														<thead>
+															<tr>
+																<!--<th class="circle_plush_icon"><a href="javascript:void(0)"><i class="fas fa-plus-circle"></i></a></th>-->
+																<th class="border-bottom-0">Job Title</th>
+																<th class="border-bottom-0">Job Type</th>
+																<th class="border-bottom-0">job owner</th>
+																<th class="border-bottom-0">Salary (LPA)</th>
+																<th class="border-bottom-0">Exprience (Years)</th>
+																<th class="border-bottom-0">application</th>
+																<th class="border-bottom-0">Status</th>
+																<th class="border-bottom-0">Action</th>
+															</tr>
+															
+														</thead>
+														<tbody>
+															{% for job in jobs %}
+															<tr>
+															<!--	<td>&nbsp;</td>-->
+																<td class="text-capitalize"><a href="{% url 'company:applied_candidates_view' job.id %}">{{job.job_title}}</a></td>
+																<td><span class="type_full_time"><i class="fas fa-briefcase"></i> {{job.job_type.name}}</span></td>
+																<td class=""> {{job.job_owner.first_name}} {{job.job_owner.last_name}}</td>
+																<td class="text-capitalize">{% if job.salary_as_per_market %}As per Market {% else %}{{job.min_salary}}-{{job.max_salary}}{% endif %}</td>
+																<td class="text-capitalize">{{job.experience_year_min}}-{{job.experience_year_max}}</td>
+																<td> <a class="text_blue" href="{% url 'company:applied_candidates_view' job.id %}"> {{ job.id|total_applied_candidates }} </a></td>
+																<td>{% if job.close_job %} Close {% else %}{% if job.is_publish %} Published {% else %} Draft {% endif %}{% endif %}</td>
+																<td class="action_icons">
+																	{% if SalaryView %}
+																		{% if job.is_publish %}
+																			<a href="{% url 'company:submit_candidate' job.id %}"><i class="fas fa-plus"></i></a>	
+																		{% endif %}
+																	{% endif %}
+																	<a href="{% url 'company:created_job_view' job.id %}"><i class="fas fa-eye"></i></a>
+																
+																{% if Edit %}
+																	<a href="{% url 'company:job_edit' job.id %}"><i class="fas fa-edit"></i></a>
+																{% endif %}
+																{% if Delete %}
+																	<a {% if job.is_publish %} onclick="return false;" {% endif %}><i class="fas fa-trash-alt" ></i></a>
+																{% endif %}
+
+																</td>
+															</tr>
+
+															{% endfor %}
+														</tbody>
+													</table>
+												</div>
+											</div>
+										</div>
+										<div class="tab-pane" id="tab-table2">
+											<div class="card-body">
+												<div class="table-responsive">
+													<table class="table text-md-nowrap candidate_table" data-ordering="false" id="jobopening">
+														<thead>
+															<tr>
+																<!--<th class="circle_plush_icon"><a href="javascript:void(0)"><i class="fas fa-plus-circle"></i></a></th>-->
+																<th class="border-bottom-0">Job Title</th>
+																<th class="border-bottom-0">Job Type</th>
+																<th class="border-bottom-0">job owner</th>
+																<th class="border-bottom-0">Salary</th>
+																<th class="border-bottom-0">Exprience</th>
+																<th class="border-bottom-0">application</th>
+																<th class="border-bottom-0">Status</th>
+																<th class="border-bottom-0">Action</th>
+															</tr>
+															
+														</thead>
+														<tbody>
+															{% for job in closejob %}
+															<tr>
+															<!--	<td>&nbsp;</td>-->
+																<td class="text-capitalize"><a href="{% url 'company:applied_candidates_view' job.id %}">{{job.job_title}}</a></td>
+																<td><span class="type_full_time"><i class="fas fa-briefcase"></i> {{job.job_type.name}}</span></td>
+																<td class=""> {{job.job_owner.first_name}} {{job.job_owner.last_name}}</td>
+																<td class="text-capitalize">12200</td>
+																<td class="text-capitalize">0 to 5</td>
+																<td> <a class="text_blue" href="{% url 'company:applied_candidates_view' job.id %}"> {{ job.id|total_applied_candidates }} </a></td>
+																<td>{% if job.close_job %} Close {% else %}{% if job.is_publish %} Published {% else %} Draft {% endif %}{% endif %}</td>
+																<td class="action_icons">
+																	
+																
+																	<a href="{% url 'company:created_job_view' job.id %}"><i class="fas fa-eye"></i></a>
+																
+																{% if Edit %}
+																	<a href="{% url 'company:job_edit' job.id %}"><i class="fas fa-edit"></i></a>
+																{% endif %}
+																{% if Delete %}
+																	<a {% if job.is_publish %} onclick="return false;" {% endif %}><i class="fas fa-trash-alt" ></i></a>
+																{% endif %}
+
+																</td>
+															</tr>
+
+															{% endfor %}
+														</tbody>
+													</table>
+												</div>
+											</div>
+										</div>
+									</div>
+									
+										
+										
+									
+								</div>
+							</div>
+							<!--/div-->
+					
+						</div>
+						<!-- /row -->
+					</div>
+					<!-- Main-content-body closed -->
+{% endblock %}
+
+{% block script %}
+		<!-- Internal Data tables -->
+		<script src="{% static 'assets/plugins/datatable/js/jquery.dataTables.min.js' %}"></script>
+		<script src="{% static 'assets/plugins/datatable/js/dataTables.dataTables.min.js' %}"></script>
+		<script src="{% static 'assets/plugins/datatable/js/dataTables.responsive.min.js' %}"></script>
+		<script src="{% static 'assets/plugins/datatable/js/responsive.dataTables.min.js' %}"></script>
+		<script src="{% static 'assets/plugins/datatable/js/jquery.dataTables.js' %}"></script>
+		<script src="{% static 'assets/plugins/datatable/js/dataTables.bootstrap4.js' %}"></script>
+		<script src="{% static 'assets/plugins/datatable/js/dataTables.buttons.min.js' %}"></script>
+		<script src="{% static 'assets/plugins/datatable/js/buttons.bootstrap4.min.js' %}"></script>
+		<script src="{% static 'assets/plugins/datatable/js/jszip.min.js' %}"></script>
+		<script src="{% static 'assets/plugins/datatable/js/pdfmake.min.js' %}"></script>
+		<script src="{% static 'assets/plugins/datatable/js/vfs_fonts.js' %}"></script>
+		<script src="{% static 'assets/plugins/datatable/js/buttons.html5.min.js' %}"></script>
+		<script src="{% static 'assets/plugins/datatable/js/buttons.print.min.js' %}"></script>
+		<script src="{% static 'assets/plugins/datatable/js/buttons.colVis.min.js' %}"></script>
+		<script src="{% static 'assets/plugins/datatable/js/dataTables.responsive.min.js' %}"></script>
+		<script src="{% static 'assets/plugins/datatable/js/responsive.bootstrap4.min.js' %}"></script>
+        
+		<!-- datatable js -->
+		<script src="{% static 'assets/js/table-data.js' %}"></script>
+		<script>
+			$(document).on('click','.delete-row',function(){ //remove template row to the table
+        var getCurrentRow = $(this).closest('tr');
+        var deletetemplate={'template_id':$(this).attr('data-template'),'cat_id':$(this).attr('data-subcat'),'stage_id':$(this).attr('data-maincat')}
+        console.log('========',deletetemplate)
+        swal({
+            title: "Are you sure?",
+            text: "You will not be able to recover deleted template!",
+            type: "warning",
+            showCancelButton: true,
+            confirmButtonClass: "btn-danger",
+            confirmButtonText: "Yes, delete it!",
+            cancelButtonText: "Cancel",
+            closeOnConfirm: false,
+            closeOnCancel: false
+          },
+        function(isConfirm) { 
+            
+            //send ajax request for detele category action
+            if (isConfirm) {
+                swal("Deleted!", "Your template has been deleted.", "success");
+                $.ajax({
+                    url:"/company/delete_template/",
+                    headers: {'X-CSRFToken': $("input[name=csrfmiddlewaretoken]").val() },
+                    type:'POST',
+                    contentType: 'application/json; charset=UTF-8',
+                    data: JSON.stringify(deletetemplate),
+                    error: function (request, status, error) {
+                          alert(error);
+                    }
+               }).done(function(response){
+                swal("Deleted!", "Your category has been deleted.", "success");
+                remvoeEle.remove();
+               });
+                getCurrentRow.remove();
+                
+            } else {
+                swal("Cancelled", "Your template is safe :)", "error");
+            }
+        });
+    })
+
+	
+	// $('#search_data_in_filtter').keyup(function() { 
+	//     var table_d = $('.candidate_table').DataTable();
+	//     table_d.search($(this).val()).draw();
+	// });		
+</script>
+
+
+<script>
+    $(document).ready(function(){
+      $("#jobfilter").click(function(){
+        $("#showfilter").toggle();
+      });
+    });
+</script>
+
+{{ form.media.js }}
+
+{% endblock %}

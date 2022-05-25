@@ -1,0 +1,578 @@
+{% extends 'candidate/base.html' %}
+{% load static %}
+{% load candidate_extras %}
+{% block title %}Dashboard{% endblock %}
+
+	{% block css %}
+		<style>
+			a.copy-link:active {
+			    transform: scale(0.85);
+			    box-shadow: 3px 2px 25px 1px rgb(0 0 0 / 25%);
+			}
+		</style>
+
+	{% endblock %}
+
+{% block main %}
+
+
+				<!-- Container-fluid -->
+
+					<br>
+					<!-- Main-content-body -->
+					<div class="main-content-body dashboard-profile">
+
+
+						<!-- row -->
+<!--						<div class="row row-sm">-->
+<!--							<div class="col-md-12 col-xl-12 col-lg-12">-->
+<!--								<div class="card card-profile">-->
+<!--								<div class="row">-->
+<!--                                    <div class="col-md-6 col-lg-6 col-sm-12 col-xs-12">-->
+<!--                                        <div class="heading-with-toggle">-->
+<!--											    <p>Looking for job</p>-->
+<!--											    <div class="form-group toggle-cus">-->
+<!--											    <label class="custom-switch">-->
+<!--											        <input type="checkbox" name="look-for-job-check" id="look-for-job-check" onclick="candidateseo()" class="custom-switch-input" {% if seo.looking_for_job %} checked {% endif %} >-->
+<!--											        <span class="custom-switch-indicator"></span>-->
+<!--											    </label>-->
+<!--											</div>-->
+<!--                                        </div>-->
+
+
+<!--                                    </div>-->
+<!--                                    <div class="col-md-6 col-lg-6 col-sm-12 col-xs-12">-->
+<!--                                        <div class="heading-with-toggle">-->
+<!--										    <p>Google Search</p>-->
+<!--										    <div class="form-group toggle-cus">-->
+<!--										    <label class="custom-switch">-->
+<!--										        <input type="checkbox" name="custom-switch-checkbox1" id="google-search-check" onclick="candidateseo()" class="custom-switch-input" {% if seo.google_search %} checked {% endif %}>-->
+<!--										        <span class="custom-switch-indicator"></span>-->
+<!--										    </label>-->
+<!--										</div>-->
+<!--                                        </div>-->
+
+<!--                                    </div>-->
+<!--                                </div>-->
+<!--								</div>-->
+<!--							</div>-->
+
+<!--						</div>-->
+						<!-- /row -->
+						<div class="row row-sm">
+							{%for i in profiles%}
+
+							<div class="col-md-6 col-xl-4 col-lg-4 col-sm-12 ">
+								<div class="card">
+								<div class="add-profile">
+									<h2>{{i.id|get_profile_designation:request.user.id}} </h2>
+									<div class="form-group toggle-cus">
+
+										{%if i.active%}
+										<label class="custom-switch">
+											<input type="radio" name="custom-switch-checkbox1" checked id='{{i.id}}' oninput="select_candidate_profile('{{i.id}}')" class="custom-switch-input">
+											<span class="custom-switch-indicator"></span>
+										</label>
+										{%else%}
+										<label class="custom-switch">
+											<input type="radio" name="custom-switch-checkbox1"  id='{{i.id}}' oninput="select_candidate_profile('{{i.id}}')" class="custom-switch-input">
+											<span class="custom-switch-indicator"></span>
+										</label>
+										{%endif%}
+									</div>
+									<div class="links-edit">
+										<ul>
+											<li>
+												<a target="_blank"  href="{% url 'timeline' i.id|get_profile_url:request.user.id  %}" {% if i.active %} disable="true" {% else %} class="disabled" {% endif %}><i data-v-e08301e8="" class="fas fa-eye"></i></a>
+											</li>
+											<li>
+												<a  href="{% url 'candidate:edit_profile' i.id %}" {% if i.active %} disable="true" {% else %} class="disabled" {% endif %}><i class="bx bx-edit"></i></a>
+											</li>
+											<li>
+												<a href="#" {% if i.active %} disable="true" {% else %} class="disabled" {% endif %}><i data-v-e08301e8="" class="fas fa-share-alt"></i></a>
+											</li>
+										</ul>
+									</div>
+								</div>
+								</div>
+							</div>
+
+							{%endfor%}
+
+
+							{%if profile_count < 1 %}
+							<div class="col-md-6 col-xl-4 col-lg-4 col-sm-12 ">
+								<div class="card">
+								<div class="add-profile">
+									<h2>Add New Profile </h2>
+									<a href="{%url 'candidate:add_profile'%}"><button class="btn btn-primary btn-block">Add More</button></a>
+
+								</div>
+								</div>
+							</div>
+							{%endif%}
+						</div>
+
+
+						{%for i in profiles%}
+							{%if i.id == active_profile.id%}
+							<div class="row row-sm" id="row_{{i.id}}">
+								<div class="col-md-12 col-xl-6 col-lg-6">
+									<div class="card">
+										<div class="card-header pb-0">
+
+											<h4 class="card-title mg-b-10">Resume</h4>
+
+										</div>
+										<div class="card-body ">
+											<div class="security-enable">
+												<div class="row">
+													<div class="col-md-3 col-lg-3 col-sm-3 col-xs-3">
+														<p>Password</p>
+													</div>
+													<div class="col-md-8 col-lg-8 col-sm-8 col-xs-8">
+														<ul class="security-lock">
+															<form method="POST" id="ResumePasswordFormUpdate"  role="form" enctype="multipart/form-data">
+																{% csrf_token %}
+																<div class="d-flex">
+																	<input type="password" class="form-control required" name="resume-pass"
+																				   id="resume-pass">
+
+																	<button type="button" style="max-width:80px;margin-left:10px" id="resume-pass-btn" class="btn btn-main-primary btn-block">Submit</button>
+																</div>
+
+															</form>
+														</ul>
+													</div>
+												</div>
+												<span id="pass-error-message"></span>
+												<div class="row">
+													<div class="col-md-3 col-lg-3 col-sm-3 col-xs-3">
+														<p>Resume</p>
+													</div>
+													<div class="col-md-8 col-lg-8 col-sm-8 col-xs-8">
+														<ul class="security-lock">
+															<form method="POST" id="ResumeUpdateForm" role="form" enctype="multipart/form-data">
+																{% csrf_token %}
+																<div class="d-flex">
+																	<div class="input-group file-browser">
+																		  <input type="text" maxlength="30" value="{{userdata.resume|get_file_name}}"
+																			 class="form-control border-right-0 browse-file"
+																			 placeholder="upload your file" readonly>
+																		  <label class="input-group-btn">
+																			 <span class=" btn-default">
+																				Browse <input type="file" accept=".jpg,.jpeg,.doc,.docx,.pdf" class="form-control required"  id="resume-file" value="{{userdata.resume}}" name="resume-file" style="display: none;">
+																			 </span>
+																		  </label>
+																	   </div>
+<!--																	<input type="file" class="form-control required" name="resume-file"-->
+<!--																				   id="resume-file">-->
+																	<button type="button" style="max-width:80px;margin-left:10px" id="resume-file-btn" class="btn btn-main-primary btn-block">Submit</button>
+																</div>
+															</form>
+														</ul>
+													</div>
+												</div>
+
+
+										</div>
+										</div>
+									</div>
+								</div>
+								<div class="col-md-12 col-xl-6 col-lg-6">
+									<div class="card">
+										<div class="card-header pb-0">
+
+											<h4 class="card-title mg-b-10">Create custom sharing link</h4>
+
+										</div>
+										<div class="card-body ">
+											<div class="security-enable">
+												<div class="row">
+													<form method="POST" id="ShareUrlForm"  role="form" enctype="multipart/form-data">
+														{% csrf_token %}
+														<div class="col-4 cell-1">
+															<p>bidcruit.com/</p>
+														</div>
+														<div class="col-4 cell-2">
+															<input type="text" class="form-control"  id="share-url" name="share-url"{% if userdata.custom_url %} placeholder="{{userdata.custom_url}}" value="{{userdata.custom_url}}" {% else %}  placeholder="{{userdata.url_name}}" value="{{userdata.url_name}}" {% endif %}>
+														</div>
+														<div class="col-4 cell-3">
+															<button type="button" id="share-url-btn" class="btn btn-main-primary btn-block share-url-resume-pass-btn" >Submit</button>
+														</div>
+													</form>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+								<div class="col-md-12 col-xl-6 col-lg-6">
+									<div class="card">
+										<div class="card-header pb-0">
+
+											<h4 class="mg-b-10 text-to-copy">
+												Referral :  {{request.user.referral_number}}
+												<label>Share - </label>
+												<p class="shar-button">
+													<span class="share-icon"><i class="fas fa-share-alt"></i></span>
+													<a target="_blank" href="https://facebook.com/sharer/sharer.php?u=https://www.bidcruit.com/candidate/signup/{{request.user.referral_number}}&p[title]=MYPROFILE" class="text"><i class="lab la-facebook-f"></i></a>
+													<a target="_blank" href="https://web.whatsapp.com/send?text=https://www.bidcruit.com/candidate/signup/{{request.user.referral_number}}" data-action="share/whatsapp/share" class="text"><i class="fab la-whatsapp"></i></a>
+													<!-- <a target="_blank" class="text"><i class="fab la-instagram"></i></a> -->
+													<a href="http://www.linkedin.com/shareArticle?mini=true&url=https://www.bidcruit.com/candidate/signup/{{request.user.referral_number}}" target="_blank" class="text"><i class="lab la-linkedin-in"></i></a>
+													<a target="_blank" href="http://twitter.com/share?url=https://www.bidcruit.com/candidate/signup/{{request.user.referral_number}}" class="text"><i class="lab fa-twitter"></i></a>
+
+												</p>
+												<a class="copy-link" style="float:right;cursor:pointer" data-clipboard-text="https://www.bidcruit.com/candidate/signup/{{request.user.referral_number}}"
+												   data-toggle="tooltip" data-placement="top" title="Copy link">
+													<i class="fa fa-copy"></i>
+												</a>
+											</h4>
+
+
+										</div>
+										<div class="card-body ">
+											<div class="security-enable">
+												<div class="row">
+													<div class="col-md-6 col-lg-6 col-sm-6 col-xs-6">
+														<p>Count &nbsp;&nbsp; - &nbsp;&nbsp; {{ count }}</p>
+													</div>
+                                                    {% if count > 0 %}
+													<button type="button" class="btn btn-main-primary" data-toggle="modal" data-target="#RefferralListModal">View</button>
+													{% endif %}
+												</div>
+												<div class="modal fade" id="RefferralListModal" tabindex="-1" role="dialog"
+													 aria-labelledby="exampleModalLabel" aria-hidden="true">
+													<div class="modal-dialog" role="document">
+														<div class="modal-content">
+															<div class="modal-header">
+																<h5 class="modal-title" id="exampleModalLabel">Modal
+																	title</h5>
+																<button type="button" class="close" data-dismiss="modal"
+																		aria-label="Close">
+																	<span aria-hidden="true">&times;</span>
+																</button>
+															</div>
+															<div class="modal-body">
+																<ol>
+																	{% for list in referral_list %}
+																	<li>
+																		{{list.referred_to.first_name}}
+																		{{list.referred_to.last_name}}
+																	</li>
+																	{% endfor %}
+																</ol>
+															</div>
+														</div>
+													</div>
+												</div>
+
+										</div>
+										</div>
+									</div>
+								</div>
+								
+								
+								<!-- <div class="col-md-12 col-xl-6 col-lg-6">
+									<div class="card">
+										<div class="card-header pb-0">
+
+											<h4 class="card-title mg-b-10">Award</h4>
+
+										</div>
+										<div class="card-body ">
+											<div class="security-enable">
+												<div class="row">
+													<div class="col-md-6 col-lg-6 col-sm-6 col-xs-6">
+														<p>Document</p>
+													</div>
+													<div class="col-md-6 col-lg-6 col-sm-6 col-xs-6">
+														<ul class="security-lock">
+															<li>
+																<a href="#" title="" class="disable"><i data-v-e08301e8="" class="fas fa-lock"></i></a>
+															</li>
+															<li>
+																<a href="#" title=""><i data-v-e08301e8="" class="fas fa-lock-open"></i></a>
+															</li>
+														</ul>
+													</div>
+												</div>
+
+										</div>
+										</div>
+									</div>
+								</div> -->
+							
+							</div>
+							{%endif%}
+
+						{%endfor%}
+					</div>
+					<!-- Main-content-body closed -->
+				</div>
+				<!-- Container-fluid closed -->
+
+{% endblock %}
+
+{% block script %}
+		<!-- Custom js -->
+		<script src="{% static 'assets/js/jQuery-Plugin-To-Copy-Clipboard/jquery.copy-to-clipboard.js' %}"></script>
+
+		<script>
+			function getCookie(name) {
+				var cookieValue = null;
+				if (document.cookie && document.cookie !== '') {
+					var cookies = document.cookie.split(';');
+					for (var i = 0; i < cookies.length; i++) {
+						var cookie = jQuery.trim(cookies[i]);
+						// Does this cookie string begin with the name we want?
+						if (cookie.substring(0, name.length + 1) === (name + '=')) {
+							cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+							break;
+						}
+					}
+				}
+				return cookieValue;
+			}
+
+			function element_lock_toggle(element_name,state){
+				var change_id = console.log("idddd",event.target.id)
+				console.log(change_id)
+				$.ajax({
+					type:"GET",
+					url:'/candidate/toggle_field_state/',
+					data:{
+						name:element_name,
+					}
+
+				}).done(function(response){
+					console.log(response)
+					// console.log("iddddddsdsds",change_id)
+					// let id_to_replace = '#' + 'toggle_email'
+					// console.log(id_to_replace)
+					x = document.getElementById("toggle_"+element_name)
+					console.log(x.classList)
+
+					console.log(x.classList[1])
+
+					if(x.classList[1] == 'fa-lock-open')
+					{
+						x.classList.remove('fa-lock-open')
+						x.classList.add('fa-lock')
+					}
+					else{
+						x.classList.remove('fa-lock')
+						x.classList.add('fa-lock-open')
+					}
+					// if(state == 0)
+					// {
+					// 	console.log(0)
+					// 	// document.getElementById("toggle_"+element_name).classList.remove('fas')
+					// 	document.getElementById("toggle_"+element_name).classList.remove('fa-lock')
+					// 	document.getElementById("toggle_"+element_name).classList.add('fa-lock-open')
+					// 	// console.log(1,$(id_to_replace))
+
+					// 	// $(id_to_replace).replaceWith('<i data-v-e08301e8="" class="fas fa-lock-open" id="toggle_email" onclick="element_lock_toggle("email",1)" ></i>')
+					// }
+					// else
+					// {
+					// 	console.log(1)
+					// 	document.getElementById("toggle_"+element_name).classList.remove('fa-lock-open')
+					// 	document.getElementById("toggle_"+element_name).classList.add('fa-lock')
+					// 	// console.log(0,$(id_to_replace))
+					// 	// $(id_to_replace).replaceWith('<i data-v-e08301e8="" class="fas fa-lock-open" id="toggle_email" onclick="element_lock_toggle("email",0)" ></i>')
+					// }
+
+
+				});
+			}
+
+			function select_candidate_profile(i)
+			{
+				$.ajax({
+					type:"GET",
+					url:'/candidate/toggle_profile/',
+					data:{
+						id:i,
+					}
+
+				}).done(function(response){
+					window.location.reload(true);
+					// console.log(response.length)
+					// console.log(response[0]['id'])
+					// console.log(response[1])
+					// console.log(response[2])
+
+					// for(var i=0;i<response.length;i++)
+					// {
+					// 	console.log("row_"+response[i]['id'])
+					// 	var profile_div = document.getElementById("row_"+response[i]['id'])
+					// 	if(response[0]['active'])
+					// 	{
+					// 		// $(profile_div).show();
+					// 		profile_div.style.display = ''
+					// 	}
+					// 	else{
+					// 		profile_div.style.display = 'none'
+					// 		// $(profile_div).hide();
+					// 	}
+					// 	console.log(profile_div)
+					// }
+
+
+				});
+			}
+
+
+		</script>
+
+<script>
+	$(document).ready(function(){
+		$("button#resume-pass-btn").click(function(){
+		var pass = document.getElementById("resume-pass").value;
+		if(pass.length < 8){
+			document.getElementById("pass-error-message").innerHTML = 'password must be 8 characters long !!' ;
+			return;
+
+		}
+			var ResumePasswordForm = document.getElementById("ResumePasswordFormUpdate");
+            var formData = new FormData(ResumePasswordForm);
+            $.ajax({
+                    url:"/candidate/update_resume_pass/",
+                    headers: {'X-CSRFToken': $("input[name=csrfmiddlewaretoken]").val() },
+                    type:'POST',
+                    contentType: false,
+                    processData: false,
+                    data: formData,
+                    error: function (request, status, error) {
+                        alert(error);
+                    }
+            }).done(function(response){
+				if (response=='True'){
+					$('#resume-pass').val('');
+					document.getElementById("pass-error-message").innerHTML = '' ;
+					alert('Password Updated Succesfully !!')
+				}
+			})
+		});
+		$("button#resume-file-btn").click(function(){
+    var resume_file = document.getElementById("resume-file");
+    console.log('resume_file >>>>>>>>>...', resume_file.files[0]);
+    if (typeof resume_file.files[0] !== 'undefined'){
+        var ResumeUpdateForm = document.getElementById("ResumeUpdateForm");
+        var formData = new FormData(ResumeUpdateForm);
+        $.ajax({
+                url:"/candidate/candidate_resume_update/",
+                headers: {'X-CSRFToken': $("input[name=csrfmiddlewaretoken]").val() },
+                type:'POST',
+                contentType: false,
+                processData: false,
+                data: formData,
+                error: function (request, status, error) {
+                    alert(error);
+                }
+        }).done(function(response){
+            if (response=='True'){
+                alert('Resume Updated Successfully !!');
+            }
+        });
+    }else{
+    	alert('Please Upload a new resume !!')
+    }
+});
+
+	});
+</script>
+
+<script>
+	$(document).ready(function(){
+		$("button#share-url-btn").click(function(){
+			var ShareUrlForm = document.getElementById("ShareUrlForm");
+            var formData = new FormData(ShareUrlForm);
+            console.log('formData ShareUrlForm >>>>>>>',formData)
+            $.ajax({
+                    url:"/candidate/update_share_url/",
+                    headers: {'X-CSRFToken': $("input[name=csrfmiddlewaretoken]").val() },
+                    type:'POST',
+                    contentType: false,
+                    processData: false,
+                    data: formData
+			}).done(function(response){
+				if (response=='True')
+					window.location.reload(true);
+					//window.location.reload();
+			})
+		});
+
+	});
+</script>
+<script src="https://cdn.jsdelivr.net/npm/exceptionless@v1.6.4/dist/exceptionless.min.js"></script>
+
+</script>
+<script>
+	var client = exceptionless.ExceptionlessClient.default;
+		client.config.apiKey = 'WDqMDPk1LJMrsi46mSug2Vk7A8lXFlDRlHCLO5UF';
+	$("#share-url").change(function(){
+
+		var url=$(this).val();
+		console.log(url);
+		if(url!=""){
+			$.ajax({
+			  url:'{% url 'candidate:check_sharing_url_is_valid' %}',
+			  type:'POST',
+			  headers: {'X-CSRFToken': '{{ csrf_token }}'},
+			  data:{url:url}
+			})
+			.done(function(response){
+				
+				if(response=="True"){
+
+					$(".email_error").remove();
+					$("<span class='email_error' style='padding: 3px;color: red;'>Url already exists !!</span>").insertAfter("#share-url");
+					$('#share-url-btn').attr('disabled','disabled');
+				}else if(response=="Invalid"){
+
+					console.log('client',client)
+					client.submitException('invalid email');
+					$(".email_error").remove();
+					$("<span class='email_error' style='padding: 3px;color: red;'> Invalid url !!</span>").insertAfter("#share-url");
+					$('#share-url-btn').attr('disabled','disabled');
+				}
+				else{
+
+					$(".email_error").remove();
+					$('#share-url-btn').removeAttr('disabled');
+				}
+			}).fail(function(){
+				  console.log("failed");
+			})
+		}else{
+			$(".email_error").remove();
+		}
+	});
+
+</script>
+<!--<script>-->
+<!--	function candidateseo(){-->
+<!--   if($('#look-for-job-check').is(":checked")) {-->
+<!--   	alert();-->
+<!--      var look_for_job_check = 'on';-->
+<!--   } else {-->
+<!--     var look_for_job_check = 'off';-->
+<!--   }-->
+<!--   if($('#google-search-check').is(":checked")) {-->
+<!--      var google_search_check = 'on';-->
+<!--   } else {-->
+<!--     var google_search_check = 'off';-->
+<!--   }-->
+<!--   $.ajax({-->
+<!--      type:"GET",-->
+<!--      url:'/candidate/look_for_job_check/',-->
+<!--      data:{-->
+<!--         look_for_job_check:look_for_job_check,-->
+<!--         google_search_check:google_search_check,-->
+<!--      }-->
+<!--   })-->
+<!--}-->
+<!--</script>-->
+{% endblock %}
+

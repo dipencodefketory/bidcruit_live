@@ -1,0 +1,173 @@
+{% extends 'agency/base.html' %}
+{% load static %}
+{% block title %}Audio Subjest list{% endblock %}
+{% load agency_filter %}
+{% block css %}
+    <!--custom desciptive list css-->
+    <link href="{% static 'assets/css/ATS/audio_all.css' %}" rel="stylesheet">
+    <!-- - Internal Sweet-Alert css -->
+    <link href="{% static 'assets/plugins/sweet-alert/sweetalert.css' %}" rel="stylesheet">
+{% endblock %}
+{% block main %}
+
+		
+			<!-- Main-content-body -->
+			<div class="main-content-body">
+
+				<!-- header-title -->
+				<div class="header-title">
+					<div class="mb-0 mb-lg-0 mb-xl-0">
+						<h4 class="mb-2">Components</h4>
+						<div class="main-content-breadcrumb"> <span>Components</span> <span>Data-tables</span> </div>
+					</div>
+					<div class="ml-auto my-auto">
+						<a href="#" class="btn btn-primary"><i class="fe fe-plus-square"></i> Create Report</a>
+						<a href="#" class="btn btn-pink"><i class="fe fe-external-link"></i> Export</a>
+					</div>
+				</div>
+				<!-- header-title -->
+                {% csrf_token %}
+				<!-- row opened -->
+				<div class="row row-sm">
+					<div class="col-xl-12">
+						<div class="card descriptive_add mg-b-18 audio_sub_a">
+
+							<div class="descriptive_view_header mg-b-0">
+								<div class="card-header pb-0">
+									<h4 class="image_ques_title card-title mg-b-0">Audio/Video Question Bank</h4>
+
+									<div class="d-flex justify-contentbetween">
+										<div class="input-group mb-0 mr-2">
+											<span class="input-group-append search_btn">
+												<button class="btn ripple" type="button"><i class="fa fa-search"></i></button>
+											</span>
+											<input type="text" class="search_text form-control border-right-0 pl-3" value="" placeholder="Search Template">
+										</div>
+										<div class="descriptive_list_add_btn">
+											{% if Add %}
+											<a class="btn btn-add-list btn-block" data-effect="effect-scale" data-toggle="modal" href="#Add_subject_modal">Add Subject</a>
+											{% endif %}
+										</div>
+
+									</div>
+									
+								</div>	
+							</div>	
+
+						</div>
+						<div class="row sub-container">
+							{% if subject %}
+								{% for sub in subject %}
+									<div class="col-12 col-sm-6 col-md-12 col-lg-6 col-xl-3 sub-card">
+										<div class="descriptive_questions">
+												<div class="questions_details_text">{{sub.subject_name}}
+  													{% if Edit %}
+													<a class="edit-btn questions_edit i_color ti_imag" data-id="{{sub.id}}" data-name="{{sub.subject_name}}"><i class="fas fa-edit"></i></a>
+													{% endif %}
+												</div>
+												<div class="descriptive_questions_no">
+													<div class="descriptive_question_heading">
+														 <input type="text" name="card-id" value="{{sub.id}}" hidden readonly>
+														<div class="cardtitle">Total Question :</div>
+														<span>{{sub.id|audiototal_categories}}</span>
+													</div>
+												</div>
+
+											<div class="descriptive_questions_action">
+												
+												<a class="i_color" href="{% url 'agency:audio_view' sub.id %}" target="_blank"><i class="fas fa-eye"></i></a>
+
+		                                        <a class="i_color" href="{% url 'agency:audio_add' sub.id %}" target="_blank"><i class="fas fa-plus"></i></a> 
+
+												{% if Delete %}
+												<a class="delete-btn questions_trash"><i class="fas fa-trash-alt"></i></a>
+												{% endif %}
+											</div>
+										</div>
+									</div>
+								{% endfor %}
+							{% else %}
+								<div class="no-data col-12 col-sm-6 col-md-12 col-lg-6 col-xl-3 sub-card">
+							    	<label class="tq-title text-capitalize card pl-2">No Data Found</label>
+							    </div>
+							{% endif %}
+						</div>
+
+					</div>
+					<!--/div-->
+			
+				</div>
+				<!-- /row -->
+			</div>
+			<!-- Main-content-body closed -->
+		
+       <!-- Basic modal Add_subject_modal -->
+            <div class="modal" id="Add_subject_modal">
+                <div class="modal-dialog modal-dialog-centered" role="document">
+                    <div class="modal-content modal-content-demo">
+                        <div class="modal-header">
+                            <h6 class="modal-title">Add Subject</h6>
+                            <button aria-label="Close" class="close" data-dismiss="modal" type="button"><span aria-hidden="true">&times;</span></button>
+                        </div>
+                        <form id="add-sub-form">
+                            <div class="modal-body">
+                                <div class="formgroup_textbox">
+                                    <label class="form-label">Enter Subject Name :</label>
+                                    <input class="form-control" placeholder="" type="text" id="subject_name" name="subject_name" required>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button class="btn ripple btn-primary add_Subject_list" type="submit">Add</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        <!-- End Basic modal -->
+
+
+		 <!-- Basic modal Edit_subject_modal -->
+            <div class="modal" id="Edit_subject_modal">
+                <div class="modal-dialog modal-dialog-centered" role="document">
+                    <div class="modal-content modal-content-demo">
+                        <div class="modal-header">
+                            <h6 class="modal-title">Edit Subject</h6><button aria-label="Close" class="close" data-dismiss="modal" type="button"><span aria-hidden="true">&times;</span></button>
+                        </div>
+                        <form id="edit-sub-form">
+                            <div class="modal-body">
+                                <div class="formgroup_textbox">
+                                    <label class="form-label">Edit Subject Name :</label>
+                                    <input class="form-control edit_subject_name" placeholder="" type="text" name="edit_subject_name" required>
+                                    <input type="hidden" class="subid">
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button class="btn ripple btn-primary edit_Subject_list" type="submit">Update</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        <!-- End Basic modal -->
+
+{% endblock %}
+
+{% block script %}
+		<!--- Internal Sweet-Alert js -->
+		 <script src="{% static 'assets/plugins/sweet-alert/sweetalert.min.js' %}"></script>
+		 <script src="{% static 'assets/plugins/sweet-alert/jquery.sweet-alert.js' %}"></script>
+
+    	<!-- Custom  -->
+		<script>
+            function editsub(){
+                var edit_sub='{{Edit|escapejs}}'
+                return edit_sub
+                }
+
+            function deletesub(){
+                var delete_sub='{{Delete|escapejs}}'
+                return delete_sub
+                }
+        </script>
+		<script src="{% static 'assets/js/ATS/agency/audio_all.js' %}"></script>
+{% endblock %}

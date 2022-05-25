@@ -1,0 +1,770 @@
+{% extends 'agency/base.html' %} 
+{% load static %}
+{% load candidate_extras %}
+{% load agency_filter %}
+{% block title %} Agency Profile {% endblock %}
+{% block css %}
+		<!--color picker-->
+		<link href="{% static 'assets/plugins/spectrum-colorpicker/spectrum.css' %}" rel="stylesheet">
+		<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+		<link href="{% static 'assets/css/ATS/agency-profile-add.css' %}" rel="stylesheet">
+{% endblock %}
+{% block main %}
+
+				<!-- Container-fluid -->
+				<div class="container-fluid">
+
+					<!-- Main-content-body -->
+					<div class="main-content-body">
+
+						<!-- header-title -->
+						<div class="header-title">
+							<div class="mb-0 mb-lg-0 mb-xl-0">
+								<h4 class="mb-2">Components</h4>
+								<div class="main-content-breadcrumb"> <span>Components</span> <span>Data-tables</span> </div>
+							</div>
+							<div class="ml-auto my-auto">
+								<a href="#" class="btn btn-primary"><i class="fe fe-plus-square"></i> Create Report</a>
+								<a href="#" class="btn btn-pink"><i class="fe fe-external-link"></i> Export</a>
+							</div>
+						</div>
+						<!-- header-title -->
+
+						<!-- row opened -->
+						<div class="row row-sm">
+							<div class="col-xl-12">
+								<div class="card company_profile_add">
+									<div class="card-header pb-0">
+										<div class="agency-head">
+											<h4 class="card-title mg-b-0">Agency Title</h4>
+											<div class="company_profile_right_filters_section">
+												<div class="filters_header">
+													<a href=""><i class="fas fa-print"></i></a>
+												</div>
+												<div class="filters_header">	
+													<a href=""><i class="fas fa-ellipsis-v"></i></a>
+												</div>
+											</div>
+										</div>
+										
+									</div>
+									<div class="card-body">
+										{% if get_profile %}
+										<form action="{% url 'agency:agency_profile_update' get_profile.id %}" name="agency_profile"  method="POST" enctype="multipart/form-data" data-parsley-validate="" id="agencyProfileForm" class="agen-update-profile">
+										{% csrf_token %}
+											<!--Start Form Section-->
+											<div class="form-group__layout">
+
+											<!--Basic Form-->
+											<div class="basic_form" id="basicForm">
+												<div class="row row-sm form-title-row">
+													<div class="col-lg">
+														<h5 class="mb-3 text-uppercase form_main_title">Company Details</h5>
+													</div>
+												</div>
+												<div class="row row-sm">
+													<div class="col-lg">
+														<div class="row basicInfo-section">
+															<div class="form-group col-lg mg-t-10 mg-lg-t-0">
+																<label class="form-label req-field">Contact Email :</label>
+																<input class="form-control candidate-email" readonly value="{{get_profile.agency_id.agency_id.email}}" name="basic_email"  placeholder="Enter Email" type="email" required="">
+															</div>
+															 <div class="form-group col-lg mg-t-10 mg-lg-t-0">
+																<label class="form-label req-field">Contact no :</label>
+																<input class="form-control contact-email" name="contact_no" value="{{get_profile.contact_no}}" maxlength="10" placeholder="Enter Contact No" type="number" required="">
+															</div>
+															<div class="form-group col-lg mg-t-10 mg-lg-t-0">
+																<label class="form-label req-field">Company Size :</label>
+																<select class="form-control company-size" name="company_size" required="">
+																	<option label="Select Company Size" class="placehold-option"></option>
+																	{% for value,employeecount in companysize %}
+																		<option value="{{value}}" {% ifequal get_profile.employee_count  value %} selected{% endifequal %} >{{employeecount}}</option>
+																	{% endfor %}
+
+																</select>
+															</div>
+
+														</div>
+													</div>
+												</div>
+
+												<div class="row row-sm">
+													<div class="col-md-4">
+														<div class="row mb-12">
+															<div class="form-group col-sm-12 col-md-12">
+																<label class="form-label">Logo :</label>
+																<input type="file" accept=".png,.jpg,.jpeg" name="logo" value="{{get_profile.agency_logo.url}}" class="company_logo" data-height="130" />
+															</div>
+														</div>
+													</div>
+													<div class="col-md-8 banner-image__upload">
+														<!-- <div class="row basicInfo-section">
+															<div class="form-group col-lg mg-t-10 mg-lg-t-0">
+																<label class="form-label">Country :</label>
+																<select class="form-control" name="country">
+																	<option label=""></option>
+																</select>
+															</div>
+															<div class="form-group col-lg mg-t-10 mg-lg-t-0">
+																<label class="form-label">State :</label>
+																<select class="form-control" name="state">
+																	<option label=""></option>
+																</select>
+															</div>
+														</div>
+                                                        <div class="row basicInfo-section">
+															<div class="form-group col-lg mg-t-10 mg-lg-t-0">
+																<label class="form-label">City :</label>
+																<select class="form-control" name="city">
+																	<option label=""></option>
+																</select>
+															</div>
+															<div class="form-group col-lg mg-t-10 mg-lg-t-0">
+																<label class="form-label">Zip Code :</label>
+																<input class="form-control candidate-name" name="zip_code" value="" placeholder="Enter Zip Code" type="text" required>
+															</div>
+														</div> -->
+														<div class="groupUpload-tab-1">
+															<div class="form-group col-sm-12 col-md-12">
+																<label class="form-label">Background Image :</label>
+																<input type="file" name="bgimg"  accept=".png,.jpg,.jpeg" value="{{get_profile.agency_bg.url}}" class="company_logo" data-height="130" />
+															</div>
+														</div>
+														<!-- <div class="groupUpload-tab-2">
+															<div class="form-group col-sm-12 col-md-12">
+																<label class="form-label">Background Color :</label>
+																<input id="colorpicker" type="text">
+															</div>
+														</div> -->
+													</div>
+												</div>
+
+												<div class="row row-sm">
+													<div class="col-lg">
+														<div class="row basicInfo-section">
+															<div class="form-group col-lg mg-t-10 mg-lg-t-0">
+																<label class="form-label">Domain Expertise :</label>
+																<select class="form-control select2 selectdomain" name="domain_expertise" multiple="multiple">
+
+																		<option  ></option>
+																{% for i in get_profile.domain_expertise.all|get_spaciility_split %}
+																		<option selected>{{i}}</option>
+																{% endfor %}
+																</select>
+															</div>
+															<div class="form-group col-lg mg-t-10 mg-lg-t-0">
+																<label class="form-label req-field">Founded Year :</label>
+																<div class="contact-num_box">
+																	 <input name="founded_year" type="tel" value="{{get_profile.founded_year}}" placeholder="Enter Founded Year"  maxlength="10" class="form-control" required="">
+																</div>
+															</div>
+															<div class="form-group col-lg mg-t-10 mg-lg-t-0">
+																<label class="form-label req-field">Company Type :</label>
+																<select class="form-control company-size" name="agency_profile_type" required="">
+																	<option label="Select Company Type" class="placehold-option"></option>
+																	{% for value,companytype in companytypechoices %}
+																		<option value="{{value}}" {% ifequal get_profile.agency_profile_type value %}selected{% endifequal %}>{{companytype}}</option>
+																	{% endfor %}
+
+																</select>
+															</div>
+														</div>
+													</div>
+												</div>
+												<div class="row row-sm">
+													<div class="col-lg">
+														<div class="row basicInfo-section">
+															<div class="form-group col-lg mg-t-10 mg-lg-t-0">
+																<label class="form-label">Industry Type :</label>
+																<select class="form-control" name="industrytype">
+																	<option label="Select Industry Type" class="placehold-option"></option>
+																	{% for j in agency_industrytype %}
+																		<option value="{{j.id}}" {% ifequal get_profile.industry_type.id  j.id %}selected {% endifequal%}>{{j.name}}</option>
+																	{% endfor %}
+																</select>
+															</div>
+															<div class="col-lg mg-t-10 mg-lg-t-0">
+																<label class="form-label req-field">About Us :</label>
+																<div class="about-info-input">
+																	<textarea  class="details" name="company_about_profile_details">{{get_profile.aboutus}}</textarea>
+																</div>
+															</div>
+															<div class="col-lg mg-t-10 mg-lg-t-0">
+																<label class="feild-title text-capitalize">Specialties :</label>
+																<select class="form-control skill-selector specialties"
+																								name="specialties" value=""
+																								multiple="multiple">
+																	 <option></option>
+																	{% for i in get_profile.spaciility|get_spaciility_split %}
+																		<option selected>{{i}}</option>
+																	{% endfor %}
+																</select>
+															</div>
+														</div>
+													</div>
+												</div>
+												<div class="row row-sm">
+													<div class="col-lg mg-t-10 mg-lg-t-0">
+														<label class="form-control-label">Country: <span
+																class="tx-danger">*</span></label>
+														<select class="form-control select2" id="country" required="" onChange="getState(this.value)" name="country">
+															<option label="Choose one"></option>
+															{% for countrys in country %}
+																<option value="{{countrys.id}}" {% ifequal  get_profile.country.id  countrys.id %} selected {% endifequal %} >{{countrys.country_name}}</option>
+															{% endfor %}
+														</select>
+													</div>
+													<div class="col-lg mg-t-10 mg-lg-t-0">
+														<label class="form-control-label">State: <span
+																class="tx-danger">*</span></label>
+														<div id="statediv">
+															<select class="form-control select2" id="state" name="state" required="">
+																{% if get_profile.state %}
+																<option value="{{get_profile.state.id}}">{{get_profile.state.state_name}}</option>
+																{% else %}
+																<option label="Choose one"></option>
+																{% endif %}
+
+
+															</select>
+														</div>
+													</div>
+													<div class="col-lg mg-t-10 mg-lg-t-0">
+														<label class="form-control-label">City: <span
+																class="tx-danger">*</span></label>
+														<div id="citydiv">
+															<select class="form-control select2" id="city" name="city" required="">
+
+																{% if get_profile.city %}
+																<option value="{{get_profile.city.id}}">{{get_profile.city.city_name}}</option>
+																{% else %}
+																<option label="Choose one"></option>
+																{% endif %}
+															</select>
+														</div>
+													</div>
+
+												</div>
+												<div class="row row-sm">
+
+													<div class="col-12 mg-t-10">
+														<div class="row address-details__section">
+															<div class="col-lg mg-t-10 mg-lg-t-0">
+																<label class="form-label req-field">Address :</label>
+																<div class="address-info-input">
+																	<textarea name="address_detail" class="form-control address-text-area address-details"  rows="3" required="">{{get_profile.address}}</textarea>
+																</div>
+															</div>
+														</div>
+													</div>
+												</div>
+
+											</div>
+											<!--Basic Form End-->
+
+											</div>
+											<!--form action button section-->
+											<div class="companyFormSubmit_btn">
+												<button class="btn btn-sm btn-primary companyFormSubmit btn-sm btn-rounded" id="save" type="submit">Save</button>
+											</div>
+											<!--form action button section End-->
+										</form>
+										{% else %}
+
+										<!--Agency Create Profile Form-->
+
+										<form action="{% url 'agency:agency_Profile' %}" name="agency_profile"  method="POST" enctype="multipart/form-data" data-parsley-validate="" id="agencyProfileForm" class="agen-create-profile">
+										{% csrf_token %}
+											<!--Start Form Section-->
+											<div class="form-group__layout">
+											<div class="basic_form" id="basicForm">
+												<div class="row row-sm form-title-row">
+													<div class="col-lg">
+														<h5 class="mb-3 text-uppercase form_main_title">Admin Details</h5>
+													</div>
+												</div>
+												<div class="row row-sm form-layout mg-t-30 mg-b-30">
+													<div class="form-group col-lg-4 col-md-6 col-sm-12 pd-b-20">
+														<label class="feild-title text-capitalize required-label req-field">first name:</label>
+														<input type="text" name="f_name" value="" class="form-control input-feild fname" required="">
+													</div>
+													<div class="form-group col-lg-4 col-md-6 col-sm-12 pd-b-20">
+														<label class="feild-title text-capitalize required-label req-field">last name:</label>
+														<input type="text" name="l_name" value="" class="form-control input-feild lname" required="">
+													</div>
+													
+													<div class="form-group col-lg-4 col-md-6 col-sm-12 pd-b-20">
+														<label class="feild-title text-capitalize">Gender:</label>
+														<ul class="group-gender">
+															<li class="g-inputs">
+																<input type="radio" class="g-input" value="male" name="gender" required checked><label class="g-title text-capitalize">male</label>
+															</li>
+															<li class="g-inputs">
+																<input type="radio" class="g-input" value="female" name="gender" required><label class="g-title text-capitalize">female</label>
+															</li>
+														</ul>
+													</div>
+												   
+													<div class="form-group col-lg-4 col-md-6 col-sm-12 pd-b-20">
+														<label class="feild-title text-capitalize required-label req-field">contact number:</label>
+														<input type="text" maxlength="10" pattern="\d{10}" name="contact_num" value="" required="" class="form-control input-feild admin-contact-num">
+													</div>
+													<div class="form-group col-lg-4 col-md-6 col-sm-12 pd-b-20">
+														<label class="feild-title text-capitalize required-label req-field">Branch:</label>
+														<input type="text" name="branch" value="" required="" class="form-control input-feild contact-num">
+													</div>
+													
+													
+													<div class="form-group col-lg-4 col-md-6 col-sm-12 pd-b-20">
+														<label class="feild-title text-capitalize req-field">total experience:</label>
+															<div class="fx-col__sm exp-inputbox">
+																<input type="number" min="0" max="40" max-length="2" step="1" value=""
+																	   name="professional_experience_year" placeholder="Year"
+																	   class="form-control three-ls experiance-val" required="">
+																<input type="number" min="0" max="11" maxlength="2" step="1" value=""
+																	   name="professional_experience_month" placeholder="Month"
+																	   class="form-control three-ls experiance-val" required="">
+															</div>
+													</div>
+													<div class="col-lg mg-t-10 mg-lg-t-0">
+															<!-- <label class="form-label req-field">Specialties :</label>
+															<select class="form-control select2 skill-selector specialties" name="specialties" multiple="multiple" required="">
+															 	<option></option>
+															</select> -->
+															<label class="feild-title text-capitalize req-field">Specialities :</label>
+															<select class="form-control skill-selector admin-specialities" name="admin_specialities" value="" multiple="multiple" required="">
+																	<option></option>
+															</select>
+													</div>
+													<div class="col-lg mg-t-10 mg-lg-t-0">
+														<label class="form-label req-field">About Us :</label>
+														<div class="speciality-info-input">
+															<textarea id="about-details" name="admin_about_profile_details" class="form-control address-text-area details" value="" rows="3" required=""></textarea>
+															<!-- <textarea id="about-details"  class="details" name="about-details"></textarea> -->
+														</div>
+													</div>
+												</div>
+												
+											</div>
+											<!--Basic Form-->
+											<div class="basic_form" id="basicForm">
+												<div class="row row-sm form-title-row">
+													<div class="col-lg">
+														<h5 class="mb-3 text-uppercase form_main_title">Company Details</h5>
+													</div>
+												</div>
+												<div class="row row-sm">
+													<div class="col-lg">
+														<div class="row basicInfo-section">
+															<div class="form-group col-lg mg-t-10 mg-lg-t-0">
+																<label class="form-label req-field">Contact Email :</label>
+																<input class="form-control candidate-email" value="" name="basic_email"  placeholder="Enter Email" type="email" required>
+															</div>
+															 <div class="form-group col-lg mg-t-10 mg-lg-t-0">
+																<label class="form-label req-field">Contact Number :</label>
+																<input class="form-control company-contact-num" name="contact_no" value=""  placeholder="Enter Contact No" type="text" maxlength="10" pattern="\d{10}" required>
+															</div>
+															<div class="form-group col-lg mg-t-10 mg-lg-t-0">
+																<label class="form-label req-field">Company Size :</label>
+																<select class="form-control company-size" name="company_size" required="">
+																	<option label="Select Company Size" class="placehold-option"></option>
+																	{% for value,employeecount in companysize %}
+																		<option value="{{value}}">{{employeecount}}</option>
+																	{% endfor %}
+																	
+																</select>
+															</div>
+															
+														</div>
+													</div>
+												</div>
+												
+												<div class="row row-sm file-upload-section">
+													<div class="col-md-6">
+														<div class="row mb-12">
+															<!-- <div class="form-group col-sm-12 col-md-12">
+																<label class="form-label">Logo :</label>
+																<input type="file" name="logo" class="company_logo" data-height="130" />
+															</div>	 -->
+															<div class="col-12 fxs-file-uploader">
+																<label class="form-label req-field">Logo :</label>
+																<div class="input-group file-browser">
+																	<input type="text" class="form-control border-right-0 browse-file" placeholder="choose" readonly >
+																	<label class="input-group-btn">
+																		<span class="btn btn-default">
+																			Browse <input type="file" accept=".png,.jpg,.jpeg" name="logo" style="display: none;" required="">
+																		</span>
+																	</label>
+																</div>
+															</div>
+														</div>
+													</div>
+													<div class="col-md-6 banner-image__upload">
+														<!-- <div class="row basicInfo-section">
+															<div class="form-group col-lg mg-t-10 mg-lg-t-0">
+																<label class="form-label">Country :</label>
+																<select class="form-control" name="country">
+																	<option label=""></option>
+																</select>
+															</div>
+															<div class="form-group col-lg mg-t-10 mg-lg-t-0">
+																<label class="form-label">State :</label>
+																<select class="form-control" name="state">
+																	<option label=""></option>
+																</select>
+															</div>
+														</div>
+                                                        <div class="row basicInfo-section">
+															<div class="form-group col-lg mg-t-10 mg-lg-t-0">
+																<label class="form-label">City :</label>
+																<select class="form-control" name="city">
+																	<option label=""></option>
+																</select>
+															</div>
+															<div class="form-group col-lg mg-t-10 mg-lg-t-0">
+																<label class="form-label">Zip Code :</label>
+																<input class="form-control candidate-name" name="zip_code" value="" placeholder="Enter Zip Code" type="text" required>
+															</div>
+														</div> -->
+														<div class="row groupUpload-tab-1">
+															<!-- <div class="form-group col-sm-12 col-md-12">
+																<label class="form-label">Background Image :</label>
+																<input type="file" name="bgimg" class="company_logo" data-height="130" required />
+															</div>-->
+															<div class="col-12 fxs-file-uploader">
+																<label class="form-label req-field">Background Image :</label>
+																<div class="input-group file-browser">
+																	<input type="text" class="form-control border-right-0 browse-file" placeholder="choose" readonly >
+																	<label class="input-group-btn">
+																		<span class="btn btn-default">
+																			Browse <input type="file" accept=".png,.jpg,.jpeg" name="bgimg" style="display: none;" required="">
+																		</span>
+																	</label>
+																</div>
+															</div>
+														</div>
+														<!-- <div class="groupUpload-tab-2">
+															<div class="form-group col-sm-12 col-md-12">
+																<label class="form-label">Background Color :</label>
+																<input id="colorpicker" type="text">
+															</div>													
+														</div> -->
+													</div>
+												</div>
+
+												<div class="row row-sm">
+													<div class="col-lg">
+														<div class="row basicInfo-section">
+															<div class="form-group col-lg mg-t-10 mg-lg-t-0">
+																<label class="form-label req-field">Domain Expertise :</label>
+																<select class="form-control select2 selectdomain" name="domain_expertise" multiple="multiple" required="">
+																		<option></option>
+																</select>
+															</div>
+															<div class="form-group col-lg mg-t-10 mg-lg-t-0">
+																<label class="form-label req-field">Founded Year :</label>
+																<div class="contact-num_box">
+																	 <input name="founded_year" type="tel" placeholder="Enter Founded Year" class="form-control" required="">
+																</div>
+															</div>
+															<div class="form-group col-lg mg-t-10 mg-lg-t-0">
+																<label class="form-label req-field">Company Type :</label>
+																<select class="form-control company-size" name="agency_profile_type" required="">
+																	<option label="Select Company Type" class="placehold-option"></option>
+																	{% for value,companytype in companytypechoices %}
+																		<option value="{{value}}">{{companytype}}</option>
+																	{% endfor %}
+																	
+																</select>
+															</div>
+														</div>
+													</div>
+												</div>
+												<div class="row row-sm">
+													<div class="col-lg">
+														<div class="row basicInfo-section">
+															<div class="form-group col-lg mg-t-10 mg-lg-t-0">
+																<label class="form-label req-field">Industry Type :</label>
+																<select class="form-control" name="industrytype" required="">
+																	<option label="Select Industry Type" class="placehold-option"></option>
+																	{% for j in agency_industrytype %}
+																		<option value="{{j.id}}">{{j.name}}</option>
+																	{% endfor %}
+																</select>
+															</div>
+														</div>
+													</div>
+												</div>
+												<div class="row row-sm">
+													<div class="col-12">
+														<div class="row basicInfo-section">
+															<div class="col-lg mg-t-10 mg-lg-t-0">
+																<label class="form-label req-field">About Us :</label>
+																<div class="about-info-input">
+																	<textarea id="about-profile-details" name="company_about_profile_details" class="form-control address-text-area details" value="" rows="3" required=""></textarea>
+																</div>
+															</div>
+															<div class="col-lg mg-t-10 mg-lg-t-0">
+																<label class="feild-title text-capitalize req-field">Specialities :</label>
+																<select class="form-control skill-selector company-specialities" name="company_specialities" value="" multiple="multiple" required="">
+																	 <option></option>
+																</select>
+															</div>
+
+														</div>
+													</div>
+													<div class="row row-sm countrySelector">
+													<div class="col-lg mg-t-10 mg-lg-t-0">
+														<label class="form-control-label">Country: <span
+																class="tx-danger">*</span></label>
+														<select class="form-control select2" id="country" required="" onChange="getState(this.value)" name="country">
+															<option label="Choose one"></option>
+															{% for countrys in country %}
+																<option value="{{countrys.id}}" {% ifequal  client_data.country.id  countrys.id %} selected {% endifequal %} >{{countrys.country_name}}</option>
+															{% endfor %}
+														</select>
+													</div>
+													<div class="col-lg mg-t-10 mg-lg-t-0">
+														<label class="form-control-label req-field">State: 
+															<!-- <span  class="tx-danger">*</span> -->
+															</label>
+														<div id="statediv">
+															<select class="form-control select2" id="state" name="state" required="">
+																{% if client_data.state %}
+																<option value="{{client_data.state.id}}">{{client_data.state.state_name}}</option>
+																{% else %}
+																<option label="Choose one"></option>
+																{% endif %}
+															</select>
+														</div>
+													</div>
+													<div class="col-lg mg-t-10 mg-lg-t-0">
+														<label class="form-control-label req-field">City: <!-- <span class="tx-danger">*</span> --></label>
+															
+														<div id="citydiv">
+															<select class="form-control select2" id="city" name="city" required="">
+																{% if client_data.city %}
+																<option value="{{client_data.city.id}}">{{client_data.city.city_name}}</option>
+																{% else %}
+																<option label="Choose one"></option>
+																{% endif %}
+															</select>
+														</div>
+													</div>
+
+												</div>
+													<div class="col-12 mg-t-10">
+														<div class="row address-details__section">
+															<div class="col-lg mg-t-10 mg-lg-t-0">
+																<label class="form-label req-field">Address :</label>
+																<div class="address-info-input">
+																	<textarea name="address_detail" class="form-control address-text-area address-details" value="" rows="3" required=""></textarea>
+																</div>
+															</div>
+														</div>
+													</div>
+												</div>
+
+											</div>
+											<!--Basic Form End-->
+											
+											</div>
+											<!--form action button section-->
+											<div class="companyFormSubmit_btn">
+												<button class="btn btn-sm btn-primary companyFormSubmit btn-sm btn-rounded" id="save" type="submit">Save</button>													
+											</div>
+											<!--form action button section End-->
+										</form>
+									{% endif %}
+									</div>
+								</div>
+							</div>
+							<!--/div-->
+					
+						</div>
+						<!-- /row -->
+					</div>
+					<!-- Main-content-body closed -->
+				</div>
+				<!-- Container-fluid closed -->
+{% endblock %}
+
+{% block script %}		
+<!-- tinymce -->
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+<script src="{% static 'assets/js/form-elements.js' %}"></script>
+<script src="{% static 'assets/js/parsley.min.js' %}"></script>
+<script src="{% static 'assets/js/form-validation.js' %}"></script>
+<script src="{% static 'assets/js/main.js' %}"></script>
+<script src="{% static 'assets/js/jquery-validation-1.19.3/dist/jquery.validate.js' %}"></script>
+		<!--Agency Custom JS-->
+		<!--  -->
+		<script>
+		$(document).ready(function(){
+			$(function() {
+              $("form[name='agency_profile']").validate({
+                // Specify validation rules
+                rules: {
+                  // The key name on the left side is the name attribute
+                  // of an input field. Validation rules are defined
+                  // on the right side
+                
+                  
+                  basic_email: {
+                   email:true,
+				   required:true
+                  },
+				  logo: "required",
+				  bgimg: "required",
+				  specialties: "required",
+				  about_us: "required",
+                  f_name:"required",
+                  l_name:"required",
+                  gender:"required",
+                  contact_num:{
+                      required:true,
+                      number:true,
+                      maxlength:10
+                  },
+                  branch:"required",
+                  admin_specialities:"required",
+                  admin_about_profile_details:"required",
+                  company_size:"required",
+                  contact_no:{
+                      required:true,
+                      number:true,
+                      maxlength:10
+                  },
+				  founded_year:{
+					 required:true,
+                      number:true,
+					  minlength: 4,
+					  maxlength: 4,
+					  range: [1950, currentYear],
+				  },
+                  domain_expertise:"required",
+                  agency_profile_type:"required",
+                  industrytype:"required",
+                  company_about_profile_details:"required",
+                  company_specialities:"required",
+                  country:"required",
+                  state:"required",
+                  city:"required",
+                  address_detail:"required", 
+                },
+                // Specify validation error messages
+                messages: {
+					founded_year:
+				  {
+					required: "founded year is required",
+					number:"Please provide a valid number",
+					minlength:"Please enter 4 degit Year",
+					maxlength:"Please enter 4 degit year"
+				  },
+				  contact_no:
+				  {
+					required: "Contact number is required",
+					number:"Please provide a valid number",
+					maxlength:"Please enter 10 degit contact number"
+				  },
+                  contact_num:
+                  {
+					required: "Contact number is required",
+					number:"Please provide a valid number",
+					maxlength:"Please enter 10 degit contact number"
+				  },
+				  logo:
+				  {
+					required: "Logo is required",
+					
+				  },
+				  bgimg:
+				  {
+					required: "Background Image is required",
+					
+				  },
+				  specialties:
+				  {
+					required: "Specialties are required",
+				  },
+				  about_us:
+				  {
+					required: "About us is required",
+					
+				  }
+                },
+                // Make sure the form is submitted to the destination defined
+                // in the "action" attribute of the form when valid
+                submitHandler: function(form) { 
+                  form.submit();
+                }
+              });
+            });
+                $('.admin-specialities').select2({
+                    placeholder: "Add Specialties",
+
+					 tags:true,
+					 createTag: function (params) {
+						return {
+							id: params.term,
+							text: params.term,
+							newOption: true,
+						}
+					 },
+					templateResult: function (data) {
+						var $result = $("<span></span>");
+						$result.text(data.text);
+						if (data.newOption) {
+							$result.append(" <em>(new)</em>");
+						}
+						return $result;
+					},
+					minimumInputLength: 1
+				});
+				$('.company-specialities').select2({
+                    placeholder: "Add Specialties",
+					 tags:true,
+					 createTag: function (params) {
+						return {
+							id: params.term,
+							text: params.term,
+							newOption: true,
+						}
+					 },
+					templateResult: function (data) {
+						var $result = $("<span></span>");
+						$result.text(data.text);
+						if (data.newOption) {
+							$result.append(" <em>(new)</em>");
+						}
+						return $result;
+					},
+					minimumInputLength: 1
+				});
+
+				$('.selectdomain').select2({
+                    placeholder: "Add Domain Experties",
+
+					 tags:true,
+					 createTag: function (params) {
+						return {
+							id: params.term,
+							text: params.term,
+							newOption: true,
+						}
+					 },
+					templateResult: function (data) {
+						var $result = $("<span></span>");
+						$result.text(data.text);
+						if (data.newOption) {
+							$result.append(" <em>(new)</em>");
+						}
+						return $result;
+					},
+					minimumInputLength: 1
+				});
+            })
+		
+
+		</script>
+{% endblock %}

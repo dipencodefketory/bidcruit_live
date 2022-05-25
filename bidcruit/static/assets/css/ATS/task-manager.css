@@ -1,0 +1,316 @@
+.add-filters {
+    display: flex;
+    justify-content: center;
+}
+.add-filters, .filter-list {
+    width: 85%;
+    margin: 0 auto;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+.add-new-task, .submit-task{
+    width: 65%;
+    font-size: 16px;
+    max-width: 300px;
+    margin: 10px 0 10px 0;
+}
+.submit-filters {
+    display: flex;
+    justify-content: center;
+}
+.filter-types .filter-title {
+    font-size: 16px;
+    font-weight: 600;
+}
+.check-by-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+li.check-ls {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.fx-left label, .fx-right label {
+    margin: 0;
+}
+.fx-left {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+.filter-types {
+    margin-bottom: 25px;
+    position: relative;
+}
+.filter-types:after {
+    border-bottom: 1px solid #ccc;
+    width: 100%;
+    height: 1px;
+    left: 0;
+    bottom: -14px;
+    position: absolute;
+    content: "";
+}
+.filter-list .filter-types:last-child:after {
+    border: 0px;
+}
+.custom-search-bar {
+    position: relative;
+    border-radius: 10px;
+    overflow: hidden;
+}
+.custom-search-bar .search-icon {
+    position: absolute;
+    left: 5px;
+    z-index: 4;
+    border: 0;
+    top: 2px;
+    color: #8092b1;
+}
+.custom-search-bar input.form-control {
+    padding-left: 35px;
+}
+.custom-search-bar button {
+    font-size: 12px;
+    border-radius: 0;
+    transform: translate(0px, 1px);
+}
+/*****/
+.task-orientation {
+    display: flex;
+    align-items: center;
+    padding:8px;
+    gap: 8px;
+}
+.task-actions{
+    flex: 10%;
+}
+.task-tag {
+    flex: 10%;
+    display: flex;
+    justify-content: center;
+    margin-right: 10px;
+}
+.job-batch { color: #FE5DA1; background: #FFEAF3;}
+.interview-batch{color: #3B7B7B;background: #E2ECED;}
+.call-batch{color: #C629FC;background: #F8E1FE;}
+.email-batch{color: #99A458;background: #F0F3D6;}
+
+.task-details {
+    flex: 80%;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+.task-tag .task-batch {
+    text-align: center;
+    margin: 0;
+    padding: 3px 20px;
+    border-radius: 10px;
+    min-width: 96px;
+}
+.tfxt-row .task-title-bold {
+    font-weight: 500;
+    margin: 0;
+    font-size: 16px;
+}
+.tfxt-row .todo-batch {
+    margin: 0 8px;
+    text-transform: uppercase;
+    padding: 3px 8px;
+    border: 1px solid #0067FC;
+    border-radius: 12px;
+    font-size: 10px;
+    background: #EEF1F6;
+}
+.tfxb-row .task-info {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    gap: 14px;
+}
+.task-info .info-title, .task-info .info-decs {
+    margin: 0;
+}
+.task-info li {
+    position: relative;
+}
+.task-info li:after {
+    position: absolute;
+    content: "";
+    border-right: 2px solid #ccc;
+    height: 20px;
+    right: -8px;
+}
+.task-info li:last-child:after{
+    border:0px;
+}
+.task-actions {
+    display: flex;
+    justify-content: flex-end;
+    padding: 0 20px 0 0;
+}
+.classic-btns {
+    display: flex;
+    gap: 13px;
+    align-items: center;
+    justify-content: center;
+}
+.edit-btn {
+    padding: 5px 8px;
+    background: #EAF0FE;
+    text-align: center;
+    border-radius: 35px;
+    cursor: pointer;
+    color: #003DF2;
+}
+.delete-btn{
+    padding: 5px 10px;
+    background: #FFEAEC;
+    text-align: center;
+    border-radius: 35px;
+    cursor: pointer;
+    color: #FF5353;
+}
+.task-list {
+    margin-top: 15px;
+    margin-bottom:0px;
+}
+/***Modal***/
+.pophead {
+    display: flex;
+}
+.taskmanager-container {
+    display: block;
+}
+.pophead .modal-title {
+    width: 80%;
+    font-size: 16px;
+}
+.pophead .right-ele {
+    width: 20%;
+    display: flex;
+    gap: 10px;
+}
+#editTask .modal-header {
+    width: 100%;
+    flex: 100%;
+    display: block;
+}
+.pop-type .task-batch {
+    min-width: 70px;
+    text-align: center;
+    padding: 4px 0;
+    border-radius: 15px;
+}
+.pop-selector select {
+    border-radius: 14px;
+    padding: 3px 5px;
+    color: #0068ff;
+    border-color: #0068ff;
+}
+.lower-set {
+    margin-top: 20px;
+}
+.editForm {
+    margin: 0 !important;
+    width: 100%;
+    display: block;
+}
+.select-input .select2 {
+    width: 100% !important;
+}
+.selector-view .select-input {
+    padding: 0 5px 0 0;
+}
+.checkmark-ls {
+    width: 100%;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    margin: 5px 0;
+}
+.checkmark-ls .check-element {
+    flex: 1 1 auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+}
+label.check-label {
+    margin: 0;
+}
+.search-selector .select2-container, .status-tab .select2-container {
+    width: 100% !important;
+}
+.selector-view {
+    padding: 0 10px;
+}
+.selector-view .select-input:last-child {
+    padding-right: 0;
+}
+.submit-btn {
+    display: flex;
+    justify-content: flex-end;
+}
+.req-msg-poz,.valid-sec-last,.valid-last,.valid-third-last {position: relative;}
+.req-msg-poz .parsley-errors-list {
+    position: absolute;
+    bottom: -14px;
+    left: -53px;
+}
+.valid-third-last .parsley-errors-list {
+    left: 0;
+    bottom: -30px;
+    position: absolute;
+}
+.valid-sec-last .parsley-errors-list {
+    position: absolute;
+    left: 10px;
+    bottom: -19px;
+}
+.valid-last .parsley-errors-list {
+    position: absolute;
+    left: 8px;
+    bottom: -19px;
+}
+.ui-state-disabled {
+    background: #adadad !important;
+}
+.select2-container--default .select2-selection--multiple .select2-selection__choice {
+    position: relative;
+    margin-top: 5px;
+    margin-right: 4px;
+    padding: 3px 10px 3px 20px;
+    border-color: transparent;
+    border-radius: 0;
+    background-color: #0068ff;
+    color: #ffffff;
+    line-height: 1.45;
+}
+
+.assignee_user_n{
+    color: #0068ff;
+}
+.font_w_b{
+    font-weight: 500;
+}
+.task_details_view .modal-header {
+    display: unset;
+}
+.task_details_view .pop-type,.task_details_view .pop-selector{
+    float: left;
+}
+.btn_re_m_task{
+    color: #ffffff;
+    background-color: #0068ff;
+    border-color: #0068ff;
+    border-radius: 10px;
+    font-size: 14px;
+    text-align: center;
+    padding: 5px 10px;
+    border: none;
+}

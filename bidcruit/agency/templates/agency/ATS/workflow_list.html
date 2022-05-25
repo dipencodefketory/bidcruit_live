@@ -1,0 +1,126 @@
+{% extends 'agency/base.html' %}
+{% load static %}
+{% block title %}Workflow List{% endblock %}
+{% block css %}
+	<link href="{% static 'assets/css/ATS/workflow_list.css' %}" rel="stylesheet">
+{% endblock %}
+{% block main %}
+
+			<!-- Main-content-body -->
+			<div class="main-content-body">
+
+				<div class="row row-sm">
+					<div class="col-xl-12">
+						<div class="card workflow_list_main_section mg-b-0">
+							<div class="card-header pb-0">
+								<div class="d-flex justify-content-between">
+									<h4 class="card-title mg-b-0">Workflow List</h4>
+									<div class="candidate_right_filters_section">
+										<div class="workflow_list_add_btn">
+											{% if Add %}
+											<a class="btn btn-add-list btn-block" href="{% url 'agency:create_workflow' %}">Add New</a>
+											{% endif %}
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="card-body">
+								{% if stage %}
+									{% for workflow in stage %}
+										<div class="workflow_list_section">
+											<div class="workflow_recruitment_title">
+												<div class="recruitment_name">{{workflow.workflow_name}}</div>
+												<div class="edit_delete_action">
+													{% if not workflow.is_configured %}
+                                                        <a href="{% url 'agency:workflow_configuration' workflow.workflow_id %}" id="configure-workflow"><i class="fas fa-sliders-h"></i></a>
+                                                    {%else%}
+														{% if Edit %}
+															<a href="{% url 'agency:edit_workflow' workflow.workflow_id %}" id="edit-workflow"><i class="fas fa-edit"></i></a>
+														{% endif %}
+															<a href="{% url 'agency:workflow_view' workflow.workflow_id %}" id="view-workflow"><i class="fas fa-eye"></i></a>
+                                                    {% endif %}
+												</div>
+											</div>
+
+											<div class="list_workflow_box">
+												<ul class="workflow_round_list">
+													{% for stage in workflow.stages %}
+													<li>{{stage}}</li>
+													{% endfor %}
+												</ul>
+											</div>
+										</div>
+									{% endfor %}
+								{% else %}
+									<center>No Workflow Created</center>
+								{% endif %}
+<!--								<div class="workflow_list_section">-->
+<!--									<div class="workflow_recruitment_title">-->
+<!--										<div class="recruitment_name">Java Recruitment Workflow</div>-->
+<!--										<div class="edit_delete_action">-->
+<!--											<a href=""><i class="fas fa-edit"></i></a>-->
+<!--											<a href=""><i class="fas fa-trash-alt"></i></a>-->
+<!--										</div>-->
+<!--									</div>-->
+<!--									<div class="list_workflow_box">-->
+<!--										<ul class="workflow_round_list">-->
+<!--											<li>Prerequisites</li>-->
+<!--											<li>JCR</li>-->
+<!--											<li>Mcq Round 1</li>-->
+<!--											<li>Coding Test</li>-->
+<!--											<li>CEO Round</li>-->
+<!--										</ul>-->
+<!--									</div>-->
+<!--								</div>-->
+
+<!--								<div class="workflow_list_section">-->
+<!--									<div class="workflow_recruitment_title">-->
+<!--										<div class="recruitment_name">Java Recruitment Workflow</div>-->
+<!--										<div class="edit_delete_action">-->
+<!--											<a href=""><i class="fas fa-edit"></i></a>-->
+<!--											<a href=""><i class="fas fa-trash-alt"></i></a>-->
+<!--										</div>-->
+<!--									</div>-->
+<!--									<div class="list_workflow_box">-->
+<!--										<ul class="workflow_round_list">-->
+<!--											<li>Prerequisites</li>-->
+<!--											<li>JCR</li>-->
+<!--											<li>Mcq Round 1</li>-->
+<!--											<li>Coding Test</li>-->
+<!--											<li>CEO  123</li>-->
+<!--											<li>CEO </li>-->
+<!--											<li>Prerequisites</li>-->
+<!--											<li>JCR</li>-->
+<!--											<li>Mcq Round 1</li>-->
+<!--											<li>Coding Test</li>-->
+<!--											<li>CEO  123</li>-->
+<!--											<li>CEO </li>-->
+<!--										</ul>-->
+<!--									</div>-->
+<!--								</div>-->
+							</div>
+						</div>
+					</div>
+					<!--/div-->
+				</div>
+
+			</div>
+			<!-- Main-content-body closed -->
+{% endblock %}
+
+{% block script %}
+		<script>
+            var e = document.querySelectorAll(".workflow_list_section");
+            for(i=0;i<= e.length;i++) {
+                var color = ["#00AFC7","#FF523A","#FFBB05","#9EBF00","#33546C","#000000","#00AFC7","#FF523A","#FFBB05","#9EBF00","#33546C","#000000"];
+                var color_c =0;
+                $(e[i]).find(".workflow_round_list li").each(function(){
+                    $(this).css("background-color", color[color_c]);
+                    var styleElem = document.body.appendChild(document.createElement("style"));
+                    var color_index = color_c + 1;
+                    styleElem.innerHTML = "ul.workflow_round_list li:nth-child("+color_index+"):after {border-left-color: "+color[color_c]+";}";
+                    color_c++;
+                });
+            }
+        </script>
+{% endblock %}

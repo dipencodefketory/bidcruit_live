@@ -1,0 +1,263 @@
+{% extends 'agency/base.html' %}
+{% load static %}
+{% load custom_filters %}
+{% block title %}Descriptive Edit {% endblock %}
+{% block css %}
+
+    <link href="{% static 'assets/css/ATS/exam_view.css' %}" rel="stylesheet">
+ <!-- Internal Data table css -->
+    <link href="{% static 'assets/plugins/datatable/css/dataTables.bootstrap4.min.css' %}" rel="stylesheet" />
+    <link href="{% static 'assets/plugins/datatable/css/buttons.bootstrap4.min.css' %}" rel="stylesheet">
+    <link href="{% static 'assets/plugins/datatable/css/responsive.bootstrap4.min.css' %}" rel="stylesheet" />
+    <link href="{% static 'assets/plugins/datatable/css/jquery.dataTables.min.css' %}" rel="stylesheet">
+    <link href="{% static 'assets/plugins/datatable/css/responsive.dataTables.min.css' %}" rel="stylesheet">
+    <link href="{% static 'assets/plugins/select2/css/select2.min.css' %}" rel="stylesheet">
+    {% endblock %}
+
+    {% block main %}
+
+                <!-- Main-content-body -->
+                <div class="main-content-body">
+
+                    <!-- row -->
+                    <div class="row row-sm ">
+                        <div class="col-12">
+                            <div class="card audiencemetric">
+                                <div class="card-header exam-view-header">
+                                    <h2>Java MCQ TEST</h2>
+                                    <div class="search-page">
+                                        <div class="input-group">
+                                            <span class="input-group-append">
+                                                <button class="btn ripple" type="button"><i
+                                                        class="fa fa-search"></i></button>
+                                            </span>
+                                            <input type="text" class="form-control border-left-0 pl-3" id="mcqsearch" placeholder="Search Template">
+                                        </div>
+                                    </div>
+                                </div>
+                                {% csrf_token %}
+                                <div class="card-body">
+                                    <div class="main-content-body-profile exam-view">
+                                        <div class="question-timing">
+                                            {%if exam_template.question_wise_time %} {% else %}<h4>Question Time : 1 min</h4>{% endif %}
+                                        </div>
+                                        <!-- <nav class="nav main-nav-line">
+                                            <a class="nav-link d-flex  active" data-toggle="tab" href="#basic">Basic</a>
+                                            <a class="nav-link d-flex " data-toggle="tab" href="#advance">advance</a>
+                                        </nav> -->
+                                        <div>
+                                            <div>
+                                                <div class="card-body pl-0 pl-0">
+                                                    <div class="table-responsive">
+                                                        <div class="template_question_status">
+                                                            <h3>Total Count : {{exam_template.total_question}}</h3>
+                                            
+                                                        </div>
+                                                        <table class="table text-md-nowrap candidate_table">
+                                                            <thead>
+                                                                <tr style="display: none;">
+                                                                    <th class="border-bottom-0">Job Title</th>
+
+                                                                </tr>
+
+                                                            </thead>
+                                                            <tbody>
+                                                                {%for i in basic_questions%}
+                                                                <tr class="template_question_list selection_q_view_c odd" role="row">
+                                                                    <td id="ques-li{{i.id}}" class="sorting_1">
+                                                                        <div class="slide-list row row-sm card mb-0">
+                                                                            <div class="title-section col-12">
+                                                                                <div class="info-section fx-row">
+                                                                                    <div class="fx-col-sm left-side">
+                                                                                        <label class="tab-counter-label">{{forloop.counter}}</label>
+                                                                                       
+                                                                                    </div>
+                                                                                   
+                                                                                </div>
+                                                                                <div class="short-details description_desc">
+                                                                                    <div class="para-description">
+                                                                                        {% autoescape off %}{{i.paragraph_description}}{% endautoescape %}
+                                                                                    </div>          
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="select_q_book">
+                                                                                <div class="info-section fx-row">
+                                                                                    
+                                                                                    <div class="fx-col-sm right-side">
+                                                                                        
+                                                                                        <label class="ckbox">Select <input class="select-que" id="markscheck{{i.id}}" value="{{i.id}}" name="viewcheck" type="checkbox" ><span></span></label>
+                                                                                        
+                                                                                    </div>
+                                                                                    
+                                                                                </div>
+                                                                                <div class="mark_time_input">
+                                                                                     <input id="markinput{{i.id}}" class="form-control ml-0 viewmarks mb-2" required="true" type="text" placeholder="Enter Marks">
+                                                                               
+                                                                                    <input id="timeinput{{i.id}}" class="form-control ml-0 viewtimes" minlength="5" maxlength="5" name="total_time" onkeypress="formatTime(this)" placeholder="HH:MM" required="true"> 
+                                                                                </div>
+
+                                                                             </div>
+                                                                        </div>
+                                                                    </td>
+                                                                </tr>
+                                                                {%endfor%}
+
+
+
+
+
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                    <button name="submit" class="btn btn-primary add-exam-que submit_cut_btn">Submit</button>
+                                </div>
+
+                            </div>
+
+                        </div>
+                    </div>
+                    <!-- row -->
+                </div>
+                <!-- Main-content-body closed -->
+            </div>
+            <!-- Container-fluid closed -->
+            {% endblock %}
+
+            {% block script %}
+    <!-- Internal Data tables -->
+    <script src="{% static 'assets/plugins/datatable/js/jquery.dataTables.min.js' %}"></script>
+    <script src="{% static 'assets/plugins/datatable/js/dataTables.dataTables.min.js' %}"></script>
+    <script src="{% static 'assets/plugins/datatable/js/dataTables.responsive.min.js' %}"></script>
+    <script src="{% static 'assets/plugins/datatable/js/responsive.dataTables.min.js' %}"></script>
+    <script src="{% static 'assets/plugins/datatable/js/jquery.dataTables.js' %}"></script>
+    <script src="{% static 'assets/plugins/datatable/js/dataTables.bootstrap4.js' %}"></script>
+    <script src="{% static 'assets/plugins/datatable/js/dataTables.buttons.min.js' %}"></script>
+    <script src="{% static 'assets/plugins/datatable/js/buttons.bootstrap4.min.js' %}"></script>
+    <script src="{% static 'assets/plugins/datatable/js/jszip.min.js' %}"></script>
+    <script src="{% static 'assets/plugins/datatable/js/pdfmake.min.js' %}"></script>
+    <script src="{% static 'assets/plugins/datatable/js/vfs_fonts.js' %}"></script>
+    <script src="{% static 'assets/plugins/datatable/js/buttons.html5.min.js' %}"></script>
+    <script src="{% static 'assets/plugins/datatable/js/buttons.print.min.js' %}"></script>
+    <script src="{% static 'assets/plugins/datatable/js/buttons.colVis.min.js' %}"></script>
+    <script src="{% static 'assets/plugins/datatable/js/dataTables.responsive.min.js' %}"></script>
+    <script src="{% static 'assets/plugins/datatable/js/responsive.bootstrap4.min.js' %}"></script>
+
+    <!-- datatable js -->
+    <script src="{% static 'assets/js/table-data.js' %}"></script>
+
+    <!--- Internal Vector-sampledata js -->
+    <script src="{% static 'assets/js/jquery.vmap.sampledata.js' %}"></script>
+   <script>
+    $(document).ready(function(){
+        var None = ""
+        var questions = {};
+        var selected_question_buffer = [] //used as a mid point to store questions temporarily
+        var question_remove_buffer = [] // used to store deselected questions which will be updated on tab change
+        var selected_questions =[]
+        var selected_questions_count = 0
+
+        var exam_question_units = {{exam_paper|get_descriptive_question_units|safe}};
+        var basic_selected_questions = parseInt("{{exam_template.total_question}}")
+        var basic_question_needed = parseInt("{{exam_template.total_question}}")
+        questions = exam_question_units
+        $.each(exam_question_units,function(index){
+                console.log("quesrtion",questions[index])
+                console.log("index",index)
+                $("#markscheck"+index).prop("checked",true)
+
+                    $("#timeinput"+index).val(questions[index][1])
+                    $("#timeinput"+index).show()
+
+                    $("#markinput"+index).val(questions[index][0])
+                    $("#markinput"+index).show()
+
+            })
+
+
+        $(document).on("click","input[name=viewcheck]",function(e){
+                var id = this.value;
+                console.log(this,"----------------------->",questions)
+                if ($(this).prop('checked') == true) {
+                    $('#markinput' + id).show();
+                    $('#timeinput' + id).show();
+                    var mark_div = $("#markscheck"+id).closest(".mark-group")
+                    console.log("mark div here",mark_div)
+                    $("#ques-li"+id).addClass("question-selected")
+                    add_question_to_list(mark_div)
+                    selected_question_buffer.push(id)
+                    update_difficulty_variable(this,1)
+                } else {
+                    $('#markinput' + id).hide();
+                    $('#timeinput' + id).hide();
+                    $("#ques-li"+id).removeClass("question-selected")
+                    delete questions[id]
+                    question_remove_buffer.push(id)
+                    update_difficulty_variable(this,-1)
+                }
+                console.log("woooooooooooooooow")
+                console.log("questionsssss",questions)
+            });
+            $(document).on("change",".viewmarks,.viewtimes",function(){
+                var mark_group = $(this).closest(".mark-group")
+                console.log("this value is",mark_group)
+                // var question_id = mark_group.find("[name='viewcheck']").val()
+                add_question_to_list(mark_group)
+                // var question_marks = mark_group.find(".viewmarks").val()
+                // var question_time = mark_group.find(".viewtimes").val()
+                // questions[question_id] = [question_marks,question_time]
+                // console.log("all_questions",questions)
+            })
+            function add_question_to_list(mark_group)
+        {
+            // var mark_group = $("markinput"+question_id).closest(".mark-group")
+            var question_id = mark_group.find("[name='viewcheck']").val()
+            var question_marks = mark_group.find(".viewmarks").val()
+            var question_time = mark_group.find(".viewtimes").val()
+            console.log("i ma right here",questions)
+            questions[question_id] = [question_marks,question_time]
+            console.log("question added to list")
+        }
+        $('.add-exam-que').click(function(){
+        if(basic_question_needed != basic_selected_questions)
+        {
+            alert(" select exactly " +basic_question_needed + "question/s in total")
+            return false
+        }
+        console.log("form questions areies",questions)
+            $.ajax({
+                url:"/agency/descriptive_exam_edit/" + "{{exam_template.template.id}}/",
+                method:"POST",
+                headers: {"X-CSRFToken":$("input[name=csrfmiddlewaretoken]").val()},
+                data:JSON.stringify(questions)
+            }).done(function(response){
+                window.location.replace("/agency/descriptive_template_view/" + "{{exam_template.template.id}}")
+            })
+        });
+        function update_difficulty_variable(input_element,delta)
+        {
+            basic_selected_questions += delta
+            console.log("basiiic",basic_selected_questions)
+        }
+    })
+    function formatTime(timeInput) {
+          intValidNum = timeInput.value;
+          if (intValidNum < 60 && intValidNum.length == 2) {
+              timeInput.value = timeInput.value + ":";
+              return false;
+          }
+          if (intValidNum == 60 && intValidNum.length == 2) {
+              timeInput.value = timeInput.value.length - 2 + "0:";
+              return false;
+          }
+          if (intValidNum > 60 && intValidNum.length == 2) {
+              timeInput.value = "";
+              return false;
+          }
+        }
+    </script>
+{% endblock %}

@@ -1,0 +1,427 @@
+{%load static%}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+<title>Editor ~ Real-time, responsive HTML/CSS/JS code editor</title>
+
+<!--general meta information-->
+<meta charset="utf-8">
+<meta name="author" content="Mark Hillard">
+<meta name="description" content="Editor is a responsive HTML/CSS/JS code editor that renders what you type in real-time.">
+<meta name="keywords" content="html, css, javascript, jquery, code, editor, real-time, responsive">
+
+<!--favicons-->
+<link rel="apple-touch-icon" sizes="180x180" href="/static/assets/front_end_editor/favicons/apple-touch-icon.png?v=4">
+<link rel="icon" type="image/png" sizes="32x32" href="/static/assets/front_end_editor/favicons/favicon-32x32.png?v=4">
+<link rel="icon" type="image/png" sizes="16x16" href="/static/assets/front_end_editor/favicons/favicon-16x16.png?v=4"> 
+ <link rel="manifest" href="/static/assets/front_end_editor/favicons/site.webmanifest?v=4">
+<link rel="mask-icon" href="/static/assets/front_end_editor/favicons/safari-pinned-tab.svg?v=4" color="#282a36">
+<link rel="shortcut icon" href="/static/assets/front_end_editor/favicons/favicon.ico?v=4">
+<meta name="msapplication-TileColor" content="#282a36">
+<meta name="msapplication-config" content="/static/assets/front_end_editor/favicons/browserconfig.xml?v=4">
+<meta name="theme-color" content="#282a36">
+
+<!--font styles-->
+<link rel="stylesheet prefetch prerender" href="https://cdn.rawgit.com/tonsky/FiraCode/1.206/distr/fira_code.css" data-noprefix>
+<link rel="stylesheet prefetch prerender" href="https://fonts.googleapis.com/css?family=Source+Code+Pro:400,700" data-noprefix>
+
+<!--jquery ui styles-->
+<link rel="stylesheet" href="{% static 'assets/front_end_editor/css/jquery-ui.min.css' %}">
+<link rel="stylesheet" href="{% static 'assets/front_end_editor/css/jquery-ui.structure.min.css' %}">
+    <!-- Bootstrap css -->
+    <link rel="stylesheet" href="{% static 'assets/plugins/bootstrap/css/bootstrap.min.css' %}">
+<!--codemirror styles-->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/codemirror@latest/lib/codemirror.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/codemirror@latest/addon/fold/foldgutter.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/codemirror@latest/addon/scroll/simplescrollbars.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/codemirror@latest/addon/lint/lint.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/codemirror@latest/theme/dracula.css">
+
+<!--requried styles-->
+<link rel="stylesheet" href="{% static 'assets/front_end_editor/css/styles.css' %}">
+
+
+<!--html5 shiv-->
+<!--[if lt IE 9]><script src="{% static 'assets/front_end_editor/js/html5shiv-printshiv.min.js"></script><![endif]-->
+
+
+
+<!--loading indicator-->
+<!--<script>-->
+<!--    document.onreadystatechange = function () {-->
+<!--        var state = document.readyState;-->
+<!--        if (state === 'interactive') {-->
+<!--            document.getElementById('wrapper').style.visibility = 'hidden';-->
+<!--        } else if (state === 'complete') {-->
+<!--            setTimeout(function () {-->
+<!--                document.getElementById('wrapper').style.visibility = 'visible';-->
+<!--                document.getElementById('load').style.opacity = '0';-->
+<!--                document.querySelector('.lds-ellipsis').style.visibility = 'hidden';-->
+<!--            }, 350);-->
+<!--            -->
+<!--            setTimeout(function () {-->
+<!--                document.getElementById('load').style.visibility = 'hidden';-->
+<!--            }, 650);-->
+<!--        }-->
+<!--    }-->
+<!--</script>-->
+<!-- Bootstrap css -->
+<script src="{% static 'assets/plugins/jquery/jquery.min.js' %}"></script>
+<script src="{% static 'assets/plugins/bootstrap/js/bootstrap.min.js' %}"></script>
+
+<script src="{% static 'assets/front_end_editor/js/prefixfree.min.js' %}"></script>
+
+
+<script src="{% static 'assets/front_end_editor/js/jquery-ui.min.js' %}"></script>
+<script src="https://cdn.jsdelivr.net/npm/htmlhint@latest/lib/htmlhint.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/csslint@latest/dist/csslint.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jshint@latest/dist/jshint.js"></script>
+
+<!--codemirror main-->
+<script src="https://cdn.jsdelivr.net/npm/codemirror@latest/lib/codemirror.min.js"></script>
+
+<!--codemirror modes-->
+<script src="https://cdn.jsdelivr.net/npm/codemirror@latest/mode/xml/xml.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/codemirror@latest/mode/htmlmixed/htmlmixed.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/codemirror@latest/mode/css/css.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/codemirror@latest/mode/javascript/javascript.min.js"></script>
+
+<!--codemirror addons-->
+<script src="https://cdn.jsdelivr.net/npm/codemirror@latest/addon/fold/xml-fold.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/codemirror@latest/addon/fold/foldcode.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/codemirror@latest/addon/fold/foldgutter.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/codemirror@latest/addon/fold/brace-fold.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/codemirror@latest/addon/edit/matchtags.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/codemirror@latest/addon/edit/matchbrackets.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/codemirror@latest/addon/edit/closetag.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/codemirror@latest/addon/edit/closebrackets.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/codemirror@latest/addon/edit/trailingspace.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/codemirror@latest/addon/scroll/simplescrollbars.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/codemirror@latest/addon/selection/active-line.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/codemirror@latest/addon/comment/comment.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/codemirror@latest/addon/lint/lint.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/codemirror@latest/addon/lint/html-lint.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/codemirror@latest/addon/lint/css-lint.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/codemirror@latest/addon/lint/javascript-lint.min.js"></script>
+
+<!--codemirror keymap-->
+<script src="https://cdn.jsdelivr.net/npm/codemirror@latest/keymap/sublime.min.js"></script>
+
+<!--twitter typeahead-->
+<script src="{% static 'assets/front_end_editor/js/typeahead.bundle.min.js' %}"></script>
+
+<!--file saver-->
+<script defer src="{% static 'assets/front_end_editor/js/Blob.min.js' %}"></script>
+<script defer src="{% static 'assets/front_end_editor/js/FileSaver.min.js' %}"></script>
+
+<!--font awesome-->
+<script src="https://kit.fontawesome.com/b4c06aa200.js"></script>
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.min.css" integrity="sha256-9mbkOfVho3ZPXfM7W8sV2SndrGDuh7wuyLjtsWeTI1Q=" crossorigin="anonymous" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.min.js" integrity="sha256-t8GepnyPmw9t+foMh3mKNvcorqNHamSKtKRxxpUEgFI=" crossorigin="anonymous"></script>
+
+<style>
+    .code-header {display: flex;justify-content: space-between;align-items: center;padding: 15px 5px;background: #007bff;}
+    .code-edit__head {background: #fff;display: flex;justify-content: space-between;align-items: center;padding: 8px 6px;border-radius: 7px;}
+    .head__container {padding: 16px 10px;}
+    .exam-prompt { display: flex; justify-content: flex-start; align-items: baseline;}
+    #countdown2 {font-size: 18px; font-weight: 600;}
+    h2{font: 14px Arial, sans-serif;color:#fff;padding: 10px; text-align: center;}
+#question-content button {
+    border: none;
+    border-radius: 20px;
+    padding: 5px 10px;
+    margin-right: 5px;
+    font-weight: 700;
+}
+.paginate-btn{
+    color:white;
+}
+.fx-right {
+    display: flex;
+    justify-content: flex-start;
+    background: #000;
+    color:white;
+    padding: 0 10px;
+}
+#question-content button:focus {
+    border: none;
+    outline: 0;
+}
+.active-que{
+    background: green;
+    color: #fff;
+}
+.fx-right #question-content {
+    width: 30% !important;
+    /*flex: 1 1 auto;*/
+}
+.fx-right #site-content {
+    width: 70%;
+    /*flex: 1 1 auto;*/
+}
+ 
+</style>
+</head>
+
+<body>
+
+    {%csrf_token%}
+
+    <div class="container-fluid">
+        <div class="fx-left">
+                <div style="background-color: black;" class="bidcruitEditor">
+                        <div class="code-header">
+                            <div class="head-logo">
+                                <img src="{% static 'assets/img/brand/bid-logo-white.png' %}">
+                            </div>
+                            <div class="nav-list">
+                                <button class="quit-exam btn btn-danger rounded-20 text-capitalize" id="quitExamBtn"><i class="fas fa-power-off"></i>quit exam</button>
+                            </div>
+                        </div>
+                        {%csrf_token%}
+                        <div class="head__container">
+                            <div class="code-edit__head">
+                                <div class="action__btns">
+                                    <button id="run-btn" class="ui primary labeled icon button run-script"><i class="play icon"></i>Run </button>
+                                </div>
+                                <div class="timer">
+                                    <div class="quickClock">
+                                        <div id="countdown2"></div>
+                                    </div>
+                                </div>
+                                <div class="submit-code__section">
+                                    <button type="button" class="btn btn-success rounded-20" id="submitExam">submit</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Modal -->
+                        <div class="modal fade" id="confirmationModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                              <div class="modal-dialog" role="document">
+                                    <div class="modal-content">
+                                          <div class="modal-header">
+                                            <h5 class="modal-title" id="exampleModalLabel">Confirmation</h5>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                              <span aria-hidden="true">&times;</span>
+                                            </button>
+                                          </div>
+                                          <div class="modal-body">
+                                            Are you sure you want to end the exam?
+                                          </div>
+                                          <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">No,I am not done yet.</button>
+                                            <button type="button" class="btn btn-primary" onclick="save_code()" >Finish Exam</button>
+                                          </div>
+                                    </div>
+                              </div>
+                        </div>
+                </div>
+            </div>
+        <div class="fx-right">
+            <div id="wrapper">
+                <section id="utils">
+
+                    <div class="code-swap">
+                        <span class="toggle-view">view<span class="fas fa-fw fa-chevron-down"></span></span>
+                        <span class="code-swap-html active" href="#">HTML</span>
+                        <span class="code-swap-css" href="#">CSS</span>
+                        <span class="code-swap-js" href="#">JS</span>
+                        <span class="toggle-preview" href="#">preview<span class="fas fa-fw fa-eye"></span></span>
+                    </div>
+                    <div class="font-size">
+                        <label class="fa-layers fa-fw" for="fs">
+                            <span class="fas fa-font"></span>
+                            <span class="fas fa-percent" data-fa-transform="shrink-7 up-2 right-12"></span>
+                        </label>
+                        <input id="fs" type="number" min="50" max="200" value="100">
+                    </div>
+
+                    <div class="code-tools">
+                        <span class="toggle-tools">tools<span class="fas fa-fw fa-chevron-down"></span></span>
+                        <span class="toggle-lineWrapping html">wrap<span class="fas fa-fw fa-toggle-off"></span></span>
+                        <span class="toggle-lineWrapping css">wrap<span class="fas fa-fw fa-toggle-off"></span></span>
+                        <span class="toggle-lineWrapping js">wrap<span class="fas fa-fw fa-toggle-off"></span></span>
+                        <span class="reset-editor">reset<span class="fas fa-fw fa-undo-alt"></span></span>
+                        <span class="clear-editor">clear<span class="fas fa-fw fa-eraser"></span></span>
+                        <span class="save">save<span class="fas fa-fw fa-file-download"></span></span>
+                    </div>
+                    <div class="cdnjs-search">
+                        <input class="query" type="text" placeholder="cdnjs...">
+                    </div>
+                </section>
+                <section id="editor">
+                    <div id='question-content' class="" style="width: 40%;float: left;">
+                        {% for i in question_no_iterator %}
+                            <button class="paginate-btn {% if forloop.first %}active-que{% endif %}" onclick="update_selected_question('{{i}}')">{{i|add:"1"}}</button>
+                        <!-- <span class="code-swap-current-question" href="#" onclick="update_selected_question('{{i}}')">{{i|add:"1"}}</span> -->
+                        {% endfor %}
+                        <div id="question_title_box"></div>
+                        <div id="question_description_box"></div>
+                    </div>
+                    <div class="code-pane" style="width:40%; float: right;">
+                        <div class="code-pane-html">
+                            <textarea id="htmlcode" name="htmlcode"></textarea>
+                        </div>
+                        <div class="code-pane-css">
+                            <textarea id="csscode" name="csscode"></textarea>
+                        </div>
+                        <div class="code-pane-js">
+                            <textarea id="jscode" name="jscode"></textarea>
+                        </div>
+                    </div>
+                    <div class="preview-pane">
+                        <iframe id="preview" name="preview" width="30%" src="{% url 'candidate:preview' %}" sandbox="allow-forms allow-modals allow-pointer-lock allow-popups allow-same-origin allow-scripts" allowfullscreen="true" allowtransparency="true" allowpaymentrequest="true"></iframe>
+                        <span class="preview-width"></span>
+                    </div>
+                </section>
+            </div>
+        </div>
+    </div>
+
+
+
+    {% autoescape off %}
+        <script type="text/javascript">
+            var mylist = {{coding_questions}};
+            console.log("my list",mylist)
+        </script>
+    {% endautoescape %}
+
+
+    <script src="{% static 'assets/front_end_editor/js/main.js' %}"></script>
+
+
+    <script>
+        var total_mins = parseInt('{{available_minutes}}');
+        var total_secs = parseInt('{{available_seconds}}');
+
+        countdown( "countdown2", total_mins, total_secs );
+
+        /**CountDown Timer**/
+        function countdown( elementName, minutes, seconds )
+        {
+            var element, endTime, hours, mins, msLeft, time;
+
+            function twoDigits( n )
+            {
+                return (n <= 9 ? "0" + n : n);
+            }
+
+            function updateTimer()
+            {
+                msLeft = endTime - (+new Date);
+                if ( msLeft < 1000 ) {
+
+                    element.innerHTML = "countdown's over!";
+
+                    document.querySelector("#submitExam").click();
+                } else {
+                    time = new Date( msLeft );
+                    hours = time.getUTCHours();
+                    mins = time.getUTCMinutes();
+                    element.innerHTML = (hours ? hours + ':' + twoDigits( mins ) : mins) + ':' + twoDigits( time.getUTCSeconds() );
+                    setTimeout( updateTimer, time.getUTCMilliseconds() + 500 );
+                }
+            }
+
+            element = document.getElementById( elementName );
+            endTime = (+new Date) + 1000 * (60*minutes + seconds) + 500;
+            updateTimer();
+        }
+        /** CountDown Timer end **/
+
+        function getQuestionList(){
+            return mylist;
+        }
+        let t_id = {{id}};
+        let job_id = {{job_id}};
+        function getTemplateId(){
+            return t_id;
+        }
+        function getJobId(){
+            return job_id;
+        }
+
+        var no_of_questions = parseInt(JSON.parse("{{no_of_questions}}"));
+        console.log("total questions",no_of_questions)
+        var active_question_index = 0
+
+        var html_codes = []
+        var css_codes = []
+        var js_codes = []
+        for(var i=0;i<no_of_questions;i++){
+            html_codes.push('');
+            css_codes.push('');
+            js_codes.push('');
+        }
+
+        function update_selected_question(question_index)
+        {
+            document.querySelector("#question_description_box").innerHTML = mylist[question_index].description
+            document.querySelector("#question_title_box").innerHTML = mylist[question_index].title
+
+            var html_code = localStorage.getItem("htmlcode")
+            var css_code = localStorage.getItem("csscode")
+            var js_code = localStorage.getItem("jscode")
+
+            html_codes[active_question_index] = html_code
+            css_codes[active_question_index] = css_code
+            js_codes[active_question_index] = js_code
+
+            active_question_index = question_index
+
+            var updated_html_code = html_codes[question_index]
+
+            if(typeof(updated_html_code)=='undefined')
+            {
+                document.getElementsByClassName('reset-editor')[0].click()
+            }
+            else{
+                html_editor.setValue(html_codes[question_index])
+                css_editor.setValue(css_codes[question_index])
+                js_editor.setValue(js_codes[question_index])
+
+                updateFontSize(html_editor, fontSize.val());
+                updateFontSize(css_editor, fontSize.val());
+                updateFontSize(js_editor, fontSize.val());
+            }
+        }
+
+    </script>
+
+    <script>
+        if (window.performance) {
+                console.info("window.performance works fine on this browser");
+        }
+        if (performance.navigation.type == performance.navigation.TYPE_RELOAD) {
+            alert('page reload detected');
+            var stage_id = '{{stage_id}}';
+            var data = {'stage_id': stage_id}
+            var url = '/candidate/refresh_detect/' + stage_id;
+            console.log('url', url)
+            E.ajax({
+                url:url,
+                headers: {'X-CSRFToken': E("input[name=csrfmiddlewaretoken]").val() },
+                type:'POST',
+                contentType: 'application/json; charset=UTF-8',
+                data: JSON.stringify(data),
+                error: function (request, status, error) {
+                        alert(error);
+                }
+            }).done(function(response){
+                if(response == 'True'){
+                    window.location.replace("/candidate/applied_job_detail/" + "{{job_id}}"+"/company");
+                }
+            });
+        } else {
+            console.info( "This page is not reloaded");
+        }
+    </script>
+
+
+</body>
+</html>

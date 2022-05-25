@@ -1,0 +1,110 @@
+{% extends 'company/base.html' %}
+{% load static %}
+{% load custom_filters %}
+{% load candidate_extras %}
+{% block title %}Permission{% endblock %}
+{% block css %}
+		<link href="{% static 'assets/css/ATS/role_permission.css' %}" rel="stylesheet">
+{% endblock %}
+{% block main %}
+
+
+
+
+
+
+
+<div class="card main-content-body role_Permission_main">
+
+    <form method="POST">
+        {% csrf_token %}
+
+        <div class="row header-title__section">
+            <div class="col-lg-12 col-md-12 col-sm-12">
+                <div class="role_name_description">
+                    <div class="h5 p-3 m-0">Role & Permission</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row header-title__section">
+            <div class="col-lg-12 col-md-12 col-sm-12">
+                <div class="role_name_description">
+                    <div class="h5 pl-3">Role Name: </div>
+                    <input class="form-control rolename_input" maxlength="20" type="text" required name="role-name">
+                    <div class="h5 pl-3">Role description: </div>
+                    <textarea class="form-control rolename_dec" rows=1 required name="role-description"></textarea>
+                </div>
+            </div>
+        </div>
+
+        <div class="row row-sm">
+            <div class="col-md-12 col-xl-12 col-lg-12">
+                <div class="card-body pb-0">
+
+        {% for role_models in role_model %}
+
+            {% for role_datas in role_data  %}
+                {% if forloop.first %}
+
+                  <div class="row row-sm mg-t-10">
+                                    <div class=" col-lg-12 col-sm-12 col-xs-12">
+                    <label class="field-title">{{role_models.modelname}}</label>
+                    <div class="fxshift_row">
+                    <div class="fx-shift-col">
+                        <input type="checkbox" class="form-control" name="permissionall" data-id="{{role_models.id}}" data-name="All">
+                        <label class="label_name_title">All</label>
+                    </div>
+
+                {% endif %}
+
+                    {% ifequal role_datas.permissionsmodel.id role_models.id %}
+                    <div class="fx-shift-col">
+                        <input type="checkbox" class="form-control" name="permissionname" data-id="{{role_models.id}}" data-name="{{role_datas.permissionname}}" value="{{role_datas.id}}">
+                        <label class="label_name_title">{{role_datas.permissionname}}</label>
+                    </div>
+                    {% endifequal %}
+                {% if forloop.last %}
+                </div>
+                 </div>
+                  </div>
+                {% endif %}
+            {% endfor %}
+        {% endfor %}
+
+                </div>
+            </div>
+        </div>
+
+        <div class="submit_role_btn"><input type="submit" value="submit"></div>
+    </form>
+</div>
+
+
+
+
+
+
+{% endblock %}
+{% block script %}
+<script>
+    $(document).ready(function(){
+        $('input[type="checkbox"]').on('change',function(){
+            if($(this).data('name')=='All'){
+                if($(this).prop('checked')==true){
+                    var model_id  =$(this).data('id');
+                    $('[data-id="'+model_id+'"]').each(function(){
+                        $(this).prop('checked',true);
+                    })
+                }else{
+                    var model_id  =$(this).data('id');
+                    $('[data-id="'+model_id+'"]').each(function(){
+                        $(this).prop('checked',false);
+                    })
+                }
+            }
+        })
+    })
+</script>
+
+{% endblock %}

@@ -1,0 +1,572 @@
+{% load static %}
+{% load custom_filters %}
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<meta name='viewport' content='width=device-width, initial-scale=1.0, user-scalable=0'>
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="Description" content="">
+		<meta name="Author" content="">
+		<meta name="Keywords" content=""/>
+
+		<!-- Title -->
+		<title> Add Detail </title>
+
+		<!-- Favicon -->
+		<link rel="icon" href="{% static 'assets/img/brand/favicon.png' %}" type="image/x-icon"/>
+
+		<!-- Icons css -->
+		<link href="{% static 'assets/css/icons.css' %}" rel="stylesheet">
+
+		<!-- Style css -->
+		<link rel="stylesheet" type="text/css" media="all" href="{% static 'assets/css/style.css' %}">
+		<link href="{% static 'assets/plugins/select2/css/select2.min.css' %}" rel="stylesheet">
+
+		<!-- Horizontal css -->
+		<link href="{% static 'assets/css/horizontalmenu/horizontal-menu.css' %}" rel="stylesheet">
+
+        <!--apply job template css-->
+        <link href="{% static 'assets/css/ATS/apply_job_form.css' %}" rel="stylesheet">
+
+        <!-- Internal TelephoneInput css -->
+        <link rel="stylesheet" href="{% static 'assets/plugins/telephoneinput/telephoneinput.css' %}">
+        <link href="{% static 'assets/css/ATS/intlTelInput.css' %}" rel="stylesheet" type="text/css"/>
+        <link href="{% static 'assets/plugins/fileuploads/css/fileupload.css' %}" rel="stylesheet" type="text/css"/>
+
+        <!--add candidate custom css -->
+        <link href="{% static 'assets/css/ATS/add_candidate.css' %}" rel="stylesheet" type="text/css"/>
+
+	</head>
+
+	<body class="main-body candidate_invite_main_from">
+
+		<!-- Page -->
+		<div class="page">
+
+			<!-- Main-content -->
+			<div class="main-header main-header-fixed">
+				<div class="container">
+					<div class="main-header-left">
+						<a class="header-brand" href="https://bidcruit.com">
+							<img src="{% static 'assets/img/brand/bid-logo-white.png' %}" class="desktop-logo" id="change-image">
+						</a>
+					</div>
+					<div class="main-header-center">
+						<div class="responsive-logo">
+							<a href="https://bidcruit.com"><img src="{% static 'assets/img/brand/bid-logo-white.png' %}" class="mobile-logo" alt="logo"></a>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!-- Main-header closed -->
+
+			<!-- Main-content -->
+                <div class="main-content horizontal-content">
+                    <!-- Container-fluid -->
+                    <div class="container">
+
+                        <!-- Main-content-body -->
+                        <div class="main-content-body pt-3">
+                            <div class="row row-sm card">
+                                <div class="card-body">
+                                    <div class="col-12 candidate-job-template">
+<!--                                        <h2>Add Candidate</h2>-->
+<!--                                        <div class="border_line"></div>-->
+                                        <form class="job-new-form" name="add_candidate_form" id="formFeildsItems" enctype="multipart/form-data" method="POST" data-parsley-validate="">
+                                            {% csrf_token %}
+                                            <div class="row row-sm form-layout mg-t-30 mg-b-0">
+
+                                                <div class="form-group col-lg-4 col-md-6 col-sm-12 mb-2">
+                                                    <label class="feild-title text-capitalize required-label">first name:</label>
+                                                    <input type="text" name="f-name" value="" class="form-control input-feild fname" required="">
+                                                </div>
+                                                <div class="form-group col-lg-4 col-md-6 col-sm-12 mb-2">
+                                                    <label class="feild-title text-capitalize required-label">last name:</label>
+                                                    <input type="text" name="l-name" value="" class="form-control input-feild lname" required="">
+                                                </div>
+                                                <div class="form-group email-bar col-lg-4 col-md-6 col-sm-12 mb-2">
+                                                    <label class="feild-title text-capitalize required-label">email:</label>
+                                                    <div class="input-group email-input">
+                                                        <input
+                                                                aria-describedby="basic-addon2"
+                                                                name="email" id="registerInputemail"
+                                                                aria-label="Recipient's username"
+                                                                class="form-control input-feild email"
+
+                                                                placeholder="john@example.com"
+                                                                type="text">
+                                                    </div>
+                                                </div>
+                                                <div class="form-group col-lg-4 col-md-6 col-sm-12 mb-2">
+                                                    <label class="feild-title text-capitalize">Gender:</label>
+                                                    <ul class="group-gender">
+                                                        <li class="g-inputs">
+                                                            <input type="radio" class="g-input" value="male" name="gender" checked><label class="g-title text-capitalize">male</label>
+                                                        </li>
+                                                        <li class="g-inputs">
+                                                            <input type="radio" class="g-input" value="fmale" name="gender"><label class="g-title text-capitalize">female</label>
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                                <div class="form-group col-lg-4 col-md-6 col-sm-12 mb-2">
+                                                     <div class="mg-t-10 mg-sm-t-0">
+                                                        <div class="control-group form-group">
+                                                            <label class="form-label">Profile Picture:</label>
+                                                            <div class="add-inputfile-border">
+                                                                <input type="file" name="profile_pic" accept="image/*" class="dropify"  data-height="100">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group col-lg-4 col-md-6 col-sm-12 mb-2">
+                                                    <label class="feild-title text-capitalize required-label">resume:</label>
+                                                    <div class="input-group file-browser filebrowser_resume_add">
+                                                        <input type="text" value="" required class="browse-file form-control input-feild resume" readonly>
+                                                        <label class="input-group-btn">
+                                                            <span class="btn btn-default">
+                                                                Select File<input type="file" name="resume" required style="display: none;" accept="application/pdf">
+                                                            </span>
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group col-lg-4 col-md-6 col-sm-12 mb-2">
+                                                    <label class="feild-title text-capitalize required-label">contact number:</label>
+                                                    <input type="text" name="contact_num" value="" required class="form-control input-feild contact-num">
+                                                </div>
+                                                <div class="form-group col-lg-4 col-md-6 col-sm-12 mb-2">
+                                                    <label class="feild-title text-capitalize">Current City:</label>
+                                                    <select class="form-control current_cities" name="candidate_current_city" required>
+                                                        <option></option>
+                                                    </select>
+                                                </div>
+
+                                                <div class="form-group col-lg-4 col-md-6 col-sm-12 mb-2">
+                                                    <label class="feild-title text-capitalize">Job Title:</label>
+                                                    <input type="text" name="designation-input"  class="form-control input-feild designation-input" required>
+                                                </div>
+
+                                                <div class="form-group col-lg-4 col-md-6 col-sm-12 mb-2">
+                                                    <label class="feild-title text-capitalize">notice period:</label>
+                                                    <select name="professional-notice-period" class="form-control three-ls current-salary-val" required>
+                                                        <option label="Select Notice Period" disabled selected></option>
+                                                        {% for notice in notice_period %}
+                                                        <option value="{{notice.id}}">{{notice.notice_period}}</option>
+                                                        {% endfor %}
+                                                    </select>
+                                                </div>
+
+                                                <div class="form-group col-lg-4 col-md-6 col-sm-12 mb-2">
+                                                    <label class="feild-title text-capitalize">total experience:</label>
+                                                    <div class="fx-col__sm exp-inputbox">
+                                                        <div class="form-group col-lg-6 col-md-6 col-sm-12">
+                                                             <input type="number"
+                                                               name="professional-experience-year" placeholder="Year"
+                                                               class="form-control three-ls experiance-val" required min="0">
+                                                        </div>
+                                                        <div class="form-group col-lg-6 col-md-6 col-sm-12">
+                                                              <input type="number" name="professional-experience-month" placeholder="Month"
+                                                               class="form-control three-ls experiance-val" required min="0" max="11">
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group col-lg-4 col-md-6 col-sm-12 mb-2">
+                                                    <label class="feild-title text-capitalize">current CTC (Yearly):</label>
+                                                    <input type="number" name="ctc-input" value=""  class="form-control input-feild ctc-input" required min="0">
+                                                </div>
+                                                <div class="form-group col-lg-4 col-md-6 col-sm-12 mb-2">
+                                                    <label class="feild-title text-capitalize">expected CTC:</label>
+                                                    <input type="number" name="expected-ctc" value=""  class="form-control input-feild expected-ctc" required min="0">
+                                                </div>
+                                                <div class="form-group col-lg-4 col-md-6 col-sm-12 mb-2">
+                                                    <label class="feild-title text-capitalize">skills:</label>
+                                                    <select class="form-control skill-selector professionSkills"
+                                                                                    name="professional_skills"
+                                                                                    multiple="multiple" required></select>
+                                                </div>
+                                                <div class="form-group col-lg-4 col-md-6 col-sm-12 mb-2">
+                                                    <label class="feild-title text-capitalize">Preferred City:</label>
+                                                    <select class="form-control select2_cities"  name="candidate_search_city" multiple="multiple" required>
+                                                        <option></option>
+                                                    </select>
+                                                </div>
+                                            </div>
+
+                                            <div class="create_account_section row row-sm form-layout mg-t-30 mg-b-0">
+                                                <div class="form-group col-lg-4 col-md-6 col-sm-12 mb-2 create_account_check">
+                                                    <label class="feild-title text-capitalize required-label">Create your account:</label>
+                                                    <input type="checkbox" name="create_account" value="create_account" class="form-control">
+                                                </div>
+
+                                                <div class="form-group col-lg-4 col-md-6 col-sm-12 mb-2" id="Password_hide_show">
+                                                    <label class="feild-title text-capitalize required-label">Password:</label>
+                                                    <input type="password" id="password" name="password" class="form-control">
+                                                </div>
+                                                <div class="form-group col-lg-4 col-md-6 col-sm-12 mb-2" id="confirm_password_hide_show">
+                                                    <label class="feild-title text-capitalize required-label">Confirm Password:</label>
+                                                    <input type="password" name="confirm_password" class="form-control">
+                                                </div>
+                                            </div>
+                                            <div class="row row-sm bottom-action-tab">
+                                                <div class="col-12 flex-box-bottom">
+                                                    <div class="fxc-right btm-tab cus_line">
+                                                        <button type="submit" id="submitAjtForm" name="submit" class="rounded-20 btn btn-sm btn-primary custom_btn">Submit</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Main-content-body closed -->
+                    </div>
+                    <!-- Container-fluid closed -->
+                </div>
+			<!-- Main-content closed -->
+
+		</div>
+		<!-- Page closed -->
+
+		<!-- Back-to-top -->
+		<a href="#top" id="back-to-top"><i class="las la-angle-double-up"></i></a>
+
+		<!-- JQuery min js -->
+		<script src="{% static 'assets/plugins/jquery/jquery.min.js' %}"></script>
+
+		<script src="{% static 'assets/js/form-elements.js' %}"></script>
+
+		<!-- Bootstrap Bundle js -->
+		<script src="{% static 'assets/plugins/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+
+		<!-- Moment js -->
+		<script src="{% static 'assets/plugins/moment/moment.js' %}"></script>
+
+		<!-- Select2 js -->
+		<script src="{% static 'assets/plugins/select2/js/select2.min.js' %}"></script>
+
+		<script src="{% static 'assets/plugins/horizontal-menu/horizontal-menu.js' %}"></script>
+
+
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.13.1/underscore-min.js"
+        integrity="sha512-ZuOjyqq409+q6uc49UiBF3fTeyRyP8Qs0Jf/7FxH5LfhqBMzrR5cwbpDA4BgzSo884w6q/+oNdIeHenOqhISGw=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<!--		<script src="{% static 'assets/js/jquery-mentions-input-master/lib/jquery.elastic.js' %}"></script>-->
+
+<!--<script src="{% static 'assets/js/jquery-mentions-input-master/lib/jquery.events.input.js' %}"></script>-->
+<!--<script src="{% static 'assets/js/jquery-mentions-input-master/jquery.mentionsInput.js' %}"></script>-->
+
+<!-- Datepicker js -->
+<script src="{% static 'assets/plugins/jquery-ui/ui/widgets/datepicker.js' %}"></script>
+
+<!--Internal TelephoneInput js-->
+<script src="{% static 'assets/plugins/telephoneinput/telephoneinput.js' %}"></script>
+<script src="{% static 'assets/js/ATS/intlTelInput.js' %}"></script>
+
+
+<script src="{% static 'assets/plugins/fileuploads/js/fileupload.js' %}"></script>
+<script src="{% static 'assets/plugins/fileuploads/js/file-upload.js' %}"></script>
+
+<!-- form-elements js -->
+<script src="{% static 'assets/js/form-elements.js' %}"></script>
+<!--		<script src="{% static 'assets/js/form-validation.js' %}"></script>-->
+
+
+<!-- city state -->
+<script src="{% static 'assets/js/main.js' %}"></script>
+
+<!-- jquery validation plugin -->
+<script src="{% static 'assets/js/jquery-validation-1.19.3/dist/jquery.validate.js' %}"></script>
+
+<script>
+    $(document).ready(function(){
+
+        $(".select2_cities").select2({
+                tags:true,
+        });
+
+        $('.select2_cities').select2({
+            allowClear: true,
+            placeholder: "Select City",
+                    ajax: {
+                        url:"/company/get_cities",
+                        dataType: 'json',
+                        processResults: function (data) {
+                            return {
+                                results: $.map(data, function (item) {
+                                     return {id: item.id, text: item.city_name +" "+'('+ item.state_name +')'};
+                            })
+                        };
+                    }
+            },
+            minimumInputLength: 1
+        });
+
+
+        $(".current_cities").select2({
+            tags:true,
+        });
+
+
+        $('.current_cities').select2({
+            allowClear: true,
+            placeholder: "Select City",
+                    ajax: {
+                        url:"/company/get_cities",
+                        dataType: 'json',
+                        processResults: function (data) {
+                            return {
+                                results: $.map(data, function (item) {
+                                     return {id: item.id, text: item.city_name +" "+'('+ item.state_name +')'};
+                            })
+                        };
+                    }
+                },
+            minimumInputLength: 1
+            });
+        });
+
+        $('.CandidateCategory').select2({
+             placeholder: "Select Categories",
+             ajax:{
+                   url:"/company/get_candidate_categories",
+                   dataType: 'json',
+                   processResults: function (data) {
+                       return {
+                           results: $.map(data, function (item) {
+                               return {id: item.id, text: item.name};
+                           })
+                       };
+                   }
+             },
+             tags:true,
+             createTag: function (params) {
+                return {
+                    id: params.term,
+                    text: params.term,
+                    newOption: true,
+                }
+             },
+            templateResult: function (data) {
+                var $result = $("<span></span>");
+                $result.text(data.text);
+                if (data.newOption) {
+                    $result.append(" <em>(new)</em>");
+                }
+                return $result;
+            },
+            minimumInputLength: 1
+        });
+
+
+        $('.professionSkills').select2({
+            placeholder: "Select Skill",
+             ajax:{
+                   url:"/company/get_skills",
+                   dataType: 'json',
+                   processResults: function (data) {
+                       return {
+                           results: $.map(data, function (item) {
+                               return {id: item.id, text: item.name};
+                           })
+                       };
+                   }
+             },
+             tags:true,
+             createTag: function (params) {
+                return {
+                    id: params.term,
+                    text: params.term,
+                    newOption: true,
+                }
+             },
+            templateResult: function (data) {
+                var $result = $("<span></span>");
+                $result.text(data.text);
+                if (data.newOption) {
+                    $result.append(" <em>(new)</em>");
+                }
+                return $result;
+            },
+            minimumInputLength: 1
+        });
+
+        $('.source').select2({
+            placeholder: "Select Source",
+             ajax:{
+                   url:"/company/get_source",
+                   dataType: 'json',
+                   processResults: function (data) {
+                       return {
+                           results: $.map(data, function (item) {
+                               return {id: item.id, text: item.name};
+                           })
+                       };
+                   }
+             },
+             tags:true,
+             createTag: function (params) {
+                return {
+                    id: params.term,
+                    text: params.term,
+                    newOption: true,
+                }
+             },
+            templateResult: function (data) {
+                var $result = $("<span></span>");
+                $result.text(data.text);
+                if (data.newOption) {
+                    $result.append(" <em>(new)</em>");
+                }
+                return $result;
+            },
+            minimumInputLength: 1
+        });
+
+        $('.tags').select2({
+             placeholder: "Select tags",
+             ajax:{
+                   url:"/company/get_tags",
+                   dataType: 'json',
+                   processResults: function (data) {
+                       return {
+                           results: $.map(data, function (item) {
+                               return {id: item.id, text: item.name};
+                           })
+                       };
+                   }
+             },
+             tags:true,
+             createTag: function (params) {
+                return {
+                    id: params.term,
+                    text: params.term,
+                    newOption: true,
+                }
+             },
+            templateResult: function (data) {
+                var $result = $("<span></span>");
+                $result.text(data.text);
+                if (data.newOption) {
+                    $result.append(" <em>(new)</em>");
+                }
+                return $result;
+            },
+            minimumInputLength: 1
+        });
+
+
+     $("#registerInputemail").change(function (e) {
+        var email=$(this).val();
+			if(email!=""){
+				$.ajax({
+				  url:"{% url 'company:check_candidate_email_is_valid' %}",
+				  type:'POST',
+				  headers: {'X-CSRFToken': '{{ csrf_token }}'},
+				  data:{email:email}
+				})
+				.done(function(response){
+                    console.log(response)
+					if(response=="True"){
+						$(".email_error").remove();
+                        $(".create_account_section").hide();
+						$("<label class='email_error error'>Email already exists !!</label>").insertAfter("#registerInputemail");
+						$('#submitAjtForm').attr('disabled','disabled');
+					}else if(response=="Invalid"){
+						$(".email_error").remove();
+                        $(".create_account_section").show();
+						// $("<label class='email_error error'> Invalid Email !!</label>").insertAfter("#registerInputemail");
+						$('#submitAjtForm').attr('disabled','disabled');
+					}
+					else{
+                        $(".create_account_section").show();
+						$(".email_error").remove();
+						$('#submitAjtForm').removeAttr('disabled');
+					}
+				}).fail(function(){
+					  console.log("failed");
+				})
+			}else{
+				$(".email_error").remove();
+			}
+    });
+
+</script>
+
+<script>
+            /*  VALIDATION JS */
+
+            $.validator.addMethod('contactNumber', function() {
+				var contact_no = $("input[name='contact_num']").val();
+                console.log('test contact no',/^\d{10}$/.test(contact_no));
+				if(/^\d{10}$/.test(contact_no)){
+				    return true;
+				}
+                return false;
+			},"");
+
+			$("form[name='add_candidate_form']").validate({
+                rules: {
+                    contact_num: {
+                       contactNumber:true,
+                    },
+                    email: {
+                       required: true,
+                       email: true,
+                    },
+                    password: {
+                       required: true,
+                       minlength: 8
+                    },
+                    confirm_password : {
+                       required: true,
+                       minlength : 8,
+                       equalTo : "#password"
+                    },
+                },
+                messages: {
+                    contact_num:{
+                        contactNumber : "Invalid contact number."
+                    },
+                    password: {
+                       required: "Please provide a password",
+                       minlength: "Your password must be at least 8 characters long"
+                    },
+                    confirm_password:{
+                       required: "Please confirm  your password",
+                       equalTo : "Confirm Password must be same as password"
+                    },
+                    email:
+                    {
+                       required: "Email ID is required",
+                       email:"Please provide a valid email address",
+                    },
+                },
+                submitHandler: function(form) {
+                  form.submit();
+                }
+            });
+
+</script>
+
+<script>
+    $(document).ready(function(){
+        $('.create_account_check input[type="checkbox"]').click(function(){
+            if($(this).prop("checked") == true){
+               $("#Password_hide_show").css({display: "block"});
+               $("#confirm_password_hide_show").css({display: "block"});
+            }
+            else if($(this).prop("checked") == false){
+                $("#Password_hide_show").css({display: "none"});
+                $("#confirm_password_hide_show").css({display: "none"});
+            }
+        });
+    });
+</script>
+
+
+
+
+	</body>
+</html>

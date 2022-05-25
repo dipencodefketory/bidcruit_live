@@ -1,0 +1,118 @@
+{% extends 'company/base.html' %}
+{% load static %}
+{% block title %} Custom Template {% endblock %}
+{% block css %}
+<link href="{% static 'assets/css/ATS/custom_template.css' %}" rel="stylesheet">
+{% endblock %}
+
+{% block main %}
+<div class="main-content-body">
+    <div class="row row-sm">
+        <div class="col-xl-12">
+            <div class="card">
+                <div class="col-lg-12 col-md-12 col-sm-12 p-0">
+                    <div class="template_selection_header one_header">
+                        <div class="h5 t_ty_50">Template Type : <span>Custom</span></div>
+                        <div class="h5">Template Name : <span>Xyz</span></div>
+                    </div>
+                </div>
+                <form method="POST" role="form" enctype="multipart/form-data" class="form-horizontal">
+                    {% csrf_token %}
+                    <div class="custom-form" style="padding:20px;">
+                        <div class="row first-row">
+                            <div class="col-4">
+                                <div class="form-group">
+                                    <label class="form-label text-capitalize font-weight-bold">Title:</label>
+                                    <input type="text" name="title" class="rounded-10 form-control" disabled>
+                                </div>
+                            </div>
+                            <div class="col-4">
+                                <div class="form-group">
+                                    <label class="form-label text-capitalize font-weight-bold">Interview Instructions:</label>
+                                    <textarea name="description" class="rounded-10 form-control" disabled></textarea>
+                                </div>
+                            </div>
+                            <div class="col-4">
+                                <div class="form-group file_input_div">
+                                    <label class="form-label text-capitalize font-weight-bold">File:</label>
+                                    <input type="file" id="file_input" name="file_input" class="rounded-10 form-control" disabled>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        
+                        <div class="form-group checkedFormActiveBtn">
+                            <label for="enable_file_input" class="control-label text-capitalize font-weight-bold">Enable file input from candidate: </label>
+                            <input type="checkbox" name="enable_file_input" id="enable_file_input" class="form-control-sm formCheckBtn" disabled>
+                        </div>
+                       
+                        <div class="all-scorecards">
+                            <div class="title-bar"><h3 class="text-capitalize font-weight-bold">score card</h3></div>
+                            <div class="rating-miniform" id="ratingMiniForm">
+                                <div class="row row-sm rating__internalform">
+                                    <div class="col-4">
+                                        <label class="form-label text-capitalize">title :</label>
+                                        <input class="form-control" type="text" name="rate-title" value="" required>
+                                    </div>
+                                    <div class="col-4">
+                                        <div class="form-group rating-point">
+                                            <label class="form-label text-capitalize">rating:</label>
+                                            <div class="rating-stars block rate-cover">
+                                                <input type="number" readonly="readonly" class="rating-value" name="rating-stars-value" id="rating-stars-value" value="2" style="display:none">
+                                                <div class="rating-stars-container">
+                                                    <div class="rating-star"><i class="fa fa-star"></i></div>
+                                                    <div class="rating-star"><i class="fa fa-star"></i></div>
+                                                    <div class="rating-star"><i class="fa fa-star"></i></div>
+                                                    <div class="rating-star"><i class="fa fa-star"></i></div>
+                                                    <div class="rating-star"><i class="fa fa-star"></i></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-4">
+                                        <label class="form-label text-capitalize">comment :</label>
+                                        <div class="cmt-box">
+                                            <textarea class="form-control cmt-text" readonly rows="1" cols="50"></textarea>
+                                            <div class="comment-action">
+                                                <div class="delete-btn"><i class="fas fa-trash-alt"></i></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="cloneHandler">
+                                <div class="clone-btn text-uppercase" id="cloneList"><i class="fas fa-plus-circle"></i> add more</div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="col-12 mg-t-20 mg-b-20 custom_btn_header">
+                        <div class="submitHandler cus_line">
+                            <button class="custom_btn_sb btn btn-sm btn-primary rounded-10" type="submit">Submit</button>
+                        </div>
+                    </div>
+                    
+                    
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+
+
+{% block script %}
+<script src="{% static 'assets/js/ATS/interview_template.js' %}"></script>
+<!-- <script> -->
+    <!-- // function valueChanged(){
+        // if($('#enable_file_input').is(":checked")){
+        //         $(".file_input_div").show();
+        //     $("#file_input").attr('required',true);
+        // }else{
+        //     $(".file_input_div").hide();
+        //     $("#file_input").removeAttr('required');
+        // }
+    // } -->
+<!-- </script> -->
+{% endblock %}

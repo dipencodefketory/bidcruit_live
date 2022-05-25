@@ -1,0 +1,692 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en" dir="">
+
+    
+<!-- Mirrored from demos.ui-lib.com/dexam-vue-html/views/landing.v8.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 19 Feb 2022 11:01:59 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=utf-8" /><!-- /Added by HTTrack -->
+<head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width,initial-scale=1">
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
+        <title>Bidcruit - Company Page</title>
+        <link href="https://fonts.googleapis.com/css?family=Nunito:300,400,400i,600,700,800,900" rel="stylesheet">
+        <link rel="stylesheet" href="{% static 'home_assets/styles/vendor/slick.css' %}">
+        <link rel="stylesheet" href="{% static 'home_assets/styles/vendor/slick-theme.css' %}">
+        <link rel="stylesheet" href="{% static 'home_assets/styles/vendor/aos.css' %}">
+        <link rel="stylesheet" href="{% static 'home_assets/styles/vendor/perfect-scrollbar.css' %}">
+        <link rel="stylesheet" href="{% static 'home_assets/styles/css/themes/lite-purple.min.css' %}">
+		<link rel="preconnect" href="https://fonts.googleapis.com">
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+		<link href="https://fonts.googleapis.com/css2?family=Rubik:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+        <!-- <link rel="stylesheet" href="{% static 'home_assets/styles/css/custom-style/custom.v8.css' %}"> -->
+        <link rel="stylesheet" href="{% static 'home_assets/font-awesome/css/all.min.css' %}">
+        <link rel="stylesheet" href="{% static 'home_assets/company-cms.css' %}">
+        <style>
+            .fxd-right { display: flex; justify-content: flex-end; width: 100% !important;flex: 100% !important;}
+            ul.footer-sm__info-section { list-style: none;padding: 0; margin: 0;display: flex; gap: 8px;flex: 100%;width: 100%;flex: 100%;}
+            .fab-icon { display: flex;justify-content: flex-start;align-items: center;flex: 1 1 auto;}
+            .footer-sm__info-section li>a:after {content: "" !important;}
+            .fab-icon a { color: #fff;font-size: 14px;}
+            .flex-box-footer{display: flex;align-items: center;}
+            /**footer**/
+            .bottom-bg {background: #fff;padding: 10px 0px;}
+            .fxd-box {display: flex;justify-content: space-between; align-items: center; flex-direction: row;}
+            .fxd-box .bottom-box { flex: 100%;}
+            .fxd-left h3 { font-size: 16px; margin: 0;}
+            .fxd-left a { color: #004cff;cursor: pointer;}
+            .fxd-right.bottom-box { gap: 16px;}
+            .block-links a { color: #004cff;cursor: pointer; font-weight: 400; font-size: 16px;}
+            .footer_wrap {padding: 0 !important;}
+            @media screen and (max-width:768px){
+                .block-links a,.fxd-left h3{font-size: 14px;}
+            }
+            @media screen and (max-width:480px){
+                .fxd-left h3{font-size: 13px;}
+                .fxd-box{flex-direction: column;justify-content: center;}
+                .fxd-right.bottom-box { justify-content: center;}
+            }
+        </style>
+    </head>
+
+    <body class="text-left">
+        <!-- Pre Loader Strat  -->
+        <div class="loadscreen" id="preloader">
+            <div class="loader spinner-bubble spinner-bubble-primary"></div>
+        </div>
+        <!-- Pre Loader end  -->
+        <div class="app-landing-wrap landing_wrap">
+            <div id="landing_wrap" class="landing-indigo-deep">
+                <!--=============== Header start ================-->
+                <div class="main-header header-fixed-default" id="home-header">
+                    <nav class="navbar container w-100 navbar-expand-lg navbar-transparent bg-transparent">
+                        <div class="logo">
+                            <a href="/"><img src="{% static 'home_assets/images/logo_white.png' %}" alt=""></a>
+                        </div>
+
+                        <div class="menu-toggle navbar-toggler" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                            <!-- <div></div>
+                            <div></div>
+                            <div></div> -->
+                            <i class="fa-solid fa-bars"></i>
+                        </div>
+
+                        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                            <div class="d-flex align-items-center">
+                                <!-- Mega menu -->
+                                <!-- <div class="dropdown mega-menu d-none d-md-block">
+                                    <a href="#" class="btn dropdown-toggle mr-3" id="dropdownMegaMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Mega Menu</a>
+                                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                        <div class="row m-0">
+                                            <div class="col-md-4 p-4 bg-img">
+                                                <h2 class="title">Mega Menu <br> Sidebar</h2>
+                                                <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Asperiores
+                                                    natus
+                                                    laboriosam fugit, consequatur.
+                                                </p>
+                                                <p class="mb-4">Lorem ipsum dolor sit amet consectetur, adipisicing
+                                                    elit.
+                                                    Exercitationem odio amet eos dolore suscipit placeat.</p>
+                                                <button class="btn btn-lg btn-rounded btn-outline-warning">Learn
+                                                    More</button>
+                                            </div>
+                                            <div class="col-md-4 p-4">
+                                                <p class="text-primary text--cap border-bottom-primary d-inline-block">
+                                                    Demos
+                                                </p>
+                                                <div class="menu-icon-grid w-auto p-0">
+                                                    <a href="landing.v1.html">Version 1</a>
+                                                    <a href="landing.v2.html">Version 2</a>
+                                                    <a href="landing.v3.html">Version 3</a>
+                                                    <a href="landing.v4.html">Version 4</a>
+                                                    <a href="landing.v5.html">Version 5</a>
+                                                    <a href="landing.v6.html">Version 6</a>
+                                                    <a href="landing.v7.html">Version 7</a>
+                                                    <a href="landing.v8.html">Version 8</a>
+                                                    <a href="landing.v9.html">Version 9</a>
+                                                    <a href="landing.v10.html">Version 10</a>
+                                                    <a href="landing.v11.html">Version 11</a>
+
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4 p-4">
+                                                <p class="text-primary text--cap border-bottom-primary d-inline-block">
+                                                    Components</p>
+                                                <ul class="links">
+                                                    <li><a href="http://demos.ui-lib.com/dexam-vue-html/components/accordions.html">Accordion</a></li>
+                                                    <li><a href="http://demos.ui-lib.com/dexam-vue-html/components/alerts.html">Alerts</a></li>
+                                                    <li><a href="http://demos.ui-lib.com/dexam-vue-html/components/buttons.html">Buttons</a></li>
+                                                    <li><a href="http://demos.ui-lib.com/dexam-vue-html/components/all-pricing.html">Pricing</a></li>
+                                                    <li><a href="http://demos.ui-lib.com/dexam-vue-html/components/carousels.html">Carousels</a></li>
+                                                    <li><a href="http://demos.ui-lib.com/dexam-vue-html/components/all-features.html">Features</a></li>
+                                                    <li><a href="http://demos.ui-lib.com/dexam-vue-html/components/dropdown.html">Dropdown</a></li>
+                                                    <li><a href="http://demos.ui-lib.com/dexam-vue-html/components/all-services.html">Services</a></li>
+                                                    <li><a href="http://demos.ui-lib.com/dexam-vue-html/components/all-extra-features.html">Extra
+                                                            Features</a>
+                                                    </li>
+                                                    <li><a href="http://demos.ui-lib.com/dexam-vue-html/components/modals.html">Modals</a></li>
+                                                    <li><a href="http://demos.ui-lib.com/dexam-vue-html/components/signin.html">Sign in</a></li>
+                                                    <li><a href="http://demos.ui-lib.com/dexam-vue-html/components/signup.html">Sign up</a></li>
+
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div> -->
+                                <!-- / Mega menu -->
+
+                            </div>
+
+                            <div style="margin: auto"></div>
+
+                            <div class="header-part-right">
+                                <ul class="navbar-nav mr-auto">
+                                    <li class="nav-item active">
+                                        <a class="nav-link m-2" href="/">Home <span class="sr-only">(current)</span></a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link m-2" href="{% url 'accounts:company_home' %}">Company</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link m-2" href="{% url 'accounts:candidate_home' %}">Candidate</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link m-2" href="{% url 'accounts:interviewer_home' %}">Inteviewer</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="#" class="scroll-to nav-link m-2 after-remove">Recruiter 
+                                            <i class="fa-solid fa-caret-down"></i>
+                                        </a>
+                                        <!-- First  Drop Down -->
+                                        <ul>
+                                            <li class="nav-item">
+                                                <a href="{% url 'accounts:agency_home' %}" class="menu-item">Agency</a>
+                                            </li>
+                                            <li class="nav-item">
+                                                <a href="{% url 'accounts:recruiters_home' %}" class="menu-item">Freelancer</a>
+                                            </li>
+                                            
+                                        </ul>
+                                    </li>
+                                    <!-- drop down menu start -->
+                                    <li class="nav-item">
+                                        <a href="#" class="scroll-to nav-link m-2 m-2">Sign Up </a>
+                                        <!-- First  Drop Down -->
+                                        <ul>
+                                            <li class="nav-item">
+                                                <a href="{% url 'company:signup'%}" class="menu-item">Company</a>
+                                            </li>
+                                            <li class="nav-item">
+                                                <a href="{% url 'agency:agency_type'%}" class="menu-item">Recruiter</a>
+                                            </li>
+                                            <li class="nav-item">
+                                                <a href="{% url 'candidate:signup'%}" class="menu-item">Candidate</a>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                    <!-- drop down menu end -->
+                                    <div >
+                                        
+                                    </div>
+                                     <li class="register_option_btn btn_mrg ">
+                                        <a class="cus_btn btn_head" href="{% url 'accounts:signin'%}">
+                                            <i class="fas fa-user-circle"></i>
+                                            <span>Log in</span>
+                                            <!-- <img src="{% static 'home_assets/images/landing/next.png' %}"> -->
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </nav>
+
+                </div>
+
+                <!--=============== Header End ================-->
+
+
+                <!-- ============ Main content start ============= -->
+                <div class="main-content-wrap">
+
+					<section id="hpslider" class="hpslider p-t-b-80">
+						<div class="container">
+                            <div class="row head-one__upper">
+								<div class="col-md-6">
+									<div class="sliderhd head-short-info">
+                                        <label>for</label>
+                                        <span>Corporate</span>
+                                        <span>Hrs</span></div>
+									<div class="slidertxt">Morbi in dui quis est pulvinar ullamcorper. Nulla facilisi. Integer lacinia sollicitudin massa. Cras metus. Sed aliquet risus a tortor. Integer id quam. Morbi mi. Quisque nisl felis, venenatis tristique, dignissim in, ultrices sit amet, augue. Proin sodales libero eget ante.</div> 
+
+                                    <div class="top-btn-group">
+                                        <div class="register-btn__mini grp-top-btn">
+                                            <a href="javascript:void(0)" class="top-act-btn">
+                                                register
+                                                <span class="play-icon">
+                                                    <i class="fas fa-chevron-circle-right"></i>
+                                                </span>
+                                            </a>
+                                        </div>
+                                        <div class="videp-btn__mini grp-top-btn" >
+                                            <a href="javascript:void(0)" class="top-act-btn">
+                                                watch video
+                                                <span class="play-icon">
+                                                    <i class="fas fa-play-circle"></i>
+                                                </span>
+                                            </a>
+                                        </div>
+                                    </div>
+									    <!-- <div class="register_option_btn">
+											<button class="cus_btn" type="submit" value="Submit">VISIT <img src="{% static 'home_assets/images/landing/right-arrow.png' %}"></button>
+										</div> -->
+								</div>
+								<div class="col-md-6">
+                                    <div class="right-slide-banner">
+                                        <img src="{% static 'home_assets/images/cms-block-page/corporate_hrs/Corporate_HRs_banner.png' %}">
+                                    </div>
+								</div>
+							</div>
+						</div>
+					</section>
+					<!-- slider over -->
+					<!-- design for everyone -->
+                    <section id="services-wrap" class="services-wrap company-layout dfe-clone overlay-img">
+                        <span class="left-half-circle"></span>
+                        <div class="container">
+                            <div class="row">
+                                <div class="col-md-12 section-header mb-5 head-title-bar">
+                                    <h2 class="font-weight-bold">Lorem Ipsum</h2>
+                                    <div class="short-desc">
+                                        <p>Neque porro quisquam est qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit</p>
+                                    </div>
+                                </div>
+                                <span class="mid-right-wave"></span>
+                                <span class="left-polygon-icon"></span>
+                            </div>
+
+
+                            <div class="row bg-flex-round">
+                                <div class="col-md-12 mb-5 col-side-grid" data-aos="fade-up">
+                                    <div class="even-section fxd-block">
+                                        <div class="img-section">
+                                            <img src="{% static 'home_assets/images/cms-block-page/corporate_hrs/JobCreation_Sharing.png' %}" alt="blcok-img">
+                                        </div>
+                                        <div class="short-desc-section">
+                                            <h2 class="title-bar">1. Job Creation & Sharing</h2>
+                                            <div class="base-details">
+                                                <p class="text-desc">Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit,</p>
+                                                <p class="text-desc">Lorem ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet.</p>
+                                            </div>
+                                            <a href="javascript:void(0)" class="block-btn">
+                                                watch demo
+                                                <span class="play-icon">
+                                                    <i class="fas fa-play-circle"></i>
+                                                </span>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-12 mb-5 col-side-grid" data-aos="fade-up">
+                                    <span class="jb-before"></span>
+                                    <div class="odd-section fxd-block">
+                                        <div class="img-section">
+                                            <img src="{% static 'home_assets/images/cms-block-page/corporate_hrs/JobCompatibilityRatio.png' %}" alt="blcok-img">
+                                        </div>
+                                        <div class="short-desc-section">
+                                            <h2 class="title-bar">2. Job Compatibility Ration</h2>
+                                            <div class="base-details">
+                                                <p class="text-desc">Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit,</p>
+                                                <p class="text-desc">Lorem ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet.</p>
+                                            </div>
+                                            <a href="javascript:void(0)" class="block-btn">
+                                                watch demo
+                                                <span class="play-icon">
+                                                    <i class="fas fa-play-circle"></i>
+                                                </span>
+                                            </a>
+                                        </div>
+                                    </div>
+                                    <span class="jb-after"></span>
+                                </div>
+
+                                <div class="col-md-12 mb-5 col-side-grid" data-aos="fade-up">
+                                    <span class="left_vector_ob"></span>
+                                    <div class="even-section fxd-block">
+                                        <div class="img-section">
+                                            <img src="{% static 'home_assets/images/cms-block-page/corporate_hrs/Proctoredbasedautomationassessment.png' %}" alt="blcok-img">
+                                        </div>
+                                        <div class="short-desc-section">
+                                            <h2 class="title-bar">3. Proctoret based automation assessment</h2>
+                                            <div class="base-details">
+                                                <p class="text-desc">Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit,</p>
+                                                <p class="text-desc">Lorem ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet.</p>
+                                            </div>
+                                            <a href="javascript:void(0)" class="block-btn">
+                                                watch demo
+                                                <span class="play-icon">
+                                                    <i class="fas fa-play-circle"></i>
+                                                </span>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-12 mb-5 col-side-grid" data-aos="fade-up">
+                                    <div class="odd-section fxd-block">
+                                        <div class="img-section">
+                                            <img src="{% static 'home_assets/images/cms-block-page/corporate_hrs/HRs_TaskBlockImg.png' %}" alt="blcok-img">
+                                        </div>
+                                        <div class="short-desc-section">
+                                            <h2 class="title-bar">4. HRs task Management</h2>
+                                            <div class="base-details">
+                                                <p class="text-desc">Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit,</p>
+                                                <p class="text-desc">Lorem ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet.</p>
+                                            </div>
+                                            <a href="javascript:void(0)" class="block-btn">
+                                                watch demo
+                                                <span class="play-icon">
+                                                    <i class="fas fa-play-circle"></i>
+                                                </span>
+                                            </a>
+                                        </div>
+                                    </div>
+                                    <span class="wide-circle"></span>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+					
+					
+                    <!-- design for everyone complete -->
+				
+
+					<!-- 3 sections -->
+					
+                    <!-- end subscribe section -->
+
+                    <section class="footer_wrap" id="footer-wrap">
+                        <div class="container">
+                            <div class="row">
+								 <div class="flogo col-md-12  flex-box-footer">
+									<div class="flogo1 col-md-6">
+										<a href="/"><img src="{% static 'home_assets/images/landing/flogo.png' %}"></a>
+									</div>
+									<div class="flogo2 col-md-6">
+										<!-- <div class = "col-md-4">
+											<img src="{% static 'home_assets/images/landing/fpin.png' %}">
+											<p>Marmora Road Chi</br>Minh City, Vietnam</p>
+										</div>
+										<div class = "col-md-4">
+											<img src="{% static 'home_assets/images/landing/femp.png' %}">
+											<p>+91 000 000 0000<br/>info@gmail.com</p>
+										</div> -->
+                                        <div class="fxd-right">
+                                            <ul class="footer-sm__info-section">
+                                                <li class="fab-icon contact-num">
+                                                    <i class="fa-solid fa-phone"></i>&nbsp;
+                                                    <a href="tel:+917948486644" title="+917948486644">+917948486644</a>
+                                                </li>
+                                                <li class="fab-icon contact-email">
+                                                    <i class="fa-solid fa-envelope"></i>&nbsp;
+                                                    <a href="mailto:support@bidcruit.com" title="support@bidcruit.com">support@bidcruit.com</a>
+                                                </li>
+                                                <li class="fab-icon address">
+                                                    <i class="fa-solid fa-location-dot"></i>&nbsp;
+                                                    <a href="javascript:void(0)">Ahmedabad Gujarat, India</a>
+                                                    <!-- <a href="https://goo.gl/maps/L3YzesMPzKL4DLy5A">Ahmedabad Gujarat, India</a> -->
+                                                </li>
+                                            </ul>
+                                        </div>
+									</div>
+								 </div>
+
+                                 <div data-aos="fade-up" class="col-md-3 mb-4">
+                                    <div class="o-hidden text-left">
+
+
+
+                                        <div class="">
+                                            <h4 class="card-title font-weight-bold">BidCruit Technologies</h4>
+                                            <p class="">First of a kind ATS which enhances your recruitment experience over traditional ATS and provides you a contactless & real-time hiring experience.
+							
+                                            </p>
+                                        </div>
+
+
+                                    </div>
+                                </div>
+                                <!-- end of col -->
+                                <div data-aos="fade-up" class="col-md-3 mb-4">
+                                    <div class="o-hidden text-left">
+
+
+
+                                        <div class="">
+                                            <h4 class="card-title font-weight-bold">Based On Role</h4>
+                                            <div class="mb-5 lead">
+                                                <ul class="list-inline">
+                                                    <li class="mb-3"> <a href="#">Corporate HRs</a></li>
+                                                    <li class="mb-3"><a href="#">Recruitment Agency</a>
+                                                    </li>
+                                                    <li class="mb-3"> <a href="#"> Candidate</a>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+
+
+                                    </div>
+                                </div>
+                                <!-- end of col -->
+                                <div data-aos="fade-up" class="col-md-3 mb-4 mb-lg-0 mb-md-0">
+                                    <div class="o-hidden text-left">
+
+                                        <div class="">
+                                            <h4 class="card-title font-weight-bold">Features</h4>
+                                            <div class="mb-5 lead">
+                                                <ul class="list-inline">
+                                                    <li class="mb-3"><i class="eva eva-checkmark-outline mr-2 text-warning"></i>WorkFlow Management
+                                                    </li>
+                                                    <li class="mb-3"><i class="eva eva-checkmark-outline mr-2 text-warning"></i>Inbuild Interview System
+                                                    </li>
+
+
+                                                    <li class="mb-3"><i class="eva eva-checkmark-outline mr-2 text-warning"></i>
+                                                        Vendor/Client Management</li>
+														 <li class="mb-3"><i class="eva eva-checkmark-outline mr-2 text-warning"></i>
+                                                        Secure Resume</li>
+														 <li class="mb-3"><i class="eva eva-checkmark-outline mr-2 text-warning"></i>
+                                                        24X7 Interview/Assessment</li>
+                                                </ul>
+                                            </div>
+
+
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- end of col -->
+                                <div data-aos="fade-up" class="col-md-3 mb-lg-0 mb-md-0">
+                                    <div class="o-hidden text-left">
+
+                                        <div class="">
+                                            <h4 class="card-title font-weight-bold">Contact Info</h4>
+                                            <div class="address-wrap mb-3">
+
+                                                <ul class="list-group list-unstyled">
+                                                    <li class=""> <i class="eva eva-pin-outline mr-2"></i>Ahmedabad, India</li>
+
+                                                </ul>
+                                            </div>
+                                            <div class="address-wrap mb-3">
+
+                                                <ul class="list-group list-unstyled">
+                                                    <li class=""><i class="eva eva-email-outline mr-2"></i>support@bidcruit.com
+                                                    </li>
+
+                                                </ul>
+                                            </div>
+
+                                            <div class="address-wrap mb-3">
+
+                                                <ul class="list-group list-unstyled">
+                                                    <li class=""><i class="eva eva-phone-call-outline mr-2"></i>
+                                                        +917948486644</li>
+
+                                                </ul>
+                                            </div>
+
+
+                                            <section class="social-wrap">
+
+                                                <div class="social-btns-wrap">
+
+                                                    <a class="social-btn text-30 facebook ml-0" href="#"><i class="eva eva-facebook"></i></a>
+
+                                                    <a class="social-btn text-30 twitter" href="#"><i class="eva eva-twitter"></i></a>
+
+                                                    <a class="social-btn text-30 google" href="#"><i class="eva eva-google"></i></a>
+
+                                                 
+                                                </div>
+                                            </section>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- end of col -->
+                            </div>
+                        </div>
+
+                         <!--footer page info-->
+                        <div class="footer-page-info">
+                            <div class="bottom-bg">
+                            <div class="container">
+                                <div class="fxd-box">
+                                <div class="fxd-left bottom-box">
+                                    <h3>Copyright © 2021 <a href="https://www.bidcruit.com" title="">Bidcruit</a>. All rights reserved.</h3>
+                                </div>
+                                <div class="fxd-right bottom-box">
+                                <div class="block-links"> <a href="https://bidcruit.com/privacy_policy/">Privacy Policy</a> </div>
+                                <div class="block-links"> <a href="https://bidcruit.com/term_and_condition/">Term & Conditions</a> </div>
+                                </div>
+                                </div>
+                            </div>
+                            </div>
+                        </div>
+                        <!--footer page info-->
+                    </section>
+                    <!-- end footer -->
+
+                    <!-- customizer start -->
+                    <!-- <div class="customizer card">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="handle">
+                                    <i class="eva eva-settings-2-outline animated infinite rotateInUpLeft"></i>
+                                </div>
+                            </div>
+                            <div class="col-md-12 o-hidden">
+
+                                <div class="colors_wrap" data-perfect-scrollbar data-suppress-scroll-x="true">
+                                    <div class="card-body">
+                                        <h2 class="card-title">Solid Colors</h2>
+                                        <a name="" id="" data-class="teal" class="change-bg btn teal btn-circle m-2" role="button"></a>
+                                        <a name="" id="" data-class="blue" class="change-bg btn blue btn-circle m-2" role="button"></a>
+                                        <a data-class="midnight-blue" class="change-bg btn midnight-blue btn-circle m-2" role="button"></a>
+                                        <a data-class="indigo" class="change-bg btn indigo btn-circle m-2" role="button"></a>
+                                        <a data-class="indigo-light" class="change-bg btn indigo-light btn-circle m-2" role="button"></a>
+                                        <a data-class="indigo-deep" class="change-bg btn indigo-deep btn-circle m-2" role="button"></a>
+                                        <a data-class="indigo-ocean" class="change-bg btn indigo-ocean btn-circle m-2" role="button"></a>
+                                        <a data-class="dark-purple" class="change-bg btn dark-purple btn-circle m-2" role="button"></a>
+                                        <a data-class="purple" class="change-bg btn purple btn-circle m-2" role="button"></a>
+                                        <a data-class="pink" class="change-bg btn pink btn-circle m-2" role="button"></a>
+                                        <a data-class="pink-light" class="change-bg btn pink-light btn-circle m-2" role="button"></a>
+                                        <a data-class="red" class="change-bg btn red btn-circle m-2" role="button"></a>
+                                        <a data-class="red-light" class="change-bg btn red-light btn-circle m-2" role="button"></a>
+                                        <a data-class="red-deep" class="change-bg btn red-deep btn-circle m-2" role="button"></a>
+                                        <a data-class="red-extra" class="change-bg btn red-extra btn-circle m-2" role="button"></a>
+                                        <a data-class="gray" class="change-bg btn gray btn-circle m-2" role="button"></a>
+                                        <a data-class="light-black" class="change-bg btn light-black btn-circle m-2" role="button"></a>
+                                        <a data-class="slate-gray" class="change-bg btn slate-gray btn-circle m-2" role="button"></a>
+                                        <a data-class="orange" class="change-bg btn orange btn-circle m-2" role="button"></a>
+                                        <a data-class="brown" class="change-bg btn brown btn-circle m-2" role="button"></a>
+
+                                    </div>
+
+                                    <div class="card-body">
+                                        <h2 class="card-title">Gradient Colors</h2>
+                                        <a data-class="gradient-purple-indigo" class="change-bg btn gradient-purple-indigo btn-circle m-2" role="button"></a>
+                                        <a data-class="gradient-blue-red" class="change-bg btn gradient-blue-red btn-circle m-2" role="button"></a>
+                                        <a data-class="gradient-red-orange" class="change-bg btn gradient-red-orange btn-circle m-2" role="button"></a>
+                                        <a data-class="gradient-black-blue" class="change-bg btn gradient-black-blue btn-circle m-2" role="button"></a>
+                                        <a data-class="gradient-black-gray" class="change-bg btn gradient-black-gray btn-circle m-2" role="button"></a>
+                                        <a data-class="gradient-steel-gray" class="change-bg btn gradient-steel-gray btn-circle m-2" role="button"></a>
+                                        <a data-class="gradient-grade-gray" class="change-bg btn gradient-grade-gray btn-circle m-2" role="button"></a>
+                                        <a data-class="gradient-cristal-clear" class="change-bg btn gradient-cristal-clear btn-circle m-2" role="button"></a>
+                                        <a data-class="gradient-cool-blue" class="change-bg btn gradient-cool-blue btn-circle m-2" role="button"></a>
+                                        <a data-class="gradient-moonlight-asteriod" class="change-bg btn gradient-moonlight-asteriod btn-circle m-2" role="button"></a>
+                                        <a data-class="gradient-hervey" class="change-bg btn gradient-hervey btn-circle m-2" role="button"></a>
+                                        <a data-class="gradient-altra-violet" class="change-bg btn gradient-altra-violet btn-circle m-2" role="button"></a>
+                                        <a data-class="gradient-slight-ocean" class="change-bg btn gradient-slight-ocean btn-circle m-2" role="button"></a>
+                                        <a data-class="gradient-red-sunset" class="change-bg btn gradient-red-sunset btn-circle m-2" role="button"></a>
+                                        <a data-class="gradient-quepal" class="change-bg btn gradient-quepal btn-circle m-2" role="button"></a>
+                                        <a data-class="gradient-lawrencium" class="change-bg btn gradient-lawrencium btn-circle m-2" role="button"></a>
+                                        <a data-class="gradient-meridian" class="change-bg btn gradient-meridian btn-circle m-2" role="button"></a>
+                                        <a data-class="gradient-altra-violet')" class="btn gradient-altra-violet btn-circle m-2" role="button"></a>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div> -->
+                    <!-- end of customizer -->
+                    <!--Sticky Social Links-->
+                    <div class="sticky-social_container">
+                        <div class="scticy-row slideWp">
+                            <div class="sticky-col">
+                                <!-- <a href="javascript:void(0)" id="drag-panel"><i class="fa-solid fa-square-share-nodes"></i></a> -->
+                                <ul class="social-link-list">
+                                    <li>
+                                        <div class="icon-vr">
+                                            <a href="#" class="share-twitter">
+                                                <i class="fa-brands fa-twitter"></i>
+                                            </a>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="icon-vr">
+                                            <a href="#" class="share-facebook">
+                                                <i class="fa-brands fa-facebook-f"></i>
+                                            </a>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="icon-vr">
+                                            <a href="#" class="share-insta">
+                                                <i class="fa-brands fa-instagram"></i>
+                                            </a>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="icon-vr">
+                                            <a href="#" class="share-yt">
+                                                <i class="fa-brands fa-youtube"></i>
+                                            </a>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="icon-vr">
+                                            <a href="#" class="share-linkdin">
+                                                <i class="fa-brands fa-linkedin-in"></i>
+                                            </a>
+                                        </div>
+                                    </li>
+                                
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                <!--Sticky Social Links End-->
+
+                </div>
+                <!-- ============ Main content End ============= -->
+
+
+
+
+            </div>
+        </div>
+        <!--=============== End app-Landing-wrap ================-->
+
+
+
+        <script src="{% static 'home_assets/js/vendor/jquery-3.3.1.min.js' %}"></script>
+        <script src="{% static 'home_assets/js/vendor/bootstrap.bundle.min.js' %}"></script>
+        <script src="{% static 'home_assets/font-awesome/js/all.min.js' %}"></script>
+        <script src="{% static 'home_assets/js/vendor/perfect-scrollbar.min.js' %}"></script>
+
+        <script src="{% static 'home_assets/js/vendor/slick.min.js' %}"></script>
+        <script src="{% static 'home_assets/js/es5/scroll.min.js' %}"></script>
+
+        <script src="{% static 'home_assets/js/es5/slick.script.min.js' %}"></script>
+        <script src="{% static 'home_assets/js/vendor/aos.js' %}"></script>
+        <script src="{% static 'home_assets/js/es5/script.min.js' %}"></script>
+        <script type="text/javascript">
+            $(document).ready(function(){
+                $(".ezhire-tab-btn").on('click',function(){
+                    $('.ezhire-tab-btn').removeClass('act');
+                    $(this).addClass('act');
+                    let tabAtr = $(this).attr('data-id');
+                    $('.tab-section').hide();
+                    $('#'+tabAtr).show();
+                })
+            });
+            $(window).ready(function(){
+              $("#search-tab").show();
+            })
+        </script>
+    </body>
+
+
+<!-- Mirrored from demos.ui-lib.com/dexam-vue-html/views/landing.v8.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 19 Feb 2022 11:02:14 GMT -->
+</html>

@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+ <head>
+  <meta charset="UTF-8">
+  <meta name="Generator" content="EditPlus®">
+  <meta name="Author" content="">
+  <meta name="Keywords" content="">
+  <meta name="Description" content="">
+  <title>Document</title>
+
+  <script src="../lib/jquery.js"></script>
+  <script src="../dist/jquery.validate.js"></script>
+
+ </head>
+ <body>
+  <form class="cmxform" id="form1" method="get" action="">
+	<div class="showOption-layout">
+                            <div class="que-head-section">
+                                <div class="count-que_lable">
+                                    <label class="text-capitalize">Que.</label>
+                                    <input type="text" class="required form-control form-control-sm quote-text h6" name="pq-quote-label" value="">
+                                </div>
+                            </div>
+                            <div class="group-opt grid-view">
+                                <div class="grid-col">
+                                    <div class="fx-col-sm">
+                                        <div class="top-row">
+                                            <label for="que-opt-label" class="smp-opt-num text-uppercase">a</label>
+                                            <input type="radio" value="a" name="ans-opt" class="form-control-sm" class="opt-selector" required>
+                                        </div>
+                                        <div class="bottom-row">
+                                            <input type="text" class="required form-control form-control-sm opt-input-text" name="opt-input-1" value="">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="grid-col">
+                                    <div class="fx-col-sm">
+                                        <div class="top-row">
+                                            <label for="que-opt-label" class="smp-opt-num text-uppercase">b</label>
+                                            <input type="radio" value="b" name="ans-opt" class="form-control-sm" class="opt-selector">
+                                        </div>
+                                        <div class="bottom-row">
+                                            <input type="text" class="required form-control form-control-sm opt-input-text" name="opt-input-2" value="">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="grid-col">
+                                    <div class="fx-col-sm">
+                                        <div class="top-row">
+                                            <label for="que-opt-label" class="smp-opt-num text-uppercase">c</label>
+                                            <input type="radio" value="c" name="ans-opt" class="form-control-sm" class="opt-selector">
+                                        </div>
+                                        <div class="bottom-row">
+                                            <input type="text" class="required form-control form-control-sm opt-input-text" name="opt-input-3" value="">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="grid-col">
+                                    <div class="fx-col-sm">
+                                        <div class="top-row">
+                                            <label for="que-opt-label" class="smp-opt-num text-uppercase">d</label>
+                                            <input type="radio" value="d" name="ans-opt" class="form-control-sm" class="opt-selector">
+                                        </div>
+                                        <div class="bottom-row">
+                                            <input type="text" class="required form-control form-control-sm opt-input-text" name="opt-input-4" value="">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="delete-quote mg-t-10 mg-b-10">
+                                <button class="que-delete-btn btn-sm btn btn-danger text-capitalize" type="submit">Submit</button>
+                            </div>
+                        </div>
+  </form>
+
+  <script>
+	$(document).ready(function() {
+		$("#form1").validate();
+		
+	});
+  </script>
+ </body>
+</html>

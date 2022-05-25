@@ -1,0 +1,604 @@
+{% extends 'agency/base.html' %}
+{% load static %}
+{% load custom_filters %}
+{% block title %}Dashboard{% endblock %}
+
+{% block css %}
+
+  <style>
+    a.copy-link:active {
+        transform: scale(0.85);
+        box-shadow: 3px 2px 25px 1px rgb(0 0 0 / 25%);
+    }
+  </style>
+
+  <!--custome job-creation-view css-->
+  <link href="{% static 'assets/css/ATS/company_dashbord.css' %}" rel="stylesheet">
+
+{% endblock %}
+
+{% block main %}
+
+				<!-- Main-content-body -->
+				<div class="main-content-body">
+					<!-- header-title -->
+
+					<!-- header-title -->
+
+          <!-- row opened -->
+            <div class="row row-sm">
+              <div class="col-md-6 col-lg-6 col-xl-3">
+                <div class="ecommerce-card">
+                  <div class="card">
+                    <div class="card-body">
+                      <div class="d-flex justify-content-between">
+                        <h4 class="card-title mg-b-15">Active Jobs</h4>
+                      </div>
+                      <div class="row mb-3">
+                        <div class="col-md-4 col col-sm-4 col-xs-4">
+                          <div class="ht-50 wd-50 brround text-center">
+                            <img src="{% static 'assets/img/offer_icon.png' %}" class="ht-45 ht-45" alt="revenue">
+                          </div>
+                        </div>
+                        <div class="col-md-8 col col-sm-8 col-xs-8 my-auto">
+                          <div class="float-right text-right tx-20 font-weight-bold my-auto"><span class="tx-20"></span>{{total_active_job}}+<i class=""></i></div>
+                        </div>
+                      </div>
+                     
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-6 col-lg-6 col-xl-3">
+                <div class=" ecommerce-card">
+                  <div class="card">
+                    <div class="card-body">
+                      <div class="card-heading">
+                        <div class="d-flex justify-content-between">
+                          <h4 class="card-title mg-b-15">Connection Requests</h4>
+                        </div>
+                      </div>
+                      <div class="row mb-3">
+                        <div class="col-md-4 col col-sm-4 col-xs-4">
+                          <div class="ht-50 wd-50 brround text-center">
+                            <img src="{% static 'assets/img/connection_r_icon_c.png' %}" class="ht-45 ht-45" alt="revenue">
+                          </div>
+                        </div>
+                        <div class="col-md-8 col col-sm-8 col-xs-8 my-auto">
+                          <div class="float-right text-right tx-20 font-weight-bold"><span class="tx-20 "></span>{{connection_request}}+<i class=""></i></div>
+                        </div>
+                      </div>
+                     
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-6 col-lg-6 col-xl-3">
+                <div class=" ecommerce-card">
+                  <div class="card">
+                    <div class="card-body">
+                      <div class="d-flex justify-content-between">
+                        <h4 class="card-title mg-b-15">Hire</h4>
+                      </div>
+                      <div class="row mb-3">
+                        <div class="col-md-4 col col-sm-4 col-xs-4">
+                          <div class="ht-50 wd-50 brround text-center">
+                            <img src="{% static 'assets/img/hire_icon.png' %}" class="ht-45 ht-45" alt="revenue">
+                          </div>
+                        </div>
+                        <div class="col-md-8 col col-sm-8 col-xs-8 my-auto">
+                          <div class="float-right text-right tx-20 font-weight-bold my-auto"><span class="tx-20"></span>{{hire}}+<i class=""></i></div>
+                        </div>
+                      </div>
+                      
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-6 col-lg-6 col-xl-3">
+                <div class=" ecommerce-card">
+                  <div class="card">
+                    <div class="card-body">
+                      <div class="card-heading">
+                        <div class="d-flex justify-content-between">
+                          <h4 class="card-title mg-b-15">Job Offer</h4>
+                        </div>
+                      </div>
+                      <div class="row mb-3">
+                        <div class="col-md-4 col col-sm-4 col-xs-4">
+                          <div class="ht-50 wd-50 brround text-center">
+                            <img src="{% static 'assets/img/job_offer.png' %}" class="ht-45 ht-45" alt="revenue">
+                          </div>
+                        </div>
+                        <div class="col-md-8 col col-sm-8 col-xs-8 my-auto">
+                          <div class="float-right text-right tx-20 font-weight-bold"><span class="tx-20 "></span>{{job_offer}}+<i class=""></i></div>
+                        </div>
+                      </div>
+                     
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+            <!-- row closed -->
+
+            <!-- row opened -->
+            <div class="row row-sm">
+              <div class="col-xl-4 col-lg-12">
+                <div class="card">
+                  <div class="card-body pt-3">
+                    <div class="d-flex justify-content-between">
+                      <h4 class="card-title mg-b-10">Today Interview</h4>
+                    </div>
+
+                    <div class="row card row-sm">
+                      <div class="col-12">
+                          <div class="row row-sm">
+                              <div class="col-12 p-0">
+                                  <div class="fxm-mini">
+                                     
+                                     <div class="task-list__container today_task_list_main">
+
+
+										<div class="task-list card">
+											<div class="task-orientation">
+												<div class="task-tag">
+													<label class="task-batch job-batch">Jobs</label>
+												</div>
+												<div class="task-details">
+													<div class="tfxt-row">
+														<label class="task-title-bold" data-target="#taskManagerModal" data-toggle="modal">Lorem Ipsum is simply dummy text of the printing and typesetting</label>														
+													</div>
+													<div class="tfxb-row">
+														<ul class="task-info">
+															<li>
+																<label class="info-title">Assignee :</label>
+																<label class="info-decs" style="color: #0068ff;font-width:bold;">Jone Lare</label>
+															</li>
+															<li>
+																<label class="info-title">Priority :</label>
+																<label class="info-decs">low</label>
+															</li>
+														</ul>
+													</div>
+												</div>
+												<div class="task-actions">
+													<div class="classic-btns">
+														<div class="view_today_task">
+															<a href="#"><i class="fa fa-eye"></i></a>
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+
+										<div class="task-list card">
+											<div class="task-orientation">
+												<div class="task-tag">
+													<label class="task-batch interview-batch">Interview</label>
+												</div>
+												<div class="task-details">
+													<div class="tfxt-row">
+														<label class="task-title-bold" data-target="#taskManagerModal" data-toggle="modal">Lorem Ipsum is simply dummy text of the printing and typesetting</label>														
+													</div>
+													<div class="tfxb-row">
+														<ul class="task-info">
+															<li>
+																<label class="info-title">Assignee :</label>
+																<label class="info-decs" style="color: #0068ff;font-width:bold;">Jone Lare</label>
+															</li>
+															<li>
+																<label class="info-title">Priority :</label>
+																<label class="info-decs">low</label>
+															</li>
+														</ul>
+													</div>
+												</div>
+												<div class="task-actions">
+													<div class="classic-btns">
+														<div class="view_today_task">
+															<a href="#"><i class="fa fa-eye"></i></a>
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+
+										<div class="task-list card">
+											<div class="task-orientation">
+												<div class="task-tag">
+													<label class="task-batch call-batch">Call</label>
+												</div>
+												<div class="task-details">
+													<div class="tfxt-row">
+														<label class="task-title-bold" data-target="#taskManagerModal" data-toggle="modal">Lorem Ipsum is simply dummy text of the printing and typesetting</label>														
+													</div>
+													<div class="tfxb-row">
+														<ul class="task-info">
+															<li>
+																<label class="info-title">Assignee :</label>
+																<label class="info-decs" style="color: #0068ff;font-width:bold;">Jone Lare</label>
+															</li>
+															<li>
+																<label class="info-title">Priority :</label>
+																<label class="info-decs">low</label>
+															</li>
+														</ul>
+													</div>
+												</div>
+												<div class="task-actions">
+													<div class="classic-btns">
+														<div class="view_today_task">
+															<a href="#"><i class="fa fa-eye"></i></a>
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+
+										<div class="task-list card">
+											<div class="task-orientation">
+												<div class="task-tag">
+													<label class="task-batch email-batch">Email</label>
+												</div>
+												<div class="task-details">
+													<div class="tfxt-row">
+														<label class="task-title-bold" data-target="#taskManagerModal" data-toggle="modal">Lorem Ipsum is simply dummy text of the printing and typesetting</label>														
+													</div>
+													<div class="tfxb-row">
+														<ul class="task-info">
+															<li>
+																<label class="info-title">Assignee :</label>
+																<label class="info-decs" style="color: #0068ff;font-width:bold;">Jone Lare</label>
+															</li>
+															<li>
+																<label class="info-title">Priority :</label>
+																<label class="info-decs">low</label>
+															</li>
+														</ul>
+													</div>
+												</div>
+												<div class="task-actions">
+													<div class="classic-btns">
+														<div class="view_today_task">
+															<a href="#"><i class="fa fa-eye"></i></a>
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+
+
+									</div>
+                                     
+                                  </div>
+                              </div>
+                          </div>                       
+                      </div>
+                    </div>
+
+
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-12 col-lg-12 col-xl-8">
+                <div class="card">
+                  <!-- card-header -->
+                  <div class="card-body">
+                    <div class="d-flex justify-content-between">
+                      <h4 class="card-title mg-b-10">Tracker</h4>
+                    </div>
+                    
+                    <div class="row card row-sm company_dashbord_tracker_list" id="company_d_tracker_list">
+                      <!--card list view start-->
+                      
+                      <div class="col-12">
+                          <div class="row row-sm job-list_container">
+                              <div class="col-12 shorted-listing view p-0">
+                                  <div class="fxm-mini">
+                                     {% for i in job_tracker %}
+                      								<div class="card toggleTabSection tracker_box_d">
+                      									<div class="toggle-head">
+                      										<div class="lft-20">
+                      											<div class="logo_box_user_track">
+                      												<img class="logo_tracker_p" src="{% static 'assets/img/brand/bluelogo.png' %}" alt="logo">
+                      										    </div>
+                      										</div>
+                      										
+                      										<div class="mid-80">
+                      											
+                      											<div class="title-details">
+                      												
+                      												<div class="titleView">
+                      													<div class="company_name_main text-capitalize">{{i.company}} </div><div class="job_title_main text-capitalize"> ( {{i.job_title}} )</div>
+                      												</div>
+                      												<div class="details-ls">
+                      													<ul class="classial-ls">
+                                                  <a href="{% url 'agency:applied_candidates_view' i.job_id %}"><li>Total Applicant: {{i.qpplicant}}</li></a>
+                      														<li>Exp.: {{i.exp}} Years</li>
+                      														<li>Salary Range: {{i.salary_range}}</li>
+                      													</ul>
+                      												</div>
+                      											</div>
+                      											
+                      											
+                      										</div>
+                      										<div class="collapse-btn">
+                      											<a href="javascript:void(0)" class="collps-btn">
+                      												<i class="fa fa-plus"></i>
+                      												<i class="fa fa-minus"></i>
+                      											</a>
+                      										</div>
+                      										
+                      									</div>
+                      									
+                      									<div class="toggleListContainer tracker_box_candi">
+                      										{% for candidate in i.candidates %}
+                      										<div class="flx-container">
+                      											
+                      											<div class="flx-innerSection">
+                      												<div class="flx-left flx-40">
+                      													<div class="profile-img">
+                      														<img src="{% static 'assets/img/ATS/man.png' %}" alt="logo">
+                      													</div>
+                      													<div class="user-name">
+                      														<h6>{{candidate.candidatefname}} <span>{{candidate.candidatelname}}</span></h6> 
+                      													</div>
+                      												</div>
+                      												<div class="flx-left flx-60">
+                      													{% if candidate.reject or candidate.withdraw %}
+                      														{% if candidate.reject %}
+                      														<div class="reject_job_c">Rejected</div>
+                      														{% endif %}
+                      														{% if candidate.withdraw %}
+                      														<div class="reject_job_c">Withdraw</div>
+                      														{% endif %}
+                      													{% else %}
+                      														<div class="flx-sidels">
+                      															<lable class="boldText text-capitalize">Current Stage</lable>
+                      															<p class="text-capitalize">{{candidate.current.name}}</p>
+                      														</div>
+                      														{% if job.current.name == 'Job Offer' %}
+                      														<div class="flx-sidels">
+                      															<lable class="boldText text-capitalize">Next Stage</lable>
+                      															<p class="text-capitalize">---</p>
+                      														</div>
+                      														{% elif job.current.name == 'Application Review' %}
+                      														<div class="flx-sidels">
+                      															<lable class="boldText text-capitalize">Next Stage</lable>
+                      															<p class="text-capitalize">Waiting For Stage</p>
+                      														</div>
+                      														{% else %}
+                      														<div class="flx-sidels">
+                      															<lable class="boldText text-capitalize">Next Stage</lable>
+                      															<p class="text-capitalize">{{candidate.next.name}}</p>
+                      														</div>
+                      														{% endif %}
+                      													
+                      													<div class="flx-sidels">
+                      														<div class="actionPromt">
+                      															<lable class="boldText text-capitalize color_red_action">action required</lable>
+                      															<p class="text-capitalize">{{candidate.action}}</p>
+                      														</div>
+                      													
+                      														<div class="previewAction">
+                                                    <div class="preview-icon">
+                                                      <a href="{% url 'agency:company_portal_candidate_tablist' candidate.candidateid i.job_id %}"><i class="fa fa-eye"></i></a>
+                                                    </div>
+                                                  </div>
+                      													
+                      													</div>
+                      													{% endif %}
+                      												</div>
+                      											</div>
+                      											
+                      										</div>
+                      										{% endfor %}
+                      									</div>
+
+
+                      								</div>
+                      								{% endfor %}
+                                     
+                                  </div>
+                              </div>
+                          </div>
+                       
+                      </div>
+                      
+                     
+                      <!--card list view end-->
+                    </div>
+
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- row closed -->
+
+            <!-- row opened -->
+            <div class="row row-sm">
+
+              <div class="col-md-12 col-lg-12 col-xl-6">
+                <div class="card">
+                  <!-- card-header -->
+                  <div class="card-body latest_jobs_dashbord">
+                    <div class="d-flex justify-content-between">
+                      <h4 class="card-title mg-b-10">Latest 5 Jobs</h4>
+                    </div>
+                    
+                    <div class="row card row-sm" id="">
+                      <!--card list view start-->
+                      
+                      <div class="col-12">
+                          <div class="row row-sm">
+                              <div class="col-12 p-0">
+                                  <div class="fxm-mini">
+                                     
+                                    
+
+                                    {%for i in job_opening %}
+                                    <div class="card toggleTabSection_latest_job">
+                                        <div class="toggle-head">
+                                          
+                                          <div class="latest_job_left">
+                                            
+                                            <div class="title-details">
+                                              
+                                              <div class="titleView">
+                                                <div class="company_name_main text-capitalize">{{i.job_title}} </div>
+                                              </div>
+                                              <div class="details-ls">
+                                                <ul class="classial-ls">
+                                                  <a href="/agency/applied_candidates_view/2"><li>Applicant: 2</li></a>
+                                                  <li>Exp.: {{i.experience_year_min}} {{i.experience_year_max}} Years</li>
+                                                  <li>Salary : {{i.min_salary}} to {{i.max_salary}}</li>
+                                                </ul>
+                                              </div>
+                                            </div>
+                                            
+                                            
+                                          </div>
+                                          <div class="collapse-btn">
+                                            <a class="view_job_d" target="_blank"  href="{% url 'agency:created_job_view' i.id %}" ><i data-v-e08301e8="" class="fas fa-eye"></i></a>
+                                          </div>
+                                          
+                                        </div>
+                                    </div>
+                                  
+                                      
+                                      {% endfor %}
+
+                                     
+                                  </div>
+                              </div>
+                          </div>
+                       
+                      </div>
+                      
+                     
+                      <!--card list view end-->
+                    </div>
+
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-md-12 col-lg-12 col-xl-6">
+                <div class="card">
+                  <!-- card-header -->
+                  <div class="card-body latest_jobs_dashbord Candidates_list_das">
+                    <div class="d-flex justify-content-between">
+                      <h4 class="card-title mg-b-10">Latest 10 Candidates</h4>
+                    </div>
+                    
+                    <div class="row card row-sm" id="">
+                      <!--card list view start-->
+                      
+                      <div class="col-12">
+                          <div class="row row-sm">
+                              <div class="col-12 p-0">
+                                  <div class="fxm-mini">
+
+                                    {% for candidate in latest_10_candidates %}
+                                      <div class="card toggleTabSection_latest_job">
+                                        <div class="toggle-head">
+                                          
+                                          <div class="latest_job_left">
+                                            
+                                            <div class="title-details">
+                                              
+                                              <div class="titleView">
+                                                <div class="agency_name_main text-capitalize">{{candidate.first_name}} {{candidate.last_name}} </div>
+                                                <div class="job_title_main text-capitalize"> ( {{candidate.designation}} )</div>
+                                              </div>
+                                              <div class="details-ls">
+                                                <ul class="classial-ls">
+                                                  <li>Exp.: {{candidate.total_exper|experiance_show}}</li>
+                                                  <li>Ex-Salary : {{candidate.expectedctc}}</li>
+                                                  <li>Notice : {{candidate.notice.notice_period}}</li>
+                                                </ul>
+                                              </div>
+                                            </div>
+                                            
+                                            
+                                          </div>
+                                          <div class="collapse-btn">
+                                            <a class="view_job_d" target="_blank" href="{% url 'agency:view_candidate' candidate.id %}"><i data-v-e08301e8="" class="fas fa-eye"></i></a>
+                                          </div>
+                                          
+                                        </div>
+                                      </div>
+                                    {% endfor %}
+                                     
+                                    
+                                     
+                                  </div>
+                              </div>
+                          </div>
+                       
+                      </div>
+                      
+                     
+                      <!--card list view end-->
+                    </div>
+
+                  </div>
+                </div>
+              </div>
+
+            </div>  
+					  <!-- row closed -->
+
+				</div>
+				<!-- Main-content-body closed -->
+					
+
+
+{% endblock %}
+
+{% block script %}
+		<!-- Custom js -->
+		<script src="{% static 'assets/js/jQuery-Plugin-To-Copy-Clipboard/jquery.copy-to-clipboard.js' %}"></script>
+
+		<script>
+			function getCookie(name) {
+				var cookieValue = null;
+				if (document.cookie && document.cookie !== '') {
+					var cookies = document.cookie.split(';');
+					for (var i = 0; i < cookies.length; i++) {
+						var cookie = jQuery.trim(cookies[i]);
+						// Does this cookie string begin with the name we want?
+						if (cookie.substring(0, name.length + 1) === (name + '=')) {
+							cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+							break;
+						}
+					}
+				}
+				return cookieValue;
+			}
+
+					
+
+		</script>
+
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/exceptionless@v1.6.4/dist/exceptionless.min.js"></script>
+
+</script>
+
+<script type="text/javascript">
+  
+  $(document).ready(function(){
+   
+    $(".company_dashbord_tracker_list .collps-btn").on('click',function(){
+        $(this).toggleClass('active').closest('.toggleTabSection.tracker_box_d').find('.toggleListContainer.tracker_box_candi').toggleClass('active')
+    })
+  })
+</script>
+
+{% endblock %}
+

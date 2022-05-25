@@ -1,0 +1,310 @@
+{% extends 'agency/base.html' %}
+{% load static %}
+{% block title %}Coding Exam Question Selection{% endblock %}
+{% block css %}
+    <!--custom css-->
+    <link href="{% static 'assets/css/ATS/coding_question_selection.css' %}" rel="stylesheet">
+    <script src="https://cdn.datatables.net/1.11.3/css/jquery.dataTables.min.css" integrity="sha512-BkpSL20WETFylMrcirBahHfSnY++H2O1W+UnEEO4yNIl+jI2+zowyoGJpbtk6bx97fBXf++WJHSSK2MV4ghPcg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/datatables/1.10.21/css/dataTables.bootstrap4.min.css" integrity="sha512-PT0RvABaDhDQugEbpNMwgYBCnGCiTZMh9yOzUsJHDgl/dMhD9yjHAwoumnUk3JydV3QTcIkNDuN40CJxik5+WQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/datatables/1.10.21/css/dataTables.foundation.min.css" integrity="sha512-jyhJOXPqmwwlzhhy2/7edoig3tkyTClebiDZsV2zGb5k4nBol09WyZhK7w1KLl11q79UJjPWgybVu1m52cVehw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    
+{% endblock %}
+{% block main %}
+
+       <!-- Main-content-body -->
+        <div class="main-content-body cq_e_s">
+
+            <!-- row -->
+            <div class="row row-sm ">
+
+                <div class="col-12">
+                    <div class="card audiencemetric">
+                        <div class="template_selection_header one_header">
+                            <div class="h5 t_ty_50">Template Type : <span>Coding</span></div>
+                            <div class="h5">Template Name : <span>Xyz</span></div>
+                            
+                        </div>
+                        <div class="card-body p-3">
+                            <form method="post" onsubmit="return false" id="coding_question_form">
+                                {% csrf_token %}
+                                <input type="hidden"  id="question_id_list" name="question_id_list" value="">
+                                <div class="row">
+                                <div class="col-12">
+                                    <div class="formprogress_indicator">
+                                        <ul class="progress_stages">
+                                            {% for que_no in no_of_que %}
+                                            <li class="progress_count {% if forloop.first %} active {%else%}completed{% endif %}" >{{forloop.counter}}</li>
+                                            {% endfor %}
+                                        </ul>
+                                    </div>
+
+                                    <div class="add__exam-form">
+                                       
+                                        
+                                        <div class="custom_question_get">
+
+                                            <table id="questions" >
+                                                 <thead style="display: none;">
+                                                    <tr>
+                                                        <th>Question Title</th>
+                                                        
+                                                    </tr>
+                                                </thead>
+
+                                                {%for que in questions%}
+                                                <tr id="coding_que_{{que.id}}" class="coding_question_edit_list">
+                                                    <td>
+                                                        <div class="slide-list row row-sm card">
+                                                            <div class="title-section col-12">
+                                                                <div class="info-section fx-row">
+                                                                    <div class="fx-col-sm left-side">
+                                                                        <label class="tab-counter-label">{{forloop.counter}}</label>
+                                                                        <label class="description_q_title">{{que.coding_que_title}}</label>
+                                                                    </div>
+                                                                    <div class="fx-col-sm right-side">
+                                                                        <label class="category-type__info text-capitalize">{{que.question_type}}</label>
+                                                                        
+                                                                            <div class="slide-tab-btnmark">Select : <input type="radio" name="selected_questions"  class="question_select" id="question_{{que.id}}"></div>
+                                                                        
+                                                                        <div class="slide-tab-btn"><i class="fas fa-chevron-down"></i></div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="short-details-list">
+                                                                    
+                                                                    <div class="detail-section">
+                                                                            
+                                                                        {% autoescape off %}{{que.coding_que_description}}{% endautoescape %}
+                                                                            
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                            {%endfor%}
+                                            
+                                            </table>
+                                            <!-- {% for que in questions %}
+                                                <div class="descriptive_questions">
+                                                <div class="descriptive_questions_no">
+                                                    <div class="descriptive_question_heading">
+                                                        <div class="cardtitle">{{ forloop.counter}}</div>
+                                                        <span>{{que.question_type}}</span>
+                                                    </div>
+                                                </div>
+                                                <div class="descriptive_questions_action">
+                                                    
+                                                    <label class="rdiobox m-0 mt-1"><input name="exam_questions_2" type="radio" > <span></span></label>
+
+                                                </div>
+                                                <div class="questions_details_text">
+                                                    <div class="questions_title">{{que.coding_que_title}}</div>
+                                                        {% autoescape off %}
+                                                            <pre>{{que.coding_que_description}}</pre>
+                                                        {% endautoescape %}
+                                                    </div>
+                                                </div>
+                                            {% endfor %} -->
+
+                                            <div class="row">
+                                                <div class="col">
+                                                    <div class="d-flex add__exam-form-action cus_line">
+                                                        <button class="btn btn-primary rounded-20 mr-2" type="submit" id="prev_button">Previous</button>
+                                                        <button class="btn btn-primary rounded-20" type="submit" id="next_button">Next</button>
+                                                      
+                                                        <!-- <button type="button" class="btn btn-danger rounded-20 close-action">Close</button> -->
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                       
+                                        <!-- <div class="row">
+                                            <div class="col">
+                                                <div class="d-flex add__exam-form-action">
+                                                    <button class="btn btn-primary rounded-20" type="submit" id="next_button">Next</button>
+                                                    <button class="btn btn-primary rounded-20" type="submit" id="prev_button">Previous</button>
+                                                    <button type="button" class="btn btn-danger rounded-20 close-action">Close</button>
+                                                </div>
+                                            </div>
+                                        </div> -->
+                                    </div>
+
+                                </div>
+                            </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- row -->
+        </div>
+        <!-- Main-content-body closed -->
+           
+{% endblock %}
+
+{% block script %}
+<!--		<script src="{% static 'assets/js/ATS/descriptive_all.js' %}"></script>-->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/datatables/1.10.21/js/jquery.dataTables.min.js" integrity="sha512-BkpSL20WETFylMrcirBahHfSnY++H2O1W+UnEEO4yNIl+jI2+zowyoGJpbtk6bx97fBXf++WJHSSK2MV4ghPcg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script>
+    $(document).ready(function(){
+
+         $('#questions').dataTable({
+            paging: false
+        });
+
+        $(document).on('click','.slide-tab-btn',function(){
+            currentListEle = $(this);
+            if(currentListEle.closest('.slide-list').find('.detail-section').is(":visible")){
+                console.log('true')
+                $('.detail-section').slideUp();
+                currentListEle.closest('.slide-list').find('.detail-section').slideUp();
+            }else{
+                console.log('false')
+                $('.detail-section').slideUp();
+                currentListEle.closest('.slide-list').find('.detail-section').slideDown();
+            }
+        });
+        
+        var received_question_ids = JSON.parse("{{exam_question_ids|escapejs}}")
+        console.log(" received_question_ids",received_question_ids)
+        var question_ids  = []
+        question_ids = received_question_ids
+        console.log("question_idds finaaaaal",question_ids)
+        $("#question_"+question_ids[0]).prop("checked",true)
+        var current_question_index = 0
+        var total_questions = parseInt("{{exam_configuration.total_question}}")
+
+        for(var i =1;i<total_questions;i++)
+        {
+            console.log("question obj","#coding_que"+question_ids[i])
+            console.log("question obj",$("#coding_que_"+question_ids[i]))
+            $("#coding_que_"+question_ids[i]).hide()
+        }
+        console.log("total_no o of queisotns",total_questions)
+        console.log("loaded")
+         var table = $('#questions').DataTable();
+
+        console.log("all columns",table.settings().columns())
+
+        $(document).on("change",".question_select",function(){
+            var quesiton_div_id = this.id
+            var question_id = quesiton_div_id.split("_")[quesiton_div_id.split("_").length -1]
+            
+            console.log("the clciked cvalyued isw ",question_id)
+            if(this.checked == true)
+            {
+               
+
+                question_ids[current_question_index]=parseInt(question_id)
+            }
+            else
+            {
+                var index = question_ids.indexOf(question_id)
+                if(index >= -1)
+                {
+                    array.splice(index, 1);
+                }
+            }
+            console.log("quesrtion_id_list",question_ids)
+            
+            
+
+
+        })
+        function change_question_select()
+        {
+            console.log("nextwa called")
+            var question_id = question_ids[current_question_index]
+            var question_div = $("#coding_que_"+question_id)
+            console.log("question div",question_div)
+            var old_question_index = current_question_index
+            question_div.hide()
+            
+            if(this.id == "next_button")
+            {
+                if(current_question_index == total_questions -1)
+                {
+                    $("#question_id_list").val(JSON.stringify(question_ids))
+                    console.log("question_id_list",$("#question_id_list").val())
+                    if(question_ids.includes(null))
+                    {
+                        alert("Please select questions in each page")
+                    } 
+                    else
+                    {
+                        document.getElementById("coding_question_form").submit();
+                    }
+
+                    
+                    
+                }
+                if(current_question_index<total_questions-1 )
+                {
+                
+                    current_question_index +=1      
+                    if(current_question_index == total_questions-1)
+                    {
+
+                        $("#next_button").html("Finish")
+                    }              
+                }
+            }
+            else
+            {
+                if(current_question_index>0)
+                {
+                    
+                    current_question_index -=1
+                    if(current_question_index <= total_questions-2)
+                    {
+                        $("#next_button").html("Next")
+                    } 
+                }
+            }
+            var changed_question_div_id = question_ids[current_question_index]
+            console.log("changed_question_div_id",changed_question_div_id)
+            if(changed_question_div_id !=null)
+            {
+                console.log("inside caklkled")
+                var changed_question_div = $("#coding_que_"+changed_question_div_id)       
+                console.log("checkboix",$("question_"+changed_question_div_id))
+                $("#question_"+changed_question_div_id).prop("checked", true);
+                changed_question_div.show()
+            }
+            
+         
+            console.log("current queisotn index",current_question_index)
+            console.log("question_ids",question_ids)
+            document.querySelector(".progress_stages").scrollIntoView({ behavior: 'smooth', block: 'center' })
+            console.log("old question _index",old_question_index)
+            update_pagination(old_question_index)
+            return false
+            
+        }
+
+        function update_pagination(old_question_index)
+        {
+            // two css active and completed
+            var question_id = question_ids[old_question_index]
+            console.log("question_id<<<<<<<<<<<<<<<<<<<",question_id)
+            if(question_id != null)
+            {
+                $(".progress_count").eq(old_question_index).addClass("completed")
+            }
+            else
+            {
+                $(".progress_count").eq(old_question_index).removeClass("active")
+            }
+            $(".progress_count").eq(current_question_index).removeClass("completed")
+            $(".progress_count").eq(current_question_index).addClass("active")
+        }
+        $(document).on("click","#next_button,#prev_button",change_question_select)      
+
+        
+
+    })
+
+
+
+</script>
+{% endblock %}

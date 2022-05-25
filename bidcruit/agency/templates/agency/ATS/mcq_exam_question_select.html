@@ -1,0 +1,515 @@
+{% extends 'agency/base.html' %}
+{% load static %}
+{% block title %}Mcq Subject select{% endblock %}
+{% block css %}
+
+    <link href="{% static 'assets/css/ATS/exam_view.css' %}" rel="stylesheet">
+ <!-- Internal Data table css -->
+    <link href="{% static 'assets/plugins/datatable/css/dataTables.bootstrap4.min.css' %}" rel="stylesheet" />
+    <link href="{% static 'assets/plugins/datatable/css/buttons.bootstrap4.min.css' %}" rel="stylesheet">
+    <link href="{% static 'assets/plugins/datatable/css/responsive.bootstrap4.min.css' %}" rel="stylesheet" />
+    <link href="{% static 'assets/plugins/datatable/css/jquery.dataTables.min.css' %}" rel="stylesheet">
+    <link href="{% static 'assets/plugins/datatable/css/responsive.dataTables.min.css' %}" rel="stylesheet">
+    <link href="{% static 'assets/plugins/select2/css/select2.min.css' %}" rel="stylesheet">
+    
+
+
+{% endblock %}
+{% block main %}
+
+           
+            <!-- Main-content-body -->
+            <div class="main-content-body">
+
+                <!-- row -->
+                <div class="row row-sm ">
+                    <div class="col-12">
+                        <div class="card audiencemetric">
+                            <div class="card-header exam-view-header">
+                                <h2>Java MCQ TEST</h2>
+                                <div class="search-page">
+                                    <div class="input-group">
+                                        <span class="input-group-append">
+                                            <button class="btn ripple" type="button"><i
+                                                    class="fa fa-search"></i></button>
+                                        </span>
+                                        <input type="text" class="form-control border-left-0 pl-3" id="mcqsearch" placeholder="Search Template">
+                                    </div>
+                                </div>
+                            </div>
+                            {% csrf_token %}
+                            <form>
+                                <div class="card-body">
+                                    <div class="main-content-body-profile exam-view">
+                                        <div class="question-timing">
+                                            {%if exam_template.question_wise_time %} {% else %}<h4>Question Time : 1 min</h4>{% endif %}
+                                        </div>
+                                        <nav class="nav main-nav-line">
+                                            <a class="nav-link d-flex  active" data-toggle="tab" href="#basic">Basic</a>
+                                            <a class="nav-link d-flex" data-toggle="tab" href="#intermediate">Intermediate</a>
+                                            <a class="nav-link d-flex" data-toggle="tab" href="#advance">Advance</a>
+                                        </nav>
+                                        <div class="tab-content">
+                                            <div class="tab-pane mcq-scroll" id="basic">
+                                                <div class="card-body pl-0 pl-0">
+                                                    <div class="table-responsive">
+                                                        <div class="template_question_status">
+                                                            <h3>Total Count : {{exam_template.basic_questions_count}}</h3>
+                                                            {% if exam_template.marking_system == "question_wise" %} {% else %}<h3>(10 x 1 = 10)</h3>{% endif %}
+                                                        </div>
+                                                        <table class="table text-md-nowrap candidate_table">
+                                                            <thead>
+                                                                <tr style="display: none;">
+                                                                    <th class="border-bottom-0">Job Title</th>
+
+                                                                </tr>
+
+                                                            </thead>
+                                                            <tbody>
+
+                                                            {%for i in basic_questions%}
+                                                                <tr class="template_question_list selection_q_view_c">
+                                                                    <td id="ques-li{{i.id}}">
+                                                                        <div class="slide-list row row-sm card mb-0">
+                                                                            <div class="title-section col-12">
+                                                                                <div class="info-section fx-row">
+                                                                                    <div class="fx-col-sm left-side">
+                                                                                        <label class="tab-counter-label">{{forloop.counter}}</label>
+                                                                                        <label class="text_q main-content-label mb-0">{{i.question_description}}</label>
+                                                                                    </div>
+                                                                                   
+                                                                                </div>
+                                                                                <div class="short-details">
+                                                                                    <div class="para-description">
+                                                                                        <ul class="list_view_option">
+                                                                                            <li {%if i.correct_option == 'a'%} class="correct_ans"{%endif%}>(A) {{i.option_a}}</li>
+                                                                                            <li {%if i.correct_option == 'b'%} class="correct_ans"{%endif%}>(B) {{i.option_b}}</li>
+                                                                                            <li {%if i.correct_option == 'c'%} class="correct_ans"{%endif%}>(C) {{i.option_c}}</li>
+                                                                                            <li {%if i.correct_option == 'd'%} class="correct_ans"{%endif%}>(D) {{i.option_d}}{{exam_template.marking_system}}</li>
+                                                                                        </ul>
+                                                                                    </div>          
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="select_q_book mark-group">
+                                                                                <div class="info-section fx-row">
+                                                                                    
+                                                                                    <div class="fx-col-sm right-side">
+                                                                                        
+                                                                                        <label class="ckbox">Select <input class="select-que basic-que" id="markscheck{{i.id}}" value="{{i.id}}" name="viewcheck" type="checkbox" ><span></span></label>
+                                                                                        
+                                                                                    </div>
+                                                                                    
+                                                                                </div>
+                                                                                <div class="mark_time_input">
+                                                                                	{%if exam_template.marking_system == "question_wise"%}
+                                                                                    	    <input id="markinput{{i.id}}" class="form-control ml-0 viewmarks mb-2" value="" required="true" type="text" placeholder="Enter Marks" name="que_mark_i" min="1" max="100">
+    			                                                                    {%endif%}
+                                                                                	{%if exam_template.question_wise_time %}
+    			                                                                        <input class="form-control ml-0 viewtimes" id="timeinput{{i.id}}" placeholder="MM:SS" required="true" type="text" name="time_qes">
+                                                                                    {%endif%}
+                                                                                    </div>
+
+                                                                             </div>
+                                                                        </div>
+                                                                    </td>
+                                                                </tr>
+                                                            {% endfor %}
+                                                               
+
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="tab-pane mcq-scroll" id="intermediate">
+                                                <div class="card-body pl-0 pl-0">
+                                                    <div class="table-responsive">
+                                                        <div class="template_question_status">
+                                                            <h3>Total Count : {{exam_template.intermediate_questions_count}}</h3>
+                                                            {% if exam_template.marking_system == "question_wise" %}{% else %}<h3>(10 x 1 = 10)</h3>{% endif %}
+                                                        </div>
+                                                        <table class="table text-md-nowrap candidate_table">
+                                                            <thead>
+                                                                <tr style="display: none;">
+                                                                    <th class="border-bottom-0">Job Title</th>
+
+                                                                </tr>
+
+                                                            </thead>
+                                                            <tbody>
+
+                                                                {%for i in intermediate_questions%}
+                                                                <tr class="template_question_list selection_q_view_c">
+                                                                    <td id="ques-li{{i.id}}">
+                                                                        <div class="slide-list row row-sm card mb-0">
+                                                                            <div class="title-section col-12">
+                                                                                <div class="info-section fx-row">
+                                                                                    <div class="fx-col-sm left-side">
+                                                                                        <label class="tab-counter-label">{{forloop.counter}}</label>
+                                                                                        <label class="text_q main-content-label mb-0">{{i.question_description}}</label>
+                                                                                    </div>
+                                                                                   
+                                                                                </div>
+                                                                                <div class="short-details">
+                                                                                    <div class="para-description">
+                                                                                        <ul class="list_view_option">
+                                                                                            <li {%if i.correct_option == 'a'%} class="correct_ans"{%endif%}>(A) {{i.option_a}}</li>
+                                                                                            <li {%if i.correct_option == 'b'%} class="correct_ans"{%endif%}>(B) {{i.option_b}}</li>
+                                                                                            <li {%if i.correct_option == 'c'%} class="correct_ans"{%endif%}>(C) {{i.option_c}}</li>
+                                                                                            <li {%if i.correct_option == 'd'%} class="correct_ans"{%endif%}>(D) {{i.option_d}}</li>
+                                                                                        </ul>
+                                                                                    </div>          
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="select_q_book mark-group">
+                                                                                <div class="info-section fx-row">
+                                                                                    
+                                                                                    <div class="fx-col-sm right-side">
+                                                                                        
+                                                                                        <label class="ckbox">Select <input class="select-que intermediate-que" id="markscheck{{i.id}}" value="{{i.id}}" name="viewcheck" type="checkbox" ><span></span></label>
+                                                                                        
+                                                                                    </div>
+                                                                                    
+                                                                                </div>
+                                                                                <div class="mark_time_input">
+                                                                                	{%if exam_template.marking_system == "question_wise"%}
+                                                                                    	    <input id="markinput{{i.id}}" class="form-control ml-0 viewmarks mb-2" value="" min="1" max="100" name="que_mark_i" required="true" type="text" placeholder="Enter Marks">
+    			                                                                    {%endif%}
+                                                                                	{%if exam_template.question_wise_time %}
+    			                                                                        <input class="form-control ml-0 viewtimes" id="timeinput{{i.id}}" placeholder="MM:SS" required="true" type="text" name="time_qes">
+                                                                                    {%endif%}
+                                                                                    </div>
+
+                                                                             </div>
+                                                                        </div>
+                                                                    </td>
+                                                                </tr>
+                                                                {%endfor%}
+
+
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="tab-pane mcq-scroll" id="advance">
+                                                <div class="card-body pl-0 pl-0">
+                                                    <div class="table-responsive">
+                                                        <div class="template_question_status">
+                                                            <h3>Total Count : {{exam_template.advanced_questions_count}}</h3>
+                                                            {% if exam_template.marking_system == "question_wise" %} {% else %}<h3>(10 x 1 = 10)</h3>{% endif %}
+                                                        </div>
+                                                        <table class="table text-md-nowrap candidate_table" >
+                                                            <thead>
+                                                                <tr style="display: none;">
+                                                                    <th class="border-bottom-0">Job Title</th>
+
+                                                                </tr>
+
+                                                            </thead>
+                                                            <tbody>
+
+                                                                {%for i in advanced_questions%}
+                                                                <tr class="template_question_list selection_q_view_c">
+                                                                    <td id="ques-li{{i.id}}">
+                                                                        <div class="slide-list row row-sm card mb-0">
+                                                                            <div class="title-section col-12">
+                                                                                <div class="info-section fx-row">
+                                                                                    <div class="fx-col-sm left-side">
+                                                                                        <label class="tab-counter-label">{{forloop.counter}}</label>
+                                                                                        <label class="text_q main-content-label mb-0">{{i.question_description}}</label>
+                                                                                    </div>
+                                                                                   
+                                                                                </div>
+                                                                                <div class="short-details">
+                                                                                    <div class="para-description">
+                                                                                        <ul class="list_view_option">
+                                                                                            <li {%if i.correct_option == 'a'%} class="correct_ans"{%endif%}>(A) {{i.option_a}}</li>
+                                                                                            <li {%if i.correct_option == 'b'%} class="correct_ans"{%endif%}>(B) {{i.option_b}}</li>
+                                                                                            <li {%if i.correct_option == 'c'%} class="correct_ans"{%endif%}>(C) {{i.option_c}}</li>
+                                                                                            <li {%if i.correct_option == 'd'%} class="correct_ans"{%endif%}>(D) {{i.option_d}}</li>
+                                                                                        </ul>
+                                                                                    </div>          
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="select_q_book mark-group">
+                                                                                <div class="info-section fx-row">
+                                                                                    
+                                                                                    <div class="fx-col-sm right-side">
+                                                                                        
+                                                                                        <label class="ckbox">Select <input class="select-que advance-que" id="markscheck{{i.id}}" value="{{i.id}}" name="viewcheck" type="checkbox" ><span></span></label>
+                                                                                        
+                                                                                    </div>
+                                                                                    
+                                                                                </div>
+                                                                                <div class="mark_time_input">
+                                                                                	{%if exam_template.marking_system == "question_wise"%}
+                                                                                    	    <input id="markinput{{i.id}}" class="form-control ml-0 viewmarks mb-2" value="" min="1" max="100" name="que_mark_i" required="true" type="text" placeholder="Enter Marks">
+    			                                                                    {%endif%}
+                                                                                	{%if exam_template.question_wise_time %}
+    			                                                                        <input class="form-control ml-0 viewtimes" id="timeinput{{i.id}}" placeholder="MM:SS" required="true" type="text" name="time_qes">
+                                                                                    {%endif%}
+                                                                                    </div>
+
+                                                                             </div>
+                                                                        </div>
+                                                                    </td>
+                                                                </tr>
+                                                                {%endfor%}
+
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <button name="submit" class="btn btn-primary add-exam-que submit_cut_btn">Submit</button>
+                                </div>
+                            </form>
+
+                        </div>
+
+                    </div>
+                </div>
+                <!-- row -->
+            </div>
+            <!-- Main-content-body closed -->
+           
+{% endblock %}
+
+{% block script %}
+    <!-- Internal Data tables -->
+    <script src="{% static 'assets/plugins/datatable/js/jquery.dataTables.min.js' %}"></script>
+    <script src="{% static 'assets/plugins/datatable/js/dataTables.dataTables.min.js' %}"></script>
+    <script src="{% static 'assets/plugins/datatable/js/dataTables.responsive.min.js' %}"></script>
+    <script src="{% static 'assets/plugins/datatable/js/responsive.dataTables.min.js' %}"></script>
+    <script src="{% static 'assets/plugins/datatable/js/jquery.dataTables.js' %}"></script>
+    <script src="{% static 'assets/plugins/datatable/js/dataTables.bootstrap4.js' %}"></script>
+    <script src="{% static 'assets/plugins/datatable/js/dataTables.buttons.min.js' %}"></script>
+    <script src="{% static 'assets/plugins/datatable/js/buttons.bootstrap4.min.js' %}"></script>
+    <script src="{% static 'assets/plugins/datatable/js/jszip.min.js' %}"></script>
+    <script src="{% static 'assets/plugins/datatable/js/pdfmake.min.js' %}"></script>
+    <script src="{% static 'assets/plugins/datatable/js/vfs_fonts.js' %}"></script>
+    <script src="{% static 'assets/plugins/datatable/js/buttons.html5.min.js' %}"></script>
+    <script src="{% static 'assets/plugins/datatable/js/buttons.print.min.js' %}"></script>
+    <script src="{% static 'assets/plugins/datatable/js/buttons.colVis.min.js' %}"></script>
+    <script src="{% static 'assets/plugins/datatable/js/dataTables.responsive.min.js' %}"></script>
+    <script src="{% static 'assets/plugins/datatable/js/responsive.bootstrap4.min.js' %}"></script>
+
+    <!-- datatable js -->
+    <script src="{% static 'assets/js/table-data.js' %}"></script>
+
+    <!--- Internal Vector-sampledata js -->
+    <script src="{% static 'assets/js/jquery.vmap.sampledata.js' %}"></script>
+
+     <!-- jquery validation plugin -->
+     <script src="{% static 'assets/js/jquery-validation-1.19.3/dist/jquery.validate.js' %}"></script>
+
+
+    
+
+    <script>
+
+    var questions = {};
+    var selected_question_buffer = [] //used as a mid point to store questions temporarily
+    var question_remove_buffer = [] // used to store deselected questions which will be updated on tab change
+    var selected_questions =[]
+    var selected_questions_count = 0
+
+
+
+
+    $.validator.addMethod("time24", function(value, element) { 
+        if (!/^\d{2}:\d{2}$/.test(value)) return false;
+        var parts = value.split(':');
+        if (parts[1] > 59 || parts[2] > 59) return false;
+        return true;
+    }, "Invalid time format.");
+
+
+    $(function() {
+        $("form").validate({
+            // Specify validation rules
+            rules: {
+              // The key name on the left side is the name attribute
+              // of an input field. Validation rules are defined
+              // on the right side
+                time_qes: {
+                   required: true,
+                   time24: true
+                },
+                que_mark_i:{
+                    number: true,
+                    range: [1, 100]
+                }
+             
+            },
+            // Specify validation error messages
+            messages: {
+             
+
+            },
+            // Make sure the form is submitted to the destination defined
+            // in the "action" attribute of the form when valid            
+
+            submitHandler: function(form) {
+                    console.log("form questions areies",questions)
+                    ajaxLoader(true)
+                    $.ajax({
+                        url:"/agency/create_exam/" + "{{exam_template.id}}",
+                        method:"POST",
+                        headers: {"X-CSRFToken":$("input[name=csrfmiddlewaretoken]").val()},
+                        data:JSON.stringify(questions)
+                    }).done(function(response){
+                        ajaxLoader(false)
+                        window.location.replace("/agency/mcq_template_view/"+"{{exam_template.template.id}}")
+                    })
+            }
+        
+        });
+    });
+
+
+
+
+
+
+
+    $(document).ready(function(){
+        var None=""
+
+        var basic_selected_questions = 0
+        var intermediate_selected_questions =0
+        var advanced_selected_questions = 0
+        var basic_question_needed = parseInt("{{exam_template.basic_questions_count}}")
+        var intermediate_question_needed = parseInt("{{exam_template.intermediate_questions_count}}")
+        var advanced_question_needed = parseInt("{{exam_template.advanced_questions_count}}")
+
+
+        $(document).on("click","input[name=viewcheck]",function(e){
+            // console.log("stuff",this)
+            var id = this.value;
+            // console.log(this,"----------------------->",questions)
+            if ($(this).prop('checked') == true) {
+                $('#markinput' + id).show();
+                $('#timeinput' + id).show();
+                var mark_div = $("#markscheck"+id).closest(".mark-group")
+                console.log("mark div here",mark_div)
+                $("#ques-li"+id).addClass("question-selected")
+                add_question_to_list(mark_div)
+                selected_question_buffer.push(id)
+                update_difficulty_variable(this,1)
+            } else {
+                $('#markinput' + id).hide();
+                $('#timeinput' + id).hide();
+                
+                $('#markinput' + id +'-error').html('');
+                $('#timeinput' + id +'-error').html('');
+                $('#markinput' + id).removeClass('error');
+                $('#timeinput' + id).removeClass('error');
+
+                $("#ques-li"+id).removeClass("question-selected")
+                delete questions[id]
+                question_remove_buffer.push(id)
+                update_difficulty_variable(this,-1)
+            }
+            // console.log("woooooooooooooooow")
+            // console.log("questionsssss",questions)
+        });
+        $('.add-exam-que').click(function(){
+            console.log(basic_selected_questions);
+            console.log(basic_question_needed);
+        if(basic_question_needed != basic_selected_questions)
+        {
+            alert("only select " +basic_question_needed + "question/s in the basic difficulty")
+            return false
+        }
+        if(intermediate_question_needed != intermediate_selected_questions)
+        {
+            alert("only select " +basic_question_needed + "question/s in the intermediate difficulty")
+            return false
+        }
+        if(advanced_question_needed != advanced_selected_questions)
+        {
+            alert("only select " +basic_question_needed + "question/s in the advanced difficulty")
+            return false
+        }
+            // console.log("form questions areies",questions)
+            // ajaxLoader(true)
+            // $.ajax({
+            //     url:"/agency/create_exam/" + "{{exam_template.id}}",
+            //     method:"POST",
+            //     headers: {"X-CSRFToken":$("input[name=csrfmiddlewaretoken]").val()},
+            //     data:JSON.stringify(questions)
+            // }).done(function(response){
+            //     ajaxLoader(false)
+            //     window.location.replace("/agency/mcq_template_view/"+"{{exam_template.template.id}}")
+            // })
+        });
+        $(document).on("change",".viewmarks,.viewtimes",function(){
+            var mark_group = $(this).closest(".mark-group")
+            // console.log("this value is",mark_group)
+            // var question_id = mark_group.find("[name='viewcheck']").val()
+            add_question_to_list(mark_group)
+            // var question_marks = mark_group.find(".viewmarks").val()
+            // var question_time = mark_group.find(".viewtimes").val()
+            // questions[question_id] = [question_marks,question_time]
+            // console.log("all_questions",questions)
+        })
+    function add_question_to_list(mark_group)
+        {
+            // var mark_group = $("markinput"+question_id).closest(".mark-group")
+            var question_id = mark_group.find("[name='viewcheck']").val()
+            console.log(question_id)
+            var question_marks = mark_group.find(".viewmarks").val()
+            console.log(question_marks)
+            var question_time = mark_group.find(".viewtimes").val()
+            console.log(question_time)
+            console.log("i ma right here",questions)
+            questions[question_id] = [question_marks,question_time]
+            // console.log("question added to list")
+        }
+    function update_difficulty_variable(input_element,delta)
+    {
+        if($(input_element).hasClass('basic-que'))
+        {
+            basic_selected_questions += delta
+            // console.log("basiiic",basic_selected_questions)
+        }
+        else if ($(input_element).hasClass('intermediate-que'))
+        {
+            // console.log("intermediate")
+            intermediate_selected_questions += delta
+        }
+        else
+        {
+            // console.log("advacned")
+            advanced_selected_questions += delta
+        }
+    }
+    })
+    </script>
+
+    <script>
+        function formatTime(timeInput) {
+            intValidNum = timeInput.value;
+            if (intValidNum < 24 && intValidNum.length == 2) {
+                timeInput.value = timeInput.value + ":";
+                return false;
+            }
+            if (intValidNum == 24 && intValidNum.length == 2) {
+                timeInput.value = timeInput.value.length - 2 + "0:";
+                return false;
+            }
+            if (intValidNum > 24 && intValidNum.length == 2) {
+                timeInput.value = "";
+                return false;
+            }
+        }
+    </script>
+
+    
+
+
+{% endblock %}

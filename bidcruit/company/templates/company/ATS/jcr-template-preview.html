@@ -1,0 +1,1067 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<meta name='viewport' content='width=device-width, initial-scale=1.0, user-scalable=0'>
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="Description" content="Bootstrap Responsive Admin Web Dashboard HTML5 Template">
+		<meta name="Author" content="Spruko Technologies Private Limited">
+		<meta name="Keywords" content="bootstrap admin panel template,bootstrap admin template premium,bootstrap backend template,bootstrap dashboard template,bootstrap panel template,dashboard admin bootstrap 4,dashboard template bootstrap 4,html css dashboard template,html dashboard template,html web app template,modern admin template,nice admin template,simple bootstrap admin template,simple dashboard html template,simple dashboard template bootstrap,template dashboard bootstrap 4"/>
+
+		<!-- Title -->
+		<title> Admix - Admin Panel html template </title>
+
+		<!--- Favicon -->
+		<link rel="icon" href="{% static 'assets/img/brand/favicon.png' %}" type="image/x-icon"/>
+		<!--- Icons css -->
+		<link href="{% static 'assets/css/icons.css' %}" rel="stylesheet">
+
+		<!--- Right-sidemenu css -->
+		<link href="{% static 'assets/plugins/sidebar/sidebar.css' %}" rel="stylesheet">
+
+		<!--- Custom Scroll bar -->
+		<link href="{% static 'assets/plugins/mscrollbar/jquery.mCustomScrollbar.css' %}" rel="stylesheet"/>
+
+		<!--- Style css -->
+		<link rel="stylesheet" type="text/css" media="all" href="{% static 'assets/css/style.css' %}">
+
+		<!-- Colors css -->
+		<link id="theme" rel="stylesheet" type="text/css" media="all" href="{% static 'assets/css/colors/color.css' %}">
+
+		<!--- Skinmodes css -->
+		<link href="{% static 'assets/css/skin-modes.css' %}" rel="stylesheet">
+
+		<!--- Darktheme css -->
+		<link href="{% static 'assets/css/style-dark.css' %}" rel="stylesheet">
+
+		<!--- Sidemenu css -->
+		<link rel="stylesheet" href="{% static 'assets/css/single-sidemenu/singlemenu.css' %}">
+
+		<!--  Map css-->
+		<link href="{% static 'assets/plugins/jqvmap/jqvmap.min.css' %}" rel="stylesheet">
+
+		<!--- Animations css -->
+		<link href="{% static 'assets/css/animate.css' %}" rel="stylesheet">
+
+		<!--Select2 SelectWithSearch CDN-->
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.1/css/select2.min.css' %}" />
+		
+		<!--- Internal Sweet-Alert css -->
+		<link href="{% static 'assets/plugins/sweet-alert/sweetalert.css' %}" rel="stylesheet">
+
+		<!-- Switcher css-->
+		<link href="{% static 'assets/switcher/css/switcher.css' %}" rel="stylesheet">
+		<link href="{% static 'assets/switcher/demo.css' %}" rel="stylesheet">
+		
+		<!--custome jcr-template-preview css-->
+        <link href="{% static 'assets/css/ATS/jcr-template-preview.css' %}" rel="stylesheet">
+
+	</head>
+
+	<body class="main-body app sidebar-mini sidenav-toggled">
+
+		
+
+		<!-- Page -->
+		<div class="page">
+
+			<!-- Loader -->
+			<div id="global-loader">
+				<img src="{% static 'assets/img/loader.svg' %}" class="loader-img" alt="Loader">
+			</div>
+			<!-- /Loader -->
+
+			<!-- main-sidebar -->
+			<div class="app-sidebar__overlay" data-toggle="sidebar"></div>
+			<aside class="app-sidebar sidebar-scroll">
+				<div class="main-sidebar-header active">
+					<a class="desktop-logo logo-light active" href="index.html"><img src="{% static 'assets/img/brand/bid-logo-blue.png' %}" class="main-logo" alt="logo"></a>
+					<a class="desktop-logo logo-dark active" href="index.html"><img src="{% static 'assets/img/brand/bid-logo-white.png' %}" class="main-logo dark-theme" alt="logo"></a>
+					<a class="logo-icon mobile-logo icon-light active" href="index.html"><img src="{% static 'assets/img/brand/bid-fav-blue.png' %}" class="logo-icon" alt="logo"></a>
+					<a class="logo-icon mobile-logo icon-dark active" href="index.html"><img src="{% static 'assets/img/brand/bid-fav-white.png' %}" class="logo-icon dark-theme" alt="logo"></a>
+				</div>
+				<div class="main-sidemenu">
+					<ul class="side-menu">
+                        <!-- <li class="side-item side-item-category">JOB CREATION</li> -->
+						<li class="side-item side-item-category">DASHBOARDS</li>
+						<li class="slide">
+							<a class="side-menu__item" data-toggle="slide" href="#"><i class="side-menu__icon bx bx-home-circle"></i><span class="side-menu__label">JOB CREATION</span><i class="angle fe fe-chevron-down"></i></a>
+							<ul class="slide-menu">
+								<li><a class="slide-item" href="#"><i class="las la-shopping-cart"></i>Job Openings</a></li>
+								<li><a class="slide-item" href="#"><i class="las la-chart-line"></i>Job Opening Requests</a></li>
+							</ul>
+						</li>
+
+                        <li class="slide">
+							<a class="side-menu__item" data-toggle="slide" href="#"><i class="side-menu__icon bx bx-home-circle"></i><span class="side-menu__label">Candidate</span><i class="angle fe fe-chevron-down"></i></a>
+							<!-- <ul class="slide-menu">
+								<li><a class="slide-item" href="index.html"><i class="las la-shopping-cart"></i>Sample 1</a></li>
+								<li><a class="slide-item" href="index2.html"><i class="las la-chart-line"></i>Sample 2</a></li>
+							</ul> -->
+						</li>
+
+                        <li class="slide">
+							<a class="side-menu__item" data-toggle="slide" href="#"><i class="side-menu__icon bx bx-home-circle"></i><span class="side-menu__label">Interview</span><i class="angle fe fe-chevron-down"></i></a>
+							<!-- <ul class="slide-menu">
+								<li><a class="slide-item" href="index.html"><i class="las la-shopping-cart"></i>Sample 1</a></li>
+								<li><a class="slide-item" href="index2.html"><i class="las la-chart-line"></i>Sample 2</a></li>
+							</ul> -->
+						</li>
+
+                        <li class="slide">
+							<a class="side-menu__item" data-toggle="slide" href="#"><i class="side-menu__icon bx bx-home-circle"></i><span class="side-menu__label">Job Application</span><i class="angle fe fe-chevron-down"></i></a>
+							<!-- <ul class="slide-menu">
+								<li><a class="slide-item" href="index.html"><i class="las la-shopping-cart"></i>Sample 1</a></li>
+								<li><a class="slide-item" href="index2.html"><i class="las la-chart-line"></i>Sample 2</a></li>
+							</ul> -->
+						</li>
+
+                        <li class="slide">
+							<a class="side-menu__item" data-toggle="slide" href="#"><i class="side-menu__icon bx bx-home-circle"></i><span class="side-menu__label">Department</span><i class="angle fe fe-chevron-down"></i></a>
+							<ul class="slide-menu">
+								<li><a class="slide-item" href="#"><i class="las la-shopping-cart"></i>Sample 1</a></li>
+								<li><a class="slide-item" href="#"><i class="las la-chart-line"></i>Sample 2</a></li>
+							</ul>
+						</li>
+					</ul>
+				</div>
+			</aside>
+			<!-- main-sidebar -->
+
+			<!-- Main-content -->
+			<div class="main-content singlemenu">
+				<div class="main-header main-header-fixed">
+					<div class="container-fluid">
+						<div class="main-header-left">
+							<a href="#" data-toggle="sidebar" class="nav-link icon toggle pl-0"><svg class="svg-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="21" y1="10" x2="3" y2="10"></line><line x1="21" y1="6" x2="3" y2="6"></line><line x1="21" y1="14" x2="3" y2="14"></line><line x1="21" y1="18" x2="3" y2="18"></line></svg></a>
+						</div><!-- Sidebar toggle closed -->
+						<div class="main-header-center">
+							<div class="header-breadcrumb">
+								<h5 class="mb-1">Dashboard</h5>
+								<div class="main-content-breadcrumb"> <span>Dashboard</span> <span>Ecommerce</span> </div>
+							</div>
+							<div class="responsive-logo"> <a href="index.html"><img src="{% static 'assets/img/brand/logo.png' %}" class="mobile-logo" alt="logo"></a></div>
+						</div><!-- breadcrumb closed -->
+						<div class="main-header-right">
+							<div id="input-search" class="input-search header-search nav-item my-auto">
+								<form class="d-flex">
+									<input class="header-search-bar search-input form-control" placeholder="Search for anything..." type="search">
+									<span class="search-icon"><svg class="svg-icon"  xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg></span>
+								</form>
+							</div><!-- search closed -->
+							<!-- <div class="dropdown main-header-message right-toggle">
+								<div class="nav-item full-screen fullscreen-button">
+									<a class="new nav-link full-screen-link menu-icons fullscreen" href="#"><svg class="svg-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"></path></svg></a>
+									<a class="new nav-link full-screen-link exit-fullscreen" href="#"><svg class="svg-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 3v3a2 2 0 0 1-2 2H3m18 0h-3a2 2 0 0 1-2-2V3m0 18v-3a2 2 0 0 1 2-2h3M3 16h3a2 2 0 0 1 2 2v3"></path></svg></a>
+								</div>
+							</div>--><!--Full-screen closed -->
+							<div class="dropdown  nav-item main-header-message ">
+								<a class="new nav-link menu-icons" href="#">
+									<!-- <svg class="svg-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg> -->
+									<i class="far fa-comments"></i>
+									<span class=" pulse-danger"></span></a>
+								<div class="dropdown-menu animated fadeInUp">
+									<div class="menu-header-content text-left d-flex">
+										<div class="">
+											<h6 class="menu-header-title mb-0">5 new Messages</h6>
+										</div>
+										<div class="my-auto ml-auto">
+											<a class="badge badge-pill badge-teal float-right" href="#">Mark All Read</a>
+										</div>
+									</div>
+									<div class="main-message-list chat-scroll ">
+										<a href="#" class="p-3 d-flex border-bottom">
+											<div class="  drop-img  cover-image  " data-image-src="{% static 'assets/img/faces/11.jpg' %}">
+												<span class="avatar-status bg-teal"></span>
+											</div>
+
+											<div class="wd-90p">
+												<div class="d-flex">
+													<h5 class="mb-1 name">Paul Molive</h5>
+													<p class="time mb-0 text-right ml-auto float-right">10 min ago</p>
+												</div>
+												<p class="mb-0 desc">I'm sorry but i'm not sure how to help you with that..</p>
+											</div>
+										</a>
+										<a href="#" class="p-3 d-flex border-bottom">
+											<div class="drop-img cover-image" data-image-src="{% static 'assets/img/faces/2.jpg' %}">
+												<span class="avatar-status bg-teal"></span>
+											</div>
+											<div class="wd-90p">
+												<div class="d-flex">
+													<h5 class="mb-1 name">Sahar Dary</h5>
+													<p class="time mb-0 text-right ml-auto float-right">13 min ago</p>
+												</div>
+												<p class="mb-0 desc">Are you ready to pickup your Delivery...</p>
+											</div>
+										</a>
+										<a href="#" class="p-3 d-flex border-bottom">
+											<div class="drop-img cover-image" data-image-src="{% static 'assets/img/faces/9.jpg' %}">
+												<span class="avatar-status bg-teal"></span>
+											</div>
+											<div class="wd-90p">
+												<div class="d-flex">
+													<h5 class="mb-1 name">Khadija Mehr</h5>
+													<p class="time mb-0 text-right ml-auto float-right">20 min ago</p>
+												</div>
+												<p class="mb-0 desc">Here are some products i found for you form database...</p>
+											</div>
+										</a>
+										<a href="#" class="p-3 d-flex border-bottom">
+											<div class="drop-img cover-image" data-image-src="{% static 'assets/img/faces/12.jpg' %}">
+												<span class="avatar-status bg-teal"></span>
+											</div>
+											<div class="wd-90p">
+												<div class="d-flex">
+													<h5 class="mb-1 name">Barney Cull</h5>
+													<p class="time mb-0 text-right ml-auto float-right">30 min ago</p>
+												</div>
+												<p class="mb-0 desc">All set! Now, time to get to you now...</p>
+											</div>
+										</a>
+										<a href="#" class="p-3 d-flex border-bottom">
+											<div class="drop-img cover-image" data-image-src="{% static 'assets/img/faces/5.jpg' %}">
+												<span class="avatar-status bg-teal"></span>
+											</div>
+											<div class="wd-90p">
+												<div class="d-flex">
+													<h5 class="mb-1 name">Petey Cruiser</h5>
+													<p class="time mb-0 text-right ml-auto float-right">35 min ago</p>
+												</div>
+												<p class="mb-0 desc">I'm sorry but i'm not sure how...</p>
+											</div>
+										</a>
+									</div>
+									<div class="text-center dropdown-footer">
+										<a href="text-center">VIEW ALL</a>
+									</div>
+								</div>
+							</div><!-- Main-header-message closed -->
+							<div class="dropdown nav-item main-header-notification">
+								<a class="new nav-link menu-icons" href="#"><svg class="svg-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path><path d="M13.73 21a2 2 0 0 1-3.46 0"></path></svg><span class=" pulse"></span></a>
+								<div class="dropdown-menu animated fadeInUp">
+									<div class="menu-header-content text-left d-flex">
+										<p class="main-notification-text mb-0">You have 1 unread notification<a class="badge badge-pill badge-success ml-2 float-right" href="#">Mark All Read</a></p>
+									</div>
+									<div class="main-notification-list Notification-scroll">
+										<a class="d-flex pl-3 pr-3  border-bottom" href="#">
+											<div class="media new">
+												<div class="main-img-user online"><img alt="avatar" src="{% static 'assets/img/faces/5.jpg' %}"></div>
+												<div class="media-body">
+													<p>Congratulate <strong> Olivia James </strong> for New template start</p><span>Oct 15 12:32pm</span>
+												</div>
+											</div>
+										</a>
+										<a class="d-flex pl-3 pr-3  border-bottom" href="#">
+											<div class="media">
+												<div class="main-img-user"><img alt="avatar" src="{% static 'assets/img/faces/13.jpg' %}"></div>
+												<div class="media-body">
+													<p> <strong> Joshua Gray </strong> New Message Received</p><span>Oct 13 02:56am</span>
+												</div>
+											</div>
+										</a>
+										<a class="d-flex pl-3 pr-3  border-bottom" href="#">
+											<div class="media">
+												<div class="main-img-user online"><img alt="avatar" src="{% static 'assets/img/faces/17.jpg' %}"></div>
+												<div class="media-body">
+													<p> <strong> Reuben Lewis </strong> added new schedule realease</p><span>Oct 12 10:40pm</span>
+												</div>
+											</div>
+										</a>
+										<a class="d-flex pl-3 pr-3  border-bottom" href="#">
+											<div class="media">
+												<div class="main-img-user online"><img alt="avatar" src="{% static 'assets/img/faces/10.jpg' %}"></div>
+												<div class="media-body">
+													<p><strong>Reanne Carnation</strong> Commented on you post</p><span>Sept 30 05:24pm</span>
+												</div>
+											</div>
+										</a>
+										<a class="d-flex pl-3 pr-3  border-bottom" href="#">
+											<div class="media">
+												<div class="main-img-user online"><img alt="avatar" src="{% static 'assets/img/faces/4.jpg' %}"></div>
+												<div class="media-body">
+													<p><strong>Vinny Gret </strong> Shared your post</p><span>Sept 12 9:05am</span>
+												</div>
+											</div>
+										</a>
+									</div>
+									<div class="dropdown-footer">
+										<a href="">VIEW ALL</a>
+									</div>
+								</div>
+							</div><!-- Notification closed -->
+							<!--<div class="dropdown main-header-message right-toggle">
+								<a class="nav-link menu-icons" data-toggle="sidebar-right" data-target=".sidebar-right">
+									<svg class="svg-icon"  xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+								</a>
+							</div>--><!-- Main-header-message closed -->
+							<div class="dropdown main-profile-menu nav nav-item nav-link">
+								<a class="profile-user" href=""><img alt="" src="{% static 'assets/img/faces/6.jpg' %}"></a>
+								<div class="dropdown-menu animated fadeInUp">
+									<div class="main-header-profile header-img">
+										<h6>Mack Adamia</h6><span>Premium Member</span>
+									</div>
+									<a class="dropdown-item" href="profile.html"><i class="bx bx-user-circle"></i> My Profile</a>
+									<a class="dropdown-item" href="editprofile.html"><i class="bx bxs-edit"></i> Edit Profile</a>
+									<a class="dropdown-item" href="chat.html"><i class="bx bx-envelope"></i> Chat</a>
+									<a class="dropdown-item" href="account-setting.html"><i class="bx bx-cog"></i> Account Settings</a>
+									<a class="dropdown-item" href="signin.html"><i class="bx bx-log-out-circle"></i> Sign Out</a>
+								</div>
+							</div><!-- Main-profile-menu closed -->
+							<button class="navbar-toggler navresponsive-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent-4"
+								aria-controls="navbarSupportedContent-4" aria-expanded="false" aria-label="Toggle navigation">
+								<span class="navbar-toggler-icon bx bx-dots-vertical-rounded"></span>
+							</button><!-- Navresponsive closed -->
+						</div>
+					</div>
+					
+				</div>
+				<!-- Main-header closed -->
+
+				<!-- Mobile-header -->
+				<div class="responsive main-header">
+					<div class="mb-1 navbar navbar-expand-lg  nav nav-item  navbar-nav-right responsive-navbar navbar-dark  ">
+						<div class="collapse navbar-collapse" id="navbarSupportedContent-4">
+							<div class="d-flex order-lg-2 ml-auto">
+								<form class="navbar-form nav-item my-auto" role="search">
+									<div class="input-group nav-item my-auto">
+										<input type="text" class="form-control" placeholder="Search">
+										<span class="input-group-btn">
+											<button type="reset" class="btn btn-default">
+												<i class="bx bx-x"></i>
+											</button>
+											<button type="submit" class="btn btn-default nav-link menu-icons ">
+												<svg class="svg-icon menu-icons" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+											</button>
+										</span>
+									</div>
+								</form><!-- Search closed -->
+								<div class="dropdown main-header-message right-toggle">
+									<div class="nav-item full-screen fullscreen-button">
+										<a class="new nav-link full-screen-link menu-icons fullscreen" href="#"><svg class="svg-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"></path></svg></a>
+										<a class="new nav-link full-screen-link exit-fullscreen" href="#"><svg class="svg-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 3v3a2 2 0 0 1-2 2H3m18 0h-3a2 2 0 0 1-2-2V3m0 18v-3a2 2 0 0 1 2-2h3M3 16h3a2 2 0 0 1 2 2v3"></path></svg></a>
+									</div>
+								</div><!-- Fullscreen closed -->
+								<div class="dropdown  nav-item main-header-message ">
+									<a class="new nav-link menu-icons" href="#">
+										<!-- <svg class="svg-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg> -->
+										<i class="far fa-comments"></i>
+										<span class=" pulse-danger"></span></a>
+									<div class="dropdown-menu animated fadeInUp">
+										<div class="menu-header-content text-left d-flex">
+											<div class="">
+												<h6 class="menu-header-title mb-0">5 new Messages</h6>
+											</div>
+											<div class="my-auto ml-auto">
+												<a class="badge badge-pill badge-teal float-right" href="#">Mark All Read</a>
+											</div>
+										</div>
+										<div class="main-message-list chat-scroll1">
+											<a href="#" class="p-3 d-flex border-bottom">
+												<div class="  drop-img  cover-image  " data-image-src="{% static 'assets/img/faces/11.jpg' %}">
+													<span class="avatar-status bg-teal"></span>
+												</div>
+
+												<div class="wd-90p">
+													<div class="d-flex">
+														<h5 class="mb-1 name">Paul Molive</h5>
+														<p class="time mb-0 text-right ml-auto float-right">10 min ago</p>
+													</div>
+													<p class="mb-0 desc">I'm sorry but i'm not sure how to help you with that..</p>
+												</div>
+											</a>
+											<a href="#" class="p-3 d-flex border-bottom">
+												<div class="drop-img cover-image" data-image-src="{% static 'assets/img/faces/2.jpg' %}">
+													<span class="avatar-status bg-teal"></span>
+												</div>
+												<div class="wd-90p">
+													<div class="d-flex">
+														<h5 class="mb-1 name">Sahar Dary</h5>
+														<p class="time mb-0 text-right ml-auto float-right">13 min ago</p>
+													</div>
+													<p class="mb-0 desc">Are you ready to pickup your Delivery...</p>
+												</div>
+											</a>
+											<a href="#" class="p-3 d-flex border-bottom">
+												<div class="drop-img cover-image" data-image-src="{% static 'assets/img/faces/9.jpg' %}">
+													<span class="avatar-status bg-teal"></span>
+												</div>
+												<div class="wd-90p">
+													<div class="d-flex">
+														<h5 class="mb-1 name">Khadija Mehr</h5>
+														<p class="time mb-0 text-right ml-auto float-right">20 min ago</p>
+													</div>
+													<p class="mb-0 desc">Here are some products i found for you form database...</p>
+												</div>
+											</a>
+											<a href="#" class="p-3 d-flex border-bottom">
+												<div class="drop-img cover-image" data-image-src="{% static 'assets/img/faces/12.jpg' %}">
+													<span class="avatar-status bg-teal"></span>
+												</div>
+												<div class="wd-90p">
+													<div class="d-flex">
+														<h5 class="mb-1 name">Barney Cull</h5>
+														<p class="time mb-0 text-right ml-auto float-right">30 min ago</p>
+													</div>
+													<p class="mb-0 desc">All set! Now, time to get to you now...</p>
+												</div>
+											</a>
+											<a href="#" class="p-3 d-flex border-bottom">
+												<div class="drop-img cover-image" data-image-src="{% static 'assets/img/faces/5.jpg' %}">
+													<span class="avatar-status bg-teal"></span>
+												</div>
+												<div class="wd-90p">
+													<div class="d-flex">
+														<h5 class="mb-1 name">Petey Cruiser</h5>
+														<p class="time mb-0 text-right ml-auto float-right">35 min ago</p>
+													</div>
+													<p class="mb-0 desc">I'm sorry but i'm not sure how...</p>
+												</div>
+											</a>
+										</div>
+										<div class="text-center dropdown-footer">
+											<a href="text-center">VIEW ALL</a>
+										</div>
+									</div>
+								</div><!-- Message closed -->
+								<div class="dropdown nav-item main-header-notification">
+									<a class="new nav-link menu-icons" href="#"><svg class="svg-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path><path d="M13.73 21a2 2 0 0 1-3.46 0"></path></svg><span class=" pulse"></span></a>
+									<div class="dropdown-menu animated fadeInUp">
+										<div class="menu-header-content text-left d-flex">
+											<p class="main-notification-text mb-0">You have 1 unread notification<a class="badge badge-pill badge-success ml-2 float-right" href="#">Mark All Read</a></p>
+										</div>
+										<div class="main-notification-list Notification-scroll1">
+											<a class="d-flex pl-3 pr-3  border-bottom" href="#">
+												<div class="media new">
+													<div class="main-img-user online"><img alt="avatar" src="{% static 'assets/img/faces/5.jpg' %}"></div>
+													<div class="media-body">
+														<p>Congratulate <strong> Olivia James </strong> for New template start</p><span>Oct 15 12:32pm</span>
+													</div>
+												</div>
+											</a>
+											<a class="d-flex pl-3 pr-3  border-bottom" href="#">
+												<div class="media">
+													<div class="main-img-user"><img alt="avatar" src="{% static 'assets/img/faces/13.jpg' %}"></div>
+													<div class="media-body">
+														<p> <strong> Joshua Gray </strong> New Message Received</p><span>Oct 13 02:56am</span>
+													</div>
+												</div>
+											</a>
+											<a class="d-flex pl-3 pr-3  border-bottom" href="#">
+												<div class="media">
+													<div class="main-img-user online"><img alt="avatar" src="{% static 'assets/img/faces/17.jpg' %}"></div>
+													<div class="media-body">
+														<p> <strong> Reuben Lewis </strong> added new schedule realease</p><span>Oct 12 10:40pm</span>
+													</div>
+												</div>
+											</a>
+											<a class="d-flex pl-3 pr-3  border-bottom" href="#">
+												<div class="media">
+													<div class="main-img-user online"><img alt="avatar" src="{% static 'assets/img/faces/10.jpg' %}"></div>
+													<div class="media-body">
+														<p><strong>Reanne Carnation</strong> Commented on you post</p><span>Sept 30 05:24pm</span>
+													</div>
+												</div>
+											</a>
+											<a class="d-flex pl-3 pr-3  border-bottom" href="#">
+												<div class="media">
+													<div class="main-img-user online"><img alt="avatar" src="{% static 'assets/img/faces/4.jpg' %}"></div>
+													<div class="media-body">
+														<p><strong>Vinny Gret </strong> Shared your post</p><span>Sept 12 9:05am</span>
+													</div>
+												</div>
+											</a>
+										</div>
+										<div class="dropdown-footer">
+											<a href="">VIEW ALL</a>
+										</div>
+									</div>
+								</div><!-- Notification closed -->
+								<div class="dropdown main-header-message right-toggle">
+									<a class="nav-link menu-icons" data-toggle="sidebar-right" data-target=".sidebar-right">
+										<i class="bx bx-menu bg-transparent"></i>
+									</a>
+								</div><!-- Right-toggle closed -->
+								<div class="dropdown main-profile-menu nav nav-item nav-link">
+									<a class="profile-user" href=""><img alt="" src="{% static 'assets/img/faces/6.jpg' %}"></a>
+									<div class="dropdown-menu animated fadeInUp">
+										<div class="main-header-profile header-img">
+											<h6>Mack Adamia</h6><span>Premium Member</span>
+										</div>
+										<a class="dropdown-item" href="profile.html"><i class="bx bx-user-circle"></i> My Profile</a>
+										<a class="dropdown-item" href="editprofile.html"><i class="bx bxs-edit"></i> Edit Profile</a>
+										<a class="dropdown-item" href="chat.html"><i class="bx bx-envelope"></i> Chat</a>
+										<a class="dropdown-item" href="account-setting.html"><i class="bx bx-cog"></i> Account Settings</a>
+										<a class="dropdown-item" href="signin.html"><i class="bx bx-log-out-circle"></i> Sign Out</a>
+									</div>
+								</div><!-- Main-profile-menu closed -->
+							</div>
+						</div>
+					</div>
+				</div>
+				<!-- Mobile-header closed -->
+
+
+
+
+				<!-- Container-fluid -->
+				<div class="container-fluid" id="templatePreviewLayout">
+					<!-- Main-content-body -->
+					<div class="main-content-body">
+						<!-- header-title -->
+						<div class="header-title">
+							<div class="mb-0 mb-lg-0 mb-xl-0">
+								<h4 class="mb-2">Ecommerce Dashboard</h4>
+								<div class="main-content-breadcrumb"> <span>Dashboard</span> <span>Ecommerce</span> </div>
+							</div>
+						</div>
+						<!-- header-title -->
+						<!--middle section-->
+                        <div class="row row-sm template-preview__container" id="templatePreviewContainer">
+                            <div class="col-md-12 col-xl-12 col-xs-12 col-sm-12">
+                               <div class="card">
+                                  <div class="card-body pd-0">
+                                        <div class="row preview-header">
+                                            <div class="col-6 fx-half-section head-preview-left">
+                                                <h4 class="hpl-title text-uppercase h5">jcr for python developer</h4>
+                                            </div>
+                                            <div class="col-6 fx-half-section head-preview-right">
+                                                <div class="head-group-btns">
+                                                    <div class="hgp-left"><button class="btn btn-sm btn-primary rounded-20 text-capitalize">Edit</button></div>
+                                                    <div class="hgp-right"><button class="btn btn-sm btn-danger rounded-20 text-capitalize">close</button></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row row-sm">
+                                            <div class="col-12 draw-tree-view">
+                                                <div class="body genealogy-body genealogy-scroll">
+                                                    <div class="genealogy-tree">
+                                                       <!-- <ul>
+                                                          <li>
+                                                             <a href="javascript:void(0);">
+                                                                <div class="member-view-box">
+                                                                   <div class="member-image">
+                                                                      <img src="https://image.flaticon.com/icons/svg/145/145867.svg' %}" alt="Member">
+                                                                      <div class="member-details">
+                                                                         <h3>John Doe</h3>
+                                                                      </div>
+                                                                   </div>
+                                                                </div>
+                                                             </a>
+                                                             <ul class="active">
+                                                                <li>
+                                                                   <a href="javascript:void(0);">
+                                                                      <div class="member-view-box">
+                                                                         <div class="member-image">
+                                                                            <img src="https://image.flaticon.com/icons/svg/145/145867.svg' %}" alt="Member">
+                                                                            <div class="member-details">
+                                                                               <h3>Member 1</h3>
+                                                                            </div>
+                                                                         </div>
+                                                                      </div>
+                                                                   </a>
+                                                                   <ul >
+                                                                      <li>
+                                                                         <a href="javascript:void(0);">
+                                                                            <div class="member-view-box">
+                                                                               <div class="member-image">
+                                                                                  <img src="https://image.flaticon.com/icons/svg/145/145867.svg' %}" alt="Member">
+                                                                                  <div class="member-details">
+                                                                                     <h3>Member 1-1</h3>
+                                                                                  </div>
+                                                                               </div>
+                                                                            </div>
+                                                                         </a>
+                                                                      </li>
+                                                                      <li>
+                                                                         <a href="javascript:void(0);">
+                                                                            <div class="member-view-box">
+                                                                               <div class="member-image">
+                                                                                  <img src="https://image.flaticon.com/icons/svg/145/145867.svg' %}" alt="Member">
+                                                                                  <div class="member-details">
+                                                                                     <h3>Member 1-2</h3>
+                                                                                  </div>
+                                                                               </div>
+                                                                            </div>
+                                                                         </a>
+                                                                      </li>
+                                                                      <li>
+                                                                         <a href="javascript:void(0);">
+                                                                            <div class="member-view-box">
+                                                                               <div class="member-image">
+                                                                                  <img src="https://image.flaticon.com/icons/svg/145/145867.svg' %}" alt="Member">
+                                                                                  <div class="member-details">
+                                                                                     <h3>Member 1-3</h3>
+                                                                                  </div>
+                                                                               </div>
+                                                                            </div>
+                                                                         </a>
+                                                                         <ul>
+                                                                            <li>
+                                                                               <a href="javascript:void(0);">
+                                                                                  <div class="member-view-box">
+                                                                                     <div class="member-image">
+                                                                                        <img src="https://image.flaticon.com/icons/svg/145/145867.svg' %}" alt="Member">
+                                                                                        <div class="member-details">
+                                                                                           <h3>Member 1-3-1</h3>
+                                                                                        </div>
+                                                                                     </div>
+                                                                                  </div>
+                                                                               </a>
+                                                                            </li>
+                                                                            <li>
+                                                                               <a href="javascript:void(0);">
+                                                                                  <div class="member-view-box">
+                                                                                     <div class="member-image">
+                                                                                        <img src="https://image.flaticon.com/icons/svg/145/145867.svg' %}" alt="Member">
+                                                                                        <div class="member-details">
+                                                                                           <h3>Member 1-3-2</h3>
+                                                                                        </div>
+                                                                                     </div>
+                                                                                  </div>
+                                                                               </a>
+                                                                            </li>
+                                                                            <li>
+                                                                               <a href="javascript:void(0);">
+                                                                                  <div class="member-view-box">
+                                                                                     <div class="member-image">
+                                                                                        <img src="https://image.flaticon.com/icons/svg/145/145867.svg' %}" alt="Member">
+                                                                                        <div class="member-details">
+                                                                                           <h3>Member 1-3-3</h3>
+                                                                                        </div>
+                                                                                     </div>
+                                                                                  </div>
+                                                                               </a>
+                                                                            </li>
+                                                                         </ul>
+                                                                      </li>
+                                                                      <li>
+                                                                         <a href="javascript:void(0);">
+                                                                            <div class="member-view-box">
+                                                                               <div class="member-image">
+                                                                                  <img src="https://image.flaticon.com/icons/svg/145/145867.svg' %}" alt="Member">
+                                                                                  <div class="member-details">
+                                                                                     <h3>Member 1-4</h3>
+                                                                                  </div>
+                                                                               </div>
+                                                                            </div>
+                                                                         </a>
+                                                                      </li>
+                                                                      <li>
+                                                                         <a href="javascript:void(0);">
+                                                                            <div class="member-view-box">
+                                                                               <div class="member-image">
+                                                                                  <img src="https://image.flaticon.com/icons/svg/145/145867.svg' %}" alt="Member">
+                                                                                  <div class="member-details">
+                                                                                     <h3>Member 1-5</h3>
+                                                                                  </div>
+                                                                               </div>
+                                                                            </div>
+                                                                         </a>
+                                                                      </li>
+                                                                      <li>
+                                                                         <a href="javascript:void(0);">
+                                                                            <div class="member-view-box">
+                                                                               <div class="member-image">
+                                                                                  <img src="https://image.flaticon.com/icons/svg/145/145867.svg' %}" alt="Member">
+                                                                                  <div class="member-details">
+                                                                                     <h3>Member 1-6</h3>
+                                                                                  </div>
+                                                                               </div>
+                                                                            </div>
+                                                                         </a>
+                                                                      </li>
+                                                                      <li>
+                                                                         <a href="javascript:void(0);">
+                                                                            <div class="member-view-box">
+                                                                               <div class="member-image">
+                                                                                  <img src="https://image.flaticon.com/icons/svg/145/145867.svg' %}" alt="Member">
+                                                                                  <div class="member-details">
+                                                                                     <h3>Member 1-7</h3>
+                                                                                  </div>
+                                                                               </div>
+                                                                            </div>
+                                                                         </a>
+                                                                         <ul>
+                                                                            <li>
+                                                                               <a href="javascript:void(0);">
+                                                                                  <div class="member-view-box">
+                                                                                     <div class="member-image">
+                                                                                        <img src="https://image.flaticon.com/icons/svg/145/145867.svg' %}" alt="Member">
+                                                                                        <div class="member-details">
+                                                                                           <h3>Member 1-7-1</h3>
+                                                                                        </div>
+                                                                                     </div>
+                                                                                  </div>
+                                                                               </a>
+                                                                            </li>
+                                                                            <li>
+                                                                               <a href="javascript:void(0);">
+                                                                                  <div class="member-view-box">
+                                                                                     <div class="member-image">
+                                                                                        <img src="https://image.flaticon.com/icons/svg/145/145867.svg' %}" alt="Member">
+                                                                                        <div class="member-details">
+                                                                                           <h3>Member 1-7-2</h3>
+                                                                                        </div>
+                                                                                     </div>
+                                                                                  </div>
+                                                                               </a>
+                                                                               <ul>
+                                                                                  <li>
+                                                                                     <a href="javascript:void(0);">
+                                                                                        <div class="member-view-box">
+                                                                                           <div class="member-image">
+                                                                                              <img src="https://image.flaticon.com/icons/svg/145/145867.svg' %}" alt="Member">
+                                                                                              <div class="member-details">
+                                                                                                 <h3>Member 1-7-2-1</h3>
+                                                                                              </div>
+                                                                                           </div>
+                                                                                        </div>
+                                                                                     </a>
+                                                                                  </li>
+                                                                                  <li>
+                                                                                     <a href="javascript:void(0);">
+                                                                                        <div class="member-view-box">
+                                                                                           <div class="member-image">
+                                                                                              <img src="https://image.flaticon.com/icons/svg/145/145867.svg' %}" alt="Member">
+                                                                                              <div class="member-details">
+                                                                                                 <h3>Member 1-7-2-2</h3>
+                                                                                              </div>
+                                                                                           </div>
+                                                                                        </div>
+                                                                                     </a>
+                                                                                  </li>
+                                                                                  <li>
+                                                                                     <a href="javascript:void(0);">
+                                                                                        <div class="member-view-box">
+                                                                                           <div class="member-image">
+                                                                                              <img src="https://image.flaticon.com/icons/svg/145/145867.svg' %}" alt="Member">
+                                                                                              <div class="member-details">
+                                                                                                 <h3>Member 1-7-2-3</h3>
+                                                                                              </div>
+                                                                                           </div>
+                                                                                        </div>
+                                                                                     </a>
+                                                                                  </li>
+                                                                               </ul>
+                                                                            </li>
+                                                                            <li>
+                                                                               <a href="javascript:void(0);">
+                                                                                  <div class="member-view-box">
+                                                                                     <div class="member-image">
+                                                                                        <img src="https://image.flaticon.com/icons/svg/145/145867.svg' %}" alt="Member">
+                                                                                        <div class="member-details">
+                                                                                           <h3>Member 1-7-3</h3>
+                                                                                        </div>
+                                                                                     </div>
+                                                                                  </div>
+                                                                               </a>
+                                                                            </li>
+                                                                         </ul>
+                                                                      </li>
+                                                                   </ul>
+                                                                </li>
+                                                                <li>
+                                                                   <a href="javascript:void(0);">
+                                                                      <div class="member-view-box">
+                                                                         <div class="member-image">
+                                                                            <img src="https://image.flaticon.com/icons/svg/145/145867.svg' %}" alt="Member">
+                                                                            <div class="member-details">
+                                                                               <h3>Member 2</h3>
+                                                                            </div>
+                                                                         </div>
+                                                                      </div>
+                                                                   </a>
+                                                                   <ul>
+                                                                      <li>
+                                                                         <a href="javascript:void(0);">
+                                                                            <div class="member-view-box">
+                                                                               <div class="member-image">
+                                                                                  <img src="https://image.flaticon.com/icons/svg/145/145867.svg' %}" alt="Member">
+                                                                                  <div class="member-details">
+                                                                                     <h3>John Doe</h3>
+                                                                                  </div>
+                                                                               </div>
+                                                                            </div>
+                                                                         </a>
+                                                                         <ul>
+                                                                            <li>
+                                                                               <a href="javascript:void(0);">
+                                                                                  <div class="member-view-box">
+                                                                                     <div class="member-image">
+                                                                                        <img src="https://image.flaticon.com/icons/svg/145/145867.svg' %}" alt="Member">
+                                                                                        <div class="member-details">
+                                                                                           <h3>John Doe</h3>
+                                                                                        </div>
+                                                                                     </div>
+                                                                                  </div>
+                                                                               </a>
+                                                                            </li>
+                                                                            <li>
+                                                                               <a href="javascript:void(0);">
+                                                                                  <div class="member-view-box">
+                                                                                     <div class="member-image">
+                                                                                        <img src="https://image.flaticon.com/icons/svg/145/145867.svg' %}" alt="Member">
+                                                                                        <div class="member-details">
+                                                                                           <h3>John Doe</h3>
+                                                                                        </div>
+                                                                                     </div>
+                                                                                  </div>
+                                                                               </a>
+                                                                            </li>
+                                                                            <li>
+                                                                               <a href="javascript:void(0);">
+                                                                                  <div class="member-view-box">
+                                                                                     <div class="member-image">
+                                                                                        <img src="https://image.flaticon.com/icons/svg/145/145867.svg' %}" alt="Member">
+                                                                                        <div class="member-details">
+                                                                                           <h3>John Doe</h3>
+                                                                                        </div>
+                                                                                     </div>
+                                                                                  </div>
+                                                                               </a>
+                                                                            </li>
+                                                                         </ul>
+                                                                      </li>
+                                                                      <li>
+                                                                         <a href="javascript:void(0);">
+                                                                            <div class="member-view-box">
+                                                                               <div class="member-image">
+                                                                                  <img src="https://image.flaticon.com/icons/svg/145/145867.svg' %}" alt="Member">
+                                                                                  <div class="member-details">
+                                                                                     <h3>John Doe</h3>
+                                                                                  </div>
+                                                                               </div>
+                                                                            </div>
+                                                                         </a>
+                                                                         <ul>
+                                                                            <li>
+                                                                               <a href="javascript:void(0);">
+                                                                                  <div class="member-view-box">
+                                                                                     <div class="member-image">
+                                                                                        <img src="https://image.flaticon.com/icons/svg/145/145867.svg' %}" alt="Member">
+                                                                                        <div class="member-details">
+                                                                                           <h3>John Doe</h3>
+                                                                                        </div>
+                                                                                     </div>
+                                                                                  </div>
+                                                                               </a>
+                                                                            </li>
+                                                                            <li>
+                                                                               <a href="javascript:void(0);">
+                                                                                  <div class="member-view-box">
+                                                                                     <div class="member-image">
+                                                                                        <img src="https://image.flaticon.com/icons/svg/145/145867.svg' %}" alt="Member">
+                                                                                        <div class="member-details">
+                                                                                           <h3>John Doe</h3>
+                                                                                        </div>
+                                                                                     </div>
+                                                                                  </div>
+                                                                               </a>
+                                                                            </li>
+                                                                            <li>
+                                                                               <a href="javascript:void(0);">
+                                                                                  <div class="member-view-box">
+                                                                                     <div class="member-image">
+                                                                                        <img src="https://image.flaticon.com/icons/svg/145/145867.svg' %}" alt="Member">
+                                                                                        <div class="member-details">
+                                                                                           <h3>John Doe</h3>
+                                                                                        </div>
+                                                                                     </div>
+                                                                                  </div>
+                                                                               </a>
+                                                                            </li>
+                                                                         </ul>
+                                                                      </li>
+                                                                      <li>
+                                                                         <a href="javascript:void(0);">
+                                                                            <div class="member-view-box">
+                                                                               <div class="member-image">
+                                                                                  <img src="https://image.flaticon.com/icons/svg/145/145867.svg' %}" alt="Member">
+                                                                                  <div class="member-details">
+                                                                                     <h3>John Doe</h3>
+                                                                                  </div>
+                                                                               </div>
+                                                                            </div>
+                                                                         </a>
+                                                                         <ul>
+                                                                            <li>
+                                                                               <a href="javascript:void(0);">
+                                                                                  <div class="member-view-box">
+                                                                                     <div class="member-image">
+                                                                                        <img src="https://image.flaticon.com/icons/svg/145/145867.svg' %}" alt="Member">
+                                                                                        <div class="member-details">
+                                                                                           <h3>John Doe</h3>
+                                                                                        </div>
+                                                                                     </div>
+                                                                                  </div>
+                                                                               </a>
+                                                                            </li>
+                                                                            <li>
+                                                                               <a href="javascript:void(0);">
+                                                                                  <div class="member-view-box">
+                                                                                     <div class="member-image">
+                                                                                        <img src="https://image.flaticon.com/icons/svg/145/145867.svg' %}" alt="Member">
+                                                                                        <div class="member-details">
+                                                                                           <h3>John Doe</h3>
+                                                                                        </div>
+                                                                                     </div>
+                                                                                  </div>
+                                                                               </a>
+                                                                            </li>
+                                                                            <li>
+                                                                               <a href="javascript:void(0);">
+                                                                                  <div class="member-view-box">
+                                                                                     <div class="member-image">
+                                                                                        <img src="https://image.flaticon.com/icons/svg/145/145867.svg' %}" alt="Member">
+                                                                                        <div class="member-details">
+                                                                                           <h3>John Doe</h3>
+                                                                                        </div>
+                                                                                     </div>
+                                                                                  </div>
+                                                                               </a>
+                                                                            </li>
+                                                                         </ul>
+                                                                      </li>
+                                                                   </ul>
+                                                                </li>
+                                                             </ul>
+                                                          </li>
+                                                       </ul> -->
+
+                                                    </div>
+                                                 </div>
+                                            </div>
+                                        </div>
+                                  </div>
+                               </div>
+                            </div>
+                         </div>
+                        <!--middle section end-->
+					</div>
+					<!-- Main-content-body closed -->
+				</div>
+				<!-- Container-fluid closed -->
+
+
+				<!--Add New Template Modal Start-->
+				<div class="modal fade" id="newTemplateModal" tabindex="-1" role="dialog" aria-labelledby="newTemplateModalView" aria-hidden="true">
+					<div class="modal-dialog" role="document">
+					  <div class="modal-content">
+						<div class="modal-header">
+						  <h5 class="modal-title" id="newTemplate">Add New Template</h5>
+						  <button type="button" id="closetempModal" class="close" data-dismiss="modal" aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						  </button>
+						</div>
+						<div class="modal-body">
+							<div class="templateItemFiels">
+								<div class="modal-list-view mg-b-10">
+									<label>Select Stage:</label>
+									<select class="form-control form-control-sm select-new-stage-list">
+										<option label="select stage"></option>
+									</select>
+								</div>
+								<div class="modal-list-view mg-b-10">
+									<label>Select Category:</label>
+									<select class="form-control form-control-sm select-new-category-list">
+										<option label="select category"></option>
+									</select>
+								</div>
+								<div class="modal-list-view mg-b-10">
+									<label>Template Name:</label>
+									<input type="text" class="form-control form-control-sm select-new-template-list">
+							   </div>
+							</div>
+						</div>
+						<div class="modal-footer">
+						  <button type="button" class="btn btn-primary" id="saveNewTempItem">Save changes</button>
+						</div>
+					  </div>
+					</div>
+				  </div>
+				<!--Add New Template Modal End-->
+
+
+			</div>
+			<!-- Main-content closed -->
+
+			<!-- Footer opened -->
+			<div class="main-footer ht-40">
+				<div class="container-fluid pd-t-0-f ht-100p">
+					<span>Copyright &copy; 2020 <a href="#">Admix</a>. Designed by <a href="https://www.spruko.com/">Spruko</a> All rights reserved.</span>
+				</div>
+			</div>
+			<!-- Footer closed -->
+
+		</div>
+		<!-- Page closed -->
+
+
+		<!-- Back-to-top -->
+		<a href="#top" id="back-to-top"><i class="las la-angle-double-up"></i></a>
+
+		<!-- JQuery min js -->
+		<script src="{% static 'assets/plugins/jquery/jquery.min.js' %}"></script>
+
+		<!-- Popper js -->
+		<script src="{% static 'assets/plugins/popper/popper.min.js' %}"></script>
+
+		<!-- Bootstrap Bundle js -->
+		<script src="{% static 'assets/plugins/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+
+		<!-- Ionicons js -->
+		<script src="{% static 'assets/plugins/ionicons/ionicons.js' %}"></script>
+
+		<!-- Moment js -->
+		<script src="{% static 'assets/plugins/moment/moment.js' %}"></script>
+
+		<!-- Sparkline js -->
+		<script src="{% static 'assets/plugins/jquery-sparkline/jquery.sparkline.min.js' %}"></script>
+
+		<!-- Piety js -->
+		<script src="{% static 'assets/plugins/peity/jquery.peity.min.js' %}"></script>
+
+		<!-- P-scroll js -->
+		<script src="{% static 'assets/plugins/perfect-scrollbar/perfect-scrollbar.min.js' %}"></script>
+		<script src="{% static 'assets/plugins/perfect-scrollbar/p-scroll.js' %}"></script>
+
+		<!-- Sidemenu js -->
+		<script src="{% static 'assets/plugins/side-menu/single-menu.js' %}"></script>
+		
+		<!-- P-scroll js -->
+		<script src="{% static 'assets/js/p-scroll1.js' %}"></script>
+
+		<!-- Rating js-->
+		<script src="{% static 'assets/plugins/rating/jquery.rating-stars.js' %}"></script>
+		<script src="{% static 'assets/plugins/rating/jquery.barrating.js' %}"></script>
+
+		<!--- Tooltip js -->
+		<script src="{% static 'assets/js/tooltip.js' %}"></script>
+
+		<!-- Switcher js -->
+		<script src="{% static 'assets/switcher/js/switcher.js' %}"></script>
+	
+		<!--- Internal Sweet-Alert js -->
+		<script src="{% static 'assets/plugins/sweet-alert/sweetalert.min.js' %}"></script>
+		<script src="{% static 'assets/plugins/sweet-alert/jquery.sweet-alert.js' %}"></script>
+
+		<!-- Custom js -->
+		<script src="{% static 'assets/js/custom.js' %}"></script>
+        <script src="{% static 'assets/js/ATS/jcr-template-preview.js' %}"></script>
+        <script>
+
+			// function getjcrData(){
+			// 	var checkJrcCatList = JSON.parse("{{jcr_data|escapejs}}");
+			// 	return checkJrcCatList;
+			// }
+			function get_jcrData(){
+				var checkJrcCatList =JSON.parse("{{getStoreData|escapejs}}");
+				console.log("the get sootre dataaaaisss ",checkJrcCatList)
+				return checkJrcCatList;
+			}
+		</script>
+
+	</body>
+</html>

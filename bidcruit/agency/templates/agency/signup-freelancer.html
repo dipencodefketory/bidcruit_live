@@ -1,0 +1,343 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+
+		<meta charset="UTF-8">
+		<meta name='viewport' content='width=device-width, initial-scale=1.0, user-scalable=0'>
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="Description" content="Bootstrap Responsive Admin Web Dashboard HTML5 Template">
+		<meta name="Author" content="Spruko Technologies Private Limited">
+		<meta name="Keywords" content="bootstrap admin panel template,bootstrap admin template premium,bootstrap backend template,bootstrap dashboard template,bootstrap panel template,dashboard admin bootstrap 4,dashboard template bootstrap 4,html css dashboard template,html dashboard template,html web app template,modern admin template,nice admin template,simple bootstrap admin template,simple dashboard html template,simple dashboard template bootstrap,template dashboard bootstrap 4"/>
+
+		<!-- Title -->
+		<title> Freelancer Sign Up </title>
+
+		<!-- Favicon -->
+		<link rel="icon" href="{% static 'assets/img/brand/bluelogo.png' %}" type="image/x-icon"/>
+
+		<!-- Icons css -->
+		<link href="{% static 'assets/css/icons.css' %}" rel="stylesheet">
+
+		<!-- Bootstrap css -->
+		<link rel="stylesheet" href="{% static 'assets/plugins/bootstrap/css/bootstrap.min.css' %}">
+
+		<!-- Right-sidemenu css -->
+		<link href="{% static 'assets/plugins/sidebar/sidebar.css' %}" rel="stylesheet">
+
+		<!-- Style css -->
+		<link rel="stylesheet" type="text/css" media="all" href="{% static 'assets/css/style.css' %}">
+
+		<!-- Colors css -->
+		<link id="theme" rel="stylesheet" type="text/css" media="all" href="{% static 'assets/css/colors/color.css' %}">
+
+		<!-- Skinmodes css -->
+		<link href="{% static 'assets/css/skin-modes.css' %}" rel="stylesheet">
+
+		<!-- Darktheme css -->
+		<link href="{% static 'assets/css/style-dark.css' %}" rel="stylesheet">
+
+		<!-- Sidemenu css -->
+		<link rel="stylesheet" href="{% static 'assets/css/sidemenu/sidemenu.css' %}">
+
+
+		<!-- Animations css -->
+		<link href="{% static 'assets/css/animate.css' %}" rel="stylesheet">
+		<!-- cadidate profile css -->
+		<link href="{% static 'assets/css/custom.css' %}" rel="stylesheet">
+
+	</head>
+	<style type="text/css">
+		label#terms_conditions-error { position: absolute;  bottom: -31px;}
+		.main-signup-footer{text-align: center;}
+		.main-signup-header label{font-family: "Roboto", sans-serif;}
+		label.error {margin: 5px 0 0 8px;padding: 0;}
+		.form-group input.form-control::placeholder{ color: #b2b2b2 !important; }
+		.weak,.short{color: red;}.good{color: #09f219;}.strong{color: #ffd819;}
+	</style>
+	<body class="main-body">
+
+	<!-- Page -->
+		<div class="page">
+
+		<!-- Loader -->
+		<div id="global-loader">
+			<img src="{% static 'assets/img/loader.svg' %}" class="loader-img" alt="Loader">
+		</div>
+		<!-- /Loader -->
+
+		<div class="container-fluid">
+			<div class="row no-gutter">
+				<!-- The image half -->
+				<div class="col-md-6 col-lg-6 col-xl-7 d-md-flex bg-image d-logo-center">
+					<div class="row">
+						<div class="col-md-10 col-lg-10 col-xl-8 my-auto mx-auto">
+								<div class="logo-bg">
+								<div class="d-flex">
+									<a href="{% url 'bidcruit_home' %}">
+                                        <img src="{% static 'assets/img/brand/bluelogo.png' %}" class="sign-fav" alt="logo">
+                                    </a>
+                                    <h1 class="main-logo1 ml-1 mr-0 my-auto tx-28 text-white bl-size"><span>BidCruit</span></h1>
+								  </div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<!-- The content half -->
+				<div class="col-md-6 col-lg-6 col-xl-5 bg-white">
+					<div class="login d-flex align-items-center py-2">
+						<!-- Demo content-->
+						<div class="container p-0">
+							<div class="row">
+								<div class="col-md-10 col-lg-10 col-xl-9 mx-auto">
+									<div class="card-sigin">
+										<div class="main-signup-header">
+											<h2 class="text-primary">Freelancer</h2>
+											<h5 class="font-weight-normal mb-4">It's free to signup and only takes a minute.</h5>
+											<form method="POST" name="candidate_register" id="candidate_register">
+												{% csrf_token %}
+												<div class="row">
+													<div class="col-md-6">
+														<div class="form-group">
+															<label>First Name</label> <input class="form-control" placeholder="Enter your first name" type="text" name="fname">
+														</div>
+													</div>
+													<div class="col-md-6">
+														<div class="form-group">
+															<label>Last Name</label> <input class="form-control" placeholder="Enter your last name" type="text" name="lname">
+														</div>
+													</div>
+												</div>
+
+												<div class="form-group">
+													<label>Email</label> <input class="form-control" placeholder="Enter your email" id="registerInputemail" type="text" name="email">
+												</div>
+												<div class="form-group">
+													<label>Password</label> <input class="form-control" placeholder="Enter your password" id="password" type="password" name="password">
+													<span id="result"></span>
+												</div>
+												<div class="form-group">
+													<label>Confirm Password</label> <input class="form-control" placeholder="Enter your password" id="confirmpassword" type="password" name="confirm_password">
+													<span  id="password_msg"></span>
+												</div>
+												
+												<div class="form-group" style="display: flex; justify-content: space-between; align-items: baseline;gap: 10px; position: relative; margin-bottom: 30px;">
+													<input type="checkbox" id="term_conditions" name="terms_conditions" style="transform: translate(0, 2px);">
+													<label for="term_conditions">
+														By registering on this site, you agree to our use of cookies, <a href="#">Terms And Conditions<a/> & <a href="#">Privacy Policy<a/>.
+														
+													</label>
+												</div>
+												<button id="btn-email-proceed" disabled="disabled" class="btn btn-main-primary btn-block">Create Account</button>
+												<!-- <div class="row row-xs">
+													<div class="col-sm-6">
+														<button class="btn btn-block"><i class="fab fa-facebook-f"></i> Signup with Facebook</button>
+													</div>
+													<div class="col-sm-6 mg-t-10 mg-sm-t-0">
+														<button class="btn btn-danger  btn-block"><i class="fab fa-google"></i> Signup with Google</button>
+													</div>
+												</div> -->
+											</form>
+										</div>
+										<div class="main-signup-footer mt-3 mb-5">
+											<p>Already have an account? <a href="{% url 'accounts:signin' %}">Sign In</a></p>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div><!-- End -->
+					</div>
+				</div><!-- End -->
+			</div>
+		</div>
+	</div>
+
+		<!-- JQuery min js -->
+		<script src="{% static 'assets/plugins/jquery/jquery.min.js' %}"></script>
+
+		<!-- jquery validation plugin -->
+		<script src="{% static 'assets/js/jquery-validation-1.19.3/dist/jquery.validate.js' %}"></script>
+
+		<!-- Popper js -->
+		<script src="{% static 'assets/plugins/popper/popper.min.js' %}"></script>
+
+		<!-- Bootstrap Bundle js -->
+		<script src="{% static 'assets/plugins/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+
+		<!-- Ionicons js -->
+		<script src="{% static 'assets/plugins/ionicons/ionicons.js' %}"></script>
+
+		<!-- JQuery sparkline js -->
+		<script src="{% static 'assets/plugins/jquery-sparkline/jquery.sparkline.min.js' %}"></script>
+
+
+		<!-- Moment js -->
+		<script src="{% static 'assets/plugins/moment/moment.js' %}"></script>
+
+		<!-- Rating js -->
+		<script src="{% static 'assets/plugins/rating/jquery.rating-stars.js' %}"></script>
+		<script src="{% static 'assets/plugins/rating/jquery.barrating.js' %}"></script>
+
+		<!-- Custom js -->
+		<script src="{% static 'assets/js/custom.js' %}"></script>
+	<script src="https://cdn.jsdelivr.net/npm/exceptionless@v1.6.4/dist/exceptionless.min.js"></script>
+	<script>
+		var client = exceptionless.ExceptionlessClient.default;
+            client.config.apiKey = 'WDqMDPk1LJMrsi46mSug2Vk7A8lXFlDRlHCLO5UF';
+		$("#registerInputemail").change(function(){
+
+			var email=$(this).val();
+			if(email!=""){
+				$.ajax({
+				  url:'{% url 'accounts:check_email_is_valid' %}',
+				  type:'POST',
+				  headers: {'X-CSRFToken': '{{ csrf_token }}'},
+				  data:{email:email}
+				})
+				.done(function(response){
+					if(response=="True"){
+
+						$(".email_error").remove();
+						$("<span class='email_error' style='padding: 3px;color: red;'>Email already exists !!</span>").insertAfter("#registerInputemail");
+						$('#btn-email-proceed').attr('disabled','disabled');
+					}else if(response=="Invalid"){
+
+						console.log('client',client)
+						client.submitException('invalid email');
+						$(".email_error").remove();
+						$("<span class='email_error' style='padding: 3px;color: red;'> Invalid Email !!</span>").insertAfter("#registerInputemail");
+						$('#btn-email-proceed').attr('disabled','disabled');
+					}
+					else{
+
+						$(".email_error").remove();
+						$('#btn-email-proceed').removeAttr('disabled');
+					}
+				}).fail(function(){
+					  console.log("failed");
+				})
+			}else{
+				$(".email_error").remove();
+			}
+		});
+
+	</script>
+        <script>
+            $(function() {
+              $("form[name='candidate_register']").validate({
+                // Specify validation rules
+                rules: {
+                  // The key name on the left side is the name attribute
+                  // of an input field. Validation rules are defined
+                  // on the right side
+                  fname: "required",
+                  lname: "required",
+                  email: {
+                    required: true,
+                    email: true
+                  },
+                  password: {
+                  	required: true,
+                    minlength: 8,
+                    strong_password:true
+                  },
+                  confirm_password : {
+                  	required:true,
+                    minlength : 8,
+                    equalTo : "#password"
+                  },
+                  terms_conditions:{
+                  	 required:true,
+                  }
+                },
+                // Specify validation error messages
+                messages: {
+                  fname: "Please enter your firstname",
+                  lname: "Please enter your lastname",
+                  password: {
+                    required: "Please provide a password",
+                    minlength: "Your password must be at least 8 characters long"
+                  },
+                  confirm_password:{
+                    required: "Please confirm  your password",
+                    equalTo : "Confirm Password must be same as password"
+                  },
+                  terms_conditions:{
+                  	required: "Please accept our terms & conditions and privacy policy.",
+                  },
+                  email: "Please enter a valid email address"
+                },
+                // Make sure the form is submitted to the destination defined
+                // in the "action" attribute of the form when valid
+                submitHandler: function(form) {
+                  form.submit();
+                }
+              });
+            });
+
+            $.validator.addMethod("strong_password", function (value, element) {
+			    let password = value;
+			    if (!(/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[@#$%&])/.test(password))) {
+			        return false;
+			    }
+			    return true;
+			}, function (value, element) {
+			    let password = $(element).val();
+			    if (!(/^(?=.*[A-Z])/.test(password))) {
+			        return 'Password must contain at least one uppercase.';
+			    }
+			    else if (!(/^(?=.*[a-z])/.test(password))) {
+			        return 'Password must contain at least one lowercase.';
+			    }
+			    else if (!(/^(?=.*[0-9])/.test(password))) {
+			        return 'Password must contain at least one digit.';
+			    }
+			    else if (!(/^(?=.*[@#$%&])/.test(password))) {
+			        return "Password must contain special characters from @#$%&.";
+			    }
+			    return false;
+			});
+			
+        </script>
+        <script>
+            $(document).ready(function() {
+
+                $('#password').keyup(function(){
+                    $('#result').html(checkStrength($('#password').val()))
+                })
+
+                
+
+				$("#term_conditions").change(function() {
+					var ischecked= $(this).is(':checked');
+					if(ischecked){
+						$('#btn-email-proceed').removeAttr('disabled');
+					}
+					if(!ischecked){
+						$('#btn-email-proceed').attr('disabled','disabled');
+					}
+				});
+            });
+        </script>
+<!--		<script>-->
+
+<!--					function checkPasswordMatch() {-->
+
+<!--						var password = $("#password").val();-->
+<!--						var confirmPassword = $("#confirmpassword").val();-->
+<!--						if (password != confirmPassword){-->
+<!--							$("#password_msg").html("Passwords does not match!");-->
+<!--							$('#password_msg').css('color', 'red');}-->
+<!--						else{-->
+<!--							$("#password_msg").html("Passwords match.");-->
+<!--							$('#password_msg').css('color', 'green');}-->
+<!--					}-->
+<!--					$(document).ready(function () {-->
+<!--					$("#confirmpassword").keyup(checkPasswordMatch);-->
+<!--					});-->
+
+<!--		</script>-->
+
+
+	</body>
+</html>

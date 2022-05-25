@@ -1,0 +1,55 @@
+{% extends 'candidate/base.html' %}
+{% load static %}
+
+{% block css %}
+<!--		<link href="{% static 'assets/css/ATS/candidate_negotiate_offer.css' %}" rel="stylesheet">-->
+{% endblock %}
+
+
+{% block main %}
+    <div class="main-content-body m-3">
+        <div class="card d-flex justify-content-center row pt-3">
+            <div class="col-md-12">
+                <div class="form-group">
+                    <label class="form-label text-capitalize font-weight-bold">Title:</label>
+                    <span>{{custom_round_data.title}}</span>
+                </div>
+                <div class="form-group">
+                    <label class="form-label text-capitalize font-weight-bold">Interview Instructions:</label>
+                    <span>{{custom_round_data.description}}</span>
+                </div>
+                {% if custom_round_data.file_input %}
+                    <div class="form-group">
+                        <label class="form-label text-capitalize font-weight-bold">File:</label>
+                        <a href="{{custom_round_data.file_input.url}}" target="_blank">click here to view file</a>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+        <div class="card d-flex justify-content-center row pt-3">
+            <div class="col-md-12">
+                 <form role="form" enctype="multipart/form-data" method="POST">
+                     {% csrf_token %}
+                    <div class="row">
+                        {% if custom_round_data.enable_file_input %}
+                         <div class="form-group">
+                            <label class="form-label text-capitalize font-weight-bold">Submit file:</label>
+                            <input type="file" name="response_file" required>
+                         </div>
+                        {% endif %}
+                         <div class="form-group">
+                            <label class="form-label text-capitalize font-weight-bold">Description:</label>
+                            <textarea class="form-control" name="description" required></textarea>
+                         </div>
+                    </div>
+                     <button type="submit" class="btn-primary rounded-10">Submit</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+
+
+{% block script %}
+{% endblock %}

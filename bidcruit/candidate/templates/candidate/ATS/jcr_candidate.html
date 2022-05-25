@@ -1,0 +1,252 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<meta name='viewport' content='width=device-width, initial-scale=1.0, user-scalable=0'>
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="Description" content="">
+		<meta name="Author" content="">
+		<meta name="Keywords" content=""/>
+
+		<!-- Title -->
+		<title>  </title>
+
+		<!-- Favicon -->
+		<link rel="icon" href="{% static 'assets/img/brand/favicon.png' %}" type="image/x-icon"/>
+
+		<!-- Icons css -->
+		<link href="{% static 'assets/css/icons.css' %}" rel="stylesheet">
+
+		<!-- Bootstrap css -->
+		<link rel="stylesheet" href="{% static 'assets/plugins/bootstrap/css/bootstrap.min.css' %}">
+
+		<!-- Right-sidemenu css -->
+		<link href="{% static 'assets/plugins/sidebar/sidebar.css' %}" rel="stylesheet">
+
+		<!-- Style css -->
+		<link rel="stylesheet" type="text/css" media="all" href="{% static 'assets/css/style.css' %}">
+
+		<!-- Colors css -->
+		<link id="theme" rel="stylesheet" type="text/css" media="all" href="{% static 'assets/css/colors/color.css' %}">
+
+		<!-- Skinmodes css -->
+		<link href="{% static 'assets/css/skin-modes.css' %}" rel="stylesheet">
+
+		<!-- Darktheme css -->
+		<link href="{% static 'assets/css/style-dark.css' %}" rel="stylesheet">
+
+		<!-- Sidemenu css -->
+		<link rel="stylesheet" href="{% static 'assets/css/single-sidemenu/singlemenu.css' %}">
+
+		<!-- Internal Nice-select css  -->
+		<link href="{% static 'assets/plugins/jquery-nice-select/css/nice-select.css' %}" rel="stylesheet"/>
+
+		<!-- Animations css -->
+		<link href="{% static 'assets/css/animate.css' %}" rel="stylesheet">
+		
+		<link href="{% static 'assets/css/ATS/jcr_candidate.css' %}" rel="stylesheet">
+
+	</head>
+
+	<body class="main-body app sidebar-mini sidenav-toggled">
+
+		<!-- Page -->
+		<div class="page">
+			<!-- main-sidebar -->
+
+			<!-- Main-content -->
+
+		    <div class="apply_job_main_header">
+				<div class="apply_job_main_content">
+					<img src="{% static 'assets/img/ATS/logo.png' %}">
+				</div>
+		    </div>
+
+			<div class="main-content-jcr">				
+               
+				<div class="container-fluid">
+					<div class="card mg-b-15">
+						<div class="card-body">
+							<div class="cardheader pr-0">
+								<div class="media">
+									
+									<div class="media-body name_skils_title">
+										<div class="apply_job_info_view">
+
+											<div class="company_profile_logo"><img src="img/tata_logo.png' %}"></div>
+											<div class="name_dev">
+												<h1 class="mb-0 mg-t-0 name">{{job_obj.job_title}}</h1>
+												<span class="text-muted">{{job_obj.company_id.company_name}}</span>
+									    	</div>
+
+											<div class="media mg-t-10 profile_applyjob">
+												<div class="applyjob_profile_footer">
+													<div class="applyjob_profile_title"><i class="fas fa-industry"></i> Industry :-</div>
+													<div class="applyjob_profilevalue">{{job_obj.industry_type.name}}</div>
+												</div>
+												<div class="applyjob_profile_footer">
+													<div class="applyjob_profile_title"><i class="fas fa-dollar-sign"></i> Salary :-</div>
+													<div class="applyjob_profilevalue">{{job_obj.max_salary}}</div>
+												</div>
+												<div class="applyjob_profile_footer">
+													<div class="applyjob_profile_title"><i class="fas fa-tv"></i> Experience :-</div>
+													<div class="applyjob_profilevalue">{{job_obj.experience_year}} years {{job_obj.experience_month}} month</div>
+												</div>
+												<div class="applyjob_profile_footer">
+													<div class="applyjob_profile_title"><i class="fas fa-laptop-medical"></i> Remote Job :-</div>
+													<div class="applyjob_profilevalue">{% if job_obj.remote_job %} Yes {% else %} No {% endif %}</div>
+												</div>	
+											</div>
+										</div>
+									</div>
+									
+								</div>
+							</div>						
+							
+						</div>
+						
+					</div>
+				</div>`
+				<!-- Container-fluid add-candidate layout-->
+				<div class="container-fluid">
+
+					<!-- Maincontentbody -->
+					<div class="maincontentbody">
+
+						
+
+						<!-- row add new candidate layout-->
+						<div class="row add-candidate-layout" id="">
+							<div class="col-md-12 col-xl-12 col-xs-12 col-sm-12">
+								<!--div-->
+								<form method="POST">
+									{% csrf_token %}
+									<div class="card">
+										<div class="card-body">
+
+											<div class="job_compatibility card-header pb-0">
+												<div class="d-flex justify-content-between">
+													<h4 class="card-title mg-b-0">please fill skills details for job compatibility</h4>
+													<div class="candidate_right_filters_section">
+														<div class="candidate_view_header">
+															<a class="btn btn-quit btn-block" href="#">Quit</a>
+														</div>
+													</div>
+												</div>
+											</div>
+
+											<div class="Question_listing">
+												{% for i in getStoreData %}
+													{% for j in i.addDetailsItem %}
+														{% for k in j.cat_subtype %}
+															<div class="question_listing_inner">
+<!--																<div class="question_listing_count">Question 1</div>-->
+																<div class="question_text">{{k.question}}.</div>
+																<div class="question_option_box">
+																	{% ifequal k.matching 'multi' %}
+																		<div class="radio-group gender-select mg-t-10">
+																			{% for l in k.details %}
+																			<div class="option_tab_q">
+																				<label class="ckbox_q">
+																					<input name="{{k.id}}" required type="checkbox" value="{{l.title}}"><span>{{l.title}}</span>
+
+																				</label>
+																			</div>
+																			 {% endfor %}
+																		</div>
+																	{% endifequal %}
+																	{% ifequal k.matching 'single' %}
+																		{% for l in k.details %}
+																			<div class="option_tab_q">
+																				<label class="rdiobox">
+																					<input name="{{k.id}}" required type="radio" value="{{l.title}}" data-parsley-multiple="basic_radio"><span>{{l.title}}</span>
+																				</label>
+																			</div>
+																		{% endfor %}
+																	{% endifequal %}
+																</div>
+															</div>
+												 		{% endfor %}
+													{% endfor %}
+												{% endfor %}
+											</div>
+
+											<div class="QuestionSubmit_btn">
+												<button class="btn btn-sm btn-primary QuestionSubmit btn-sm btn-rounded" type="submit">Submit</button>
+											</div>
+										</div>
+									</div>
+								</form>
+							</div>
+							
+						</div>
+						<!-- /row -->
+					</div>
+					<!-- Main-content-body closed -->
+				</div>
+				<!-- Container-fluid add-candidate layout closed -->
+
+
+
+			</div>
+			<!-- Main-content closed -->
+
+			<!-- Footer opened -->
+			<div class="main-footer ht-40">
+				<div class="container-fluid pd-t-0-f ht-100p">
+					<span>Copyright &copy; 2020 <a href="#">Admix</a>. Designed by <a href="https://www.spruko.com/">Spruko</a> All rights reserved.</span>
+				</div>
+			</div>
+			<!-- Footer closed -->
+
+		</div>
+		<!-- Page closed -->
+
+        <!-- Back-to-top -->
+		<a href="#top" id="back-to-top"><i class="las la-angle-double-up"></i></a>
+
+		<!-- JQuery min js -->
+		<script src="{% static 'assets/plugins/jquery/jquery.min.js' %}"></script>
+
+		<!-- Popper js -->
+		<script src="{% static 'assets/plugins/popper/popper.min.js' %}"></script>
+
+		<!-- Bootstrap Bundle js -->
+		<script src="{% static 'assets/plugins/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+
+		<!-- Ionicons js -->
+		<script src="{% static 'assets/plugins/ionicons/ionicons.js' %}"></script>
+
+		<!-- Moment js -->
+		<script src="{% static 'assets/plugins/moment/moment.js' %}"></script>
+
+		<!-- JQuery sparkline js -->
+		<script src="{% static 'assets/plugins/jquery-sparkline/jquery.sparkline.min.js' %}"></script>
+
+		
+		<!-- Rating js -->
+		<script src="{% static 'assets/plugins/rating/jquery.rating-stars.js' %}"></script>
+		<script src="{% static 'assets/plugins/rating/jquery.barrating.js' %}"></script>
+
+		
+		<!-- Right-sidebar js -->
+		<script src="{% static 'assets/plugins/sidebar/sidebar-custom.js' %}"></script>
+
+		<!-- Internal Nice-select js-->
+		<script src="{% static 'assets/plugins/jquery-nice-select/js/jquery.nice-select.js' %}"></script>
+		<script src="{% static 'assets/plugins/jquery-nice-select/js/nice-select.js' %}"></script>
+
+		<!-- Custom js -->
+		<script src="{% static 'assets/js/custom.js' %}"></script>
+		<script>
+			var requiredCheckboxes = $(':checkbox[required]');
+			  requiredCheckboxes.on('change', function(e) {
+				var checkboxGroup = requiredCheckboxes.filter('[name="' + $(this).attr('name') + '"]');
+				var isChecked = checkboxGroup.is(':checked');
+				checkboxGroup.prop('required', !isChecked);
+			  });
+			  requiredCheckboxes.trigger('change');
+		</script>
+	</body>
+</html>

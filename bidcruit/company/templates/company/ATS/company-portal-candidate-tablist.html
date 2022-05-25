@@ -1,0 +1,2168 @@
+{% extends 'company/base.html' %}
+{% load static %}
+{% load custom_filters %}
+{% block title %} Candidate Detail View {% endblock %}
+{% block css %}
+
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.1/css/select2.min.css"/>
+
+		<!--- Internal Ion.rangeSlider css -->
+		<link href="{% static 'assets/plugins/ion-rangeslider/css/ion.rangeSlider.css' %}" rel="stylesheet">
+		<link href="{% static 'assets/plugins/ion-rangeslider/css/ion.rangeSlider.skinFlat.css' %}" rel="stylesheet">
+
+		<!--file manager layout css-->
+        <link href="{% static 'assets/css/ATS/plugin-css/file-manager.css' %}" rel="stylesheet">
+		
+		<!--kinder plugin css-->
+		<!-- <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/3.4.1/select2.min.css" rel="stylesheet"> -->
+		<link href="{% static 'assets/css/ATS/plugin-css/selector2/select2.min.css' %}" rel="stylesheet">
+		<link href="{% static 'assets/css/ATS/plugin-css/kinder/layout.css' %}" rel="stylesheet">
+		<link href="{% static 'assets/css/ATS/plugin-css/kinder/syntax.css' %}" rel="stylesheet">
+
+		<!--custom dashboard css-->
+        <link href="{% static 'assets/css/dashboard-layout.css' %}" rel="stylesheet">
+        <link href="{% static 'assets/css/ATS/company-portal-candidate-tablist.css' %}" rel="stylesheet">
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-timepicker/0.5.2/css/bootstrap-timepicker.min.css" integrity="sha512-/Ae8qSd9X8ajHk6Zty0m8yfnKJPlelk42HTJjOHDWs1Tjr41RfsSkceZ/8yyJGLkxALGMIYd5L2oGemy/x1PLg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+		<style>
+			.mini__card-layout {
+				display: flex;
+				flex-direction: column;
+				padding: 10px;
+				border: 2px solid #dee4f7;
+			}
+			.head__detailList .candidate_carrier-ls { width: 100%;}
+			.fx-row.title_list {
+				display: flex;
+				justify-content: space-evenly;
+				align-items: center;
+				background: #F9FAFC;
+			}
+			.fx-details__ls {
+				display: flex;
+				justify-content: space-evenly;
+				align-items: center;
+			}
+		</style>
+{% endblock %}
+
+{% block main %}
+				<!-- Main-content-body -->
+				<div class="main-content-body">
+					{% for message in messages %}
+					<div class="alert {{ message.tags }} alert-dismissible" role="alert">
+						<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
+						{{ message }}
+					</div>
+					{% endfor %}
+					<div class="row row-sm acv-main-continer">
+
+						<!--Quick Slider Panel-->
+						<div class="fxfaded"></div>
+						<div class="row row-sm side_bar_panal_view">
+							<div class="col-12 card side-barContainer rounded-0">
+								<div class="slideClose"><i class="fa fa-chevron-right"></i></div>
+								<div class="row row-sm preview-list-container side-bar-row">
+									{% for stages in stages_data %}
+
+										{% ifequal stages.stage.stage.name 'Prerequisites' %}
+										<div class="col-12 tb-slider-container" data-preview="eligible-card-{{stages.stage.id}}">
+											<div class="mini-header">
+												<div class="fxu-left">
+													<label class="steps-count">0{{ forloop.counter }}</label>
+													<label class="step-title text-capitalize">eligibility criteria</label>
+												</div>
+												<div class="fxu-right">
+													<ul class="maeker-ls">
+														<li>
+															<span class="desc-color mark-label text-uppercase">{% if stages.result.result %} Pass {% else %} Fail {% endif %}</span>
+														</li>
+													</ul>
+												</div>
+											</div>
+											<div class="rts-onecol">
+												<div class="middle_container-showdocs">
+	                                             <!--	<iframe src="https://anderson.edu/uploads/campus-life/cv-templates.pdf" width="700" height="600" class="pdf-docs"></iframe>-->
+													<iframe src="{{stages.result.prerequisites_pdf.url|image_path_remove}}" width="500" height="450" class="pdf-docs"></iframe>
+	                                             <!-- <embed src="{{stages.result.prerequisites_pdf.url|image_path_remove}}" aling="center" width="700" height="600">-->
+												</div>
+											</div>
+										</div>
+										{% endifequal %}
+
+										{% ifequal stages.stage.stage.name 'JCR' %}
+										<div class="col-12 tb-slider-container" data-preview="skill-compatible-{{stages.stage.id}}">
+											<div class="mini-header">
+												<div class="fxu-left">
+													<label class="steps-count">03</label>
+													<label class="step-title text-capitalize">skill compatibility</label>
+												</div>
+												<div class="fxu-right">
+													<ul class="maeker-ls">
+														<li>
+															<label class="text-capitalize">primary:- 80%</label>
+														</li>
+														<li>
+															<label class="text-capitalize">secondry:- 20%</label>
+														</li>
+														<li>
+															<label class="text-capitalize">objective:- 20%</label>
+														</li>
+														<li class="img-color">
+															<label class="text-capitalize">obtained:- 80%</label>
+														</li>
+													</ul>
+												</div>
+											</div>
+											<div class="rts-onecol">
+												<div class="middle_container-showdocs">
+													<iframe src="https://anderson.edu/uploads/campus-life/cv-templates.pdf" width="500" height="450" class="pdf-docs"></iframe>
+												</div>
+											</div>
+										</div>
+										{% endifequal %}
+
+										{% ifequal stages.stage.stage.name 'MCQ Test' %}
+										<!--mcq side panel-->
+										<div class="col-12 tb-slider-container mcq_test_side_P" data-preview="mcq-test-{{stages.stage.id}}">
+											<div class="mini-header mcq-slide-panel">
+												<div class="fxu-left">
+													<label class="steps-count">0{{ forloop.counter }}</label>
+													<label class="step-title text-capitalize">MCQ Test</label>
+												</div>
+												<div class="fxu-right">
+													<ul class="maeker-ls">
+														<li>
+															<label class="text-capitalize">total marks:- {{stages.result.total_question}}</label>
+														</li>
+														<li>
+															<label class="text-capitalize">Time Taken:- {{stages.result.obain_time}}</label>
+														</li>
+														<li class="img-color">
+															<label class="text-capitalize">obtained:- {{stages.result.obain_marks}}</label>
+														</li>
+													</ul>
+												</div>
+											</div>
+											<div class="mcq-cmt-section">
+												<div class="middle_container-showdocs">
+													<iframe src="{{stages.result.mcq_pdf.url|image_path_remove}}" width="500" height="450" class="pdf-docs"></iframe>
+												</div>
+												
+											</div>
+										</div>
+										<!--mcq side panel end-->
+										{% endifequal %}
+
+										{% ifequal stages.stage.stage.name 'Image Test' %}
+										<div class="col-12 tb-slider-container image_test_side_P" data-preview="image-test-{{stages.stage.id}}">
+											<div class="mini-header mcq-slide-panel">
+												<div class="fxu-left">
+													<label class="steps-count">0{{ forloop.counter }}</label>
+													<label class="step-title text-capitalize">Image Test</label>
+												</div>
+												<div class="fxu-right">
+													<ul class="maeker-ls">
+														<li>
+															<label class="text-capitalize">Total Question:- {{stages.result.total_question}}</label>
+														</li>
+														<li>
+															<label class="text-capitalize">Time Taken:- {{stages.result.obain_time}}</label>
+														</li>
+														<li class="img-color">
+															<label class="text-capitalize">obtained:- {{stages.result.obain_marks}}</label>
+														</li>
+													</ul>
+												</div>
+											</div>
+											<div class="mcq-cmt-section">
+												<div class="middle_container-showdocs">
+													<iframe src="{{stages.result.image_pdf.url|image_path_remove}}" width="500" height="450" class="pdf-docs"></iframe>
+												</div>
+												
+											</div>
+										</div>
+										{% endifequal %}
+
+										{% ifequal stages.stage.stage.name 'Descriptive Test' %}
+										<div class="col-12 tb-slider-container" data-preview="descriptive-test-{{stages.stage.id}}">
+											<div class="mini-header mcq-slide-panel">
+												<div class="fxu-left">
+													<label class="steps-count">0{{ forloop.counter }}</label>
+													<label class="step-title text-capitalize">Descriptive Test</label>
+												</div>
+												<div class="fxu-right">
+													<ul class="maeker-ls">
+														<li>
+															<label class="text-capitalize">Total Question:- {{stages.result.total_question}}</label>
+														</li>
+														<li>
+															<label class="text-capitalize">Time Taken:- {{stages.result.obain_time}}</label>
+														</li>
+														<li class="img-color">
+															<label class="text-capitalize">obtained:- {{stages.result.obain_marks}}</label>
+														</li>
+													</ul>
+												</div>
+											</div>
+											{% if stages.result.mcq_pdf %}
+											<div class="mcq-cmt-section">
+												<div class="middle_container-showdocs">
+													<iframe src="{{stages.result.mcq_pdf.url|image_path_remove}}" width="500" height="450" class="pdf-docs"></iframe>
+												</div>
+												<div class="cmt-form">
+												</div>
+											</div>
+											{% endif %}
+										</div>
+										{% endifequal %}
+
+										{% ifequal stages.stage.stage.name 'Audio Test' %}
+											<div class="col-12 tb-slider-container" data-preview="audio-test-{{stages.stage.id}}">
+											<div class="mini-header mcq-slide-panel">
+												<div class="fxu-left">
+													<label class="steps-count">0{{ forloop.counter }}</label>
+													<label class="step-title text-capitalize">Audio Test</label>
+												</div>
+												<div class="fxu-right">
+													<ul class="maeker-ls">
+														<li>
+															<label class="text-capitalize">Total Question:- {{stages.result.total_question}}</label>
+														</li>
+														<li>
+															<label class="text-capitalize">Time Taken:- {{stages.result.obain_time}}</label>
+														</li>
+														<li class="img-color">
+															<label class="text-capitalize">obtained:- {{stages.result.obain_marks}}</label>
+														</li>
+													</ul>
+												</div>
+											</div>
+											<div class="mcq-cmt-section">
+												<div class="middle_container-showdocs">
+													<iframe src="{{stages.result.mcq_pdf.url|image_path_remove}}" width="500" height="450" class="pdf-docs"></iframe>
+												</div>
+												<div class="cmt-form">
+												</div>
+											</div>
+										</div>
+										{% endifequal %}
+
+										{% ifequal stages.stage.stage.name 'Coding Test' %}
+											<div class="col-12 tb-slider-container" data-preview="coding-test-{{stages.stage.id}}">
+											<div class="mini-header mcq-slide-panel">
+												<div class="fxu-left">
+													<label class="steps-count">0{{ forloop.counter }}</label>
+													<label class="step-title text-capitalize">Coding Test</label>
+												</div>
+												<div class="fxu-right">
+													<ul class="maeker-ls">
+														<li>
+															<label class="text-capitalize">Total Question:- {{stages.result.total_question}}</label>
+														</li>
+														<li>
+															<label class="text-capitalize">Answered:- {{stages.result.answered}}</label>
+														</li>
+														<li class="img-color">
+															<label class="text-capitalize">Obtained Marks:- {{stages.result.obtain_marks}}</label>
+														</li>
+													</ul>
+												</div>
+											</div>
+											<div class="mcq-cmt-section">
+												<div class="middle_container-showdocs">
+													{% if stages.result.coding_pdf %}
+													<iframe src="{{stages.result.coding_pdf.url|image_path_remove}}" width="500" height="450" class="pdf-docs"></iframe>
+													{% endif %}
+												</div>
+												<div class="cmt-form">
+													<form role="form" target="_blank" action="{% url 'company:coding_assessment' stages.stage.id %}" method="GET">
+														<div>
+															<input type="hidden" name="stage_id" value="">
+															<button type="submit" name="assess" value="true" class="btn btn-sm btn-primary rounded-20 text-capitalize">View Test</button>
+														</div>
+													</form>
+												</div>
+											</div>
+										</div>
+										{% endifequal %}
+
+										{% ifequal stages.stage.stage.name 'Interview' %}
+											<div class="col-12 tb-slider-container" data-preview="interview-test-{{stages.stage.id}}">
+												<div class="mini-header mcq-slide-panel">
+													<div class="fxu-left">
+														<label class="steps-count">0{{ forloop.counter }}</label>
+														<label class="step-title text-capitalize">Interview Test</label>
+													</div>
+												</div>
+												<div class="mcq-cmt-section">
+												<!--		<div class="middle_container-showdocs">-->
+												<!--	<iframe src="{{stages.result.mcq_pdf.url|image_path_remove}}" width="500" height="600" class="pdf-docs"></iframe>-->
+												<!--		</div>-->
+												</div>
+											</div>
+										{% endifequal %}
+
+										{% ifequal stages.stage.stage.name 'Custom' %}
+											<div class="col-12 tb-slider-container" data-preview="custom-round-{{stages.stage.id}}">
+												<div class="mini-header mcq-slide-panel">
+													<div class="fxu-left">
+														<label class="steps-count">0{{ forloop.counter }}</label>
+														<label class="step-title text-capitalize">Custom</label>
+													</div>
+												</div>
+												<div class="">
+													title : {{stages.result.title}}<br>
+													interview instructions : {{stages.result.description}}<br>
+													{% if stages.result.file_input %}
+														file : <a href="{{stages.result.file_input.url}}" target="_blank">click here to view file</a>
+														<br>
+													{% endif %}
+
+													{% if stages.result.enable_response %}
+														Results: <br>
+														{% if stages.result.description_by_candidate %}
+															Description by candidate : {{stages.result.description_by_candidate}}<br>
+														{% endif %}
+														{% if stages.result.submitted_file_by_candidate %}
+															File submitted by candidate:
+															 <a href="{{stages.result.submitted_file_by_candidate.url}}" target="_blank">click here to view file</a>
+														{% endif %}
+													{% endif %}
+
+													</br>
+													Scorecards:</br>
+													{% for scorecard in stages.result.scorecard_results.all %}
+														{{scorecard.title}} - {{scorecard.rating}} - {{scorecard.comment}}
+														<br>
+													{% endfor %}
+												</div>
+											</div>
+										{% endifequal %}
+
+										{% if SalaryView %}
+											{% ifequal stages.stage.stage.name 'Job Offer' %}
+												<div class="col-12 tb-slider-container" data-preview="hire-stage-{{stages.stage.id}}">
+													<div class="mini-header mcq-slide-panel">
+														<div class="fxu-left">
+															<label class="steps-count">0{{ forloop.counter }}</label>
+															<label class="step-title text-capitalize">Job Offer</label>
+														</div>
+													</div>
+													<div class="hire-candidate-form" style="padding:20px">
+														<form method="POST" role="form" enctype="multipart/form-data" action="{% url 'company:send_offer' stages.stage.id %}">
+															{% csrf_token %}
+															<input type="hidden" name="stage_id" value="{{stages.stage.id}}">
+															<div class="row">
+																<div class="col-4">
+																	<div class="form-group">
+																		<label class="form-label text-capitalize">Candidate Name:</label>
+																		<input type="text" name="candidate-name" class="rounded-10 form-control" required>
+																	</div>
+																</div>
+																<div class="col-4">
+																	<div class="form-group">
+																		<label class="form-label text-capitalize">Annual CTC:</label>
+																		<input type="text" name="annual-ctc" class="rounded-10 form-control" required>
+																	</div>
+																</div>
+																<div class="col-4">
+																	<div class="form-group">
+																		<label class="form-label text-capitalize">Joining Date:</label>
+																		<input type="date" name="joining-date" class="rounded-10 form-control" required>
+																	</div>
+																</div>
+															</div>
+															<div class="row">
+																<div class="col-4">
+																	<div class="form-group">
+																		<label class="form-label text-capitalize">Designation:</label>
+																		<input type="text" name="designation" class="rounded-10 form-control" required>
+																	</div>
+																</div>
+																<div class="col-4">
+																	<div class="form-group">
+																		<label class="form-label text-capitalize">Notice Period:</label>
+																		<input type="text" name="notice-period" class="rounded-10 form-control" required>
+																	</div>
+																</div>
+																<div class="col-4">
+																	<div class="form-group">
+																		<label class="form-label text-capitalize">Bond:</label>
+																		<input type="text" name="bond" class="rounded-10 form-control">
+																	</div>
+																</div>
+															</div>
+															<div class="row">
+																<div class="col-4">
+																	<div class="form-group">
+																		<label class="form-label text-capitalize">NDA:</label>
+																		<input type="text" name="nda" class="rounded-10 form-control">
+																	</div>
+																</div>
+																<div class="col-4">
+																	<div class="form-group">
+																		<label class="form-label text-capitalize">Offer Letter:</label>
+																		<input type="file" name="offer-letter" class="rounded-10 form-control" required>
+																	</div>
+																</div>
+																<div class="col-4">
+																	<div class="form-group">
+																		<label class="form-label text-capitalize">Other Details:</label>
+																		<textarea name="offer-other-details" class="rounded-10 form-control"></textarea>
+																	</div>
+																</div>
+															</div>
+															<div class="row">
+																<div class="col-12 text-lg-right">
+																	<button type="submit" name="send_offer" class="btn btn-sm btn-primary rounded-20 text-capitalize btn_send_offer">submit</button>
+																</div>
+															</div>
+														</form>
+													</div>
+												</div>
+											{% endifequal %}
+										{% endif %}
+									{% endfor %}
+								</div>
+							</div>
+						</div>
+						<!--Quick Slider Panel End-->
+
+						<div class="col-12">
+	                        <div class="row row-sm upperside-section">
+	                            <div class="headerCardSection col-12 card">
+	                                <div class="fxh-title-bar">
+	                                    <div class="left-side-tab">
+	                                        <div class="profile-snap">
+	                                            <div class="profile-img custom_profile_img">
+	                                                <!-- <img src="{% static 'assets/img/ATS/man.png' %}" alt="profile-img"> -->
+	                                                <span class="profile_first_letter_pic_inner">
+	                                                	{% if id_resume.is_accepted %}{{candidate_detail.candidate_id.first_name.0}}{{candidate_detail.candidate_id.last_name.0}}{% else %}{{id_resume.candidate_custom_id.0}}{% endif %}
+	                                                </span>
+	                                            </div>
+	                                            <div class="user-name_section">
+	                                                <div class="user-name text-capitalize">{% if id_resume.is_accepted %}{{candidate_detail.candidate_id.first_name}} {{candidate_detail.candidate_id.last_name}}{% else %}{{id_resume.candidate_custom_id}}{% endif %}</div>
+	                                                <div class="user-skills text-capitalize text_w_5">{{candidate_detail.designation}}</div>
+	                                            </div>
+	                                        </div>
+	                                    </div>
+	                                    <div class="right-side-tab">
+	                                        <ul class="candidate_carrier-ls">
+	                                            <li>
+	                                                <div class="icon-with-title">
+	                                                    <i class="fas fa-clock" style="color:#0068ff"></i>
+	                                                    <label class="c-title text-capitalize">experience:-</label>
+	                                                </div>
+	                                                <div class="btm-text">
+	                                                    <label class="c-details text-capitalize text_w_5">{{candidate_detail.total_exper}} Years</label>
+	                                                </div>
+	                                            </li>
+	                                            <li>
+	                                                <div class="icon-with-title">
+	                                                    <i class="fas fa-rupee-sign" style="color:#0068ff"></i>
+	                                                    <label class="c-title text-capitalize">expected CTC:-</label>
+	                                                </div>
+	                                                <div class="btm-text">
+	                                                    <label class="c-details text-capitalize text_w_5">{% if SalaryView %}{{candidate_detail.expectedctc}}{% else %}Confidential{% endif %}</label>
+	                                                </div>
+	                                            </li>
+	                                            <li>
+	                                                <div class="icon-with-title">
+	                                                    <i class="fas fa-rupee-sign" style="color:#0068ff"></i>
+	                                                    <label class="c-title text-capitalize">current CTC:-</label>
+	                                                </div>
+	                                                <div class="btm-text">
+	                                                    <label class="c-details text-capitalize text_w_5">{% if SalaryView %}{{candidate_detail.ctc}}{% else %}Confidential{% endif %}</label>
+	                                                </div>
+	                                            </li>
+	                                            <li>
+	                                                <div class="icon-with-title">
+	                                                    <i class="fas fa-calendar-week" style="color:#0068ff"></i>
+	                                                    <label class="c-title text-capitalize">notice period:-</label>
+	                                                </div>
+	                                                <div class="btm-text">
+	                                                    <label class="c-details text-capitalize text_w_5">{{candidate_detail.notice.notice_period}}</label>
+	                                                </div>
+	                                            </li>
+	                                        </ul>
+
+											{% if not candidate_job_status.is_hired %}
+												{% if not candidate_job_status.is_withdraw %}
+													<div>
+														<a data-toggle="modal" href="#WithdrawCandidate" class="btn btn-sm btn-primary rounded-20 text-capitalize hire_btn_custom">Withdraw</a>
+													</div>
+												{% else %}
+													<div>
+														<a data-toggle="modal" href="#ReEnterCandidate" class="btn btn-sm btn-primary rounded-20 text-capitalize hire_btn_custom">Re-Enter</a>
+													</div>
+												{% endif %}
+											{% endif %}
+											{% if SalaryView %}
+												{% if not candidate_job_status.is_withdraw %}
+													{% if candidate_job_status.is_hired %}
+														<!--<div>-->
+														<!-- <button type="button" class="btn btn-sm btn-primary rounded-20 text-capitalize">Hired</button>-->
+														<!-- </div>-->
+													{% else %}
+														<div>
+															<a data-toggle="modal" href="#HireCandidate" class="btn btn-sm btn-primary rounded-20 text-capitalize hire_btn_custom">Hire</a>
+														</div>
+													{% endif %}
+												{% endif %}
+											{% endif %}
+
+	                                        <div class="bookmark-tag">
+	                                            <div class="addBookMarkBtn">
+	                                                <i class="far fa-comments"></i>
+	                                            </div>
+	                                        </div>
+
+	                                    </div>
+	                                </div>
+									
+									<!--toggle tabs listing view-->
+									<div class="candidateTabLs panel panel-primary pt-2 tabs-style-7">
+										<div class="tab-menu-heading">
+											<div class="tabs-menu">
+												<!-- Tabs -->
+												<ul class="nav panel-tabs">
+													<li><a href="#tab01" class="active" data-toggle="tab">timeline</a></li>
+													<li><a href="#tab02" data-toggle="tab">collaboration</a></li>
+													<li><a href="#tab03" data-toggle="tab">details</a></li>
+													<!-- <li><a href="#tab04" data-toggle="tab">chat</a></li> -->
+													<!-- <li><a href="#tab05" data-toggle="tab">documents</a></li> -->
+												</ul>
+											</div>
+										</div>
+									</div>
+									<!--toggle tabs listing view end-->
+
+	                            </div>
+	                        </div>
+
+	                        <div class="row row-sm tab-container" id="listViewTab">
+								<div class="col-12 tab-content">
+									<div class="tab-pane active" id="tab01">
+										<div class="row row-sm timeline-container">
+											<div class="col-3 pl-0">
+												<div class="time-line__left_section card">
+													<ul class="steps-list">
+														{% for stage in stages_status %}
+														<li class="
+															{% ifequal stage.status 0 %}
+																disable
+															{% endifequal %}
+															{% ifequal stage.status 1 %}
+																progess
+															{% endifequal %}
+															{% if stage.status == 2 or stage.status == 3 %}
+																complete
+															{% endif %}
+															{% ifequal stage.status -1 %}
+																failed
+															{% endifequal %}">
+															<div class="title-text active">
+																<span class="icon-view">
+																	{% ifequal stage.status 0 %}
+																	{% endifequal %}
+																	{% ifequal stage.status 1 %}
+																		<i class="fas fa-clock"></i>
+																	{% endifequal %}
+																	{% if stage.status == 2 or stage.status == 3 %}
+																		<i class="fas fa-check-double"></i>
+																	{% endif %}
+																	{% ifequal stage.status -1 %}
+																		<i class="fas fa-times"></i>
+																	{% endifequal %}
+																</span>
+																<label class="h5 text-bold">0{{ forloop.counter }}</label>
+																{% ifequal stage.status -1 %}
+																	<label class="simple-text text-capitalize">{{stage.custom_stage_name}} <span class="danger-bedge text-capitalize">rejected</span></label>
+																{% else %}
+																	<label class="simple-text text-capitalize">{{stage.custom_stage_name}}</label>
+																{% endifequal %}
+															</div>
+														</li>
+														{% endfor %}
+													</ul>
+													{% if job_workflow_obj.onthego %}
+														{% if not candidate_job_status %}
+														<div class="mt-3 text-center">
+															<button data-toggle="modal" class="btn btn-sm btn-primary rounded-10" href="#AddNewStagePopUp">Add stage</button>
+														</div>
+														{% endif %}
+													{% endif %}
+												</div>
+											</div>
+											<div class="col-9">
+												<div class="row row-sm timeline__right-card">
+
+													<div class="col-12 timeline-ls card">
+														<div class="head__titlebar">
+															<label class="text-capitalize text_w_5"><span class="h6 text-bold">01</span> job applied</label>
+														</div>
+														<!-- <span class="notification-bar">5</span> -->
+														<div class="head__detailList">
+															<ul class="candidate_carrier-ls">
+																<li>
+																	<div class="icon-with-title">
+																		<i class="fas fa-briefcase"  style="color:#0068ff"></i>
+																		<label class="c-title text-capitalize">Job Title:-</label>
+																	</div>
+																	<div class="btm-text">
+																		<label class="c-details text-capitalize text_w_5">{{job_obj.job_title}}</label>
+																	</div>
+																</li>
+																<li>
+																	<div class="icon-with-title">
+																		<i class="fa fa-user" style="color:#0068ff"></i>
+																		<label class="c-title text-capitalize">recruiter name:-</label>
+																	</div>
+																	<div class="btm-text">
+																		<label class="c-details text-capitalize text_w_5">(pending)</label>
+																	</div>
+																</li>
+																<li>
+																	<div class="icon-with-title">
+																		<i class="fas fa-map-marker-alt" style="color:#0068ff"></i>
+																		<label class="c-title text-capitalize">location:-</label>
+																	</div>
+																	<div class="btm-text">
+																		<label class="c-details text-capitalize text_w_5">{{job_obj.city.city_name}},{{job_obj.country.country_name}}</label>
+																	</div>
+																</li>
+																<li>
+																	<div class="icon-with-title">
+																		<i class="fas fa-calendar-week" style="color:#0068ff"></i>
+																		<label class="c-title text-capitalize">last updated:-</label>
+																	</div>
+																	<div class="btm-text">
+																		<label class="c-details text-capitalize text_w_5">
+																			{% if job_obj.updated_at %}
+																				{{job_obj.updated_at|date}}
+																			{% else %}
+																				{{job_obj.publish_at|date}}
+																			{% endif %}
+																		</label>
+																		
+																	</div>
+																</li>
+																<li>
+																	<div class="icon-with-title">
+																		<i class="fas fa-calendar-week" style="color:#0068ff"></i>
+																		<label class="c-title text-capitalize">applied on:-</label>
+																	</div>
+																	<div class="btm-text">
+																		<label class="c-details text-capitalize text_w_5">{{candidate_apply_details.create_at|date}}</label>
+																	</div>
+																</li>
+															</ul>
+														</div>
+													</div>
+
+													{% for stages in stages_data %}
+
+														{% ifequal stages.stage.stage.name 'Application Review' %}
+															{% if stages.stage.status != 0 %}
+																<div class="col-12 timeline-ls {% ifequal stages.stage.status 1 %} eligible-card {% endifequal %} card ">
+																<div class="mcq-section-card">
+																	<div class="head__titlebar">
+																		<label class="text-capitalize text_w_5"><span class="h6 text-bold">0{{ forloop.counter }}</span>Application Review</label>
+																	</div>
+																	<div class="category__list info_detail_msg">
+																		<div class="show-details_link text_fn_16">
+																			{% ifequal stages.stage.status -1 %}
+																				<span class="flag-mark danger text_b_16">Not Shortlisted </span>
+																			{% endifequal %}
+																			
+																			{% if stages.stage.status == 3 %}
+																				<span class="flag-mark color_b_hold text_b_16">On Hold </span>
+																			{% endif %}
+
+																			{% ifequal stages.stage.status 2 %}
+																				{% if stages.stage.action_performed %}
+																					<span class="flag-mark success text_b_16">Shortlisted</span>
+																				{% endif %}
+																			{% endifequal %}
+																			
+																		</div>
+																	</div>
+																</div>
+															   {% if stages.stage.status == 1 or stages.stage.status == 3 %}
+																	{% if candidate_job_status.is_withdraw or candidate_job_status.is_hired %}
+																	{% else %}
+																		{% if not stages.stage.action_performed %}
+																			<form role="form" method="POST">
+																				{% csrf_token %}
+																				<div class="move_next_action_btn">
+																					<input type="hidden" name="stage_id" value="{{stages.stage.id}}">
+																				   <button name="shortlist" type="submit" value="shortlist" class="btn btn-sm btn-primary cg rounded-20 text-capitalize">Short list</button>
+																					{% if stages.stage.status != 3 %}
+																						<button name="onhold" type="submit" class="btn btn-sm btn-primary co rounded-20 text-capitalize">On hold</button>
+																					{% endif %}
+																				   <button name="reject" type="submit" value="reject" class="btn btn-sm btn-primary cr rounded-20 text-capitalize">Reject</button>
+																				</div>
+																			</form>
+																	   {% endif %}
+																	{% endif %}
+															   {% endif %}
+															</div>
+															{% endif %}
+														{% endifequal %}
+
+														{% ifequal stages.stage.stage.name 'JCR' %}
+															<div class="col-12 timeline-ls card {% ifequal stage.status 1 %} eligible-card {% endifequal %} skill-card">
+																<div class="head__titlebar">
+																	<label class="text-capitalize text_w_5"><span class="h6 text-bold">0{{ forloop.counter }}</span> {{stages.stage.custom_stage_name}}</label>
+																</div>
+																<!-- <span class="notification-bar">5</span> -->
+																<div class="category__list">
+																	{% ifequal stages.stage.status 2 %}
+																	<ul class="result-ls">
+																		<li>
+																			<label class="result-title text-capitalize">primary:-</label>
+																			<label class="result-sub-title text-capitalize">{{stages.result.Primary}}%</label>
+																		</li>
+																		<li>
+																			<label class="result-title text-capitalize">secondry:-</label>
+																			<label class="result-sub-title text-capitalize">{{stages.result.Secondary}}%</label>
+																		</li>
+																		<li>
+																			<label class="result-title text-capitalize">objective:-</label>
+																			<label class="result-sub-title text-capitalize">{{stages.result.Objective}}%</label>
+																		</li>
+																		<li class="obtainer">
+																			<label class="result-title text-capitalize">obtained:-</label>
+																			<label class="result-sub-title text-capitalize">{{stages.result.Total}}%</label>
+																		</li>
+																	</ul>
+																	{% endifequal %}
+																	<div class="show-details_link">
+																		{% ifequal stages.stage.status 2 %}
+																		<button class="btn btn-sm btn-primary rounded-20 text-capitalize view-btn" data-item="skill-compatible-{{stages.stage.id}}">view</button>
+																		{% endifequal %}
+																	</div>
+																</div>
+															</div>
+														{% endifequal %}
+
+														{% ifequal stages.stage.stage.name 'Prerequisites' %}
+															{% if stages.stage.status != 0 %}
+														   	<div class="col-12 timeline-ls card {% ifequal stages.stage.status 1 %} eligible-card {% endifequal %} skill-card">
+																<div class="head__titlebar">
+																	<label class="text-capitalize text_w_5"><span class="h6 text-bold">0{{ forloop.counter }}</span> {{stages.stage.custom_stage_name}}</label>
+																</div>
+																<!-- <span class="notification-bar">5</span> -->
+																<div class="category__list">
+																	{% if stages.stage.reject_by_candidate %}
+																		<span class="flag-mark danger text_b_16">Not Shortlisted - candidate quit the exam.</span>
+																	{% endif %}
+																	{% ifequal stages.stage.status 2 %}
+																			{% if stages.result.result %}
+																				<span class="flag-mark success text_b_16">Shortlisted</span>
+																			{% else %}
+																				<span class="flag-mark danger text_b_16">Not Shortlisted </span>
+																			{% endif %}
+																
+																		<div class="show-details_link">	
+																			<button class="btn btn-sm btn-primary rounded-20 text-capitalize view-btn" data-item="eligible-card-{{stages.stage.id}}">view</button>
+																		</div>
+																	{% endifequal %}
+																</div>
+															</div>
+															{% endif %}
+														{% endifequal %}
+
+														{% ifequal stages.stage.stage.name 'MCQ Test' %}
+															{% if stages.stage.status != 0 %}
+														   	<div class="col-12 timeline-ls {% ifequal stages.stage.status 1 %} eligible-card {% endifequal %} card ">
+																<div class="mcq-section-card">
+																	<div class="head__titlebar">
+																		<label class="text-capitalize text_w_5"><span class="h6 text-bold">0{{ forloop.counter }}</span>{{stages.stage.custom_stage_name}}</label>
+																	</div>
+																	<div class="category__list">
+																		{% ifequal stages.stage.status -1 %}
+																			<span class="flag-mark danger text_b_16">Not Shortlisted {% if stages.stage.reject_by_candidate %} - candidate quit the exam. {% endif %}</span>																		 
+																		{% endifequal %}
+																			
+																		{% if stages.stage.status == 3 %}
+																			<span class="flag-mark color_b_hold text_b_16">On Hold </span>
+																		{% endif %}
+																		{% ifequal stages.stage.status 2 %}
+																			{% if stages.stage.action_performed %}
+																				<span class="flag-mark success text_b_16">Shortlisted</span>
+																			{% endif %}
+																		{% endifequal %}
+																			
+																		<div class="show-details_link">
+																			{% if not stages.stage.reject_by_candidate %}
+																				{% if stages.stage.status != 1 %}
+																				<button class="btn btn-sm btn-primary rounded-20 text-capitalize view-btn" data-item="mcq-test-{{stages.stage.id}}">view</button>
+																				{% endif %}
+																			{% endif %}
+																		</div>
+																	</div>
+																</div>
+																{% if not stages.stage.reject_by_candidate %}
+															   	{% if stages.stage.status == 2 or stages.stage.status == 3 or stages.stage.status == -1 %}
+																	<div class="collpase-container mcqCommentPreview">
+																		<div class="mini__card-layout">
+																			<div class="fx-row title_list">
+																			<div class="fx-col">
+																				<label class="text-capitalize h6">Total Question</label>
+																			</div>
+																			<div class="fx-col">
+																				<label class="text-capitalize h6">Answered</label>
+																			</div>
+																			<div class="fx-col">
+																				<label class="text-capitalize h6">Obtain Marks</label>
+																			</div>
+																			</div>
+																			<div class="fx-row fx-details__ls">
+																			<div class="fx-col col-view_caption">
+																				<p class="result_view h6">{{stages.result.total_question}}</p>
+																			</div>
+																			<div class="fx-col col-view_caption">
+																				<p class="result_view h6">{{stages.result.answered}}</p>
+																			</div>
+																			<div class="fx-col col-view_caption">
+																				<p class="result_view h6">{{stages.result.obain_marks}}</p>
+																			</div>
+																			</div>
+																		</div>
+																	</div>
+																	{% if candidate_job_status.is_withdraw or candidate_job_status.is_hired %}
+																	{% else %}
+																		{% if not stages.stage.action_performed %}
+																			<form role="form" method="POST">
+																				{%csrf_token%}
+																				<div class="move_next_action_btn">
+																					<input type="hidden" name="stage_id" value="{{stages.stage.id}}">
+																				   <button name="shortlist" type="submit" value="shortlist" class="btn btn-sm btn-primary cg rounded-20 text-capitalize">Short list</button>
+																					{% if stages.stage.status != 3 %}
+																						<button name="onhold" type="submit" class="btn btn-sm btn-primary co rounded-20 text-capitalize">On hold</button>
+																					{% endif %}
+																				   <button name="reject" type="submit" value="reject" class="btn btn-sm btn-primary cr rounded-20 text-capitalize">Reject</button>
+																				</div>
+																			</form>
+																	   {% endif %}
+																	{% endif %}
+															    {% endif %}
+																{% endif %}
+															</div>
+															{% endif %}
+														{% endifequal %}
+
+
+														{% ifequal stages.stage.stage.name 'Descriptive Test' %}
+															{% if stages.stage.status != 0 %}
+															<div class="col-12 timeline-ls card {% ifequal stages.stage.status 1 %} eligible-card {% endifequal %} Descriptive">
+																<div class="mcq-section-card">
+																	<div class="head__titlebar">
+																		<label class="text-capitalize text_w_5"><span class="h6 text-bold">0{{ forloop.counter }}</span> {{stages.stage.custom_stage_name}}</label>
+																	</div>
+																	<!-- <span class="notification-bar">5</span> -->
+																	<div class="category__list">
+																		{% ifequal stages.stage.status -1 %}
+																				<span class="flag-mark danger text_b_16">Not Shortlisted {% if stages.stage.reject_by_candidate %} - candidate quit the exam. {% endif %}</span>
+																			{% endifequal %}
+																		    {% if stages.stage.status == 3 %} 
+																				<span class="flag-mark color_b_hold text_b_16">On Hold </span>
+																			{% endif %}
+																			{% ifequal stages.stage.status 2 %}
+																				{% if stages.stage.action_performed %}
+																					<span class="flag-mark success text_b_16">Shortlisted</span>
+																				{% endif %}
+																			{% endifequal %}
+																		<div class="show-details_link">
+																			{% if stages.stage.status == 2 or stages.stage.status == -1 %}
+																				{% if stages.stage.assessment_done %}
+																					<button class="btn btn-sm btn-primary rounded-20 text-capitalize view-btn" data-item="descriptive-test-{{stages.stage.id}}">view</button>
+																				{% endif %}
+																			{% endif %}
+																		</div>
+																	</div>
+																</div>
+																{% if not stages.stage.reject_by_candidate %}
+																{% if stages.stage.status == 2 or stages.stage.status == 3 or stages.stage.status == -1 %}
+
+
+																	{% if candidate_job_status.is_withdraw or candidate_job_status.is_hired %}
+																	{% else %}
+																		{% if stages.stage.assessment_done %}
+																			{% if not stages.stage.action_performed %}
+																				<form role="form" method="POST">
+																					{%csrf_token%}
+																					<div class="move_next_action_btn">
+																						<input type="hidden" name="stage_id" value="{{stages.stage.id}}">
+																						<button name="shortlist" type="submit" value="shortlist" class="btn btn-sm btn-primary cg rounded-20 text-capitalize">Short list</button>
+																						{% if stages.stage.status != 3 %}
+																							<button name="onhold" type="submit" class="btn btn-sm btn-primary co rounded-20 text-capitalize">On hold</button>
+																						{% endif %}
+																						<button name="reject" type="submit" value="reject" class="btn btn-sm btn-primary cr rounded-20 text-capitalize">Reject</button>
+																					</div>
+																				</form>
+																			{% endif %}
+																		{% else %}
+																			<form role="form" target="_blank" action="{% url 'company:descriptive_assessment' %}" method="POST">
+																				{% csrf_token %}
+																				<div class="move_next_action_btn">
+																					<input type="hidden" name="stage_id" value="{{stages.stage.id}}">
+																				<!--		<a target="_blank" href="{% url 'company:descriptive_assessment' %}" class="btn btn-sm btn-primary rounded-20 text-capitalize">Assess</a>-->
+																					<button type="submit" name="assess" class="btn btn-sm btn-primary rounded-10 text-capitalize">Assess</button>
+																				</div>
+																			</form>
+																		{% endif %}
+																	{% endif %}
+																	{% endif %}
+																{% endif %}
+															</div>
+															{% endif %}
+														{% endifequal %}
+
+														{% ifequal stages.stage.stage.name 'Image Test' %}
+															{% if stages.stage.status != 0 %}
+															<div class="col-12 timeline-ls card {% ifequal stages.stage.status 1 %} eligible-card {% endifequal %} Image">
+																<div class="mcq-section-card">
+																	<div class="head__titlebar">
+																		<label class="text-capitalize text_w_5"><span class="h6 text-bold">0{{ forloop.counter }}</span> {{stages.stage.custom_stage_name}}</label>
+																	</div>
+																	<!-- <span class="notification-bar">5</span> -->
+																	<div class="category__list">
+																		
+																		{% ifequal stages.stage.status -1 %} 
+																		<span class="flag-mark danger text_b_16">Not Shortlisted {% if stages.stage.reject_by_candidate %} - candidate quit the exam. {% endif %}</span>
+																		{% endifequal %}
+																			
+																		{% if stages.stage.status == 3 %} 
+																			<span class="flag-mark color_b_hold text_b_16">On Hold </span>
+																		{% endif %}
+																		{% ifequal stages.stage.status 2 %}
+																			{% if stages.stage.action_performed %}
+																				<span class="flag-mark success text_b_16">Shortlisted</span>
+																			{% endif %}
+																		{% endifequal %}
+																		
+																		<div class="show-details_link">
+																			
+																			{% if not stages.stage.reject_by_candidate %}
+																			{% if stages.stage.status != 1 %}
+																			<button class="btn btn-sm btn-primary rounded-20 text-capitalize view-btn" data-item="image-test-{{stages.stage.id}}">view</button>
+																			{% endif %}
+																			{% endif %}
+																		</div>
+																	</div>
+																</div>
+																{% if not stages.stage.reject_by_candidate %}
+																{% if stages.stage.status == 2 or stages.stage.status == 3 or stages.stage.status == -1 %}
+																	<div class="collpase-container mcqCommentPreview">
+																		<div class="mini__card-layout">
+																			<div class="fx-row title_list">
+																			<div class="fx-col">
+																				<label class="text-capitalize h6">Total Question</label>
+																			</div>
+																			<div class="fx-col">
+																				<label class="text-capitalize h6">Answered</label>
+																			</div>
+																			<div class="fx-col">
+																				<label class="text-capitalize h6">Obtain Marks</label>
+																			</div>
+																			</div>
+																			<div class="fx-row fx-details__ls">
+																			<div class="fx-col col-view_caption">
+																				<p class="result_view h6">{{stages.result.total_question}}</p>
+																			</div>
+																			<div class="fx-col col-view_caption">
+																				<p class="result_view h6">{{stages.result.answered}}</p>
+																			</div>
+																			<div class="fx-col col-view_caption">
+																				<p class="result_view h6">{{stages.result.obain_marks}}</p>
+																			</div>
+																			</div>
+																		</div>
+																	</div>
+																	{% if candidate_job_status.is_withdraw or candidate_job_status.is_hired %}
+																	{% else %}
+																		{% if not stages.stage.action_performed %}
+																			<form role="form" method="POST">
+																				{%csrf_token%}
+																				<div class="move_next_action_btn">
+																					<input type="hidden" name="stage_id" value="{{stages.stage.id}}">
+																				   <button name="shortlist" type="submit" value="shortlist" class="btn btn-sm btn-primary cg rounded-20 text-capitalize">Short list</button>
+																					{% if stages.stage.status != 3 %}
+																						<button name="onhold" type="submit" class="btn btn-sm btn-primary co rounded-20 text-capitalize">On hold</button>
+																					{% endif %}
+																				   <button name="reject" type="submit" value="reject" class="btn btn-sm btn-primary cr rounded-20 text-capitalize">Reject</button>
+																				</div>
+																			</form>
+																	   {% endif %}
+																	{% endif %}
+															   {% endif %}
+															   {% endif %}
+															   
+															</div>
+															{% endif %}
+														{% endifequal %}
+
+
+
+														{% ifequal stages.stage.stage.name 'Audio Test' %}
+															{% if stages.stage.status != 0 %}
+															<div class="col-12 timeline-ls card {% ifequal stages.stage.status 1 %} eligible-card {% endifequal %} Audio">
+																<div class="mcq-section-card">
+																	<div class="head__titlebar">
+																		<label class="text-capitalize text_w_5"><span class="h6 text-bold">0{{ forloop.counter }}</span> {{stages.stage.custom_stage_name}}</label>
+																	</div>
+																	<!-- <span class="notification-bar">5</span> -->
+																	<div class="category__list">
+																	    {% ifequal stages.stage.status -1 %}
+																			<span class="flag-mark danger text_b_16">Not Shortlisted {% if stages.stage.reject_by_candidate %} - candidate quit the exam. {% endif %} </span>
+																		{% endifequal %}
+																	
+																		{% if stages.stage.status == 3 %} 
+																			<span class="flag-mark color_b_hold text_b_16">On Hold </span>
+																		{% endif %}
+																		{% ifequal stages.stage.status 2 %}
+																				{% if stages.stage.action_performed %}
+																					<span class="flag-mark success text_b_16">Shortlisted</span>
+																				{% endif %}
+																		{% endifequal %}
+																		<div class="show-details_link">
+																			{% if stages.stage.status == 2 or stages.stage.status == -1 %}
+																				{% if stages.stage.assessment_done %}
+																					<button class="btn btn-sm btn-primary rounded-20 text-capitalize view-btn" data-item="audio-test-{{stages.stage.id}}">view</button>
+																				{% endif %}
+																			{% endif %}
+																		</div>
+																	</div>
+																</div>
+																{% if not stages.stage.reject_by_candidate %}
+																{% if stages.stage.status == 2 or stages.stage.status == 3 or stages.stage.status == -1 %}
+																	{% if candidate_job_status.is_withdraw or candidate_job_status.is_hired %}
+																	{% else %}
+																		{% if stages.stage.assessment_done %}
+																			{% if not stages.stage.action_performed %}
+																				<form role="form" method="POST">
+																					{% csrf_token %}
+																					<div class="move_next_action_btn">
+																						<input type="hidden" name="stage_id" value="{{stages.stage.id}}">
+																						<button name="shortlist" type="submit" value="shortlist" class="btn btn-sm btn-primary cg rounded-20 text-capitalize">Short list</button>
+																						{% if stages.stage.status != 3 %}
+																							<button name="onhold" type="submit" class="btn btn-sm btn-primary co rounded-20 text-capitalize">On hold</button>
+																						{% endif %}
+																						<button name="reject" type="submit" value="reject" class="btn btn-sm btn-primary cr rounded-20 text-capitalize">Reject</button>
+																					</div>
+																				</form>
+																			{% endif %}
+																		{% else %}
+																			<form role="form" target="_blank" action="{% url 'company:audio_video_assessment' %}" method="POST">
+																				{% csrf_token %}
+																				<div class="move_next_action_btn">
+																					<input type="hidden" name="stage_id" value="{{stages.stage.id}}">
+																				<!--	<a target="_blank" href="{% url 'company:descriptive_assessment' %}" class="btn btn-sm btn-primary rounded-20 text-capitalize">Assess</a>-->
+																					<button type="submit" name="assess" class="btn btn-sm btn-primary rounded-10 text-capitalize">Assess</button>
+																				</div>
+																			</form>
+																		{% endif %}
+																	{% endif %}
+																{% endif %}
+																{% endif %}
+															</div>
+															{% endif %}
+														{% endifequal %}
+
+														{% ifequal stages.stage.stage.name 'Coding Test' %}
+															{% if stages.stage.status != 0 %}
+															<div class="col-12 timeline-ls card {% ifequal stages.stage.status 1 %} eligible-card {% endifequal %} Coding">
+																<div class="mcq-section-card">
+																	<div class="head__titlebar">
+																		<label class="text-capitalize text_w_5"><span class="h6 text-bold">0{{ forloop.counter }}</span> {{stages.stage.custom_stage_name}}</label>
+																	</div>
+																	<!-- <span class="notification-bar">5</span> -->
+																	<div class="category__list">
+																		{% ifequal stages.stage.status -1 %}
+																		 	<span class="flag-mark danger text_b_16">Not Shortlisted {% if stages.stage.reject_by_candidate %} - candidate quit the exam. {% endif %} </span> 
+																		{% endifequal %}
+																		{% if stages.stage.status == 3 %}
+																			<span class="flag-mark color_b_hold text_b_16">On Hold </span>
+																		{% endif %}
+																		{% ifequal stages.stage.status 2 %}
+																			{% if stages.stage.action_performed %}
+																				<span class="flag-mark success text_b_16">Shortlisted</span>
+																			{% endif %}
+																		{% endifequal %}
+																		<div class="show-details_link">																			
+																			{% if stages.stage.status == 2 or stages.stage.status == -1 or stages.stage.status == 3 %}
+																				{% if stages.stage.assessment_done %}
+																					<button class="btn btn-sm btn-primary rounded-20 text-capitalize view-btn" data-item="coding-test-{{stages.stage.id}}">view</button>
+																				{% endif %}
+																			{% endif %}
+																		</div>
+																	</div>
+																</div>
+																{% if not stages.stage.reject_by_candidate %}
+																{% if stages.stage.status == 2 or stages.stage.status == 3 or stages.stage.status == -1 %}
+																	{% if candidate_job_status.is_withdraw or candidate_job_status.is_hired %}
+																	{% else %}
+																		{% if stages.stage.assessment_done %}
+																			{% if not stages.stage.action_performed %}
+																				<form role="form" method="POST">
+																					{% csrf_token %}
+																					<div class="move_next_action_btn">
+																						<input type="hidden" name="stage_id" value="{{stages.stage.id}}">
+																						<button name="shortlist" type="submit" value="shortlist" class="btn btn-sm btn-primary cg rounded-20 text-capitalize">Short list</button>
+																						{% if stages.stage.status != 3 %}
+																							<button name="onhold" type="submit" class="btn btn-sm btn-primary co rounded-20 text-capitalize">On hold</button>
+																						{% endif %}
+																						<button name="reject" type="submit" value="reject" class="btn btn-sm btn-primary cr rounded-20 text-capitalize">Reject</button>
+																					</div>
+																				</form>
+																			{% endif %}
+																		{% else %}
+																			<form role="form" target="_blank" action="{% url 'company:coding_assessment' stages.stage.id %}" method="GET">
+																				<div class="move_next_action_btn">
+																					<input type="hidden" name="stage_id" value="">
+																					<button type="submit" name="assess" value="true" class="btn btn-sm btn-primary rounded-20 text-capitalize">Assess</button>
+																				</div>
+																			</form>
+																		{% endif %}
+																	{% endif %}
+																{% endif %}
+																{% endif %}
+															</div>
+															{% endif %}
+														{% endifequal %}
+
+
+														{% ifequal stages.stage.stage.name 'Interview' %}
+															{% if stages.stage.status != 0 %}
+																<div class="col-12 timeline-ls card {% ifequal stages.stage.status 1 %} eligible-card {% endifequal %} Interview">
+																<div class="mcq-section-card">
+																	<div class="head__titlebar">
+																		<label class="text-capitalize text_w_5"><span class="h6 text-bold">0{{ forloop.counter }}</span>{{stages.stage.custom_stage_name}}</label>
+																	</div>
+																	<!-- <span class="notification-bar">5</span> -->
+																	<div class="category__list">
+																		{% if stages.stage.status == 1 %}
+																			{% if interview_schedule_data.status == 1 %}
+																				<ul class="shaduler-box">
+																					<li>
+																						<label class="result-title text-capitalize time-view">By: <span class="text-capitalize">{{interview_schedule_data.user_id}}</span></label>
+																					</li>
+																					<li>
+																						<label class="result-title text-capitalize"><i class="fa fa-calendar"></i> {{interview_schedule_data.date}} <span class="time-view text-uppercase">{{interview_schedule_data.time}}</span></label>
+																					</li>
+																					<li>
+																						<label class="result-title text-capitalize">{% if interview_schedule_data.is_accepted %} Accepted By Candidate {% endif %}</label>
+																					</li>
+																				</ul>
+																			{% endif %}
+																		{% endif %}
+																		{% ifequal stages.stage.status -1 %} 
+																				<span class="flag-mark danger text_b_16">Not Shortlisted </span>
+																			{% endifequal %}
+																			{% if stages.stage.status == 3 %}
+																				<span class="flag-mark color_b_hold text_b_16">On Hold </span>
+																			{% endif %}
+																			{% ifequal stages.stage.status 2 %}
+																				{% if stages.stage.action_performed %}
+																					<span class="flag-mark success text_b_16">Shortlisted</span>
+																				{% endif %}
+																			{% endifequal %}
+																		<div class="show-details_link">
+																	
+																			{% if stages.stage.status == 1 %}
+																				{% if candidate_job_status.is_withdraw or candidate_job_status.is_hired %}
+																				{% else %}
+																					{% if interview_schedule_data.is_accepted %}
+																						{% if interview_schedule_data.interview_start_button_status %}
+																							
+																							{% if interview_schedule_data.interview_template.interview_type == 'audio-video' %}
+																							<a class="btn btn-sm btn-primary rounded-10 text-capitalize" href="{% url 'videochat:main_view' interview_schedule_data.interview_link %}">Start</a>
+																							{% else %}
+																							<a class="btn btn-sm btn-primary rounded-10 text-capitalize" href="{% url 'company:start_interview' interview_schedule_data.id %}">Start</a>
+																							{% endif %}
+																						{% else %}
+																							<button class="btn btn-sm btn-primary rounded-10 text-capitalize" disabled>Start</button>
+																						{% endif %}
+																					{% endif %}
+																					{% if interview_schedule_data.status == 1 %}
+																						<button data-toggle="modal" data-id="{{stages.stage.id}}" href="#InterviewScheduleModel" class="btn btn-sm btn-primary rounded-10 text-capitalize ml-2">Re-Schedule</button>
+																					{% else %}
+																						<button data-toggle="modal" data-id="{{stages.stage.id}}" href="#InterviewScheduleModel" class="btn btn-sm btn-primary rounded-10 text-capitalize ml-2">Schedule</button>
+																					{% endif %}
+																				{% endif %}
+																			{% endif %}
+																			{% if stages.stage.status == 2 or stages.stage.status == -1 %}
+																				{% if stages.stage.assessment_done %}
+																					<button class="btn btn-sm btn-primary rounded-10 text-capitalize view-btn ml-2" data-item="interview-test-{{stages.stage.id}}">view</button>
+																				{% endif %}
+																			{% endif %}
+																		</div>
+																	</div>
+																</div>
+																{% if interview_schedule_data.status == 0 %}
+																	{% if interview_schedule_data.reschedule_message %}
+																		<span><b>Preferred Time Slots of Candidate:</b></span>
+																		{% autoescape off %}
+																		   <div class="interview_time_slots">
+																			{{interview_schedule_data.reschedule_message}}
+																		   </div>
+																		{% endautoescape %}
+																	{% endif %}
+																{% endif %}
+																{% if stages.stage.status == 2 or stages.stage.status == 3 or stages.stage.status == -1 %}
+																	{% if candidate_job_status.is_withdraw or candidate_job_status.is_hired %}
+																	{% else %}
+																		{% if stages.stage.assessment_done %}
+																			{% if not stages.stage.action_performed %}
+																				<form role="form" method="POST">
+																					{% csrf_token %}
+																					<div class="move_next_action_btn">
+																						<input type="hidden" name="stage_id" value="{{stages.stage.id}}">
+																						<button name="shortlist" type="submit" value="shortlist" class="btn btn-sm btn-primary cg rounded-10 text-capitalize">Short list</button>
+																						{% if stages.stage.status != 3 %}
+																							<button name="onhold" type="submit" class="btn btn-sm btn-primary co rounded-10 text-capitalize">On hold</button>
+																						{% endif %}
+																						<button name="reject" type="submit" value="reject" class="btn btn-sm btn-primary cr rounded-10 text-capitalize">Reject</button>
+																					</div>
+																				</form>
+																			{% endif %}
+																		{% else %}
+																			<form role="form" target="_blank" action="{% url 'company:interview_assessment' stages.stage.id %}" method="GET">
+																				<div class="move_next_action_btn">
+																					<input type="hidden" name="stage_id" value="">
+																					<button type="submit" name="assess" value="true" class="btn btn-sm btn-primary rounded-10 text-capitalize">Assess</button>
+																				</div>
+																			</form>
+																		{% endif %}
+																	{% endif %}
+																{% endif %}
+															</div>
+															{% endif %}
+														{% endifequal %}
+
+
+														{% ifequal stages.stage.stage.name 'Custom' %}
+															{% if stages.stage.status != 0 %}
+																<div class="col-12 timeline-ls card  {% ifequal stages.stage.status 1 %} eligible-card {% endifequal %}">
+																	<div class="card skill-card mb-0">
+																		<div class="head__titlebar">
+																			<label class="text-capitalize text_w_5"><span class="h6 text-bold">0{{ forloop.counter }}</span>{{stages.stage.custom_stage_name}}</label>
+																		</div>
+																		<div class="category__list">
+																			{% ifequal stages.stage.status -1 %} 
+																				<span class="flag-mark danger text_b_16">Not Shortlisted </span> 
+																			{% endifequal %}
+																			{% if stages.stage.status == 3 %}
+																				<span class="flag-mark color_b_hold text_b_16">On Hold </span>
+																			{% endif %}
+																			{% ifequal stages.stage.status 2 %}
+																				{% if stages.stage.action_performed %}
+																					<span class="flag-mark success text_b_16">Shortlisted</span>
+																				{% endif %}
+																			{% endifequal %}
+																			<div class="show-details_link">																				
+																				{% if stages.stage.status == 1 %}
+																					{% if not custom_template_status %}
+																						<form role="form" action="{% url 'company:add_custom_stage_detail' stages.stage.id %}" method="POST">
+																							{% csrf_token %}
+																							<div class="">
+																								<button type="submit" name="add_details" class="btn btn-sm btn-primary rounded-20 text-capitalize">Add Details</button>
+																							</div>
+																						</form>
+																					{% else %}
+																						{% if not custom_template_status.enable_response %}
+																							<form role="form" target="_blank" action="{% url 'company:custom_stage' stages.stage.id %}" method="GET">
+																								<div class="">
+																									<button type="submit" class="btn btn-sm btn-primary rounded-20 text-capitalize">Assess</button>
+																								</div>
+																							</form>
+																						{% endif %}
+																					{% endif %}
+																				{% endif %}
+																				{% if stages.stage.status == 2 or stages.stage.status == -1 or stages.stage.status == 3 %}
+																					{% if stages.stage.assessment_done %}
+																						<button class="btn btn-sm btn-primary rounded-20 text-capitalize view-btn" data-item="custom-round-{{stages.stage.id}}">view</button>
+																					{% else %}
+																						{% if custom_template_status.enable_file_input %}
+																							<form role="form" target="_blank" action="{% url 'company:custom_stage' stages.stage.id %}" method="GET">
+																								<div class="">
+																									<button type="submit" class="btn btn-sm btn-primary rounded-20 text-capitalize">Assess</button>
+																								</div>
+																							</form>
+																						{% endif %}
+																					{% endif %}
+																				{% endif %}
+																			</div>
+																		</div>
+																	</div>
+																	
+																	{% if stages.stage.status == 2 or stages.stage.status == 3 or stages.stage.status == -1 %}
+																		{% if candidate_job_status.is_withdraw or candidate_job_status.is_hired %}
+																		{% else %}
+																			{% if stages.stage.assessment_done %}
+																				{% if not stages.stage.action_performed %}
+																					<form role="form" method="POST">
+																						{% csrf_token %}
+																						<div class="move_next_action_btn">
+																							<input type="hidden" name="stage_id" value="{{stages.stage.id}}">
+																							<button name="shortlist" type="submit" value="shortlist" class="btn btn-sm btn-primary cg rounded-20 text-capitalize">Short list</button>
+																							{% if stages.stage.status != 3 %}
+																								<button name="onhold" type="submit" class="btn btn-sm btn-primary co rounded-20 text-capitalize">On hold</button>
+																							{% endif %}
+																							<button name="reject" type="submit" value="reject" class="btn btn-sm btn-primary cr rounded-20 text-capitalize">Reject</button>
+																						</div>
+																					</form>
+																				{% endif %}
+																			{% endif %}
+																		{% endif %}
+																	{% endif %}
+																</div>
+															{% endif %}
+														{% endifequal %}
+														
+
+
+														{% if SalaryView %}
+															{% ifequal stages.stage.stage.name 'Job Offer' %}
+																{% if stages.stage.status != 0 %}
+																	<div class="col-12 timeline-ls card {% ifequal stages.stage.status 1 %} eligible-card {% endifequal %}">
+																		<div class="joboffer-section-card">
+																			<div class="head__titlebar">
+																				<label class="text-capitalize text_w_5"><span class="h6 text-bold">0{{ forloop.counter }}</span>Job offered</label>
+																			</div>
+																			<!-- <span class="notification-bar">5</span> -->
+																			{% if not stages.stage.assessment_done %}
+																			<div class="category__list">
+																				<div class="show-details_link">
+																					<button class="btn btn-sm btn-primary rounded-20 text-capitalize show-details-btn view-btn" data-item="hire-stage-{{stages.stage.id}}">hire</button>
+																					<form role="form" method="POST">
+																						{% csrf_token %}
+																						<input type="hidden" name="stage_id" value="{{stages.stage.id}}">
+																						<button name="reject" type="submit" value="reject" class="btn btn-sm btn-primary cr rounded-20 text-capitalize ml-2">Reject</button>
+																					</form>
+																				</div>
+																			</div>
+																			{% endif %}
+
+																			{% if stages.stage.assessment_done %}
+																				<div class="category__list job-offer_secondry-row">
+																					{% if job_offer_data %}
+																						{% if job_offer_data.rejected_by_candidate %}
+																							<label class="flag-mark danger">Rejected By Candidate</label>
+																						{% else %}
+																							<ul class="shaduler-box">
+																								<li>
+																									<label class="result-title text-capitalize">By: {{job_offer_data.user_id}} </label>
+																								</li>
+																								<li>
+																									<label class="result-title text-capitalize">
+																										<i class="fa fa-calendar"></i>
+																										{{job_offer_data.create_at|date}}
+																										<span class="time-view text-uppercase">
+																											{{job_offer_data.create_at|time}}
+																										</span>
+																									</label>
+																								</li>
+																							</ul>
+																						{% endif %}
+																						<div class="show-details_link">
+																							<a href="{% url 'company:candidate_negotiate_offer' stages.stage.id %}" class="btn btn-sm btn-primary rounded-20 text-capitalize">view</a>
+																						</div>
+																					{% endif %}
+																				</div>
+																			{% endif %}
+																		</div>
+																	</div>
+																{% endif %}
+															{% endifequal %}
+														{% endif %}
+													{% endfor %}
+
+												</div>
+											</div>
+										</div>
+									</div>
+
+									<div class="tab-pane" id="tab02">
+										<input type="hidden" class="candidate_id" value="{{candidate_obj.id}}">
+										<input type="hidden" class="job_id" value="{{job_obj.id}}">
+										<div class="row row-sm collaboration-tab_row">
+											<div class="col-9 collaboration-tab_left-section">
+												<div class="chatconunter-container card row row-sm">
+													<div class="reset-chat__header">
+														<button class="btn btn-primary btn-sm rounded-20 resetChatBtn text-capitalize">reset chat</button>
+													</div>
+													<!--chat 1-->
+														{% for comment in collaboration_obj %}
+															<div class="col-12 fxc-chatview__Section">
+																<div class="fxc-right fx-col-block">
+																	<div class="post-status">
+																		<label class="text-capitalize">{{comment.user_id.company_name}}</label>
+																		<label class="text-capitalize">{{comment.create_at}}</label>
+																	</div>
+																	<div class="post-details">
+																		{% if comment.attachment %}
+																		<div class="file-view">
+																			<a target="_blank" href="{{comment.attachment.url}}" style="color: #0068ff;">{{comment.attachment.name}}</a>
+																		</div>
+																		{% endif %}
+																		<div class="msg-view pd-10">
+																			{% autoescape off %}
+																			<p>{{comment.comment}}</p>
+																			{% endautoescape %}
+																		</div>
+																	</div>
+																</div>
+															</div>
+														{% endfor %}
+
+													<!--chat 1 end-->
+													<!--message box section-->
+													<div class="col-12 fxc-chatbox__Section">
+														<div class="fxc-left fx-col-block">
+															<div class="hidden-block"></div>
+														</div>
+														<!-- <textarea class="multiple" name="text3"></textarea> -->
+
+														<form class="fxc-right fx-col-block" onsubmit="return false;" id="collabChatForm" enctype="multipart/form-data">
+															{% csrf_token %}
+															<div class="mixChatPrompt__section">
+																<input style="display:none" type="text" name="msg-box" class="chat-msgbox form-control" value="" id="hiddenTextMsgBox">
+																<input type="file" name="attachfile-box" class="uploadDocs form-control" value="">
+															</div>
+															<div class="group-btns__msg">
+																<div class="attach-btn"><i class="fas fa-paperclip"></i></div>
+																<div class="send-btn"><i class="fas fa-paper-plane"></i></div>
+															</div>
+														</form>
+													</div>
+													<!--message box section end-->
+												</div>
+											</div>
+											<div class="col-3 collaboration-tab_right-section">
+												<div class="row row-sm collaboration-right-list">
+													<div class="col-12 collaboration-right-list__col-1 uesr-search-section card">
+														<div class="user-section__listing">
+															<div class="ls-title_viewer">
+																<h5 class="texṭ-capitalize">@users</h5>
+															</div>
+															<ul class="user-ls">
+																{%for users in all_assign_users %}
+																	<li>
+																		<label class="text-capitalize uesrname_text" data-userid="user{{users.recruiter_id.id}}">@{{users.recruiter_id.first_name}}</label>
+																	</li>
+																{% endfor %}
+															</ul>
+														</div>
+													</div>
+													<div class="col-12 collaboration-right-list__col-2 stage-search-section card">
+														<div class="stage-section__listing">
+															<div class="ls-title_viewer">
+																<h5 class="texṭ-capitalize">#stages</h5>
+															</div>
+															<ul class="stage-ls">
+																{% for stage in stages_status %}
+																	{% if stage.stage.active %}
+																	<li><label class="text-capitalize uesrname_text jcr-color" data-tagid="tag{{stage.stage.id}}">#{{stage.stage.name}}</label></li>
+																	{% endif %}
+																{% endfor %}
+															<!--	<li><label class="text-capitalize uesrname_text prq-color" data-tagid="tag12">#prerequisites</label></li>-->
+															<!--		<li><label class="text-capitalize uesrname_text mcq-color" data-tagid="tag13">#MCQ test</label></li>-->
+															<!--		<li><label class="text-capitalize uesrname_text para-color" data-tagid="tag14">#paragraph MCQ test</label></li>-->
+															<!--<li><label class="text-capitalize uesrname_text img-color" data-tagid="tag15">#image based test</label></li>-->
+															<!-- <li><label class="text-capitalize uesrname_text desc-color" data-tagid="tag16">#descriptive test</label></li>-->
+															<!--	<li><label class="text-capitalize uesrname_text interview-color" data-tagid="tag17">#interview</label></li>-->
+															</ul>
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+
+									<div class="tab-pane" id="tab03">
+										<div class="row row-sm _row">
+											<div class="resume_details_section col-4 pl-0">
+
+												{% if candidate_experience %}
+												<div class="preference_section card experience_details_box mg-b-10">
+													<div class="card-body resume_details-section">
+														<div>
+															<a aria-controls="ExperienceDetails" aria-expanded="false" class="Preference_section_title" data-toggle="collapse" href="#ExperienceDetails" role="button">Experience Details
+																<i id="coll_apseP" class="fas fa-angle-down"></i>
+																<i id="coll_apseP" class="fas fa-angle-up"></i>
+															</a>
+															<div class="collapse mg-t-0" id="ExperienceDetails">
+																
+																{% for exp in candidate_experience %}
+																<div class="media experience_list_inner">
+																	<div class="media-icon bg-success-count">
+																		<span class="count_ex_detail">{{forloop.counter}}</span>
+																	</div>
+																	<div class="media-body">
+																		<div class="ex_title">{{exp.company.company_name}}</div>
+																		<div class="ex_date">{{exp.start_date}} to {% if exp.end_date %} {{exp.end_date}} {% else %} Present {% endif %}</div>
+																		<div class="ex_des">{{exp.job_profile_name}}</div>
+																	</div>
+																</div>
+																{% endfor %}
+																
+															</div>
+														</div>
+													</div>
+												</div>
+												{% endif %}
+												{% if candidate_education %}
+												<div class="preference_section card experience_details_box mg-b-10">
+													<div class="card-body resume_details-section">
+														<div>
+															<a aria-controls="EducationDetails" aria-expanded="false" class="Preference_section_title" data-toggle="collapse" href="#EducationDetails" role="button">education Details
+																<i id="coll_apseP" class="fas fa-angle-down"></i>
+																<i id="coll_apseP" class="fas fa-angle-up"></i>
+															</a>
+															<div class="collapse mg-t-0" id="EducationDetails">
+																
+																{% for edu in candidate_education %}
+																<div class="media experience_list_inner">
+																	<div class="media-icon bg-success-count">
+																		<span class="count_ex_detail">{{ forloop.counter }}</span>
+																	</div>
+																	<div class="media-body">
+																		<div class="ex_title">{{edu.university_board.name}}</div>
+																		<div class="ex_date">{{edu.start_date}} to {% if edu.end_date %} {{edu.end_date}} {% else %} Present {% endif %}</div>
+																		<div class="ex_des">{{edu.degree.name}}</div>
+																	</div>
+																</div>
+																{% endfor %}
+																
+															</div>
+														</div>
+													</div>
+												</div>
+												{% endif %}
+												{% if candidate_certification %}
+												<div class="preference_section card experience_details_box mg-b-10">
+													<div class="card-body resume_details-section">
+														<div>
+															<a aria-controls="CertificationDetails" aria-expanded="false" class="Preference_section_title" data-toggle="collapse" href="#CertificationDetails" role="button">certification Details
+																<i id="coll_apseP" class="fas fa-angle-down"></i>
+																<i id="coll_apseP" class="fas fa-angle-up"></i>
+															</a>
+															<div class="collapse mg-t-0" id="CertificationDetails">
+
+																{% for certification in candidate_certification %}
+																<div class="media experience_list_inner">
+																	<div class="media-icon bg-success-count">
+																		<span class="count_ex_detail">{{ forloop.counter }}</span>
+																	</div>
+																	<div class="media-body">
+																		<div class="ex_title">{{certification.name_of_certificate}}</div>
+																		<div class="ex_date">{{certification.year}}</div>
+																		<div class="ex_des">{{certification.institute_organisation}}</div>
+																	</div>
+																</div>
+																{% endfor %}
+
+															</div>
+														</div>
+													</div>
+												</div>
+												{% endif %}
+												{% if candidate_award %}
+												<div class="preference_section card experience_details_box mg-b-10">
+													<div class="card-body resume_details-section">
+														<div>
+															<a aria-controls="candidate_award" aria-expanded="false" class="Preference_section_title" data-toggle="collapse" href="#candidate_award" role="button">Award Details
+																<i id="coll_apseP" class="fas fa-angle-down"></i>
+																<i id="coll_apseP" class="fas fa-angle-up"></i>
+															</a>
+															<div class="collapse mg-t-0" id="candidate_award">
+
+																{% for award in candidate_award %}
+																<div class="media experience_list_inner">
+																	<div class="media-icon bg-success-count">
+																		<span class="count_ex_detail">{{ forloop.counter }}</span>
+																	</div>
+																	<div class="media-body">
+																		<div class="ex_title">{{award.title}}</div>
+																		<div class="ex_date">{{award.year}}</div>
+																		<div class="ex_des">{{award.awarder}}</div>
+																	</div>
+																</div>
+																{% endfor %}
+
+															</div>
+														</div>
+													</div>
+												</div>
+												{% endif %}
+												{% if candidate_portfolio %}
+												<div class="preference_section card experience_details_box mg-b-10">
+													<div class="card-body resume_details-section">
+														<div>
+															<a aria-controls="candidate_portfolio" aria-expanded="false" class="Preference_section_title" data-toggle="collapse" href="#candidate_portfolio" role="button">portfolio Details
+																<i id="coll_apseP" class="fas fa-angle-down"></i>
+																<i id="coll_apseP" class="fas fa-angle-up"></i>
+															</a>
+															<div class="collapse mg-t-0" id="candidate_portfolio">
+
+																{% for portfolio in candidate_portfolio %}
+																<div class="media experience_list_inner">
+																	<div class="media-icon bg-success-count">
+																		<span class="count_ex_detail">{{ forloop.counter }}</span>
+																	</div>
+																	<div class="media-body">
+																		<div class="ex_title">{{portfolio.project_title}}</div>
+																		<div class="ex_date">{{portfolio.year}}</div>
+																		<div class="ex_des"><a href="https://{{portfolio.link}}" target="_blank">{{portfolio.link}}</a></div>
+																	</div>
+																</div>
+																{% endfor %}
+
+															</div>
+														</div>
+													</div>
+												</div>
+												{% endif %}
+
+												<div class="preference_section card skills_details_box mg-b-10">
+												   <div class="card-body resume_details-section">
+													  <div class="leftpanel__cover">
+														 <a aria-controls="SkillsDetailsViews" aria-expanded="false" class="Preference_section_title" data-toggle="collapse" href="#SkillsDetailsViews" role="button">Skills
+														 <i id="coll_apseP" class="fas fa-angle-down"></i>
+														 <i id="coll_apseP" class="fas fa-angle-up"></i>
+														 </a>
+														 <div class="collapse mg-t-0" id="SkillsDetailsViews">
+															<div class="main_box_collapse card mb-0 pt-0">
+															   <div class="skills_view_box_inner">
+																{% if candidate_detail.skills.all %}
+																	{% for skill in candidate_detail.skills.all %}
+																		<span>{{skill.name}}</span>
+																	{% endfor %}
+																{%else%}
+																		No skills Found !! 
+																{%endif%}
+															   </div>
+															</div>
+														 </div>
+													  </div>
+												   </div>
+												</div>
+											 </div>
+
+											<div class="col-8 details-tab_left-section">
+												<div class="preview_resume">
+													{% if id_resume.is_accepted %}
+														{% if candidate_detail.resume %}
+															<embed type="" src="{{candidate_detail.resume.url|image_path_remove}}#toolbar=0&navpanes=0&scrollbar=0" aling="center" width="700" height="600">
+														{% endif %}
+													{% else %}
+														
+														{% if id_resume.secure_resume_file %}
+															<embed type="" src="{{id_resume.secure_resume_file.url|image_path_remove}}#toolbar=0&navpanes=0&scrollbar=0" aling="center" width="700" height="600">
+														{% endif %}
+													{% endif %}
+												</div>
+											</div>
+										</div>
+									</div>
+
+									<div class="tab-pane" id="tab04">
+										<div class="row row-sm _row">
+											<div class="col-12 card chatRoom-tab_left-section">
+												<div class="message_section">
+													<a class="main-header-arrow" href="" id="ChatBodyHide"><i class="icon ion-md-arrow-back"></i></a>
+													<div class="main-content-body main-content-body-chat mt-0 pt-0 br-br-0 br-bl-0 mb-lg-0">
+														
+														<div class="view_candidate_chat main-chat-body" id="ChatBody">
+															<div class="content-inner">
+																{% for i in groupmessage %}
+																{% ifequal i.author.id request.user.id %}
+																<div class="media flex-row-reverse">
+																	<div class="media-body">
+																		<div class="chat-text_msg">
+																			<label class="text-capitalize">You</label>
+																			<span>{{i.date_created}}</span>
+																			<a href="javascript:void(0);" data-placement="top" data-toggle="tooltip-primary" title="Olivia Ore(Python developer)">
+																				<i class="fas fa-info"></i>
+																			</a>
+																		</div>
+																		<div class="main-msg-wrapper">
+																			{{i.text}}
+																		</div>
+
+																	</div>
+																</div>
+
+																{% else %}
+																<div class="media">
+																	<div class="media-body">
+																		<div class="chat-text_msg">
+																			<label class="text-capitalize">{{i.author.first_name}} (hr department)</label>
+																			<span>{{i.date_created}}</span>
+																			<a href="javascript:void(0);" data-placement="top" data-toggle="tooltip-primary" title="Jone Lare(HR department)">
+																				<i class="fas fa-info"></i>
+																			</a>
+																		</div>
+																		<div class="main-msg-wrapper">
+																			{{i.text}}
+																		</div>
+																	</div>
+																</div>
+																{% endifequal %}
+																{% endfor %}
+
+															</div>																
+														
+														</div>
+													</div>
+													<div class="main-chat-footer westernChatBox">
+														<nav class="nav">
+															<a class="nav-link" data-toggle="tooltip" href="#" title="" data-original-title="Attach a File"><i class="bx bx-paperclip"></i></a>
+														</nav>
+														<input class="form-control" id="msg-input" placeholder="Type your message here..." type="text"> <a type="button" id="msg-submit" class="main-msg-send"><i class="bx bx-paper-plane"></i></a>
+														
+													</div>
+												</div>	
+											</div>
+										</div>
+									</div>
+
+									<div class="tab-pane" id="tab05">
+										<!--file manager layout section-->
+										<div class="row row-sm card">
+											<div class="col-12 file-manager__section">
+												Coming Soon !!
+												<!-- <form method="post" action="" enctype="multipart/form-data" id="fileUploader"> -->
+													<!-- <div class='window'> -->
+														<!-- <div class='path'>
+															<input id='path-input' type='text' class="form-control form-control-sm" readonly>
+															<!-- <button id='path-btn'><i class="fas fa-play-circle"></i></button> -->
+														<!-- </div> -->
+														<!-- <div class='controls'>
+															<button type="button" class='controls__btn btn btn-default btn-sm' id='btn-home' title="home"><i class="fas fa-home"></i></button>
+															<button type="button" class='controls__btn btn btn-default btn-sm' id='btn-up' title="back"><i class="fas fa-arrow-left"></i></button> -->
+															
+															<!-- <button class='controls__btn btn btn-default btn-sm' id='btn-newdir' title="folder" ><i class="fas fa-folder"></i></button>
+															<button class='controls__btn btn btn-default btn-sm' id='btn-newfile' title="add file"><i class="fas fa-file"></i></button> -->
+															<!-- <button class='controls__btn btn btn-default btn-sm' disabled id='btn-del'><i class="fas fa-trash-alt" title="delete"></i></button>
+															<button class='controls__btn btn btn-default btn-sm' disabled id='btn-rename' title="rename"><i class="fas fa-pen"></i></button>
+															<button class='controls__btn btn btn-default btn-sm' disabled id='btn-copy' title="copy"><i class="fas fa-copy"></i></button>
+															<button class='controls__btn btn btn-default btn-sm' disabled id='btn-cut' title="cut"><i class="fas fa-cut"></i> </button>
+															<button class='controls__btn btn btn-default btn-sm' disabled id='btn-paste' title="paste"><i class="fas fa-paste"></i></button> 
+															<button type="button" class='controls__btn btn btn-default btn-sm' id='btn-upload-file' title="Upload New File"><i class="fas fa-file-upload"></i> </button>-->
+															<!-- <div class="controls__btn btn btn-default btn-sm" id="browsefile-container">
+																<input type="file" name="file" id="file" class="upload-input-file" disabled>
+																<label for="file" class="js-labelFile">
+																	<i class="fas fa-file-upload"></i>
+																</label>
+																<label class="fmuf-fullpath" data-path=""></label>
+															</div>
+														</div>
+														<div class='explorer'></div>
+													</div> -->
+													<!-- <div class="form-group" id="browsefile-container">
+														<input type="file" name="file" id="file" class="upload-input-file">
+														<label for="file" class="btn btn-tertiary js-labelFile">
+															<i class="fas fa-file-upload"></i>
+															<span class="js-fileName">Choose a file</span>
+														</label>
+														<label class="fmuf-fullpath" data-path=""></label>
+													</div> -->
+												<!-- </form> -->
+											</div>
+										</div>
+										<!--file manager layout end-->
+									</div>
+
+								</div>
+	                        </div>
+	                    </div>
+					</div>
+				</div>
+				<!-- Main-content-body closed -->
+
+				<!-- add onthego stages -->
+				<div class="modal" id="AddNewStagePopUp">
+					<div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+						<div class="modal-content modal-content-demo">
+							<form method="POST">
+								{% csrf_token %}
+								<div class="modal-header">
+									<h6 class="modal-title">Add Stage</h6>
+									<button aria-label="Close" class="close" data-dismiss="modal" type="button"><span aria-hidden="true">&times;</span></button>
+								</div>
+								<div class="modal-body">
+									<div class="row">
+										<div class="col-4">
+											<div class="form-group">
+												<label class="main-content-label">Stage :</label>
+												<select class="form-control text-capitalize" name="stage" id="stageSelectorList" required>
+													<option label="Select Stages"></option>
+												</select>
+											</div>
+										</div>
+										<div class="col-4">
+											<div class="form-group">
+												<label class="main-content-label">Category :</label>
+												<select class="form-control" id="categorySelectorList" name="category" required disabled>
+													<option label="Select Category"></option>
+												</select>
+											</div>
+										</div>
+										<div class="col-4">
+											<div class="form-group">
+												<label class="main-content-label">Template:</label>
+												<select class="form-control" id="templateSelectorList" name="template" required disabled>
+													<option label="Select Template"></option>
+												</select>
+											</div>
+										</div>
+									</div>
+									<div class="row">
+										<div class="col-4">
+											<label class="main-content-label">Stage Name:</label>
+											<input class="form-control" name="stage_name" required>
+										</div>
+									</div>
+									<div class="row">
+										<div class="col-12">
+											<ul id="userFacets" class="facet-list">
+											</ul>
+											<div class="drag-box"></div>
+										</div>
+									</div>
+								</div>
+								<div class="modal-footer">
+									<button class="btn ripple btn-primary text-uppercase" name="add_stage_submit" type="submit">Submit</button>
+								</div>
+							</form>
+						</div>
+					</div>
+				</div>
+
+				<!--file modals layout-->
+				<div class="modal" id="editFileModelView">
+					<div class="modal-dialog modal-dialog-centered" role="document">
+						<div class="modal-content modal-content-demo">
+							<form method="" action="" id="editFileForm">
+							<div class="modal-header">
+								<h6 class="modal-title">Edit File Name</h6><button aria-label="Close" class="close" data-dismiss="modal" type="button"><span aria-hidden="true">&times;</span></button>
+							</div>
+							<div class="modal-body">
+								<input type="text" name="edit-file" class="form-control form-control-sm editFileInputBox" value="" required/>
+								<input type="hidden" name="org-file" class="form-control form-control-sm orgFileName" value="">
+							</div>
+							<div class="modal-footer">
+								<button class="btn ripple btn-primary editFileSaveAction text-uppercase" type="button">Save File</button>
+								<button class="btn ripple btn-secondary editFileCloseAction text-uppercase" data-dismiss="modal" type="button">Cencel</button>
+							</div>
+							</form>
+						</div>
+					</div>
+				</div>
+	
+				<div class="modal" id="deleteFileModelView">
+					<div class="modal-dialog modal-dialog-centered" role="document">
+						<div class="modal-content tx-size-sm">
+							<div class="modal-body simple-modal tx-center pd-y-20 pd-x-20">
+								<button aria-label="Close" class="close disApperBtn" data-dismiss="modal" type="button">
+									<span aria-hidden="true">&times;</span>
+								</button>
+								<i class="fas fa-exclamation-triangle tx-100 tx-danger lh-1 d-inline-block"></i>
+								<h4 class="tx-danger tx-semibold mg-b-20">WARNING</h4>
+								<p class="mg-b-20 mg-x-20 delete-msg-text" data-fileremove="">selected file parmanent delete....</p>
+								<button aria-label="Close" class="btn ripple btn-danger pd-x-25" id="deleteConformActionBtn" type="button">Continue</button>
+							</div>
+						</div>
+					</div>
+				</div>
+				<!--file modals layout-->
+
+				<!-- Interview Schedule modals -->
+				<div class="modal" id="InterviewScheduleModel">
+					<div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+						<div class="modal-content modal-content-demo">
+							<form method="POST">
+								{% csrf_token %}
+								<input type="hidden" class="interview_stage" name="interview_stage" value="">
+								<div class="modal-header">
+									<h6 class="modal-title">Interview Schedule</h6>
+									<button aria-label="Close" class="close" data-dismiss="modal" type="button"><span aria-hidden="true">&times;</span></button>
+								</div>
+								<div class="modal-body">
+									<div class="row">
+										<div class="col-3">
+											<div class="form-group">
+												<label class="main-content-label">Date :</label>
+												<input class="form-control" type="date" value="{{interview_schedule_data.date}}" name="interview_date" required>
+											</div>
+										</div>
+										<div class="col-3">
+											<div class="form-group">
+												<label class="main-content-label">Time :</label>
+												<input class="form-control" type="text" id="interview-timepicker" name="interview_time" required>
+											</div>
+										</div>
+										<div class="col-6">
+											<div class="form-group">
+												<label class="main-content-label">Interviewer's:</label>
+												<select id="interviewerList" name="interviewers" class="form-control interview-list" multiple="multiple" required>
+													<option label="Select Interviewer"></option>
+													{% for internal_user in internal_users %}
+														<option value="{{internal_user.employee_id.id}}">{{internal_user.employee_id.first_name}} {{internal_user.employee_id.last_name}}</option>
+													{% endfor %}
+												</select>
+											</div>
+										</div>
+									</div>
+									<div class="row">
+										<div class="col-3">
+											<div class="form-group">
+												<label class="main-content-label">Duration :</label>
+												<input class="form-control" type="text"  minlength="5" maxlength="5" value="{{interview_schedule_data.interview_duration}}" name="interview_duration" onkeypress="formatTime(this)" placeholder="HH:MM" required>
+											</div>
+										</div>
+									</div>
+								</div>
+								<div class="modal-footer">
+									<button class="btn ripple btn-primary text-uppercase" name="schedule_interview" type="submit">Submit</button>
+								</div>
+							</form>
+						</div>
+					</div>
+				</div>
+
+				<!-- withdraw candidate -->
+				<div class="modal" id="WithdrawCandidate">
+					<div class="modal-dialog modal-dialog-centered" role="document">
+						<div class="modal-content modal-content-demo">
+							<form method="POST">
+								{% csrf_token %}
+								<div class="modal-header">
+									<h6 class="modal-title">Withdraw Candidate</h6>
+									<button aria-label="Close" class="close" data-dismiss="modal" type="button"><span aria-hidden="true">&times;</span></button>
+								</div>
+								<div class="modal-body">
+									Are you sure you want to withdraw the candidate ?
+								</div>
+								<div class="modal-footer">
+									<button data-dismiss="modal" class="btn ripple btn-primary text-uppercase" name="withdraw_candidate" type="button">No</button>
+									<button class="btn ripple btn-primary text-uppercase" name="withdraw_candidate" type="submit">Yes</button>
+								</div>
+							</form>
+						</div>
+					</div>
+				</div>
+
+				<div class="modal" id="ReEnterCandidate">
+					<div class="modal-dialog modal-dialog-centered" role="document">
+						<div class="modal-content modal-content-demo">
+							<form method="POST">
+								{% csrf_token %}
+								<div class="modal-header">
+									<h6 class="modal-title">Re-enter Candidate</h6>
+									<button aria-label="Close" class="close" data-dismiss="modal" type="button"><span aria-hidden="true">&times;</span></button>
+								</div>
+								<div class="modal-body">
+									Are you sure you want to re-enter the candidate into this job ?
+								</div>
+								<div class="modal-footer">
+									<button data-dismiss="modal" class="btn ripple btn-primary text-uppercase"  type="button">No</button>
+									<button class="btn ripple btn-primary text-uppercase" name="reenter_candidate" type="submit">Yes</button>
+								</div>
+							</form>
+						</div>
+					</div>
+				</div>
+
+				<!-- hire candidate -->
+				<div class="modal" id="HireCandidate">
+					<div class="modal-dialog modal-dialog-centered" role="document">
+						<div class="modal-content modal-content-demo">
+							<form method="POST">
+								{% csrf_token %}
+								<div class="modal-header">
+									<h6 class="modal-title">Hire Candidate</h6>
+									<button aria-label="Close" class="close" data-dismiss="modal" type="button"><span aria-hidden="true">&times;</span></button>
+								</div>
+								<div class="modal-body">
+									Are you sure you want to hire the candidate ?
+								</div>
+								<div class="modal-footer">
+									<button data-dismiss="modal" class="btn ripple btn-primary text-uppercase" name="withdraw_candidate" type="button">No</button>
+									<button class="btn ripple btn-primary text-uppercase" name="hire_candidate" type="submit">Yes</button>
+								</div>
+							</form>
+						</div>
+					</div>
+				</div>
+
+
+{% endblock %}
+{% block script %}
+
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-timepicker/0.5.2/js/bootstrap-timepicker.min.js" integrity="sha512-2xXe2z/uA+2SyT/sTSt9Uq4jDKsT0lV4evd3eoE/oxKih8DSAsOF6LUb+ncafMJPAimWAXdu9W+yMXGrCVOzQA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+		<!-- Rating js -->
+		<script src="{% static 'assets/plugins/rating/jquery.rating-stars.js' %}"></script>
+		<script src="{% static 'assets/plugins/rating/jquery.barrating.js' %}"></script>
+		<script src="{% static 'assets/plugins/rating/ratings.js' %}"></script>
+
+		<!--Search Select Plugin-->
+		<script src="{% static 'assets/css/ATS/plugin-css/selector2/select2.min.js' %}" async defer></script>
+
+		<!--- Tabs JS-->
+		<script src="{% static 'assets/plugins/tabs/jquery.multipurpose_tabcontent.js' %}"></script>
+		<script src="{% static 'assets/js/tabs.js' %}"></script>
+
+		<!--- Tooltip js -->
+		<script src="{% static 'assets/js/tooltip.js' %}"></script>
+		
+		<!--- Internal Ion.rangeSlider.min js -->
+		<script src="{% static 'assets/plugins/ion-rangeslider/js/ion.rangeSlider.min.js' %}"></script>
+
+		<!--file manager plugin-->
+		<script src="{% static 'assets/js/ATS/plugin-js/file-manager.js' %}"></script>
+
+		<!--kinder Plugin-->
+		<script src="{% static 'assets/js/ATS/plugin-js/kinder/rangy-core.js' %}"></script>
+		<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.1/js/select2.min.js"></script> -->
+		<script src="{% static 'assets/js/ATS/plugin-js/kinder/debug.js' %}"></script>
+		<script src="{% static 'assets/js/ATS/plugin-js/kinder/mentions-kinder.js' %}"></script>
+
+		<!-- Custom js -->
+	<!-- 	<script src="{% static 'assets/js/custom.js' %}"></script> -->
+        <script src="{% static 'assets/js/ATS/company-portal-candidate-tablist.js' %}"></script>
+
+		<script>
+			const getTimeAMPMFormat = () => {
+			  date=new Date();
+			  let hours = date.getHours();
+			  let minutes = date.getMinutes();
+			  const ampm = hours >= 12 ? 'PM' : 'AM';
+			  hours = hours % 12;
+			  hours = hours ? hours : 12; // the hour '0' should be '12'
+			  hours = hours < 10 ? '0' + hours : hours;
+			  // appending zero in the start if hours less than 10
+			  minutes = minutes < 10 ? '0' + minutes : minutes;
+			  return hours + ':' + minutes + ' ' + ampm;
+			};
+				var chat_id = {{ chat_id_json }};
+				var currentgroupid={{ chat_id_json }};
+				var chat_type = 'group';
+				var msgdiv = $('.content-inner');
+				var memberdiv = $('#members-list');
+
+				window.onload = function(e){
+					msgdiv.scrollTop(msgdiv.prop("scrollHeight"));
+				}
+
+				var socket = new WebSocket(
+				'wss://' + window.location.host +':9000/ws/chat_chat/');
+				socket.onopen=function(e){
+					console.log('sucessfully')
+				}
+				socket.onmessage = function(e) {
+					var message = JSON.parse(e.data);
+					var message =JSON.parse(e.data)
+					console.log(currentgroupid,"====",message['unique_code'])
+					if(currentgroupid==message['unique_code']){
+							msgdiv.append(`
+								<div class="media">
+									<div class="media-body">
+										<div class="chat-text_msg">
+											<label class="text-capitalize"> `+message['sender_name']+`</label>
+											<span>`+message['time']+`</span>
+											<a href="javascript:void(0);" data-placement="top" data-toggle="tooltip-primary" title="`+message['sender_name']+`">
+												<i class="fas fa-info"></i>
+											</a>
+										</div>
+										<div class="main-msg-wrapper">
+											`+message['message']+`
+										</div>
+									</div>
+								</div>
+							`);
+
+					msgdiv.scrollTop(msgdiv.prop("scrollHeight"));
+				   }
+				};
+
+				socket.onclose = function(e) {
+					console.error('Socket closed unexpectedly');
+				};
+
+				document.querySelector('#msg-input').focus();
+				document.querySelector('#msg-input').onkeyup = function(e) {
+					if (e.keyCode === 13) {  // enter, return
+						document.querySelector('#msg-submit').click();
+					}
+				};
+
+				document.querySelector('#msg-submit').onclick = function(e) {
+					var messageInputDom = document.querySelector('#msg-input');
+					var message = messageInputDom.value;
+					console.log(message);
+					msgdiv.append(`
+					   <div class="media flex-row-reverse">
+							<div class="media-body">
+								<div class="chat-text_msg">
+									<label class="text-capitalize">You</label>
+									<span>`+getTimeAMPMFormat()+`</span>
+									<a href="javascript:void(0);" data-placement="top" data-toggle="tooltip-primary" title="You">
+										<i class="fas fa-info"></i>
+									</a>
+								</div>
+								<div class="main-msg-wrapper">
+									`+message+`
+								</div>
+
+							</div>
+						</div>
+					`);
+
+					msgdiv.scrollTop(msgdiv.prop("scrollHeight"));
+
+					socket.send(JSON.stringify({'text': message,'chat_type':chat_type,'chat_id':chat_id}));
+					messageInputDom.value = '';
+				};
+</script>
+
+		<script>
+			$('#interview-timepicker').timepicker({});
+
+
+			$('#InterviewScheduleModel').on('show.bs.modal', function (event) {
+			  	let stage_id = $(event.relatedTarget).data('id')
+			  	console.log('<<<< stage_id >>>', stage_id)
+			  	$(this).find('.interview_stage').val(stage_id);
+			})
+			function formatTime(timeInput) {
+				  intValidNum = timeInput.value;
+
+				  if (intValidNum < 24 && intValidNum.length == 2) {
+					  timeInput.value = timeInput.value + ":";
+					  return false;
+				  }
+				  if (intValidNum == 24 && intValidNum.length == 2) {
+					  timeInput.value = timeInput.value.length - 2 + "0:";
+					  return false;
+				  }
+				  if (intValidNum > 24 && intValidNum.length == 2) {
+					  timeInput.value = "";
+					  return false;
+				  }
+			}
+		</script>
+
+		<script>
+			if ( window.history.replaceState ) {
+			  window.history.replaceState( null, null, window.location.href );
+			}
+		</script>
+{% endblock %}

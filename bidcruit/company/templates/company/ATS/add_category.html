@@ -1,0 +1,290 @@
+{% extends 'company/base.html' %}
+{% load static %}
+{% load candidate_extras %}
+{% block title %}Add Category{% endblock %}
+{% block css %}
+		<link href="{%static 'assets/css/ATS/add_view.css' %}" rel="stylesheet">
+{% endblock %}
+{% block main %}
+					<!-- Main-content-body -->
+					<div class="main-content-body">
+
+						<!-- header-title -->
+						<div class="header-title">
+							<div class="mb-0 mb-lg-0 mb-xl-0">
+								<h4 class="mb-2">Components</h4>
+								<div class="main-content-breadcrumb"> <span>Components</span> <span>Data-tables</span> </div>
+							</div>
+							<div class="ml-auto my-auto">
+								<a href="#" class="btn btn-primary"><i class="fe fe-plus-square"></i> Create Report</a>
+								<a href="#" class="btn btn-pink"><i class="fe fe-external-link"></i> Export</a>
+							</div>
+						</div>
+						<!-- header-title -->
+
+						<!-- row opened -->
+						<div class="row row-sm">
+							
+							<div class="col-xl-12">
+								<div class="card add_view_main_section">
+									<div class="card-header pb-0">
+										<div class="d-flex justify-content-between">
+											<h4 class="card-title mg-b-0"> </h4>
+											<div class="candidate_right_filters_section">
+																								
+												<div class="candidate_filters_header">
+													<a href=""><i class="fas fa-print"></i></a>
+												</div>
+												<div class="candidate_filters_header">	
+													<a href=""><i class="fas fa-ellipsis-v"></i></a>
+												</div>
+												
+											</div>
+										</div>
+										
+									</div>
+									<div class="row card-body">
+										
+										<div class="col-md-4">
+											<div class="main_user_add_view">
+													<form method="POST" id="category_form" onsubmit=" return add_or_update_category()">
+														{%csrf_token%}
+														<input type="hidden" id="update_id" name="update_id" value="null">
+														<div class="form-group">
+															<label>Category Name :</label> <input class="form-control" placeholder="" type="text" required name="category_name" id="category_name">
+														</div>
+														
+														<div class="add_views_btn"><button class="btn btn-main-primary btn-block category_create">Create</button></div>
+													
+													</form>
+											</div>												
+											
+										</div>
+
+										<div class="table-responsive col-md-8">
+											<table class="table text-md-nowrap candidate_table" id="category_table">
+												<thead>
+													<tr>
+														<th class="border-bottom-0">Category ID</th>
+														<th class="border-bottom-0">Category Name</th>
+														<th class="border-bottom-0">Action</th>
+													</tr>
+													
+												</thead>
+												<tbody>
+													<!-- for loop start -->
+													{%for i in categories%}
+													<tr id="category_{{i.id}}">
+														<td>{{i.id}}</td>
+														<td class="category_name">{{i.category_name}}</td>
+														
+														<td class="action_icons">
+															
+															<a href="#" onclick="return false"><i class="fas fa-edit" onclick="populate_category_form('{{i.id}}')"></i></a>
+															
+															
+															<a href="#" onclick="return false"><i class="fas fa-trash-alt" onclick="update_current_category(this,'{{i.id}}')" data-toggle="modal" data-target="#deleteModal"></i></a>
+															
+														</td>
+													</tr>
+													{%endfor%}
+													
+													
+												</tbody>
+
+
+											</table>
+											
+											<div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+												<div class="modal-dialog" role="document">
+												  <div class="modal-content">
+													<div class="modal-header">
+													  <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+													  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+														<span aria-hidden="true">&times;</span>
+													  </button>
+													</div>
+													<div class="modal-body">
+													  Are you sure you want to delete this category?
+													</div>
+													<div class="modal-footer">
+													  <a href="{{ request.META.HTTP_REFERER }}" class="btn btn-secondary" data-dismiss="modal">Cancel</a>
+													  <button type="button" class="btn btn-primary" onclick="delete_category()">Delete</button>
+													</div>
+												  </div>
+												</div>
+											  </div>
+										</div>
+
+									</div>
+								</div>
+							</div>
+							<!--/div-->
+					
+						</div>
+						<!-- /row -->
+					</div>
+					<!-- Main-content-body closed -->
+				</div>
+				<!-- Container-fluid closed -->
+			</div>
+			<!-- Main-content closed -->
+{% endblock %}
+{% block script %}
+		<!-- Internal Data tables -->
+		<script src="{%static 'assets/plugins/datatable/js/jquery.dataTables.min.js' %}"></script>
+		<script src="{%static 'assets/plugins/datatable/js/dataTables.dataTables.min.js' %}"></script>
+		<script src="{%static 'assets/plugins/datatable/js/dataTables.responsive.min.js' %}"></script>
+		<script src="{%static 'assets/plugins/datatable/js/responsive.dataTables.min.js' %}"></script>
+		<script src="{%static 'assets/plugins/datatable/js/jquery.dataTables.js' %}"></script>
+		<script src="{%static 'assets/plugins/datatable/js/dataTables.bootstrap4.js' %}"></script>
+		<script src="{%static 'assets/plugins/datatable/js/dataTables.buttons.min.js' %}"></script>
+		<script src="{%static 'assets/plugins/datatable/js/buttons.bootstrap4.min.js' %}"></script>
+		<script src="{%static 'assets/plugins/datatable/js/jszip.min.js' %}"></script>
+		<script src="{%static 'assets/plugins/datatable/js/pdfmake.min.js' %}"></script>
+		<script src="{%static 'assets/plugins/datatable/js/vfs_fonts.js' %}"></script>
+		<script src="{%static 'assets/plugins/datatable/js/buttons.html5.min.js' %}"></script>
+		<script src="{%static 'assets/plugins/datatable/js/buttons.print.min.js' %}"></script>
+		<script src="{%static 'assets/plugins/datatable/js/buttons.colVis.min.js' %}"></script>
+		<script src="{%static 'assets/plugins/datatable/js/dataTables.responsive.min.js' %}"></script>
+		<script src="{%static 'assets/plugins/datatable/js/responsive.bootstrap4.min.js' %}"></script>
+
+		<!-- datatable js -->
+		<script src="{%static 'assets/js/table-data.js' %}"></script>
+
+		<!-- Rating js -->
+		<script src="{%static 'assets/plugins/rating/jquery.rating-stars.js' %}"></script>
+		<script src="{%static 'assets/plugins/rating/jquery.barrating.js' %}"></script>
+
+		<!-- Sidemenu js -->
+		<script src="{%static 'assets/plugins/side-menu/single-menu.js' %}"></script>
+
+		<!-- Right-sidebar js -->
+		<script src="{%static 'assets/plugins/sidebar/sidebar.js' %}"></script>
+		<script src="{%static 'assets/plugins/sidebar/sidebar-custom.js' %}"></script>
+
+		<!-- Custom js -->
+		<script src="{%static 'assets/js/custom.js' %}"></script>
+
+
+		<script>
+			var current_dept = null
+			$(document).ready(function(){
+				$('#deleteModal').on('hidden.bs.modal', function () {
+					// do something…
+					
+					current_dept = null
+				});
+			})
+
+
+
+			function update_current_category(event,category_id)
+			{
+				current_category = category_id
+			}
+
+			function delete_category()
+			{
+				console.log("current category uis",current_category)
+				$.ajax({
+					type:"POST",
+					headers: {'X-CSRFToken': $("input[name=csrfmiddlewaretoken]").val() },
+					url:"/company/delete_candidatecategory/",
+					data:{"category_id":current_category},
+
+				}).done(function(response){
+
+					console.log("deylete waasdasda calleded	",current_category, "resposne4e",response)
+					var dept_div = document.getElementById("category_"+current_category)
+					$(dept_div).remove()
+					$('#deleteModal').modal('hide');
+				})
+
+
+			}
+			function add_or_update_category()
+			{
+
+				var category_name = document.getElementById("category_name").value;
+				var category_id = document.getElementById("update_id").value;
+				
+				$.ajax({
+					type:"POST",
+					headers: {'X-CSRFToken': $("input[name=csrfmiddlewaretoken]").val() },
+					url:'/company/category_add_or_update_view/',
+					data:{"category_name":category_name,"category_id":category_id}
+				}).done(function(response){
+					var response = JSON.parse(response)
+					console.log("the responswa ",response)
+					
+
+					if(response['status'] == false)
+					{
+						alert("The category name already exists!!!!")
+						return false
+					}
+					
+					if(response['operation'] == "created")
+					{
+						
+
+						console.log("resposne",response)
+						var category_table = document.getElementById("category_table")
+						var category_table_body = $(category_table).find("tbody")
+						category_table_body.append(`<tr id="category_`+response['category_id']+`">
+															<td>`+response['category_id']+`</td>
+															<td class="category_name">`+response["category_name"]+`</td>
+															
+															<td class="action_icons">
+																
+																<a href="#" onclick="return false"><i class="fas fa-edit" onclick="populate_category_form('`+response["category_id"]+`')"></i></a>
+																<a href="#" onclick="return false"><i class="fas fa-trash-alt" onclick="update_current_category(this,'`+response['category_id']+`')" data-toggle="modal" data-target="#deleteModal"></i></a>
+															</td>
+														</tr>`)
+						document.getElementById("category_name").value = ""						
+						document.getElementById("dept_"+response['category_id']).scrollIntoView()
+					}
+					else
+					{
+						var category_div = document.getElementById("category_"+response['category_id'])
+						category_div.querySelector(".category_name").innerHTML = response["category_name"]
+						alert("Edit Successful!")
+					}
+					document.getElementById("category_form").reset()
+
+					$("#category_form").find(`#update_id`).val("null")
+					var button = $("#category_form").find(`button`)
+					button.addClass("category_create")
+					button.removeClass("category_update")
+					button.html("Create")
+					
+				})
+
+			return false
+			}
+
+
+			function populate_category_form(category_id)
+			{
+				$.ajax({
+					type:"POST",
+					headers: {'X-CSRFToken': $("input[name=csrfmiddlewaretoken]").val() },
+					url:"/company/get_category/",
+					data:{"category_id":category_id},
+				}).done(function(response){
+
+					response = JSON.parse(response)
+					console.log("laaaaaaaaaaalaaaaaaaaaaaaaa",response)
+					$("[name='category_name']").val(response['category_name'])
+					$("#category_form").find(`#update_id`).val(response['category_id'])
+					var button = $("#category_form").find(`button`)
+					button.addClass("category_update")
+					button.removeClass("category_create")
+					button.html("Update")
+					document.getElementById("category_form").querySelector("[name='category_name']").focus()
+				})
+			}
+		</script>
+	
+{% endblock %}

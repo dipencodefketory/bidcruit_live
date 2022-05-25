@@ -1,0 +1,215 @@
+.flex-box-col {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+}
+.search-wrapper {
+    width: 60%;
+    min-width: 300px;
+    position: relative;
+}
+.search-wrapper .top-search-box {
+    width: 100%;
+    padding-left: 40px;
+    border-radius: 20px;
+}
+.half-search-btn {
+    position: absolute;
+    left: 0;
+    top: 0;
+    height: 100%;
+    border-radius: 20px 0 0 20px;
+}
+.fx-right-nav-view {
+    display: flex;
+    justify-content: flex-end;
+    align-content: center;
+}
+.fx-right-nav-view .fx-right__top-nav {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    display: flex;
+    justify-content: flex-end;
+    align-content: center;
+    gap: 12px;
+}
+.fx-right-nav-view .fx-right__top-nav .nav-item {
+    flex: 1 1 auto;
+}
+.nav-item .fxs-btn {
+    padding: 6px 10px;
+    border: 1px solid #dee4f7;
+    border-radius: 5px;
+    cursor: pointer;
+}
+/**question layout section**/
+.para-preview-slidelist {
+    margin: 0 auto;
+    max-width: 98.4% !important;
+}
+.title-section {
+    padding: 0px !important;
+}
+.info-section.fx-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 25px 20px 25px 0;
+}
+.left-side {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 10px;
+}
+.tab-counter-label {
+    background: #0068ff;
+    color: #fff;
+    padding: 6px 18px;
+    border-radius: 0 10px 10px 0;
+    margin: 0;
+}
+.category-type__info {
+    background: #E9EFFD;
+    padding: 3px 12px;
+    border-radius: 20px;
+    font-weight: 400;
+    color: #0068ff;
+    margin: 0;
+}
+.right-side {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 20px;
+}
+.ques-count-info_tab label {
+    margin: 0;
+}
+.ques-count-info_tab {
+    border: 1px solid #0068ff;
+    padding: 2px 8px;
+    color: #0068ff;
+    border-radius: 10px;
+}
+.right-side .edit-btn, 
+.right-side .delete-btn, 
+.right-side .slide-tab-btn {
+    cursor: pointer;
+}
+.slide-tab-btn {
+    background: #E9EFFD;
+    padding: 5px 8px 3px 8px;
+    border-radius: 20px !important;
+}
+.slide-tab-btn i,.edit-btn i {
+    color: #0068ff;
+}
+.delete-btn i{
+    color:#ff5353;
+}
+.short-details {
+    padding: 0 25px 20px 25px;
+    font-weight: 500;
+}
+/**inside column**/
+.max-show-viewer {
+    padding-left: 15px;
+    font-weight: 500;
+}
+.quote-view .quote-num-view {
+    padding: 5px 0;
+    background: #0068ff;
+    color: #fff;
+    font-weight: 500;
+    margin: 0 10px 0 0;
+    width: 54px;
+    text-align: center;
+}
+.quote-view {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+}
+.quote-view .question-view {
+    margin-bottom: 0px !important;
+    font-size: 16px;
+}
+ul.option-list {
+    padding: 0;
+    margin: 15px 0 10px 80px;
+    list-style: none;
+}
+.questionListItem {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: relative;
+}
+.questionListItem .opt-label {
+    width: 85%;
+}
+.questionListItem .option-check {
+    width: 15%;
+}
+.questionListItem:before {
+    content: '';
+    position: absolute;
+    left: -23px;
+    top: 0;
+}
+.option-list .questionListItem:nth-child(1):before {content: '(A)';}
+.option-list .questionListItem:nth-child(2):before {content: '(B)';}
+.option-list .questionListItem:nth-child(3):before {content: '(C)';}
+.option-list .questionListItem:nth-child(4):before {content: '(D)';}
+.option-list .questionListItem:nth-child(5):before {content: '(E)';}
+.option-check {
+    height: 16px;
+}
+.detail-section{display:none;}
+.questionListItem.active {
+    color: #51bb25;
+}
+
+.markbox
+{
+    position: relative;
+    padding-left: 28px;
+    cursor: pointer;
+    line-height: 20px;
+    display: inline-block;
+    color: #666;
+    top: -10px;
+}
+.questionListItem .markbox:before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 16px;
+    height: 16px;
+    border: 1px solid #ddd;
+    border-radius: 100%;
+    background: #fff;
+}
+.questionListItem.active .markbox:after {
+    content: '';
+    width: 10px;
+    height: 10px;
+    background: #51bb25;
+    position: absolute;
+    top: 3px;
+    left: 3px;
+    border-radius: 100%;
+    -webkit-transition: all 0.2s ease;
+    transition: all 0.2s ease;
+}
+.para-description {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}

@@ -1,0 +1,354 @@
+{% extends 'candidate/base.html' %}
+{% load static %}
+{% load candidate_extras %}
+{% block title %}Dashboard{% endblock %}
+
+	{% block css %}
+
+		<style>
+			a.copy-link:active {
+			    transform: scale(0.85);
+			    box-shadow: 3px 2px 25px 1px rgb(0 0 0 / 25%);
+			}
+		</style>
+  		<!--custome job-creation-view css-->
+       <link href="{% static 'assets/css/ATS/candidate-portal-applied-job.css' %}" rel="stylesheet">
+
+	{% endblock %}
+
+{% block main %}
+
+				<!-- Main-content-body -->
+				<div class="main-content-body">
+					<!-- header-title -->
+
+					<!-- header-title -->
+
+          <!-- row opened -->
+            <div class="row row-sm">
+              <div class="col-md-6 col-lg-6 col-xl-3">
+                <div class="ecommerce-card">
+                  <div class="card">
+                    <div class="card-body">
+                      <div class="d-flex justify-content-between">
+                        <h4 class="card-title mg-b-15">Lorem Ipsum </h4>
+                      </div>
+                      <div class="row mb-3">
+                        <div class="col-md-4 col col-sm-4 col-xs-4">
+                          <div class="ht-50 wd-50 bg-primary-transparent brround text-center">
+                            <img src="{% static 'assets/img/svgicons/offer.svg' %}" class="ht-45 ht-45" alt="revenue">
+                          </div>
+                        </div>
+                        <div class="col-md-8 col col-sm-8 col-xs-8 my-auto">
+                          <div class="float-right text-right tx-20 font-weight-bold my-auto"><span class="tx-20">$</span>53,186<i class=""></i></div>
+                        </div>
+                      </div>
+                     
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-6 col-lg-6 col-xl-3">
+                <div class=" ecommerce-card">
+                  <div class="card">
+                    <div class="card-body">
+                      <div class="card-heading">
+                        <div class="d-flex justify-content-between">
+                          <h4 class="card-title mg-b-15">Lorem Ipsum </h4>
+                        </div>
+                      </div>
+                      <div class="row mb-3">
+                        <div class="col-md-4 col col-sm-4 col-xs-4">
+                          <div class="ht-50 wd-50 bg-pink-transparent brround text-center">
+                            <img src="{% static 'assets/img/svgicons/sales.svg' %}" class="ht-45 ht-45" alt="revenue">
+                          </div>
+                        </div>
+                        <div class="col-md-8 col col-sm-8 col-xs-8 my-auto">
+                          <div class="float-right text-right tx-20 font-weight-bold"><span class="tx-20 ">$</span>7,560<i class=""></i></div>
+                        </div>
+                      </div>
+                     
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-6 col-lg-6 col-xl-3">
+                <div class=" ecommerce-card">
+                  <div class="card">
+                    <div class="card-body">
+                      <div class="d-flex justify-content-between">
+                        <h4 class="card-title mg-b-15">Lorem Ipsum </h4>
+                      </div>
+                      <div class="row mb-3">
+                        <div class="col-md-4 col col-sm-4 col-xs-4">
+                          <div class="ht-50 wd-50 bg-success-transparent brround text-center">
+                            <img src="{% static 'assets/img/svgicons/touch-screen.svg' %}" class="ht-45 ht-45" alt="revenue">
+                          </div>
+                        </div>
+                        <div class="col-md-8 col col-sm-8 col-xs-8 my-auto">
+                          <div class="float-right text-right tx-20 font-weight-bold my-auto"><span class="tx-20">$</span>53,186<i class=""></i></div>
+                        </div>
+                      </div>
+                      
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-6 col-lg-6 col-xl-3">
+                <div class=" ecommerce-card">
+                  <div class="card">
+                    <div class="card-body">
+                      <div class="card-heading">
+                        <div class="d-flex justify-content-between">
+                          <h4 class="card-title mg-b-15">Lorem Ipsum </h4>
+                        </div>
+                      </div>
+                      <div class="row mb-3">
+                        <div class="col-md-4 col col-sm-4 col-xs-4">
+                          <div class="ht-50 wd-50 bg-warning-transparent brround text-center">
+                            <img src="{% static 'assets/img/svgicons/price.svg' %}" class="ht-45 ht-45" alt="revenue">
+                          </div>
+                        </div>
+                        <div class="col-md-8 col col-sm-8 col-xs-8 my-auto">
+                          <div class="float-right text-right tx-20 font-weight-bold"><span class="tx-20 ">$</span>7,560<i class=""></i></div>
+                        </div>
+                      </div>
+                     
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- row closed -->
+
+            <!-- row opened -->
+            <div class="row row-sm">
+              <div class="col-xl-4 col-lg-12">
+                <div class="card">
+                  <div class="card-body pt-3">
+                    <div class=" align-items-center">
+                      <div class="text-center">
+                        <div class="description">
+                          <div class="title mb-1 pb-0 text-center">
+                            <span class="tx-22 font-weight-semibold text-primary">Global Profile</span>
+                          </div>
+                          {%for i in profiles%}
+                          <!-- <span class="tx-14 mb-3 ">For your achievement of this month</span> -->
+                            <div class="my-auto text-center">
+                              <img src="{{userdata.user_image.url}}" alt="" class="ht-150 wd-150 mt-3 sales-img">
+                            </div>
+                            <div class="text-center mt-3 candidate_name">
+                              <span class="text-muted">
+                                {{i.candidate_id.first_name}} {{i.candidate_id.last_name}}
+                              </span>
+                              <span class="view_edit_profile_d"> <a class="pr-1" target="_blank"  href="{% url 'timeline' i.id|get_profile_url:request.user.id  %}" {% if i.active %} disable="true" {% else %} class="disabled" {% endif %}><i data-v-e08301e8="" class="fas fa-eye"></i></a>
+                                <a  href="{% url 'candidate:edit_profile' i.id %}" {% if i.active %} disable="true" {% else %} class="disabled" {% endif %}><i class="bx bx-edit"></i></a></span>
+
+                            </div>
+                            
+                            
+                            {% endfor %}
+                        </div>
+                        <div class="">
+                          {%if profile_count < 1 %}                          
+                                 <a href="{%url 'candidate:add_profile'%}" class="btn btn-outline-primary  mt-3">Create Profile</a>
+                          {%endif%}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-12 col-lg-12 col-xl-8">
+                <div class="card">
+                  <!-- card-header -->
+                  <div class="card-body">
+                    <div class="d-flex justify-content-between">
+                      <h4 class="card-title mg-b-10">Recent Jobs</h4>
+                    </div>
+                    
+                    <div class="row card row-sm candidate_job_list_das candidatePortal_sub_inner_box" id="candidatePortalAppliedBob">
+                      <!--card list view start-->
+                      {% for job in applied_job %}
+                      <div class="col-12">
+                          <a href="{% url 'candidate:applied_job_detail' job.job_id.id 'company' %}">
+                          <div class="row row-sm job-list_container">
+                              <div class="col-12 shorted-listing view p-0">
+                                  <div class="fxm-mini">
+                                      <div class="com-logo-with-info">
+                                          <div class="logo-item">
+                                              <img src="{{job.job_id.company_id|companyprofile}}" alt="logo-split-1">
+                                          </div>
+                                          <div class="post-titlebar">
+                                              <label class="main-title text-capitalize">{{job.job_id.job_title}}</label>
+                                              <label class="sub-title text-capitalize">{{job.job_id.company_id.company_id.company_name}}</label>
+                                          </div>
+                                      </div>
+                                      <div class="com-short-details">
+                                          <ul class="classcify-list">
+                                              <li>
+                                                  <div class="icon-with-title">
+                                                  <i class="fas fa-map-marker-alt"></i>
+                                                      <label class="c-title text-capitalize">location :</label>
+                                                  </div>
+                                                  <div class="btm-text">
+                                                      <label class="c-details text-capitalize">{{job.job_id.city.city_name}},{{job.job_id.country.country_name}}</label>
+                                                  </div>
+                                              </li>
+                                              <li>
+                                                  <div class="icon-with-title">
+                                                  <i class="fas fa-dollar-sign"></i>
+                                                      <label class="c-title text-capitalize">Salary :</label>
+                                                  </div>
+                                                  <div class="btm-text">
+                                                      <label class="c-details text-capitalize">{{job.job_id.min_salary}} - {{job.job_id.max_salary}}</label>
+                                                  </div>
+                                              </li>
+                                              <li>
+                                                  <div class="icon-with-title">
+                                                  <i class="fas fa-laptop"></i>
+                                                      <label class="c-title text-capitalize">Experience :</label>
+                                                  </div>
+                                                  <div class="btm-text">
+                                                      <label class="c-details text-capitalize">{{job.job_id.experience_year_min}} to {{job.job_id.experience_year_max}} Years</label>
+                                                  </div>
+                                              </li>
+                                           </ul>
+                                      </div>
+                                      <!-- <div class="listActionLs">
+                                          <div class="act-btn_container">
+                                              <div class="add-bookmark saveChange">
+                                                  <i class="fas fa-bookmark"></i>
+                                                  <i class="far fa-bookmark visible"></i>
+                                              </div>
+                                          </div>
+                                          <div class="notify-info">5</div>
+                                      </div> -->
+                                  </div>
+                              </div>
+                          </div>
+                          </a>
+                      </div>
+                      {% endfor %}
+                      {% for job in applied_agency_job %}
+                      <div class="col-12">
+                          <a href="{% url 'candidate:applied_job_detail' job.job_id.id 'agency' %}" >
+                          <div class="row row-sm job-list_container">
+                              <div class="col-12 shorted-listing view p-0">
+                                  <div class="fxm-mini">
+                                      <div class="com-logo-with-info">
+                                          <div class="logo-item">
+                                              <img src="{{job.agency_id|agencyprofile}}" alt="logo-split-1">
+                                          </div>
+                                          <div class="post-titlebar">
+                                              <label class="main-title text-capitalize">{{job.job_id.job_title}}</label>
+                                              <label class="sub-title text-capitalize">{{job.job_id.company_id.company_id.company_name}}</label>
+                                          </div>
+                                      </div>
+                                      <div class="com-short-details">
+                                          <ul class="classcify-list">
+                                              <li>
+                                                 <div class="icon-with-title">
+                                                  <i class="fas fa-user-shield"></i>
+                                                    <label class="c-title text-capitalize">recruiter name:-</label>
+                                                 </div>
+                                                 <div class="btm-text">
+                                                    <label class="c-details text-capitalize">{{job.agency_id.agency_id.first_name}} {{job.agency_id.agency_id.last_name}}</label>
+                                                 </div>
+                                              </li>
+                                              <li>
+                                                 <div class="icon-with-title">
+                                                  <i class="fas fa-map-marker-alt"></i>
+                                                    <label class="c-title text-capitalize">location:-</label>
+                                                 </div>
+                                                 <div class="btm-text">
+                                                    <label class="c-details text-capitalize">{{job.job_id.city.city_name}}</label>
+                                                 </div>
+                                              </li>
+                                              <li>
+                                                 <div class="icon-with-title">
+                                                  <i class="fas fa-comments"></i>
+                                                    <label class="c-title text-capitalize">last updated:-</label>
+                                                 </div>
+                                                 <div class="btm-text">
+                                                    <label class="c-details text-capitalize">{{job.job_id.created_at|date:"d-m-Y"}}</label>
+                                                 </div>
+                                              </li>
+                                              <li>
+                                                 <div class="icon-with-title">
+                                                  <i class="far fa-calendar-alt"></i>
+                                                    <label class="c-title text-capitalize">applied on:-</label>
+                                                 </div>
+                                                 <div class="btm-text">
+                                                    <label class="c-details text-capitalize">{{job.job_id.created_at|date:"d-m-Y"}}</label>
+                                                 </div>
+                                              </li>
+                                           </ul>
+                                      </div>
+                                      <!-- <div class="listActionLs">
+                                          <div class="act-btn_container">
+                                              <div class="add-bookmark saveChange">
+                                                  <i class="fas fa-bookmark"></i>
+                                                  <i class="far fa-bookmark visible"></i>
+                                              </div>
+                                          </div>
+                                          <div class="notify-info">5</div>
+                                      </div> -->
+                                  </div>
+                              </div>
+                          </div>
+                          </a>
+                       </div>
+                      {% endfor %}
+                      <!--card list view end-->
+                    </div>
+
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- row closed -->
+
+					
+
+				</div>
+				<!-- Main-content-body closed -->
+					
+
+
+{% endblock %}
+
+{% block script %}
+		<!-- Custom js -->
+		<script src="{% static 'assets/js/jQuery-Plugin-To-Copy-Clipboard/jquery.copy-to-clipboard.js' %}"></script>
+
+		<script>
+			function getCookie(name) {
+				var cookieValue = null;
+				if (document.cookie && document.cookie !== '') {
+					var cookies = document.cookie.split(';');
+					for (var i = 0; i < cookies.length; i++) {
+						var cookie = jQuery.trim(cookies[i]);
+						// Does this cookie string begin with the name we want?
+						if (cookie.substring(0, name.length + 1) === (name + '=')) {
+							cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+							break;
+						}
+					}
+				}
+				return cookieValue;
+			}
+
+					
+
+		</script>
+
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/exceptionless@v1.6.4/dist/exceptionless.min.js"></script>
+
+</script>
+
+{% endblock %}
+

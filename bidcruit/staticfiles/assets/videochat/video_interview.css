@@ -1,0 +1,240 @@
+.video_interview_screen{
+
+}
+.video_interview_screen.app.main-body.sidebar-mini .main-content {
+    margin-left: 0 !important;
+    margin-right: 324px;
+}
+.video_interview_screen.main-body.app.sidebar-mini.sidenav-toggled .main-content {
+    margin-left: 0px !important;
+    margin-right: 0px;
+}
+.appsidebar {
+    -webkit-transition: margin-left 0.3s ease;
+    -o-transition: margin-left 0.3s ease;
+    transition: margin-left 0.3s ease;
+    transform: translate3d(0, 0, 0);
+}
+.appsidebar {
+    position: fixed;
+    top: 10px;
+    bottom: 0;
+    right: 5px;
+    color: #14112d;
+    width: 324px;
+    max-height: 100%;
+    z-index: 9;
+    background: #ffffff;
+    -webkit-box-shadow: -3px 7px 45px -3px #b4bfd8;
+    box-shadow: -3px 7px 45px -3px #b4bfd8;
+    border-right: 1px solid #fff;
+    height: calc(100vh - 20px);
+    border-radius: 10px;    
+}
+.app.sidenav-toggled .appsidebar {
+    right: 0;
+    width: 0px;
+    overflow: hidden;
+}
+.main-content .container-fluid.main_video_box {
+    margin-bottom: 10px;
+    margin-top: 10px;
+}
+.video_interview_screen .main-content.singlemenu {
+    min-height: 100vh;
+}
+.video_get_section {
+    border: 3px solid #0068ff;
+    border-radius: 10px !important;
+    position: relative;
+}
+.video_get_section video{
+    border-radius: 10px;
+    border: none;
+}
+.video_get_section .main_video{
+    width: 100%;
+    height:calc(100vh - 140px);
+}
+a.join_video_btn{
+    color: #0068ff;
+    font-size: 16px;
+    font-weight: 500;
+    background-color: #fff;
+    border-radius: 10px;
+    padding: 13px 16px !important;
+    line-height: normal;
+}
+.join_video_btn i{
+    padding-right: 5px;
+}
+a.Comments_btn.icon,
+a.audio_play_btn,
+a.video_show_btn
+{
+    color: #021c4c;
+    font-size: 16px;
+    font-weight: 500;
+    background-color: #fff;
+    border-radius: 10px;
+    padding: 13px 16px !important;
+    line-height: normal;
+}
+.Comments_btn.icon i{
+    padding-right: 5px;
+}
+a.Leave_video_btn {
+    color: #ff5353;
+    font-size: 16px;
+    font-weight: 500;
+    background-color: #fff;
+    border-radius: 10px;
+    padding: 13px 16px !important;
+    line-height: normal;
+}
+.Leave_video_btn i{
+    padding-right: 5px;
+}
+.video_interview_screen .main-header-left a {
+    margin: 20px 10px 30px;
+}
+.video_interview_screen .main-header-left{
+    justify-content: center;
+}
+video.you_video {
+    position: absolute;
+    bottom: 28px;
+    right: 22px;
+    width: 160px;
+    height: 166px;
+    border: 3px solid #000;
+}
+
+
+/***side panel header***/
+
+.stars {
+    --s:25px;
+    position:relative;
+    display:inline-flex;
+    border: none;
+    outline: none;
+  }
+  .stars input {
+    width:var(--s);
+    height:var(--s);
+    margin:0;
+    opacity:0;
+    cursor:pointer;
+  }
+  
+  .stars i {
+    position:absolute;
+    inset:0 0 calc(var(--s)*0.1);
+    pointer-events:none;
+    --v1:transparent,#000 0.5deg 108deg,#0000 109deg;
+    --v2:transparent,#000 0.5deg  36deg,#0000  37deg;
+    -webkit-mask:
+      conic-gradient(from 54deg  at calc(var(--s)*0.68) calc(var(--s)*0.57),var(--v1)),
+      conic-gradient(from 90deg  at calc(var(--s)*0.02) calc(var(--s)*0.35),var(--v2)),
+      conic-gradient(from 126deg at calc(var(--s)*0.5)  calc(var(--s)*0.7) ,var(--v1)),
+      conic-gradient(from 162deg at calc(var(--s)*0.5)  0                  ,var(--v2));
+    -webkit-mask-size: var(--s) var(--s);
+    -webkit-mask-composite: xor,destination-over;
+    mask-composite: exclude,add;
+    background:
+      linear-gradient(rgba(255,0,0,var(--o,0.3)) 0 0),
+      linear-gradient(gold                       0 0)
+      #ccc;
+    background-size:calc(var(--l,0)*var(--s)) 100%,calc(var(--p,0)*var(--s)) 100%;
+    background-repeat:no-repeat;
+  }
+  
+  .stars:focus-within {
+    outline:1px solid;
+  }
+  
+  .stars input:active ~ i{--o:1}
+  
+  .stars input:nth-of-type(1):checked ~ i {--p:1}
+  .stars input:nth-of-type(2):checked ~ i {--p:2}
+  .stars input:nth-of-type(3):checked ~ i {--p:3}
+  .stars input:nth-of-type(4):checked ~ i {--p:4}
+  .stars input:nth-of-type(5):checked ~ i {--p:5}
+  .stars input:nth-of-type(6):checked ~ i {--p:6}
+  .stars input:nth-of-type(7):checked ~ i {--p:7}
+  .stars input:nth-of-type(8):checked ~ i {--p:8}
+  .stars input:nth-of-type(9):checked ~ i {--p:9}
+  .stars input:nth-of-type(10):checked ~ i {--p:10}
+  /*input:nth-of-type(N):checked ~ i {--p:N}*/
+  
+  .stars input:nth-of-type(1):hover ~ i {--l:1}
+  .stars input:nth-of-type(2):hover ~ i {--l:2}
+  .stars input:nth-of-type(3):hover ~ i {--l:3}
+  .stars input:nth-of-type(4):hover ~ i {--l:4}
+  .stars input:nth-of-type(5):hover ~ i {--l:5}
+  .stars input:nth-of-type(6):hover ~ i {--l:6}
+  .stars input:nth-of-type(7):hover ~ i {--l:7}
+  .stars input:nth-of-type(8):hover ~ i {--l:8}
+  .stars input:nth-of-type(9):hover ~ i {--l:9}
+  .stars input:nth-of-type(10):hover ~ i {--l:10}
+
+.Comment_title_main {
+    color: #021c4c;
+    font-size: 16px;
+    font-weight: bold;
+    padding: 18px 12px;
+    border-bottom: 2px solid #e2e8f5;
+}
+.Comment_title_main span{
+    color: #ff5353;
+    display: inline-block;
+    float: right;
+}
+.rating_section_video {
+    padding: 30px 12px 0 12px;
+}
+span.Rating_title {
+    font-size: 14px;
+    color: #021c4c;
+    vertical-align: top;
+    padding-right: 7px;
+    font-weight: 500;
+}
+.text_field_title {
+    color: #031b4e;
+    padding-bottom: 5px;
+    margin-top: 13px;
+    font-weight: 500;
+}
+textarea.comment{
+    border-radius: 10px;
+}
+.submit_btn_rating .rating_submit{
+    color: #ffffff;
+    background-color: #0068ff;
+    border-radius: 10px;
+    font-size: 14px;
+    padding: 8px 23px;
+    border: none;
+    outline: none;
+}
+.submit_btn_rating {
+    margin-top: 20px;
+    margin-bottom: 10px;
+    float: right;
+}
+.rating_section_main {
+    overflow: auto;
+    height: 71vh;
+}
+.rating_section_list {
+    margin-bottom: 30px;
+}
+.title_rating_m{
+    font-size: 14px;
+    color: #021C4C;
+    vertical-align: top;
+    font-weight: 500;
+    margin-bottom: 8px;
+}

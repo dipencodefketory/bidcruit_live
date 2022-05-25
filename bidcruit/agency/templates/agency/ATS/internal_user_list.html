@@ -1,0 +1,156 @@
+{% extends 'agency/base.html' %}
+{% load static %}
+{% block title %}Internal User {% endblock %}
+{% block css %}
+		<!-- Bootstrap css -->
+<!--		<link rel="stylesheet" href="{% static 'assets/plugins/bootstrap/css/bootstrap.min.css' %}">-->
+
+		<!-- Internal Data table css -->
+		<link href="{% static 'assets/plugins/datatable/css/dataTables.bootstrap4.min.css' %}" rel="stylesheet" />
+		<link href="{% static 'assets/plugins/datatable/css/buttons.bootstrap4.min.css' %}" rel="stylesheet">
+		<link href="{% static 'assets/plugins/datatable/css/responsive.bootstrap4.min.css' %}" rel="stylesheet" />
+		<link href="{% static 'assets/plugins/datatable/css/jquery.dataTables.min.css' %}" rel="stylesheet">
+		<link href="{% static 'assets/plugins/datatable/css/responsive.dataTables.min.css' %}" rel="stylesheet">
+		<link href="{% static 'assets/plugins/select2/css/select2.min.css' %}" rel="stylesheet">
+
+		<link href="{% static 'assets/css/ATS/job_openings_table.css' %}" rel="stylesheet">
+
+{% endblock %}
+
+{% block main %}
+		<div class="main-content-body">
+
+				<div class="row row-sm">
+					<div class="col-xl-12">
+						<div class="card job_openings_table">
+							<div class="card-header pb-0">
+								<div class="d-flex justify-content-between">
+									<h4 class="card-title mg-b-0"></h4>
+									<div class="candidate_right_filters_section">
+										
+										<!-- <div class="candidate_filters_header">
+											<a href=""><i class="fas fa-file-download"></i></a>
+										</div>
+										
+										<div class="candidate_filters_header">
+											<a href=""><i class="fas fa-filter"></i></a>
+										</div>
+										<div class="candidate_filters_header">
+											<a href=""><i class="fas fa-print"></i></a>
+										</div>
+										<div class="candidate_filters_header">	
+											<a href=""><i class="fas fa-ellipsis-v"></i></a>
+										</div> -->
+										<div class="candidate_filters_header">											
+											<a class="add_job_link" href="{% url 'agency:add_internal_user' %}">Add User</a>											
+										</div>
+									</div>
+								</div>
+								
+							</div>
+							<div class="card-body">
+								<div class="table-responsive">
+									{% csrf_token %}
+									<table class="table text-md-nowrap candidate_table" id="jobopening">
+										<thead>
+											<tr>
+												<!-- <th class="circle_plush_icon"><a href="javascript:void(0)"><i class="fas fa-plus-circle"></i></a></th>-->
+												<th class="border-bottom-0">Name</th>
+												<th class="border-bottom-0">Contact No</th>
+												<th class="border-bottom-0">Email</th>
+                                                <th class="border-bottom-0">Role</th>
+												<th class="border-bottom-0">Department</th>
+												<th class="border-bottom-0">Total Experience</th>
+												<th class="border-bottom-0">Status</th>
+												<!-- <th class="border-bottom-0">Status</th> -->
+												<th class="border-bottom-0">Action</th>
+											</tr>
+											
+										</thead>
+										<tbody>
+											{% for internalusers in internaluser %}
+											<tr>
+
+												<td>{{internalusers.InternalUserid.first_name}} {{internalusers.InternalUserid.last_name}}</td>
+                                                <td>{{internalusers.contact_number}}</td>
+                                                <td>{{internalusers.InternalUserid.email}}</td>
+                                                <td>{{internalusers.role.name}}</td>
+                                                <td>{{internalusers.department.name}}</td>
+                                                <td>{{internalusers.total_experiance}}</td>
+												<td>
+													{% if internalusers.role.system_generated %}
+													{% else %}
+													<div class="onoffswitch">
+														<input type="checkbox" name="onoffswitch" value="{{internalusers.id}}" class="onoffswitch-checkbox" id="{{internalusers.id}}" tabindex="0" {% if internalusers.InternalUserid.is_active %} checked {% endif %}>
+														<label class="onoffswitch-label" for="{{internalusers.id}}">
+															<span class="onoffswitch-inner"></span>
+															<span class="onoffswitch-switch"></span>
+														</label>
+													</div>
+													{% endif %}
+												</td>
+												<td class="action_icons">
+													<a href="{% url 'agency:internal_user_view' internalusers.id %}"><i class="fas fa-eye"></i></a>
+													{% if Edit %}
+													<a href="{% url 'agency:update_internal_user' internalusers.id %}"><i class="fas fa-edit"></i></a>
+													{% endif %}
+													{% if Delete %}
+													<a href=""><i class="fas fa-trash-alt"></i></a>
+													{% endif %}
+												</td>
+											</tr>
+											{% endfor %}
+										</tbody>
+									</table>
+								</div>
+							</div>
+						</div>
+					</div>
+					<!--/div-->
+			
+				</div>
+				<!-- /row -->
+		</div>
+	
+{% endblock %}
+
+{% block script %}
+		<!-- Internal Data tables -->
+		<script src="{% static 'assets/plugins/datatable/js/jquery.dataTables.min.js' %}"></script>
+		<script src="{% static 'assets/plugins/datatable/js/dataTables.dataTables.min.js' %}"></script>
+		<script src="{% static 'assets/plugins/datatable/js/dataTables.responsive.min.js' %}"></script>
+		<script src="{% static 'assets/plugins/datatable/js/responsive.dataTables.min.js' %}"></script>
+		<script src="{% static 'assets/plugins/datatable/js/jquery.dataTables.js' %}"></script>
+		<script src="{% static 'assets/plugins/datatable/js/dataTables.bootstrap4.js' %}"></script>
+		<script src="{% static 'assets/plugins/datatable/js/dataTables.buttons.min.js' %}"></script>
+		<script src="{% static 'assets/plugins/datatable/js/buttons.bootstrap4.min.js' %}"></script>
+		<script src="{% static 'assets/plugins/datatable/js/jszip.min.js' %}"></script>
+		<script src="{% static 'assets/plugins/datatable/js/pdfmake.min.js' %}"></script>
+		<script src="{% static 'assets/plugins/datatable/js/vfs_fonts.js' %}"></script>
+		<script src="{% static 'assets/plugins/datatable/js/buttons.html5.min.js' %}"></script>
+		<script src="{% static 'assets/plugins/datatable/js/buttons.print.min.js' %}"></script>
+		<script src="{% static 'assets/plugins/datatable/js/buttons.colVis.min.js' %}"></script>
+		<script src="{% static 'assets/plugins/datatable/js/dataTables.responsive.min.js' %}"></script>
+		<script src="{% static 'assets/plugins/datatable/js/responsive.bootstrap4.min.js' %}"></script>
+
+		<!-- datatable js -->
+		<script src="{% static 'assets/js/table-data.js' %}"></script>
+	<script>
+		$(document).ready(function(){
+
+				$('input[name=onoffswitch]').change(function () {
+					console.log('status of checkbox',$(this).is(':checked'));
+					console.log('val of checkbox',$(this).val());
+					$.ajax({
+						type:"POST",
+						headers: {'X-CSRFToken': $("input[name=csrfmiddlewaretoken]").val() },
+						url:"/agency/change_employee_status/",
+						data:{"employee_id":$(this).val()},
+					}).done(function(response){
+
+					})
+
+				});
+		});
+	</script>
+{% endblock %}

@@ -1,0 +1,804 @@
+{% extends 'agency/base.html' %}
+{% load static %}
+{% block title %}Job Create{% endblock %}
+{% block css %}
+<!-- Internal Data table css -->
+<link href="{% static 'assets/plugins/datatable/css/dataTables.bootstrap4.min.css' %}" rel="stylesheet" />
+<link href="{% static 'assets/plugins/datatable/css/buttons.bootstrap4.min.css' %}" rel="stylesheet">
+<link href="{% static 'assets/plugins/datatable/css/responsive.bootstrap4.min.css' %}" rel="stylesheet" />
+<link href="{% static 'assets/plugins/datatable/css/jquery.dataTables.min.css' %}" rel="stylesheet">
+<link href="{% static 'assets/plugins/datatable/css/responsive.dataTables.min.css' %}" rel="stylesheet">
+<link href="{% static 'assets/plugins/select2/css/select2.min.css' %}" rel="stylesheet">
+
+<link rel="stylesheet" href="{% static 'assets/css/ATS/job_creation.css' %}">
+
+
+<style>
+    .fx-shift-col input[name="job_shifts"] {width: 16px;}
+    .title-section__row{display:flex;justify-content:center;align-items:center;padding:10px 10px 6px 10px;border-bottom:1px solid #e2e8f5}
+    .title-section__row .col-3 h5{margin:0;font-size:16px}
+    .details-section__row:last-child{border-bottom:0}
+    .details-section__row{display:flex;justify-content:center;align-items:center;padding:10px 10px 6px 10px;border-bottom:1px solid #e2e8f5}
+    .details-section__row .super-title{margin:0}
+    .details-section__row .super-title{margin:0}
+    .frame-layout .card-footer{border-top:0;padding-top:0;float: right;}
+</style>
+{% endblock %}
+{% block main %}
+
+<!--<div class="container-fluid">-->
+    <div class="card main-content-body edit-profile-wrap">
+
+        <div class="row header-title__section">
+            {% if if_template %}
+            <div class="col-lg-12 col-md-12 col-sm-12">
+                <div class="template-selection-list">
+
+                    <div class="h5 pl-3">Select Template: </div>
+                    <select name="template-category" id="category" class="form-control template-selector">
+                        <option label="choose a Category"></option>
+                        {% for template_categories in template_category %}
+                            <option value="{{template_categories.id}}">{{template_categories.name}}</option>
+                        {% endfor %}
+                    </select>
+
+                    <select class="form-control template-selector template">
+                        <option label="choose a Job Template"></option>
+                    </select>
+
+                </div>
+            </div>
+            {% endif %}
+        </div>
+        <div class="row row-sm">
+            <div class="col-md-12 col-xl-12 col-lg-12">
+                <div class="main-form-section">
+                    <form class="form-horizontal" id="job_creation_form" name="job_creation_form" method="POST" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        <div class="frame-layout">
+                            <div class="card-body jc-inner-wrapper">
+
+                                {% if get_job_template %}
+                                <div class="card-list-view">
+
+                                <h1 class="section_main-title h5 text-uppercase pd-b-20 mg-0">basic info</h1>
+                                <div class="custom-form">
+                                    <div class="row row-sm">
+                                        <div class="col-lg-4 col-sm-12 col-xs-12">
+                                            <label class="form-control-label">
+                                                Job Title:
+                                                <span class="tx-danger">*</span>
+                                            </label>
+                                            <input class="form-control" value="{{get_job_template.job_title}}"
+                                                   name="job_title" required="" type="text">
+                                        </div>
+                                        <div class="col-lg-4 col-sm-12 col-xs-12">
+                                            <label class="form-control-label">Job Type:
+                                                <span class="tx-danger">*</span>
+                                            </label>
+                                            <select class="form-control" name="job_type" tabindex="-1">
+                                               <option label="Select Job Type" disabled></option>
+                                                {% for type in job_types %}
+                                                <option value="{{ type.id }}" {% ifequal get_job_template.job_type.id type.id %} selected {% endifequal %}>{{type.name}}
+                                                </option>
+                                                {% endfor %}
+                                            </select>
+                                        </div>
+                                        <div class=" col-lg-4 col-sm-12 col-xs-12">
+                                            <label class="form-control-label">Contact Person:
+                                                <span class="tx-danger">*</span>
+                                            </label>
+                                            <select class="form-control" name="contact_person" required>
+                                                <option label="Select Contact Person" disabled></option>
+                                                {% for internaluser in job_owner %}
+                                                <option value="{{internaluser.InternalUserid.id}}" {% ifequal get_job_template.contact_name.id internaluser.InternalUserid.id %} selected {% endifequal %}>{{internaluser.InternalUserid.first_name}}
+                                                    {{internaluser.InternalUserid.last_name}}
+                                                </option>
+                                                {% endfor %}
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="row row-sm mg-t-10">
+                                        <div class="col-lg-4 col-sm-12 col-xs-12">
+                                            <label class="form-control-label">
+                                                Target Date:
+                                                <span class="tx-danger">*</span>
+                                            </label>
+                                            <input class="form-control" name="target_date" required=""
+                                                   value="{{get_job_template.target_date|date:'Y-m-d'}}"
+                                                   type="date">
+                                        </div>
+                                        <div class="col-lg-4 col-sm-12 col-xs-12">
+                                            <label class="form-control-label">Department:
+                                                <span class="tx-danger">*</span>
+                                            </label>
+                                            <select class="form-control" name="department" required>
+                                                <option label="Select Department" disabled selected></option>
+                                                {% for department in departments %}
+                                                <option value="{{department.id}}" {% ifequal get_job_template.department.id department.id %} selected {% endifequal %}>{{department.name}}
+                                                </option>
+                                                {% endfor %}
+                                            </select>
+                                        </div>
+                                        <div class="col-lg-4 col-sm-12 col-xs-12">
+                                            <label class="form-control-label">Industry Type:
+                                                <span class="tx-danger">*</span></label>
+                                            <select class="form-control" name="industry_type" tabindex="-1">
+                                                <option label="Select Industry Type" disabled></option>
+                                                {% for type in industry_types %}
+                                                <option value="{{ type.id }}" {% ifequal get_job_template.industry_type.id type.id %} selected {% endifequal %}>{{type.name}}
+                                                </option>
+                                                {% endfor %}
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="row row-sm mg-t-10">
+                                        <div class="col-lg-4 col-sm-12 col-xs-12">
+                                            <label class="form-control-label">Salary(Annually){{get_job_template.salary_as_per_market}}:<span
+                                                    class="tx-danger">*</span></label><span class="pl-3"> As per Market </span><input
+                                                id="as_per_market" value="as_per_market" {% if get_job_template.salary_as_per_market %} checked {% endif %}
+                                                name="as-per-market" type="checkbox">
+
+                                            <div class="fx-sm-row{% if get_job_template.salary_as_per_market %} salary{% else %}{% endif %}"
+                                                 id="salary">
+                                                <label class="fxs-col"><span>Min</span><input
+                                                        class="form-control"
+                                                        value="{{get_job_template.min_salary}}" id="Min" name="Min"
+                                                        required="" type="number" min=0 max=99 step=0.01></label>
+                                                <label class="fxs-col"><span>Max</span><input
+                                                        class="form-control"
+                                                        value="{{get_job_template.max_salary}}" id="Max" name="Max"
+                                                        required="" type="number" min=0 max=99 step=0.01></label>
+                                            </div>
+
+                                        </div>
+                                        <div class="col-lg-4 col-sm-12 col-xs-12">
+                                            <label class="form-control-label">Experience:<span
+                                                    class="tx-danger">*</span></label>
+                                            <div class="fx-sm-row">
+                                                <label class="fxs-col"><span>Min Years</span><input
+                                                        class="form-control"
+                                                        value="{{get_job_template.experience_year_min}}"
+                                                         id="experience_year_min" name="experience_year_min" required=""
+                                                        type="number" min=0></label>
+                                                <label class="fxs-col"><span>Max Years</span><input
+                                                        class="form-control"
+                                                        value="{{get_job_template.experience_year_max}}"
+                                                         id="experience_year_max" name="experience_year_max" required=""
+                                                        type="number" min=0></label>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-4 col-sm-12 col-xs-12">
+                                            <label class="form-control-label remote-title">Remote Job:<span
+                                                    class="tx-danger">*</span></label>
+                                            <div class="fx-sm-col">
+                                                <label class="rdiobox"><input class="form-control"
+                                                                              name="remote_job" value="yes"
+                                                                              type="radio" {% if get_job_template.remote_job %} checked {% endif %}> <span
+                                                        class="pl-4">Yes</span></label>
+                                                <label class="rdiobox"><input class="form-control"
+                                                                              name="remote_job" value="no"
+                                                                              type="radio" {% if get_job_template.remote_job %} {% else %} checked {% endif %}> <span
+                                                        class="pl-4">No</span></label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row row-sm mg-t-10">
+                                        <div class=" col-lg-12 col-sm-12 col-xs-12">
+                                            <label class="field-title">Shift Details:</label>
+                                            <div class="fx-shift-row shift_details">
+                                                {% for shift in job_shift %}
+                                                <div class="fx-shift-col">
+                                                    <input type="checkbox" class="form-control"
+                                                           id="{{shift.name}}" name="job_shifts" {% for i in get_job_template.jobshift.all %} {% ifequal i.id shift.id %} checked {% endifequal %}{% endfor %}
+                                                           value="{{shift.id}}">
+                                                    <label class="shift-label">{{shift.name}}</label>
+                                                </div>
+                                                {% endfor %}
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row row-sm mg-t-10">
+	                                    <div class="col-lg-4 col-md-6 col-sm-12 pd-b-20 mb-0">
+	                                        <label class="feild-title text-capitalize">skills:</label>
+	                                        <select class="form-control skill-selector professionSkills"
+	                                                name="job_skills" value=""
+	                                                multiple="multiple" required>
+	                                            {% for i in get_job_template.required_skill.all %}
+	                                            <option value="{{i.id}}" selected>{{i.name}}</option>
+	                                            {% endfor %}
+	                                        </select>
+	                                    </div>
+	                                </div>
+
+                                    <div class="row row-sm mg-t-10">
+                                        <div class=" col-lg-12 col-sm-12 col-xs-12">
+                                            <label class="form-control-label">
+                                                Job Description:
+                                                <span class="tx-danger">*</span>
+                                            </label>
+                                            <textarea class="job-description" name="job_description"
+                                                    >{{get_job_template.job_description}}</textarea>
+                                        </div>
+                                    </div>
+
+                                    <div class="row row-sm mg-t-10">
+                                        <div class=" col-lg-12 col-sm-12 col-xs-12">
+                                            <label class="form-control-label">
+                                                Benefits:
+                                                <span class="tx-danger">*</span>
+                                            </label>
+                                            <textarea class="job-benefit" name="job_benefit">{{get_job_template.benefits}}</textarea>
+                                        </div>
+                                    </div>
+
+                                    <div class="row row-sm mg-t-10">
+                                        <div class=" col-lg-12 col-sm-12 col-xs-12">
+                                            <label class="form-control-label">
+                                                Requirements:
+                                                <span class="tx-danger">*</span>
+                                            </label>
+                                            <textarea class="job-requirement" name="job_requirement">{{get_job_template.requirements}}</textarea>
+                                        </div>
+                                    </div>
+
+                                   
+
+                                </div>
+
+                            </div>
+                            <div class="card-list-view">
+                                <h1 class="section_main-title h5 text-uppercase pd-b-20 mg-0">job location</h1>
+                                <div class="custom-form">
+                                    <div class="row row-sm">
+                                        <div class=" col-lg-4 col-sm-12 col-xs-12">
+                                            <label class="form-control-label">
+                                                Country:
+                                                <span class="tx-danger">*</span>
+                                            </label>
+                                            <select class="form-control" name="country"
+                                                    onChange="getCitiesByCountry(this.value)" tabindex="-1">
+
+											   <option label="Select Country" disabled></option>  
+                                                {% for country in countries %}
+                                                <option value="{{ country.id }}" {% ifequal get_job_template.country.id country.id %} selected {% endifequal %}>{{country.country_name}}
+                                                </option>
+                                                {% endfor %}
+                                            </select>
+                                        </div>
+                                        <div class=" col-lg-4 col-sm-12 col-xs-12">
+                                            <label class="form-control-label">
+                                                City:
+                                                <span class="tx-danger">*</span>
+                                            </label>
+                                            <div id="citydiv">
+                                                <select class="form-control required" name="city">
+                                                    <option value="{%if get_job_template.city %}{{get_job_template.city.id}}{% endif %}">
+                                                        {% if get_job_template.city %} {{get_job_template.city.city_name}} {% endif %}
+                                                    </option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class=" col-lg-4 col-sm-12 col-xs-12">
+                                            <label class="form-control-label">
+                                                Zipcode:
+                                                <span class="tx-danger">*</span>
+                                            </label>
+                                            <input class="form-control"
+                                                   name="zipcode" required=""
+                                                   value="{{get_job_template.zip_code}}" type="text" maxlength="6">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card-list-view">
+                                <h1 class="section_main-title h5 text-uppercase pd-b-20 mg-0">Managed By</h1>
+                                <div class="custom-form">
+                                    <div class="row row-sm">
+                                        <div class=" col-lg-4 col-sm-12 col-xs-12">
+                                            <label class="form-control-label">
+                                                Job Owner:
+                                                <span class="tx-danger">*</span>
+                                            </label>
+                                            <select class="form-control required" name="job_owner">
+                                                <option label="Select Job Owner" disabled selected></option>
+                                                {% for internaluser in job_owner %}
+                                                <option value="{{internaluser.InternalUserid.id}}" {% ifequal
+                                                        get_job_template.contact_name.id
+                                                        internaluser.InternalUserid.id %} selected {% endifequal
+                                                        %}>{{internaluser.InternalUserid.first_name}}
+                                                    {{internaluser.InternalUserid.last_name}}
+                                                </option>
+                                                {% endfor %}
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card-list-view">
+                                <h1 class="section_main-title h5 text-uppercase pd-b-20 mg-0">Assign
+                                    Recruiter</h1>
+                                <div class="custom-form"> <label class="form-control-label">Internal</label>
+                                    <div class="row row-sm Internal_selct_use">
+                                        <table class="table bd bd-10 internal">
+                                            <thead>
+                                              <tr>
+                                                <th scope="col text-uppercase">Select</th>
+                                                <th scope="col text-uppercase">Name</th>
+                                                <th scope="col text-uppercase">Department</th>
+                                               
+                                                <th scope="col text-uppercase">Email</th>
+                                                
+                                              </tr>
+                                            </thead>
+                                            <tbody>
+                                              {% for internaluser in job_owner %}
+                                              <tr>
+                                                  <td scope="row" class="align-center">
+                                                  {% if internaluser.InternalUserid.id in internal_assign %}
+                                                      <input type="checkbox" checked name="internal" value="{{internaluser.InternalUserid.id}}" class="irSelectorRowItem">
+                                                  {% else %}
+                                                      <input type="checkbox" name="internal" value="{{internaluser.InternalUserid.id}}" class="irSelectorRowItem">
+                                                  {% endif %}
+                                                  </td>
+                                                <td hidden>{{internaluser.InternalUserid.id}}</td>
+                                                <td>{{internaluser.InternalUserid.first_name}} {{internaluser.InternalUserid.last_name}}</td>
+                                                <td>{{internaluser.department.name}}</td>
+                                                
+                                                <td>{{internaluser.InternalUserid.email}}</td>
+                                                
+                                              </tr>
+                                              {% endfor %}
+                                            </tbody>
+                                          </table>
+                                    </div>
+                                </div>
+
+
+							
+
+
+                                
+                            </div>
+                            <!--  -->
+                                {% else %}
+
+                                <div class="card-list-view">
+                                <h1 class="section_main-title h5 text-uppercase pd-b-20 mg-0">basic info</h1>
+                                <div class="custom-form">
+                                    <div class="row row-sm">
+                                        <div class="col-lg-4 col-sm-12 col-xs-12">
+                                            <label class="form-control-label">
+                                                Job Title:
+                                                <span class="tx-danger">*</span>
+                                            </label>
+                                            <input class="form-control" name="job_title" required="" type="text">
+                                        </div>
+                                        <div class="col-lg-4 col-sm-12 col-xs-12">
+                                            <label class="form-control-label">Job Type:
+                                                 <span class="tx-danger">*</span>
+                                            </label>
+                                            <select class="form-control" name="job_type" tabindex="-1">
+                                            	<option label="Select Job Type"></option>
+                                                {% for type in job_types %}
+                                                    <option value="{{ type.id }}">{{type.name}}</option>
+                                                {% endfor %}
+                                            </select>
+                                        </div>
+                                        <div class=" col-lg-4 col-sm-12 col-xs-12">
+                                            <label class="form-control-label">Contact Person:
+                                                 <span class="tx-danger">*</span>
+                                            </label>
+                                            <select class="form-control" name="contact_person" required>
+                                                <option label="Select Contact Person" disabled selected></option>
+                                                {% for internaluser in job_owner %}
+                                                    <option value="{{internaluser.user_id.id}}" >{{internaluser.InternalUserid.first_name}} {{internaluser.InternalUserid.last_name}}</option>
+                                                {% endfor %}
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="row row-sm mg-t-10">
+                                        <div class=" col-lg-4 col-sm-12 col-xs-12">
+                                            <label class="form-control-label">
+                                                Target Date:
+                                                <span class="tx-danger">*</span>
+                                            </label>
+                                            <input class="form-control" name="target_date" required="" type="date">
+                                        </div>
+		                                <div class="col-lg-4 col-sm-12 col-xs-12">
+		                                       <label class="form-control-label">Department:
+		                                             <span class="tx-danger">*</span>
+		                                        </label>
+		                                        <select class="form-control required" name="department" required>
+		                                            <option label="Select Department" disabled selected></option>
+		                                            {% for department in departments %}
+		                                                <option value="{{department.id}}">{{department.name}}</option>
+		                                            {% endfor %}
+		                                        </select>
+		                                </div>
+		                                <div class="col-lg-4 col-sm-12 col-xs-12">
+                                            <label class="form-control-label">Industry Type:
+                                                 <span class="tx-danger">*</span></label>
+                                            <select class="form-control" name="industry_type" tabindex="-1">
+                                            	<option label="Select Industry Type"></option>
+                                                {% for type in industry_types %}
+                                                    <option value="{{ type.id }}">{{type.name}}</option>
+                                                {% endfor %}
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="row row-sm mg-t-10">
+                                        <div class="col-lg-4 col-sm-12 col-xs-12">
+                                            <label class="form-control-label">Salary(Annually):<span class="tx-danger">*</span></label><span class="pl-3">As per Market</span><input id="as_per_market" value="as_per_market"  name="as-per-market" type="checkbox">
+                                            <div class="fx-sm-row" id="salary">
+                                                <label class="fxs-col"><span>Min</span><input class="form-control" id="Min" name="Min" required="" type="number" min=0 max=99 step=0.01></label>
+                                                <label class="fxs-col"><span>Max</span><input class="form-control" id="Max" name="Max" required="" type="number" min=0 max=99 step=0.01></label>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-4 col-sm-12 col-xs-12">
+                                            <label class="form-control-label">Experience:<span class="tx-danger">*</span></label>
+                                            <div class="fx-sm-row">
+                                                <label class="fxs-col"><span>Min Years</span><input class="form-control" name="experience_year_min" id="experience_year_min" required="" type="number" min=0></label>
+                                                <label class="fxs-col"><span>Max Years</span><input class="form-control" name="experience_year_max" id="experience_year_max" required="" type="number" min=0></label>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-4 col-sm-12 col-xs-12">
+                                            <label class="form-control-label remote-title">Remote Job:<span class="tx-danger">*</span></label>
+                                            <div class="fx-sm-col">
+                                                <label class="rdiobox"><input class="form-control" name="remote_job" value="yes" type="radio"> <span class="pl-4">Yes</span></label>
+                                                <label class="rdiobox"><input class="form-control" name="remote_job" value="no" type="radio" checked> <span class="pl-4">No</span></label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row row-sm mg-t-10">
+                                        <div class=" col-lg-12 col-sm-12 col-xs-12">
+                                            <label class="field-title">Shift Details:</label>
+                                            <div class="fx-shift-row shift_details">
+                                                {% for shift in job_shift %}
+                                                <div class="fx-shift-col">
+                                                    <input type="checkbox" class="form-control" id="{{shift.name}}" name="job_shifts" value="{{shift.id}}">
+                                                    <label for="{{shift.name}}" class="shift-label">{{shift.name}}</label>
+                                                </div>
+                                                {% endfor %}
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row row-sm mg-t-10">
+	                                    <div class="col-lg-4 col-md-6 col-sm-12 pd-b-20 mb-0">
+	                                        <label class="feild-title text-capitalize">skills:</label>
+	                                        <select class="form-control skill-selector professionSkills"
+	                                                                        name="job_skills" value=""
+	                                                                        multiple="multiple" required></select>
+	                                    </div>
+                              		</div>
+
+                                    <div class="row row-sm mg-t-10">
+                                        <div class=" col-lg-12 col-sm-12 col-xs-12">
+                                            <label class="form-control-label">
+                                                Job Description:
+                                                 <span class="tx-danger">*</span>
+                                             </label>
+                                             <textarea class="job-description" name="job_description"></textarea>
+                                        </div>
+                                    </div>
+                                    <div class="row row-sm mg-t-10">
+                                        <div class=" col-lg-12 col-sm-12 col-xs-12">
+                                            <label class="form-control-label">
+                                                Benefits:
+                                                 <span class="tx-danger">*</span>
+                                             </label>
+                                             <textarea class="job-benefit" name="job_benefit"></textarea>
+                                        </div>
+                                    </div>
+                                    <div class="row row-sm mg-t-10">
+                                        <div class=" col-lg-12 col-sm-12 col-xs-12">
+                                            <label class="form-control-label">
+                                                Requirements:
+                                                 <span class="tx-danger">*</span>
+                                             </label>
+                                             <textarea class="job-requirement" name="job_requirement"></textarea>
+                                        </div>
+                                    </div>
+                                   
+                                </div>
+                                </div>
+                                <div class="card-list-view">
+                                <h1 class="section_main-title h5 text-uppercase pd-b-20 mg-0">job location</h1>
+                                <div class="custom-form">
+                                    <div class="row row-sm">
+                                        <div class=" col-lg-4 col-sm-12 col-xs-12">
+                                            <label class="form-control-label">
+                                                Country:
+                                                <span class="tx-danger">*</span>
+                                            </label>
+                                            <select class="form-control" name="country" onChange="getCitiesByCountry(this.value)"  tabindex="-1">
+                                            	<option label="Select Country"></option>  
+                                                {% for country in countries %}
+                                                    <option value="{{ country.id }}">{{country.country_name}}</option>
+                                                {% endfor %}
+                                            </select>
+                                        </div>
+                                        <div class=" col-lg-4 col-sm-12 col-xs-12">
+                                            <label class="form-control-label">
+                                                City:
+                                                <span class="tx-danger">*</span>
+                                            </label>
+                                            <div id="citydiv">
+                                                <select class="form-control required"  name="city">
+                                                    <option label="Choose one"></option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class=" col-lg-4 col-sm-12 col-xs-12">
+                                            <label class="form-control-label">
+                                                Zipcode:
+                                                <span class="tx-danger">*</span>
+                                            </label>
+                                            <input class="form-control"
+                                                name="zipcode" required="" type="text" maxlength="6">
+                                        </div>
+                                    </div>
+                                </div>
+                                </div>
+                                <div class="card-list-view">
+                                <h1 class="section_main-title h5 text-uppercase pd-b-20 mg-0">Managed By</h1>
+                                <div class="custom-form">
+                                    <div class="row row-sm">
+                                        <div class=" col-lg-4 col-sm-12 col-xs-12">
+                                            <label class="form-control-label">
+                                                Job Owner:
+                                                <span class="tx-danger">*</span>
+                                            </label>
+                                            <select class="form-control required" name="job_owner">
+                                                <option label="Select Job Owner" disabled selected></option>
+                                                {% for internaluser in job_owner %}
+                                                <option value="{{internaluser.user_id.id}}" >{{internaluser.InternalUserid.first_name}} {{internaluser.InternalUserid.last_name}}</option>
+                                                {% endfor %}
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                </div>
+                                <div class="card-list-view">
+                                    <h1 class="section_main-title h5 text-uppercase pd-b-20 mg-0">Assign
+                                        Recruiter</h1>
+                                    <div class="custom-form"><label class="form-control-label">Internal</label>
+                                        <div class="row row-sm Internal_selct_use">
+                                            <table class="table bd bd-10 internal">
+                                                <thead>
+                                                  <tr>
+                                                    <th scope="col text-uppercase">Select</th>
+                                                    <th scope="col text-uppercase">Name</th>
+                                                    <th scope="col text-uppercase">Department</th>
+                                                   
+                                                    <th scope="col text-uppercase">Email</th>
+                                                    
+                                                  </tr>
+                                                </thead>
+                                                <tbody>
+                                                  {% for internaluser in job_owner %}
+                                                  <tr>
+                                                      <td scope="row" class="align-center">
+                                                      {% if internaluser.InternalUserid.id in internal_assign %}
+                                                          <input type="checkbox" checked name="internal" value="{{internaluser.InternalUserid.id}}" class="irSelectorRowItem">
+                                                      {% else %}
+                                                          <input type="checkbox" name="internal" value="{{internaluser.InternalUserid.id}}" class="irSelectorRowItem">
+                                                      {% endif %}
+                                                      </td>
+                                                    <td hidden>{{internaluser.InternalUserid.id}}</td>
+                                                    <td>{{internaluser.InternalUserid.first_name}} {{internaluser.InternalUserid.last_name}}</td>
+                                                    <td>{{internaluser.department.name}}</td>
+                                                    
+                                                    <td>{{internaluser.InternalUserid.email}}</td>
+                                                   
+                                                  </tr>
+                                                  {% endfor %}
+                                                </tbody>
+                                              </table>
+                                        </div>
+                                    </div>
+                                   
+
+                                   
+
+
+                                </div>
+                                
+                                {% endif %}
+                            </div>
+                            <div class="card-footer">
+                                <button type="submit" class="btn btn-primary waves-effect waves-light job_creation_btn_n">Save & Next</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+<!--</div>-->
+
+{% endblock %}
+
+{% block script %}
+
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/tinymce/4.5.6/tinymce.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/tinymce/4.5.6/jquery.tinymce.min.js"></script>
+
+        <!-- city state -->
+        <script src="{% static 'assets/js/main.js' %}"></script>
+
+        <!--- Tabs JS-->
+        <script src="{% static 'assets/plugins/tabs/jquery.multipurpose_tabcontent.js' %}"></script>
+        <script src="{% static 'assets/js/tabs.js' %}"></script>
+
+        <!-- Internal Data tables -->
+        <script src="{% static 'assets/plugins/datatable/js/jquery.dataTables.min.js' %}"></script>
+        <script src="{% static 'assets/plugins/datatable/js/dataTables.dataTables.min.js' %}"></script>
+        <script src="{% static 'assets/plugins/datatable/js/dataTables.responsive.min.js' %}"></script>
+        <script src="{% static 'assets/plugins/datatable/js/responsive.dataTables.min.js' %}"></script>
+        <script src="{% static 'assets/plugins/datatable/js/jquery.dataTables.js' %}"></script>
+        <script src="{% static 'assets/plugins/datatable/js/dataTables.bootstrap4.js' %}"></script>
+        <script src="{% static 'assets/plugins/datatable/js/dataTables.buttons.min.js' %}"></script>
+        <script src="{% static 'assets/plugins/datatable/js/buttons.bootstrap4.min.js' %}"></script>
+        <script src="{% static 'assets/plugins/datatable/js/jszip.min.js' %}"></script>
+        <script src="{% static 'assets/plugins/datatable/js/pdfmake.min.js' %}"></script>
+        <script src="{% static 'assets/plugins/datatable/js/vfs_fonts.js' %}"></script>
+        <script src="{% static 'assets/plugins/datatable/js/buttons.html5.min.js' %}"></script>
+        <script src="{% static 'assets/plugins/datatable/js/buttons.print.min.js' %}"></script>
+        <script src="{% static 'assets/plugins/datatable/js/buttons.colVis.min.js' %}"></script>
+        <script src="{% static 'assets/plugins/datatable/js/dataTables.responsive.min.js' %}"></script>
+        <script src="{% static 'assets/plugins/datatable/js/responsive.bootstrap4.min.js' %}"></script>
+
+        <script src="{% static 'assets/plugins/select2/js/select2.min.js' %}"></script>
+
+        <!-- jquery validation plugin -->
+		<script src="{% static 'assets/js/jquery-validation-1.19.3/dist/jquery.validate.js' %}"></script>
+
+        <script src="{% static 'assets/js/ATS/agency/job_creation.js' %}"></script>
+
+
+        <script>			
+
+            $(function() {
+              $("form[name='job_creation_form']").validate({
+                // Specify validation rules
+                rules: {
+                  // The key name on the left side is the name attribute
+                  // of an input field. Validation rules are defined
+                  // on the right side
+                  job_title: "required",
+                  job_type:{
+                  	 required: true,
+                  },
+                  contact_person: {
+                    required: true,
+                  },
+                  target_date:{
+                  	 required: true,
+                  },
+                  department:{
+                  	 required: true,
+                  },
+                  industry_type:{
+                  	 required: true,
+                  },
+                  professional_skills:{
+                  	 required: true,
+                  },
+                  internal:{
+                  	 required: true,
+                  },
+                  job_shifts:{
+                  	 required: true,
+                  },
+                  Max:{
+                  	 required: true,
+                  	 checkMax:true,
+                  },
+                  experience_year_max:{
+                  	 required: true,
+                     maxlength:2,
+                  	 checkyear_max:true,
+                  },
+                  zipcode:{
+                    required: true,
+                    number: true,
+                  }
+                },
+                // Specify validation error messages
+                messages: {
+                  job_title: "Please enter your Job Title",
+                  job_type: "Please Select Job Type",
+                  contact_person: "Please Select Contact Person",
+                  internal: "Please Select Internal",
+                  Max:{
+                 	checkMax:"Invalid Salary"
+                  },
+                  experience_year_max:{
+                 	checkyear_max:"Invalid Experience",
+                     maxlength:"enter 2 digit"
+                  },
+                },
+                // Make sure the form is submitted to the destination defined
+                // in the "action" attribute of the form when valid
+                submitHandler: function(form) { 
+
+                    var job_description = $("#job_description").val();
+                    var text_job_description = $.trim($(job_description).text());
+
+                    if(text_job_description == ''){ 
+                        alert('Please enter Job Description');
+                        return false;
+                    }
+
+
+                    var job_benefit = $("#job_benefit").val();
+                    var text_job_benefit = $.trim($(job_benefit).text());
+
+                    if(text_job_benefit == ''){ 
+                        alert('Please enter Job Benefits');
+                        return false;
+                    }
+
+
+                    var job_requirement = $("#job_requirement").val();
+                    var text_job_requirement = $.trim($(job_requirement).text());
+
+                    if(text_job_requirement == ''){ 
+                        alert('Please enter Job Requirements');
+                        return false;
+                    }
+
+                    form.submit();
+                }
+              });
+            });
+
+
+            $.validator.addMethod('checkMax', function() {
+
+				  var Min = $("#Min").val();
+				
+				  var Max = $("#Max").val();
+
+                   console.log("ttttttt",Min,Max);
+				
+				  if (Number(Min) <= Number(Max)){
+				   console.log('works');return true;
+
+				  }else{
+				    console.log('not'); return false;
+				  };		        
+
+			}, "Invalid Salary"); 	
+
+
+			$.validator.addMethod('checkyear_max', function() {
+
+				  var experience_year_min = $("#experience_year_min").val();
+				
+				  var experience_year_max = $("#experience_year_max").val();
+				
+				  if (Number(experience_year_min) <= Number(experience_year_max)){
+				   console.log('works');return true;
+
+				  }else{
+				    console.log('not'); return false;
+				  };		        
+
+			}, "Invalid Experience"); 
+
+
+
+
+        </script>
+
+
+      
+
+    {% endblock %}
+    

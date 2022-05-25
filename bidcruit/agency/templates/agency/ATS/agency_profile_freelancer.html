@@ -1,0 +1,407 @@
+{% extends 'agency/base.html' %} 
+{% load static %}
+{% load candidate_extras %}
+{% load agency_filter %}
+{% block title %}Add Freelancer profile{% endblock %}
+{% block css %}
+		<!--color picker-->
+		<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+		<link href="{% static 'assets/plugins/spectrum-colorpicker/spectrum.css' %}" rel="stylesheet">
+		<link href="{% static 'assets/css/ATS/agency-profile-add.css' %}" rel="stylesheet">
+{% endblock %}
+{% block main %}
+
+				
+					<!-- Main-content-body -->
+					<div class="main-content-body">
+
+						<!-- header-title -->
+						<div class="header-title">
+							<div class="mb-0 mb-lg-0 mb-xl-0">
+								<h4 class="mb-2">Components</h4>
+								<div class="main-content-breadcrumb"> <span>Components</span> <span>Data-tables</span> </div>
+							</div>
+							<div class="ml-auto my-auto">
+								<a href="#" class="btn btn-primary"><i class="fe fe-plus-square"></i> Create Report</a>
+								<a href="#" class="btn btn-pink"><i class="fe fe-external-link"></i> Export</a>
+							</div>
+						</div>
+						<!-- header-title -->
+
+						<!-- row opened -->
+						<div class="row row-sm">
+							<div class="col-xl-12">
+								<div class="card company_profile_add">
+									<div class="card-header pb-0">
+										<div class="agency-head">
+											<h4 class="card-title mg-b-0">Agency Profile</h4>
+											<div class="company_profile_right_filters_section">
+												<!-- <div class="filters_header">
+													<a href=""><i class="fas fa-print"></i></a>
+												</div>
+												<div class="filters_header">	
+													<a href=""><i class="fas fa-ellipsis-v"></i></a>
+												</div> -->
+											</div>
+										</div>
+										
+									</div>
+									<div class="card-body">
+										{% if get_profile %}
+										<form action="{% url 'agency:agency_profile_update' get_profile.id %}" name="freelancerprofileadd"  method="POST" enctype="multipart/form-data" data-parsley-validate="" id="agencyProfileForm">
+										{% csrf_token %}
+											<!--Start Form Section-->
+											<div class="form-group__layout">
+											<!--Basic Form-->
+											<div class="basic_form" id="basicForm">
+												<!-- <div class="row row-sm form-title-row">
+													<div class="col-lg">
+														<h5 class="mb-3 text-uppercase form_main_title">Company Details</h5>
+													</div>
+												</div> -->
+												<div class="row row-sm">
+													<div class="col-lg">
+														<div class="row basicInfo-section">
+															<div class="form-group col-lg mg-t-10 mg-lg-t-0">
+																<label class="form-label req-field">First Name :</label>
+																<input class="form-control candidate-email" readonly value="{{request.user.first_name}}" name="fname"  placeholder="Enter Email" type="text" required>
+															</div>
+															<div class="form-group col-lg mg-t-10 mg-lg-t-0">
+																<label class="form-label req-field">Last Name :</label>
+																<input class="form-control candidate-email" readonly value="{{request.user.last_name}}" name="lname"  placeholder="Enter Email" type="text" required>
+															</div>
+															<div class="form-group col-lg mg-t-10 mg-lg-t-0">
+																<label class="form-label req-field">Contact Email :</label>
+																<input class="form-control candidate-email" readonly value="{{request.user.email}}" name="basic-email"  placeholder="Enter Email" type="email" required>
+															</div>
+															 <div class="form-group col-lg mg-t-10 mg-lg-t-0">
+																<label class="form-label req-field">Contact no :</label>
+																<input class="form-control contact-email" maxlength="10" name="contact_no" value="{{get_profile.contact_no}}" placeholder="Enter Contact No" type="text" required>
+															</div>
+
+														</div>
+													</div>
+												</div>
+
+												<div class="row row-sm">
+													<div class="col-md-4">
+														<div class="row mb-12">
+															<div class="form-group col-sm-12 col-md-12">
+																<label class="form-label">Logo :</label>
+																<input type="file" required name="logo" class="company_logo" data-height="130" />
+															</div>
+														</div>
+													</div>
+													<div class="col-md-8 banner-image__upload">
+														<!-- <div class="row basicInfo-section">
+															<div class="form-group col-lg mg-t-10 mg-lg-t-0">
+																<label class="form-label">Country :</label>
+																<select class="form-control" name="country">
+																	<option label=""></option>
+																</select>
+															</div>
+															<div class="form-group col-lg mg-t-10 mg-lg-t-0">
+																<label class="form-label">State :</label>
+																<select class="form-control" name="state">
+																	<option label=""></option>
+																</select>
+															</div>
+														</div>
+                                                        <div class="row basicInfo-section">
+															<div class="form-group col-lg mg-t-10 mg-lg-t-0">
+																<label class="form-label">City :</label>
+																<select class="form-control" name="city">
+																	<option label=""></option>
+																</select>
+															</div>
+															<div class="form-group col-lg mg-t-10 mg-lg-t-0">
+																<label class="form-label">Zip Code :</label>
+																<input class="form-control candidate-name" name="zip_code" value="" placeholder="Enter Zip Code" type="text" required>
+															</div>
+														</div> -->
+														<div class="groupUpload-tab-1">
+															<div class="form-group col-sm-12 col-md-12">
+																<label class="form-label">Background Image :</label>
+																<input type="file" name="bgimg" class="company_logo" data-height="130" required />
+															</div>
+														</div>
+														<!-- <div class="groupUpload-tab-2">
+															<div class="form-group col-sm-12 col-md-12">
+																<label class="form-label">Background Color :</label>
+																<input id="colorpicker" type="text">
+															</div>
+														</div> -->
+													</div>
+													<div class="form-group col-lg-4 col-md-6 col-sm-12 pd-b-20">
+														<label class="form-label feild-title text-capitalize">Gender :</label>
+														<ul class="group-gender Gender_selection">
+															<li class="g-inputs">
+																<input type="radio" class="g-input" required {% ifequal get_profile.gender 'male' %} checked{% endifequal %} value="male" name="gender"><label class="g-title text-capitalize">male</label>
+															</li>
+															<li class="g-inputs">
+																<input type="radio" class="g-input" required {% ifequal get_profile.gender 'female' %} checked{% endifequal %} value="female" name="gender"><label class="g-title text-capitalize">female</label>
+															</li>
+														</ul>
+                                            		</div>
+												</div>
+
+
+												<div class="row row-sm">
+													<div class="col-12">
+														<div class="row basicInfo-section">
+															<div class="col-lg mg-t-10 mg-lg-t-0">
+																<label class="form-label req-field">About Us :</label>
+																<div class="about-info-input">
+																	<textarea name="about_us" class="form-control address-text-area about-details" rows="3" required="">{{get_profile.aboutus}}</textarea>
+																</div>
+															</div>
+															<div class="col-lg mg-t-10 mg-lg-t-0 specialties_box">
+																<label class="form-label req-field">Specialties :</label>
+																<select class="form-control skill-selector specialties"
+																								name="specialties"
+																								multiple="multiple" required>
+															 			<option></option>
+																	{% for i in internal_profile.spaciility|get_spaciility_split %}
+																		<option selected>{{i}}</option>
+																	{% endfor %}
+																</select>
+															</div>
+														</div>
+													</div>
+													<!-- <div class="col-12 mg-t-10">
+														<div class="row address-details__section">
+															<div class="col-lg mg-t-10 mg-lg-t-0">
+																<label class="form-label req-field">Address :</label>
+																<div class="address-info-input">
+																	<textarea name="address-detail" class="form-control address-text-area address-details" value="" rows="3" required=""></textarea>
+																</div>
+															</div>
+														</div>
+													</div> -->
+												</div>
+
+											</div>
+											<!--Basic Form End-->
+
+											</div>
+											<!--form action button section-->
+											<div class="companyFormSubmit_btn">
+												<button class="btn btn-sm btn-primary companyFormSubmit btn-sm btn-rounded" type="submit">Save</button>
+											</div>
+											<!--form action button section End-->
+										</form>
+										{% else %}
+										<form action="{% url 'agency:agency_Profile' %}"  name="freelancerprofileadd" method="POST" enctype="multipart/form-data" data-parsley-validate="" id="agencyProfileForm">
+										{% csrf_token %}
+											<!--Start Form Section-->
+											<div class="form-group__layout">
+											<!--Basic Form-->
+											<div class="basic_form" id="basicForm">
+												<!-- <div class="row row-sm form-title-row">
+													<div class="col-lg">
+														<h5 class="mb-3 text-uppercase form_main_title">Company Details</h5>
+													</div>
+												</div> -->
+												<div class="row row-sm">
+													<div class="col-lg">
+														<div class="row basicInfo-section">
+															<div class="form-group col-lg mg-t-10 mg-lg-t-0">
+																<label class="form-label req-field">First Name :</label>
+																<input class="form-control candidate-email" readonly value="{{request.user.first_name}}" name="fname"  placeholder="Enter Email" type="text" required>
+															</div>
+															<div class="form-group col-lg mg-t-10 mg-lg-t-0">
+																<label class="form-label req-field">Last Name :</label>
+																<input class="form-control candidate-email" readonly value="{{request.user.last_name}}" name="lname"  placeholder="Enter Email" type="text" required>
+															</div>
+															<div class="form-group col-lg mg-t-10 mg-lg-t-0">
+																<label class="form-label req-field">Contact Email :</label>
+																<input class="form-control candidate-email" readonly value="{{request.user.email}}" name="basic-email"  placeholder="Enter Email" type="email" required>
+															</div>
+															 <div class="form-group col-lg mg-t-10 mg-lg-t-0">
+																<label class="form-label req-field">Contact no :</label>
+																<input class="form-control contact-email" maxlength="10" name="contact_no" value="" placeholder="Enter Contact No" type="number" required>
+															</div>
+															
+														</div>
+													</div>
+												</div>
+												
+												<div class="row row-sm">
+													<div class="col-md-4">
+														<div class="row mb-12">
+															<div class="form-group col-sm-12 col-md-12">
+																<label class="form-label">Logo :</label>
+																<input type="file" name="logo" accept="image/png, image/jpeg" class="company_logo" data-height="130" required />
+															</div>													
+														</div>
+													</div>
+													<div class="col-md-8 banner-image__upload">
+
+														<div class="groupUpload-tab-1">
+															<div class="form-group col-sm-12 col-md-12">
+																<label class="form-label">Background Image :</label>
+																<input type="file" name="bgimg" accept="image/png, image/jpeg" class="company_logo" data-height="130" required />
+															</div>													
+														</div>
+
+													</div>
+													<div class="form-group col-lg-4 col-md-6 col-sm-12 pd-b-20">
+														<label class="form-label feild-title text-capitalize">Gender:</label>
+														<ul class="group-gender Gender_selection">
+															<li class="g-inputs">
+																<input type="radio" class="g-input" required value="male" name="gender"><label class="g-title text-capitalize">male</label>
+															</li>
+															<li class="g-inputs">
+																<input type="radio" class="g-input" required value="female" name="gender"><label class="g-title text-capitalize">female</label>
+															</li>
+														</ul>
+                                            		</div>
+												</div>
+
+												
+												<div class="row row-sm">
+													<div class="col-12">
+														<div class="row basicInfo-section">
+															<div class="col-lg mg-t-10 mg-lg-t-0">
+																<label class="form-label req-field">About Us :</label>
+																<div class="about-info-input">
+																	<textarea name="about_us" class="form-control address-text-area about-details" value="" rows="3" required=""></textarea>
+																</div>
+															</div>
+															<div class="col-lg mg-t-10 mg-lg-t-0 specialties_box">
+																<label class="form-label req-field">Specialties :</label>
+																<select class="form-control skill-selector specialties"
+																								name="specialties" value=""
+																								multiple="multiple" required	>
+															 			<option></option>
+
+																</select>
+															</div>
+														</div>
+													</div>
+													<!-- <div class="col-12 mg-t-10">
+														<div class="row address-details__section">
+															<div class="col-lg mg-t-10 mg-lg-t-0">
+																<label class="form-label req-field">Address :</label>
+																<div class="address-info-input">
+																	<textarea name="address-detail" class="form-control address-text-area address-details" value="" rows="3" required=""></textarea>
+																</div>
+															</div>
+														</div>
+													</div> -->
+												</div>
+
+											</div>
+											<!--Basic Form End-->
+											
+											</div>
+											<!--form action button section-->
+											<div class="companyFormSubmit_btn">
+												<button class="btn btn-sm btn-primary companyFormSubmit btn-sm btn-rounded" type="submit">Save</button>													
+											</div>
+											<!--form action button section End-->
+										</form>
+									{% endif %}
+									</div>
+								</div>
+							</div>
+							<!--/div-->
+					
+						</div>
+						<!-- /row -->
+					</div>
+					<!-- Main-content-body closed -->
+				
+{% endblock %}
+
+{% block script %}		
+		<!--Agency Custom JS-->
+		<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+		<script src="{% static 'assets/js/ATS/agency-profile-add.js' %}"></script>
+		<!-- jquery validation plugin -->
+		<script src="{% static 'assets/js/jquery-validation-1.19.3/dist/jquery.validate.js' %}"></script>
+		<script>
+		$(document).ready(function(){
+                $('.specialties').select2({
+                    placeholder: "Add Specialties",
+
+					 tags:true,
+					 createTag: function (params) {
+						return {
+							id: params.term,
+							text: params.term,
+							newOption: true,
+						}
+					 },
+					templateResult: function (data) {
+						var $result = $("<span></span>");
+						$result.text(data.text);
+						if (data.newOption) {
+							$result.append(" <em>(new)</em>");
+						}
+						return $result;
+					},
+					minimumInputLength: 1
+				});
+
+
+            })
+
+			$(function() {
+              $("form[name='freelancerprofileadd']").validate({
+                // Specify validation rules
+                rules: {
+                  // The key name on the left side is the name attribute
+                  // of an input field. Validation rules are defined
+                  // on the right side
+                
+                  
+                  contact_no: {
+                    required: true,
+                    number: true,
+					maxlength:10,
+					
+                  },
+				  logo: "required",
+				  bgimg: "required",
+				  specialties: "required",
+				  about_us: "required",
+                },
+                // Specify validation error messages
+                messages: {
+                
+					contact_no:
+				  {
+					required: "Contact number is required",
+					number:"Please provide a valid number",
+					maxlength:"Please enter 10 degit contact number"
+				  },
+				  logo:
+				  {
+					required: "Logo is required",
+					
+				  },
+				  bgimg:
+				  {
+					required: "Background Image is required",
+					
+				  },
+				  specialties:
+				  {
+					required: "Specialties are required",
+				  },
+				  about_us:
+				  {
+					required: "About us is required",
+					
+				  }
+                },
+                // Make sure the form is submitted to the destination defined
+                // in the "action" attribute of the form when valid
+                submitHandler: function(form) { 
+                  form.submit();
+                }
+              });
+            });
+		</script>
+{% endblock %}

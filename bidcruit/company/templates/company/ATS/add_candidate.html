@@ -1,0 +1,1085 @@
+{% extends 'company/base.html' %}
+{% load static %}
+{% load candidate_extras %}
+{% block title %}Add Candidate{% endblock %}
+{% block css %}
+<!-- Internal TelephoneInput css -->
+<link rel="stylesheet" href="{% static 'assets/plugins/telephoneinput/telephoneinput.css' %}">
+<link href="{% static 'assets/css/ATS/intlTelInput.css' %}" rel="stylesheet" type="text/css"/>
+
+<!--add candidate custom css -->
+<link href="{% static 'assets/plugins/select2/css/select2.min.css' %}" rel="stylesheet">
+<link href="{% static 'assets/css/ATS/add_candidate.css' %}" rel="stylesheet" type="text/css"/>
+{% endblock %}
+{% block main %}
+<!-- Container-fluid -->
+<div class="container-fluid">
+    <!-- Main-content-body -->
+    <div class="main-content-body">
+        <!-- row add new candidate layout-->
+        <div class="row add-candidate-layout" id="add-candidate-template">
+            <div class="col-md-12 col-xl-12 col-xs-12 col-sm-12">
+                <!--div-->
+                <div class="card">
+                    <div class="card-body">
+                        <form action="{% url 'company:add_candidate' %}" method="post" role="form"
+                              enctype="multipart/form-data">
+                            {% csrf_token %}
+                            <div class="main-content-label mg-b-5 main-upper-top">
+                                <div class="row head-title">
+                                    <div class="col-8">
+                                        <!-- <h5 class="mb-2 text-uppercase">Add Candidate</h5> -->
+                                    </div>
+                                    <div class="col-4 right-top btn-section">
+                                        <button type="button" class="btn btn-sm btn-primary btn-sm btn-rounded">
+                                            Associate with Jobs
+                                        </button>
+                                        <button class="btn btn-sm btn-primary btn-sm candidateFormSubmit btn-rounded"
+                                                type="submit">Save
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            <!--Start Form Section-->
+                            <div class="form-group__layout bd-2 bd">
+                                <!--Basic Form-->
+                                <div class="basic_form xs-form_layout bd bd-2 bd-r-0 bd-l-0 bd-t-0" id="basicForm">
+                                    <div class="row row-sm form-title-row">
+                                        <div class="col-lg">
+                                            <h5 class="mb-2 text-uppercase">Basic info</h5>
+                                        </div>
+                                    </div>
+                                    <div class="row row-sm">
+                                        <div class="col-lg">
+                                            <div class="row basicInfo-section">
+                                                <div class="form-group col-lg mg-t-10 mg-lg-t-0">
+                                                    <label class="form-label req-field">First Name:</label>
+                                                    <input class="form-control candidate-name" name="first_name"
+                                                           value="" placeholder="Input box" type="text">
+                                                </div>
+                                                <div class="form-group col-lg mg-t-10 mg-lg-t-0">
+                                                    <label class="form-label req-field">Last Name:</label>
+                                                    <input class="form-control candidate-lname" name="last_name"
+                                                           value="" placeholder="Input box" type="text">
+                                                </div>
+                                                <div class="form-group col-lg mg-t-10 mg-lg-t-0">
+                                                    <label class="form-label req-field">Email:</label>
+                                                    <input class="form-control candidate-email" value="" name="email"
+                                                           placeholder="Input box" type="email">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row row-sm mg-t-20">
+                                        <div class="col-lg">
+                                            <div class="row basicInfo-section">
+                                                <div class="col-lg mg-t-10 mg-lg-t-0">
+                                                    <label class="g-selector">Gender</label>
+                                                    <div class="radio-group gender-select mg-t-10">
+                                                        <div class="radio-btn__tab">
+                                                            <label class="rdiobox">
+                                                                <input name="gender" type="radio" value="Male"><span>Male</span>
+                                                            </label>
+                                                        </div>
+                                                        <div class="radio-btn__tab">
+                                                            <label class="rdiobox">
+                                                                <input name="gender" type="radio" value="Female"><span>female</span>
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg mg-t-10 mg-lg-t-0">
+                                                    <label class="req-field">DOB:</label>
+                                                    <input class="form-control" name="dob" value=""
+                                                           id="basicFormDatePicker" type="text"
+                                                           placeholder="dd/mm/yyyy">
+                                                </div>
+                                                <div class="col-lg mg-t-10 mg-lg-t-0">
+                                                    <label class="req-field">Phone Number:</label>
+                                                    <div class="contact-num_box">
+                                                        <input id="phone-num" name="phone_no" type="tel"
+                                                               class="form-control" value="">
+                                                        <span id="valid-msg" class="vaild-msg-hide">✓ Valid</span>
+                                                        <span id="error-msg"
+                                                              class="parsley-errors-list vaild-msg-hide"></span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!--Basic Form End-->
+                                <!--Add Languages Section-->
+                                <div class="language-tab xs-form_layout bd bd-2 bd-r-0 bd-l-0 bd-t-0"
+                                     id="languageLayout">
+                                    <div class="row row-sm form-title-row">
+                                        <div class="col-lg">
+                                            <h5 class="mb-2 text-uppercase">Language</h5>
+                                        </div>
+                                    </div>
+                                    <div class="row row-sm">
+                                        <div class="col-4 lang-selector-section">
+                                            <label class="lang-title">Select language:</label>
+                                            <select class="form-control langMegaList select2">
+                                                <option label="----Select Language----"></option>
+                                                {% for lang in languages %}
+                                                <option value="{{lang.id}}">{{lang.language_name}}</option>
+                                                {% endfor %}
+                                            </select>
+                                        </div>
+                                        <div class="col-6 lang-prop-list">
+                                            <div class="upper-title_section">
+                                                <div class="xs-cell lang-head_title">sample</div>
+                                                <div class="xs-cell lang-head_title">Read</div>
+                                                <div class="xs-cell lang-head_title">Write</div>
+                                                <div class="xs-cell lang-head_title">Speak</div>
+                                                <div class="xs-cell lang-head_title">sample</div>
+                                            </div>
+                                            <div class="lower-details_section">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!--Add Languages Section End-->
+                                <!--current address form-->
+                                <div class="primary_address_form xs-form_layout bd bd-2 bd-r-0 bd-l-0 bd-t-0"
+                                     id="primaryAddressForm">
+                                    <div class="row row-sm form-title-row">
+                                        <div class="col-lg">
+                                            <h5 class="mb-2 text-uppercase">Current Address</h5>
+                                        </div>
+                                    </div>
+                                    <div class="row row-sm">
+                                        <div class="col-lg">
+                                            <div class="row primary-upper-section">
+                                                <div class="col-lg mg-t-10 mg-lg-t-0">
+                                                    <label class="req-field">Country:</label>
+                                                    <select class="form-control prm-country-ls country-list"
+                                                            name="current_country">
+                                                        <option label="Choose one"></option>
+                                                    </select>
+                                                </div>
+                                                <div class="col-lg mg-t-10 mg-lg-t-0">
+                                                    <label class="req-field">State:</label>
+                                                    <select class="form-control prm-state-ls state-list"
+                                                            name="current_state" disabled>
+                                                        <option label="Choose one"></option>
+                                                    </select>
+                                                </div>
+                                                <div class="col-lg mg-t-10 mg-lg-t-0">
+                                                    <label class="req-field">City:</label>
+                                                    <select class="form-control prm-city-ls city-list"
+                                                            name="current_city" disabled>
+                                                        <option label="Choose one"></option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row row-sm mg-t-20">
+                                        <div class="col-lg">
+                                            <div class="row primary-lower-section">
+                                                <div class="col-lg mg-t-10 mg-lg-t-0">
+                                                    <label class="req-field">Zip Code:</label>
+                                                    <input class="form-control zip-code" name="current_zip_code"
+                                                           value="" placeholder="Zip Code" type="text">
+                                                </div>
+                                                <div class="col-lg mg-t-10 mg-lg-t-0">
+                                                    <label class="req-field">Street:</label>
+                                                    <textarea class="form-control address-text-area"
+                                                              name="current_street" value="" placeholder="address"
+                                                              rows="1"></textarea>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!--current address form End-->
+
+                                <!--Permanenet address form-->
+                                <div class="permanent_address_form xs-form_layout bd bd-2 bd-r-0 bd-l-0 bd-t-0"
+                                     id="parmanentAddressForm">
+                                    <div class="row row-sm form-title-row">
+                                        <div class="col-lg address2form">
+                                            <h5 class="mb-2 text-uppercase">Permanent Address</h5>
+                                            <div class="checked-address-btn">
+                                                <label>Same As Current Address</label>
+                                                <input class="form-control address__checkMark check-size" value=""
+                                                       name="checked-address" type="checkbox">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row row-sm">
+                                        <div class="col-lg">
+                                            <div class="row permanent-upper-section">
+                                                <div class="col-lg mg-t-10 mg-lg-t-0">
+                                                    <label>Country:</label>
+                                                    <select class="form-control secoundry-country-ls country-list"
+                                                            name="permanent_country">
+                                                        <option label="Choose one"></option>
+                                                    </select>
+                                                </div>
+                                                <div class="col-lg mg-t-10 mg-lg-t-0">
+                                                    <label>State:</label>
+                                                    <select class="form-control secoundry-state-ls state-list"
+                                                            name="permanent_state" disabled>
+                                                        <option label="Choose one"></option>
+                                                    </select>
+                                                </div>
+                                                <div class="col-lg mg-t-10 mg-lg-t-0">
+                                                    <label>City:</label>
+                                                    <select class="form-control secoundry-city-ls city-list"
+                                                            name="permanent_city" disabled>
+                                                        <option label="Choose one"></option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row row-sm mg-t-20">
+                                        <div class="col-lg">
+                                            <div class="row permanent-lower-section">
+                                                <div class="col-lg mg-t-10 mg-lg-t-0">
+                                                    <label>Zip Code:</label>
+                                                    <input class="form-control zip-code" name="permanent_zip_code"
+                                                           value="" placeholder="Zip Code" type="text">
+                                                </div>
+                                                <div class="col-lg mg-t-10 mg-lg-t-0">
+                                                    <label>Street:</label>
+                                                    <textarea class="form-control address-text-area" value=""
+                                                              name="permanent_street" placeholder="address"
+                                                              rows="1"></textarea>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!--Permanent address form End-->
+
+                                <!--professionals details-->
+                                <div class="profession_details_form xs-form_layout bd bd-2 bd-r-0 bd-l-0 bd-t-0"
+                                     id="professinalDetails">
+                                    <div class="row row-sm form-title-row">
+                                        <div class="col-lg profession-head-title">
+                                            <h5 class="mb-2 text-uppercase">Professional details</h5>
+                                        </div>
+                                    </div>
+                                    <div class="row row-sm">
+                                        <div class="col-lg">
+                                            <div class="row profession-first-section">
+                                                <div class="xs-min-3 col-lg mg-t-10 mg-lg-t-0">
+                                                    <label>Experience:</label>
+                                                    <div class="fx-col__sm">
+                                                        <input type="number" step="0.01" value=""
+                                                               name="professional-experience-year" placeholder="Year"
+                                                               class="form-control three-ls experiance-val">
+                                                        <input type="number" step="0.01" value=""
+                                                               name="professional-experience-month" placeholder="Month"
+                                                               class="form-control three-ls experiance-val">
+                                                    </div>
+                                                </div>
+                                                <div class="xs-min-3 col-lg mg-t-10 mg-lg-t-0">
+                                                    <label>Current job title:</label>
+                                                    <input type="text" value="" name="professional-job-title"
+                                                           class="form-control three-ls jobtitle-val">
+                                                </div>
+                                                <div class="xs-min-3 col-lg mg-t-10 mg-lg-t-0">
+                                                    <label>Highest Qualification:</label>
+                                                    <input type="text" value="" name="professional-high-qualify"
+                                                           class="form-control three-ls high-qualify-val">
+                                                </div>
+                                            </div>
+                                            <div class="row profession-sec-section mg-t-20">
+                                                <div class="xs-min-3 col-lg mg-t-10 mg-lg-t-0">
+                                                    <label>Expected salary:</label>
+                                                    <input type="text" value="" name="professional-expect-salary"
+                                                           class="form-control three-ls expected-salary-val">
+                                                </div>
+                                                <div class="xs-min-3 col-lg mg-t-10 mg-lg-t-0">
+                                                    <label>Current salary:</label>
+                                                    <input type="text" value="" name="professional-current-salary"
+                                                           class="form-control three-ls current-salary-val">
+                                                </div>
+                                                <div class="xs-min-3 col-lg mg-t-10 mg-lg-t-0">
+                                                    <label>Current employer:</label>
+                                                    <input type="text" value="" name="professional-current-emp"
+                                                           class="form-control three-ls current-emp-val">
+                                                </div>
+                                            </div>
+                                            <div class="row profession-third-section mg-t-20">
+                                                <div class="xs-min-3 col-lg-8 mg-t-10 mg-lg-t-0">
+                                                    <label>Skills:</label>
+                                                    <select class="form-control skill-selector professionSkills"
+                                                            name="professional_skills" value=""
+                                                            multiple="multiple"></select>
+                                                </div>
+                                                <div class="xs-min-3 col-lg-4 mg-t-10 mg-lg-t-0">
+                                                    <label>Notice period:</label>
+                                                    <select name="professional-notice-period"
+                                                            class="form-control three-ls current-salary-val">
+                                                        <option label="Select Notice Period" value=""
+                                                                class="null-selector"></option>
+                                                        {% for notice in notice_period %}
+                                                        <option value="{{notice.id}}">{{notice.notice_period}}</option>
+                                                        {% endfor %}
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!--professionals details end-->
+
+                                <!--Education details form-->
+                                <div class="edu_details_form xs-form_layout bd bd-2 bd-r-0 bd-l-0 bd-t-0"
+                                     id="eduDetailsForm">
+                                    <div class="row row-sm form-title-row">
+                                        <div class="col-lg edu_details">
+                                            <h5 class="mb-2 text-uppercase">Education Details</h5>
+                                            <div class="edu-addmore-btn">
+                                                <span class="add-edu-clone" id="eduAddMoreClone"><i
+                                                        class="si si-plus"></i> Add More</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="edu-form__container xsc-list">
+                                        <div class="row row-sm">
+                                            <div class="col-lg">
+                                                <div class="row edu-upper-section">
+                                                    <div class="col-lg mg-t-10 mg-lg-t-0">
+                                                        <label class="req-field">Institute/School:</label>
+                                                        <input class="form-control edu-name" value=""
+                                                               name="edu_institute" type="text">
+                                                    </div>
+                                                    <div class="col-lg mg-t-10 mg-lg-t-0">
+                                                        <label class="req-field">Department:</label>
+                                                        <input class="form-control edu-field" value=""
+                                                               name="edu_department" type="text">
+                                                    </div>
+                                                    <div class="col-lg mg-t-10 mg-lg-t-0">
+                                                        <label class="req-field">Degree:</label>
+                                                        <input class="form-control edu-degree" value=""
+                                                               name="edu_degree" type="text">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row row-sm">
+                                            <div class="col-lg">
+                                                <div class="row edu-middle-section mg-lg-t-20">
+                                                    <div class="col-lg mg-t-10 mg-lg-t-0">
+                                                        <label>Duration:</label>
+                                                        <input class="form-control edu-duration-info" value=""
+                                                               name="edu_duration" type="number">
+                                                    </div>
+                                                    <div class="col-lg mg-t-10 mg-lg-t-0">
+                                                        <div class="start-date__selector inline-list__view">
+                                                            <label class="req-field">From</label>
+                                                            <div class="fx-row start-duration">
+                                                                <select class="start-month form-control edu-from-month"
+                                                                        name="edu-detail-start-month">
+                                                                    <option label="Month" value=""
+                                                                            class="null-selector"></option>
+                                                                </select>
+                                                                <select class="start-year form-control edu-from-year"
+                                                                        name="edu-detail-start-year">
+                                                                    <option label="Year" value=""
+                                                                            class="null-selector"></option>
+                                                                </select>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-lg mg-t-10 mg-lg-t-0">
+                                                        <div class="end-date__selector inline-list__view">
+                                                            <label class="req-field">To</label>
+                                                            <div class="fx-row end-duration">
+                                                                <select class="end-month form-control edu-to-month"
+                                                                        name="edu-detail-end-month" disabled>
+                                                                    <option label="Month" value=""
+                                                                            class="null-selector"></option>
+                                                                </select>
+                                                                <select class="end-year form-control edu-to-year"
+                                                                        name="edu-detail-end-year" disabled>
+                                                                    <option label="Year" value=""
+                                                                            class="null-selector"></option>
+                                                                </select>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row row-sm mg-t-20">
+                                            <div class="col-lg">
+                                                <div class="edu-checkfield-btn">
+                                                    <label>Pursuing:</label>
+                                                    <input class="checked-edu-purse check-size" value=""
+                                                           name="edu_pursuing_check" type="checkbox">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!--education details form end-->
+
+                                <!--edu gap details form-->
+                                <div class="edu_gap_form xs-form_layout bd bd-2 bd-r-0 bd-l-0 bd-t-0"
+                                     id="eduGapDetailForm">
+                                    <div class="row row-sm  edu-head-section">
+                                        <div class="col-lg edu-gap-details__head-section">
+                                            <div class="edugap-left-head__section">
+                                                <h5 class="mb-2 text-uppercase">Education Gap</h5>
+                                                <input class="check-edugap-form check-size" value="" name="edugap-check"
+                                                       type="checkbox">
+                                            </div>
+                                            <div class="edugap-right-head__section">
+                                                <div class="edugap-addmore-btn">
+                                                    <span class="add-edu-clone" id="eduGapAddMoreClone"><i
+                                                            class="si si-plus"></i> Add More</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="collapse-list">
+                                        <div class="row row-sm edu-gap__from">
+                                            <div class="col-lg-4 col-md-12 col-sm-12">
+                                                <div class="row edugap-left-upper__section">
+                                                    <div class="col-lg mg-t-10 mg-lg-t-0">
+                                                        <label class="req-field">From</label>
+                                                        <div class="fx-row">
+                                                            <select class="start-month form-control edugap-form-month"
+                                                                    name="edugap-start-month">
+                                                                <option label="Month" value=""
+                                                                        class="null-selector"></option>
+                                                            </select>
+                                                            <select class="start-year form-control edugap-form-year"
+                                                                    name="edugap-start-year">
+                                                                <option label="Year" value=""
+                                                                        class="null-selector"></option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row edugap-left-lower__section">
+                                                    <div class="col-lg mg-t-10 mg-lg-t-10">
+                                                        <label class="req-field">To</label>
+                                                        <div class="fx-row">
+                                                            <select class="end-month form-control edugap-to-month"
+                                                                    name="edugap-end-month" disabled>
+                                                                <option label="Month" value=""
+                                                                        class="null-selector"></option>
+                                                            </select>
+                                                            <select class="end-year form-control edugap-to-year"
+                                                                    name="edugap-start-year" disabled>
+                                                                <option label="Year" value=""
+                                                                        class="null-selector"></option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-8 col-md-12 col-sm-12">
+                                                <div class="row edugap-left-lower__section">
+                                                    <div class="col-md-12 col-sm-12 col-lg-12">
+                                                        <label class="req-field">Reason:</label>
+                                                        <textarea name="edugap-reason"
+                                                                  class="form-control edugap-reason-textbox" value=""
+                                                                  placeholder="" rows="4"></textarea>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!--edu gap details form End-->
+
+                                <!--experience details form-->
+                                <div class="experience_details_form xs-form_layout bd bd-2 bd-r-0 bd-l-0 bd-t-0"
+                                     id="exprDetailsForm">
+                                    <div class="row row-sm form-title-row">
+                                        <div class="col-lg edu_details">
+                                            <h5 class="mb-2 text-uppercase">Experience Details</h5>
+                                            <div class="expr-addmore-btn">
+                                                <span class="add-exprform-clone" id="exprAddMoreClone"><i
+                                                        class="si si-plus"></i> Add More</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="experience_details__input-section">
+                                        <div class="row row-sm">
+                                            <div class="col-lg-8 col-sm-12 col-md-12">
+                                                <div class="row expr-upper-section">
+                                                    <div class="col-lg mg-t-10 mg-lg-t-0">
+                                                        <label class="req-field">Job Title:</label>
+                                                        <input class="form-control expr-job-title" value=""
+                                                               name="exper_details_jobtitle" type="text">
+                                                    </div>
+                                                    <div class="col-lg mg-t-10 mg-lg-t-0">
+                                                        <label class="req-field">Company:</label>
+                                                        <input class="form-control expr-company-name" value=""
+                                                               name="exper_details_companyname" type="text">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row row-sm">
+                                            <div class="col-lg-8 col-sm-12 col-md-12">
+                                                <div class="row expr-middle-section mg-lg-t-20">
+                                                    <div class="col-lg mg-t-10 mg-lg-t-0">
+                                                        <div class="inline-list__view">
+                                                            <label class="req-field">From</label>
+                                                            <div class="fx-row">
+                                                                <select class="start-month form-control expr-from-month"
+                                                                        name="exper_details_start_month">
+                                                                    <option label="Month" value=""
+                                                                            class="null-selector"></option>
+                                                                </select>
+                                                                <select class="start-year form-control expr-from-year"
+                                                                        name="exper_details_start_year">
+                                                                    <option label="Year" value=""
+                                                                            class="null-selector"></option>
+                                                                </select>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-lg mg-t-10 mg-lg-t-0">
+                                                        <div class="inline-list__view">
+                                                            <label class="req-field">To</label>
+                                                            <div class="fx-row">
+                                                                <select class="end-month form-control expr-to-month"
+                                                                        name="exper_details_end_month" disabled>
+                                                                    <option label="Month" value=""
+                                                                            class="null-selector"></option>
+                                                                </select>
+                                                                <select class="end-year form-control expr-to-year"
+                                                                        name="exper_details_end_year" disabled>
+                                                                    <option label="Year" value=""
+                                                                            class="null-selector"></option>
+                                                                </select>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row row-sm mg-t-20">
+                                            <div class="col-lg-8 col-sm-12 col-md-12">
+                                                <div class="row row-sm">
+                                                    <div class="col-lg-12 col-md-12 col-sm-12 exper-details__skills-box">
+                                                        <label class="req-field">Skills:</label>
+                                                        <select class="form-control skill-selector selectPreferredSkills"
+                                                                name="exper_details_skills" multiple="multiple">
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="row row-sm mg-t-10">
+                                                    <div class="col-lg-12 col-md-12 col-sm-12">
+                                                        <label class="req-field">Summary:</label>
+                                                        <textarea class="form-control expr-summary"
+                                                                  name="exper_details_summary" value=""
+                                                                  rows="3"></textarea>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row row-sm mg-t-20">
+                                            <div class="col-lg-8 col-sm-12 col-md-12">
+                                                <div class="row expr-lower-section mg-lg-t-20">
+                                                    <div class="col-lg-12 col-md-12 col-sm-12">
+                                                        <div class="fx-row fx-inline">
+                                                            <div class="workStatusInfo">
+                                                                <label>Current Working:</label>
+                                                                <input class="form-control workStatus__checkMark check-size"
+                                                                       value="" name="checked_workstatus"
+                                                                       type="checkbox">
+                                                            </div>
+                                                            <!--																	<div class="notice-input__box">-->
+                                                            <!--																		<label class="req-field">Notice Period:</label>-->
+                                                            <!--																		<select class="form-control notice-days" name="exper_details_notice" disabled>-->
+                                                            <!--																			<option label="Select Notice Period"></option>-->
+                                                            <!--																			{% for notice in notice_period %}-->
+                                                            <!--																				<option value="{{notice.id}}">{{notice.notice_period}}</option>-->
+                                                            <!--																			{% endfor %}-->
+                                                            <!--																		</select>-->
+                                                            <!--																	</div>-->
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!--experience details form end-->
+                                <!--Experience Gap Form-->
+                                <div class="exper_gap_form xs-form_layout bd bd-2 bd-r-0 bd-l-0 bd-t-0"
+                                     id="experGapDetailForm">
+                                    <div class="row row-sm  exper-head-section">
+                                        <div class="col-lg exper-gap-details__head-section">
+                                            <div class="expergap-left-head__section">
+                                                <h5 class="mb-2 text-uppercase">Experience Gap</h5>
+                                                <input class="check-expergap-form check-size" value=""
+                                                       name="expergap-check" type="checkbox">
+                                            </div>
+                                            <div class="exper-gap-right-head__section">
+                                                <div class="exper-gap-addmore-btn">
+                                                    <span class="add-expergap-clone" id="experGapAddMoreClone"><i
+                                                            class="si si-plus"></i> Add More</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="collapse-list">
+                                        <div class="row row-sm exper-gap__from">
+                                            <div class="col-lg-4 col-md-12 col-sm-12">
+                                                <div class="row exper-gap-left-upper__section">
+                                                    <div class="col-lg mg-t-10 mg-lg-t-0">
+                                                        <label class="req-field">From</label>
+                                                        <div class="fx-row">
+                                                            <select class="start-month form-control exper-gap-form-month"
+                                                                    name="expergap-start-month">
+                                                                <option label="Month" value=""
+                                                                        class="null-selector"></option>
+                                                            </select>
+                                                            <select class="start-year form-control exper-gap-form-year"
+                                                                    name="expergap-start-year">
+                                                                <option label="Year" value=""
+                                                                        class="null-selector"></option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row exper-gap-left-lower__section">
+                                                    <div class="col-lg mg-t-10 mg-lg-t-10">
+                                                        <label class="req-field">To</label>
+                                                        <div class="fx-row">
+                                                            <select class="end-month form-control exper-gap-to-month"
+                                                                    name="expergap-end-month" disabled>
+                                                                <option label="Month" value=""
+                                                                        class="null-selector"></option>
+                                                            </select>
+                                                            <select class="end-year form-control exper-gap-to-year"
+                                                                    name="expergap-end-year" disabled>
+                                                                <option label="Year" value=""
+                                                                        class="null-selector"></option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-8 col-md-12 col-sm-12">
+                                                <div class="row exper-gap-left-lower__section">
+                                                    <div class="col-md-12 col-sm-12 col-lg-12">
+                                                        <label class="req-field">Reason:</label>
+                                                        <textarea class="form-control exper-gap-reason-textbox"
+                                                                  name="expergap-reason" value="" placeholder=""
+                                                                  rows="4"></textarea>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!--Experience Gap Form End-->
+                                <!--Tag section -->
+                                <div class="select_tags_form xs-form_layout bd bd-2 bd-r-0 bd-l-0 bd-t-0"
+                                     id="tagSelectorSection">
+                                    <div class="row row-sm form-title-row">
+                                        <div class="col-lg tags-head-title">
+                                            <h5 class="mb-2 text-uppercase">Tags</h5>
+                                        </div>
+                                    </div>
+                                    <div class="row row-sm">
+                                        <div class="col-lg">
+                                            <div class="row addTagsSelectorView">
+                                                <div class="xs-one-full col-lg mg-t-10 mg-lg-t-0">
+                                                    <label>Skills:</label>
+                                                    <select class="form-control skill-selector addTagsSelectorViewerList"
+                                                            name="tags-by-skills" value="" multiple="multiple"></select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!--Tag section end-->
+                                <!--Preference Form-->
+                                <div class="preference_form xs-form_layout bd bd-2 bd-r-0 bd-l-0 bd-t-0"
+                                     id="preferenceForm">
+                                    <div class="row row-sm form-title-row">
+                                        <div class="col-lg pref_details">
+                                            <h5 class="mb-2 text-uppercase">Preference</h5>
+                                        </div>
+                                    </div>
+                                    <div class="row row-sm">
+                                        <div class="col-lg">
+                                            <div class="row preference-upper-section">
+                                                <div class="col-lg mg-t-10 mg-lg-t-0">
+                                                    <label>Country</label>
+                                                    <select class="form-control" name="preference_country"
+                                                            onChange="getPreferenceCitiesByCountry(this.value)"
+                                                            tabindex="-1">
+                                                        {% for country in countries %}
+                                                        <option value="{{ country.id }}">{{country.country_name}}
+                                                        </option>
+                                                        {% endfor %}
+                                                    </select>
+                                                </div>
+                                                <div class="col-lg mg-t-10 mg-lg-t-0">
+                                                    <label>City:</label>
+                                                    <div id="citydiv">
+                                                        <select class="form-control " name="preference_city">
+                                                            <option label="Choose one"></option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg mg-t-10 mg-lg-t-0">
+                                                    <label>Company Type:</label>
+                                                    <select class="form-control company-type__list"
+                                                            name="preference_company_type">
+                                                        <option label="Job Type's" class="null-selector"></option>
+                                                        {% for value in company_type %}
+                                                        <option value="{{value.id}}">{{value.name}}</option>
+                                                        {% endfor %}
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row row-sm">
+                                        <div class="col-lg">
+                                            <div class="row preference-middle-section mg-lg-t-20">
+                                                <div class="col-4 mg-t-10 mg-lg-t-0">
+                                                    <label>Working Days:</label>
+                                                    <select class="form-control workdays__selector"
+                                                            name="preference_working_day">
+                                                        <option label="Job Type's" class="null-selector"></option>
+                                                        {% for value, work in working_day_types %}
+                                                        <option value="{{value}}">{{work}}</option>
+                                                        {% endfor %}
+                                                    </select>
+                                                </div>
+                                                <div class="col-4 mg-t-10 mg-lg-t-0 pref-addmore-btn">
+                                                    <div class="inline-list__view">
+                                                        <button class="btn btn-outline-primary rounded-20 active-pre_popup"
+                                                                type="button" data-toggle="modal" data-target="#form">
+                                                            <i class="si si-plus"></i><label>Add More</label>
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                                <div class="col-4 mg-t-10 mg-lg-t-0">
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!--Preference Form End-->
+
+                                <!--PORTFOLIO-->
+                                <div class="select_tags_form xs-form_layout bd bd-2 bd-r-0 bd-l-0 bd-t-0"
+                                     id="tagSelectorSection">
+                                    <div class="row row-sm form-title-row">
+                                        <div class="col-lg tags-head-title">
+                                            <h5 class="mb-2 text-uppercase">Portfolio</h5>
+                                        </div>
+                                        <div class="portfolio-addmore-btn">
+                                            <span class="add-portfolio-clone" id="portfolioAddCloneAction"><i
+                                                    class="si si-plus"></i> Add More</span>
+                                        </div>
+                                    </div>
+                                    <div class="row row-sm portfolio-form-section_row">
+                                        <div class="col-lg port-form-col__list">
+                                            <div class="row addTagsSelectorView">
+                                                <div class="xs-one-third col-lg mg-t-10 mg-lg-t-0">
+                                                    <label>Project name:</label>
+                                                    <input type="text" value="" name="project_name"
+                                                           class="port-project-name form-control">
+                                                </div>
+                                                <div class="xs-one-third col-lg mg-t-10 mg-lg-t-0">
+                                                    <label>Project link:</label>
+                                                    <input type="text" value="" name="project_link"
+                                                           class="port-project-links form-control">
+                                                </div>
+                                                <div class="xs-one-third col-lg mg-t-10 mg-lg-t-0">
+                                                    <label>Attachment:</label>
+                                                    <div class="input-group file-browser">
+                                                        <input type="text"
+                                                               class="form-control border-right-0 browse-file port-project-attach"
+                                                               placeholder="choose" readonly>
+                                                        <label class="input-group-btn">
+																	<span class="btn btn-default">
+																		Browse <input type="file"
+                                                                                      name="portfolio_attachment"
+                                                                                      value="" style="display: none;"
+                                                                                      multiple>
+																	</span>
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row addTagsSelectorView">
+                                                <div class="xs-one-full col-lg mg-t-10 mg-lg-t-0">
+                                                    <label>Description:</label>
+                                                    <textarea class="portfolioMultiForm"
+                                                              name="portfolio_description"></textarea>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!--PORTFOLIO END-->
+
+                                <!--Source-->
+                                <div class="source_form xs-form_layout bd bd-2 bd-r-0 bd-l-0 bd-t-0" id="sourceForm">
+                                    <div class="row row-sm form-title-row">
+                                        <div class="col-lg edu_details">
+                                            <h5 class="mb-2 text-uppercase">Source</h5>
+                                        </div>
+                                    </div>
+                                    <div class="row row-sm">
+                                        <div class="col-4">
+                                            <label>Select Source:</label>
+                                            <select class="form-control select-source" name="source"
+                                                    onchange="onSelectSource(this);">
+                                                <option label="Select Source" class="null-selector"></option>
+                                                {% for source in sources %}
+                                                <option value="{{source.id}}">{{source.name}}</option>
+                                                {% endfor %}
+                                            </select>
+                                        </div>
+                                        <div class="col-4 custom-source" style="display:none">
+                                            <label>Enter the Source :</label>
+                                            <textarea class="form-control" placeholder="" name="other_source"
+                                                      maxlength="200"></textarea>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!--Source End-->
+
+                                <!--Attachment Form-->
+                                <div class="attach_form xs-form_layout bd bd-2 bd-r-0 bd-l-0 bd-t-0"
+                                     id="attachmentForm">
+                                    <div class="row row-sm form-title-row">
+                                        <div class="col-lg edu_details">
+                                            <h5 class="mb-2 text-uppercase">Attachment</h5>
+                                        </div>
+                                    </div>
+                                    <div class="row row-sm">
+                                        <div class="col-12 resume-upper_section">
+                                            <div class="row full-view__resume-upoload">
+                                                <div class="col-4 mg-t-10 mg-lg-t-0">
+                                                    <label>Resume:</label>
+                                                    <div class="input-group file-browser">
+                                                        <input type="text"
+                                                               class="form-control border-right-0 browse-file"
+                                                               placeholder="choose" readonly>
+                                                        <label class="input-group-btn">
+																	<span class="btn btn-default">
+																		Browse <input type="file"
+                                                                                      name="attachment_resume" value=""
+                                                                                      style="display: none;" multiple>
+																	</span>
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                                <div class="col-8 actionbtn-section mg-t-10 mg-lg-t-0">
+                                                    <label class="no-text">no text</label>
+                                                    <button id="addFormUploadFileds" class="btn btn-outline-primary"
+                                                            type="button">
+                                                        <i class="si si-plus"></i>Add More
+                                                    </button>
+                                                </div>
+                                                <textarea class='mention'></textarea>
+                                            </div>
+                                        </div>
+                                        <div class="col-12 other-upload-clone__section">
+                                            <!--populate clone of other document-->
+                                        </div>
+                                    </div>
+                                </div>
+                                <!--Attachment form End-->
+
+                            </div>
+                            <!--form action button section-->
+                            <div class="form-action-btn-group mg-t-20" id="actionGrpBtns">
+                                <div class="row row-sm middle-layer">
+                                    <div class="col-8"></div>
+                                    <div class="col-4 bottom-flex-right">
+                                        <button class="btn btn-sm btn-primary btn-sm btn-rounded">Associate with Jobs
+                                        </button>
+                                        <button class="btn btn-sm btn-primary candidateFormSubmit btn-sm btn-rounded"
+                                                type="submit">Save
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            <!--form action button section End-->
+                        </form>
+
+                        <div class="modal fade" id="form" tabindex="-1" role="dialog"
+                             aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <div class="modal-dialog modal-dialog-centered" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header border-bottom-0">
+                                        <h5 class="modal-title" id="exampleModalLabel">Add Preferred field</h5>
+                                        <button type="button" id="popUpModelClose" class="close" data-dismiss="modal"
+                                                aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <form id="prefrenceModeForm" class="prefrence-form mg-20 rounded-20 bd pd-10">
+                                        <div class="row row-sm mg-10">
+                                            <div class="col-lg col-md col-sm">
+                                                <div class="form-group prf__input-fields">
+                                                    <label for="fieldTitle" class="col-form-label">Field Name: </label>
+                                                    <input type="text" class="form-control rounded-20" id="fieldTitle">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row row-sm mg-10">
+                                            <div class="col-lg col-md col-sm">
+                                                <div class="form-group prf__input-fields">
+                                                    <label for="fieldDetails" class="col-form-label">Field Data:</label>
+                                                    <input class="form-control rounded-20" type="text"
+                                                           id="fieldDetails">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </form>
+                                    <div class="row row-sm mg-10">
+                                        <div class="col-lg col-md col-sm">
+                                            <div class="form-btn">
+                                                <button type="button" class="btn btn-primary btn-sm rounded-10"
+                                                        id="preferenceAddMoreModel">Save
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- /row -->
+    </div>
+    <!-- Main-content-body closed -->
+</div>
+<!-- Container-fluid closed -->
+<!-- Main-content closed -->
+{% endblock %}
+
+{% block script %}
+<!--		<script src="https://cdnjs.cloudflare.com/ajax/libs/elasticsearch/16.7.1/elasticsearch.min.js" integrity="sha512-uOHi3cdmRQ3IG8rOX4WwxQbhiHGvElsXZt0cy/2ttb3qE4N7YSb24qYVlB494GVzxJnmU2YC3b8WSJUjgqzEyg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>-->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.13.1/underscore-min.js"
+        integrity="sha512-ZuOjyqq409+q6uc49UiBF3fTeyRyP8Qs0Jf/7FxH5LfhqBMzrR5cwbpDA4BgzSo884w6q/+oNdIeHenOqhISGw=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<!--		<script src="{% static 'assets/js/jquery-mentions-input-master/lib/jquery.elastic.js' %}"></script>-->
+<script src="{% static 'assets/js/jquery-mentions-input-master/lib/jquery.events.input.js' %}"></script>
+<script src="{% static 'assets/js/jquery-mentions-input-master/jquery.mentionsInput.js' %}"></script>
+
+<!-- Datepicker js -->
+<script src="{% static 'assets/plugins/jquery-ui/ui/widgets/datepicker.js' %}"></script>
+
+
+<script src="{% static 'assets/plugins/select2/js/select2.min.js' %}"></script>
+
+<!--Internal TelephoneInput js-->
+<script src="{% static 'assets/plugins/telephoneinput/telephoneinput.js' %}"></script>
+<script src="{% static 'assets/js/ATS/intlTelInput.js' %}"></script>
+
+<!--Custom js-->
+<script type="text/javascript" src="{% static 'assets/js/ATS/add_candidate.js' %}"></script>
+
+<!-- form-elements js -->
+<script src="{% static 'assets/js/form-elements.js' %}"></script>
+<script src="{% static 'assets/plugins/parsleyjs/parsley.min.js' %}"></script>
+<!--		<script src="{% static 'assets/js/form-validation.js' %}"></script>-->
+
+<!-- city state -->
+<script src="{% static 'assets/js/main.js' %}"></script>
+
+<script>
+			$(document).ready(function(){
+
+				<!-- Experience  -->
+
+				var newCount = 1;
+				$(document).on('click','.expr-addmore-btn',function(){  //experience-details add form clone
+					var experDetailsFormClone = "";
+					var getExprStarYearMonthEle = $(this).parent().parent().next('.experience_details__input-section').find('.expr-middle-section .col-lg:nth-child(1) .fx-row').html();
+					var getCloneOfSkills = $(this).closest("#exprDetailsForm").find(".experience_details__input-section:nth-child(2) .expr-middle-section .col-lg-4 .col-lg").clone();
+					var formListLength = $(this).closest('.experience_details_form').find('.experiance_details__input-section').length;
+					experDetailsFormClone = `<div class="experience_details__input-section top-fx-border exper-ls-clone-`+formListLength+`"> <div class="row row-sm"> <div class="col-lg-8 col-sm-12 col-md-12"> <div class="row expr-upper-section"> <div class="col-lg mg-t-10 mg-lg-t-0"> <label class="req-field">Job Title:</label> <input class="form-control expr-job-title" value=""  name="exper_details_jobtitle" type="text"></div><div class="col-lg mg-t-10 mg-lg-t-0"> <label class="req-field">Company:</label> <input class="form-control expr-company-name" value=""  name="exper_details_companyname" type="text"></div></div></div></div><div class="row row-sm"> <div class="col-lg-8 col-sm-12 col-md-12"> <div class="row expr-middle-section mg-lg-t-20"> <div class="col-lg mg-t-10 mg-lg-t-0"> <div class="inline-list__view"> <label class="req-field">From</label> <div class="fx-row">`+getExprStarYearMonthEle+`</div></div></div><div class="col-lg mg-t-10 mg-lg-t-0"> <div class="inline-list__view"> <label class="req-field">To</label> <div class="fx-row"> <select class="end-month form-control expr-to-month" name="exper_details_end_month" disabled > <option label="Month" value="" class="null-selector"></option> </select> <select class="end-year form-control expr-to-year" name="exper_details_end_year" disabled > <option label="Year" value="" class="null-selector"></option> </select> </div></div></div></div></div></div><div class="row row-sm mg-t-20"> <div class="col-lg-8 col-sm-12 col-md-12"> <div class="row row-sm"> <div class="col-lg-12 col-md-12 col-sm-12"> <label class="req-field">Skills:</label> <select class="form-control skill-selector" id="selectSkillsSection-`+newCount+`" name="exper_details_skills" value="" multiple="multiple" ></select></div></div><div class="row row-sm mg-t-10"> <div class="col-lg-12 col-md-12 col-sm-12"> <label class="req-field">Summary:</label><textarea class="form-control expr-summary" value="" name="exper_details_summary" rows="3" ></textarea></div></div></div></div><div class="row row-sm mg-t-20"> <div class="col-lg-8 col-sm-12 col-md-12"> <div class="row expr-lower-section mg-lg-t-20"> <div class="col-lg-12 col-md-12 col-sm-12"> <div class="fx-row fx-inline"><div class="workStatusInfo"> <label>Current Working:</label> <input class="workStatus__checkMark check-size" value="" name="checked_workstatus" type="checkbox"> </div></div></div><div class="col-lg-12 col-md-12 col-sm-12 mg-t-20 pd-0"> <div class="col-lg exprDetails-delete-wrapper"> <button class="exper-clone-delete btn btn-sm btn-outline-danger btn-block" type="button"> <i class="fas fa-trash-alt"></i>Delete </button> </div></div></div></div></div></div>`;
+					var selectorId = "#selectSkillsSection-"+newCount;
+					$(document).find('.experience_details__input-section:last').after(experDetailsFormClone);
+					setTimeout(function(){
+					  $(selectorId).select2({
+						placeholder: 'Add new Skills',
+						searchInputPlaceholder: 'Search'
+					  });
+					 },2500)
+					newCount++;
+				});
+
+				$('.professionSkills').select2({
+					 ajax:{
+						   url:"/company/get_skills",
+						   dataType: 'json',
+						   processResults: function (data) {
+							   return {
+								   results: $.map(data, function (item) {
+									   return {id: item.id, text: item.name};
+								   })
+							   };
+						   }
+					 },
+					 tags:true,
+					 createTag: function (params) {
+						return {
+							id: params.term,
+							text: params.term,
+							newOption: true,
+						}
+					 },
+					templateResult: function (data) {
+						var $result = $("<span></span>");
+						$result.text(data.text);
+						if (data.newOption) {
+							$result.append(" <em>(new)</em>");
+						}
+						return $result;
+					},
+					minimumInputLength: 1
+				});
+				$('textarea.mention').mentionsInput({
+					  onDataRequest:function (mode, query, callback) {
+						var data = [
+						  { id:1, name:'Kenneth Auchenberg', 'avatar':'http://cdn0.4dots.com/i/customavatars/avatar7112_1.gif', 'type':'contact' },
+						  { id:2, name:'Jon Froda', 'avatar':'http://cdn0.4dots.com/i/customavatars/avatar7112_1.gif', 'type':'contact' },
+						  { id:3, name:'Anders Pollas', 'avatar':'http://cdn0.4dots.com/i/customavatars/avatar7112_1.gif', 'type':'contact' },
+						  { id:4, name:'Kasper Hulthin', 'avatar':'http://cdn0.4dots.com/i/customavatars/avatar7112_1.gif', 'type':'contact' },
+						  { id:5, name:'Andreas Haugstrup', 'avatar':'http://cdn0.4dots.com/i/customavatars/avatar7112_1.gif', 'type':'contact' },
+						  { id:6, name:'Pete Lacey',  'avatar':'http://cdn0.4dots.com/i/customavatars/avatar7112_1.gif', 'type':'contact' }
+						];
+
+						data = _.filter(data, function(item) { return item.name.toLowerCase().indexOf(query.toLowerCase()) > -1 });
+
+						callback.call(this, data);
+					  }
+				});
+			});
+
+</script>
+<script>
+			function onSelectSource(option){
+				if(option.options[option.selectedIndex].text == 'Other'){
+					$(".custom-source").removeAttr("style");
+				}else{
+					$(".custom-source").attr("style", "display:none");
+				}
+			}
+
+</script>
+{% endblock %}
+

@@ -1,0 +1,194 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<meta name='viewport' content='width=device-width, initial-scale=1.0, user-scalable=0'>
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="Description" content="Bootstrap Responsive Admin Web Dashboard HTML5 Template">
+		<meta name="Author" content="Spruko Technologies Private Limited">
+		<meta name="Keywords" content="bootstrap admin panel template,bootstrap admin template premium,bootstrap backend template,bootstrap dashboard template,bootstrap panel template,dashboard admin bootstrap 4,dashboard template bootstrap 4,html css dashboard template,html dashboard template,html web app template,modern admin template,nice admin template,simple bootstrap admin template,simple dashboard html template,simple dashboard template bootstrap,template dashboard bootstrap 4"/>
+
+		<!-- Title -->
+		<title> Admix - Admin Panel html template </title>
+
+		<!--- Favicon -->
+		<link rel="icon" href="{% static 'assets/img/brand/favicon.png' %}" type="image/x-icon"/>
+		<!--- Icons css -->
+		<link href="{% static 'assets/css/icons.css' %}" rel="stylesheet">
+
+	
+
+		<!--- Style css -->
+		<link rel="stylesheet" type="text/css" media="all" href="{% static 'assets/css/style.css' %}">
+
+		<!-- Colors css -->
+		<link id="theme" rel="stylesheet" type="text/css" media="all" href="{% static 'assets/css/colors/color.css' %}">
+
+		<!--- Skinmodes css -->
+		<link href="{% static 'assets/css/skin-modes.css' %}" rel="stylesheet">
+
+		<!--- Darktheme css -->
+		<link href="{% static 'assets/css/style-dark.css' %}" rel="stylesheet">
+
+		<!-- Switcher css-->
+		<link href="{% static 'assets/switcher/css/switcher.css' %}" rel="stylesheet">
+		<link href="{% static 'assets/switcher/demo.css' %}" rel="stylesheet">
+
+        <!--custome css files-->
+		<link href="{% static 'assets/css/ATS/signup-agency-type.css' %}" rel="stylesheet" type="text/css" />
+
+	</head>
+
+	<body class="main-body">
+		{% csrf_token %}
+		<!-- Start Switcher -->
+		<div class="switcher-wrapper ">
+			<div class="demo_changer right-sidebar">
+				<div class="demo-icon bg_dark"><i class="fa fa-cog fa-spin  text_primary"></i></div>
+				<div class="form_holder sidebar-right1">
+					<div class="row">
+						<div class="predefined_styles">
+							<div class="swichermainleft  mt-3">
+								<h4 class="font-bold text-sm mr-3">Default Theme Switcher</h4>
+								<div class="swichermainleft">
+									<a class="wscolorcode red-btn color blackborder color1" href="#" data-theme="{% static 'assets/css/colors/color1.css' %}"></a>
+									<a class="wscolorcode purple-btn color blackborder color2" href="#" data-theme="{% static 'assets/css/colors/color2.css' %}"></a>
+									<a class="wscolorcode green-btn color blackborder color3" href="#" data-theme="{% static 'assets/css/colors/color3.css' %}"></a>
+									<a class="wscolorcode pink-btn color blackborder color4" href="#" data-theme="{% static 'assets/css/colors/color4.css' %}"></a>
+									<a class="wscolorcode orange-btn color blackborder color5" href="#" data-theme="{% static 'assets/css/colors/color5.css' %}"></a>
+								</div>
+							</div>
+							<div class="swichermainleft">
+								<h4>Skin Modes</h4>
+								<div class="switch_section">
+									<div class="switch-toggle d-flex">
+										<span class="mr-auto">Default Body</span>
+										<div class="onoffswitch2"><input type="radio" name="onoffswitch" id="myonoffswitch7" class="onoffswitch2-checkbox" checked>
+											<label for="myonoffswitch7" class="onoffswitch2-label"></label>
+										</div>
+									</div>
+									<div class="switch-toggle d-flex">
+										<span class="mr-auto">Body Style</span>
+										<div class="onoffswitch2"><input type="radio" name="onoffswitch" id="myonoffswitch6" class="onoffswitch2-checkbox">
+											<label for="myonoffswitch6" class="onoffswitch2-label"></label>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="swichermainleft">
+								<h4>vertical-menu Styles</h4>
+								<div class="switch_section">
+
+									<div class="switch-toggle horizontal-Dark-switcher d-flex">
+										<span class="mr-auto">vertical-menu dark</span>
+										<div class="onoffswitch2"><input type="radio" name="onoffswitch3" id="myonoffswitch20" class="onoffswitch2-checkbox">
+											<label for="myonoffswitch20" class="onoffswitch2-label"></label>
+										</div>
+									</div>
+									<div class="switch-toggle horizontal-Dark-switcher d-flex">
+										<span class="mr-auto">vertical-menu Color</span>
+										<div class="onoffswitch2"><input type="radio" name="onoffswitch3" id="myonoffswitch21" class="onoffswitch2-checkbox">
+											<label for="myonoffswitch21" class="onoffswitch2-label"></label>
+										</div>
+									</div>
+
+									<div class="switch-toggle d-flex">
+										<span class="mr-auto">Reset vertical-menu Styles</span>
+										<div class="onoffswitch2"><input type="radio" name="onoffswitch3" id="myonoffswitch13" class="onoffswitch2-checkbox">
+											<label for="myonoffswitch13" class="onoffswitch2-label"></label>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- End Switcher -->
+
+		<!-- Page -->
+		<div class="page">
+
+			<!-- Loader -->
+			<div id="global-loader">
+				<img src="{% static 'assets/img/loader.svg' %}" class="loader-img" alt="Loader">
+			</div>
+			<!-- /Loader -->
+
+			<!-- Main-content -->
+			<div class="main-content singlemenu">
+				<!-- Container-fluid add-candidate layout-->
+				<div class="container-fluid">
+
+					<!-- Main-content-body -->
+					<div class="main-content-body">
+                        <div class="row row-sm signin-layout">
+                            <div class="col-6 left-col">
+                                <div class="agency-logo-container">
+                                    <div class="logo-container-center">
+                                        <div class="bg-rounded">
+                                            <img src="{% static 'assets/img/brand/bid-logo-blue.png' %}" alt="bid-logo-blue">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-6 right-col">
+                                <div class="form-container">
+                                    <div class="signin-type-selector__form">
+                                        <div class="agency-form-container row row-sm">
+                                            <div class="col-12 form-view">
+                                                <div class="title-bar">
+                                                    <h3 class="h3 text-capitalize">agency type</h3>
+                                                </div>
+                                                <div class="form-type__tabs">
+                                                    <div class="form-type-btn" data-item="signup-freelancer">
+                                                        <label class="text-capitalize">freelancer</label>
+														<input type="radio" name="freelance" value="" class="btn-check">
+                                                    </div>
+                                                    <div class="form-type-btn" data-item="signup-agency">
+                                                        <label class="text-capitalize">agency (company)</label>
+														<input type="radio" name="company" value="" class="btn-check">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+					</div>
+					<!-- Main-content-body closed -->
+				</div>
+				<!-- Container-fluid add-candidate layout closed -->
+			</div>
+			<!-- Main-content closed -->
+
+		</div>
+		<!-- Page closed -->
+
+
+		<!-- JQuery min js -->
+		<script src="{% static 'assets/plugins/jquery/jquery.min.js' %}"></script>
+
+		<!-- Bootstrap Bundle js -->
+		<script src="{% static 'assets/plugins/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+
+		<!-- Ionicons js -->
+		<script src="{% static 'assets/plugins/ionicons/ionicons.js' %}"></script>
+
+		<!-- form-elements js -->
+		<script src="{% static 'assets/js/form-elements.js' %}"></script>
+		<script src="{% static 'assets/plugins/parsleyjs/parsley.min.js' %}"></script>
+		<script src="{% static 'assets/js/form-validation.js' %}"></script>
+
+		<!-- Switcher js -->
+		<script src="{% static 'assets/switcher/js/switcher.js' %}"></script>
+
+		<!-- Custom js -->
+		<script src="{% static 'assets/js/custom.js' %}"></script>
+        <script type="text/javascript" src="{% static 'assets/js/ATS/signup_agency.js' %}"></script>
+
+	</body>
+</html>

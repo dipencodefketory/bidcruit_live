@@ -1,0 +1,119 @@
+{% extends 'agency/base.html' %}
+{% load agency_filter %}
+{% load static %}
+{% load candidate_extras %}
+{% block title %}All Candidates{% endblock %}
+{% block css %}
+        <link href="{% static 'assets/css/ATS/all-requests.css' %}" rel="stylesheet">
+{% endblock %}
+{% block main %}
+		<!-- Main-content-body -->
+		<div class="main-content-body">
+
+			<!-- header-title -->
+			<div class="header-title">
+				<div class="mb-0 mb-lg-0 mb-xl-0">
+					<h4 class="mb-2">Ecommerce Dashboard</h4>
+					<div class="main-content-breadcrumb"> <span>Dashboard</span> <span>Ecommerce</span> </div>
+				</div>
+			</div>
+			<!-- header-title -->
+
+            <!--Request Listing View-->
+            <div class="row row-sm requestListContainer">
+                <div class="listHeaderView col-12">
+                    <div class="card fx-row__filterTabView">
+                        <div class="tab-listing">
+                                <!--   <label class="text-uppercase">all request</label>-->
+                                <!--   <label class="text-uppercase">all connection</label>-->
+                        </div>
+                        <div class="filter-list">
+                            <div class="upload-btn__ls">
+                                <i class="fas fa-file-download"></i>
+                            </div>
+                            <div class="filter-btn__ls">
+                                <i class="fas fa-filter"></i>
+                            </div>
+                            <div class="nav-btn__ls">
+                                <i class="fas fa-ellipsis-v"></i>
+                            </div>
+                            <div class="search-btn__ls">
+                                <span class="input-group-append search_btn">
+                                    <button class="btn ripple" type="button"><i class="fa fa-search"></i></button>
+                                </span>
+                                <input type="text" class="search_text form-control border-right-0 pl-3" value="" placeholder="Search Template">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="listContainerView col-12">
+                     {% for data in datas %}
+                    <div class="card-container card">
+                        <div class="list-details__preivew">
+                            <div class="fx-left__section">
+                                <div class="company-title-section">
+                                    <div class="company-logo">
+                                        <img src="{{data.company_logo}}" alt="logo">
+                                    </div>
+                                    <div class="company-highlight-titles">
+                                        <div class="main-title">
+                                            <h5 class="text-capitalize">{{data.company_name}}</h5><span class="text-capitalize company-type">({{data.company_industry}})</span>
+                                        </div>
+                                        <div class="short-info">
+                                            <i class="fas fa-map-marker-alt"></i>
+                                            <label class="stx-title text-capitalize">location :-</label>
+                                            <label class="stx-details text-capitalize">{{data.company_city}}</label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="fx-right__section">
+                                <div class="candidate-details">
+                                    <div class="candidate-avtar">
+                                        {% ifequal data.candidate_gender 'male' %}
+                                            <img src="{% static 'assets/img/ATS/man.png' %}" alt="candidate-avtar">
+                                        {% endifequal %}
+                                        {% ifequal data.candidate_gender 'female' %}
+                                            <img src="{% static 'assets/img/ATS/woman.png' %}" alt="candidate-avtar">
+                                        {% endifequal %}
+                                    </div>
+                                    <div class="candidate-short-info">
+                                        <div class="candidate-top-info">
+                                            <h5 class="text-capitalize">{{data.candidate_name}}</h5><span class="text-capitalize candidate-type">({{data.candidate_designation}})</span>
+                                        </div>
+                                        <div class="short-info">
+                                            <i class="fas fa-calendar-day"></i>
+                                            <label class="stx-title text-capitalize">date of submission :-</label>
+                                            <label class="stx-details text-capitalize">{{data.candidate_dateofsubmission|date:'d-m-Y'}}</label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="activityContent">
+                            <div class="fxs-min-left">
+                                <i class="fas fa-user-clock"></i>
+                                <label class="user-slug text-capitalize">request for candidates details</label>
+                            </div>
+                            {% if data.request_accept %}
+                            {% else %}
+                            <div class="fxs-min-right">
+                                <form method="post" action="{% url 'agency:request_for_detail_action' data.candidate_id data.candidate_candidateid %}">
+                                    {% csrf_token %}
+                                    <button type="submit" class="text-capitalize btn btn-sm btn-success rounded-10">Accept</button>
+                                </form>
+                            </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+                </div>
+        </div>
+        <!--Request Listing View End-->
+
+				
+{% endblock %}
+{% block script %}
+
+{% endblock %}

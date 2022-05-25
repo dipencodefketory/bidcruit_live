@@ -1,0 +1,402 @@
+{% extends 'company/base.html' %}
+{% load static %}
+{% load custom_filters %}
+{% load candidate_extras %}
+{% block title %}Candidate Detail View{% endblock %}
+{% block css %}
+
+{% endblock %}
+{% block main %}
+{% csrf_token %}
+				<!-- Container-fluid -->
+				<div class="container-fluid">
+
+					<!-- Main-content-body -->
+					<div class="main-content-body">
+
+						<!-- header-title -->
+						<div class="header-title">
+							<div class="mb-0 mb-lg-0 mb-xl-0">
+								<h4 class="mb-2">Mail</h4>
+								<div class="main-content-breadcrumb"> <span>Mail</span> <span>Chat</span> </div>
+							</div>
+							<div class="ml-auto my-auto">
+								<a href="#" class="btn btn-primary"><i class="fe fe-plus-square"></i> Create Report</a>
+								<a href="#" class="btn btn-pink"><i class="fe fe-external-link"></i> Export</a>
+							</div>
+						</div>
+						<!-- header-title -->
+
+						<!-- row -->
+						<div class="row row-sm main-content-app mb-4">
+							<div class="col-xl-4 col-lg-12">
+								<div class="">
+									<div class="main-content-left main-content-left-chat card">
+										<nav class="nav main-nav-line main-nav-line-chat">
+											<a class="nav-link active" data-toggle="tab" href="#ChatList">Private Chat</a>
+											<a class="nav-link" data-toggle="tab" href="#GroupChat">Group Chat</a>
+											
+										</nav>
+										<div class="p-2 border-bottom">
+
+										</div><!-- main-chat-active-contacts -->
+										<div class="tab-content main-chat-list">
+											<div class="tab-pane active" id="ChatList">
+												<div class="main-chat-list tab-pane">
+													<label class="main-content-label main-content-label-sm  ml-2 ">Recent Chats</label>
+													<a class="media new" href="#">
+														<div class="main-img-user online">
+															<img alt="" src="{% static '/assets/img/faces/5.jpg' %}"> <span>2</span>
+														</div>
+														<div class="media-body">
+															<div class="media-contact-name">
+																<span>Socrates Itumay</span> <span>2 hours</span>
+															</div>
+															<p>Nam quam nunc, blandit vel aecenas et ante tincid</p>
+														</div>
+													</a>
+													<a class="media new" href="#">
+														<div class="main-img-user">
+															<img alt="" src="{% static '/assets/img/faces/6.jpg' %}"> <span>1</span>
+														</div>
+														<div class="media-body">
+															<div class="media-contact-name">
+																<span>Dexter dela Cruz</span> <span>3 hours</span>
+															</div>
+															<p>Maec enas tempus, tellus eget con dime ntum rhoncus, sem quam</p>
+														</div>
+													</a>
+													<a class="media selected" href="#">
+														<div class="main-img-user online"><img alt="" src="{% static '/assets/img/faces/9.jpg' %}"></div>
+														<div class="media-body">
+															<div class="media-contact-name">
+																<span>Reynante Labares</span> <span>10 hours</span>
+															</div>
+															<p>Nam quam nunc, bl ndit vel aecenas et ante tincid</p>
+														</div>
+													</a>
+													<a class="media new" href="#">
+														<div class="main-img-user"><img alt="" src="{% static '/assets/img/faces/11.jpg' %}"></div>
+														<div class="media-body">
+															<div class="media-contact-name">
+																<span>Joyce Chua</span> <span>2 days</span>
+															</div>
+															<p>Ma ecenas tempus, tellus eget con dimen tum rhoncus, sem quam</p>
+														</div>
+													</a>
+													<a class="media new" href="#">
+														<div class="main-img-user"><img alt="" src="{% static '/assets/img/faces/4.jpg' %}"></div>
+														<div class="media-body">
+															<div class="media-contact-name">
+																<span>Rolando Paloso</span> <span>2 days</span>
+															</div>
+															<p>Nam quam nunc, blandit vel aecenas et ante tincid</p>
+														</div>
+													</a>
+													<a class="media new" href="#">
+														<div class="main-img-user">
+															<img alt="" src="{% static '/assets/img/faces/7.jpg' %}"> <span>1</span>
+														</div>
+														<div class="media-body">
+															<div class="media-contact-name">
+																<span>Ariana Monino</span> <span>3 days</span>
+															</div>
+															<p>Maece nas tempus, tellus eget cond imentum rhoncus, sem quam</p>
+														</div>
+													</a>
+													<a class="media new" href="#">
+														<div class="main-img-user"><img alt="" src="{% static '/assets/img/faces/8.jpg' %}"></div>
+														<div class="media-body">
+															<div class="media-contact-name">
+																<span>Maricel Villalon</span> <span>4 days</span>
+															</div>
+															<p>Nam quam nunc, blandit vel aecenas et ante tincid</p>
+														</div>
+													</a>
+													<a class="media new" href="#">
+														<div class="main-img-user"><img alt="" src="{% static '/assets/img/faces/12.jpg' %}"></div>
+														<div class="media-body">
+															<div class="media-contact-name">
+																<span>Maryjane Pechon</span> <span>5 days</span>
+															</div>
+															<p>Mae cenas tempus, tellus eget co ndimen tum rhoncus, sem quam</p>
+														</div>
+													</a>
+													<a class="media new" href="#">
+														<div class="main-img-user"><img alt="" src="{% static '/assets/img/faces/15.jpg' %}"></div>
+														<div class="media-body">
+															<div class="media-contact-name">
+																<span>Lovely Dela Cruz</span> <span>5 days</span>
+															</div>
+															<p>Mae cenas tempus, tellus eget co ndimen tum rhoncus, sem quam</p>
+														</div>
+													</a>
+													<a class="media new" href="#">
+														<div class="main-img-user"><img alt="" src="{% static '/assets/img/faces/10.jpg' %}"></div>
+														<div class="media-body">
+															<div class="media-contact-name">
+																<span>Daniel Padilla</span> <span>5 days</span>
+															</div>
+															<p>Mae cenas tempus, tellus eget co ndimen tum rhoncus, sem quam</p>
+														</div>
+													</a>
+													<a class="media new" href="#">
+														<div class="main-img-user"><img alt="" src="{% static '/assets/img/faces/3.jpg' %}"></div>
+														<div class="media-body">
+															<div class="media-contact-name">
+																<span>John Pratts</span> <span>6 days</span>
+															</div>
+															<p>Mae cenas tempus, tellus eget co ndimen tum rhoncus, sem quam</p>
+														</div>
+													</a>
+													<a class="media new" href="#">
+														<div class="main-img-user"><img alt="" src="{% static '/assets/img/faces/7.jpg' %}"></div>
+														<div class="media-body">
+															<div class="media-contact-name">
+																<span>Raymart Santiago</span> <span>6 days</span>
+															</div>
+															<p>Nam quam nunc, blandit vel aecenas et ante tincid</p>
+														</div>
+													</a>
+													<a class="media border-bottom-0" href="#">
+														<div class="main-img-user"><img alt="" src="{% static '/assets/img/faces/6.jpg' %}"></div>
+														<div class="media-body">
+															<div class="media-contact-name">
+																<span>Samuel Lerin</span> <span>7 days</span>
+															</div>
+															<p>Nam quam nunc, blandit vel aecenas et ante tincid</p>
+														</div>
+													</a>
+												</div><!-- main-chat-list -->
+											</div><!-- main-chat-list -->
+											<div class="tab-pane" id="GroupChat">
+												<label class="main-content-label main-content-label-sm  ml-2 ">Recent Calls</label>
+												{% for group_chats in group_chat %}
+													<a class="media new" data-id="{{group_chats.chat.unique_code}}">
+														<div class="main-img-user online">
+															<img alt="" src="{% static '/assets/img/faces/5.jpg' %}"> <span>2</span>
+														</div>
+														<div class="media-body">
+															<div class="media-contact-name">
+																<span>{{group_chats.chat.title}}</span> <span>{{group_chats.date_created|whenpublished}}</span>
+															</div>
+															<p>{% if group_chats.read %}{{group_chats.text}}{% else %}<b>{{group_chats.text}}</b>{% endif %}</p>
+														</div>
+													</a>
+												{% endfor %}
+											</div>
+
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="col-xl-8 col-lg-12">
+								<div class="">
+									<a class="main-header-arrow" href="" id="ChatBodyHide"><i class="icon ion-md-arrow-back"></i></a>
+									<div class="main-content-body main-content-body-chat mt-0 pt-0 br-br-0 br-bl-0 mb-lg-0 card">
+										<div class="main-chat-header">
+											<div class="main-img-user"><img alt="" src="{% static '/assets/img/faces/9.jpg' %}"></div>
+											<div class="main-chat-msg-name">
+												<h6 id="group-name"></h6><small></small>
+												<input type="text" id="chat_id" value="0" hidden readonly>
+											</div>
+<!--											<nav class="nav">-->
+<!--												<a class="nav-link" href="#"><i class="icon ion-md-more"></i></a>-->
+<!--												<a class="nav-link" data-toggle="tooltip" href="#" title="" data-original-title="Call"><i class="bx bx-phone-call"></i></a>-->
+<!--												<a class="nav-link" data-toggle="tooltip" href="" title="" data-original-title="Video"><i class="bx bx-video"></i></a>-->
+<!--												<a class="nav-link" data-toggle="tooltip" href="" title="" data-original-title="More"><i class="bx bx-dots-vertical-rounded"></i></a>-->
+<!--											</nav>-->
+										</div><!-- main-chat-header -->
+										<div class="main-chat-body" id="ChatBody">
+											<div class="content-inner">
+											</div>
+										</div>
+									</div>
+									<div class="main-chat-footer">
+<!--										<nav class="nav">-->
+<!--											<a class="nav-link" data-toggle="tooltip" href="#" title="Add Photo"><i class="bx bx-microphone"></i></a>-->
+<!--											<a class="nav-link" data-toggle="tooltip" href="#" title="Attach a File"><i class="bx bx-paperclip"></i></a>-->
+<!--											<a class="nav-link" data-toggle="tooltip" href="#" title="Attach a File"><i class="bx bx-smile"></i></a>-->
+<!--											<a class="nav-link" data-toggle="tooltip" href="#" title="Add Emoticons" href="#"><i class="bx bx-smile"></i></a>-->
+<!--										</nav>-->
+										<input class="form-control" id="msg-input" placeholder="Type your message here..." type="text"> <a class="main-msg-send" id="msg-submit"><i class="bx bx-paper-plane"></i></a>
+									</div>
+								</div>
+							</div>
+						</div>
+						<!-- /row -->
+					</div>
+					<!-- Main-content-body closed -->
+				</div>
+				<!-- Container-fluid closed -->
+
+
+
+{% endblock %}
+
+{% block script %}
+		<!-- Custom -->
+	<!-- Internal Chat js -->
+		<script src="{% static '/assets/js/chat.js' %}"></script>
+
+		<!-- Custom js -->
+		<script src="{% static '/assets/js/custom.js' %}"></script>
+<script>
+	$(document).ready(function () {
+		$('.new').click(function(){
+		$('.content-inner').html('');
+		var htm='';
+			$.ajax({
+				  url:'{% url 'chat:get_message' %}',
+				  type:'POST',
+				  headers: {'X-CSRFToken': '{{ csrf_token }}'},
+				  data:{chat_id:$(this).data('id')}
+				})
+				.done(function(response){
+				response=JSON.parse(response);
+					if(response.status==true){
+					$('#group-name').html(response.Group_title);
+					console.log(response.chat_id)
+					$('#chat_id').val(response.chat_id);
+					var msg=JSON.parse(response.message)
+						for(var i=0 ;i<msg.length;i++)
+						{
+
+								if(msg[i].fields.author=={{request.user.id}}){
+								console.log(msg[i].fields.author,{{request.user.id}})
+								htm+=`<div class="media flex-row-reverse">
+											<div class="main-img-user online"><img alt="" src="{% static '/assets/img/faces/6.jpg' %}"></div>
+											<div class="media-body">
+												<div class="main-msg-wrapper">
+													`+msg[i].fields.text+`
+												</div>
+												<div>
+													<span>9:32 am</span> <a href=""><i class="icon ion-android-more-horizontal"></i></a>
+												</div>
+											</div>
+										</div>`
+								}else{
+											htm+=`<div class="media">
+													<div class="main-img-user online"><img alt="" src="{% static '/assets/img/faces/9.jpg' %}"></div>
+													<div class="media-body">
+														<div class="main-msg-wrapper">
+															`+msg[i].fields.text+`
+														</div>
+														<div>
+															<span>11:22 am</span> <a href=""><i class="icon ion-android-more-horizontal"></i></a>
+														</div>
+													</div>
+												</div>`
+								}
+						}
+						$('.content-inner').append(htm);
+					}
+					else{
+
+					}
+				}).fail(function(){
+					  console.log("failed");
+				})
+		});
+	})
+</script>
+
+<script>
+const getTimeAMPMFormat = () => {
+  date=new Date();
+  let hours = date.getHours();
+  let minutes = date.getMinutes();
+  const ampm = hours >= 12 ? 'PM' : 'AM';
+  hours = hours % 12;
+  hours = hours ? hours : 12; // the hour '0' should be '12'
+  hours = hours < 10 ? '0' + hours : hours;
+  // appending zero in the start if hours less than 10
+  minutes = minutes < 10 ? '0' + minutes : minutes;
+  return hours + ':' + minutes + ' ' + ampm;
+};
+
+    var msgdiv = $('.content-inner');
+    var memberdiv = $('#members-list');
+
+    window.onload = function(e){
+        msgdiv.scrollTop(msgdiv.prop("scrollHeight"));
+    }
+
+    var socket = '';
+	socket.onopen=function(e){
+		console.log('sucessfully')
+	}
+    socket.onmessage = function(e) {
+        var message = JSON.parse(e.data);
+
+        console.log(message['text'])
+        console.log("============================",message)
+        switch (message['type']) {
+
+
+            case "msg":
+                msgdiv.append(`
+                    <div class="media">
+						<div class="media-body">
+							<div class="chat-text_msg">
+								<label class="text-capitalize"> `+message['sender']+`(hr department)</label>
+								<span>`+message['time']+`</span>
+								<a href="javascript:void(0);" data-placement="top" data-toggle="tooltip-primary" title="Jone Lare(HR department)">
+									<i class="fas fa-info"></i>
+								</a>
+							</div>
+							<div class="main-msg-wrapper">
+								`+message['text']+`
+							</div>
+						</div>
+					</div>
+                `);
+                break;
+            default:
+                break;
+        }
+        msgdiv.scrollTop(msgdiv.prop("scrollHeight"));
+    };
+
+    socket.onclose = function(e) {
+        console.error('Socket closed unexpectedly');
+    };
+
+    document.querySelector('#msg-input').focus();
+    document.querySelector('#msg-input').onkeyup = function(e) {
+        if (e.keyCode === 13) {  // enter, return
+            document.querySelector('#msg-submit').click();
+        }
+    };
+
+    document.querySelector('#msg-submit').onclick = function(e) {
+		var chat_id = $('#chat_id').val();
+		console.log(chat_id)
+		socket = new WebSocket('ws://' + window.location.host +'/ws/chat/' + chat_id + '/');
+        var messageInputDom = document.querySelector('#msg-input');
+        var message = messageInputDom.value;
+        msgdiv.append(
+          `<div class="media flex-row-reverse">
+			<div class="main-img-user online"><img alt="" src="{% static '/assets/img/faces/6.jpg' %}"></div>
+			<div class="media-body">
+				<div class="main-msg-wrapper">
+					`+message+`
+				</div>
+				<div>
+					<span>9:32 am</span> <a href=""><i class="icon ion-android-more-horizontal"></i></a>
+				</div>
+			</div>
+		</div>
+        `);
+
+        msgdiv.scrollTop(msgdiv.prop("scrollHeight"));
+		socket.onopen=function(e){
+			console.log('sucessfully')
+			socket.send(JSON.stringify({'text': message}));
+		}
+
+
+        messageInputDom.value = '';
+    };
+</script>
+{% endblock %}

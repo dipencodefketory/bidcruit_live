@@ -1,0 +1,191 @@
+
+	{% extends request.user.is_candidate|yesno:"candidate/base.html,company/base.html" %}
+
+{% load static %}
+
+
+{% load candidate_extras %}
+{% block css %}
+<!--		<link rel="stylesheet" href="{% static 'chat/css/chat.css' %}">-->
+		<script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+{% endblock %}
+{% block main %}
+		<br>
+		<!-- Container-fluid -->
+		<div class="container-fluid">
+
+			<!-- Main-content-body -->
+			<div class="main-content-body">
+
+
+
+				<!-- row -->
+				<div class="row row-sm main-content-app mb-4">
+					<div class="col-xl-4 col-lg-12">
+						<div class="">
+							<div class="main-content-left main-content-left-chat card">
+								<nav class="nav main-nav-line main-nav-line-chat">
+									<a class="nav-link active" data-toggle="tab" href="#ChatList">Chat</a>
+								</nav>
+
+								<div class="tab-content main-chat-list">
+									<div class="tab-pane active" id="ChatList">
+										<div class="main-chat-list tab-pane" id="user-list" style="max-height:400px;overflow:auto">
+											<label class="main-content-label main-content-label-sm  ml-2 ">Recent Chats</label>
+											{% if friends %}
+												{% for friend in friends %}
+													<a href="{% url 'chat:chat' friend.email %}" class="media new">
+															<div class="main-img-user online">
+																<img alt="" src=""> <span></span>
+															</div>
+															<div class="media-body">
+																<div class="media-contact-name">
+																	{% if friend.is_candidate %}
+																		<span>{{friend.first_name}}</span>
+																	{% else %}
+																		<span>{{friend.company_name}}</span>
+																	{% endif %}
+																</div>
+															</div>
+													</a>
+												{% endfor %}
+											{% endif %}
+											{% if get_group_list %}
+												{% for i in get_group_list %}
+													<a href="{% url 'chat:chat' i.unique_code %}" class="media new">
+															<div class="main-img-user online">
+																<img alt="" src="#"> <span></span>
+															</div>
+															<div class="media-body">
+																<div class="media-contact-name">
+
+																		<span>{{i.job_id.job_title}}</span>
+
+																</div>
+															</div>
+													</a>
+												{% endfor %}
+
+											{% else %}
+												<div class="" style="line-height: 100px;">
+													<center><b>No Chat Requests</b></center>
+												</div>
+											{% endif %}
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+
+						{% block chat_messages_section %}
+						{% endblock %}
+
+
+
+
+
+				</div>
+				<!-- /row -->
+			</div>
+		</div>
+	{% endblock %}
+	{% block script %}
+
+    	<script type="text/javascript" src="{% static 'chat/js/materialize.min.js' %}"></script>
+	<script>
+const getTimeAMPMFormat = () => {
+  date=new Date();
+  let hours = date.getHours();
+  let minutes = date.getMinutes();
+  const ampm = hours >= 12 ? 'PM' : 'AM';
+  hours = hours % 12;
+  hours = hours ? hours : 12; // the hour '0' should be '12'
+  hours = hours < 10 ? '0' + hours : hours;
+  // appending zero in the start if hours less than 10
+  minutes = minutes < 10 ? '0' + minutes : minutes;
+  return hours + ':' + minutes + ' ' + ampm;
+};
+    var chat_id = {{ chat_id_json }};
+    var msgdiv = $('.content-inner');
+    var memberdiv = $('#members-list');
+
+    window.onload = function(e){
+        msgdiv.scrollTop(msgdiv.prop("scrollHeight"));
+    }
+
+    var socket = new WebSocket(
+    'ws://' + window.location.host +
+    '/ws/chat/' + chat_id + '/');
+	socket.onopen=function(e){
+		console.log('sucessfully')
+	}
+    socket.onmessage = function(e) {
+        var message = JSON.parse(e.data);
+
+        console.log(message['text'])
+        console.log("============================",message)
+        switch (message['type']) {
+
+
+            case "msg":
+                msgdiv.append(`
+                     <div class="media">
+						<div class="main-img-user online"><img alt="" src="#"></div>
+						<div class="media-body">
+							<div class="main-msg-wrapper">
+							`+message['text']+`
+							</div>
+							<div>
+								<span>`+message['time']+`</span> <a href=""><i class="icon ion-android-more-horizontal"></i></a>
+							</div>
+						</div>
+					</div>
+                `);
+                break;
+            default:
+                break;
+        }
+        msgdiv.scrollTop(msgdiv.prop("scrollHeight"));
+    };
+
+    socket.onclose = function(e) {
+        console.error('Socket closed unexpectedly');
+    };
+
+    document.querySelector('#msg-input').focus();
+    document.querySelector('#msg-input').onkeyup = function(e) {
+        if (e.keyCode === 13) {  // enter, return
+            document.querySelector('#msg-submit').click();
+        }
+    };
+
+    document.querySelector('#msg-submit').onclick = function(e) {
+        var messageInputDom = document.querySelector('#msg-input');
+        var message = messageInputDom.value;
+		console.log(message);
+        msgdiv.append(`
+           <div class="media flex-row-reverse">
+				<div class="main-img-user online"><img alt="" src="#"></div>
+				<div class="media-body">
+					<div class="main-msg-wrapper">
+						`+message+`
+					</div>
+					<div>
+						<span>`+getTimeAMPMFormat()+`</span> <a href=""><i class="icon ion-android-more-horizontal"></i></a>
+					</div>
+				</div>
+			</div>
+        `);
+
+        msgdiv.scrollTop(msgdiv.prop("scrollHeight"));
+
+        socket.send(JSON.stringify({'text': message}));
+
+        messageInputDom.value = '';
+    };
+</script>
+
+
+{% endblock %}
+

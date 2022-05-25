@@ -1,0 +1,121 @@
+
+
+
+{% extends 'agency/base.html' %}
+{% load static %}
+{% block title %}Job Openings Requests {% endblock %}
+{% block css %}
+		<!-- Bootstrap css -->
+<!--		<link rel="stylesheet" href="{% static 'assets/plugins/bootstrap/css/bootstrap.min.css' %}">-->
+
+		<!-- Internal Data table css -->
+		<link href="{% static 'assets/plugins/datatable/css/dataTables.bootstrap4.min.css' %}" rel="stylesheet" />
+		<link href="{% static 'assets/plugins/datatable/css/buttons.bootstrap4.min.css' %}" rel="stylesheet">
+		<link href="{% static 'assets/plugins/datatable/css/responsive.bootstrap4.min.css' %}" rel="stylesheet" />
+		<link href="{% static 'assets/plugins/datatable/css/jquery.dataTables.min.css' %}" rel="stylesheet">
+		<link href="{% static 'assets/plugins/datatable/css/responsive.dataTables.min.css' %}" rel="stylesheet">
+		<link href="{% static 'assets/plugins/select2/css/select2.min.css' %}" rel="stylesheet">
+
+		<link href="{% static 'assets/css/ATS/job_openings_table.css' %}" rel="stylesheet">
+		<style>
+			.dataTables_filter {
+			   display: none;
+			}
+			.dataTables_length {
+				display: none;
+			}
+		</style>
+{% endblock %}
+
+{% block main %}
+				<div class="container-fluid">
+					<!-- Main-content-body -->
+					<div class="main-content-body">
+
+						<div class="row row-sm">
+							<div class="col-xl-12">
+								<div class="card job_openings_table">
+									<div class="card-header pb-0">
+										<div class="d-flex justify-content-between">
+											<h4 class="card-title mg-b-0"></h4>
+											<div class="candidate_right_filters_section">
+												<div class="candidate_filters_header">
+													<a href=""><i class="fas fa-filter"></i></a>
+												</div>
+												<div class="candidate_filters_header">
+													<a href=""><i class="fas fa-print"></i></a>
+												</div>
+												<div class="candidate_filters_header">
+													<a href=""><i class="fas fa-ellipsis-v"></i></a>
+												</div>
+											</div>
+										</div>
+									</div>
+									<div class="card-body">
+										<div class="table-responsive">
+											<table class="table text-md-nowrap candidate_table">
+												<thead>
+													<tr>
+<!--														<th class="circle_plush_icon"><a href="javascript:void(0)"><i class="fas fa-plus-circle"></i></a></th>-->
+														<th class="border-bottom-0">Job Posting Title</th>
+														<th class="border-bottom-0">Job Type</th>
+														<th class="border-bottom-0">Remote Job</th>
+														<th class="border-bottom-0">Company Name</th>
+														<th class="border-bottom-0">Created By</th>
+														<th class="border-bottom-0">Action</th>
+													</tr>
+												</thead>
+												<tbody>
+                                                    {% if requestlist %}
+                                                        {% for requestlists in requestlist %}
+                                                        <tr>
+                                                            <td class="text-capitalize">Python Developer {{requestlists.job_id.job_title}}</td>
+                                                            <td><span class="type_full_time"><i class="fas fa-briefcase"></i> Full Time{{requestlists.job_id..job_type.name}}</span></td>
+                                                            <td class="text-capitalize"> {% if requestlists.job_id.remote_job %}Yes {% else %} No {% endif %}</td>
+                                                            <td class="text-capitalize">{{requestlists.company_id.company_id.company_name}}</td>
+                                                            <td class="text-capitalize">{{requestlists.user_id.first_name}} {{requestlists.user_id.last_name}}</td>
+                                                            <td class="action_icons">
+                                                                <a href="{% url 'agency:request_job_view' requestlists.job_id %}"><i class="fas fa-eye"></i></a>
+                                                                <a href=""><i class="fas fa-edit"></i></a>
+                                                                <a href=""><i class="fas fa-trash-alt"></i></a>
+                                                            </td>
+                                                        </tr>
+                                                        {% endfor %}
+                                                    {% endif %}
+
+													
+												</tbody>
+											</table>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<!-- /row -->
+					</div>
+					<!-- Main-content-body closed -->
+				</div>
+{% endblock %}
+
+{% block script %}
+		<!-- Internal Data tables -->
+		<script src="{% static 'assets/plugins/datatable/js/jquery.dataTables.min.js' %}"></script>
+		<script src="{% static 'assets/plugins/datatable/js/dataTables.dataTables.min.js' %}"></script>
+		<script src="{% static 'assets/plugins/datatable/js/dataTables.responsive.min.js' %}"></script>
+		<script src="{% static 'assets/plugins/datatable/js/responsive.dataTables.min.js' %}"></script>
+		<script src="{% static 'assets/plugins/datatable/js/jquery.dataTables.js' %}"></script>
+		<script src="{% static 'assets/plugins/datatable/js/dataTables.bootstrap4.js' %}"></script>
+		<script src="{% static 'assets/plugins/datatable/js/dataTables.buttons.min.js' %}"></script>
+		<script src="{% static 'assets/plugins/datatable/js/buttons.bootstrap4.min.js' %}"></script>
+		<script src="{% static 'assets/plugins/datatable/js/jszip.min.js' %}"></script>
+		<script src="{% static 'assets/plugins/datatable/js/pdfmake.min.js' %}"></script>
+		<script src="{% static 'assets/plugins/datatable/js/vfs_fonts.js' %}"></script>
+		<script src="{% static 'assets/plugins/datatable/js/buttons.html5.min.js' %}"></script>
+		<script src="{% static 'assets/plugins/datatable/js/buttons.print.min.js' %}"></script>
+		<script src="{% static 'assets/plugins/datatable/js/buttons.colVis.min.js' %}"></script>
+		<script src="{% static 'assets/plugins/datatable/js/dataTables.responsive.min.js' %}"></script>
+		<script src="{% static 'assets/plugins/datatable/js/responsive.bootstrap4.min.js' %}"></script>
+
+		<!-- datatable js -->
+		<script src="{% static 'assets/js/table-data.js' %}"></script>
+{% endblock %}

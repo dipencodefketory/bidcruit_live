@@ -1,0 +1,380 @@
+{% extends 'agency/base.html' %}
+{% load static %}
+{% load custom_filters %}
+{% block title %} Active Connections View {% endblock %}
+{% block css %}
+
+		<link href="{% static 'assets/css/ATS/all_recruiter_view.css' %}" rel="stylesheet">
+
+	</head>
+	{% endblock %}
+	{% block main %}
+	
+	
+		<!-- Main-content-body -->
+		<div class="main-content-body">
+
+			<!-- header-title -->
+			<div class="header-title">
+				<div class="mb-0 mb-lg-0 mb-xl-0">
+					<h4 class="mb-2">Components</h4>
+					<div class="main-content-breadcrumb"> <span>Components</span> <span>Data-tables</span> </div>
+				</div>
+				<div class="ml-auto my-auto">
+					<a href="#" class="btn btn-primary"><i class="fe fe-plus-square"></i> Create Report</a>
+					<a href="#" class="btn btn-pink"><i class="fe fe-external-link"></i> Export</a>
+				</div>
+			</div>
+			<!-- header-title -->
+
+			<!-- row opened -->
+			<div class="row row-sm">
+				<div class="col-xl-12">
+
+
+					<div class="view_profile_card card mg-b-0 mg-t-0">
+						<div class="card-body">
+							<div class="cardheader pr-0">
+								<div class="media">
+									<div class="media-user mr-2">
+										<div class="main_img-user"><img alt=""{% ifequal client_detail.gender 'male' %} src="{% static 'assets/img/ATS/man.png' %}" {% else %} src="{% static 'assets/img/ATS/woman.png' %}"{% endifequal %}></div>
+									</div>
+									<div class="media-body name_skils_title">
+										<div class="info_view_candidate_row">
+											<h1 class="mb-0 mg-t-0 name text-capitalize">{{client_detail.InternalUserid.first_name}} {{client_detail.InternalUserid.last_name}}
+												<span class="text-muted">{{company_profile.industry_type.name}}</span>
+											</h1>
+											<div class="ml-auto review_job">
+												<div class="media mg-t-0 profile_footer">
+								
+													<div class="candidate_profile_footer">
+														<div class="candidate_profile_title">Total Job Allocated</div>
+														<div class="candidate_profilevalue cb">{{accept_job_count}}</div>
+													</div>
+													<div class="candidate_profile_footer">
+														<div class="candidate_profile_title">resume submitted</div>
+														<div class="candidate_profilevalue cp">{{applied_candidate_count}}</div>
+													</div>
+													<div class="candidate_profile_footer">
+														<div class="candidate_profile_title">hired</div>
+														<div class="candidate_profilevalue cg">0</div>
+													</div>
+													<div class="candidate_profile_footer">
+														<div class="candidate_profile_title">Total Revenue</div>
+														<div class="candidate_profilevalue cy">0</div>
+													</div>																	
+													
+												</div>
+											</div>
+											
+										</div>
+										
+										
+
+									</div>
+									
+								</div>
+							</div>
+						
+							
+						</div>
+					</div>
+
+					<div class="card candidate_view_main_section mg-b-20">
+						
+						<div class="condidate_view_tabing">
+							<div class="panel panel-primary mt-0 tabs-style-8">
+								<div class="tab-menu-heading">
+									<div class="tabs-menu ">
+										<!-- Tabs -->
+										<ul class="nav panel-tabs">
+											<li class=""><a href="#tab209" class="active" data-toggle="tab"> Overview</a></li>
+											<li><a href="#tab300" data-toggle="tab">Jobs</a></li>
+											<li><a href="#tab301" data-toggle="tab">Candidate Details</a></li>
+											<!-- <li><a href="#tab302" data-toggle="tab">Contract Detail</a></li> -->
+										</ul>
+									
+									</div>
+								</div>
+								
+							</div>
+						</div>
+					</div>
+
+					<div class="mg-b-0 all_recruiter_details_view">
+															
+						<div class="panel-body tabs-menu-body">
+							<div class="tab-content">
+
+								<div class="tab-pane active" id="tab209">
+
+									<div class="card mg-b-0">
+										<div class="card-body">	
+											<div class="recruiter_detals_profile">
+												<div class="recruiter_detals_profile_inner">
+													<div class="recruiter_detals_profile_title">Total Experience</div>
+													<div class="recruiter_detals_profile_subtitle">{{client_detail.total_experiance}} Years</div>
+												</div>
+												<div class="recruiter_detals_profile_inner">
+													<div class="recruiter_detals_profile_title">Job Profile</div>
+													<div class="recruiter_detals_profile_subtitle">{{client_detail.recruiter_type.name}}</div>
+												</div>
+												<div class="recruiter_detals_profile_inner">
+													<div class="recruiter_detals_profile_title">Joining Date</div>
+													<div class="recruiter_detals_profile_subtitle">{{client_detail.created_at|date:'d - M - Y'}}</div>
+												</div>
+												<!-- <div class="recruiter_detals_profile_inner">
+													<div class="recruiter_detals_profile_title">Branch</div>
+													<div class="recruiter_detals_profile_subtitle">Ahmedabad, India</div>
+												</div> -->
+											</div>
+											<div class="info--section">
+												<h5>Email :</h5>
+												<ul class="view-points-ls">
+													{{client_detail.InternalUserid.email}}
+												</ul>
+											</div>
+											<!-- <div class="info--section">
+												<h5>Contact No :</h5>
+												<ul class="view-points-ls">
+													{{company_profile.contact_no1}}
+												</ul>
+											</div> -->
+											<div class="info--section">
+												<h5>Specialities :</h5>
+												<ul class="view-points-ls">
+													{{client_detail.spaciility}}
+												</ul>
+											</div>
+											<!-- <div class="info--section">
+												<h5>About Us :</h5>
+												<ul class="view-points-ls">
+													{% autoescape off %}{{company_profile.aboutus}}{% endautoescape %}
+												</ul>
+											</div> -->
+										</div>
+									</div>
+
+								</div>
+
+								<div class="tab-pane" id="tab300">
+									{% for jobs in accept_job %}
+									<div class="fxm-mini">
+										<div class="com-logo-with-info">
+											<div class="logo-item">
+												<img alt="logo-split-1" {% for jobid,companyprofile in company_logo.items %}{% ifequal jobid jobs.job_id %}src="{{companyprofile.company_logo.url}}"{% else %}src="{% static 'assets/img/bidcruit_logo.png' %}"{% endifequal %}{% endfor %}>
+											</div>
+											<div class="post-titlebar">
+												<label class="text-capitalize main-title"><a href="{% url 'agency:request_job_view' jobs.job_id.id %}">{{jobs.job_id.job_title}}</a></label> 
+												<label class="text-capitalize sub-title">{{jobs.job_id.company_id.company_id.company_name}}</label>
+												<label class="text-capitalize sub-address">{% for jobid,companyprofile in company_logo.items %}{% ifequal jobid jobs.job_id %}{{companyprofile.city.city_name}}, {{companyprofile.state.state_name}}, {{companyprofile.country.country_name}}{% endifequal %}{% endfor %} </label>
+											</div>
+										</div>
+										<div class="com-short-details">
+											<ul class="classcify-list">
+												<li>
+													<div class="icon-with-title">
+														<label class="text-capitalize c-title">Published On</label>
+													</div>
+													<div class="btm-text">
+														<label class="text-capitalize c-details">{{jobs.job_id.created_at|date:'d - M - Y'}}</label>
+													</div>
+												</li>
+												<li>
+													<div class="icon-with-title">
+														<label class="text-capitalize c-title">Completed On</label>
+													</div>
+													<div class="btm-text">
+														<label class="text-capitalize c-details">{{jobs.job_id.target_date|date:'d - M - Y'}}</label>
+													</div>
+												</li>
+												<li>
+													<div class="icon-with-title">
+														<label class="text-capitalize c-title">Resume Submitted</label>
+													</div>
+													<div class="btm-text">
+														<label class="text-capitalize c-details">{% for jobid,resumecount in job_submit_resume.items %}{% ifequal jobid jobs.job_id %}{{resumecount}}{% endifequal %}{% endfor %} </label>
+													</div>
+												</li>
+												<li>
+													<div class="icon-with-title">
+														<label class="text-capitalize c-title">Hired</label>
+													</div>
+													<div class="btm-text">
+														<label class="text-capitalize c-details">0</label>
+													</div>
+												</li>
+											</ul>
+										</div>
+										
+									</div>
+									{% endfor %}
+
+								</div>
+
+								<div class="tab-pane" id="tab301">
+
+
+									{% for candidates in applied_candidate %}
+									<div class="fxm-mini">
+										<div class="com-logo-with-info">
+											<div class="logo-item-profile">
+												<span class="profile_first_letter_pic_inner_c">{{candidates.internal_candidate_id.first_name.0}}{{candidates.internal_candidate_id.last_name.0}}</span>
+											</div>
+											<div class="post-titlebar gap_right_width">
+												<label class="text-capitalize main-title"><a href="{% url 'agency:view_candidate' candidates.internal_candidate_id.id %}">{{candidates.internal_candidate_id.first_name}} {{candidates.internal_candidate_id.last_name}}</a></label> 
+												<label class="text-capitalize sub-title">{{candidates.internal_candidate_id.designation}}</label>
+												<!-- <label class="text-capitalize sub-address">425 National Ave Mountain View, CA 94043, US </label> -->
+											</div>
+
+
+									        <div class="media-body name_skils_title">
+												
+												
+												<div class="media mg-t-7 profile_footer">
+										
+													<div class="candidate_profile_footer">
+														<div class="candidate_profile_title text-lowercase"><i class="fas fa-envelope"></i> {{candidates.internal_candidate_id.email}}</div>
+													</div>
+													<div class="candidate_profile_footer">
+														<div class="candidate_profile_title text-lowercase"><i class="fas fa-phone-alt"></i> {{candidates.internal_candidate_id.contact}}</div>
+													</div>
+													<!-- <div class="candidate_profile_footer">
+														<div class="candidate_profile_title"><i class="fas fa-map-marker-alt"></i> Ahmedabad, Gujarat, India</div>
+													</div>						 -->
+												</div>	
+												<div class="candidate_more_details_u">
+													<ul>
+														<li><i class="fas fa-rupee-sign"></i> Current Salary :- {{candidates.internal_candidate_id.ctc}}</li>	
+														<li><i class="fas fa-rupee-sign"></i> Expected Salary :- {{candidates.internal_candidate_id.expectedctc}}</li>
+														<li><i class="fas fa-calendar-week"></i> Notice Period :- {{candidates.internal_candidate_id.notice.notice_period}}</li>
+														<li><i class="fas fa-history"></i> Source :- {{candidates.internal_candidate_id.source.name}}</li>
+													</ul>
+												</div>						
+											</div>
+
+
+
+										</div>												
+										
+									</div>
+									{% endfor %}
+
+									
+								</div>
+
+								<div class="tab-pane" id="tab302">
+								   
+									<div class="card contract_details">
+							
+										<div class="row resume_main_section">
+											<div class="resume_details_section col-5">
+
+												<div class="preference_section card experience_details_box mg-b-10">
+													<div class="card-body client_detail">
+														
+														<div>
+															<a aria-controls="ExperienceDetails" aria-expanded="true" class="Preference_section_title" data-toggle="collapse" href="#ExperienceDetails" role="button">Client Details
+																<i id="coll_apseP" class="fas fa-angle-down"></i>
+																<i id="coll_apseP" class="fas fa-angle-up"></i>
+															</a>
+															<div class="collapse mg-t-0 Client-Details-box show" id="ExperienceDetails" >
+
+																<div class="media experience_list_inner">
+																	<div class="ex_title">Client Name :- {{client_detail.company_id.company_id.first_name}} {{client_detail.agency_id.agency_id.last_name}}</div>																		
+																</div>
+																<div class="media experience_list_inner">
+																	<div class="ex_title">Contact Number :- {{company_profile.contact_no1}}</div>
+																</div>
+																{%if client_detail.agency_id.agency_id.company_name %}
+																<div class="media experience_list_inner">
+																	<div class="ex_title">Company Name :- {{client_detail.company_id.company_id.company_name}}</div>																		
+																</div>
+																{% endif %}
+																<div class="media experience_list_inner">
+																	<div class="ex_title">Industry Type :- {{company_profile.industry_type.name}}</div>
+																</div>
+																{%if client_detail.agency_id.agency_id.website %}
+																<div class="media experience_list_inner">
+																	<div class="ex_title">Website :- {{client_detail.agency_id.agency_id.website}}</div>
+																</div>
+																{% endif %}
+																<div class="media experience_list_inner">
+																	<div class="ex_title">Work Email :- {{client_detail.agency_id.agency_id.email}}</div>
+																</div>
+																<div class="media experience_list_inner">
+																	<div class="ex_title">Commission Rate :- {{client_detail.commission_rate}} %</div>
+																</div>
+																<div class="media experience_list_inner">
+																	<div class="ex_title">Payment Terms :- {{client_detail.payment_terms.name}}</div>
+																</div>
+																<div class="media experience_list_inner">
+																	<div class="ex_title">Replacement Terms :- {{client_detail.replacement_terms.name}}</div>
+																</div>
+
+
+															</div>
+														</div>
+													</div>
+												</div>
+
+												<div class="preference_section card experience_details_box mg-b-10">
+													<div class="card-body client_detail">
+														
+														<div>
+															<a aria-controls="EducationDetails" aria-expanded="true" class="Preference_section_title" data-toggle="collapse" href="#EducationDetails" role="button">Address Details
+																<i id="coll_apseP" class="fas fa-angle-down"></i>
+																<i id="coll_apseP" class="fas fa-angle-up"></i>
+															</a>
+															<div class="collapse mg-t-0 Address-Details-box show" id="EducationDetails">
+
+																<div class="media experience_list_inner">
+																	<div class="ex_title">Country :- {{company_profile.country.country_name}}</div>																	
+																</div>
+																<div class="media experience_list_inner">
+																	<div class="ex_title">State :- {{company_profile.state.state_name}}</div>																	
+																</div>
+																<div class="media experience_list_inner">
+																	<div class="ex_title">City :- {{company_profile.city.city_name}}</div>																	
+																</div>
+															</div>
+														</div>
+													</div>
+												</div>
+
+												
+
+
+											</div>
+
+											<div class="resume_slide_section col-7">
+
+												<div class="Client_pdf_details">
+													<embed type="" src="{{client_detail.contract_details.url|image_path_remove}}#toolbar=0&navpanes=0&scrollbar=0" aling="center" width="650" height="600">
+												</div>
+											</div>
+										</div>
+
+
+									</div>
+
+								</div>
+
+							
+							</div>
+						</div>
+					
+					</div>
+
+
+				</div>
+				<!--/div-->
+		
+			</div>
+			<!-- /row -->
+		</div>
+		<!-- Main-content-body closed -->
+	
+{% endblock %}
+{% block script %}
+{% endblock %}

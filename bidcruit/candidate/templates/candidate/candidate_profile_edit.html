@@ -1,0 +1,3635 @@
+{% extends 'candidate/base.html' %}
+{% load static %}
+{% load candidate_extras %}
+{% block main %}
+{% block css %}
+		<!-- Select2 css -->
+		<link href="{% static 'assets/plugins/select2/css/select2.min.css' %}" rel="stylesheet">
+
+		<!-- font awesome -->
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+		<style>
+
+
+			 .network_dropdown{
+				font-family: 'FontAwesome', 'Second Font name';
+				}
+		</style>
+		<!-- for select options with images -->
+		<style>
+			.dd-select{
+				height: 33px !important;
+			}
+			.dd-selected-text,.dd-option-text {
+				line-height: 36px !important;
+				display: block !important;
+				margin: -10px !important;
+			}
+			.dd-selected {
+				height: 33px !important;
+			}
+			.dd-option {
+				height: 33px !important;
+			}
+			.dd-option-image {
+				margin-top: -15px !important;
+				vertical-align: middle;
+				float: left;
+				margin-right: 5px;
+				max-width: 60px;
+				padding: 11px;
+			}
+			.dd-selected-image{
+				margin-top: -15px !important;
+				max-width: 60px !important;
+				padding: 11px;
+			}
+
+			.dd-select{
+				width: 260px !important;
+				background: white !important ;
+				border-radius: 17px !important;
+				border: 1px solid #cad0de !important;
+				height: 38px !important;
+			}
+			.dd-container{
+				margin-top: 9px !important;
+			}
+			.editprofile_candidate label.form-control-label {
+			    font-weight: 500;
+			}
+			.edit_delete_candidate_b{
+				text-align: right;
+			}
+			.edit_delete_candidate_b .edit_delete{
+				display: inline-block;
+  				text-align: center;
+   				padding: 8px 4px;
+			}
+			.editprofile_candidate .input-group.file-browser .form-control{
+			    height: 38px;
+			}
+			.editprofile_candidate .file-browser .btn-default{
+				display: inline-block;
+  				  height: 38px;
+			}
+			a.add-more.gap_add_more {
+			    display: inline-block;
+			    position: relative;
+			    margin-bottom: 14px;
+			    margin-top: 14px;
+			    width: 100%;
+			    text-align: right;
+			}
+			.editprofile_candidate .SlectBox.form-control {
+			    border: 1px solid #e2e8f5 !important;
+			}
+			.btn_cus_more{
+				background-color: #0068ff;
+			    border-color: #0068ff;
+			    color: #fff !important;
+			    border-radius: 10px;
+			    padding: 7px 11px;
+			    cursor: pointer;
+			}
+			.btn_cus_more_file{
+				background-color: #0068ff;
+			    border-color: #0068ff;
+			    color: #fff !important;
+			    border-radius: 10px;
+			    padding: 3px 8px;
+			    cursor: pointer;
+			}
+			.tabs-style-4 .tab-menu-heading.left_tabing_profile {
+			    width: 100%;
+			    margin: auto;
+			    padding: 20px;
+			}
+			.profile_header_top_bar .card-title {
+			    font-size: 16px;
+			}
+			.profile_header_top_bar .view_profile{
+				background: #007bff;
+			    color: #fff;
+			    border-radius: 10px;
+			    padding: 8px 14px;
+			    margin-right: 0;
+			}
+		</style>
+<!-- Internal Sumoselect css -->
+{%load candidate_extras%}
+{%load custom_filters%}
+{% endblock %}
+
+
+    <!-- Main-content-body -->
+    <div class="main-content-body edit-profile-wrap editprofile_candidate">
+
+
+    	<div class="card-header mb-3 profile_header_top_bar">
+			<div class="d-flex justify-content-between">
+				<h4 class="card-title mg-b-0">Edit Profile</h4>
+				<div class="candidate_right_filters_section">
+					
+					<div class="candidate_filters_header">	
+						<a class="view_profile" target="_blank" href="{% url 'timeline' url_link %}">View Profile</a>	
+					</div>
+				</div>
+			</div>
+			
+		</div>
+    	
+
+	    <div class="row row-sm">	
+	  	    <div class="col-md-12 col-xl-3 col-lg-3">
+				<div class="card">
+					<div class="panel panel-primary tabs-style-4">
+						<div class="tab-menu-heading left_tabing_profile">
+							<div class="tabs-menu ">
+								<!-- Tabs -->
+								<ul class="nav panel-tabs">
+									<li><a href="#tab1" class="active" data-toggle="tab"> Personal Detail</a></li>
+									<li><a href="#tab2" data-toggle="tab"> Experience</a></li>
+									<li><a href="#tab3" data-toggle="tab"> Portfolio</a></li>
+									<li><a href="#tab4" data-toggle="tab"> Education</a></li>
+									<li><a href="#tab5" data-toggle="tab"> Certificate</a></li>
+									<li><a href="#tab6" data-toggle="tab"> Award</a></li>
+									<li><a href="#tab7" data-toggle="tab"> Language</a></li>
+									<li><a href="#tab8" data-toggle="tab"> Skill</a></li>
+									<li><a href="#tab9" data-toggle="tab"> Social Network</a></li>
+								</ul>
+							</div>
+						</div>
+					</div>
+				</div>	
+	        </div>
+
+
+		    <div class="col-md-12 col-xl-9 col-lg-9">
+		        <div class="row row-sm tab-content">
+		            <div id="tab1" class="col-md-12 col-xl-12 col-lg-12 tab-pane active">
+		                <div class="card">
+		                    <div class="card-header pb-0">
+		                        <h4 class="card-title mg-b-10">Personal Detail</h4>
+									<!--   <a href="#" class="btn ripple btn-primary text-white btn-icon" data-placement="top"-->
+									<!--   data-toggle="tooltip" title="" data-original-title="Edit Profile"><i-->
+									<!--       class="bx bx-edit"></i></a>-->
+		                    </div>
+		                    <div class="card-body ">
+								<form method="post" role="form" action="{% url 'candidate:edit_profile' profile_id %}" enctype="multipart/form-data">
+								<input type="hidden" name="model_name" value="personal_details">
+								{% csrf_token %}
+									<div class="custom-form">
+										<div class="row row-sm">
+											<div class="col-md-6 col-lg-6 col-sm-12 col-xs-12 mb-2">
+												<label class="form-control-label">Firstname: <span
+														class="tx-danger">*</span></label> <input class="form-control"
+																								  id="firstname" name="firstname"
+																								  value="{{profile.candidate_id.first_name}}"
+																								  placeholder="Enter firstname"
+																								  required="" type="text">
+											</div>
+											<div class="col-md-6 col-lg-6 col-sm-12 col-xs-12 mb-2">
+												<label class="form-control-label">Lastname: <span class="tx-danger">*</span></label>
+												<input class="form-control" id="lastname" name="lastname"
+													   value="{{profile.candidate_id.last_name}}" placeholder="Enter lastname" required=""
+													   type="text">
+											</div>
+										</div>
+										<div class="row row-sm">
+											<div class="col-md-12 col-lg-12 col-sm-12 mb-2">
+												<label class="form-control-label">Email: <span class="tx-danger">*</span></label>
+												<input class="form-control" id="email" name="email" value="{{profile.candidate_id.email}}"
+													   placeholder="Email" required="" type="text" disabled>
+											</div>
+
+										</div>
+										<div class="row row-sm">
+											<div class="col-md-4 col-lg-4 col-sm-12 mb-2">
+												<label class="form-control-label">Select Country</label>
+												<select class="form-control" onChange="getState(this.value)" name="country">
+													{% for countrys in country %}
+														<option value="{{countrys.id}}" {%if countrys == profile.country %} selected {%endif%} >{{countrys.country_name}}</option>
+													{% endfor %}
+												</select>
+											</div>
+											<div class="col-md-4 col-lg-4 col-sm-12 mb-2">
+												<div class="control-group form-group">
+													<label class="form-control-label">Select State</label>
+													<div id="statediv">
+														<select class="form-control" id="c_state" name="state">
+															<option value="{{profile.state}}"> {{profile.state.state_name}}
+															</option>
+														</select>
+													</div>
+												</div>
+											</div>
+											<div class="col-md-4 col-lg-4 col-sm-12 mb-2">
+												<label class="form-control-label">Select City</label>
+												<div id="citydiv">
+													<select class="form-control" name="city">
+														<option value={{profile.city}}>{{profile.city.city_name}}</option>
+													</select>
+												</div>
+											</div>
+										</div>
+
+										<div class="row row-sm">
+											<div class="col-md-12 col-lg-12 col-sm-12 col-xs-12 mb-2">
+												<label class="form-control-label">Address: <span class="tx-danger">*</span></label>
+												<input class="form-control" id="address" name="address" value="{{ profile.address  }}" placeholder="Address"
+														   type="text">
+											</div>
+										</div>
+										<!-- best example -->
+										<div class="row row-sm">
+											<div class="col-md-6 col-lg-6 col-sm-12  col-xs-12 mb-2">
+												<label class="form-control-label">Contact Number: <span
+														class="tx-danger">*</span></label>
+												<input class="form-control" id="number" name="number" placeholder="+91*********"
+													   value="{{ profile.contact_no  }}" required="" type="text">
+											</div>
+
+											<div class="col-md-6 col-lg-6 col-sm-12  col-xs-12 mb-2">
+												<label class="form-control-label">Birth Date <span class="tx-danger">*</span></label>
+												<input class="form-control" id="c_dob" name="dob"
+													value="{{profile.dob}}" placeholder="DD/MM/YYYY" required=""
+													   type="text">
+											</div>
+										</div>
+
+										<div class="row row-sm">
+											<div class="col-md-6 col-lg-6 col-sm-12  col-xs-12 mb-2">
+												<label class="form-control-label">Gender</label>
+												<select class="form-control" name="gender">
+													 {% for type in gender %}
+														<option value="{{type.id}}" {%if type == profile.gender %} selected {%endif%} >{{type.name}}</option>
+													 {% endfor %}
+												</select>
+											</div>
+
+											<div class="col-md-6 col-lg-6 col-sm-12  col-xs-12 mb-2">
+												<label class="form-control-label">Maritial Status</label>
+												<select class="form-control" name="marital_status">
+													 {% for type in maritial_type %}
+
+															<option value="{{type.id}}" {%if type == profile.marital_status%} selected {%endif%}>{{type.name}}</option>
+
+													 {%endfor%}
+												</select>
+											</div>
+										</div>
+
+										<div class="row row-sm">
+											<!-- <div class="col-md-6 col-lg-6 col-sm-12  col-xs-12 mg-t-20 mg-md-t-0">
+												<label class="form-label" for="user_photo">
+													Photo
+													<br>
+													<img id="file-ip-1-preview" style="width: 100px;height: 100px;"
+														 src="{%get_media_prefix%}{{profile.user_image.name}}" alt="Profile Image">
+												</label>
+												<input style="display:none" name="user_image" id="user_photo"
+													   type="file" accept="image/*">
+											</div> -->
+											<div class="col-md-6 col-lg-6 col-sm-12  col-xs-12 mb-2">
+												<div class="control-group form-group">
+													<label class="form-control-label" for="user_photo">
+														Photo
+														<br>
+														<img id="file-ip-1-preview" style="width: 100px;height: 100px;"
+															 src="{%get_media_prefix%}{{profile.user_image.name}}" alt="Profile Image">
+													</label>
+													<input style="display:none" name="user_image" id="user_photo"
+														   type="file" accept="image/*" onchange="showPreviewOne(event);">
+
+												</div>
+											</div>
+
+											<div class="col-md-6 col-lg-6 col-sm-12  col-xs-12 mb-2">
+												<label class="form-control-label">Designation</label>
+												<input type="text" class="form-control required" id='designation'  name="designation"
+																				placeholder="Designation" value="{{profile.designation}}">
+											</div>
+										</div>
+
+										<div class="row row-sm">
+											<div class="control-group form-group">
+												<label class="form-control-label">Total Experience</label>
+												<div class="row row-sm">
+													<div class="col-md-6 col-sm-6 mb-2">
+														<select class="form-control" name="total_experience_year">
+															<option label="Years"></option>
+															 {% for i in exp_years %}
+																<option value="{{i}}"  {%if i == profile|get_exp_year_value %} selected  {%endif%}>{{i}}</option>
+															 {% endfor %}
+														</select>
+													</div>
+													<div class="col-md-6 col-sm-6 mb-2">
+														<select class="form-control" name="total_experience_month">
+															<option label="Month" ></option>
+															{% for i in exp_months %}
+																<option value="{{i}}" {%if i == profile|get_exp_month_value %} selected {%endif%}>{{i}}</option>
+															{% endfor %}
+														</select>
+													</div>
+												</div>
+											</div>
+											<div class="col-md-6 col-lg-6 col-sm-12  col-xs-12 mb-2">
+												<label class="form-control-label">Current Salary</label>
+												<input type="text" class="form-control required" name="current_salary"
+													placeholder="Current Salary" value="{{profile.current_salary}}">
+											</div>
+										</div>
+
+										<div class="row row-sm">
+											<div class="col-md-12 col-lg-12 col-sm-12 mb-2">
+												<div class="control-group form-group">
+													<label class="form-control-label">Expected salary</label>
+													<!-- <input type="checkbox" id="checkbox1" checked="checked" /> -->
+													<div class="form-group mg-b-20 ">
+														<fieldset class="question d-flex mb-2">
+															<input class="coupon_question" type="checkbox" {%if profile.expected_salary_min == 'As Per Company'%}checked{%endif%} name="salary_checkbox" value="1" />
+															<label class="ckbox pl-1">As per
+																company standard</label>
+														</fieldset>
+														<fieldset class="answer" style="display: {%if profile.expected_salary_min == 'As Per Company'%}none {%else%} else{%endif%};">
+															<div class="row">
+																<div class="col-md-6 form-group">
+																	<input type="number"  name="expected_salary_min"
+																		id="coupon_field" class="form-control"
+																		placeholder="Min(%)" min="1" max="45" {%if profile.expected_salary_min != 'As Per Company'%}required{%endif%}  value={{profile.expected_salary_min}} />
+																</div>
+																<div class="col-md-6">
+																	<input type="number"
+																		id="coupon_field" class="form-control"  name="expected_salary_max"
+																		placeholder="Max(%)" min="45" max="100" {%if profile.expected_salary_min != 'As Per Company'%}required{%endif%} value={{profile.expected_salary_max}}  />
+																</div>
+															</div>
+														</fieldset>
+													</div>
+												</div>
+											</div>
+
+										</div>
+
+										<div class="row row-sm">
+											<div class="col-md-6 col-lg-6 col-sm-12  col-xs-12 mb-2">
+												<label class="form-control-label">Notice Period</label>
+												<select class="form-control" name="notice_period">
+													{% for notice in notice_period %}
+														<option value="{{notice.id}}" {%if notice.notice_period == profile.notice_period.notice_period %} selected {%endif%}  >{{notice.notice_period}}</option>
+													{% endfor %}
+												</select>
+											</div>
+
+											<div class="col-md-6 col-lg-6 col-sm-12  col-xs-12 mb-2">
+												<label class="form-control-label">Preferred Cities</label>
+												<select class="form-control selectPreferredCities" multiple="multiple" name="preferred_cities">
+													{% for city in preferred_cities %}
+														<option value="{{city.id}}" selected>{{city.city_name}}</option>
+													{% endfor %}
+												</select>
+											</div>
+										</div>
+
+
+
+										<div class="row row-sm">
+											<div class="col-md-12 col-lg-12 col-sm-12 col-xs-12">
+												<div class="control-group form-group">
+													<label class="form-control-label">Technical Knowledge:</label>
+													<textarea id="technical-knowledge" name="technical-knowledge">{{profile.technical_knowledge}}</textarea>
+												</div>
+											</div>
+										</div>
+
+
+										<div class="row row-sm">
+											<div class="col-md-12 col-lg-12 col-sm-12 col-xs-12">
+												<div class="control-group form-group">
+													<label class="form-control-label">About You:</label>
+													<textarea class="form-control" maxlength="500" name="about-me">{{profile.about_me}}</textarea>
+												</div>
+											</div>
+										</div>
+
+
+									</div>
+
+									<div class="butn-form mb-3">
+										<button type="submit" class="btn btn-primary btn-block">Submit
+										</button>
+										<button type="button" class="btn btn-toggle-open  btn-block  btn-danger">Cancel</button>
+									</div>
+								</form>
+		                    </div>
+		                </div>
+		            </div>
+
+		            <div id="tab2" class="col-md-12 col-xl-12 col-lg-12 tab-pane">
+		                <div class="card">
+		                    <div class="card-header pb-0">
+		                        <h4 class="card-title mg-b-10">Experience</h4>
+		                    </div>
+		                    <div class="card-body ">
+		                        <div class="all-subject mb-2">
+		                            <div class="row row-sm">
+		                                <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12" id='all_experiences'>
+		                                    <div class="acc">
+		                                        {% for exp in experience %}
+		                                        <div class="add-exp acc__card" id="candidate_single_experience">
+
+		                                        	<div class="row row-sm">
+		                                                <div class="col-md-12 col-lg-9 col-sm-12 col-xs-12 mb-2">
+		                                                    <input class="form-control" id="job-name" name="job-name"
+		                                                   value="{{exp.job_profile_name}}" placeholder="Your Job Title"
+		                                                   type="text" disabled>
+		                                                </div>
+		                                                <div class="col-md-12 col-lg-3 col-sm-12 col-xs-12 mb-2 edit_delete_candidate_b">
+		                                                   <a href="javascript:void(0)" class="btn ripple btn-toggle-open btn-primary text-white btn-icon edit_delete" data-placement="top" data-toggle="tooltip" title="" data-original-title="Edit Experience"><i class="bx bx-edit"></i> </a>
+														   <a data-toggle="modal" data-target="#Modal_exp_{{exp.id}}" style="background-color: red;border: none;" href="javascript:void(0)" class="btn ripple  btn-primary text-white btn-icon edit_delete" data-placement="top"  title="" data-original-title="Delete Experience"><i class="las la-trash"></i> </a>
+		                                                </div>
+		                                            </div>
+		                                            
+
+
+													  <!-- Modal -->
+													  <div class="modal fade" id="Modal_exp_{{exp.id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+														<div class="modal-dialog" role="document">
+														  <div class="modal-content">
+															<div class="modal-header">
+															  <h5 class="modal-title" id="exampleModalLabel">Delete</h5>
+															  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+																<span aria-hidden="true">&times;</span>
+															  </button>
+															</div>
+															<div class="modal-body">
+															 Are you sure you want to delete this record
+															</div>
+															<div class="modal-footer">
+															  <button type="button" class="btn btn-secondary" data-dismiss="modal" >Cancel</button>
+															  <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="deleteRecord(event,'{{exp.record_id}}','work_experience')">Delete</button>
+															</div>
+														  </div>
+														</div>
+													  </div>
+		                                            <form method="post" role="form"
+		                                                  action="{% url 'candidate:edit_profile' profile_id %}"
+		                                                  enctype="multipart/form-data" id='myExpForm_{{exp.record_id}}' onchange="validateExpForm('{{exp.record_id}}');" onsubmit="return submitExpForm('{{exp.record_id}}');">
+		                                                {% csrf_token %}
+		                                                <input type="hidden" name="record_id" class="record_id" value="{{exp.record_id}}">
+		                                                <input type="hidden" name="model_name" value="experience">
+		                                                <div class="open-custom-form custom-form">
+		                                                    <div class="row row-sm">
+		                                                        <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12 mb-2">
+		                                                            <label class="form-control-label">Job Profile Name <span
+		                                                                    class="tx-danger">*</span></label> <input
+		                                                                class="form-control" id="job-name" name="job-name"
+		                                                                value="{{exp.job_profile_name}}"
+		                                                                placeholder="Job Title" required="" type="text">
+		                                                        </div>
+		                                                    </div>
+		                                                    <div class="row row-sm">
+		                                                        <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12 mb-2">
+		                                                            <label class="form-control-label">Company Name <span
+		                                                                    class="tx-danger">*</span></label> <input
+		                                                                class="form-control" id="company-name"
+		                                                                name="company-name" value="{{exp.company.company_name}}"
+		                                                                placeholder="Company Name" required="" type="text">
+		                                                        </div>
+		                                                    </div>
+		                                                    <div class="row row-sm">
+		                                                        <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12 mb-2">
+		                                                            <label class="form-control-label">Website <span
+		                                                                    class="tx-danger">*</span></label> <input
+		                                                                class="form-control" id="website-name"
+		                                                                name="website-name" value="{{exp.website}}"
+		                                                                placeholder=" Enter Company Website" required=""
+		                                                                type="text">
+		                                                        </div>
+		                                                    </div>
+		                                                    <div class="row row-sm">
+
+		                                                        <div class="col-md-6 col-lg-6 col-sm-12 col-xs-12 mb-2">
+		                                                            <label class="form-control-label">Start Date <span
+		                                                                    class="tx-danger" id='exp_{{exp.record_id}}_error' >*</span></label>
+																	<div class="row">
+																		<div class="col-md-6 col-lg-6 col-sm-12 col-xs-12">
+																			<select class="form-control required" name="exp_start_month" id="exp_start_month" required >
+																				<option label="Month" disabled></option>
+																				 {% for i in months %}
+																					<option value="{{i.id}}" {% if i.name == exp|get_start_month %} selected {%endif%} >{{i.name}}</option>
+																				 {% endfor %}
+																			</select>
+																		</div>
+																		<div class="col-md-6 col-lg-6 col-sm-12 col-xs-12">
+																			<select class="form-control required year" name="exp_start_year" id="exp_start_year" required>
+																				<option label="Year" disabled></option>
+																				<option value="{{ exp|get_start_year }}" selected>{{ exp|get_start_year }}</option>
+																			</select>
+																		</div>
+																	</div>
+		                                                        </div>
+		                                                        <div class="col-md-6 col-lg-6 col-sm-12  col-xs-12 mb-2">
+		                                                            <label class="form-control-label">End Date<span
+		                                                                    class="tx-danger">*  <input class="filled-in"  style="margin: 3px 10px 0px 36px" id="exp_current_checkbox1" {%if exp.end_date == 'present'%} checked {%endif%} type="checkbox" name="exp_current_checkbox1" onclick="hide_end_date_data(this,'{{exp.id}}')"/>
+																			<label class="form-label" style="display: inline;" for="exp_current_checkbox1">If Current</label></span></label>
+
+		                                                            <div class="row" id="exp_end_date_section_{{exp.id}}" {% ifequal exp.end_date 'present' %} style="display:none"{%endifequal%}>
+																		<div class="col-md-6 col-lg-6 col-sm-12 col-xs-12">
+																			<select class="form-control required" name="exp_end_month" id="exp_end_month">
+																				<option label="Month"></option>
+																				 {% for i in months %}
+																					<option value="{{i.id}}" {% if i.name == exp|get_end_month %} selected {%endif%} >{{i.name}}</option>
+																				 {% endfor %}
+																			</select>
+																		</div>
+																		<div class="col-md-6 col-lg-6 col-sm-12 col-xs-12">
+
+																			<select class="form-control required year"  name="exp_end_year" id="exp_end_year">
+																				<option label="Year"></option>
+																				{%if exp|get_end_year%}
+																				<option value="{{ exp|get_end_year }}" {%if exp.end_date != 'present'%}selected{%endif%}>{{ exp|get_end_year }}</option>
+																				{%endif %}
+																			</select>
+																		</div>
+																	</div>
+		                                                        </div>
+
+		                                                    </div>
+		                                                    <div class="row row-sm">
+		                                                        <div class="col-md-6 col-lg-6 col-sm-12 col-xs-12 mb-2">
+		                                                            <label class="form-control-label">Start Salary:</label>
+		                                                            <input class="form-control" id="startSalary"
+		                                                                   name="startSalary" value="{{exp.start_salary}}"
+		                                                                   placeholder="Start Salary" type="number">
+		                                                        </div>
+		                                                        <div class="col-md-6 col-lg-6 col-sm-12  col-xs-12 mb-2" id="exp_end_salary_div_{{exp.id}}" {% ifequal exp.end_date 'present' %} style="display:none"{%endifequal%}>
+		                                                            <label class="form-control-label">End Salary: </label>
+		                                                            <input class="form-control" id="endSalary" name="endSalary"
+		                                                                   value="{{exp.end_salary}}" placeholder="End Salary"
+		                                                                   type="number">
+		                                                        </div>
+		                                                    </div>
+		                                                    <div class="row row-sm">
+		                                                        <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12 mb-3">
+		                                                            <label class="form-control-label">Job Description: <span
+		                                                                    class="tx-danger">*</span></label>
+		                                                            <textarea class="form-control" id="job_description"
+		                                                                      name="job_desc" placeholder="Describe your job responsibilites">
+																		{{exp.job_description_responsibility}}</textarea>
+		                                                        </div>
+		                                                    </div>
+		                                                    <div class="row row-sm">
+		                                                    	<div class="col-md-12 col-lg-12 col-sm-12 col-xs-12 mb-3">
+
+			                                                        <label class="form-control-label">Document<span
+			                                                                    class="tx-danger">*</span></label>
+																		<a onclick="addMoreFiles({{exp.record_id}})"  title="" class="add-more btn_cus_more_file"> <i data-v-e08301e8="" class="las la-plus"></i> Add More</a>
+
+																	<div id="experience-files{{exp.record_id}}">
+			                                                            {% for i in exp|get_exp_documents %}
+																		<div class="row">
+																			<div class="col-sm-5">
+																			   <input class="form-control input-sm" type="text" id="w_document_name1" name='exp_docs_{{i.id}}' placeholder="Name of Document" value='{{i.document_name}}'>
+																		    </div>
+																		    <div class="col-sm-5">
+																			    <div class="input-group file-browser">
+																				    <input type="text"
+																					   class="form-control border-right-0 browse-file"
+																					   placeholder="" value={{i.exp_document|get_file_name}} readonly>
+																				   <label class="input-group-btn">
+																					    <span class=" btn-default">
+																						   Browse <input type="file" id="w_document1" name='exp_docs_{{i.id}}' style="display: none;"
+																							   multiple>
+																					    </span>
+																				   </label>
+																			   </div>
+
+																		   </div>
+																		   <div class="col-sm-2">
+																			<a title="" onclick="deleteExpDoc(this,'{{i.record_id}}','{{exp.id}}')" class="add-more"> <i data-v-e08301e8="" class="las la-trash"></i></a>
+																		</div>
+
+
+																	   </div>
+																		{%endfor%}
+																	</div>
+																</div>
+
+		                                                    </div>
+		                                                    <div class="butn-form mb-3">
+		                                                        <button type="submit" class="btn btn-primary btn-block">Submit
+		                                                        </button>
+		                                                        <button type="button" class="btn btn-toggle-open btn-block btn-danger">Cancel</button>
+		                                                    </div>
+		                                                </div>
+		                                            </form>
+		                                        </div>
+		                                        {% endfor %}
+
+
+		                                    </div>
+		                                </div>
+										<div id="all_experience_gaps" class="col-md-12 col-lg-12 col-sm-12 col-xs-12">
+
+											{%if experience_gaps%}
+											<strong>Gap:</strong> <a onclick="addMoreExperienceGap(event)" class="add-more gap_add_more" style="position: relative;">Add Gap <i data-v-e08301e8="" class="las la-plus"></i></a>
+												{%for exp_gap in experience_gaps%}
+												<div class="add-exp acc__card" id="candidate_single_experience_gap">
+													
+
+													<div class="row row-sm">
+		                                                <div class="col-md-12 col-lg-9 col-sm-12 col-xs-12 mb-2">
+		                                                	 <input class="form-control" id="job-name" name="job-name" value="Gap from {{exp_gap.start_date}} to {{exp_gap.end_date}}" placeholder="Your Job Title" type="text" disabled>
+		                                                </div>
+		                                                <div class="col-md-12 col-lg-3 col-sm-12 col-xs-12 mb-2 edit_delete_candidate_b">
+		                                                  <a href="javascript:void(0)" class="btn ripple btn-toggle-open btn-primary text-white btn-icon edit_delete" data-placement="top" data-toggle="tooltip" title=""	data-original-title="Edit Experience"><i class="bx bx-edit"></i> </a>
+												     	<a data-toggle="modal" data-target="#Modal_exp_gap_{{exp_gap.id}}" style="background-color: red;border: none;" href="javascript:void(0)" class="btn ripple  btn-primary text-white btn-icon edit_delete" data-placement="top"  title="" data-original-title="Delete Experience"><i class="las la-trash"></i> </a>
+		                                                </div>
+		                                            </div>
+													
+													
+
+
+													<!-- Modal -->
+													<div class="modal fade" id="Modal_exp_gap_{{exp_gap.id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+														<div class="modal-dialog" role="document">
+														<div class="modal-content">
+															<div class="modal-header">
+															<h5 class="modal-title" id="exampleModalLabel">Delete</h5>
+															<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+																<span aria-hidden="true">&times;</span>
+															</button>
+															</div>
+															<div class="modal-body">
+															Are you sure you want to delete this record
+															</div>
+															<div class="modal-footer">
+															<button type="button" class="btn btn-secondary" data-dismiss="modal" >Cancel</button>
+															<button type="button" class="btn btn-primary" data-dismiss="modal" onclick="deleteRecord(event,'{{exp_gap.record_id}}','experience_gap')">Delete</button>
+															</div>
+														</div>
+														</div>
+													</div>
+													<form method="post" role="form"
+														action="{% url 'candidate:edit_profile' profile_id %}"
+														enctype="multipart/form-data" id='myExpGapForm_{{exp_gap.record_id}}' onchange="validateExpGapForm('{{exp_gap.record_id}}');" onsubmit="return submitExpGapForm('{{exp_gap.record_id}}');">
+														{% csrf_token %}
+														<input type="hidden" name="record_id" class="record_id" value="{{exp_gap.record_id}}">
+														<input type="hidden" name="model_name" value="experience_gap">
+														<div class="open-custom-form custom-form">
+
+
+
+															<div class="row row-sm">
+
+																<div class="col-md-6 col-lg-6 col-sm-12 col-xs-12 mb-2">
+																	<label class="form-control-label">Start Date <span
+																			class="tx-danger" id='exp_gap_{{exp_gap.record_id}}_error' >*</span></label>
+																	<div class="row">
+																		<div class="col-md-6 col-lg-6 col-sm-12 col-xs-12">
+																			<select class="form-control required" name="exp_gap_start_month" id="exp_gap_start_month" required >
+																				<option label="Month" ></option>
+																				{% for i in months %}
+																					<option value="{{i.id}}" {% if i.name == exp_gap|get_start_month %} selected {%endif%} >{{i.name}}</option>
+																				{% endfor %}
+																			</select>
+																		</div>
+																		<div class="col-md-6 col-lg-6 col-sm-12 col-xs-12">
+																			<select class="form-control required year" name="exp_gap_start_year" id="exp_gap_start_year" required>
+																				<option label="Year" ></option>
+																				<option value="{{ exp_gap|get_start_year }}" selected>{{ exp_gap|get_start_year }}</option>
+																			</select>
+																		</div>
+																	</div>
+																</div>
+																<div class="col-md-6 col-lg-6 col-sm-12  col-xs-12 mb-2">
+																	<label class="form-control-label">End Date</label>
+
+																	<div class="row" id="exp_gap_end_date_section_{{exp_gap.id}}" >
+																		<div class="col-md-6 col-lg-6 col-sm-12 col-xs-12">
+																			<select class="form-control required" name="exp_gap_end_month" id="exp_gap_end_month">
+																				<option label="Month"></option>
+																				{% for i in months %}
+																					<option value="{{i.id}}" {% if i.name == exp_gap|get_end_month %} selected {%endif%} >{{i.name}}</option>
+																				{% endfor %}
+																			</select>
+																		</div>
+																		<div class="col-md-6 col-lg-6 col-sm-12 col-xs-12">
+
+																			<select class="form-control required year"  name="exp_gap_end_year" id="exp_gap_end_year">
+																				<option label="Year"></option>
+																				{%if exp_gap|get_end_year%}
+																				<option value="{{ exp_gap|get_end_year }}" selected>{{ exp_gap|get_end_year }}</option>
+																				{%endif %}
+																			</select>
+																		</div>
+																	</div>
+																</div>
+
+															</div>
+
+															<div class="row row-sm">
+																<div class="col-md-12 col-lg-12 col-sm-12 col-xs-12 mb-2">
+																	<label class="form-control-label">Gap Reason: <span
+																			class="tx-danger">*</span></label>
+																	<input type="text" class="form-control" id="job_description"
+																			name="job_desc" placeholder="Describe the reason for the Gap" value="{{exp_gap.reason}}">
+
+																</div>
+															</div>
+
+															<div class="butn-form mb-3">
+																<button type="submit" class="btn btn-primary btn-block">Submit
+																</button>
+																<button type="button" class="btn btn-toggle-open btn-block btn-danger">Cancel</button>
+															</div>
+														</div>
+													</form>
+												</div>
+												{%endfor%}
+											{%else%}
+											<a onclick="addMoreExperienceGap(event)" class="add-more gap_add_more" style=" position: relative;">Add Gap <i data-v-e08301e8="" class="las la-plus"></i></a>
+											{%endif%}
+										</div>
+		                            </div>
+		                        </div>
+		                        <a onclick="addMoreExperience(event)" class="add-more btn_cus_more"> <i data-v-e08301e8=""
+		                                                                 class="las la-plus"></i>Add More</a>
+		                    </div>
+		                </div>
+		            </div>
+
+		            <div id="tab3" class="col-md-12 col-xl-12 col-lg-12 tab-pane">
+		                <div class="card">
+		                    <div class="card-header pb-0">
+
+		                        <h4 class="card-title mg-b-10">Portfolio</h4>
+		                    </div>
+
+		                    <div class="card-body ">
+		                        <div class="all-subject">
+		                            <div class="row row-sm">
+		                                <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12" id='all_portfolios'>
+		                                    {% for portfolio in portfolios %}
+		                                    <div class="add-exp acc__card" id='candidate_single_portfolio'>
+
+		                                	    <div class="row row-sm">
+		                                            <div class="col-md-12 col-lg-9 col-sm-12 col-xs-12 mb-2">
+		                                                <label class="form-control" id="Portfolio_title">{{portfolio.project_title}}</label>
+		                                            </div>
+		                                            <div class="col-md-12 col-lg-3 col-sm-12 col-xs-12 mb-2 edit_delete_candidate_b">
+		                                    			<a href="javascript:void(0)" id='portfolio' class="btn ripple btn-toggle-open btn-primary text-white btn-icon edit_delete" data-placement="top" data-toggle="tooltip" title="" data-original-title="Edit Profile"><i class="bx bx-edit"></i></a>
+														<a data-toggle="modal" data-target="#Modal_portfolio_{{portfolio.id}}" style="background-color: red;border: none;" href="javascript:void(0)" class="btn ripple  btn-primary text-white btn-icon edit_delete" data-placement="top" data-toggle="tooltip" title="" data-original-title="Delete Portfolio"><i class="las la-trash"></i> </a>          
+		                                            </div>
+		                                        </div>
+
+												<!-- Modal -->
+												<div class="modal fade" id="Modal_portfolio_{{portfolio.id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+													<div class="modal-dialog" role="document">
+													  <div class="modal-content">
+														<div class="modal-header">
+														  <h5 class="modal-title" id="exampleModalLabel">Delete</h5>
+														  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+															<span aria-hidden="true">&times;</span>
+														  </button>
+														</div>
+														<div class="modal-body">
+														 Are you sure you want to delete this record
+														</div>
+														<div class="modal-footer">
+														  <button type="button" class="btn btn-secondary" data-dismiss="modal" >Cancel</button>
+														  <button type="button" class="btn btn-primary"  data-dismiss="modal" onclick="deleteRecord(event,'{{portfolio.record_id}}','portfolio')">Delete</button>
+														</div>
+													  </div>
+													</div>
+												</div>
+		                                        <form method="post" role="form"
+		                                              action="{% url 'candidate:edit_profile' profile_id %}"
+		                                              enctype="multipart/form-data">
+		                                            {% csrf_token %}
+		                                            <input type="hidden" name="record_id" class="record_id" value="{{portfolio.record_id}}">
+		                                            <input type="hidden" name="model_name" value="portfolio">
+		                                            <div class="custom-form open-custom-form" id="portfolio_data">
+		                                                <div class="row row-sm">
+		                                                    <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12 mb-2">
+		                                                        <label class="form-control-label">Project Title <span
+		                                                                class="tx-danger">*</span></label> <input
+		                                                            class="form-control" id="job-name" name="project-title"
+		                                                            value="{{portfolio.project_title}}"
+		                                                            placeholder="UX-UI Developer" required="" type="text">
+		                                                    </div>
+		                                                </div>
+
+														<div class="row row-sm">
+															<div class="col-md-12 col-lg-12 col-sm-12 col-xs-12 mb-2">
+																<label class="form-control-label">Project description <span class="tx-danger">*</span></label>
+																<input class="form-control" id="project_description" value="{{portfolio.description}}" name="project_description" placeholder="Project description"
+																		  required="" type="text">
+															</div>
+														</div>
+
+														<div class="row row-sm">
+															<div class="col-md-6 col-lg-6 col-sm-12  col-xs-12 mb-2">
+																<label class="form-label">Year</label>
+																<div class="row">
+																	<div class="col-md-6 col-lg-6 col-sm-12 col-xs-12">
+																		<select class="form-control required year" name="project_year" id="project_year">
+																			<option label="Year"></option>
+																			<option value="{{ portfolio.year }}" selected>{{ portfolio.year }}</option>
+																		</select>
+																	</div>
+																</div>
+																<!--	<div class="input-group">-->
+																<!--	<input class="form-control year" id="project_year1" name = 'project_year1'-->
+																<!--		placeholder="Year" type="text" value = "{{portfolio.year}}">-->
+																<!--		</div>-->
+															</div>
+
+															<div class="col-md-6 col-lg-6 col-sm-12  col-xs-12 mb-2">
+																<div class="control-group form-group">
+																	<label class="form-label">Project Links</label>
+																	<input type="text" class="form-control required" id="project_website1" name = "project_website1"
+																		placeholder="Project Links" value = "{{portfolio.link}}">
+																</div>
+															</div>
+														</div>
+
+															<div class="row row-sm">
+		                                                        <div class="col-md-12 col-lg-12 col-sm-12 mb-2">
+		                                                            <label class="form-control-label">Document<span
+		                                                                    class="tx-danger">*</span></label>
+		                                                            <div class="input-group file-browser">
+		                                                                <input type="text"
+		                                                                       class="form-control border-right-0 browse-file"
+		                                                                       placeholder="Project document" value="{{portfolio.project_document|get_file_name}}" readonly="">
+		                                                                <label class="input-group-btn">
+																				 <span class="btn btn-default">
+																					 Browse <input type="file"
+		                                                                                           style="display: none;"
+																								   name="portfolio_docs_{{portfolio.id}}"
+		                                                                                           multiple="">
+																				 </span>
+		                                                                </label>
+		                                                            </div>
+		                                                        </div>
+		                                                    </div>
+
+															<div class="row row-sm">
+																<div class="col-md-12 col-lg-12 col-sm-12 col-xs-12 mb-2">
+																	<label class="form-control-label">Learning from project<span class="tx-danger">*</span></label>
+																	<textarea class="form-control" id="learning_from_project" name="learning_from_project" placeholder="Learning from project">
+																		{{portfolio.learning_from_project}}</textarea>
+																</div>
+															</div>
+															 <div class="butn-form mb-3">
+		                                                    <button type="submit" class="btn btn-primary btn-block">Submit
+		                                                    </button>
+		                                                    <button type="button" class="btn btn-toggle-open  btn-block  btn-danger">Cancel</button>
+		                                                </div>
+
+														</div>
+
+												</form>
+		                                    </div>
+		                                    {% endfor %}
+										</div>
+		                                </div>
+
+		                            </div>
+		                        <!-- </div> -->
+		                        <a onclick="addMorePortfolio(event)" class="add-more btn_cus_more"> <i data-v-e08301e8="" class="las la-plus"></i>Add More</a>
+							</div>
+
+		                </div>
+		            </div>
+
+					<div id="tab4" class="col-md-12 col-xl-12 col-lg-12 tab-pane">
+							<div class="card">
+								<div class="card-header pb-0">
+
+									<h4 class="card-title mg-b-10">Education</h4>
+								</div>
+
+								<div class="card-body ">
+									<div class="all-subject">
+										<div class="row row-sm">
+											<div class="col-md-12 col-lg-12 col-sm-12 col-xs-12" id='all_educations'>
+												{% for edu in education %}
+												<div class="add-exp acc__card" id="candidate_single_education">
+
+
+														<div class="row row-sm">
+			                                                <div class="col-md-12 col-lg-9 col-sm-12 col-xs-12 mb-2">
+			                                                  	<label class="form-control" id="edu-name"
+															   name="job-name">{{edu.degree.name}}</label>
+			                                                </div>
+			                                                <div class="col-md-12 col-lg-3 col-sm-12 col-xs-12 mb-2 edit_delete_candidate_b">
+			                                                   <a href="javascript:void(0)" id="edu1" class="btn ripple btn-toggle-open btn-primary text-white btn-icon edit_delete" data-placement="top" data-toggle="tooltip" title="" data-original-title="Edit Profile"><i class="bx bx-edit"></i></a>
+			                                                   <a data-toggle="modal" data-target="#Modal_edu_{{edu.id}}" style="background-color: red;border: none;" href="javascript:void(0)" class="btn ripple  btn-primary text-white btn-icon edit_delete" data-placement="top" data-toggle="tooltip" title="" data-original-title="Delete Education"><i class="las la-trash"></i> </a>
+			                                                </div>
+			                                            </div>	
+
+
+														<!-- Modal -->
+														<div class="modal fade" id="Modal_edu_{{edu.id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+														<div class="modal-dialog" role="document">
+															<div class="modal-content">
+															<div class="modal-header">
+																<h5 class="modal-title" id="exampleModalLabel">Delete</h5>
+																<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+																<span aria-hidden="true">&times;</span>
+																</button>
+															</div>
+															<div class="modal-body">
+															Are you sure you want to delete this record
+															</div>
+															<div class="modal-footer">
+																<button type="button" class="btn btn-secondary" data-dismiss="modal" >Cancel</button>
+																<button type="button" class="btn btn-primary" data-dismiss="modal" onclick="deleteRecord(event,'{{edu.record_id}}','education')">Delete</button>
+															</div>
+															</div>
+														</div>
+														</div>
+													<form method="post" role="form"
+														  action="{% url 'candidate:edit_profile' profile_id %}"
+														  enctype="multipart/form-data" id="myEduForm_{{edu.record_id}}" onchange="validateEduForm('{{edu.record_id}}');" onsubmit = "return submitEduForm('{{edu.record_id}}')">
+														{% csrf_token %}
+														<input type="hidden" name="record_id" class="record_id" value="{{edu.record_id}}">
+														<input type="hidden" name="model_name" value="education">
+														<div class="custom-form open-custom-form" id="edu_data_1">
+															<div class="row row-sm">
+																<div class="col-md-12 col-lg-12 col-sm-12 col-xs-12">
+																	<label class="form-control-label">Degree <span
+																			class="tx-danger">*</span></label> <input
+																		class="form-control" id="degree-name" name="degree-name"
+																		value="{{edu.degree.name}}" placeholder="Degree Name" required=""
+																		type="text">
+																</div>
+
+															</div>
+															<div class="row row-sm">
+																<div class="col-md-6 col-lg-6 col-sm-12  col-xs-12 mb-2">
+																	<label class="form-control-label">Start Date <span
+																			class="tx-danger" id="edu_{{edu.record_id}}_error">*</span></label>
+																	<div class="row">
+																		<div class="col-md-6 col-lg-6 col-sm-12 col-xs-12">
+																			<select class="form-control required" name="edu_start_month" id="edu_start_month">
+																				<option label="Month"></option>
+																				 {% for i in months %}
+																					<option value="{{i.id}}" {% if i.name == edu|get_start_month %} selected {%endif%} >{{i.name}}</option>
+																				 {% endfor %}
+																			</select>
+																		</div>
+																		<div class="col-md-6 col-lg-6 col-sm-12 col-xs-12">
+																			<select class="form-control required year" name="edu_start_year" id="edu_start_year">
+																				<option label="Year"></option>
+																				<option value="{{ edu|get_start_year }}" selected>{{ edu|get_start_year }}</option>
+																			</select>
+																		</div>
+																	</div>
+										<!--		<div class="datepicker">-->
+										<!--		<input class="form-control" type="text" name="start-date"-->
+										<!--	   value="{{edu.start_date}}" id="datepicker"-->
+										<!--	   placeholder="dd/mm/yyyy">-->
+										<!--		<span class="cale-icon"><i data-v-e08301e8=""-->
+										<!--		   class="fas fa-calendar-alt"></i></span>-->
+										<!--		</div>-->
+
+																</div>
+																<div class="col-md-6 col-lg-6 col-sm-12  col-xs-12 mb-2">
+																	<label class="form-control-label">End Date <span
+																			class="tx-danger">*</span></label>
+
+																	<div class="row">
+																		<div class="col-md-6 col-lg-6 col-sm-12 col-xs-12">
+																			<select class="form-control required" name="edu_end_month" id="edu_end_month">
+																				<option label="Month"></option>
+																				 {% for i in months %}
+																					<option value="{{i.id}}" {% if i.name == edu|get_end_month %} selected {%endif%} >{{i.name}}</option>
+																				 {% endfor %}
+																			</select>
+																		</div>
+																		<div class="col-md-6 col-lg-6 col-sm-12 col-xs-12">
+																			<select class="form-control required year"  name="edu_end_year" id="edu_end_year">
+																				<option label="Year"></option>
+																				<option value="{{ edu|get_end_year }}" selected>{{ edu|get_end_year }}</option>
+																			</select>
+																		</div>
+																	</div>
+									<!--		<div class="datepicker">-->
+									<!--		<input class="form-control" type="text" name="end-date"-->
+									<!--	   value="{{edu.end_date}}" id="datepicker1"-->
+									<!--	   placeholder="dd/mm/yyyy">-->
+									<!--		<span class="cale-icon"><i data-v-e08301e8=""-->
+									<!--	   class="fas fa-calendar-alt"></i></span>-->
+									<!--		</div>-->
+									<!--		-->
+																</div>
+
+															</div>
+															<div class="row row-sm">
+																<div class="col-md-6 col-lg-6 col-sm-12  col-xs-12 mb-2">
+
+																	<div class="datepicker">
+																		<label class="form-label">Grade/Percentage</label>
+																		<input type="text" class="form-control required" id="c_grade{{edu.record_id}}" name ="edu_grade" value ='{{edu.grade}}'
+																		   placeholder="Percentage">
+																	</div>
+
+																</div>
+
+																<div class="col-md-6 col-lg-6 col-sm-12  col-xs-12 mb-2">
+																	<label class="form-control-label">Univercity/Board: <span
+																			class="tx-danger">*</span></label>
+																	<input class="form-control" id="univercity_board"
+																		   name="university_board" value="{{edu.university_board.name}}"
+																		   placeholder="Univercity/Board" required="" type="text">
+																</div>
+															</div>
+
+
+
+															<div class="row row-sm">
+																<div class="col-md-12 col-lg-12 col-sm-12 col-xs-12 mb-2">
+																	<label class="form-control-label">Document<span
+																			class="tx-danger">*</span></label>
+																	<div class="input-group file-browser">
+																		<input type="text"
+																			   class="form-control border-right-0 browse-file"
+																			   placeholder="Education Document" value="{{edu.certificate|get_file_name}}" readonly="">
+																		<label class="input-group-btn">
+																							 <span class="btn btn-default">
+																								 Browse <input type="file"
+																											   style="display: none;"
+																											   name = "edu_docs_{{edu.id}}"
+																											   multiple="">
+																							 </span>
+																		</label>
+																	</div>
+																</div>
+															</div>
+															<div class="row row-sm">
+																<div class="col-md-12 col-lg-12 col-sm-12 col-xs-12 mb-2">
+																	<label class="form-control-label">Summary: <span
+																			class="tx-danger">*</span></label>
+																	<textarea class="form-control" id="summary" name="summary"
+																			  placeholder="Summary">{{edu.summary}}</textarea>
+																</div>
+															</div>
+															<div class="butn-form mb-3">
+																<button type="submit" class="btn btn-primary btn-block">Submit</button>
+																<button type="button" class="btn btn-toggle-open  btn-block  btn-danger">Cancel</button>
+															</div>
+														</div>
+													</form>
+												</div>
+												{% endfor %}
+
+
+											</div>
+											<div id="all_education_gaps" class="col-md-12 col-lg-12 col-sm-12 col-xs-12">
+												{%if education_gaps%}
+													<strong>Gap:</strong><a onclick="addMoreEducationGap(event)" class="add-more gap_add_more" style="position: relative;">Add Gap <i data-v-e08301e8="" class="las la-plus"></i></a>
+													{%for edu_gap in education_gaps%}
+													<div class="add-exp acc__card" id="candidate_single_education_gap">
+
+
+														<div class="row row-sm">
+			                                                <div class="col-md-12 col-lg-9 col-sm-12 col-xs-12 mb-2">
+			                                                  	<input class="form-control" id="job-name" name="job-name"
+															value="Gap from {{edu_gap.start_date}} to {{edu_gap.end_date}}" placeholder="Gap Duration"
+															type="text" disabled>
+			                                                </div>
+			                                                <div class="col-md-12 col-lg-3 col-sm-12 col-xs-12 mb-2 edit_delete_candidate_b">
+			                                                 		<a href="javascript:void(0)"
+														class="btn ripple btn-toggle-open btn-primary text-white btn-icon edit_delete"
+														data-placement="top" data-toggle="tooltip" title=""
+														data-original-title="Edit Experience"><i class="bx bx-edit"></i> </a>
+														<a data-toggle="modal" data-target="#Modal_edu_gap_{{edu_gap.id}}" style="background-color: red;border: none;" href="javascript:void(0)"
+														class="btn ripple  btn-primary text-white btn-icon edit_delete"
+														data-placement="top"  title=""
+														data-original-title="Delete Experience"><i class="las la-trash"></i> </a>
+			                                                </div>
+			                                            </div>	
+
+
+														<!-- Modal -->
+														<div class="modal fade" id="Modal_edu_gap_{{edu_gap.id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+															<div class="modal-dialog" role="document">
+															<div class="modal-content">
+																<div class="modal-header">
+																<h5 class="modal-title" id="exampleModalLabel">Delete</h5>
+																<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+																	<span aria-hidden="true">&times;</span>
+																</button>
+																</div>
+																<div class="modal-body">
+																Are you sure you want to delete this record
+																</div>
+																<div class="modal-footer">
+																<button type="button" class="btn btn-secondary" data-dismiss="modal" >Cancel</button>
+																<button type="button" class="btn btn-primary" data-dismiss="modal" onclick="deleteRecord(event,'{{edu_gap.record_id}}','education_gap')">Delete</button>
+																</div>
+															</div>
+															</div>
+														</div>
+														<form method="post" role="form"
+															action="{% url 'candidate:edit_profile' profile_id %}"
+															enctype="multipart/form-data" id='myEduGapForm_{{edu_gap.record_id}}' onchange="validateEduGapForm('{{edu_gap.record_id}}');" onsubmit="return submitEduGapForm('{{edu_gap.record_id}}');">
+															{% csrf_token %}
+															<input type="hidden" name="record_id" class="record_id" value="{{edu_gap.record_id}}">
+															<input type="hidden" name="model_name" value="education_gap">
+															<div class="open-custom-form custom-form">
+
+
+
+																<div class="row row-sm">
+
+																	<div class="col-md-6 col-lg-6 col-sm-12 col-xs-12 mb-2">
+																		<label class="form-control-label">Start Date <span
+																				class="tx-danger" id='edu_gap_{{edu_gap.record_id}}_error' >*</span></label>
+																		<div class="row">
+																			<div class="col-md-6 col-lg-6 col-sm-12 col-xs-12">
+																				<select class="form-control required" name="edu_gap_start_month" id="edu_gap_start_month" required >
+																					<option label="Month" ></option>
+																					{% for i in months %}
+																						<option value="{{i.id}}" {% if i.name == edu_gap|get_start_month %} selected {%endif%} >{{i.name}}</option>
+																					{% endfor %}
+																				</select>
+																			</div>
+																			<div class="col-md-6 col-lg-6 col-sm-12 col-xs-12">
+																				<select class="form-control required year" name="edu_gap_start_year" id="edu_gap_start_year" required>
+																					<option label="Year" ></option>
+																					<option value="{{ edu_gap|get_start_year }}" selected>{{ edu_gap|get_start_year }}</option>
+																				</select>
+																			</div>
+																		</div>
+																	</div>
+																	<div class="col-md-6 col-lg-6 col-sm-12  col-xs-12 mb-2">
+																		<label class="form-control-label">End Date</label>
+
+																		<div class="row" id="edu_gap_end_date_section_{{edu_gap.id}}" >
+																			<div class="col-md-6 col-lg-6 col-sm-12 col-xs-12">
+																				<select class="form-control required" name="edu_gap_end_month" id="edu_gap_end_month">
+																					<option label="Month"></option>
+																					{% for i in months %}
+																						<option value="{{i.id}}" {% if i.name == edu_gap|get_end_month %} selected {%endif%} >{{i.name}}</option>
+																					{% endfor %}
+																				</select>
+																			</div>
+																			<div class="col-md-6 col-lg-6 col-sm-12 col-xs-12">
+
+																				<select class="form-control required year"  name="edu_gap_end_year" id="edu_gap_end_year">
+																					<option label="Year"></option>
+																					{%if edu_gap|get_end_year%}
+																					<option value="{{ edu_gap|get_end_year }}" selected >{{ edu_gap|get_end_year }}</option>
+																					{%endif %}
+																				</select>
+																			</div>
+																		</div>
+																	</div>
+
+																</div>
+
+																<div class="row row-sm">
+																	<div class="col-md-12 col-lg-12 col-sm-12 col-xs-12 mb-2">
+																		<label class="form-control-label">Gap Reason: <span
+																				class="tx-danger">*</span></label>
+																		<input type="text" class="form-control" id="gap_reason"
+																				name="edu_gap_reason" required placeholder="Describe the reason for the Gap" value="{{edu_gap.reason}}">
+
+																	</div>
+																</div>
+
+																<div class="butn-form mb-3">
+																	<button type="submit" class="btn btn-primary btn-block">Submit
+																	</button>
+																	<button type="button" class="btn btn-toggle-open btn-block btn-danger">Cancel</button>
+																</div>
+															</div>
+														</form>
+													</div>
+													{%endfor%}
+												{%else%}
+												<a onclick="addMoreEducationGap(event)" class="add-more gap_add_more" style="position: relative;">Add Gap <i data-v-e08301e8="" class="las la-plus"></i></a>
+
+												{%endif%}
+											</div>
+										</div>
+									</div>
+									<a onclick="addMoreEducation(event)" class="add-more btn_cus_more"> <i data-v-e08301e8="" class="las la-plus"></i>Add More</a>
+								</div>
+							</div>
+					</div>
+
+					<div id="tab5" class="col-md-12 col-xl-12 col-lg-12 tab-pane">
+						<div class="card">
+							<div class="card-header pb-0">
+								<h4 class="card-title mg-b-10">Certificate</h4>
+							</div>
+							<div class="card-body">
+								<div class="all-subject">
+									<div class="row row-sm">
+										<div class="col-md-12 col-lg-12 col-sm-12 col-xs-12" id="candidateCertificate">
+											{% for certi in certificates %}
+											<div class="add-exp acc__card" id="candidate_single_certificate">
+
+
+												    <div class="row row-sm">
+		                                                <div class="col-md-12 col-lg-9 col-sm-12 col-xs-12 mb-2">
+		                                                    <label class="form-control" id="certificate_title">{{ certi.name_of_certificate}}</label>
+		                                                </div>
+		                                                <div class="col-md-12 col-lg-3 col-sm-12 col-xs-12 mb-2 edit_delete_candidate_b">
+		                                        			<a href="javascript:void(0)" id='certificate' class="btn ripple btn-toggle-open btn-primary text-white btn-icon edit_delete" data-placement="top" data-toggle="tooltip" title="" data-original-title="Edit Profile"><i class="bx bx-edit"></i></a>
+															<a data-toggle="modal" data-target="#Modal_certificate_{{certi.id}}" style="background-color: red;border: none;" href="javascript:void(0)" class="btn ripple  btn-primary text-white btn-icon edit_delete" data-placement="top"  title="" data-original-title="Delete Certificate"><i class="las la-trash"></i> </a>           
+		                                                </div>
+		                                            </div>									
+
+
+													<!-- Modal -->
+													<div class="modal fade" id="Modal_certificate_{{certi.id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+													<div class="modal-dialog" role="document">
+														<div class="modal-content">
+														<div class="modal-header">
+															<h5 class="modal-title" id="exampleModalLabel">Delete</h5>
+															<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+															<span aria-hidden="true">&times;</span>
+															</button>
+														</div>
+														<div class="modal-body">
+														Are you sure you want to delete this record
+														</div>
+														<div class="modal-footer">
+															<button type="button" class="btn btn-secondary" data-dismiss="modal" >Cancel</button>
+															<button type="button" class="btn btn-primary" data-dismiss="modal" onclick="deleteRecord(event,'{{certi.record_id}}','certificate')">Delete</button>
+														</div>
+														</div>
+													</div>
+													</div>
+												<form method="post" role="form"
+													  action="{% url 'candidate:edit_profile' profile_id %}"
+													  enctype="multipart/form-data">
+													{% csrf_token %}
+													<input type="hidden" name="record_id" class="record_id" value="{{certi.record_id}}">
+													<input type="hidden" name="model_name" value="certificate">
+													<div class="custom-form open-custom-form" id="certificate_data">
+														<div class="row row-sm">
+															<div class="col-md-6 col-lg-6 col-sm-6 col-xs-6 mb-2">
+																<label class="form-control-label">Certificate Name <span
+																		class="tx-danger">*</span></label> <input
+																	class="form-control" id="certificate-name"
+																	name="certificate-name" value="{{ certi.name_of_certificate}}"
+																	placeholder="UX-UI Developer" required="" type="text">
+															</div>
+		                                                    <div class="col-md-6 col-lg-6 col-sm-6 col-xs-6 mb-2">
+																<label class="form-control-label">Certificate Organization <span
+																		class="tx-danger">*</span></label> <input
+																	class="form-control" id="certificate-organization"
+																	name="certificate-organization" value="{{ certi.institute_organisation}}"
+																	placeholder="" required="" type="text">
+															</div>
+		                                                </div>
+		                                                <div class="row row-sm">
+		                                                    <div class="col-md-6 col-lg-6 col-sm-6 col-xs-6 mb-2">
+																<label class="form-control-label">Year <span class="tx-danger">*</span></label>
+																<div class="row">
+																	<div class="col-md-6 col-lg-6 col-sm-12 col-xs-12">
+																		<select class="form-control required year"  name="certificate-year" id="certificate-year">
+																			<option label="Year"></option>
+																			<option value="{{ certi.year}}" selected>{{ certi.year}}</option>
+																		</select>
+																	</div>
+																</div>
+									<!--      <input class="form-control" id="certificate-year" name="certificate-year" value="{{ certi.year}}"-->
+									<!--		placeholder="" required="" type="text">-->
+															</div>
+		                                                     <div class="col-md-6 col-lg-6 col-sm-6 col-xs-6 mb-2">
+																<label class="form-control-label">Upload Certificate :<span
+		                                                            class="tx-danger">*</span></label>
+		                                                        <div class="input-group file-browser">
+		                                                            <input type="text"
+		                                                                   class="form-control border-right-0 browse-file"
+		                                                                   placeholder="Upload" value="{{certi.attached_certificate|get_file_name}}" readonly="">
+		                                                            <label class="input-group-btn">
+		                                                                 <span class="btn btn-default">
+		                                                                     Browse <input type="file" name="certificate-file" style="display: none;"  multiple="">
+		                                                                 </span>
+		                                                            </label>
+		                                                        </div>
+															</div>
+		                                                </div>
+		                                                <div class="row row-sm">
+		                                                    <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12 mb-2">
+																<label class="form-control-label">Summary <span class="tx-danger">*</span></label>
+		                                                        <textarea class="form-control" id="certificate-summary" name="certificate-summary">
+																	{{ certi.summary}}</textarea>
+															</div>
+		                                                </div>
+														<div class="butn-form mb-3">
+															<button type="submit" class="btn btn-primary btn-block">Submit</button>
+															<button type="button" class="btn btn-toggle-open  btn-block  btn-danger">Cancel</button>
+														</div>
+													</div>
+												</form>
+											</div>
+											{% endfor %}
+										</div>
+									</div>
+								</div>
+
+		                        <a onclick="addMoreCertificate(event)" class="add-more btn_cus_more"> <i data-v-e08301e8="" class="las la-plus"></i>Add More</a>
+							</div>
+						</div>
+					</div>
+
+					<div id="tab6" class="col-md-12 col-xl-12 col-lg-12 tab-pane">
+						<div class="card">
+							<div class="card-header pb-0">
+								<h4 class="card-title mg-b-10">Award</h4>
+							</div>
+							<div class="card-body ">
+
+								<div class="all-subject">
+									<div class="row row-sm">
+										<div class="col-md-12 col-lg-12 col-sm-12 col-xs-12" id="all_awards">
+											{% for award in awards %}
+											<div class="add-exp acc__card" id="single_award">
+
+
+
+												    <div class="row row-sm">
+		                                                <div class="col-md-12 col-lg-9 col-sm-12 col-xs-12 mb-2">
+		                                                   <label class="form-control" id="award_title">{{award.title}}</label>
+		                                                </div>
+		                                                <div class="col-md-12 col-lg-3 col-sm-12 col-xs-12 mb-2 edit_delete_candidate_b">
+		                                                  	<a href="javascript:void(0)" id='award' class="btn ripple btn-toggle-open btn-primary text-white btn-icon edit_delete" data-placement="top" data-toggle="tooltip" title="" data-original-title="Edit Profile"><i class="bx bx-edit"></i></a>
+															<a data-toggle="modal" data-target="#Modal_award_{{award.id}}" style="background-color: red;border: none;" href="javascript:void(0)" class="btn ripple  btn-primary text-white btn-icon edit_delete" data-placement="top" data-toggle="tooltip" title="" data-original-title="Delete Awards"><i class="las la-trash"></i> </a>
+		                                                </div>
+		                                            </div>
+
+													<!-- Modal -->
+													<div class="modal fade" id="Modal_award_{{award.id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+													<div class="modal-dialog" role="document">
+														<div class="modal-content">
+														<div class="modal-header">
+															<h5 class="modal-title" id="exampleModalLabel">Delete</h5>
+															<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+															<span aria-hidden="true">&times;</span>
+															</button>
+														</div>
+														<div class="modal-body">
+														Are you sure you want to delete this record
+														</div>
+														<div class="modal-footer">
+															<button type="button" class="btn btn-secondary" data-dismiss="modal" >Cancel</button>
+															<button type="button" class="btn btn-primary" data-dismiss="modal" onclick="deleteRecord(event,'{{award.record_id}}','award')">Delete</button>
+														</div>
+														</div>
+													</div>
+													</div>
+												<form method="post" role="form"
+													  action="{% url 'candidate:edit_profile' profile_id %}"
+													  enctype="multipart/form-data">
+													{% csrf_token %}
+													<input type="hidden" name="record_id" class="record_id" value="{{award.record_id}}">
+													<input type="hidden" name="model_name" value="award">
+													<div class="custom-form open-custom-form" id="award_data">
+														<div class="row row-sm">
+															<div class="col-md-6 col-lg-6 col-sm-6 col-xs-6 mb-2">
+																<label class="form-control-label">Award Title <span
+																		class="tx-danger">*</span></label> <input
+																	class="form-control" value="{{award.title}}" id="award-name"
+																	name="award-name" placeholder="UX-UI Developer" required=""
+																	type="text">
+															</div>
+		                                                    <div class="col-md-6 col-lg-6 col-sm-6 col-xs-6 mb-2">
+																<label class="form-control-label">Award Year <span
+																		class="tx-danger">*</span></label>
+																<div class="row">
+																	<div class="col-md-6 col-lg-6 col-sm-12 col-xs-12">
+																		<select class="form-control required year"  name="award-year" id="award-year">
+																			<option label="Year"></option>
+																			<option value="{{award.year}}" selected>{{award.year}}</option>
+																		</select>
+																	</div>
+																</div>
+								<!--      <input class="form-control year" value="{{award.year}}" id="award-year"-->
+								<!--				name="award-year" placeholder="" required=""-->
+								<!--		type="text">-->
+															</div>
+		                                                </div>
+		                                                <div class="row row-sm">
+		                                                    <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12 mb-2">
+																<label class="form-control-label">Awarder<span
+																		class="tx-danger">*</span></label>
+		                                                        <input class="form-control" value="{{award.awarder}}" id="award-awarder"
+																	name="award-awarder" placeholder="" required=""
+																	type="text">
+															</div>
+														</div>
+														<div class="butn-form mb-3">
+															<button type="submit" class="btn btn-primary btn-block">Submit</button>
+															<button type="button" class="btn btn-toggle-open  btn-block  btn-danger">Cancel</button>
+														</div>
+													</div>
+												</form>
+											</div>
+											{% endfor %}
+										</div>
+
+									</div>
+								</div>
+
+
+								<a onclick="addMoreAwards(event)" class="add-more btn_cus_more"> <i data-v-e08301e8="" class="las la-plus"></i>Add More</a>
+							</div>
+
+						</div>
+					</div>
+
+					<div id="tab7" class="col-md-12 col-xl-12 col-lg-12 tab-pane">
+						<div class="card">
+							<div class="card-header pb-0">
+
+								<h4 class="card-title mg-b-10">Language</h4>
+							</div>
+							<div class="card-body ">
+								<div class="all-subject">
+									<div class="row row-sm">
+										<div class="col-md-12 col-lg-12 col-sm-12 col-xs-12" id="languages">
+											{% for lang in c_language %}
+											<div class="add-exp acc__card" id="single_language">
+
+											    	<div class="row row-sm">
+		                                                <div class="col-md-12 col-lg-9 col-sm-12 col-xs-12 mb-2">
+		                                                    <label class="form-control" id="language_name">{{lang.language_id.language_name}}</label>
+		                                                </div>
+		                                                <div class="col-md-12 col-lg-3 col-sm-12 col-xs-12 mb-2 edit_delete_candidate_b">
+		                            						<a href="javascript:void(0)" id='language' class="btn ripple btn-toggle-open btn-primary text-white btn-icon edit_delete" data-placement="top" data-toggle="tooltip" title="" data-original-title="Edit Profile"><i class="bx bx-edit"></i></a>
+															<a data-toggle="modal" data-target="#Modal_lang_{{lang.id}}" style="background-color: red;border: none;" href="javascript:void(0)" class="btn ripple  btn-primary text-white btn-icon edit_delete" data-placement="top" data-toggle="tooltip" title="" data-original-title="Delete Language"><i class="las la-trash"></i> </a>                       	
+		                                                </div>
+		                                            </div>
+
+													<!-- Modal -->
+													<div class="modal fade" id="Modal_lang_{{lang.id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+													<div class="modal-dialog" role="document">
+														<div class="modal-content">
+														<div class="modal-header">
+															<h5 class="modal-title" id="exampleModalLabel">Delete</h5>
+															<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+															<span aria-hidden="true">&times;</span>
+															</button>
+														</div>
+														<div class="modal-body">
+														Are you sure you want to delete this record
+														</div>
+														<div class="modal-footer">
+															<button type="button" class="btn btn-secondary" data-dismiss="modal" >Cancel</button>
+															<button type="button" class="btn btn-primary" data-dismiss="modal" onclick="deleteRecord(event,'{{lang.record_id}}','language')">Delete</button>
+														</div>
+														</div>
+													</div>
+													</div>
+												<form method="post" role="form" action="{% url 'candidate:edit_profile' profile_id %}" enctype="multipart/form-data">
+													{% csrf_token %}
+													<input type="hidden" name="record_id" class="record_id" value="{{lang.record_id}}">
+													<input type="hidden" name="model_name" value="language">
+													<div class="custom-form open-custom-form" id="language_data">
+														<div class="row row-sm">
+															<div class="col-md-6 col-lg-6 col-sm-12 col-xs-12 mb-2">
+																<label class="form-control-label">Language: <span class="tx-danger">*</span></label>
+																<select name="language" class="form-control SlectBox">
+																	{% for i in Languages %}
+																	<option value="{{i.id}}">{{i.language_name}}</option>
+																	{% endfor %}
+																</select>
+															</div>
+															<div class="col-md-6 col-lg-6 col-sm-12  col-xs-12 mb-2">
+																<label class="form-control-label">Fluency: <span
+																		class="tx-danger">*</span></label>
+																<select name="fluency" class="form-control SlectBox">
+																	{% for j in fluency %}
+																	    <option value="{{j.id}}">{{j.fluency}}</option>
+																	{% endfor %}
+																</select>
+															</div>
+														</div>
+														<div class="butn-form mb-3">
+															<button type="submit" class="btn btn-primary btn-block">Submit</button>
+															<button type="button" class="btn btn-toggle-open  btn-block  btn-danger">Cancel</button>
+														</div>
+													</div>
+												</form>
+											</div>
+											{% endfor %}
+										</div>
+									</div>
+								</div>
+								<a onclick="addMoreLanguage(event)" class="add-more btn_cus_more"> <i data-v-e08301e8="" class="las la-plus"></i>Add More</a>
+							</div>
+						</div>
+					</div>
+
+					<div id="tab8" class="col-md-12 col-xl-12 col-lg-12 tab-pane">
+						<div class="card">
+							<div class="card-header pb-0">
+
+								<h4 class="card-title mg-b-10">Skill</h4>
+							</div>
+							<div class="card-body ">
+
+								<div class="all-subject">
+									<div class="row row-sm">
+										<div class="col-md-12 col-lg-12 col-sm-12 col-xs-12" id="all_skill">
+											{% for skill in skills %}
+											<div class="add-exp acc__card" id="single_skill">
+
+											    	<div class="row row-sm">
+		                                                <div class="col-md-12 col-lg-9 col-sm-12 col-xs-12 mb-2">
+		                                                    <label class="form-control" id="skill_name">{{skill.skill.name}}</label>
+		                                                </div>
+		                                                <div class="col-md-12 col-lg-3 col-sm-12 col-xs-12 mb-2 edit_delete_candidate_b">
+		                                               		<a href="javascript:void(0)" id='skill' class="btn ripple btn-toggle-open btn-primary text-white btn-icon edit_delete" data-placement="top" data-toggle="tooltip" title="" data-original-title="Edit Profile"><i class="bx bx-edit"></i></a>
+															<a data-toggle="modal" data-target="#Modal_skill_{{skill.id}}" style="background-color: red;border: none;" href="javascript:void(0)" class="btn ripple  btn-primary text-white btn-icon edit_delete" data-placement="top" data-toggle="tooltip" title="" data-original-title="Delete Skill"><i class="las la-trash"></i> </a>
+		                                                </div>
+		                                            </div>
+
+													<!-- Modal -->
+													<div class="modal fade" id="Modal_skill_{{skill.id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+													<div class="modal-dialog" role="document">
+														<div class="modal-content">
+														<div class="modal-header">
+															<h5 class="modal-title" id="exampleModalLabel">Delete</h5>
+															<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+															<span aria-hidden="true">&times;</span>
+															</button>
+														</div>
+														<div class="modal-body">
+														Are you sure you want to delete this record
+														</div>
+														<div class="modal-footer">
+															<button type="button" class="btn btn-secondary" data-dismiss="modal" >Cancel</button>
+															<button type="button" class="btn btn-primary" data-dismiss="modal" onclick="deleteRecord(event,'{{skill.record_id}}','skill')">Delete</button>
+														</div>
+														</div>
+													</div>
+													</div>
+												<form method="post" role="form" action="{% url 'candidate:edit_profile' profile_id %}" enctype="multipart/form-data">
+													{% csrf_token %}
+													<input type="hidden" name="record_id" class="record_id" value="{{skill.record_id}}">
+													<input type="hidden" name="model_name" value="skill">
+													<div class="custom-form open-custom-form" id="skill_data">
+														<div class="row row-sm">
+															<div class="col-md-12 col-lg-12 col-sm-12 col-xs-12 mb-2">
+																<label class="form-control-label">Skill Name <span
+																		class="tx-danger">*</span></label>
+		                                                        <input class="form-control" id="skill-name" name="skill-name"
+																	value="{{skill.skill.name}}" placeholder="Skill Name"
+																	required="" type="text">
+															</div>
+														</div>
+		                                                <div class="row row-sm">
+															<div class="col-md-6 col-lg-6 col-sm-6 col-xs-6 mb-2">
+																<label class="form-control-label">Total experience <span
+																		class="tx-danger">*</span></label>
+		                                                        <select name="skill_total_experience" class="form-control SlectBox">
+		                                                            {% for i in exp_years %}
+		                                                                <option value="{{i}}" {% ifequal skill.total_exp i %} selected {% endifequal %}>{{i}}</option>
+		                                                            {% endfor %}
+		                                                        </select>
+															</div>
+		                                                    <div class="col-md-6 col-lg-6 col-sm-6 col-xs-6 mb-2">
+		                                                        <label class="form-control-label">Last Used(Year) <span class="tx-danger">*</span></label>
+																<div class="row">
+																	<div class="col-md-6 col-lg-6 col-sm-12 col-xs-12">
+																		<select class="form-control required skill_year"  name="skill-last-used" id="skill-last-used">
+																			<option label="Year"></option>
+																			<option value="{{skill.last_used}}" selected>{{skill.last_used}}</option>
+																		</select>
+																	</div>
+																</div>
+									<!--       <input class="form-control" id="skill-last-used" name="skill-last-used"-->
+									<!--		value="{{skill.last_used}}" placeholder="Last Used"-->
+									<!--		required="" type="text">-->
+		                                                    </div>
+														</div>
+														<div class="butn-form mb-3">
+															<button type="submit" class="btn btn-primary btn-block">Submit</button>
+															<button type="button" class="btn btn-toggle-open  btn-block  btn-danger">Cancel</button>
+														</div>
+													</div>
+												</form>
+											</div>
+											{% endfor %}
+										</div>
+									</div>
+								</div>
+
+								<a onclick="addMoreSkill(event)" class="add-more btn_cus_more"> <i data-v-e08301e8="" class="las la-plus"></i>Add More</a>
+							</div>
+						</div>
+					</div>
+
+					<div id="tab9" class="col-md-12 col-xl-12 col-lg-12 tab-pane">
+						<div class="card">
+							<div class="card-header pb-0">
+								<h4 class="card-title mg-b-10">Social Network</h4>
+							</div>
+							<div class="card-body ">
+
+								<div class="all-subject">
+									<div class="row row-sm">
+										<div class="col-md-12 col-lg-12 col-sm-12 col-xs-12" id="all_social">
+											{% for social in social_network %}
+											<div class="add-exp acc__card" id="candidate_single_social_network">
+
+											    	<div class="row row-sm">
+		                                                <div class="col-md-12 col-lg-9 col-sm-12 col-xs-12 mb-2">
+		                                                    <label class="form-control" id="social_name">{{social.url}}</label>
+		                                                </div>
+		                                                <div class="col-md-12 col-lg-3 col-sm-12 col-xs-12 mb-2 edit_delete_candidate_b">
+		                                              		<a href="javascript:void(0)" id='social' class="btn ripple btn-toggle-open btn-primary text-white btn-icon edit_delete" data-placement="top" data-toggle="tooltip" title="" data-original-title="Edit Profile"><i class="bx bx-edit"></i></a>
+															<a data-toggle="modal" data-target="#Modal_social_{{social.id}}" style="background-color: red;border: none;" href="javascript:void(0)" class="btn ripple  btn-primary text-white btn-icon edit_delete" data-placement="top" data-toggle="tooltip" title="" data-original-title="Delete Social Network"><i class="las la-trash"></i> </a>
+		                                                </div>
+		                                            </div>
+
+													<!-- Modal -->
+													<div class="modal fade" id="Modal_social_{{social.id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+													<div class="modal-dialog" role="document">
+														<div class="modal-content">
+														<div class="modal-header">
+															<h5 class="modal-title" id="exampleModalLabel">Delete</h5>
+															<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+															<span aria-hidden="true">&times;</span>
+															</button>
+														</div>
+														<div class="modal-body">
+														Are you sure you want to delete this record
+														</div>
+														<div class="modal-footer">
+															<button type="button" class="btn btn-secondary" data-dismiss="modal" >Cancel</button>
+															<button type="button" class="btn btn-primary" data-dismiss="modal" onclick="deleteRecord(event,'{{social.record_id}}','social')">Delete</button>
+														</div>
+														</div>
+													</div>
+													</div>
+
+												<form method="post" role="form" action="{% url 'candidate:edit_profile' profile_id %}" enctype="multipart/form-data">
+													{% csrf_token %}
+													<input type="hidden" class="record_id" name="record_id" value="{{social.record_id}}">
+													<input type="hidden" name="model_name" value="social">
+													<div class="custom-form open-custom-form" id="social_data">
+														<!-- <div class="row row-sm">
+															<div class="col-md-6 col-lg-6 col-sm-6 col-xs-6">
+																<label class="form-control-label">Network Name <span
+																		class="tx-danger">*</span></label> <input
+																	class="form-control" id="network-name" name="network-name"
+																	value="{{social.network_name}}" placeholder="Facebook"
+																	required="" type="text">
+															</div>
+		                                                    <div class="col-md-6 col-lg-6 col-sm-6 col-xs-6">
+																<label class="form-control-label">Network User Name <span
+																		class="tx-danger">*</span></label>
+		                                                        <input class="form-control" id="network-username" name="network-username"
+																	value="{{social.username}}" placeholder=""
+																	required="" type="text">
+															</div>
+														</div> -->
+		                                                <div class="row row-sm">
+															<div class="col-md-6 col-lg-6 col-sm-12  col-xs-12 mb-2">
+																<input type="hidden" id="network_name" name='network_name'>
+																<label class="form-control-label">Network</label>
+																<select class="demo-htmlselect" id="network_name_{{social.record_id}}" name="network-name" class="form-control required">
+																	<option value="facebook" {%if social.network_name == 'facebook'%} selected {%endif%} data-imagesrc="https://www.logo.wine/a/logo/Facebook/Facebook-f_Logo-Blue-Logo.wine.svg"  >Facebook</option>
+																	<option value="twitter" {%if social.network_name == 'twitter'%} selected {%endif%} data-imagesrc="https://www.logo.wine/a/logo/Twitter/Twitter-Logo.wine.svg">Twitter</option>
+																	<option value="github" {%if social.network_name == 'github'%} selected {%endif%} data-imagesrc="{%get_media_prefix%}gf.png">Github</option>
+																</select>
+															</div>
+															<div class="col-md-6 col-lg-6 col-sm-12  col-xs-12 mb-2 ">
+
+																<label class="form-control-label">Network Url <span
+																		class="tx-danger">*</span></label>
+		                                                        <input class="form-control" id="network-url" name="network-url"
+																	value="{{social.url}}" placeholder=""
+																	required="" type="text">
+															</div>
+														</div>
+														<div class="butn-form mb-3">
+															<button type="submit" class="btn btn-primary btn-block">Submit</button>
+															<button type="button" class="btn btn-toggle-open  btn-block  btn-danger">Cancel</button>
+														</div>
+													</div>
+												</form>
+											</div>
+											{% endfor %}
+										</div>
+
+									</div>
+								</div>
+
+								<a class="add-more btn_cus_more" onclick="addMoreNetwork(event)"> <i data-v-e08301e8="" class="las la-plus"></i>Add More</a>
+							</div>
+						</div>
+					</div>
+		        </div>
+            </div>
+
+        </div>  
+
+
+
+    </div>
+    <!-- Main-content-body closed -->
+
+{% block script %}
+<!-- JQuery min js -->
+
+		<!-- tinymce -->
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/tinymce/4.5.6/tinymce.min.js"></script>
+		<script src="http://cdnjs.cloudflare.com/ajax/libs/tinymce/4.5.6/jquery.tinymce.min.js"></script>
+<script src="{% static 'assets/js/candidate_profile_edit.js' %}"></script>
+		<!-- Select2.min js -->
+			<script src="{% static 'assets/plugins/select2/js/select2.min.js' %}"></script>
+		<!-- Datepicker js -->
+		<script src="{% static 'assets/plugins/jquery-ui/ui/widgets/datepicker.js' %}"></script>
+		<script type="text/javascript" src="https://cdn.rawgit.com/prashantchaudhary/ddslick/master/jquery.ddslick.min.js" ></script>
+
+<script>
+
+
+tinymce.init({
+	selector: 'textarea',
+	menubar: false,
+	plugins: 'lists advlist',
+	toolbar: 'bullist numlist bold',
+	branding: 'False',
+});
+
+
+    function addMoreNetwork(event){
+			network_dom = document.getElementById('all_social').querySelectorAll("#candidate_single_social_network");
+			last_network_dom = network_dom[network_dom.length- 1];
+			try
+			{
+				record_id = Number($(last_network_dom).find(".record_id")[0].value) + 1;
+			}
+			catch
+			{
+				record_id = 1
+			}
+			$('#all_social').append(`<div class="add-exp acc__card" id="candidate_single_social_network">
+
+
+					<div class="row row-sm">
+	                    <div class="col-md-12 col-lg-9 col-sm-12 col-xs-12 mb-2">
+	                         <label class="form-control" id="social_name"> Your Social Network</label>
+	                    </div>
+	                    <div class="col-md-12 col-lg-3 col-sm-12 col-xs-12 mb-2 edit_delete_candidate_b">
+	                  		<a href="javascript:void(0)" id='social' class="btn ripple btn-toggle-open btn-primary text-white btn-icon edit_delete" data-placement="top" data-toggle="tooltip" title="" data-original-title="Edit Profile"><i class="bx bx-edit"></i></a>
+			                <a data-toggle="modal" data-target="#Modal_social_new`+ record_id +`" style="background-color: red;border: none;" href="javascript:void(0)" class="btn ripple  btn-primary text-white btn-icon edit_delete" data-placement="top" data-toggle="tooltip" title="" data-original-title="Delete Social Network"><i class="las la-trash"></i> </a>
+	                    </div>
+	                </div>
+
+               
+                
+				   <div class="modal fade" id="Modal_social_new`+ record_id +`" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+						<div class="modal-dialog" role="document">
+							<div class="modal-content">
+							<div class="modal-header">
+								<h5 class="modal-title" id="exampleModalLabel">Delete</h5>
+								<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+								<span aria-hidden="true">&times;</span>
+								</button>
+							</div>
+							<div class="modal-body">
+							Are you sure you want to delete this record
+							</div>
+							<div class="modal-footer">
+								<button type="button" class="btn btn-secondary" data-dismiss="modal" >Cancel</button>
+								<button type="button" class="btn btn-primary" data-dismiss="modal" onclick="deleteRecord(event,'`+ record_id +`','social')">Delete</button>
+							</div>
+							</div>
+						</div>
+					</div>
+                <form method="post" role="form" action="{% url 'candidate:edit_profile' profile_id %}" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <input type="hidden" class="record_id" name="record_id" value="`+ record_id +`">
+                    <input type="hidden" name="model_name" value="social">
+                    <div class="custom-form open-custom-form" id="social_data">
+
+
+						<div class="row row-sm">
+							<div class="col-md-6 col-lg-6 col-sm-12  col-xs-12 mb-2">
+								<input type="hidden" id="network_name" name='network_name'>
+								<label class="form-control-label">Network</label>
+								<select class="demo-htmlselect_new" id="network_name_`+ record_id +`" name="network-name" class="form-control required">
+									<option value="facebook"  data-imagesrc="https://www.logo.wine/a/logo/Facebook/Facebook-f_Logo-Blue-Logo.wine.svg"  >Facebook</option>
+									<option value="twitter" data-imagesrc="https://www.logo.wine/a/logo/Twitter/Twitter-Logo.wine.svg">Twitter</option>
+									<option value="github"  data-imagesrc="{%get_media_prefix%}gf.png">Github</option>
+								</select>
+							</div>
+							<div class="col-md-6 col-lg-6 col-sm-12  col-xs-12 mb-2">
+								<label class="form-control-label">Network Url <span
+										class="tx-danger">*</span></label>
+								<input class="form-control" id="network-url" name="network-url"
+									value="{{social.url}}" placeholder=""
+									required="" type="text">
+							</div>
+						</div>
+                        <div class="butn-form mb-3">
+                            <button type="submit" class="btn btn-primary btn-block">Submit</button>
+                            <button type="button" class="btn btn-toggle-open  btn-block  btn-danger">Cancel</button>
+                        </div>
+                    </div>
+                </form>
+            </div>`)
+
+			// $('.demo-htmlselect').each(function(index,element){
+			// 	$(element).ddslick({
+			// 		onSelected: function(selectedData){
+			// 		}
+			// 	});
+
+			// });
+			$('.demo-htmlselect_new').each(function(index,element){
+				$(element).ddslick({
+					onSelected: function(data){
+						console.log("==========>",element.id)
+						network_id = element.id
+						console.log(document.getElementById(network_id).parentElement.querySelector('#network_name'))
+						console.log("selectedData",data.selectedData)
+						// element.parentElement.find('#network_name').value =data.selectedData.value;
+						document.getElementById(network_id).parentElement.querySelector('#network_name').value = data.selectedData.value
+						// $('#editcflag').submit();
+					}
+				});
+			});
+
+
+    }
+
+    function addMoreSkill(event){
+			skill_dom = document.getElementById('all_skill').querySelectorAll("#single_skill");
+			last_skill = skill_dom[skill_dom.length- 1];
+
+
+
+			try
+			{
+				record_id = Number($(last_skill).find(".record_id")[0].value) + 1;
+			}
+			catch
+			{
+				record_id = 1
+			}
+
+
+
+			$('#all_skill').append(`<div class="add-exp acc__card" id="single_skill">
+
+
+										<div class="row row-sm">
+						                    <div class="col-md-12 col-lg-9 col-sm-12 col-xs-12 mb-2">
+						                        <label class="form-control" id="skill_name"></label>
+						                    </div>
+						                    <div class="col-md-12 col-lg-3 col-sm-12 col-xs-12 mb-2 edit_delete_candidate_b">
+						                   		<a href="javascript:void(0)" id='skill' class="btn ripple btn-toggle-open btn-primary text-white btn-icon edit_delete" data-placement="top" data-toggle="tooltip" title="" data-original-title="Edit Profile"><i class="bx bx-edit"></i></a>
+									   			<a data-toggle="modal" data-target="#Modal_skill_new`+ record_id +`" style="background-color: red;border: none;" href="javascript:void(0)" class="btn ripple  btn-primary text-white btn-icon edit_delete" data-placement="top" data-toggle="tooltip" title="" data-original-title="Delete Skill"><i class="las la-trash"></i> </a>
+						                    </div>
+						                </div>                
+
+
+											<!-- Modal -->
+											<div class="modal fade" id="Modal_skill_new`+ record_id +`" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+											<div class="modal-dialog" role="document">
+												<div class="modal-content">
+												<div class="modal-header">
+													<h5 class="modal-title" id="exampleModalLabel">Delete</h5>
+													<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+													<span aria-hidden="true">&times;</span>
+													</button>
+												</div>
+												<div class="modal-body">
+												Are you sure you want to delete this record
+												</div>
+												<div class="modal-footer">
+													<button type="button" class="btn btn-secondary" data-dismiss="modal" >Cancel</button>
+													<button type="button" class="btn btn-primary" data-dismiss="modal" onclick="deleteRecord(event,'`+ record_id +`','skill')">Delete</button>
+												</div>
+												</div>
+											</div>
+											</div>
+                <form method="post" role="form" action="{% url 'candidate:edit_profile' profile_id %}" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <input type="hidden" name="record_id" id="`+record_id+`" class="record_id" value="`+record_id+`">
+                    <input type="hidden" name="model_name" value="skill">
+                    <div class="custom-form open-custom-form" id="skill_data">
+                        <div class="row row-sm">
+                            <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12 mb-2">
+                                <label class="form-control-label">Skill Name <span
+                                        class="tx-danger">*</span></label>
+                                <input class="form-control" id="skill-name" name="skill-name"
+                                    value="" placeholder="Skill Name"
+                                    required type="text">
+                            </div>
+                        </div>
+                        <div class="row row-sm">
+                            <div class="col-md-6 col-lg-6 col-sm-6 col-xs-6 mb-2">
+                                <label class="form-control-label">Total experience <span
+                                        class="tx-danger">*</span></label>
+                                <select name="skill_total_experience" class="form-control SlectBox required">
+                                    {% for i in exp_years %}
+                                        <option value="{{i}}">{{i}}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            <div class="col-md-6 col-lg-6 col-sm-6 col-xs-6 mb-2">
+                                <label class="form-control-label">Last Used(Year) <span class="tx-danger">*</span></label>
+                                <div class="row">
+									<div class="col-md-6 col-lg-6 col-sm-12 col-xs-12">
+										<select class="form-control required skill_year"  name="skill-last-used" id="skill-last-used">
+											<option label="Year"></option>
+										</select>
+									</div>
+								</div>
+                            </div>
+                        </div>
+                        <div class="butn-form mb-3">
+                            <button type="submit" class="btn btn-primary btn-block">Submit</button>
+                            <button type="button" class="btn btn-toggle-open  btn-block  btn-danger">Cancel</button>
+                        </div>
+                    </div>
+                </form>
+            </div>`)
+    }
+    function addMoreLanguage(event){
+			language_dom = document.getElementById('languages').querySelectorAll("#single_language");
+			last_language_dom = language_dom[language_dom.length- 1];
+
+
+			try
+			{
+				record_id = Number($(last_language_dom).find(".record_id")[0].value) + 1;
+			}
+			catch
+			{
+				record_id = 1
+			}
+
+
+			$('#languages').append(`<div class="add-exp acc__card" id="single_language">
+
+										    <div class="row row-sm">
+                                                <div class="col-md-12 col-lg-9 col-sm-12 col-xs-12 mb-2">
+                                                    <label class="form-control" id="language_name"></label>
+                                                </div>
+                                                <div class="col-md-12 col-lg-3 col-sm-12 col-xs-12 mb-2 edit_delete_candidate_b">
+                     								<a href="javascript:void(0)" id='language' class="btn ripple btn-toggle-open btn-primary text-white btn-icon edit_delete" data-placement="top" data-toggle="tooltip" title="" data-original-title="Edit Profile"><i class="bx bx-edit"></i></a>
+									   				<a data-toggle="modal" data-target="#Modal_lang_new_`+ record_id +`" style="background-color: red;border: none;" href="javascript:void(0)" class="btn ripple  btn-primary text-white btn-icon edit_delete" data-placement="top" data-toggle="tooltip" title="" data-original-title="Delete Language"><i class="las la-trash"></i> </a>       						
+                                                </div>
+                                            </div>
+
+
+											<!-- Modal -->
+											<div class="modal fade" id="Modal_lang_new_`+ record_id +`" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+											<div class="modal-dialog" role="document">
+												<div class="modal-content">
+												<div class="modal-header">
+													<h5 class="modal-title" id="exampleModalLabel">Delete</h5>
+													<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+													<span aria-hidden="true">&times;</span>
+													</button>
+												</div>
+												<div class="modal-body">
+												Are you sure you want to delete this record
+												</div>
+												<div class="modal-footer">
+													<button type="button" class="btn btn-secondary" data-dismiss="modal" >Cancel</button>
+													<button type="button" class="btn btn-primary" data-dismiss="modal" onclick="deleteRecord(event,'`+ record_id +`','language')">Delete</button>
+												</div>
+												</div>
+											</div>
+											</div>
+										<form method="post" role="form" action="{% url 'candidate:edit_profile' profile_id %}" enctype="multipart/form-data">
+											{% csrf_token %}
+											<input type="hidden" name="record_id" class="record_id" value="`+record_id+`">
+											<input type="hidden" name="model_name" value="language">
+											<div class="custom-form open-custom-form" id="language_data">
+												<div class="row row-sm">
+													<div class="col-md-6 col-lg-6 col-sm-12 col-xs-12 mb-2">
+														<label class="form-control-label">Language: <span class="tx-danger">*</span></label>
+														<select name="language" class="form-control SlectBox required">
+															{% for i in Languages %}
+															    <option value="{{i.id}}">{{i.language_name}}</option>
+															{% endfor %}
+														</select>
+													</div>
+													<div class="col-md-6 col-lg-6 col-sm-12  col-xs-12 mb-2">
+														<label class="form-control-label">Fluency: <span
+																class="tx-danger">*</span></label>
+														<select name="fluency" class="form-control SlectBox required" >
+															{% for j in fluency %}
+															    <option value="{{j.id}}">{{j.fluency}}</option>
+															{% endfor %}
+														</select>
+													</div>
+												</div>
+												<div class="butn-form mb-3">
+													<button type="submit" class="btn btn-primary btn-block">Submit</button>
+													<button type="button" class="btn btn-toggle-open  btn-block  btn-danger">Cancel</button>
+												</div>
+											</div>
+										</form>
+									</div>`)
+		}
+	function addMoreAwards(event){
+			award_dom = document.getElementById('all_awards').querySelectorAll("#single_award");
+			last_award_dom = award_dom[award_dom.length- 1];
+			try
+			{
+				record_id = Number($(last_award_dom).find(".record_id")[0].value) + 1;
+			}
+			catch
+			{
+				record_id = 1
+			}
+			$('#all_awards').append(`<div class="add-exp acc__card" id="single_award">
+
+
+
+										    <div class="row row-sm">
+                                                <div class="col-md-12 col-lg-9 col-sm-12 col-xs-12 mb-2">
+                                                   <label class="form-control" id="award_title"></label>
+                                                </div>
+                                                <div class="col-md-12 col-lg-3 col-sm-12 col-xs-12 mb-2 edit_delete_candidate_b">
+                                                  	<a href="javascript:void(0)" id='award' class="btn ripple btn-toggle-open btn-primary text-white btn-icon edit_delete" data-placement="top" data-toggle="tooltip" title="" data-original-title="Edit Profile"><i class="bx bx-edit"></i></a>
+									   				<a data-toggle="modal" data-target="#Modal_award_new_`+ record_id +`" style="background-color: red;border: none;" href="javascript:void(0)" class="btn ripple  btn-primary text-white btn-icon edit_delete" data-placement="top" data-toggle="tooltip" title="" data-original-title="Delete Awards"><i class="las la-trash"></i> </a>
+                                                </div>
+                                            </div>
+
+											<!-- Modal -->
+											<div class="modal fade" id="Modal_award_new_`+ record_id +`" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+											<div class="modal-dialog" role="document">
+												<div class="modal-content">
+												<div class="modal-header">
+													<h5 class="modal-title" id="exampleModalLabel">Delete</h5>
+													<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+													<span aria-hidden="true">&times;</span>
+													</button>
+												</div>
+												<div class="modal-body">
+												Are you sure you want to delete this record
+												</div>
+												<div class="modal-footer">
+													<button type="button" class="btn btn-secondary" data-dismiss="modal" >Cancel</button>
+													<button type="button" class="btn btn-primary" data-dismiss="modal" onclick="deleteRecord(event,'`+ record_id +`','award')">Delete</button>
+												</div>
+												</div>
+											</div>
+											</div>
+										<form method="post" role="form"
+											  action="{% url 'candidate:edit_profile' profile_id %}"
+											  enctype="multipart/form-data">
+											{% csrf_token %}
+											<input type="hidden" name="record_id" class="record_id" value="`+record_id+`">
+											<input type="hidden" name="model_name" value="award">
+											<div class="custom-form open-custom-form" id="award_data">
+												<div class="row row-sm">
+													<div class="col-md-6 col-lg-6 col-sm-6 col-xs-6 mb-2">
+														<label class="form-control-label">Award Title <span
+																class="tx-danger">*</span></label> <input
+															class="form-control" value="" id="award-name"
+															name="award-name" placeholder="UX-UI Developer" required
+															type="text">
+													</div>
+                                                    <div class="col-md-6 col-lg-6 col-sm-6 col-xs-6 mb-2">
+														<label class="form-control-label">Award Date <span
+																class="tx-danger">*</span></label>
+                                                        <div class="row">
+															<div class="col-md-6 col-lg-6 col-sm-12 col-xs-12">
+																<select class="form-control required year"  name="award-year" id="award-year">
+																	<option label="Year" required></option>
+																</select>
+															</div>
+														</div>
+													</div>
+                                                </div>
+                                                <div class="row row-sm">
+                                                    <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12 mb-2">
+														<label class="form-control-label">Awarder<span
+																class="tx-danger">*</span></label>
+                                                        <input class="form-control" value="" id="award-awarder"
+															name="award-awarder" placeholder="" required
+															type="text">
+													</div>
+												</div>
+												<div class="butn-form mb-3">
+													<button type="submit" class="btn btn-primary btn-block">Submit</button>
+													<button type="button" class="btn btn-toggle-open  btn-block  btn-danger">Cancel</button>
+												</div>
+											</div>
+										</form>
+									</div>`)
+    }
+
+    function addMoreCertificate(event){
+        certificates_dom = document.getElementById('candidateCertificate').querySelectorAll("#candidate_single_certificate");
+        last_certificate = certificates_dom[certificates_dom.length- 1];
+
+		try
+		{
+			record_id = Number($(last_certificate).find(".record_id")[0].value) + 1;
+		}
+		catch
+		{
+			record_id = 1
+		}
+
+
+        $('#candidateCertificate').append(`<div class="add-exp acc__card" id="candidate_single_certificate">
+
+
+        							    	<div class="row row-sm">
+                                                <div class="col-md-12 col-lg-9 col-sm-12 col-xs-12 mb-2">
+                                                    <label class="form-control" id="certificate_title"></label>
+                                                </div>
+                                                <div class="col-md-12 col-lg-3 col-sm-12 col-xs-12 mb-2 edit_delete_candidate_b">
+                                        			<a href="javascript:void(0)" id='certificate' class="btn ripple btn-toggle-open btn-primary text-white btn-icon edit_delete" data-placement="top" data-toggle="tooltip" title="" data-original-title="Edit Profile"><i class="bx bx-edit"></i></a>
+									   				<a data-toggle="modal" data-target="#Modal_certificate_new_`+ record_id +`" style="background-color: red;border: none;" href="javascript:void(0)" class="btn ripple  btn-primary text-white btn-icon edit_delete" data-placement="top" data-toggle="tooltip" title="" data-original-title="Delete Certificate"><i class="las la-trash"></i> </a>
+                                                </div>
+                                            </div>	
+
+											<!-- Modal -->
+											<div class="modal fade" id="Modal_certificate_new_`+ record_id +`" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+											<div class="modal-dialog" role="document">
+												<div class="modal-content">
+												<div class="modal-header">
+													<h5 class="modal-title" id="exampleModalLabel">Delete</h5>
+													<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+													<span aria-hidden="true">&times;</span>
+													</button>
+												</div>
+												<div class="modal-body">
+												Are you sure you want to delete this record
+												</div>
+												<div class="modal-footer">
+													<button type="button" class="btn btn-secondary" data-dismiss="modal" >Cancel</button>
+													<button type="button" class="btn btn-primary" data-dismiss="modal" onclick="deleteRecord(event,'`+ record_id +`','certificate')">Delete</button>
+												</div>
+												</div>
+											</div>
+											</div>
+										<form method="post" role="form"
+											  action="{% url 'candidate:edit_profile' profile_id %}"
+											  enctype="multipart/form-data">
+											{% csrf_token %}
+											<input type="hidden" name="record_id" class="record_id" value="`+ record_id +`">
+											<input type="hidden" name="model_name" value="certificate">
+											<div class="custom-form open-custom-form" id="certificate_data">
+												<div class="row row-sm">
+													<div class="col-md-6 col-lg-6 col-sm-6 col-xs-6 mb-2">
+														<label class="form-control-label">Certificate Name <span
+																class="tx-danger">*</span></label> <input
+															class="form-control" id="certificate-name"
+															name="certificate-name" value=""
+															placeholder="UX-UI Developer" required type="text">
+													</div>
+                                                    <div class="col-md-6 col-lg-6 col-sm-6 col-xs-6 mb-2">
+														<label class="form-control-label">Certificate Organization <span
+																class="tx-danger">*</span></label> <input
+															class="form-control" id="certificate-organization"
+															name="certificate-organization" value=""
+															placeholder="" required type="text">
+													</div>
+                                                </div>
+                                                <div class="row row-sm">
+                                                    <div class="col-md-6 col-lg-6 col-sm-6 col-xs-6 mb-2">
+														<label class="form-control-label">Year <span class="tx-danger">*</span></label>
+                                                        <div class="row">
+															<div class="col-md-6 col-lg-6 col-sm-12 col-xs-12">
+																<select class="form-control required year"  name="certificate-year" id="certificate-year">
+																	<option label="Year"></option>
+																</select>
+															</div>
+														</div>
+													</div>
+                                                     <div class="col-md-6 col-lg-6 col-sm-6 col-xs-6 mb-2">
+														<label class="form-control-label">Upload Certificate :<span
+                                                            class="tx-danger">*</span></label>
+                                                        <div class="input-group file-browser">
+                                                            <input type="text"
+                                                                   class="form-control border-right-0 browse-file"
+                                                                   placeholder="Upload" readonly="">
+                                                            <label class="input-group-btn">
+                                                                 <span class="btn btn-default">
+                                                                     Browse <input type="file" name="certificate-file" style="display: none;"  multiple="">
+                                                                 </span>
+                                                            </label>
+                                                        </div>
+													</div>
+                                                </div>
+                                                <div class="row row-sm">
+                                                    <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12 mb-2">
+														<label class="form-control-label">Summary <span class="tx-danger">*</span></label>
+                                                        <textarea class="form-control" id="certificate_summary`+ record_id +`" name="certificate-summary">
+                                                        </textarea>
+													</div>
+                                                </div>
+												<div class="butn-form mb-3">
+													<button type="submit" class="btn btn-primary btn-block">Submit</button>
+													<button type="button" class="btn btn-toggle-open  btn-block  btn-danger">Cancel</button>
+												</div>
+											</div>
+										</form>
+									</div>`)
+
+		$(':file').on('fileselect', function(event, numFiles, label) {
+          var input = $(this).parents('.input-group').find(':text'),
+              log = numFiles > 1 ? numFiles + ' files selected' : label;
+          if( input.length ) {
+              input.val(log);
+          } else {
+              if( log ) ;
+          }
+      });
+		tinymce.init({
+			selector: "#certificate_summary"+record_id,
+			menubar: false,
+			plugins: 'lists advlist',
+			toolbar: 'bullist numlist bold',
+			branding: 'False',
+		});
+    }
+
+	function addMoreEducation(event){
+        educations_dom = document.getElementById('all_educations').querySelectorAll("#candidate_single_education");
+		console.log("education dom",educations_dom)
+        last_education = educations_dom[educations_dom.length- 1];
+		console.log('last_Education',last_education)
+
+		try
+		{
+			record_id = Number($(last_education).find(".record_id")[0].value) + 1;
+		}
+		catch
+		{
+			record_id = 1
+		}
+
+		console.log('record id is',record_id)
+
+		$('#all_educations').append(`<div class="add-exp acc__card" id="candidate_single_education">
+
+
+
+										    	<div class="row row-sm">
+	                                                <div class="col-md-12 col-lg-9 col-sm-12 col-xs-12 mb-2">	                                                  	
+	                                                  	<label class="form-control" id="edu-name" name="job-name">Degree Name</label>
+												    </div>
+	                                                <div class="col-md-12 col-lg-3 col-sm-12 col-xs-12 mb-2 edit_delete_candidate_b">
+	                                                   <a href="javascript:void(0)" id="edu1" class="btn ripple btn-toggle-open btn-primary text-white btn-icon edit_delete" data-placement="top" data-toggle="tooltip" title="" data-original-title="Edit Profile"><i class="bx bx-edit"></i></a>
+													   <a data-toggle="modal" data-target="#Modal_edu_new`+ record_id +`" style="background-color: red;border: none;" href="javascript:void(0)" class="btn ripple  btn-primary text-white btn-icon edit_delete" data-placement="top" data-toggle="tooltip" title="" data-original-title="Delete Education"><i class="las la-trash"></i> </a>	
+	                                                </div>
+	                                            </div>										
+
+
+												<!-- Modal -->
+												<div class="modal fade" id="Modal_edu_new`+ record_id +`" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+												<div class="modal-dialog" role="document">
+													<div class="modal-content">
+													<div class="modal-header">
+														<h5 class="modal-title" id="exampleModalLabel">Delete</h5>
+														<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+														<span aria-hidden="true">&times;</span>
+														</button>
+													</div>
+													<div class="modal-body">
+													Are you sure you want to delete this record
+													</div>
+													<div class="modal-footer">
+														<button type="button" class="btn btn-secondary" data-dismiss="modal" >Cancel</button>
+														<button type="button" class="btn btn-primary" data-dismiss="modal" onclick="deleteRecord(event,'`+ record_id +`','education')">Delete</button>
+													</div>
+													</div>
+												</div>
+												</div>
+											<form method="post" role="form"
+												  action="{% url 'candidate:edit_profile' profile_id %}"
+												  enctype="multipart/form-data" id='myEduForm_`+ record_id +`' onchange="validateEduForm(`+ record_id +`);" onsubmit = "return submitEduForm(`+ record_id +`)">
+												{% csrf_token %}
+												<input type="hidden" name="record_id" class="record_id" value="`+ record_id +`">
+												<input type="hidden" name="model_name" value="education">
+												<div class="custom-form open-custom-form" id="edu_data_1">
+													<div class="row row-sm">
+														<div class="col-md-12 col-lg-12 col-sm-12 col-xs-12 mb-2">
+															<label class="form-control-label">Degree <span
+																	class="tx-danger">*</span></label> <input
+																class="form-control" id="degree-name" name="degree-name"
+																 placeholder="Degree Name" required=""
+																type="text">
+														</div>
+
+													</div>
+													<div class="row row-sm">
+														<div class="col-md-6 col-lg-6 col-sm-12  col-xs-12 mb-2">
+															<label class="form-control-label">Start Date <span
+																	class="tx-danger" id="edu_`+ record_id +`_error">*</span></label>
+																	<div class="row">
+															<div class="col-md-6 col-lg-6 col-sm-12 col-xs-12">
+																<select class="form-control required" name="edu_start_month" id="edu_start_month" required>
+																	<option label="Month" ></option>
+																	{% for i in months %}
+																		<option value="{{i.id}}">{{i.name}}</option>
+																	{% endfor %}
+																</select>
+															</div>
+															<div class="col-md-6 col-lg-6 col-sm-12 col-xs-12">
+																<select class="form-control required year" name="edu_start_year" id="edu_start_year" required>
+																	<option label="Year"></option>
+																</select>
+															</div>
+															</div>
+
+														</div>
+														<div class="col-md-6 col-lg-6 col-sm-12  col-xs-12 mb-2">
+															<label class="form-control-label">End Date <span
+																	class="tx-danger">*</span></label>
+															<div class="row">
+																<div class="col-md-6 col-lg-6 col-sm-12 col-xs-12">
+																	<select class="form-control required" name="edu_end_month" id="edu_end_month" required>
+																		<option label="Month"></option>
+																		{% for i in months %}
+																			<option value="{{i.id}}">{{i.name}}</option>
+																		{% endfor %}
+																	</select>
+																</div>
+																<div class="col-md-6 col-lg-6 col-sm-12 col-xs-12">
+																	<select class="form-control required year"  name="edu_end_year" id="edu_end_year" required>
+																		<option label="Year"></option>
+																	</select>
+																</div>
+															</div>
+
+														</div>
+
+													</div>
+													<div class="row row-sm">
+														<div class="col-md-6 col-lg-6 col-sm-12  col-xs-12 mb-2">
+
+															<div class="datepicker">
+																<label class="form-control-label">Grade/Percentage</label>
+																<input type="text" class="form-control required" id="c_grade_new" name ="edu_grade"
+																   placeholder="Percentage" required>
+															</div>
+
+														</div>
+
+														<div class="col-md-6 col-lg-6 col-sm-12  col-xs-12 mb-2">
+															<label class="form-control-label">Univercity/Board: <span
+																	class="tx-danger">*</span></label>
+															<input class="form-control" id="univercity_board"
+																   name="university_board"
+																   placeholder="Univercity/Board" required="" type="text">
+														</div>
+													</div>
+
+
+
+													<div class="row row-sm">
+														<div class="col-md-12 col-lg-12 col-sm-12 col-xs-12 mb-2">
+															<label class="form-control-label">Document<span
+																	class="tx-danger">*</span></label>
+															<div class="input-group file-browser">
+																<input type="text"
+																	   class="form-control border-right-0 browse-file"
+																	   placeholder="Education Document" readonly="">
+																<label class="input-group-btn">
+																					 <span class="btn btn-default">
+																						 Browse <input type="file"
+																									   style="display: none;"
+																									   name = "edu_docs_new"
+																									   multiple="">
+																					 </span>
+																</label>
+															</div>
+														</div>
+													</div>
+													<div class="row row-sm">
+														<div class="col-md-12 col-lg-12 col-sm-12 col-xs-12 mb-2">
+															<label class="form-control-label">Summary: <span
+																	class="tx-danger">*</span></label>
+															<textarea class="form-control" id="education_summary`+record_id+`" name="summary"
+																	  placeholder="Summary" ></textarea>
+														</div>
+													</div>
+													<div class="butn-form mb-3">
+														<button type="submit" class="btn btn-primary btn-block">Submit</button>
+														<button type="button" class="btn btn-toggle-open  btn-block  btn-danger">Cancel</button>
+													</div>
+												</div>
+											</form>
+										</div>`)
+		$(':file').on('fileselect', function(event, numFiles, label) {
+          var input = $(this).parents('.input-group').find(':text'),
+              log = numFiles > 1 ? numFiles + ' files selected' : label;
+          if( input.length ) {
+              input.val(log);
+          } else {
+              if( log ) ;
+          }
+      });
+      tinymce.init({
+			selector: "#education_summary"+record_id,
+			menubar: false,
+			plugins: 'lists advlist',
+			toolbar: 'bullist numlist bold',
+			branding: 'False',
+		});
+
+    }
+
+
+	function addMorePortfolio(event){
+        portfolios_dom = document.getElementById('all_portfolios').querySelectorAll("#candidate_single_portfolio");
+
+        last_portfolio = portfolios_dom[portfolios_dom.length- 1];
+
+		try
+		{
+			record_id = Number($(last_portfolio).find(".record_id")[0].value) + 1;
+		}
+		catch
+		{
+			record_id = 1
+		}
+
+		console.log('record id is',record_id)
+
+		$('#all_portfolios').append(`<div class="add-exp acc__card" id='candidate_single_portfolio'>
+
+
+									    <div class="row row-sm">
+                                            <div class="col-md-12 col-lg-9 col-sm-12 col-xs-12 mb-2">
+                                                <label class="form-control" id="Portfolio_title">Project title</label>
+                                            </div>
+                                            <div class="col-md-12 col-lg-3 col-sm-12 col-xs-12 mb-2 edit_delete_candidate_b">
+                             					<a href="javascript:void(0)" id='portfolio' class="btn ripple btn-toggle-open btn-primary text-white btn-icon edit_delete" data-placement="top" data-toggle="tooltip" title="" data-original-title="Edit Profile"><i class="bx bx-edit"></i></a>
+											    <a data-toggle="modal" data-target="#Modal_portfolio_new`+ record_id +`" style="background-color: red;border: none;" href="javascript:void(0)" class="btn ripple  btn-primary text-white btn-icon edit_delete" data-placement="top" data-toggle="tooltip" title="" data-original-title="Delete Portfolio"><i class="las la-trash"></i> </a>       			
+                                            </div>
+                                        </div>
+
+										  <!-- Modal -->
+										  <div class="modal fade" id="Modal_portfolio_new`+ record_id +`" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+											<div class="modal-dialog" role="document">
+											  <div class="modal-content">
+												<div class="modal-header">
+												  <h5 class="modal-title" id="exampleModalLabel">Delete</h5>
+												  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+													<span aria-hidden="true">&times;</span>
+												  </button>
+												</div>
+												<div class="modal-body">
+												 Are you sure you want to delete this record
+												</div>
+												<div class="modal-footer">
+												  <button type="button" class="btn btn-secondary" data-dismiss="modal" >Cancel</button>
+												  <button type="button" class="btn btn-primary"  data-dismiss="modal" onclick="deleteRecord(event,'`+ record_id +`','portfolio')">Delete</button>
+												</div>
+											  </div>
+											</div>
+										  </div>
+                                        <form method="post" role="form"
+                                              action="{% url 'candidate:edit_profile' profile_id %}"
+                                              enctype="multipart/form-data">
+                                            {% csrf_token %}
+                                            <input type="hidden" name="record_id" class="record_id" value="`+record_id+`">
+                                            <input type="hidden" name="model_name" value="portfolio">
+                                            <div class="custom-form open-custom-form" id="portfolio_data">
+                                                <div class="row row-sm">
+                                                    <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12">
+                                                        <label class="form-control-label">Project Title <span
+                                                                class="tx-danger">*</span></label> <input
+                                                            class="form-control" id="job-name" name="project-title"
+                                                            placeholder="Project Title" required="" type="text">
+                                                    </div>
+                                                </div>
+
+												<div class="row row-sm">
+													<div class="col-md-12 col-lg-12 col-sm-12 col-xs-12 mb-2">
+														<label class="form-control-label">Project description <span class="tx-danger">*</span></label>
+														<input type="text" class="form-control" id="project_description" name="project_description" placeholder="Project description"
+																  required="">
+													</div>
+												</div>
+
+												<div class="row row-sm">
+													<div class="col-md-6 col-lg-6 col-sm-12  col-xs-12 mb-2">
+														<label class="form-control-label">Year</label>
+														<div class="row">
+															<div class="col-md-6 col-lg-6 col-sm-12 col-xs-12">
+																<select class="form-control required year" name="project_year" id="project_year">
+																	<option label="Year"></option>
+																</select>
+															</div>
+														</div>
+													</div>
+
+													<div class="col-md-6 col-lg-6 col-sm-12  col-xs-12 mb-2">
+														<div class="control-group form-group">
+															<label class="form-control-label">Project Links</label>
+															<input type="text" class="form-control required" id="project_website1" name = "project_website1"
+																placeholder="Project Links" >
+														</div>
+													</div>
+													</div>
+
+													<div class="row row-sm">
+                                                        <div class="col-md-12 col-lg-12 col-sm-12 mb-2">
+                                                            <label class="form-control-label">Document<span
+                                                                    class="tx-danger">*</span></label>
+                                                            <div class="input-group file-browser">
+                                                                <input type="text"
+                                                                       class="form-control border-right-0 browse-file"
+                                                                       placeholder="Project document" readonly="">
+                                                                <label class="input-group-btn">
+																		 <span class="btn btn-default">
+																			 Browse <input type="file"
+                                                                                           style="display: none;"
+																						   name="portfolio_docs_new"
+                                                                                           multiple="">
+																		 </span>
+                                                                </label>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+													<div class="row row-sm">
+														<div class="col-md-12 col-lg-12 col-sm-12 col-xs-12 mb-2">
+															<label class="form-control-label">Learning from project<span class="tx-danger">*</span></label>
+															<textarea class="form-control" id="learning_from_project`+record_id+`" name="learning_from_project" placeholder="Learning from project"
+																	  type="text"></textarea>
+														</div>
+													</div>
+													<div class="butn-form mb-3">
+														<button type="submit" class="btn btn-primary btn-block">Submit
+														</button>
+														<button type="button" class="btn btn-toggle-open  btn-block  btn-danger">Cancel</button>
+													</div>
+
+												</div>
+
+											</form>
+                                    </div>`)
+
+		$(':file').on('fileselect', function(event, numFiles, label) {
+          var input = $(this).parents('.input-group').find(':text'),
+              log = numFiles > 1 ? numFiles + ' files selected' : label;
+          if( input.length ) {
+              input.val(log);
+          } else {
+              if( log ) ;
+          }
+        });
+        tinymce.init({
+			selector: "#learning_from_project"+record_id,
+			menubar: false,
+			plugins: 'lists advlist',
+			toolbar: 'bullist numlist bold',
+			branding: 'False',
+		});
+
+    }
+
+	function addMoreExperience(event){
+        experiences_dom = document.getElementById('all_experiences').querySelectorAll("#candidate_single_experience");
+		console.log(experiences_dom)
+        last_experience = experiences_dom[experiences_dom.length- 1];
+		console.log(last_experience)
+
+		try{
+			record_id = Number($(last_experience).find(".record_id")[0].value) + 1;
+		}
+		catch
+		{
+			record_id = 1
+		}
+
+
+		console.log('record id is',record_id)
+
+		$('#all_experiences').append(`<div class="add-exp acc__card" id="candidate_single_experience">
+
+
+											<div class="row row-sm">
+                                                <div class="col-md-12 col-lg-9 col-sm-12 col-xs-12 mb-2">
+                                                	 <input class="form-control" id="job-name" name="job-name"
+                                                    placeholder="Your Job Title"
+                                                   type="text" disabled>
+                                                </div>
+                                                <div class="col-md-12 col-lg-3 col-sm-12 col-xs-12 mb-2 edit_delete_candidate_b">
+                                                  <a href="javascript:void(0)"
+                                               class="btn ripple btn-toggle-open btn-primary text-white btn-icon edit_delete"
+                                               data-placement="top" data-toggle="tooltip" title=""
+                                               data-original-title="Edit Experience"><i class="bx bx-edit"></i></a>
+										   <a data-toggle="modal" data-target="#Modal_exp_new`+ record_id +`" style="background-color: red;border: none;" href="javascript:void(0)"
+                                               class="btn ripple  btn-primary text-white btn-icon edit_delete"
+                                               data-placement="top" data-toggle="tooltip" title=""
+                                               data-original-title="Delete Experience"><i class="las la-trash"></i> </a>
+                                                </div>
+                                            </div>                                           
+                                            
+
+
+											  <!-- Modal -->
+											  <div class="modal fade" id="Modal_exp_new`+ record_id +`" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+												<div class="modal-dialog" role="document">
+												  <div class="modal-content">
+													<div class="modal-header">
+													  <h5 class="modal-title" id="exampleModalLabel">Delete</h5>
+													  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+														<span aria-hidden="true">&times;</span>
+													  </button>
+													</div>
+													<div class="modal-body">
+													 Are you sure you want to delete this record
+													</div>
+													<div class="modal-footer">
+													  <button type="button" class="btn btn-secondary" data-dismiss="modal" >Cancel</button>
+													  <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="deleteRecord(event,'`+ record_id +`','work_experience')">Delete</button>
+													</div>
+												  </div>
+												</div>
+											  </div>
+                                            <form method="post" role="form"
+                                                  action="{% url 'candidate:edit_profile' profile_id %}"
+                                                  enctype="multipart/form-data" id="myExpForm_`+ record_id +`" onchange="validateExpForm(`+ record_id +`);" onsubmit="return submitExpForm('{{exp.record_id}}');">
+                                                {% csrf_token %}
+                                                <input type="hidden" name="record_id" class="record_id" value="`+ record_id +`">
+                                                <input type="hidden" name="model_name" value="experience">
+                                                <div class="open-custom-form custom-form">
+                                                    <div class="row row-sm">
+                                                        <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12 mb-2">
+                                                            <label class="form-control-label">Job Profile Name <span
+                                                                    class="tx-danger">*</span></label> <input
+                                                                class="form-control" id="job-name" name="job-name"
+
+                                                                placeholder="Job Title" required="" type="text">
+                                                        </div>
+                                                    </div>
+                                                    <div class="row row-sm">
+                                                        <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12 mb-2">
+                                                            <label class="form-control-label">Company Name <span
+                                                                    class="tx-danger">*</span></label> <input
+                                                                class="form-control" id="company-name"
+                                                                name="company-name"
+                                                                placeholder="Company Name" required="" type="text">
+                                                        </div>
+                                                    </div>
+                                                    <div class="row row-sm">
+                                                        <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12 mb-2">
+                                                            <label class="form-control-label">Website <span
+                                                                    class="tx-danger">*</span></label> <input
+                                                                class="form-control" id="website-name"
+                                                                name="website-name"
+                                                                placeholder=" Enter Company Website" required=""
+                                                                type="text">
+                                                        </div>
+                                                    </div>
+                                                    <div class="row row-sm">
+
+                                                        <div class="col-md-6 col-lg-6 col-sm-12  col-xs-12 mb-2">
+                                                            <label class="form-control-label">Start Date <span
+                                                                    class="tx-danger" id="exp_`+ record_id +`_error">*</span></label>
+                                                            <div class="row">
+																<div class="col-md-6 col-lg-6 col-sm-12 col-xs-12">
+																	<select class="form-control required" name="exp_start_month" id="exp_start_month" required>
+																		<option label="Month"disabled selected hidden></option>
+																		 {% for i in months %}
+																			<option value="{{i.id}}">{{i.name}}</option>
+																		 {% endfor %}
+																	</select>
+																</div>
+																<div class="col-md-6 col-lg-6 col-sm-12 col-xs-12">
+																	<select class="form-control required year" name="exp_start_year" id="exp_start_year" required>
+																		<option label="Year"></option>
+																	</select>
+																</div>
+															</div>
+
+                                                        </div>
+                                                        <div class="col-md-6 col-lg-6 col-sm-12  col-xs-12 mb-2">
+                                                            <label class="form-control-label">End Date <span
+                                                                    class="tx-danger">* <input class="filled-in"  style="margin: 3px 10px 0px 36px" id="exp_current_checkbox_new"  type="checkbox" name="exp_current_checkbox1"/>
+																	<label class="form-label" style="display: inline;" for="exp_current_checkbox_new">If Current</label></span></label>
+                                                            <div class="row" id="exp_end_date_section">
+																<div class="col-md-6 col-lg-6 col-sm-12 col-xs-12">
+																	<select class="form-control required" name="exp_end_month" id="exp_end_month" required>
+																		<option label="Month"></option>
+																		 {% for i in months %}
+																			<option value="{{i.id}}">{{i.name}}</option>
+																		 {% endfor %}
+																	</select>
+																</div>
+																<div class="col-md-6 col-lg-6 col-sm-12 col-xs-12">
+																	<select class="form-control required year"  name="exp_end_year" id="exp_end_year" required>
+																		<option label="Year"></option>
+																	</select>
+																</div>
+															</div>
+                                                        </div>
+
+                                                    </div>
+                                                    <div class="row row-sm">
+                                                        <div class="col-md-6 col-lg-6 col-sm-12 col-xs-12 mb-2">
+                                                            <label class="form-control-label">Start Salary:</label>
+                                                            <input class="form-control" id="startSalary"
+                                                                   name="startSalary" required
+                                                                   placeholder="starting salary" type="number">
+                                                        </div>
+                                                        <div class="col-md-6 col-lg-6 col-sm-12  col-xs-12 mb-2" id="exp_end_salary_div">
+                                                            <label class="form-control-label">End Salary: </label>
+                                                            <input class="form-control" id="endSalary" name="endSalary"
+                                                                placeholder="ending salary" required
+                                                                   type="number">
+                                                        </div>
+                                                    </div>
+                                                    <div class="row row-sm">
+                                                        <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12 mb-2">
+                                                            <label class="form-control-label">Job Description: <span
+                                                                    class="tx-danger">*</span></label>
+                                                            <textarea class="form-control" id="job_description`+record_id+`"
+                                                                      name="job_desc" placeholder="Describe your job responsibilites">
+                                                                      </textarea>
+                                                        </div>
+                                                    </div>
+													<div class="row">
+													<div class="col-md-12">
+														<div class="control-group form-group">
+															<label class="form-control-label">Documents :</label>
+															<div id="experience-files`+record_id+`">
+																<div class="row">
+																	<div class="col-sm-5">
+																		<input class="form-control input-sm" type="text" name="exp_docs_name" id="w_document_name1" placeholder="Name of Document">
+																	</div>
+																	<div class="col-sm-5">
+																		<div class="input-group file-browser">
+																			<input type="text"
+																				class="form-control border-right-0 browse-file"
+																				placeholder="upload your file" readonly>
+																			<label class="input-group-btn">
+																				<span class=" btn-default">
+																					Browse <input type="file" name="exp_docs_new" style="display: none;" id="w_document1"
+																						multiple>
+																				</span>
+																			</label>
+																		</div>
+																	</div>
+																	<div class="col-sm-2">
+																		<a onclick="addMoreFiles(`+record_id+`)"  title="" class="add-more btn_cus_more_file"> <i data-v-e08301e8="" class="las la-plus"></i> Add More</a>
+
+																	</div>
+																</div>
+															</div>
+
+														</div>
+													</div>
+												</div>
+                                                    <div class="butn-form mb-3">
+                                                        <button type="submit" class="btn btn-primary btn-block">Submit
+                                                        </button>
+                                                        <button type="button" class="btn btn-toggle-open  btn-block  btn-danger">Cancel</button>
+                                                    </div>
+                                                </div>
+                                            </form>
+                                        </div>`)
+		tinymce.init({
+			selector: "#job_description"+record_id,
+			menubar: false,
+			plugins: 'lists advlist',
+			toolbar: 'bullist numlist bold',
+			branding: 'False',
+		});
+		$("#exp_current_checkbox_new").click(function() {
+			console.log("hello")
+			if($(this).is(":checked")) {
+				 $("#exp_end_date_section").hide();
+				 $("#exp_end_salary_div").hide();
+				 $("#exp_end_date_section").find('#exp_end_month').removeAttr('required','required');
+				 $("#exp_end_date_section").find('#exp_end_year').removeAttr('required','required');
+				 $("#exp_end_salary_div").find('#endSalary').removeAttr('required','required');
+			} else {
+			     $("#exp_end_date_section").show();
+			     $("#exp_end_salary_div").show();
+				 $("#exp_end_date_section").find('#exp_end_month').attr('required','required');
+				 $("#exp_end_date_section").find('#exp_end_year').attr('required','required');
+				 $("#exp_end_salary_div").find('#endSalary').attr('required','required');
+			}
+	   });
+
+	//    form_id = '#myForm_'+record_id
+	//    my_form = document.getElementById(form_id)
+	//    $(my_form).on('submit', function(e){
+    //     e.preventDefault();
+    //     // var len = $('#username').val().length;
+	// 	start_month = my_form.querySelector('#exp_start_month')
+	// 	start_year = my_form.querySelector('#exp_start_year')
+	// 	end_month = my_form.querySelector('#exp_end_month')
+	// 	end_year = my_form.querySelector('#exp_end_year')
+	// 	console.log(start_month)
+	// 	console.log(start_year)
+	// 	console.log(end_month)
+	// 	console.log(end_year)
+    //     // if (len < 6 && len > 1) {
+    //     //     this.submit();
+    //     // }
+	// 	return false
+    // });
+
+    }
+
+
+
+	function addMoreEducationGap(event){
+        education_gaps_dom = document.getElementById('all_education_gaps').querySelectorAll("#candidate_single_education_gap");
+		console.log(education_gaps_dom)
+        last_education_gap = education_gaps_dom[education_gaps_dom.length- 1];
+		console.log(last_education_gap)
+
+		try{
+			record_id = Number($(last_education_gap).find(".record_id")[0].value) + 1;
+		}
+		catch
+		{
+			record_id = 1
+		}
+
+
+		console.log('record id is',record_id)
+
+		$('#all_education_gaps').append(`<div class="add-exp acc__card" id="candidate_single_education_gap">
+
+
+													<div class="row row-sm">
+		                                                <div class="col-md-12 col-lg-9 col-sm-12 col-xs-12 mb-2">
+		                                                   <input class="form-control" id="job-name" name="job-name" value="New Gap" placeholder="Gap Duration" type="text" disabled>
+		                                                </div>
+		                                                <div class="col-md-12 col-lg-3 col-sm-12 col-xs-12 mb-2 edit_delete_candidate_b">
+		                                                   <a href="javascript:void(0)" class="btn ripple btn-toggle-open btn-primary text-white btn-icon edit_delete" data-placement="top" data-toggle="tooltip" title="" data-original-title="Edit Experience"><i class="bx bx-edit"></i> </a>
+													       <a data-toggle="modal" data-target="#Modal_edu_gap_new_`+record_id+`" style="background-color: red;border: none;" href="javascript:void(0)" class="btn ripple  btn-primary text-white btn-icon edit_delete" data-placement="top"  title="" data-original-title="Delete Experience"><i class="las la-trash"></i> </a>
+		                                                </div>
+		                                            </div>	
+													
+													
+
+
+													<!-- Modal -->
+													<div class="modal fade" id="Modal_edu_gap_new_`+record_id+`" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+														<div class="modal-dialog" role="document">
+														<div class="modal-content">
+															<div class="modal-header">
+															<h5 class="modal-title" id="exampleModalLabel">Delete</h5>
+															<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+																<span aria-hidden="true">&times;</span>
+															</button>
+															</div>
+															<div class="modal-body">
+															Are you sure you want to delete this record
+															</div>
+															<div class="modal-footer">
+															<button type="button" class="btn btn-secondary" data-dismiss="modal" >Cancel</button>
+															<button type="button" class="btn btn-primary" data-dismiss="modal" onclick="deleteRecord(event,'`+record_id+`','work_experience')">Delete</button>
+															</div>
+														</div>
+														</div>
+													</div>
+													<form method="post" role="form"
+														action="{% url 'candidate:edit_profile' profile_id %}"
+														enctype="multipart/form-data" id='myEduGapForm_`+record_id+`' onchange="validateEduGapForm(`+record_id+`);" onsubmit="return submitEduGapForm(`+record_id+`);">
+														{% csrf_token %}
+														<input type="hidden" name="record_id" class="record_id" value="`+record_id+`">
+														<input type="hidden" name="model_name" value="education_gap">
+														<div class="open-custom-form custom-form">
+
+
+
+															<div class="row row-sm">
+
+																<div class="col-md-6 col-lg-6 col-sm-12 col-xs-12">
+																	<label class="form-control-label">Start Date <span
+																			class="tx-danger" id='edu_gap_`+record_id+`_error' >*</span></label>
+																	<div class="row">
+																		<div class="col-md-6 col-lg-6 col-sm-12 col-xs-12 mb-2">
+																			<select class="form-control required" name="edu_gap_start_month" id="edu_gap_start_month" required >
+																				<option label="Month"></option>
+																				{% for i in months %}
+																					<option value="{{i.id}}">{{i.name}}</option>
+																				{% endfor %}
+																			</select>
+																		</div>
+																		<div class="col-md-6 col-lg-6 col-sm-12 col-xs-12 mb-2">
+																			<select class="form-control required year" name="edu_gap_start_year" id="edu_gap_start_year" required>
+																				<option label="Year"></option>
+
+																			</select>
+																		</div>
+																	</div>
+																</div>
+																<div class="col-md-6 col-lg-6 col-sm-12  col-xs-12 mb-2">
+																	<label class="form-control-label">End Date</label>
+
+																	<div class="row" id="edu_gap_end_date_section_new" >
+																		<div class="col-md-6 col-lg-6 col-sm-12 col-xs-12">
+																			<select class="form-control required" name="edu_gap_end_month" id="edu_gap_end_month" required>
+																				<option label="Month"></option>
+																				{% for i in months %}
+																					<option value="{{i.id}}" >{{i.name}}</option>
+																				{% endfor %}
+																			</select>
+																		</div>
+																		<div class="col-md-6 col-lg-6 col-sm-12 col-xs-12">
+
+																			<select class="form-control required year"  name="edu_gap_end_year" id="edu_gap_end_year" required>
+																				<option label="Year"></option>
+
+																			</select>
+																		</div>
+																	</div>
+																</div>
+
+															</div>
+
+															<div class="row row-sm">
+																<div class="col-md-12 col-lg-12 col-sm-12 col-xs-12 mb-2">
+																	<label class="form-control-label">Gap Reason: <span
+																			class="tx-danger">*</span></label>
+																	<input type="text" class="form-control" id="gap_reason"
+																			name="edu_gap_reason" required placeholder="Describe the reason for the Gap">
+
+																</div>
+															</div>
+
+															<div class="butn-form mb-3">
+																<button type="submit" class="btn btn-primary btn-block">Submit
+																</button>
+																<button type="button" class="btn btn-toggle-open btn-block btn-danger">Cancel</button>
+															</div>
+														</div>
+													</form>
+												</div>`)
+
+	// 	$("#exp_current_checkbox_new").click(function() {
+	// 		console.log("hello")
+	// 		if($(this).is(":checked")) {
+	// 			 $("#exp_end_date_section").hide();
+	// 			 $("#exp_end_salary_div").hide();
+	// 			 $("#exp_end_date_section").find('#exp_end_month').removeAttr('required','required');
+	// 			 $("#exp_end_date_section").find('#exp_end_year').removeAttr('required','required');
+	// 			 $("#exp_end_salary_div").find('#endSalary').removeAttr('required','required');
+	// 		} else {
+	// 		     $("#exp_end_date_section").show();
+	// 		     $("#exp_end_salary_div").show();
+	// 			 $("#exp_end_date_section").find('#exp_end_month').attr('required','required');
+	// 			 $("#exp_end_date_section").find('#exp_end_year').attr('required','required');
+	// 			 $("#exp_end_salary_div").find('#endSalary').attr('required','required');
+	// 		}
+	//    });
+
+	//    form_id = '#myForm_'+record_id
+	//    my_form = document.getElementById(form_id)
+	//    $(my_form).on('submit', function(e){
+    //     e.preventDefault();
+    //     // var len = $('#username').val().length;
+	// 	start_month = my_form.querySelector('#exp_start_month')
+	// 	start_year = my_form.querySelector('#exp_start_year')
+	// 	end_month = my_form.querySelector('#exp_end_month')
+	// 	end_year = my_form.querySelector('#exp_end_year')
+	// 	console.log(start_month)
+	// 	console.log(start_year)
+	// 	console.log(end_month)
+	// 	console.log(end_year)
+    //     // if (len < 6 && len > 1) {
+    //     //     this.submit();
+    //     // }
+	// 	return false
+    // });
+
+    }
+
+	function addMoreExperienceGap(event){
+        experience_gaps_dom = document.getElementById('all_experience_gaps').querySelectorAll("#candidate_single_experience_gap");
+		console.log(experience_gaps_dom)
+        last_experience_gap = experience_gaps_dom[experience_gaps_dom.length- 1];
+		console.log(last_experience_gap)
+
+		try{
+			record_id = Number($(last_experience_gap).find(".record_id")[0].value) + 1;
+		}
+		catch
+		{
+			record_id = 1
+		}
+
+
+		console.log('record id is',record_id)
+
+		$('#all_experience_gaps').append(`<div class="add-exp acc__card" id="candidate_single_experience_gap">
+
+													<div class="row row-sm">
+		                                                <div class="col-md-12 col-lg-9 col-sm-12 col-xs-12 mb-2">
+		                                                   <input class="form-control" id="job-name" name="job-name" value="New Gap" placeholder="Gap Duration" type="text" disabled>
+		                                                </div>
+		                                                <div class="col-md-12 col-lg-3 col-sm-12 col-xs-12 mb-2 edit_delete_candidate_b">
+		                                                  <a href="javascript:void(0)" class="btn ripple btn-toggle-open btn-primary text-white btn-icon edit_delete" data-placement="top" data-toggle="tooltip" title="" data-original-title="Edit Experience"><i class="bx bx-edit"></i> </a>
+													     <a data-toggle="modal" data-target="#Modal_experience_gap_`+record_id+`" style="background-color: red;border: none;" href="javascript:void(0)" class="btn ripple  btn-primary text-white btn-icon edit_delete" data-placement="top"  title="" data-original-title="Delete Experience"><i class="las la-trash"></i> </a>
+		                                                </div>
+		                                            </div>
+
+													<!-- Modal -->
+													<div class="modal fade" id="Modal_experience_gap_`+record_id+`" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+														<div class="modal-dialog" role="document">
+														<div class="modal-content">
+															<div class="modal-header">
+															<h5 class="modal-title" id="exampleModalLabel">Delete</h5>
+															<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+																<span aria-hidden="true">&times;</span>
+															</button>
+															</div>
+															<div class="modal-body">
+															Are you sure you want to delete this record
+															</div>
+															<div class="modal-footer">
+															<button type="button" class="btn btn-secondary" data-dismiss="modal" >Cancel</button>
+															<button type="button" class="btn btn-primary" data-dismiss="modal" onclick="deleteRecord(event,'`+record_id+`','work_experience')">Delete</button>
+															</div>
+														</div>
+														</div>
+													</div>
+													<form method="post" role="form"
+														action="{% url 'candidate:edit_profile' profile_id %}"
+														enctype="multipart/form-data" id='myExpGapForm_`+record_id+`' onchange="validateExpGapForm(`+record_id+`);" onsubmit="return submitExpGapForm(`+record_id+`);">
+														{% csrf_token %}
+														<input type="hidden" name="record_id" class="record_id" value="`+record_id+`">
+														<input type="hidden" name="model_name" value="experience_gap">
+														<div class="open-custom-form custom-form">
+
+
+
+															<div class="row row-sm">
+
+																<div class="col-md-6 col-lg-6 col-sm-12 col-xs-12 mb-2">
+																	<label class="form-control-label">Start Date <span
+																			class="tx-danger" id='exp_gap_`+record_id+`_error' >*</span></label>
+																	<div class="row">
+																		<div class="col-md-6 col-lg-6 col-sm-12 col-xs-12">
+																			<select class="form-control required" name="exp_gap_start_month" id="exp_gap_start_month" required >
+																				<option label="Month"></option>
+																				{% for i in months %}
+																					<option value="{{i.id}}">{{i.name}}</option>
+																				{% endfor %}
+																			</select>
+																		</div>
+																		<div class="col-md-6 col-lg-6 col-sm-12 col-xs-12">
+																			<select class="form-control required year" name="exp_gap_start_year" id="exp_gap_start_year" required>
+																				<option label="Year"></option>
+
+																			</select>
+																		</div>
+																	</div>
+																</div>
+																<div class="col-md-6 col-lg-6 col-sm-12  col-xs-12 mb-2">
+																	<label class="form-control-label">End Date</label>
+
+																	<div class="row" id="exp_gap_end_date_section_new" >
+																		<div class="col-md-6 col-lg-6 col-sm-12 col-xs-12">
+																			<select class="form-control required" name="exp_gap_end_month" id="exp_gap_end_month" required>
+																				<option label="Month"></option>
+																				{% for i in months %}
+																					<option value="{{i.id}}" >{{i.name}}</option>
+																				{% endfor %}
+																			</select>
+																		</div>
+																		<div class="col-md-6 col-lg-6 col-sm-12 col-xs-12">
+
+																			<select class="form-control required year"  name="exp_gap_end_year" id="exp_gap_end_year" required>
+																				<option label="Year"></option>
+
+																			</select>
+																		</div>
+																	</div>
+																</div>
+
+															</div>
+
+															<div class="row row-sm">
+																<div class="col-md-12 col-lg-12 col-sm-12 col-xs-12 mb-2">
+																	<label class="form-control-label">Gap Reason: <span
+																			class="tx-danger">*</span></label>
+																	<input type="text" class="form-control" id="job_description"
+																			name="exp_gap_reason" required placeholder="Describe the reason for the Gap">
+
+																</div>
+															</div>
+
+															<div class="butn-form mb-3">
+																<button type="submit" class="btn btn-primary btn-block">Submit
+																</button>
+																<button type="button" class="btn btn-toggle-open btn-block btn-danger">Cancel</button>
+															</div>
+														</div>
+													</form>
+												</div>`)
+
+
+
+    }
+	function validateExpForm(record_id)
+	{
+		const monthNames = ["January", "February", "March", "April", "May", "June",
+  			"July", "August", "September", "October", "November", "December"];
+
+		form_id = 'myExpForm_'+record_id
+		my_form = document.getElementById(form_id)
+
+		if_current_checkbox = my_form.querySelector('[name="exp_current_checkbox1"]').checked
+		error_label_id = 'exp_' + record_id + '_error'
+		error_label = document.getElementById(error_label_id)
+		error_label.innerHTML = "*"
+		console.log("check boooooooooooooooooooox",if_current_checkbox)
+
+		if(!if_current_checkbox)
+		{
+			start_month_number = my_form.querySelector('#exp_start_month')
+			start_month = monthNames[start_month_number.value-1]
+			start_year = my_form.querySelector('#exp_start_year')
+			end_month_number = my_form.querySelector('#exp_end_month')
+			end_month =monthNames[end_month_number.value-1]
+			end_year = my_form.querySelector('#exp_end_year')
+			console.log('=======================>')
+			console.log("start month",start_month)
+			console.log("start year ",start_year.value)
+			console.log("end month",end_month)
+			console.log("end yrear",end_year.value)
+
+
+			var s_date = start_month + ',' + ' ' + start_year.value;
+			var e_date = end_month + ',' + ' ' + end_year.value;
+
+			var date1 = Date.parse(s_date);
+			var date2= Date.parse(e_date);
+			console.log(date1)
+			console.log(date2)
+
+			if(date1>=date2)
+			{
+				error_label_id = 'exp_' + record_id + '_error'
+				error_label = document.getElementById(error_label_id)
+				error_label.innerHTML = "* Invalid Date"
+				start_month_number.focus()
+				// alert("invalid date!!!!")
+				// event.errormessage = 'Invalid date';
+
+			}
+			else
+			{
+				error_labe_id = 'exp_' + record_id + '_error'
+				error_label = document.getElementById(error_labe_id)
+				error_label.innerHTML = "*"
+			}
+		}
+
+
+
+
+	}
+
+	function submitExpForm(record_id)
+	{
+		error_label_id = 'exp_' + record_id + '_error'
+		error_label = document.getElementById(error_label_id)
+		if (error_label.innerHTML == '*')
+		{
+			return true
+		}
+		else
+		{
+			return false
+		}
+	}
+
+	function validateEduForm(record_id)
+	{
+		const monthNames = ["January", "February", "March", "April", "May", "June",
+  			"July", "August", "September", "October", "November", "December"];
+
+		form_id = 'myEduForm_'+record_id
+		my_form = document.getElementById(form_id)
+		start_month_number = my_form.querySelector('#edu_start_month')
+		start_month = monthNames[start_month_number.value-1]
+		start_year = my_form.querySelector('#edu_start_year')
+		end_month_number = my_form.querySelector('#edu_end_month')
+		end_month =monthNames[end_month_number.value-1]
+		end_year = my_form.querySelector('#edu_end_year')
+		console.log('=======================>')
+		console.log(start_month)
+		console.log(start_year.value)
+		console.log(end_month)
+		console.log(end_year.value)
+
+
+		var s_date = start_month + ',' + ' ' + start_year.value;
+		var e_date = end_month + ',' + ' ' + end_year.value;
+
+		var date1 = Date.parse(s_date);
+   		var date2= Date.parse(e_date);
+		console.log(date1)
+		console.log(date2)
+		if(date1>=date2)
+			{
+				error_label_id = 'edu_' + record_id + '_error'
+				error_label = document.getElementById(error_label_id)
+				error_label.innerHTML = "* Invalid Date"
+				start_month_number.focus()
+				// alert("invalid date!!!!")
+				// event.errormessage = 'Invalid date';
+
+			}
+			else
+			{
+				error_labe_id = 'edu_' + record_id + '_error'
+				error_label = document.getElementById(error_labe_id)
+				error_label.innerHTML = "*"
+			}
+	}
+
+
+	function submitEduForm(record_id)
+	{
+		error_label_id = 'edu_' + record_id + '_error'
+		error_label = document.getElementById(error_label_id)
+		if (error_label.innerHTML == '*')
+		{
+			return true
+		}
+		else
+		{
+			return false
+		}
+	}
+
+	function validateExpGapForm(record_id)
+	{
+		const monthNames = ["January", "February", "March", "April", "May", "June",
+  			"July", "August", "September", "October", "November", "December"];
+
+		form_id = 'myExpGapForm_'+record_id
+		my_form = document.getElementById(form_id)
+
+
+		error_label_id = 'exp_gap_' + record_id + '_error'
+		error_label = document.getElementById(error_label_id)
+
+
+
+		start_month_number = my_form.querySelector('#exp_gap_start_month')
+		start_month = monthNames[start_month_number.value-1]
+		start_year = my_form.querySelector('#exp_gap_start_year')
+		end_month_number = my_form.querySelector('#exp_gap_end_month')
+		end_month =monthNames[end_month_number.value-1]
+		end_year = my_form.querySelector('#exp_gap_end_year')
+		console.log('=======================>')
+		console.log("start month",start_month)
+		console.log("start year ",start_year.value)
+		console.log("end month",end_month)
+		console.log("end yrear",end_year.value)
+
+
+		var s_date = start_month + ',' + ' ' + start_year.value;
+		var e_date = end_month + ',' + ' ' + end_year.value;
+
+		var date1 = Date.parse(s_date);
+		var date2= Date.parse(e_date);
+		console.log(date1)
+		console.log(date2)
+
+		if(date1>=date2)
+		{
+
+
+			error_label.innerHTML = "* Invalid Date"
+			// start_month_number.focus()
+			// alert("invalid date!!!!")
+			// event.errormessage = 'Invalid date';
+
+		}
+		else
+		{
+
+
+			error_label.innerHTML = "*"
+		}
+
+
+
+
+
+	}
+
+	function submitExpGapForm(record_id)
+	{
+		error_label_id = 'exp_gap_' + record_id + '_error'
+		error_label = document.getElementById(error_label_id)
+		if (error_label.innerHTML == '*')
+		{
+			return true
+		}
+		else
+		{
+			error_label.focus()
+			return false
+		}
+	}
+
+	function validateEduGapForm(record_id)
+	{
+		const monthNames = ["January", "February", "March", "April", "May", "June",
+  			"July", "August", "September", "October", "November", "December"];
+
+		form_id = 'myEduGapForm_'+record_id
+		my_form = document.getElementById(form_id)
+
+
+		error_label_id = 'edu_gap_' + record_id + '_error'
+		error_label = document.getElementById(error_label_id)
+
+
+
+		start_month_number = my_form.querySelector('#edu_gap_start_month')
+		start_month = monthNames[start_month_number.value-1]
+		start_year = my_form.querySelector('#edu_gap_start_year')
+		end_month_number = my_form.querySelector('#edu_gap_end_month')
+		end_month =monthNames[end_month_number.value-1]
+		end_year = my_form.querySelector('#edu_gap_end_year')
+		console.log('=======================>')
+		console.log("start month",start_month)
+		console.log("start year ",start_year.value)
+		console.log("end month",end_month)
+		console.log("end yrear",end_year.value)
+
+
+		var s_date = start_month + ',' + ' ' + start_year.value;
+		var e_date = end_month + ',' + ' ' + end_year.value;
+
+		var date1 = Date.parse(s_date);
+		var date2= Date.parse(e_date);
+		console.log(date1)
+		console.log(date2)
+
+		if(date1>=date2)
+		{
+			error_label.innerHTML = "* Invalid Date"
+			// start_month_number.focus()
+			// alert("invalid date!!!!")
+			// event.errormessage = 'Invalid date';
+		}
+		else
+		{
+			error_label.innerHTML = "*"
+		}
+	}
+
+	function submitEduGapForm(record_id)
+	{
+		error_label_id = 'edu_gap_' + record_id + '_error'
+		error_label = document.getElementById(error_label_id)
+		if (error_label.innerHTML == '*')
+		{
+			return true
+		}
+		else
+		{
+			error_label.focus()
+			return false
+		}
+	}
+	function addMoreFiles(record_id){
+		console.log("record id",record_id)
+        var files_dom = document.getElementById('experience-files'+record_id)
+        $('#experience-files'+record_id).append(`<div class="row">
+			 <div class="col-sm-5">
+				<input class="form-control input-sm" type="text"  name='exp_docs_name' id="w_document_name`+record_id+`" placeholder="Name of Document">
+			</div>
+			<div class="col-sm-5">
+				<div class="input-group file-browser">
+					<input type="text"
+						class="form-control border-right-0 browse-file"
+						placeholder="upload your file" readonly>
+					<label class="input-group-btn">
+						<span class=" btn-default">
+							Browse <input type="file" id="w_document1" name="exp_docs_new" style="display: none;" id="w_document1"
+								multiple>
+						</span>
+					</label>
+				</div>
+			</div>
+			<div class="col-sm-2">
+				<a title="" class="add-more"> <i onclick="deleteExpFile(event,`+record_id+`)"  data-v-e08301e8="" class="las la-trash"></i></a>
+			</div>
+		</div>`)
+		$(':file').on('fileselect', function(event, numFiles, label) {
+			console.log("i am inside the fucntiooooon")
+		  var input = $(this).parents('.input-group').find(':text'),
+			  log = numFiles > 1 ? numFiles + ' files selected' : label;
+
+		  if( input.length ) {
+			  input.val(log);
+		  } else {
+			  if( log ) alert(log);
+		  }
+
+	  });
+    }
+
+
+	function deleteExpDoc(event,record_id,experience_id)
+	{
+		event.parentElement.parentElement.remove();
+		console.log(record_id)
+		console.log(experience_id)
+		$.ajax({
+			url:"/candidate/delete_exp_document",
+			type:'POST',
+			headers: {'X-CSRFToken': $("input[name=csrfmiddlewaretoken]").val() },
+			data: {'record_id':record_id,'experience_id':experience_id},
+			error: function (request, status, error) {
+				alert(error);
+			}
+		}).done(function(response){
+			if(response=="True"){
+				console.log("True");
+
+			}else{
+				console.log("false");
+			}
+		})
+	}
+
+	function deleteExpFile(event,record_id){
+        event.target.parentElement.parentElement.parentElement.remove();
+    }
+
+	function showPreviewOne(event){
+	  if(event.target.files.length > 0){
+		let src = URL.createObjectURL(event.target.files[0]);
+		let preview = document.getElementById("file-ip-1-preview");
+		preview.src = src;
+	  }
+	}
+	$(document).ready(function() {
+		$('#c_dob').datepicker({
+		onSelect: function(value, ui) {
+			var today = new Date(),
+				age = today.getFullYear() - ui.selectedYear;
+		},
+		yearRange: '-70:-18',
+		dateFormat: 'dd/mm/yy',
+		changeMonth: true,
+		changeYear: true,
+		})
+	// 	console.log("loaded")
+	// 	$("#exp_current_checkbox_new").click(function() {
+	// 		console.log("hello")
+	// 		if($(this).is(":checked")) {
+	// 			 $("#exp_end_date_section").hide();
+	// 			 $("#exp_end_salary_div").hide();
+	// 		} else {
+	// 		     $("#exp_end_date_section").show();
+	// 		     $("#exp_end_salary_div").show();
+	// 		}
+	//    });
+
+	$('.demo-htmlselect').each(function(index,element){
+		$(element).ddslick({
+			onSelected: function(data){
+				console.log("==========>",element.id)
+				network_id = element.id
+				console.log(document.getElementById(network_id).parentElement.querySelector('#network_name'))
+				console.log("selectedData",data.selectedData)
+                // element.parentElement.find('#network_name').value =data.selectedData.value;
+				document.getElementById(network_id).parentElement.querySelector('#network_name').value = data.selectedData.value
+                // $('#editcflag').submit();
+			}
+		});
+	});
+
+
+	});
+function hide_end_date_data(checkbox,id)
+	{		console.log("id",id)
+
+			var id_name_end_date = "#exp_end_date_section_"+id
+			var id_name_end_salary = "#exp_end_salary_div_"+id
+			console.log($(id_name_end_date))
+			console.log($(id_name_end_salary))
+			if(checkbox.checked) {
+				console.log("hello")
+				 $(id_name_end_date).hide();
+				//  $(id_name_end_date).removeAttr('required','required');
+				 $(id_name_end_salary).hide();
+				//  $(id_name_end_salary).removeAttr('required','required');
+				$(id_name_end_date).find('#exp_end_month').removeAttr('required','required');
+				$(id_name_end_date).find('#exp_end_year').removeAttr('required','required');
+				$(id_name_end_salary).find('#endSalary').removeAttr('required','required');
+
+			} else {
+
+				 $(id_name_end_date).show();
+				 $(id_name_end_salary).show();
+				//  exp_end_month
+				$(id_name_end_date).find('#exp_end_month').attr('required','required');
+				$(id_name_end_date).find('#exp_end_year').attr('required','required');
+				$(id_name_end_salary).find('#endSalary').attr('required','required');
+				//  console.log($(id_name_end_date).find('#exp_end_month'))
+				//  console.log($(id_name_end_date).find('#exp_end_year'))
+				//  console.log($(id_name_end_salary).find('#endSalary'))
+				//  $(id_name_end_date).attr('required','required');
+
+				//  $(id_name_end_salary).attr('required','required');
+			}
+	}
+
+function deleteRecord(event,record_id,step){
+		console.log('in del rec', record_id)
+		event.target.parentElement.parentElement.parentElement.parentElement.parentElement.remove();
+		$.ajax({
+			url:"/candidate/upload_resume/remove_record",
+			type:'POST',
+			headers: {'X-CSRFToken': $("input[name=csrfmiddlewaretoken]").val() },
+			data: {'record_id':record_id,'step': step},
+			error: function (request, status, error) {
+				alert(error);
+			}
+		}).done(function(response){
+			if(response=="True"){
+				console.log("True");
+
+			}else{
+				console.log("false");
+			}
+		})
+		if(step == 'education_gap')
+		{
+
+			var education_gap_div_elements = document.querySelectorAll('#candidate_single_education_gap')
+
+			if(education_gap_div_elements.length == 0)
+			{
+			$("#all_education_gaps").html('<a onclick="addMoreEducationGap(event)" class="add-more gap_add_more" style="position: relative;">Add Gap <i data-v-e08301e8="" class="las la-plus"></i></a>')
+			}
+
+		}
+		else if(step == 'experience_gap')
+		{
+
+			var experience_gap_div_elements = document.querySelectorAll('#candidate_single_experience_gap')
+
+			if(experience_gap_div_elements.length == 0)
+			{
+				$("#all_experience_gaps").html('<a onclick="addMoreExperienceGap(event)" class="add-more gap_add_more" style="position: relative;">Add Gap <i data-v-e08301e8="" class="las la-plus"></i></a>')
+			}
+
+
+
+		}
+}
+    $(document).on('focus','.year',function(){
+        var dob_year = $('#c_dob').val().split("/");
+        var current_year = new Date().getFullYear()
+        var yearrange =  dob_year[2]+':'+current_year;
+        $(this).empty();
+		$(this).append(`<option label="Year"></option>`)
+		for(let i=Number(dob_year[2]);i <= Number(current_year);i++){
+			console.log('i>>>>>>>>>>>>>>',i);
+			// console.log('i>>>>>>>>>>>>>>',$(this));
+			$(this).append(`<option value="`+i+`">`+i+`</option>`)
+		}
+    });
+     $(document).on('focus','.skill_year',function(){
+        var dob_year = $('#c_dob').val().split("/");
+        var current_year = new Date().getFullYear()
+        var yearrange =  dob_year[2]+':'+current_year;
+        $(this).empty();
+		for(let i=Number(dob_year[2]);i <= Number(current_year);i++){
+			$(this).append(`<option value="`+i+`">`+i+`</option>`)
+		}
+		$(this).append(`<option value="present">Present</option>`)
+    });
+</script>
+
+{% endblock %}
+
+{% endblock %}
+
+

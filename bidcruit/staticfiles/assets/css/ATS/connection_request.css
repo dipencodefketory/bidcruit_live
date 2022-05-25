@@ -1,0 +1,243 @@
+.candidate_view_main_section .card-header {
+    padding-bottom: 10px !important;
+    padding-top: 10px !important;
+}
+.candidate_view_header a.btn-jobs{
+    color: #ffffff;
+    background-color: #0068ff;
+    border-color: #0068ff;
+    border-radius: 10px;
+    margin: 0;
+}
+.candidate_view_header a.btn-Accept{    
+    color: #ffffff;
+    background-color: #19b15a;
+    border-color: #19b15a;
+    border-radius: 10px;
+    margin: 0;
+}
+.candidate_view_header a.btn-cancel{
+    color: #ffffff;
+    background-color: #ff5353;
+    border-color: #ff5353;
+    border-radius: 10px;
+}
+.candidate_view_header {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+}
+
+.candidate_view_main_section .card-title {
+    font-weight: 700;
+    color: #041b4e;
+    font-size: 16px;
+    text-transform: uppercase;
+    padding-top: 9px;
+}
+.tab-menu-heading .tabs-menu .nav.panel-tabs li a {
+    font-size: 14px;
+    color: #041b4e;
+    border-radius: 0;
+    padding: 10px 12px;
+    margin-right: 0;
+    border: none;
+    border-right: none;
+    text-transform: uppercase;
+    position: relative;
+    transition: all 0.3s ease 0s;
+    font-weight: 500;
+}
+.view_profile_card .card-body {
+    padding: 12px 14px;
+}
+.view_profile_card .card-body .cardheader{
+    background-color: #f8f9fb;
+    padding: 12px 14px;
+    border-radius: 10px;
+}
+.tab-menu-heading .tabs-menu .nav.panel-tabs li a.active{
+    color:#0068ff;
+}
+
+.tab-content.connection_req {
+    overflow: unset;
+}
+.view_profile_card.card {
+    border-radius: 10px !important;    
+}
+.view_profile_card .main_img-user {
+    text-align: center;
+    padding: 0px 5px;
+    width: 70px;
+    /* height: 70px;
+    background-color: #f9fafc;
+    border-radius: 70px; */
+}
+.view_profile_card .main_img-user img {
+    width: 40px;
+    height: 40px;
+    object-fit: fill;
+}
+.info_view_candidate_row{
+    display: flex;
+    flex: 1;
+    align-items: center;
+}
+
+.media-body.name_skils_title .name {
+    color: #031b4e;
+    font-weight: 900;
+    font-size: 18px;
+    line-height: 20px;
+}
+.media-body.name_skils_title .name span {
+    font-weight: normal;
+}
+.name_skils_title span.text-muted {
+    color: #031b4e !important;
+    font-size: 14px;
+    line-height: 20px;
+}
+.candidate_profile_footer {
+    width: auto;
+    padding-left: 14px;
+    padding-right: 14px;
+    padding-top: 0;
+    padding-bottom: 0px;
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.candidate_filters_header {
+    float: left;
+    padding-top: 5px;
+}
+.candidate_filters_header a {
+    color: #041b4e;
+    margin: 0 15px;
+    font-size: 16px;
+}
+.candidate_profilevalue {
+    font-weight: normal;
+    padding-top: 0px;
+    padding-left: 16px;
+}
+.candidate_profile_title {
+    line-height: normal;
+}
+.candidate_profile_footer:first-child{
+    padding-left: 0;
+}
+.candidate_profile_footer:last-child{
+    border: none;
+    padding-right: 0;
+}
+.candidate_profile_title i {
+    color: #0068ff;
+    padding-right: 5px;
+}
+.condidate_view_tabing .panel.panel-primary .card-body{
+    padding: 12px;
+}
+
+
+.source_section_views {
+    width: 49%;
+    float: left;
+    margin-left: 1%;
+}
+.source_section_views .left_preference {
+    width: 100%;
+    float: none;
+    margin-right: 0;
+}
+
+.condidate_edit_btn{
+    position: absolute;
+    top: 13px;
+    right: 20px;
+}
+.condidate_view_tabing .tabs-menu{
+    position: relative;
+}
+.condidate_edit_btn i {
+    font-size: 20px;
+    color: #0068ff;
+}
+
+.experience_list_inner .media-body {
+    padding-left: 14px;
+}
+.media.experience_list_inner {
+    border-bottom: 1px solid #E2E8F5;
+    margin-top: 14px;
+    padding-bottom: 14px;
+}
+.media.experience_list_inner:last-child {
+    border-bottom: none;
+    margin-top: 20px;
+    padding-bottom: 0px;
+}
+.rate_details ul{
+    display: inline-block;
+    padding: 0;
+    margin: 7px 0 0 0;
+}
+.rate_details li {
+    margin-left: 27px;
+    color: #031b4e;
+    float: left;
+}
+.rate_details li a{
+    color: #0068ff;;
+}
+.rate_details li:first-child {
+    margin-left: 0;
+    list-style: none;
+}
+.Business_req_footer{
+    display: flex;
+    align-items: center;
+    margin-top: 12px;
+}
+.Business_req_footer .req_title{
+    flex: 1;
+    color: #7987a1;
+}
+.search_box_section {
+    width: 238px;
+}
+.search_btn button {
+    border: none;
+    border-right: 0;
+    background: #0068ff;
+    border-radius: 10px 0px 0px 10px !important;
+    padding: 5px 15px;
+    height: 32px;
+    color: #fff;
+}
+.search_box_section input.search_text {
+    border-top-right-radius: 10px;
+    border-bottom-right-radius: 10px;
+    border-right: 1px solid #e2e8f5 !important;
+    height: 32px;
+}
+.search_btn button:hover {
+    color: #fff;
+}
+.list_com_agency_icon a {
+    font-size: 18px;
+    color: #0068ff !important;
+}
+.withdraw_btn a {
+    margin-bottom: 22px;
+    border-radius: 10px;
+    padding: 7px 14px;
+    font-size: 16px;
+    font-weight: bold;
+    color: #ffffff !important;
+    background-color: #0068ff;
+    border-color: #0068ff;
+    margin-right: 14px;
+}

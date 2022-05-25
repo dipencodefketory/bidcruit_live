@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+{%load static%}
+{%load custom_filters %}
+<html>
+    <head>
+        <title>Search for candidates </title>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" integrity="undefined" crossorigin="anonymous">
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/css/select2.min.css" rel="stylesheet" />
+
+    </head>
+
+    <body>
+        <form action="{%url 'company:search'%}" method="POST">
+            {%csrf_token%}
+            <input class="form-control" type="text" name="candidate_search" placeholder=" Enter your skills requirements" >
+            <!-- <input class="form-select" type="select" class="select2_cities" name="candidate_search_city" placeholder=" Enter City" > -->
+            <select name="candidate_search_city" class="form-select select2_cities" style="width: 100%;" id=""></select>
+            <input type="submit" value="submit">
+        </form>
+
+ 
+        
+        {%if no_of_candidates == 0 %}
+        <h3>No candidate matches your criteria!</h3>
+
+        {% else %}
+            {%if no_of_candidates%}
+                Candidates fullfilling your criteria
+                    {%for i in users%}
+                        
+                        {%for j in i%}
+                        <br>
+                        <div>
+                            Name = {{j.first_name}} {{j.last_name}}<br>
+                            Email = {{j.email}}<br>
+                            Education = {{j|get_education_title}}<br>
+                            Previous Job Title = {{j|get_job_title}}<br>
+                            Preferred Job Locations = {{j|get_preferred_job_locations}}<br>
+                        </div>
+                        {%endfor%}
+            
+
+                    {%endfor%}
+            {%endif%}    
+        {%endif%}
+    </body>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.0.0/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.min.js"></script>
+   
+    <script>
+        $(document).ready(function()
+			{
+                console.log("onload is called")
+                $(".select2_cities").select2({
+						tags:true,
+					});
+                console.log("first part is done")
+
+                $('.select2_cities').select2({
+                    ajax: {
+                        url:"/company/get_cities",
+                        dataType: 'json',
+                        processResults: function (data) {
+                            return {
+                                results: $.map(data, function (item) {
+                                    return {id: item.id, text: item.city_name};
+                            })
+                        };
+                    }
+                },
+                minimumInputLength: 1
+                });
+            });
+
+    </script>
+</html>

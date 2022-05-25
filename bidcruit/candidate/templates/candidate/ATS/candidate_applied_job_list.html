@@ -1,0 +1,195 @@
+{% extends 'candidate/base.html' %}
+{% load static %}
+{% load candidate_extras %}
+
+{% block css %}
+		<link href="{% static 'assets/css/ATS/candidate-portal-applied-job.css' %}" rel="stylesheet">
+{% endblock %}
+
+
+{% block main %}
+
+					<div class="main-content-body">
+
+						<div class="row card row-sm candidatePortal_main_box" id="candidatePortalAppliedBob">
+							<div class="col-12 top-search-box__section">
+                                <div class="fx-row flex-box-col align_items_c">
+                                    <div class="fx-left">
+                                    	<h4 class="card-title mg-b-0 name_c">Applied Jobs</h4>
+                                        
+                                    </div>
+                                    <div class="fx-right">
+                                    	<div class="search-wrapper">
+                                            <input type="search" value="" name="search-inputs" class="form-control form-control-sm top-search-box" placeholder="Search Template">
+                                            <button class="half-search-btn fe fe-search btn btn-sm btn-primary"></button>
+                                         </div>
+									</div>
+                                </div>
+                            </div>
+                        </div>    
+                        <div class="row card row-sm candidatePortal_sub_inner_box">
+
+                            {% for job in applied_job %}
+                                <div class="col-12">
+                                    <a href="{% url 'candidate:applied_job_detail' job.job_id.id 'company' %}">
+                                    <div class="row row-sm job-list_container">
+                                        <div class="col-12 shorted-listing view p-0">
+                                            <div class="fxm-mini">
+                                                <div class="com-logo-with-info">
+                                                    <div class="logo-item">
+                                                        <img src="{{job.job_id.company_id|companyprofile}}" alt="logo-split-1">
+                                                    </div>
+                                                    <div class="post-titlebar">
+                                                        <label class="main-title text-capitalize">{{job.job_id.job_title}}</label>
+                                                        <label class="sub-title text-capitalize">{{job.job_id.company_id.company_id.company_name}}</label>
+                                                    </div>
+                                                </div>
+                                                <div class="com-short-details">
+                                                    <ul class="classcify-list">
+                                                        <li>
+                                                            <div class="icon-with-title">
+                                                            <i class="fas fa-user-shield"></i>
+                                                                <label class="c-title text-capitalize">Recruiter Name :</label>
+                                                            </div>
+                                                            <div class="btm-text">
+                                                                <label class="c-details text-capitalize">{{job.job_id.user_id.first_name}} {{job.job_id.user_id.last_name}}</label>
+                                                            </div>
+                                                        </li>
+                                                        <li>
+                                                            <div class="icon-with-title">
+                                                            <i class="fas fa-map-marker-alt"></i>
+                                                                <label class="c-title text-capitalize">location :</label>
+                                                            </div>
+                                                            <div class="btm-text">
+                                                                <label class="c-details text-capitalize">{{job.job_id.city.city_name}},{{job.job_id.country.country_name}}</label>
+                                                            </div>
+                                                        </li>
+                                                        <li>
+                                                            <div class="icon-with-title">
+                                                            <i class="fas fa-dollar-sign"></i>
+                                                                <label class="c-title text-capitalize">Salary :</label>
+                                                            </div>
+                                                            <div class="btm-text">
+                                                                <label class="c-details text-capitalize">{{job.job_id.min_salary}} - {{job.job_id.max_salary}}</label>
+                                                            </div>
+                                                        </li>
+                                                        <li>
+                                                            <div class="icon-with-title">
+                                                            <i class="fas fa-laptop"></i>
+                                                                <label class="c-title text-capitalize">Experience :</label>
+                                                            </div>
+                                                            <div class="btm-text">
+                                                                <label class="c-details text-capitalize">{{job.job_id.experience_year_min}} to {{job.job_id.experience_year_max}} Years</label>
+                                                            </div>
+                                                        </li>
+                                                        <!-- <li>
+                                                            <div class="icon-with-title">
+                                                                <i class="fas fa-calendar-alt"></i>
+                                                                <label class="c-title text-capitalize">Applied On :</label>
+                                                            </div>
+                                                            <div class="btm-text">
+                                                                <label class="c-details text-capitalize">{{job.job_id.create_at|date:"d-m-Y"}}</label>
+                                                            </div>
+                                                        </li> -->
+                                                    </ul>
+                                                </div>
+                                                <!-- <div class="listActionLs">
+                                                    <div class="act-btn_container">
+                                                        <div class="add-bookmark saveChange">
+                                                            <i class="fas fa-bookmark"></i>
+                                                            <i class="far fa-bookmark visible"></i>
+                                                        </div>
+                                                    </div>
+                                                    <div class="notify-info">5</div>
+                                                </div> -->
+                                            </div>
+                                        </div>
+                                    </div>
+                                    </a>
+                                </div>
+                            {% endfor %}
+
+                            {% for job in applied_agency_job %}
+                                <div class="col-12">
+                                    <a href="{% url 'candidate:applied_job_detail' job.job_id.id 'agency' %}" >
+                                    <div class="row row-sm job-list_container">
+                                        <div class="col-12 shorted-listing view p-0">
+                                            <div class="fxm-mini">
+                                                <div class="com-logo-with-info">
+                                                    <div class="logo-item">
+                                                        <img src="{{job.agency_id|agencyprofile}}" alt="logo-split-1">
+                                                    </div>
+                                                    <div class="post-titlebar">
+                                                        <label class="main-title text-capitalize">{{job.job_id.job_title}}</label>
+                                                        <label class="sub-title text-capitalize">{{job.job_id.company_id.company_id.company_name}}</label>
+                                                    </div>
+                                                </div>
+                                                <div class="com-short-details">
+                                                    <ul class="classcify-list">
+                                                        <li>
+                                                        <div class="icon-with-title">
+                                                            <i class="fas fa-user-shield"></i>
+                                                            <label class="c-title text-capitalize">recruiter name:-</label>
+                                                        </div>
+                                                        <div class="btm-text">
+                                                            <label class="c-details text-capitalize">{{job.agency_id.agency_id.first_name}} {{job.agency_id.agency_id.last_name}}</label>
+                                                        </div>
+                                                        </li>
+                                                        <li>
+                                                        <div class="icon-with-title">
+                                                            <i class="fas fa-map-marker-alt"></i>
+                                                            <label class="c-title text-capitalize">location:-</label>
+                                                        </div>
+                                                        <div class="btm-text">
+                                                            <label class="c-details text-capitalize">{{job.job_id.city.city_name}}</label>
+                                                        </div>
+                                                        </li>
+                                                        <li>
+                                                        <div class="icon-with-title">
+                                                            <i class="fas fa-comments"></i>
+                                                            <label class="c-title text-capitalize">last updated:-</label>
+                                                        </div>
+                                                        <div class="btm-text">
+                                                            <label class="c-details text-capitalize">{{job.job_id.created_at|date:"d-m-Y"}}</label>
+                                                        </div>
+                                                        </li>
+                                                        <li>
+                                                        <div class="icon-with-title">
+                                                            <i class="far fa-calendar-alt"></i>
+                                                            <label class="c-title text-capitalize">applied on:-</label>
+                                                        </div>
+                                                        <div class="btm-text">
+                                                            <label class="c-details text-capitalize">{{job.job_id.created_at|date:"d-m-Y"}}</label>
+                                                        </div>
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                                <!-- <div class="listActionLs">
+                                                    <div class="act-btn_container">
+                                                        <div class="add-bookmark saveChange">
+                                                            <i class="fas fa-bookmark"></i>
+                                                            <i class="far fa-bookmark visible"></i>
+                                                        </div>
+                                                    </div>
+                                                    <div class="notify-info">5</div>
+                                                </div> -->
+                                            </div>
+                                        </div>
+                                    </div>
+                                    </a>
+                                </div>
+                            {% endfor %}
+                           
+						</div>
+
+
+					</div>
+					<!-- Main-content-body closed -->
+
+{% endblock %}
+{% block script %}
+	<script src="{% static 'assets/js/ATS/candidate-portal-applied-job.css' %}">
+{% endblock %}
+
+
+

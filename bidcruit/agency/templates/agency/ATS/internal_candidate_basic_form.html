@@ -1,0 +1,619 @@
+{% extends 'agency/base.html' %} 
+{% load static %} 
+{% load candidate_extras %}
+{% block title %}Add Candidate{% endblock %}
+{% block css %}
+
+<!-- Internal TelephoneInput css -->
+<link rel="stylesheet" href="{% static 'assets/plugins/telephoneinput/telephoneinput.css' %}">
+<link href="{% static 'assets/css/ATS/intlTelInput.css' %}" rel="stylesheet" type="text/css"/>
+
+
+<!--add candidate custom css -->
+<!-- <link href="{% static 'assets/plugins/select2/css/select2.min.css' %}" rel="stylesheet"> -->
+<link href="{% static 'assets/plugins/select2/css/select2.min.css' %}" rel="stylesheet">
+
+<link href="{% static 'assets/css/ATS/add_candidate.css' %}" rel="stylesheet" type="text/css"/>
+
+<style>
+    .fxc-right.btm-tab {text-align: right;border-top: 2px solid #e2e8f5; padding: 16px 0;}
+    #submitAjtForm {min-width: 120px;padding: 6px 0;font-size: 16px;}
+    .file-browser,.exp-inputbox { position: relative;}
+    .file-browser .parsley-errors-list {position: absolute; width: 50%;right: -31px;top: 41px;}
+    .exp-inputbox .parsley-errors-list {position: absolute; top: 35px;left: 0;}
+    #gender-error{position: absolute;bottom: 35px;}
+    .input-group.file-browser.resume_accep {position: relative;}
+    .resume_accep label#-error {position: absolute;text-align: right;bottom: -34px;}
+	.order-change { display: flex; flex-direction: column;}
+    .order-change .error {order: 3;}
+    .order-3-change {display: flex;flex-direction: column;}
+    .order-3-change .error {order: 3;display: flex;padding: 0;margin: 0;}
+</style>
+{% endblock %}
+{% block main %}
+<!-- Container-fluid -->
+<div class="container-fluid">
+    <!-- Main-content-body -->
+    <div class="main-content-body">
+        
+        <div class="row row-sm card">
+            <div class="col-12 candidate-job-template">
+                
+                <form name="Add_Candidate_form" class="job-new-form" action="{% url 'agency:internal_candidate_basic_detail' %}" id="formFeildsItems" enctype="multipart/form-data" method="POST" data-parsley-validate="">
+                    {% csrf_token %}
+                    
+                     <h2 class="mt-3">Add Candidate</h2>
+                    <input type="text" hidden readonly value="" name="candidateid" id="candidateid">
+                   
+                    <div class="border_line"></div>
+                    <div class="row row-sm form-layout mg-t-30 mg-b-30">
+                        <div class="form-group email-bar col-lg-4 col-md-6 col-sm-12 pd-b-20">
+                            <label class="feild-title text-capitalize required-label">email: <span
+                                class="tx-danger">*</span></label>
+                                <input
+                                        aria-describedby="basic-addon2"
+                                        name="email" id="registerInputemail"
+                                        aria-label="Recipient's username"
+                                        class="form-control input-feild email"
+                                        required=""
+                                        placeholder="john@example.com"
+                                        type="text" value="{{edit_internal_candidate.email}}">
+                                
+                            
+                        </div>
+                        <div class="form-group col-lg-4 col-md-6 col-sm-12 pd-b-20">
+                            <label class="feild-title text-capitalize required-label">Candidate Custom Id: <span
+                                class="tx-danger">*</span></label>
+                            <input placeholder="Ex:abcd@1234" type="text" id="candidatecid" name="candidate_c_id" maxlength="9" minlength="9" value="{{edit_internal_candidate.candidate_custom_id}}" class="form-control input-feild candidate_c_id" required="">
+                        </div>
+                        
+                        <div class="form-group col-lg-4 col-md-6 col-sm-12 pd-b-20">
+                            <label class="feild-title text-capitalize required-label">first name: <span
+                                class="tx-danger">*</span></label>
+                            <input type="text" name="f-name" value="{{edit_internal_candidate.first_name}}" class="form-control input-feild fname" required="">
+                        </div>
+                        <div class="form-group col-lg-4 col-md-6 col-sm-12 pd-b-20">
+                            <label class="feild-title text-capitalize required-label">last name: <span
+                                class="tx-danger">*</span></label>
+                            <input type="text" name="l-name" value="{{edit_internal_candidate.last_name}}" class="form-control input-feild lname" required="">
+                        </div>
+                        
+                        <div class="form-group col-lg-4 col-md-6 col-sm-12 pd-b-20">
+                            <label class="feild-title text-capitalize">Gender: <span
+                                class="tx-danger">*</span></label>
+                            
+                         
+                            <ul class="group-gender">
+                                <li class="g-inputs">
+                                    <input type="radio" class="g-input" value="male" required name="gender"><label class="g-title text-capitalize">male</label>
+                                </li>
+                                <li class="g-inputs">
+                                    <input type="radio" class="g-input" value="fmale" required name="gender"><label class="g-title text-capitalize">female</label>
+                                </li>
+                            </ul>   
+
+                            
+                        </div>
+                        <div class="form-group col-lg-4 col-md-6 col-sm-12 pd-b-20">
+                            <label class="feild-title text-capitalize required-label">resume: <span
+                                class="tx-danger">*</span></label>
+                            <div class="input-group file-browser resume_accep">
+                                <input type="text" required {% if edit_internal_candidate.resume %} value="{{edit_internal_candidate.resume|get_file_name}}" {% else %} value=""{% endif %}  class="browse-file form-control input-feild resume" readonly>
+                                <label class="input-group-btn">
+                                    <span class="btn btn-default">
+                                        Select File<input type="file" accept="application/pdf" required name="resume"  {% if edit_internal_candidate.resume %} value="{{edit_internal_candidate.resume.url|image_path_remove}}" {% else %} value=""{% endif %}  style="display: none;" multiple>
+                                    </span>
+                                </label>
+                            </div>
+                            <input type="checkbox" name="secure-resume" value="Secure-Resume" class="irSelectorRowItem"><label class="feild-title text-capitalize">&nbsp;&nbsp;Secure Resume</label>
+                        </div>
+                        <div class="form-group col-lg-4 col-md-6 col-sm-12 pd-b-20">
+                            <label class="feild-title text-capitalize required-label">contact number: <span
+                                class="tx-danger">*</span></label>
+                            <input id="contactNum" type="text" name="contact-num" value="{{edit_internal_candidate.contact}}" required class="form-control input-feild contact-num" maxlength="10">
+                        </div>
+                        <div class="form-group col-lg-4 col-md-6 col-sm-12 pd-b-20 order-change">
+                            <label class="feild-title text-capitalize">Current City: <span
+                                class="tx-danger">*</span></label>
+                            <select class="form-control current_cities" required type="text" name="candidate_current_city" id="candidate_current_city" placeholder="City">
+                                <option></option>
+                                {%if edit_internal_candidate%}
+                                <option value="{{edit_internal_candidate.current_city.id}}" selected>{{edit_internal_candidate.current_city.city_name}}</option>
+                                {%endif%}
+                            </select>
+                        </div>
+                        <div class="form-group col-lg-4 col-md-6 col-sm-12 mb-2 order-change">
+                            <label class="feild-title text-capitalize">Category: <span
+                                class="tx-danger">*</span></label>
+                            <select class="form-control skill-selector CandidateCategory" name="candidate_category" id="candidate_category" multiple="multiple" required>
+                                {% for categ in categories %}
+                                    {% if categ in edit_internal_candidate.categories.all %}
+                                        <option value="{{categ.id}}" selected>{{categ.category_name}}</option>
+                                    {% else %}
+                                        <option value="{{categ.id}}">{{categ.category_name}}</option>
+                                    {% endif %}
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="form-group col-lg-4 col-md-6 col-sm-12 pd-b-20 order-3-change">
+                            <label class="feild-title text-capitalize">skills: <span
+                                class="tx-danger">*</span></label>
+                            <select class="form-control skill-selector professionSkills"
+                                                            name="professional_skills" id="professional_skills" value=""
+                                                            multiple="multiple" required>
+                            {%if edit_internal_candidate%}              
+                                {%for i in edit_internal_candidate.skills.all%}
+                                    <option selected value="{{i.id}}">{{i.name}}</option> 
+                                {%endfor%}
+                            {%endif%}                           
+                            </select>
+                        </div>
+                        <div class="form-group col-lg-4 col-md-6 col-sm-12 pd-b-20 order-3-change">
+                            <label class="feild-title text-capitalize">Tags: <span
+                                class="tx-danger">*</span></label>
+                            <select class="form-control skill-selector tags" required
+                                                            name="tags" id="tags" value=""
+                                                            multiple="multiple">
+                                                        
+                            {%if edit_internal_candidate%}              
+                                {%for i in edit_internal_candidate.tags.all%}
+                                    <option selected value="{{i.id}}">{{i.name}}</option> 
+                                {%endfor%}
+                            {%endif%}  
+                                                            
+                            </select>
+                        </div>
+                        <div class="form-group col-lg-4 col-md-6 col-sm-12 pd-b-20 order-3-change">
+                            <label class="feild-title text-capitalize">Preferred City: <span
+                                class="tx-danger">*</span></label>
+                            <select class="form-control select2_cities" required type="text" name="candidate_search_city" id="candidate_search_city" multiple="multiple" placeholder="City">
+                                <option></option>
+
+                                {%if edit_internal_candidate%}              
+                                {%for i in edit_internal_candidate.prefered_city.all%}
+                                    <option selected value="{{i.id}}">{{i.city_name}}</option> 
+                                {%endfor%}
+                            {%endif%}  
+                            </select>
+                        </div>
+                        <div class="form-group col-lg-4 col-md-6 col-sm-12 pd-b-20">
+                            <label class="feild-title text-capitalize">Job Title: <span
+                                class="tx-danger">*</span></label>
+                            <input type="text" name="designation-input" value="{{edit_internal_candidate.designation}}" required  class="form-control input-feild designation-input">
+                        </div>
+                       
+                        <div class="form-group col-lg-4 col-md-6 col-sm-12 pd-b-20">
+                            <label class="feild-title text-capitalize">notice period: <span
+                                class="tx-danger">*</span></label>
+                            <select name="professional-notice-period"
+                                        class="form-control three-ls current-salary-val" id="professional-notice-period" required>
+                                    <option label="Select Notice Period" value="" 
+                                            class="null-selector"></option>
+                                    {% for notice in notice_period %}
+                                    <option value="{{notice.id}}" {%if edit_internal_candidate.notice == notice%}selected{%endif%}>{{notice.notice_period}}</option>
+                                    {% endfor %}
+                                </select>
+                        </div>
+                        <div class="form-group col-lg-4 col-md-6 col-sm-12 pd-b-20">
+                            <label class="feild-title text-capitalize">Source : <span
+                                class="tx-danger">*</span></label>
+                            <select name="source"
+                                        class="form-control three-ls current-salary-val" id="source" required>
+                                    <option label="Select Source"  value=""
+                                            class="null-selector"></option>
+                                    {% for sources in source %}
+                                    <option value="{{sources.id}}"  {%if edit_internal_candidate.source == sources%}selected{%endif%}>{{sources.name}}</option>
+                                    {% endfor %}
+                                </select>
+                        </div>
+                        <div class="form-group col-lg-4 col-md-6 col-sm-12 pd-b-20">
+                            <label class="feild-title text-capitalize">current CTC (LPA): <span
+                                class="tx-danger">*</span></label>
+                            <input type="number" name="ctc-input" value="{{edit_internal_candidate.ctc}}" min="0" max="99" maxlength="5" step="0.01" required class="form-control input-feild ctc-input">
+                        </div>
+                        <div class="form-group col-lg-4 col-md-6 col-sm-12 pd-b-20">
+                            <label class="feild-title text-capitalize">expected CTC (LPA): <span
+                                class="tx-danger">*</span></label>
+                            <input type="number" name="expected-ctc" value="{{edit_internal_candidate.expectedctc}}" class="form-control input-feild expected-ctc" min="0" max="99" maxlength="5" step="0.01" required="">
+                        </div>
+                        <div class="form-group col-lg-4 col-md-6 col-sm-12 pd-b-20">
+                            <label class="feild-title text-capitalize">total experience: <span
+                                class="tx-danger">*</span></label>
+                                <div class="fx-col__sm exp-inputbox">
+                                	<div class="form-group col-lg-6 col-md-12 col-sm-12">
+                                    <input type="number" value="{{edit_internal_candidate.total_exper|get_experience_year_value}}"
+                                           name="professional-experience-year" required placeholder="Year"
+                                           class="form-control three-ls experiance-val" min="0" max="99">
+                                    </div>
+                                    <div class="form-group col-lg-6 col-md-12 col-sm-12">
+                                    <input type="number"  value="{{edit_internal_candidate.total_exper|get_experience_month_value}}"
+                                           name="professional-experience-month" required placeholder="Month"
+                                           class="form-control three-ls experiance-val" min="0" max="11" maxlength="2">
+                                    </div>
+                                </div>
+                        </div>
+                        <div class="form-group col-lg-4 col-md-6 col-sm-12 pd-b-20">
+                            <label class="feild-title text-capitalize">Select Company<span
+                                class="tx-danger">*</span></label>
+                            <select name="company" class="form-control three-ls current-salary-val" id="company" required>
+                                <option value="">Please select company</option>
+                                {% for company in active_connections %}
+                                    <option value="company-{{company.company_id.id}}">{{company.company_id.company_id.company_name}}</option>
+                                {% endfor %}
+                                {% if agency %}
+                                    <option value="agency-{{agency.id}}">{{agency.agency_id.company_name}}</option>
+                                {% endif  %}
+                            </select>
+                        </div>
+                        <div class="form-group col-lg-4 col-md-6 col-sm-12 pd-b-20">
+                            <label class="feild-title text-capitalize">Select Job<span
+                                class="tx-danger">*</span></label>
+                            <select name="job" class="form-control three-ls current-salary-val" id="job" required>
+                                <option value="">Please select job</option>
+                                
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="row row-sm bottom-action-tab">
+                        <div class="col-12 flex-box-bottom">
+                            <input type="checkbox" name="verify" value="verify" class="irSelectorRowItem"><label class="feild-title text-capitalize">&nbsp;&nbsp;Verify With Candidate</label>
+                            <div class="fxc-right btm-tab">
+                                <button type="submit" id="submitAjtForm" name="submit" class="rounded-10 btn btn-sm btn-primary">Add</button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <!-- Main-content-body closed -->
+</div>
+<!-- Container-fluid closed -->
+<!-- Main-content closed -->
+{% endblock %}
+
+{% block script %}
+<!--		<script src="https://cdnjs.cloudflare.com/ajax/libs/elasticsearch/16.7.1/elasticsearch.min.js" integrity="sha512-uOHi3cdmRQ3IG8rOX4WwxQbhiHGvElsXZt0cy/2ttb3qE4N7YSb24qYVlB494GVzxJnmU2YC3b8WSJUjgqzEyg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>-->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.13.1/underscore-min.js"
+        integrity="sha512-ZuOjyqq409+q6uc49UiBF3fTeyRyP8Qs0Jf/7FxH5LfhqBMzrR5cwbpDA4BgzSo884w6q/+oNdIeHenOqhISGw=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<!--		<script src="{% static 'assets/js/jquery-mentions-input-master/lib/jquery.elastic.js' %}"></script>-->
+<script src="{% static 'assets/js/jquery-mentions-input-master/lib/jquery.events.input.js' %}"></script>
+<script src="{% static 'assets/js/jquery-mentions-input-master/jquery.mentionsInput.js' %}"></script>
+
+<!-- Datepicker js -->
+<script src="{% static 'assets/plugins/jquery-ui/ui/widgets/datepicker.js' %}"></script>
+
+
+<!-- <script src="{% static 'assets/plugins/select2/js/select2.min.js' %}"></script> -->
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+
+<!--Internal TelephoneInput js-->
+<script src="{% static 'assets/plugins/telephoneinput/telephoneinput.js' %}"></script>
+<script src="{% static 'assets/js/ATS/intlTelInput.js' %}"></script>
+
+
+
+<!-- form-elements js -->
+<script src="{% static 'assets/js/form-elements.js' %}"></script>
+<!-- <script src="{% static 'assets/plugins/parsleyjs/parsley.min.js' %}"></script> -->
+	<!-- jquery validation plugin -->
+		<script src="{% static 'assets/js/jquery-validation-1.19.3/dist/jquery.validate.js' %}"></script>
+
+<!-- city state -->
+<script src="{% static 'assets/js/main.js' %}"></script>
+
+<script>
+    $(document).ready(function(){
+            $(".current_cities").select2({
+                    tags:true,
+                });
+            console.log("first part is done")
+
+            $('.current_cities').select2({
+                allowClear: true,
+                placeholder: "Select City",
+                        ajax: {
+                            url:"/company/get_cities",
+                            dataType: 'json',
+                            processResults: function (data) {
+                                return {
+                                    results: $.map(data, function (item) {
+                                        return {id: item.id, text: item.city_name +" "+'('+ item.state_name +')'};
+                                })
+                            };
+                        }
+                    },
+                    minimumInputLength: 1
+            });
+         
+            $('.select2_cities').select2({
+                allowClear: true,
+                placeholder: "Select City",
+                        ajax: {
+                            url:"/company/get_cities",
+                            dataType: 'json',
+                            processResults: function (data) {
+                                return {
+                                    results: $.map(data, function (item) {
+                                        return {id: item.id, text: item.city_name +" "+'('+ item.state_name +')'};
+                                })
+                            };
+                        }
+                    },
+                    minimumInputLength: 1
+            });
+        $('.professionSkills').select2({
+            placeholder: "Select Skill",
+					 ajax:{
+						   url:"/company/get_skills",
+						   dataType: 'json',
+						   processResults: function (data) {
+							   return {
+								   results: $.map(data, function (item) {
+									   return {id: item.id, text: item.name};
+								   })
+							   };
+						   }
+					 },
+					 tags:true,
+					 createTag: function (params) {
+						return {
+							id: params.term,
+							text: params.term,
+							newOption: true,
+						}
+					 },
+					templateResult: function (data) {
+						var $result = $("<span></span>");
+						$result.text(data.text);
+						if (data.newOption) {
+							$result.append(" <em>(new)</em>");
+						}
+						return $result;
+					},
+					minimumInputLength: 1
+			});
+
+            $('.source').select2({
+             placeholder: "Select Source",
+					 ajax:{
+						   url:"/company/get_source",
+						   dataType: 'json',
+						   processResults: function (data) {
+							   return {
+								   results: $.map(data, function (item) {
+									   return {id: item.id, text: item.name};
+								   })
+							   };
+						   }
+					 },
+					 tags:true,
+					 createTag: function (params) {
+						return {
+							id: params.term,
+							text: params.term,
+							newOption: true,
+						}
+					 },
+					templateResult: function (data) {
+						var $result = $("<span></span>");
+						$result.text(data.text);
+						if (data.newOption) {
+							$result.append(" <em>(new)</em>");
+						}
+						return $result;
+					},
+					minimumInputLength: 1
+            });
+                $('.tags').select2({
+                    placeholder: "Select tags",
+					 ajax:{
+						   url:"/agency/get_tags",
+						   dataType: 'json',
+						   processResults: function (data) {
+							   return {
+								   results: $.map(data, function (item) {
+									   return {id: item.id, text: item.name};
+								   })
+							   };
+						   }
+					 },
+					 tags:true,
+					 createTag: function (params) {
+						return {
+							id: params.term,
+							text: params.term,
+							newOption: true,
+						}
+					 },
+					templateResult: function (data) {
+						var $result = $("<span></span>");
+						$result.text(data.text);
+						if (data.newOption) {
+							$result.append(" <em>(new)</em>");
+						}
+						return $result;
+					},
+					minimumInputLength: 1
+				});
+                $('.CandidateCategory').select2({
+                    placeholder: "Select Category",
+                });
+                
+     $("#registerInputemail").change(function (e) {
+        var email=$(this).val();
+			if(email!=""){
+				$.ajax({
+				  url:"{% url 'agency:check_candidate_email_is_valid' %}",
+				  type:'POST',
+				  headers: {'X-CSRFToken': '{{ csrf_token }}'},
+				  data:{email:email}
+				})
+				.done(function(response){
+                    if(response.data!==undefined) {
+                        if(response['data']['status']==true){
+                            console.log(response)
+                            $("input[name='candidateid']").val(response['data']['candidate_id']);
+                            $("input[name='candidate_c_id']").val(response['data']['candidate_custom_id']);
+                            $("input[name='f-name']").val(response['data']['first_name']);
+                            $("input[name='l-name']").val(response['data']['last_name']);
+                            $("input[name=gender][value=" + response['data']['gender'] + "]").prop('checked', true);
+                            $("input[name='contact-num']").val(response['data']['contact']);
+                            if(response['data']['resume']!==null){
+                                $(".resume").val(response['data']['resume'].split('/').pop());
+                            }
+                            if (response['data']['secure_resume']==true) {
+                                // $("input[name='secure-resume']:checkbox").prop('checked',true);
+                                $("input[name='secure-resume']").prop("disabled", true);
+                            }
+                            else{
+                                $("input[name='secure-resume']").prop("disabled", false);
+                            }
+                            $("input[name='designation-input']").val(response['data']['designation']);
+                            $("#candidate_current_city").append($("<option selected></option>").attr("value", response['data']['current_city']['id']).text(response['data']['current_city']['name'])); 
+                            $("#professional-notice-period").append($("<option selected></option>").attr("value", response['data']['notice']['id']).text(response['data']['notice']['name'])); 
+                            $("#source").append($("<option selected></option>").attr("value", response['data']['source']['id']).text(response['data']['source']['name'])); 
+                            $("input[name='ctc-input']").val(response['data']['ctc']);
+                            $("input[name='expected-ctc']").val(response['data']['expectedctc']);
+                            $.each( response['data']['categories'], function(i, n){
+                                $("#candidate_category").append($("<option selected></option>").attr("value", i).text(n)); 
+                            });
+                            $.each( response['data']['skills'], function(i, n){
+                                $("#professional_skills").append($("<option selected></option>").attr("value", i).text(n)); 
+                            });
+                            $.each( response['data']['tags'], function(i, n){
+                                $("#tags").append($("<option selected></option>").attr("value", i).text(n)); 
+                            });
+                            $.each( response['data']['prefered_city'], function(i, n){
+                                $("#candidate_search_city").append($("<option selected></option>").attr("value", i).text(n)); 
+                            });
+                            if(response['data']['total_exper']!==null){
+                                $("input[name='professional-experience-year']").val(response['data']['total_exper'].split('.')[0]);
+                                $("input[name='professional-experience-month']").val(response['data']['total_exper'].split('.')[1]);
+                            }
+                            $(".email_error").remove();
+                            $("<span class='email_error' style='padding: 3px;color: red;'>Email already exists !!</span>").insertAfter("#registerInputemail");
+                            
+                        }else if(response=="Invalid"){
+                            $(".email_error").remove();
+                            $("<span class='email_error' style='padding: 3px;color: red;'> Invalid Email !!</span>").insertAfter("#registerInputemail");
+                            $('#submitAjtForm').attr('disabled','disabled');
+                        }
+                        else{
+
+                            $(".email_error").remove();
+                            $('#submitAjtForm').removeAttr('disabled');
+                        }
+                    }
+				}).fail(function(){
+					  console.log("failed");
+				})
+			}else{
+				$(".email_error").remove();
+			}
+    });
+    $("#company").change(function (){
+        $('#job option').remove();
+        console.log($(this).val().split('-')[0],$(this).val().split('-')[1])
+        $.ajax({
+				  url:"{% url 'agency:get_job' %}",
+				  type:'POST',
+				  headers: {'X-CSRFToken': '{{ csrf_token }}'},
+				  data:{companyid:$(this).val().split('-')[1],job_type:$(this).val().split('-')[0],candidateid:$('#candidateid').val()}
+				})
+				.done(function(response){
+                    console.log(response)
+                    $.each( response['data'], function(j,k){
+                            $("#job").append($("<option selected></option>").attr("value", k.id).text(k.title)); 
+                    });
+					
+				}).fail(function(){
+					  console.log("failed");
+				})
+    });
+    $("#candidatecid").change(function (e) {
+        var customid=$(this).val();
+			if(customid!=""){
+				$.ajax({
+				  url:"{% url 'agency:check_candidate_customid_is_valid' %}",
+				  type:'POST',
+				  headers: {'X-CSRFToken': '{{ csrf_token }}'},
+				  data:{customid:customid}
+				})
+				.done(function(response){
+                    console.log(response)
+					if(response=="True"){
+
+						$(".email_error").remove();
+						$("<span class='email_error' style='padding: 3px;color: red;'>ID already exists !!</span>").insertAfter("#candidatecid");
+						$('#submitAjtForm').attr('disabled','disabled');
+					}else if(response=="Invalid"){
+						$(".email_error").remove();
+						$("<span class='email_error' style='padding: 3px;color: red;'> Invalid ID !!</span>").insertAfter("#candidatecid");
+						$('#submitAjtForm').attr('disabled','disabled');
+					}
+					else{
+
+						$(".email_error").remove();
+						$('#submitAjtForm').removeAttr('disabled');
+					}
+				}).fail(function(){
+					  console.log("failed");
+				})
+			}else{
+				$(".email_error").remove();
+			}
+    });
+});
+</script>
+
+<script>
+    	$(function() {
+          $("form[name='Add_Candidate_form']").validate({
+            
+            rules: {
+              
+              email:{
+              	  required: true,
+                  email: true,
+              },
+             
+            },
+          
+            messages: {
+                email:
+				{
+					required: "Email ID is required",
+					email:"Please provide a valid email address",					
+				}
+            },
+          
+            submitHandler: function(form) { 
+
+                var contactNum = $("#contactNum").val();
+               
+                var phoneno = /^\d{10}$/;
+				  if(contactNum.match(phoneno))
+				  {
+				      return true;
+				  }
+				  else
+				  {
+				     alert("Not a valid Contact Number");
+				     return false;
+				  }
+
+                form.submit();
+            }
+
+
+          });
+        });
+</script>
+
+
+
+{% endblock %}
+

@@ -1,0 +1,230 @@
+.candidate_negotiate_offer_section {
+    width: 100%;
+    display: inline-block;
+    border-radius: 0 !important;
+    box-shadow: none;
+    background-color: transparent;
+}
+.candidate_negotiate_offer_chat {
+    width: 50%;
+    float: left;
+    background-color: #031b4e;
+    padding: 18px 14px;
+    border-top-left-radius: 10px;
+    border-bottom-left-radius: 10px;
+}
+.candidate_negotiate_pdf {
+    width: 50%;
+    float: left;
+    background-color: #f3f4f6;
+    padding: 18px 14px;
+    border-top-right-radius: 10px;
+    border-bottom-right-radius: 10px;
+}
+.main_chat_title {
+    font-size: 14px;
+    font-weight: 500;
+    color: #fff;
+}
+.chat_time{
+    font-size: 12px;
+    font-weight: 500;
+    color: #fff;
+}
+.inner_chat_box {
+    background-color: #fff;
+    width: 100%;
+    display: inline-block;
+    margin-top: 10px;
+    padding: 10px;
+}
+.company_profile_logo_name {
+    width: 100%;
+    display: flex;
+    margin-bottom: 3px;
+    align-items: center;
+}
+.company_profile_logo {
+    margin-right: 10px;
+    float: left;
+    width: 50px;
+    height: 50px;
+    border-radius: 50px;
+    text-align: center;
+    background-color: #f9fafc;
+    line-height: 50px;
+}
+.company_profile_logo img {
+    width: 26px;
+    height: 26px;
+    object-fit: cover;
+}
+.company_profile_name {
+    float: left;
+    padding: 5px 0;
+}
+.company_profile_name .card-title {
+    color: #031b4e;
+    font-size: 18px;
+    font-weight: 900;
+    text-transform: capitalize;
+}
+.company_profile_name span {
+    color: #041b4e;
+    font-size: 14px;
+}
+.title_section_heading {
+    color: #041b4e;
+    font-size: 14px;
+    font-weight: 500;
+    padding-bottom: 3px;
+}
+.title_section_heading span {
+    font-weight: normal;
+}
+.title_section_heading a{
+    color:#0068ff;
+}
+.title_section_heading.details_text{
+    display: flex;
+}
+.title_section_heading.details_text span{
+    flex: 1;
+    padding-left: 6px;
+}
+.option_accept .ckbox_q{
+    display: flex;
+}
+.option_accept .ckbox_q span{
+    padding-left: 8px;
+    margin-top: -3px;
+}
+.offer_Submit_btn {
+    margin-top: 6px;
+    margin-bottom: 8px;
+    float: right;
+}
+.offer_Submit_btn button {
+    color: #ffffff;
+   font-size: 14px;
+    font-weight: normal;
+    margin-left: 5px;
+    padding: 6px 15px;
+    border-radius: 10px;
+    width: 108px;
+    outline: none;
+    box-shadow: none;
+    border: none;
+}
+.offer_Submit_btn .Accept_Submit{
+    background-color: #51bb25;
+    border-color: #51bb25;
+}
+.offer_Submit_btn .Negotiate_Submit{
+    background-color: #0068ff;
+    border-color: #0068ff;   
+    color: #ffffff;
+    font-size: 14px;
+     font-weight: normal;
+     margin-left: 5px;
+     padding: 8px 15px;
+     border-radius: 10px;
+     width: 108px;
+     outline: none;
+     box-shadow: none;
+     border: none;
+}
+.chat_section {
+    margin-bottom: 25px;
+}
+.chat_section.left_side {
+    width: 85%;
+}
+.chat_section.left_side .inner_chat_box {
+    border-radius: 0px 22px 22px 22px;
+}
+.chat_section.right_side {
+    width: 85%;
+    margin-left: auto;
+}
+.chat_section.right_side .inner_chat_box {
+    border-radius: 22px 0px 22px 22px;
+}
+.pdf_view_section {
+    background: #fff;
+}
+
+.accept_reject_btn button {
+    color: #ffffff;
+   font-size: 14px;
+    font-weight: normal;
+    margin-left: 5px;
+    padding: 6px 15px;
+    border-radius: 10px;
+    width: 108px;
+    outline: none;
+    box-shadow: none;
+    border: none;
+}
+.accept_reject_btn .Accept_Submit_right{
+    background-color: #51bb25;
+    border-color: #51bb25;
+}
+.accept_reject_btn .Reject_Submit{
+    background-color: #ff5353;
+    border-color: #ff5353;   
+}
+.accept_reject_btn_section {
+    display: flex;
+    align-items: center;
+    padding-top: 18px;
+}
+.accept_reject_btn_section .option_accept {
+    float: left;
+    width: 50%;
+}
+.accept_reject_btn {
+    float: right;
+    width: 48%;
+    margin-left: 2%;
+    text-align: right;
+}
+.chat_section_scroling {
+    overflow: auto;
+    height: 565px;
+}
+#Negotiate .modal-dialog {
+    max-width: 1050px;
+}
+#ResendOffer .modal-dialog {
+    max-width: 1050px;
+}
+.offer_inner_section .form-control {
+    border-radius: 10px;
+    height: 43px;
+}
+.date_cal .input-group-text{
+    border-top-left-radius: 10px;
+    border-bottom-left-radius: 10px;
+}
+.offer_inner_section button.NegotiateFormSubmit{
+    font-size: 14px;
+    border-radius: 10px;
+    padding: 4px 18px;
+    background-color: #0068ff;
+    background: #0068ff;
+    float: right;
+}
+.offer_inner_section .companyFormSubmit_btn {
+    margin-top: 20px;
+}
+.basicInfo-offer label input[type="checkbox"]{
+    vertical-align: middle;
+}
+.negotiation_action {
+    margin-top: -19px;
+    font-size: 16px;
+    font-weight: bold;
+    margin-left: 30px;
+    font-style: italic;
+}

@@ -1,0 +1,146 @@
+
+-- FUNCTION: public.temp_Education_delete()
+
+-- DROP FUNCTION public.temp_Education_delete();
+
+CREATE OR REPLACE FUNCTION public.temp_Education_delete()
+    RETURNS trigger
+    LANGUAGE 'plpgsql'
+    COST 100
+    VOLATILE NOT LEAKPROOF
+AS $BODY$
+BEGIN
+       INSERT INTO candidate_eandidateeducation(candidate_id,university_board,degree,grade,start_date,end_date,certificate,gap_count,gap_description ,record_id,update_at) VALUES (OLD.candidate_id,OLD.university_board,OLD.degree,OLD.grade,OLD.start_date,OLD.end_date,OLD.certificate,OLD.gap_count,OLD.gap_description,OLD.record_id,OLD.update_at);
+		 RETURN OLD;
+    END;
+--
+$BODY$;
+
+ALTER FUNCTION public.temp_Education_delete()
+    OWNER TO postgres;
+
+CREATE TRIGGER temp_Education_delete AFTER DELETE ON candidate_TempEducation
+FOR EACH ROW EXECUTE PROCEDURE temp_Education_delete();
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+-- FUNCTION: public.temp_TagsMap_delete()
+
+-- DROP FUNCTION public.temp_TagsMap_delete();
+
+CREATE OR REPLACE FUNCTION public.temp_TagsMap_delete()
+    RETURNS trigger
+    LANGUAGE 'plpgsql'
+    COST 100
+    VOLATILE NOT LEAKPROOF
+AS $BODY$
+BEGIN
+       INSERT INTO candidate_candidatetagsmap(candidate_id,tags,record_id,update_at) VALUES (OLD.candidate_id,OLD.tags,OLD.record_id,OLD.update_at);
+		 RETURN OLD;
+    END;
+--
+$BODY$;
+
+ALTER FUNCTION public.temp_TagsMap_delete()
+    OWNER TO postgres;
+
+
+
+-- FUNCTION: public.temp_Experience_delete()
+
+-- DROP FUNCTION public.temp_Experience_delete();
+
+CREATE OR REPLACE FUNCTION public.temp_Experience_delete()
+    RETURNS trigger
+    LANGUAGE 'plpgsql'
+    COST 100
+    VOLATILE NOT LEAKPROOF
+AS $BODY$
+BEGIN
+       INSERT INTO candidate_candidateexperience(Job_profile_name,company,start_date,end_date,start_salary,end_salary,job_description_responsibility,gap_count,gap,Candidate_id,tags,record_id,update_at) VALUES (OLD.Job_profile_name,OLD.company,OLD.start_date,OLD.end_date,OLD.start_salary,OLD.end_salary,OLD.job_description_responsibility,OLD.gap_count,OLD.gap,OLD.Candidate_id,OLD.tags,OLD.record_id,OLD.update_at);
+		 RETURN OLD;
+    END;
+--
+$BODY$;
+
+ALTER FUNCTION public.temp_Experience_delete()
+    OWNER TO postgres;
+
+
+
+-- FUNCTION: public.temp_certificationattachment_delete()
+
+-- DROP FUNCTION public.temp_certificationattachment_delete();
+
+CREATE OR REPLACE FUNCTION public.temp_certificationattachment_delete()
+    RETURNS trigger
+    LANGUAGE 'plpgsql'
+    COST 100
+    VOLATILE NOT LEAKPROOF
+AS $BODY$
+BEGIN
+       INSERT INTO candidate_CandidateCertificationAttachment (candidate_id,name_of_certificate,attached_certificate,institute_organisation,year,record_id,update_at) VALUES (OLD.candidate_id,OLD.name_of_certificate,OLD.attached_certificate,OLD.institute_organisation,OLD.year,OLD.record_id,OLD.update_at);
+		 RETURN OLD;
+    END;
+--
+$BODY$;
+
+ALTER FUNCTION public.temp_certificationattachment_delete()
+    OWNER TO postgres;
+
+
+-- FUNCTION: public.temp_skillusermap_delete()
+
+-- DROP FUNCTION public.temp_skillusermap_delete();
+
+CREATE OR REPLACE FUNCTION public.temp_skillusermap_delete()
+    RETURNS trigger
+    LANGUAGE 'plpgsql'
+    COST 100
+    VOLATILE NOT LEAKPROOF
+AS $BODY$
+BEGIN
+       INSERT INTO candidate_CandidateSkillUserMap(candidate_id,skill,update_at) VALUES (OLD.candidate_id,OLD.skill,OLD.update_at);
+		 RETURN OLD;
+    END;
+--
+$BODY$;
+
+ALTER FUNCTION public.temp_skillusermap_delete()
+    OWNER TO postgres;
+
+
+-- FUNCTION: public.temp_otherfield_delete()
+
+-- DROP FUNCTION public.temp_otherfield_delete();
+
+CREATE OR REPLACE FUNCTION public.temp_otherfield_delete()
+    RETURNS trigger
+    LANGUAGE 'plpgsql'
+    COST 100
+    VOLATILE NOT LEAKPROOF
+AS $BODY$
+BEGIN
+       INSERT INTO candidate_CandidateOtherField(candidate_id,record_id,label,value,update_at) VALUES (OLD.candidate_id,OLD.record_id,OLD.label,OLD.value,OLD.update_at);
+		 RETURN OLD;
+    END;
+--
+$BODY$;
+
+ALTER FUNCTION public.temp_otherfield_delete()
+    OWNER TO postgres;

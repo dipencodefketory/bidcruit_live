@@ -1,0 +1,445 @@
+{% extends 'agency/base.html' %}
+{% load static %}
+{%load agency_filter %}
+{% block title %} Templates {% endblock %}
+{% block css %}
+
+   		<!--- Internal Sweet-Alert css -->
+		<link href="{% static 'assets/plugins/sweet-alert/sweetalert.css' %}" rel="stylesheet">
+
+		<!-- Internal Data table css -->
+		<link href="{% static 'assets/plugins/datatable/css/dataTables.bootstrap4.min.css' %}" rel="stylesheet" />
+		<link href="{% static 'assets/plugins/datatable/css/buttons.bootstrap4.min.css' %}" rel="stylesheet">
+		<link href="{% static 'assets/plugins/datatable/css/responsive.bootstrap4.min.css' %}" rel="stylesheet" />
+		<link href="{% static 'assets/plugins/datatable/css/jquery.dataTables.min.css' %}" rel="stylesheet">
+		<link href="{% static 'assets/plugins/datatable/css/responsive.dataTables.min.css' %}" rel="stylesheet">
+		<link href="{% static 'assets/plugins/select2/css/select2.min.css' %}" rel="stylesheet">
+
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css" integrity="sha512-5A8nwdMOWrSz20fDsjczgUidUBR8liPYU+WymTZP1lmY9G6Oc7HlZv156XqnsgNUzTyMefFTcsFH/tnJE/+xBg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+		<!--custom workflow-management css-->
+        <link href="{% static 'assets/css/ATS/template-listing.css' %}" rel="stylesheet">
+
+{% endblock %}
+{% block main %}
+
+				{% csrf_token %}
+				<!-- Container-fluid -->
+					<!-- Main-content-body -->
+					<div class="main-content-body">
+						<!--middle section-->
+                        <div class="row row-sm templatelistview-layout" id="templatelistview-tablist">
+                            <div class="col-md-12 col-xl-12 col-xs-12 col-sm-12">
+                               <div class="card">
+                                  <div class="card-body pd-0">
+                                         <div class="two-col__section">
+											<div class="left-tab-section">
+
+												<div class="panel panel-primary tabs-style-4">
+													<div class="tab-menu-heading">
+														<div class="tabs-menu">
+															<ul class="tab-title__list">
+																<li>
+																	<h5 class="text-uppercase">STAGES</h5>
+																	<!-- <div class="header-nav-btn"><button class="btn btn-sm rounded-20 btn-outline-light stage-add-btn text-capitalize" data-toggle="modal" data-target="#newStageModal"><i class="fe fe-plus"></i>add stages</button>
+																	</div> -->
+																	<!-- <span>{% if active_stageid %}=={{active_stageid}}=={{active_categoryid}}{% endif %}</span> -->
+																	<span id="stageItemId" style="display: none;">{{active_stageid}}</span>
+																	<span id="categoryItemId" style="display: none;">{{active_categoryid}}</span>	
+																</li>
+															 </ul>
+															 <div class="collapes_wrapper">
+																{% for stages in stage %}
+																
+																	<div class="collapse_parent_tab">
+																		<div class="collapse_title" data-id="{{stages.id}}">
+																			<label>{{stages.name}}</label>
+																			<span class="toggle-arrows"></span>
+																		</div>
+																		<ul class="nav categoryListOftab panel-tabs">
+																			<input type="text" value="{{stages.id}}" readonly hidden name="stage_id" id="jcFormVal">
+																			
+																			{% if stages.id|category_count:request > 0 %}
+																				{% for get_categories in get_category %}
+																					{% ifequal get_categories.stage.id stages.id %}
+																						<li>
+																							<a href="#category{{get_categories.id}}" data-toggle="tab"><span class="dot_c"></span>
+																								<input type="text" id="{{get_categories.id}}" hidden value="{{get_categories.id}}" name="cat_id" readonly>
+																								<input type="text" id="{{get_categories.id}}" class="es-subtitle" value="{{get_categories.name}}" readonly>
+																							</a>
+
+																								<div class="catActionBtns">
+
+																									<div class="edit-tab"><i class="fas fa-edit"></i></div>
+
+																									<div class="delete-tab"><i class="fas fa-trash-alt"></i></div>
+
+																								</div>
+
+																						</li>
+
+																					{% endifequal %}
+																				{% endfor %}
+																			{% else %}
+																			<li hidden></li>
+																			{% endif %}
+																			{% if Add or Edit %}
+																			<li>
+																				<div class="addmore-clone__section">
+																					<button type="button" data-id="{{stages.id}}" class="btn btn-sm btn-outline-light rounded-20 text-capitalize addmore-tab cat-sub-{{stages.id}}" data-toggle="modal" data-target="#jcModel">
+																						add category
+																					</button>
+																				</div>
+																			</li>
+																			{% endif %}
+																		</ul>
+																	</div>
+																	
+																{% endfor %}
+															</div>
+														</div>
+													</div>
+												</div>
+											</div>
+											<!--right section tab-preview-->
+											<div class="right-tab-section">
+												<div class="right-header__section">
+													<div class="row">
+														<div class="col-lg-12 col-md-12 col-sm-12 fx-upper-col">
+															<div class="fx-search-view">
+																<!--add search box-->
+																<div class="search-wrapper">
+																	<input type="search" value="" name="search-table-query" class="form-control form-control-sm top-search-box"  placeholder="Search Template">
+																	<button class="half-search-btn fe fe-search btn btn-sm btn-primary"></button>
+																</div>
+															</div>
+															<div class="fx-right-nav-view">
+																<!--right side navigation button group-->
+																<ul class="fx-right__top-nav">
+																	<!-- <li class="nav-item">
+																		<div class="fxs-btn print-action fa fa-print"></div>
+																	</li>
+																	<li class="nav-item">
+																		<div class="mini-nav fxs-btn bx bx-dots-vertical-rounded"></div>
+																	</li> -->
+																	<li class="nav-item">
+																		<div class="addnew-action">
+																			{% if Add%}
+																			<button class="btn btn-primary rounded-20 btn-sm text-capitalize" id="addNewItem" data-toggle="modal" data-target="#newTemplateModal">add new</button>
+																			{% endif %}
+																		</div>
+																	</li>
+																</ul>
+															</div>
+														</div>
+													</div>
+												</div>
+												<div class="panel-body tabs-menu-body">
+													<h1 class="text-center" id="header" >Please select a stage and category</h1>
+													<div class="tab-content">
+														{% for get_categories in get_category %}
+														<div class="tab-pane" id="category{{get_categories.id}}">
+															<div class="row row-sm smaple-tab">
+																<!--add fiels-->
+																<div class="col-12">
+																	<table class="table text-md-nowrap candidate_table">
+																		<thead>
+																			<tr>
+																				<th></th>
+																				<th class="border-bottom-0">template name</th>
+																				<th class="border-bottom-0">category</th>
+																				<th class="border-bottom-0">create by</th>
+																				<th class="border-bottom-0">create on</th>
+																				<th class="border-bottom-0">action</th>
+																				<th></th>
+																			</tr>
+																			
+																		</thead>
+																		{% for templates in get_templates %}
+																			{% ifequal templates.category.id get_categories.id %}
+																				<tbody>
+																					<tr>
+																						<td><i style="color: #0068ff;" data-container="body" data-popover-color="head-primary" data-placement="top" title="" data-content="{{templates.description}}" data-original-title=" " class="fas fa-info-circle"></i></td>
+																						<td class="text-capitalize">{{templates.name}}</td>
+																						<td class="text-capitalize">{{templates.category.name}}</td>
+																						<td class="text-capitalize">{{request.user.agency_name}}</td>
+																						<td>{{templates.created_at|whenpublished}}</td>
+																						<td class="action_icons">
+                                                                                            <!-- <a href="#" class="view-row"><i class="fas fa-share"></i></a> -->
+                                                                                            {% ifequal templates.stage.name 'Job Creation'%}
+																								{% if templates.status %}
+																									
+																										<a target="_blank" data-maincat='{{templates.stage.id}}' data-subcat='{{templates.category.id}}' data-template='{{templates.id}}' href="{%url 'agency:job_template_view' templates.id%}" class="view-row"><i class="fas fa-eye"></i></a>
+																								
+																									{% if Edit %}
+																										<a type="button" data-maincat='{{templates.stage.id}}' data-subcat='{{templates.category.id}}' data-template='{{templates.id}}' href="{%url 'agency:job_creation_template_edit' templates.id%}" class="edit-row"><i class="fas fa-edit"></i></a>
+																									{% endif %}
+																								{% else %}
+																									{% if Add or Edit %}
+																										<a type="button" data-maincat='{{templates.stage.id}}' data-subcat='{{templates.category.id}}' data-template='{{templates.id}}'  class="edit-row"><i class="fas fa-sliders-h"></i></a>
+																									{% endif %}
+																								{% endif %}
+																							{% endifequal %}
+                                                                                            {% ifequal templates.stage.name 'JCR'%}
+																								{% if templates.status %}
+																									
+																										<a target="_blank" data-maincat='{{templates.stage.id}}' data-subcat='{{templates.category.id}}' data-template='{{templates.id}}' href="{% url 'agency:jcr_preview' templates.id %}" class="view-row"><i class="fas fa-eye"></i></a>
+																									
+																									{% if Edit %}
+																										<a type="button" data-maincat='{{templates.stage.id}}' data-subcat='{{templates.category.id}}' data-template='{{templates.id}}' class="edit-row"><i class="fas fa-edit"></i></a>
+																									{% endif %}
+																								{% else %}
+																									{% if Add or Edit %}
+																										<a type="button" data-maincat='{{templates.stage.id}}' data-subcat='{{templates.category.id}}' data-template='{{templates.id}}' class="edit-row"><i class="fas fa-sliders-h"></i></a>
+																									{% endif %}
+																								{% endif %}
+																							{% endifequal %}
+                                                                                            {% ifequal templates.stage.name 'Prerequisites'%}
+																								{% if templates.status %}
+																									
+																										<a target="_blank" data-maincat='{{templates.stage.id}}' data-subcat='{{templates.category.id}}' data-template='{{templates.id}}' href="{%url 'agency:view_pre_requisites' templates|get_pre_requisite_id%}" class="view-row"><i class="fas fa-eye"></i></a>
+																									
+																									{% if Edit %}
+																										<a type="button" data-maincat='{{templates.stage.id}}' data-subcat='{{templates.category.id}}' data-template='{{templates.id}}' class="edit-row"><i class="fas fa-edit"></i></a>
+																									{% endif %}
+																								{% else %}
+																									{% if Add or Edit %}
+																										<a type="button" data-maincat='{{templates.stage.id}}' data-subcat='{{templates.category.id}}' data-template='{{templates.id}}' href="{%url 'agency:pre_requisites' %}" class="edit-row"><i class="fas fa-sliders-h"></i></a>
+																									{% endif %}
+																								{% endif %}
+																							{% endifequal %}
+                                                                                            {% ifequal templates.stage.name 'MCQ Test'%}
+																								{% if templates.status %}
+																									
+                                                                                                		<a target="_blank" data-maincat='{{templates.stage.id}}' data-subcat='{{templates.category.id}}' data-template='{{templates.id}}' href="{%url 'agency:mcq_template_view' templates.id%}" class="view-row"><i class="fas fa-eye"></i></a>
+                                                                                                	
+																									{% if Edit %}
+																										<a type="button" data-maincat='{{templates.stage.id}}' data-subcat='{{templates.category.id}}' data-template='{{templates.id}}'  href ="{%url 'agency:exam_edit' templates.id %}" class="edit-row"><i class="fas fa-edit"></i></a>
+																									{% endif %}
+																								{% else %}
+																									{% if Add or Edit %}
+																										<a type="button" data-maincat='{{templates.stage.id}}' data-subcat='{{templates.category.id}}' data-template='{{templates.id}}' href ="{%url 'agency:add_exam_template' templates.id%}" class="edit-row"><i class="fas fa-sliders-h"></i></a>
+																									{% endif %}
+																								{% endif %}
+                                                                                            {% endifequal %}
+                                                                                            {% ifequal templates.stage.name 'Descriptive Test'%}
+																								{% if templates.status %}
+																									
+																										<a target="_blank" data-maincat='{{templates.stage.id}}' data-subcat='{{templates.category.id}}' data-template='{{templates.id}}' href="{% url 'agency:descriptive_template_view' templates.id %}" class="view-row"><i class="fas fa-eye"></i></a>
+                                                                                                	
+																									{% if Edit %}
+																										<a type="button" data-maincat='{{templates.stage.id}}' data-subcat='{{templates.category.id}}' data-template='{{templates.id}}'  href="{% url 'agency:descriptive_exam_edit' templates.id %}" class="edit-row"><i class="fas fa-edit"></i></a>
+																									{% endif %}
+																								{% else %}
+																									{% if Add or Edit %}
+																										<a type="button" data-maincat='{{templates.stage.id}}' data-subcat='{{templates.category.id}}' data-template='{{templates.id}}'  href="{% url 'agency:descriptive_exam_template' templates.id %}"class="edit-row"><i class="fas fa-sliders-h"></i></a>
+																									{% endif %}
+																								{% endif %}
+																							{% endifequal %}
+                                                                                            {% ifequal templates.stage.name 'Coding Test'%}
+																								{% if templates.status %}
+																									
+																										<a target="_blank" data-maincat='{{templates.stage.id}}' data-subcat='{{templates.category.id}}' data-template='{{templates.id}}' href="{% url 'agency:coding_template_view' templates.id %}" class="view-row"><i class="fas fa-eye"></i></a>
+																									
+																									{% if Edit %}
+																										<a type="button" data-maincat='{{templates.stage.id}}' data-subcat='{{templates.category.id}}' data-template='{{templates.id}}'   href ="{% url 'agency:coding_question_edit_selection' templates.id %}" class="edit-row"><i class="fas fa-edit"></i></a>
+																									{% endif %}
+																								{% else %}
+																									{% if Add or Edit %}
+																										<a type="button" data-maincat='{{templates.stage.id}}' data-subcat='{{templates.category.id}}' data-template='{{templates.id}}' href ="{% url 'agency:coding_exam_configuration' templates.id %}" class="edit-row"><i class="fas fa-sliders-h"></i></a>
+																									{% endif %}
+																								{% endif %}
+																							{% endifequal %}
+                                                                                            {% ifequal templates.stage.name 'Image Test'%}
+																								{% if templates.status %}
+																									
+																										<a target="_blank" data-maincat='{{templates.stage.id}}' data-subcat='{{templates.category.id}}' data-template='{{templates.id}}' href="{% url 'agency:images_template_view' templates.id %}" class="view-row"><i class="fas fa-eye"></i></a>
+																									
+																									{% if Edit %}
+																										<a type="button" data-maincat='{{templates.stage.id}}' data-subcat='{{templates.category.id}}' data-template='{{templates.id}}'  href="{% url 'agency:image_exam_edit' templates.id %}" class="edit-row"><i class="fas fa-edit"></i></a>
+																									{% endif %}
+																								{% else %}
+																									{% if Add or Edit %}
+																										<a type="button" data-maincat='{{templates.stage.id}}' data-subcat='{{templates.category.id}}' data-template='{{templates.id}}'  href="{% url 'agency:image_add_exam_template' templates.id%}" class="edit-row"><i class="fas fa-sliders-h"></i></a>
+																									{% endif %}
+																								{% endif %}
+																							{% endifequal %}
+                                                                                            {% ifequal templates.stage.name 'Audio Test'%}
+																								{% if templates.status %}
+																									
+																										<a target="_blank" data-maincat='{{templates.stage.id}}' data-subcat='{{templates.category.id}}' data-template='{{templates.id}}' href="{% url 'agency:audio_template_view' templates.id %}" class="view-row"><i class="fas fa-eye"></i></a>
+																									
+																									{% if Edit %}
+																										<a type="button" data-maincat='{{templates.stage.id}}' data-subcat='{{templates.category.id}}' data-template='{{templates.id}}'   href="{% url 'agency:audio_exam_edit' templates.id %}" class="edit-row"><i class="fas fa-edit"></i></a>
+																									{% endif %}
+																								{% else %}
+																									{% if Add or Edit %}
+																										<a type="button" data-maincat='{{templates.stage.id}}' data-subcat='{{templates.category.id}}' data-template='{{templates.id}}' href="{% url 'agency:audio_exam_template' templates.id %}"  class="edit-row"><i class="fas fa-sliders-h"></i></a>
+																									{% endif %}
+																								{% endif %}
+																							{% endifequal %}
+																							
+																							{% if Delete %}
+                                                                                            	<a href="#" data-maincat='{{templates.stage.id}}' data-subcat='{{templates.category.id}}' data-template='{{templates.id}}' class="delete-row"><i class="fas fa-trash-alt"></i></a>
+                                                                                        	{% endif %}
+																						</td>
+																						<td>{{templates.status}}</td>
+																					</tr>
+																				</tbody>
+																			{% endifequal %}
+																		{% endfor %}
+																	</table>
+																</div>
+															</div>
+														</div>
+														
+														{% endfor %}
+														
+													</div>
+												</div>
+											</div>
+										 </div>
+                                  </div>
+                               </div>
+                            </div>
+                         </div>
+                        <!--middle section end-->
+					</div>
+					<!-- Main-content-body closed -->
+				<!-- Container-fluid closed -->
+
+				<!--Stage Modal Start-->
+				  <div class="modal fade" id="newStageModal" tabindex="-1" role="dialog" aria-labelledby="stageModalView" aria-hidden="true">
+					<div class="modal-dialog" role="document">
+					  <div class="modal-content">
+						<div class="modal-header">
+						  <h5 class="modal-title" id="stageModalView">Add New Stages</h5>
+						  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						  </button>
+						</div>
+						<div class="modal-body">
+							<div class="add-category__input-box">
+								<label>Enter Stage:</label>
+								<input type="text" value="" name="addnew-stagetitle" class="stage-title form-control form-control-sm" placeholder="Add Stage Name...">
+							</div>
+						</div>
+						<div class="modal-footer">
+						  <button type="button" class="btn btn-secondary" id="closeFormModal" data-dismiss="modal">Close</button>
+						  <button type="button" class="btn btn-primary" id="saveStageItem">Save changes</button>
+						</div>
+					  </div>
+					</div>
+				  </div>
+				<!--Stage Modal End-->
+
+				<!--Add New Template Modal Start-->
+				<div class="modal fade" id="newTemplateModal" tabindex="-1" role="dialog" aria-labelledby="newTemplateModalView" aria-hidden="true">
+					<form method="post">
+						{% csrf_token %}
+					<div class="modal-dialog" role="document">
+					  <div class="modal-content">
+						<div class="modal-header">
+						  <h5 class="modal-title" id="newTemplate">Add New Template</h5>
+						  <button type="button" id="closetempModal" class="close" data-dismiss="modal" aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						  </button>
+						</div>
+						<div class="modal-body">
+							<div class="templateItemFiels">
+								<div class="modal-list-view mg-b-10">
+									<label>Select Stage:</label>
+									<select name="stage" required class="form-control form-control-sm select-new-stage-list">
+										<option label="select stage" selected disabled></option>
+										{% for stages in stage %}
+										{% ifequal stages.name 'Interview' %}
+										{% else %}
+										<option value="{{stages.id}}" label="{{stages.name}}">{{stages.name}}</option>
+										{% endifequal %}
+										{% endfor %}
+									</select>
+								</div>
+								<div class="modal-list-view mg-b-10">
+									<label>Select Category:</label>
+									<select name="category" required class="form-control form-control-sm select-new-category-list">
+										<option label="select category" disabled selected></option>
+									</select>
+								</div>
+								<div class="modal-list-view mg-b-10">
+									<label>Template Name:</label>
+									<input name="template-name" required type="text" class="form-control form-control-sm select-new-template-name">
+							   </div>
+							   <div class="modal-list-view mg-b-10">
+									<label>Template Description:</label>
+									<textarea name="template-description" required class="form-control form-control-lm select-new-template-description"></textarea>
+						   		</div>
+							</div>
+						</div>
+						<div class="modal-footer">
+						  <button type="submit" class="btn btn-primary"  id="saveNewTempItem">Save changes</button>
+						</div>
+					  </div>
+					</div>
+					</form>
+				  </div>
+				<!--Add New Template Modal End-->
+
+				<!--Create Job Category BOC-->
+
+				<div class="modal fade" id="jcModel" tabindex="-1" role="dialog" aria-labelledby="jcModelTemplate" aria-hidden="true">
+					<div class="modal-dialog" role="document">
+					  <div class="modal-content">
+						<div class="modal-header">
+						  <h5 class="modal-title" id="jcModeltemp">Add New Category</h5>
+						  <button type="button" id="closetempModal" class="close" data-dismiss="modal" aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						  </button>
+						</div>
+						<div class="modal-body">
+							<div class="templateItemFiels">
+								<div class="modal-list-view mg-b-10">
+									<label>Template Name:</label>
+									<input id="tem_name_cre" name="template-name" required type="text" class="form-control form-control-sm jc-tempname">
+							   </div>
+							</div>
+						</div>
+						<div class="modal-footer">
+						  <button type="submit" class="btn btn-primary" id="saveJobCreateItem">Save changes</button>
+						</div>
+					  </div>
+					</div>
+				</div>
+				<!--Create Job Category EOC-->
+
+
+{% endblock %}
+{% block script %}
+		<!--Select2 SelectWithSearch CDN-->
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.1/js/select2.min.js"></script>
+
+		<!-- Internal Data tables -->
+		<script src="{% static 'assets/plugins/datatable/js/jquery.dataTables.min.js' %}"></script>
+		<script src="{% static 'assets/plugins/datatable/js/dataTables.dataTables.min.js' %}"></script>
+		<script src="{% static 'assets/plugins/datatable/js/dataTables.responsive.min.js' %}"></script>
+		<script src="{% static 'assets/plugins/datatable/js/responsive.dataTables.min.js' %}"></script>
+		<script src="{% static 'assets/plugins/datatable/js/jquery.dataTables.js' %}"></script>
+		<script src="{% static 'assets/plugins/datatable/js/dataTables.bootstrap4.js' %}"></script>
+		<script src="{% static 'assets/plugins/datatable/js/dataTables.buttons.min.js' %}"></script>
+		<script src="{% static 'assets/plugins/datatable/js/buttons.bootstrap4.min.js' %}"></script>
+		<script src="{% static 'assets/plugins/datatable/js/jszip.min.js' %}"></script>
+		<script src="{% static 'assets/plugins/datatable/js/pdfmake.min.js' %}"></script>
+		<script src="{% static 'assets/plugins/datatable/js/vfs_fonts.js' %}"></script>
+		<script src="{% static 'assets/plugins/datatable/js/buttons.html5.min.js' %}"></script>
+		<script src="{% static 'assets/plugins/datatable/js/buttons.print.min.js' %}"></script>
+		<script src="{% static 'assets/plugins/datatable/js/buttons.colVis.min.js' %}"></script>
+		<script src="{% static 'assets/plugins/datatable/js/dataTables.responsive.min.js' %}"></script>
+		<script src="{% static 'assets/plugins/datatable/js/responsive.bootstrap4.min.js' %}"></script>
+
+		<!--- Internal Sweet-Alert js -->
+		 <script src="{% static 'assets/plugins/sweet-alert/sweetalert.min.js' %}"></script>
+		 <script src="{% static 'assets/plugins/sweet-alert/jquery.sweet-alert.js' %}"></script>
+
+    	<!-- Custom js -->
+        <script src="{% static 'assets/js/ATS/agency/template-listing.js' %}"></script>
+		
+{% endblock %}

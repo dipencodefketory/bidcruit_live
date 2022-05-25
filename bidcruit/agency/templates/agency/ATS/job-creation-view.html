@@ -1,0 +1,308 @@
+{% extends 'agency/base.html' %}
+{% load static %}
+{% block title %}Job View{% endblock %}
+{% block css %}
+		<link href="{% static 'assets/css/ATS/job_creation_view.css' %}" rel="stylesheet">
+{% endblock %}
+{% block main %}
+{{request.user.id}}
+				<!-- Container-fluid -->
+				<div class="container-fluid">
+					<!-- Main-content-body -->
+					<div class="main-content-body">
+						<div class="row card row-sm mer-preview-temp" id="merPreviewTemplate">
+							<div class="col-12 top-search-box__section">
+                                <div class="fx-row flex-box-col">
+                                    <div class="fx-left">
+                                        <h4 class="page-title text-uppercase h5">{{main_workflow.name}}</h4>
+                                    </div>
+                                    <div class="fx-right">
+										<button type="button" class="btn btn-primary btn-sm rounded-20" id="editMERForm">Edit</button>
+									</div>
+                                </div>
+                            </div>
+
+                            <!--card list view start-->
+                            <div class="col-12 mer-preview-temp__container">
+                                <div class="row row-sm layout-first-row">
+                                    <div class="col-12 workflow-draw">
+                                        <label class="h6 workflow-title text-capitalize">workflow stages:
+											<div class="info-btn" title="preview"><i class="fa fa-eye"></i></div>
+										</label>
+										<div class="step-indicator">
+											<a class="step completed no-caption" href="javascript:void(0);" title=""></a>
+											{% for workflow in workflow_stages %}
+											<a class="step completed" href="javascript:void(0);">
+												<label class="step-title-text text-capitalize">{{workflow.stage.name}}</label>
+											</a>
+											{% endfor %}
+										</div>
+
+                                    </div>
+                                </div>
+								<!--collapse list-->
+								<div class="skills_source_section row row-sm">
+									<div class="preference_section card mg-b-10 col-12">
+										<div class="collapse_container">
+											<div>
+												<a aria-controls="jobDetailsEs" aria-expanded="false" class="Preference_section_title" data-toggle="collapse" href="#jobDetailsEs" role="button">
+													Job Details
+													<i id="coll_apseP" class="fas fa-angle-down"></i>
+													<i id="coll_apseP" class="fas fa-angle-up"></i>
+												</a>
+												<div class="collapse mg-t-0" id="jobDetailsEs">
+													<div class="tab-view-container row-sm row">
+														<div class="main_box_collapse card mb-0 pt-0 col-6">
+															<div class="left_preference">
+																<div class="preference_box_data"><label class="ls-text">Job Posting Title :-
+																	{{job_obj.job_title}}</label></div>
+																<div class="preference_box_data"><label class="ls-text">Job Type :- {{job_obj.job_type.name}}</label></div>
+																<div class="preference_box_data"><label class="ls-text">Target Date :-
+																	{{job_obj.target_date}}</label></div>
+																<div class="preference_box_data"><label class="ls-text">Experience :-
+																	{{job_obj.experience_year}}.{{job_obj.experience_month}}</label></div>
+																<div class="preference_box_data"><label class="ls-text">Country :-
+																	{{job_obj.country.country_name}}</label></div>
+															</div>
+														</div>
+														<div class="main_box_collapse card mb-0 pt-0 col-6">
+															<div class="left_preference">
+																<div class="preference_box_data"><label class="ls-text">Remote Job :-
+																	{{job_obj.remote_job}}</label></div>
+																<div class="preference_box_data"><label class="ls-text">Contact Name :-
+																	{{job_obj.contact_name}}</label></div>
+																<div class="preference_box_data"><label class="ls-text">Status :-
+																	{{job_obj.status.name}}</label></div>
+																<div class="preference_box_data"><label class="ls-text">Max Salary :-
+																	{{job_obj.max_salary}}</label></div>
+																<div class="preference_box_data"><label class="ls-text">City :-
+																	{{job_obj.city.city_name}}</label></div>
+															</div>
+														</div>
+														<div class="main_box_collapse card mb-0 pt-0 col-12 full-view">
+															<div class="left_preference">
+																<div class="preference_box_data"><label class="ls-text">Job Description :-</label>
+																	<p>
+																		{% autoescape off %}{{job_obj.job_description}}{% endautoescape %}
+																	</p>
+																</div>
+																<div class="preference_box_data"><label class="ls-text">Requirements :- </label>
+																	<p>
+																		{% autoescape off %}{{job_obj.requirements}}{% endautoescape %}
+																	</p>
+																</div>
+																<div class="preference_box_data"><label class="ls-text">Benefits :- </label>
+																	<p>
+																		{% autoescape off %}{{job_obj.benefits}}{% endautoescape %}
+																	</p>
+																</div>
+															</div>
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+									<div class="half-container col-12">
+										<div class="preference_section card mg-b-10 source_section_views">
+											<div class="collapse_container">
+												<div>
+													<a aria-controls="InternalReq" aria-expanded="false" class="Preference_section_title text-uppercase" data-toggle="collapse" href="#InternalReq" role="button">Internal recruiter
+														<i id="coll_apseP" class="fas fa-angle-down"></i>
+														<i id="coll_apseP" class="fas fa-angle-up"></i>
+													</a>
+													<div class="collapse mg-t-0" id="InternalReq">
+														<div class="main_box_collapse card mb-0 pt-0">
+															<div class="left_preference">
+																<div class="preference_box_data"><label class="ls-text">Name :- India</label></div>
+																<div class="preference_box_data"><label class="ls-text">Department :- Surat</label></div>
+																<div class="preference_box_data"><label class="ls-text">Email :- MNC</label></div>
+															</div>
+
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+										<div class="preference_section card mg-b-10 source_section_views">
+											<div class="collapse_container">
+												<div>
+													<a aria-controls="ExternalReq" aria-expanded="false" class="Preference_section_title text-uppercase" data-toggle="collapse" href="#ExternalReq" role="button">External recruiter
+														<i id="coll_apseP" class="fas fa-angle-down"></i>
+														<i id="coll_apseP" class="fas fa-angle-up"></i>
+													</a>
+													<div class="collapse mg-t-0" id="ExternalReq">
+														<div class="main_box_collapse card mb-0 pt-0">
+															<div class="left_preference">
+																<div class="preference_box_data"><label class="ls-text">Name :- India</label></div>
+																<div class="preference_box_data"><label class="ls-text">Company Name :- Surat</label></div>
+																<div class="preference_box_data"><label class="ls-text">Email :- MNC</label></div>
+															</div>
+
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+										<div class="footer-container col-12">
+											<form method="post">
+												{% csrf_token %}
+												<div class="button-section">
+													<button type="submit" class="btn btn-sm btn-primary rounded-20 text-capitalize" id="publishBtn">publish</button>
+													<button class="btn btn-sm btn-primary rounded-20 text-capitalize" id="assignRecruiter">assign recruiter</button>
+												</div>
+											</form>
+
+										</div>
+								</div>
+								<!--collapse list end-->
+
+                            </div>
+                            <!--card list view end-->
+						</div>
+					</div>
+					<!-- Main-content-body closed -->
+				</div>
+				<!-- Container-fluid closed -->
+
+				<!--Side Panel container-->
+				<div class="row row-sm sidebar-preview">
+				<div class="col-12 card side-barContainer rounded-0">
+					<div class="slideClose"><i class="fa fa-chevron-right"></i></div>
+					<div class="row row-sm preview-list-container side-bar-row">
+						<div class="col-12 full-list">
+							<div class="fx-preview-head">
+								<div class="preview-title">
+									<h4 class="h4 title">Stage 1: Prerequisites</h4>
+								</div>
+							</div>
+							<div class="fx-preview-main">
+								<div class="preview-short-desc">
+									<label class="sub-title text-capitalize">template name:</label>
+									<label class="desc-text">Prerequisites for marketing executive</label>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="row row-sm jcr-preview side-bar-row">
+						<div class="col-12 full-list">
+							<div class="fx-preview-head">
+								<div class="preview-title">
+									<h4 class="h4 title">Stage 2: Job Compability Ratio</h4>
+									<div class="checkbox-item">
+										<input type="radio" class="form-control" checked value="automation">
+										<label class="radio-label text-capitalize">automation</label>
+									</div>
+								</div>
+							</div>
+							<div class="fx-preview-main">
+								<div class="preview-short-desc">
+									<label class="sub-title text-capitalize">template name:</label>
+									<label class="desc-text">JCR for Marketing Executive Profile</label>
+								</div>
+								<div class="precent-preview">
+									<ul class="p-ls">
+										<li>
+											<label class="p-title text-capitalize">short list:</label>
+											<label class="p-sub_view">80%</label>
+										</li>
+										<li>
+											<label class="p-title text-capitalize">on hold:</label>
+											<label class="p-sub_view">60%</label>
+										</li>
+										<li>
+											<label class="p-title text-capitalize">rejected:</label>
+											<label class="p-sub_view">40%</label>
+										</li>
+									</ul>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="row row-sm mcq-text-preview side-bar-row">
+						<div class="col-12 full-list">
+							<div class="fx-preview-head">
+								<div class="preview-title">
+									<h4 class="h4 title">Stage 3: MCQ Test</h4>
+								</div>
+							</div>
+							<div class="fx-preview-main">
+								<div class="preview-short-desc">
+									<label class="sub-title text-capitalize">template name:</label>
+									<label class="desc-text">Reasoning for Marketing Executive Profile</label>
+								</div>
+							</div>
+							<div class="mini__card-layout">
+								<div class="fx-row title_list">
+								   <div class="fx-col">
+									  <label class="text-capitalize h6">Total Question</label>
+								   </div>
+								   <div class="fx-col">
+									  <label class="text-capitalize h6">Time</label>
+								   </div>
+								   <div class="fx-col">
+									  <label class="text-capitalize h6">Total Marks</label>
+								   </div>
+								</div>
+								<div class="fx-row fx-details__ls">
+								   <div class="fx-col col-view_caption">
+									  <p class="result_view h6">80</p>
+								   </div>
+								   <div class="fx-col col-view_caption">
+									  <p class="result_view h6">1h 30min</p>
+								   </div>
+								   <div class="fx-col col-view_caption">
+									  <p class="result_view h6">100</p>
+								   </div>
+								</div>
+							 </div>
+						</div>
+					</div>
+					<div class="row row-sm interview-preview side-bar-row">
+						<div class="col-12 full-list">
+							<div class="fx-preview-head">
+								<div class="preview-title">
+									<h4 class="h4 title">Stage 4: Interview</h4>
+								</div>
+							</div>
+							<div class="fx-preview-main">
+								<div class="preview-short-desc">
+									<label class="sub-title text-capitalize">template name:</label>
+									<label class="desc-text">JCR for Marketing Executive Profile</label>
+								</div>
+								<div class="precent-preview">
+									<ul class="p-ls">
+										<li>
+											<label class="p-title text-capitalize">interviewer(s):</label>
+											<label class="p-sub_view">John</label>
+										</li>
+									</ul>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="row row-sm interview-preview side-bar-row">
+						<div class="col-12 full-list">
+							<div class="fx-preview-head">
+								<div class="preview-title">
+									<h4 class="h4 title">Stage 5: Custom</h4>
+								</div>
+							</div>
+							<div class="fx-preview-main">
+								<div class="preview-short-desc">
+									<label class="sub-title text-capitalize">template name:</label>
+									<label class="desc-text">Score Card for Candidate</label>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+				<!--Side Panel container End-->
+{% endblock %}
+
+{% block script %}
+		<!-- Custom-->
+        <script src="{% static 'assets/js/ATS/agency/job_creation_view.js' %}"></script>
+{% endblock %}

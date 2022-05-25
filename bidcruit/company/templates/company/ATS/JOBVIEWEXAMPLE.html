@@ -1,0 +1,900 @@
+{% extends 'company/base.html' %}
+{% load static %}
+{% load custom_filters %}
+{% block title %}Job View{% endblock %}
+{% block css %}
+		<link href="{% static 'assets/css/ATS/job_view.css' %}" rel="stylesheet">
+		<link href="{% static 'assets/css/ATS/job_creation_view.css' %}" rel="stylesheet">
+{% endblock %}
+{% block main %}
+				<!-- Container-fluid -->
+				<div class="container-fluid">
+
+					<!-- Main-content-body -->
+					<div class="main-content-body">
+
+						<!-- header-title -->
+						<div class="header-title">
+							<div class="mb-0 mb-lg-0 mb-xl-0">
+								<h4 class="mb-2">Components</h4>
+								<div class="main-content-breadcrumb"> <span>Components</span> <span>Data-tables</span> </div>
+							</div>
+							<div class="ml-auto my-auto">
+								<a href="#" class="btn btn-primary"><i class="fe fe-plus-square"></i> Create Report</a>
+								<a href="#" class="btn btn-pink"><i class="fe fe-external-link"></i> Export</a>
+							</div>
+						</div>
+						<!-- header-title -->
+
+						<!-- row opened -->
+						<div class="row row-sm">
+						
+							<div class="col-xl-12">
+								<!-- profile-page -->
+						<div class="profile-page tx-13">
+							
+							<div class="row row-sm profile-body">
+							
+								<div class="col-md-12 col-xl-8 col-lg-8 middle-wrapper">     
+
+									<div class="main-profile-body p-0">
+                                        <!--header cover section-->
+                                        <div class="profile-header agency-head__view">
+                                            
+                                            <div class="header-links">
+                                                <div class="cover-short-detail">
+                                                    <div class="top-main__info">
+                                                        <h3 class="cover-main__title text-capitalize">Product Designer
+															<div class="candidate_view_Accept">
+																<a class="btn_users-cog" href="#"><i class="fas fa-users-cog"></i></a>																
+																<a class="btn_bookmark" href="#"><i class="far fa-bookmark"></i></a>
+																<div class="btn_share_cog">
+																	<i class="fas fa-share-alt"></i>
+																	<p class="shar-button-url">
+																		<a target="_blank" href="https://facebook.com/sharer/sharer.php?u=https://www.bidcruit.com/nirav/&amp;p[title]=MYPROFILE" class="text"><i class="lab la-facebook-f"></i></a>
+																		<a target="_blank" href="https://web.whatsapp.com/send?text=https://www.bidcruit.com/nirav/" data-action="share/whatsapp/share" class="text"><i class="fab la-whatsapp"></i></a>
+																		<!-- <a target="_blank" class="text"><i class="fab la-instagram"></i></a> -->
+																		<a href="http://www.linkedin.com/shareArticle?mini=true&amp;url=https://www.bidcruit.com/nirav/" target="_blank" class="text"><i class="lab la-linkedin-in"></i></a>
+																		<a target="_blank" href="http://twitter.com/share?url=https://www.bidcruit.com/nirav/" class="text"><i class="lab fa-twitter"></i></a>			
+																	</p>
+																</div>
+															</div>
+														</h3>
+                                                        <p class="subtitle text-capitalize job_date_id"><span> Last Updated : 1 day ago </span><span>Job ID : 6651182</span></p>
+                                                    </div>
+                                                    <div class="allabout_viewer">
+                                                        <div class="fx-icotext">
+                                                            <i class="fas fa-map-marker-alt"></i>
+                                                            <lable>Pune</lable>
+                                                        </div>
+                                                        <div class="fx-icotext">
+                                                            <i class="fas fa-briefcase"></i>
+                                                            <lable>Full Time</lable>
+                                                        </div>
+                                                        <div class="fx-icotext">
+															<i class="fas fa-laptop-code"></i>
+                                                            <lable>Remote (Worldwide)</lable>
+                                                        </div>    
+														<div class="fx-icotext">
+                                                            <i class="fas fa-user"></i>
+                                                            <lable>Applicant : 10</lable>
+                                                        </div> 
+														<div class="fx-icotext">
+                                                            <i class="fas fa-user"></i>
+                                                            <lable>Exp: 4 to 5 Years</lable>
+                                                        </div>                                                  
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    <!--header cover section-->
+
+									    <!--description container-->
+                                        <div class="card">
+                                            <div class="about-profile pd-t-20 pd-b-20 pd-l-15 pd-r-15">
+                                                <div class="info--section">
+                                                    <h5 class="text-uppercase">Job Description :</h5>
+													<div class="read_more_to_job_des_text">
+                                                   	 	<p>It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for 'lorem ipsum' will uncover many web sites still in their infancy. Various versions have evolved over the years, sometimes by accident</p>
+                                                 	  	<p>There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable. If you are going to use a passage of Lorem Ipsum, you need to be sure there isn't anything embarrassing hidden in the middle of text. All the Lorem Ipsum generators on the Internet tend to repeat predefined chunks as necessary, making this the first true generator on the Internet. It uses a dictionary of over 200 Latin words, combined with a handful of model sentence structures, to generate Lorem Ipsum which looks reasonable. The generated Lorem Ipsum is therefore always free from repetition, injected humour, or non-characteristic words etc.</p>
+													</div>	   
+													<button type="button" class="read-more-job_des">Read more</button>
+                                                </div>
+                                                <div class="info--section">
+                                                    <h5 class="text-uppercase mg-t-20">Benefits :</h5>
+                                                    <ul class="view-points-ls">
+                                                        <li>
+                                                            <i class="far fa-hand-point-right"></i>
+                                                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+                                                        </li>
+                                                        <li>
+                                                            <i class="far fa-hand-point-right"></i>
+                                                            <p>On the other hand, we denounce with righteous indignation and dislike men who are so beguiled and demoralized.</p>
+                                                        </li>
+                                                        <li>
+                                                            <i class="far fa-hand-point-right"></i>
+                                                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+                                                        </li>
+                                                        <li>
+                                                            <i class="far fa-hand-point-right"></i>
+                                                            <p>On the other hand, we denounce with righteous indignation and dislike men who are so beguiled and demoralized.</p>
+                                                        </li>
+                                                        <li>
+                                                            <i class="far fa-hand-point-right"></i>
+                                                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+                                                        </li>
+                                                    </ul>
+                                                </div>
+												<div class="info--section">
+                                                    <h5 class="text-uppercase mg-t-20">Requirements :</h5>
+                                                    <ul class="view-points-ls">
+                                                        <li>
+                                                            <i class="far fa-hand-point-right"></i>
+                                                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+                                                        </li>
+                                                        <li>
+                                                            <i class="far fa-hand-point-right"></i>
+                                                            <p>On the other hand, we denounce with righteous indignation and dislike men who are so</p>
+                                                        </li>
+                                                        <li>
+                                                            <i class="far fa-hand-point-right"></i>
+                                                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+                                                        </li>                                                       
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!--description container end-->
+
+										<div class="descriptive_contract_details card pd-t-20 pd-b-20 pd-l-15 pd-r-15">
+											<div class="clarification_header">
+												<div class="descriptive_detail_no">
+													<div class="contract_heading">
+														<div class="cardtitle">Clarification Board :</div>
+													</div>
+												</div>											
+												<div class="chat_action">
+													<a class="ask_a_question" data-toggle="modal" data-target="#Ask_a_Question">ASK A QUESTION</a>
+												</div>
+											</div>
+											<div class="clarification_main_section">
+												<div class="clarification_list">
+													<div class="details_text clarifica_board">
+														<div class="police_title">Lorem Ipsum is simply dummy text of the printing and typesetting industry.Lorem Ipsum is simply dummy text of the printing and typesetting industry.Lorem Ipsum is simply dummy text of the printing and typesetting industry.</div>
+														<p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.</p>
+													</div>
+													<div class="Reply_qusetion"><a class="ask_a_reply" data-toggle="modal" data-target="#Reply_message">Reply</a></div>
+												</div>
+												<div class="clarification_list">
+													<div class="details_text clarifica_board">
+														<div class="police_title">Lorem Ipsum is simply dummy text of the printing and typesetting industry.</div>
+														<p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.</p>
+													</div>
+													<div class="Reply_qusetion"><a class="ask_a_reply" data-toggle="modal" data-target="#Reply_message">Reply</a></div>
+												</div>
+											</div>
+
+											
+
+										</div>
+                                        
+
+										<div class="descriptive_contract_details card pd-t-20 pd-b-20 pd-l-15 pd-r-15">
+											<div class="descriptive_detail_no">
+												<div class="contract_heading">
+													<div class="cardtitle">policy :</div>
+												</div>
+											</div>
+											<div class="details_text">
+												<div class="police_term_section">
+													<div class="police_title">Payment Terms</div>
+													<p>Bidcruit Marketplace payment made by three instalment 1st payment 25% 2nd payment 25& and the final payment will be 50% the interval will be 30 days for each instalments</p>											
+												</div>
+												<div class="police_term_section">
+													<div class="police_title">Replacement Period</div>
+													<p>90 days standard return period across Bidcruit Platform</p>											
+												</div>
+											</div>
+										</div>
+										
+									</div><!-- main-profile-body -->
+								</div>
+								<!-- middle wrapper end -->
+								<!-- right wrapper start -->
+								<div class="d-none d-xl-block col-lg-12 col-xl-4 right-wrapper">
+                                    <div class="fx-sticky-right-col">
+                                        <div class="row row-sm">
+                                            <!-- <div class="col-md-12 grid-margin">
+                                                <div class="card">
+                                                    <div class="card-body">
+                                                        <h6 class="card-title pl-0">latest photos</h6>
+                                                        <div class="row row-sm ">
+                                                            <div class="col-lg-4 pl-1 pr-1 mb-2">
+                                                                <a href="" class="member"> <img src="../../assets/img/faces/5.jpg" alt=""></a>
+                                                            </div>
+                                                            <div class="col-lg-4 pl-1 pr-1 mb-2">
+                                                                <a href="" class="member"> <img src="../../assets/img/faces/12.jpg" alt=""></a>
+                                                            </div>
+                                                            <div class="col-lg-4 pl-1 pr-1 mb-2">
+                                                                <a href="" class="member"> <img src="../../assets/img/faces/17.jpg" alt=""></a>
+                                                            </div>
+                                                            <div class="col-lg-4 pl-1 pr-1 mb-0">
+                                                                <a href="" class="member"> <img src="../../assets/img/faces/13.jpg" alt=""></a>
+                                                            </div>
+                                                            <div class="col-lg-4 pl-1 pr-1 mb-0">
+                                                                <a href="" class="member"> <img src="../../assets/img/faces/2.jpg" alt=""></a>
+                                                            </div>
+                                                            <div class="col-lg-4 pl-1 pr-1 mb-0">
+                                                                <a href="" class="member"> <img src="../../assets/img/faces/15.jpg" alt=""></a>
+                                                            </div>
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div> -->
+                                            <div class="col-md-12">
+
+												<div class="card">
+													<div class="card-body day_section_sa">
+														<div class="row row-sm ">
+
+															<div class="col-lg-4 pl-1 pr-1 mb-2">
+																<div class="cr_pt_rp_right_section cp">
+																   <div class="title_day_name">CR</div>
+																   <div class="day_value_get">25 %</div>
+
+																    <div class="tooltiptext cr_rp_box">
+																		<span class="tooltip_title">Commission Rate : 25%</span>
+																		<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Lorem ipsum dolor sit amet, consectetur</p>
+																	</div>
+
+															    </div>
+														    </div>
+														    <div class="col-lg-4 pl-1 pr-1 mb-2">
+															   <div class="cr_pt_rp_right_section pt">
+																   <div class="title_day_name">PT</div>
+																   <div class="day_value_get">Standard</div>
+																    <div class="tooltiptext">
+																		<span class="tooltip_title">payment term</span>
+																		<table class="pt_table">
+																			<thead>
+																			<tr>
+																				<th>Days</th>
+																				<th>Payment</th>
+																			</tr>	</thead>	<tbody>	<tr>
+																				<td>&nbsp;0-30</td>
+																				<td>&nbsp;25%</td>
+																			</tr>
+																			<tr>
+																				<td>&nbsp;31-60</td>
+																				<td>&nbsp;25%</td>
+																			</tr>
+																			<tr>
+																				<td>&nbsp;61-90</td>
+																				<td>&nbsp;25%</td>
+																			</tr>
+																			<tbody>
+																		</table>
+																    </div>
+															   </div>
+														    </div>
+														    <div class="col-lg-4 pl-1 pr-1 mb-2">
+																<div class="cr_pt_rp_right_section rp">
+																	<div class="title_day_name">RP</div>
+																	<div class="day_value_get">30 days</div>
+
+																	<div class="tooltiptext cr_rp_box RP_tol">
+																		<span class="tooltip_title">Replacement Policy</span>
+																		<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Lorem ipsum dolor sit amet, consectetur</p>
+																	</div>
+
+																</div>
+															</div>
+
+
+
+															<div class="col-lg-6 pl-1 pr-1 mb-2">
+															 	<div class="day_left_section d-c">
+																	<div class="title_day_name">Closing In</div>
+																	<div class="day_value_get">05</div>
+																</div>
+															</div>
+															<div class="col-lg-6 pl-1 pr-1 mb-2">
+																<div class="day_left_section y-c">
+																	<div class="title_day_name">Yearly Salary (INR)</div>
+																	<div class="inr_yearly_s">
+																		<div class="day_value_get">5 <span>Lacs</span></div>
+																		<div class="day_value_get">-</div>
+																		<div class="day_value_get">10 <span>Lacs</span></div>
+																	</div>
+																</div>
+															</div>
+
+															<div class="right_side_btn_section pl-1 pr-1">
+															    <a class="btn btn_submit btn-full" href="">SUBMIT</a>
+																<!-- <a class="btn btn_submit btn-haft" href="">Edit</a>
+																<a class="btn btn_submit btn-haft" href="">Publish</a>
+																<a class="btn btn_submit btn-haft" href="">Assign</a>
+																<a class="btn btn_submit btn-haft" href="">Edit</a>
+																<a class="btn btn_submit btn-full" href="">Apply</a>
+														    	<a class="btn btn_cancel btn-danger btn-haft" href="">Cancel</a> -->
+
+															</div>
+															
+															<div class="apply_job_info_view">
+																<a class="profile_view_l" href="#">
+																	<div class="company_profile_logo"><img src="img/tata_logo.png"></div>
+																	<div class="name_dev">
+																		<h1 class="mb-0 mg-t-0 name">Abc Technologies LLP.</h1>
+																		<span class="text-muted">Software Industry</span>
+																	</div>	
+																</a>																															
+															</div>															
+															
+														</div>
+													</div>
+												</div>
+
+												<div class="card skills completed_user_job_details">
+                                                   
+                                                    <div class="card-body p-0">
+                                                        <div class="inbox-widget">
+															<div class="jobs_details_box_c">
+																<div class="clients_total_users">
+																	<div class="inbox-item">
+																		<p class="inbox-item-text">Active Jobs</p>
+																		<p class="inbox-item-author fb">10</p>                                                                   
+																	</div>
+																</div>
+																<div class="clients_total_users">
+																	<div class="inbox-item">
+																		<p class="inbox-item-text">Close Jobs</p>
+																		<p class="inbox-item-author fg">5</p>                                                                
+																	</div>
+																</div>
+																<div class="clients_total_users">
+																	<div class="inbox-item">
+																		<p class="inbox-item-text">Hiring Ratio</p>
+																		<p class="inbox-item-author fp">12 %</p>                                                                                                                                      
+																	</div>
+																</div>
+																<div class="clients_total_users">
+																	<div class="inbox-item">
+																		<p class="inbox-item-text">Last Close Jobs</p>
+																		<p class="inbox-item-author fy">03-02-2022</p>
+																	</div>
+																</div>
+															</div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+												
+                                                <div class="card suggestions job-suggest-list">
+                                                    <div class="card-body p-0">
+                                                        <div class="card-header pb-0">
+                                                            <h5 class="card-title pb-0 text-uppercase">similer jobs with organization</h5>
+                                                        </div>
+                                                        <div class="latestListView">
+                                                            <div class="d-flex justify-content-between  p-3  border-bottom">
+                                                                <div class="d-flex align-items-center hover-pointer">
+                                                                    <img class="img-xs rounded-circle" src="../../assets/img/faces/4.jpg" alt="">
+                                                                    <div class="ml-2">
+                                                                        <p class="comp-name">arcade web solution pvt. ldt.</p>
+                                                                        <p class="tx-11 comp-type">software industry</p>
+                                                                        <p class="tx-11 comp-address">425 National Ave Mountain view, CA 945582, US</p>
+                                                                        <p class="tx-11 post-time">1 Day Ago</p>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="d-flex justify-content-between p-3  border-bottom">
+                                                                <div class="d-flex align-items-center hover-pointer">
+                                                                    <img class="img-xs rounded-circle" src="../../assets/img/faces/4.jpg" alt="">
+                                                                    <div class="ml-2">
+                                                                        <p class="comp-name">arcade web solution pvt. ldt.</p>
+                                                                        <p class="tx-11 comp-type">software industry</p>
+                                                                        <p class="tx-11 comp-address">425 National Ave Mountain view, CA 945582, US</p>
+                                                                        <p class="tx-11 post-time">1 Day Ago</p>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="d-flex justify-content-between  p-3  border-bottom">
+                                                                <div class="d-flex align-items-center hover-pointer">
+                                                                    <img class="img-xs rounded-circle" src="../../assets/img/faces/4.jpg" alt="">
+                                                                    <div class="ml-2">
+                                                                        <p class="comp-name">arcade web solution pvt. ldt.</p>
+                                                                        <p class="tx-11 comp-type">software industry</p>
+                                                                        <p class="tx-11 comp-address">425 National Ave Mountain view, CA 945582, US</p>
+                                                                        <p class="tx-11 post-time">1 Day Ago</p>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="d-flex justify-content-between  p-3  border-bottom">
+                                                                <div class="d-flex align-items-center hover-pointer">
+                                                                    <img class="img-xs rounded-circle" src="../../assets/img/faces/4.jpg" alt="">
+                                                                    <div class="ml-2">
+                                                                        <p class="comp-name">arcade web solution pvt. ldt.</p>
+                                                                        <p class="tx-11 comp-type">software industry</p>
+                                                                        <p class="tx-11 comp-address">425 National Ave Mountain view, CA 945582, US</p>
+                                                                        <p class="tx-11 post-time">1 Day Ago</p>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="d-flex justify-content-between  p-3  border-bottom">
+                                                                <div class="d-flex align-items-center hover-pointer">
+                                                                    <img class="img-xs rounded-circle" src="../../assets/img/faces/4.jpg" alt="">
+                                                                    <div class="ml-2">
+                                                                        <p class="comp-name">arcade web solution pvt. ldt.</p>
+                                                                        <p class="tx-11 comp-type">software industry</p>
+                                                                        <p class="tx-11 comp-address">425 National Ave Mountain view, CA 945582, US</p>
+                                                                        <p class="tx-11 post-time">1 Day Ago</p>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="d-flex justify-content-between  p-3  border-bottom">
+                                                                <div class="d-flex align-items-center hover-pointer">
+                                                                    <img class="img-xs rounded-circle" src="../../assets/img/faces/4.jpg" alt="">
+                                                                    <div class="ml-2">
+                                                                        <p class="comp-name">arcade web solution pvt. ldt.</p>
+                                                                        <p class="tx-11 comp-type">software industry</p>
+                                                                        <p class="tx-11 comp-address">425 National Ave Mountain view, CA 945582, US</p>
+                                                                        <p class="tx-11 post-time">1 Day Ago</p>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <!-- <div class="p-3">
+                                                                <button class="btn btn-primary btn-block border">
+                                                                    Load more
+                                                                </button>
+                                                            </div> -->
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                               
+                                            </div>
+                                        </div>
+                                    </div>
+								</div>
+								<!-- right wrapper end -->
+							</div>
+						</div>
+						<!--profile page end -->
+							</div>
+							<!--/div-->
+						</div>
+						<!-- /row -->
+					</div>
+					<!-- Main-content-body closed -->
+				</div>
+				<!-- Container-fluid closed -->
+				<!--Side Panel container-->
+				<div class="row row-sm sidebar-preview">
+					<div class="col-12 card side-barContainer rounded-0">
+
+						<div class="slideClose"><i class="fa fa-chevron-right"></i></div>
+						{% for stages in workflow_data %}
+
+							{% ifequal stages.stage.stage.name 'Prerequisites' %}
+								<div class="row row-sm preview-list-container side-bar-row">
+								<div class="col-12 full-list">
+									<div class="fx-preview-head">
+										<div class="preview-title">
+											<h4 class="h4 title">Stage {{forloop.counter}}: Prerequisites</h4>
+										</div>
+									</div>
+									<div class="fx-preview-main">
+										<div class="preview-short-desc">
+											<label class="sub-title text-capitalize">template name:</label>
+											<label class="desc-text">{{stages.stage.template.name}}</label>
+										</div>
+									</div>
+								</div>
+							</div>
+							{% endifequal %}
+
+							{% ifequal stages.stage.stage.name 'MCQ Test' %}
+								<div class="row row-sm mcq-text-preview side-bar-row">
+								<div class="col-12 full-list">
+									<div class="fx-preview-head">
+										<div class="preview-title">
+											<h4 class="h4 title">Stage {{forloop.counter}}: MCQ Test</h4>
+										</div>
+									</div>
+									<div class="fx-preview-main">
+										<div class="preview-short-desc">
+											<label class="sub-title text-capitalize">template name:</label>
+											<label class="desc-text">{{stages.stage.template.name}}</label>
+										</div>
+									</div>
+									<div class="mini__card-layout">
+										<div class="fx-row title_list">
+										   <div class="fx-col">
+											  <label class="text-capitalize h6">Total Question</label>
+										   </div>
+										   <div class="fx-col">
+											  <label class="text-capitalize h6">Time</label>
+										   </div>
+										   <div class="fx-col">
+											  <label class="text-capitalize h6">Total Marks</label>
+										   </div>
+										</div>
+										<div class="fx-row fx-details__ls">
+										   <div class="fx-col col-view_caption">
+											  <p class="result_view h6">{{stages.data.total_question}}</p>
+										   </div>
+										   <div class="fx-col col-view_caption">
+											  <p class="result_view h6">{{stages.mcq_time|date:'H:i:s'}}</p>
+										   </div>
+										   <div class="fx-col col-view_caption">
+											  <p class="result_view h6">{{stages.mcq_marks}}</p>
+										   </div>
+										</div>
+									 </div>
+								</div>
+							</div>
+							{% endifequal %}
+
+							{% ifequal stages.stage.stage.name 'Image Test' %}
+								 <div class="row row-sm mcq-text-preview side-bar-row">
+								<div class="col-12 full-list">
+									<div class="fx-preview-head">
+										<div class="preview-title">
+											<h4 class="h4 title">Stage {{forloop.counter}}: Image Test</h4>
+										</div>
+									</div>
+									<div class="fx-preview-main">
+										<div class="preview-short-desc">
+											<label class="sub-title text-capitalize">template name:</label>
+											<label class="desc-text">{{stages.stage.template.name}}</label>
+										</div>
+									</div>
+									<div class="mini__card-layout">
+										<div class="fx-row title_list">
+										   <div class="fx-col">
+											  <label class="text-capitalize h6">Total Question</label>
+										   </div>
+										   <div class="fx-col">
+											  <label class="text-capitalize h6">Time</label>
+										   </div>
+										   <div class="fx-col">
+											  <label class="text-capitalize h6">Total Marks</label>
+										   </div>
+										</div>
+										<div class="fx-row fx-details__ls">
+										   <div class="fx-col col-view_caption">
+											  <p class="result_view h6">{{stages.data.total_question}}</p>
+										   </div>
+										   <div class="fx-col col-view_caption">
+											  <p class="result_view h6">{{stages.image_time|date:'H:i:s'}}</p>
+										   </div>
+										   <div class="fx-col col-view_caption">
+											  <p class="result_view h6">{{stages.image_marks}}</p>
+										   </div>
+										</div>
+									 </div>
+								</div>
+							</div>
+						 	{% endifequal %}
+
+							{% ifequal stages.stage.stage.name 'Descriptive Test' %}
+								<div class="row row-sm mcq-text-preview side-bar-row">
+								<div class="col-12 full-list">
+									<div class="fx-preview-head">
+										<div class="preview-title">
+											<h4 class="h4 title">Stage {{forloop.counter}}: Descriptive Test</h4>
+										</div>
+									</div>
+									<div class="fx-preview-main">
+										<div class="preview-short-desc">
+											<label class="sub-title text-capitalize">template name:</label>
+											<label class="desc-text">{{stages.stage.template.name}}</label>
+										</div>
+									</div>
+									<div class="mini__card-layout">
+										<div class="fx-row title_list">
+										   <div class="fx-col">
+											  <label class="text-capitalize h6">Total Question</label>
+										   </div>
+										   <div class="fx-col">
+											  <label class="text-capitalize h6">Time</label>
+										   </div>
+										   <div class="fx-col">
+											  <label class="text-capitalize h6">Total Marks</label>
+										   </div>
+										</div>
+										<div class="fx-row fx-details__ls">
+										   <div class="fx-col col-view_caption">
+											  <p class="result_view h6">{{stages.data.total_question}}</p>
+										   </div>
+										   <div class="fx-col col-view_caption">
+											  <p class="result_view h6">{{stages.descriptive_time|date:'H:i:s'}}}</p>
+										   </div>
+										   <div class="fx-col col-view_caption">
+											  <p class="result_view h6">{{stages.descriptive_marks}}</p>
+										   </div>
+										</div>
+									 </div>
+								</div>
+							</div>
+							{% endifequal %}
+
+							{% ifequal stages.stage.stage.name 'Audio Test' %}
+								<div class="row row-sm mcq-text-preview side-bar-row">
+								<div class="col-12 full-list">
+									<div class="fx-preview-head">
+										<div class="preview-title">
+											<h4 class="h4 title">Stage {{forloop.counter}}: Audio Test</h4>
+										</div>
+									</div>
+									<div class="fx-preview-main">
+										<div class="preview-short-desc">
+											<label class="sub-title text-capitalize">template name:</label>
+											<label class="desc-text">{{stages.stage.template.name}}</label>
+										</div>
+									</div>
+									<div class="mini__card-layout">
+										<div class="fx-row title_list">
+										   <div class="fx-col">
+											  <label class="text-capitalize h6">Total Question</label>
+										   </div>
+										   <div class="fx-col">
+											  <label class="text-capitalize h6">Time</label>
+										   </div>
+										   <div class="fx-col">
+											  <label class="text-capitalize h6">Total Marks</label>
+										   </div>
+										</div>
+										<div class="fx-row fx-details__ls">
+										   <div class="fx-col col-view_caption">
+											  <p class="result_view h6">{{stages.data.total_question}}</p>
+										   </div>
+										   <div class="fx-col col-view_caption">
+											  <p class="result_view h6">{{stages.data.total_exam_time}}</p>
+										   </div>
+										   <div class="fx-col col-view_caption">
+											  <p class="result_view h6">{{stages.audio_marks}}</p>
+										   </div>
+										</div>
+									 </div>
+								</div>
+							</div>
+							{% endifequal %}
+
+							{% ifequal stages.stage.stage.name 'Coding Test' %}
+								<div class="row row-sm mcq-text-preview side-bar-row">
+								<div class="col-12 full-list">
+									<div class="fx-preview-head">
+										<div class="preview-title">
+											<h4 class="h4 title">Stage {{forloop.counter}}: Coding Test</h4>
+										</div>
+									</div>
+									<div class="fx-preview-main">
+										<div class="preview-short-desc">
+											<label class="sub-title text-capitalize">template name:</label>
+											<label class="desc-text">{{stages.stage.template.name}}</label>
+										</div>
+									</div>
+									<div class="mini__card-layout">
+										<div class="fx-row title_list">
+										   <div class="fx-col">
+											  <label class="text-capitalize h6">Total Question</label>
+										   </div>
+										   <div class="fx-col">
+											  <label class="text-capitalize h6">Time</label>
+										   </div>
+											{% ifequal stages.data.assignment_type 'marks' %}
+										   <div class="fx-col">
+											  <label class="text-capitalize h6">Total Marks</label>
+										   </div>
+											{% endifequal %}
+										</div>
+										<div class="fx-row fx-details__ls">
+										   <div class="fx-col col-view_caption">
+											  <p class="result_view h6">{{stages.data.total_question}}</p>
+										   </div>
+										   <div class="fx-col col-view_caption">
+											  <p class="result_view h6">{{stages.data.total_time}}</p>
+										   </div>
+											{% ifequal stages.data.assignment_type 'marks' %}
+										   <div class="fx-col col-view_caption">
+											  <p class="result_view h6">{{stages.total_marks}}</p>
+										   </div>
+											{% endifequal %}
+										</div>
+									 </div>
+								</div>
+							</div>
+							{% endifequal %}
+
+							{% ifequal stages.stage.stage.name 'Interview' %}
+								<div class="row row-sm mcq-text-preview side-bar-row">
+									<div class="col-12 full-list">
+										<div class="fx-preview-head">
+											<div class="preview-title">
+												<h4 class="h4 title">Stage {{forloop.counter}}: Interview</h4>
+											</div>
+										</div>
+										<div class="fx-preview-main">
+											<div class="preview-short-desc">
+												<label class="sub-title text-capitalize">template name:</label>
+												<label class="desc-text">{{stages.stage.template.name}}</label>
+											</div>
+										</div>
+									</div>
+								</div>
+							{% endifequal %}
+
+						{% endfor %}
+					</div>
+				</div>
+				<!--Side Panel container End-->
+ 				<!--Model 2 start-->
+				<div class="modal fade" id="external-recruiter-modal" tabindex="-1" role="dialog" aria-labelledby="jcrModalForm" aria-hidden="true">
+					<div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+						<div class="modal-content">
+							<div class="modal-header border-bottom-0">
+									  <!-- <h5 class="modal-title" id="jcrModalForm">Add Prefered field</h5> -->
+									  <button type="button" id="popUpModelClose" class="close" data-dismiss="modal" aria-label="Close">
+										<span aria-hidden="true">&times;</span>
+									  </button>
+									</div>
+								<form method="post" action="{% url 'company:assign_job' %}">
+								 {% csrf_token %}
+									<div class="tablist_section-jcr">
+										<div class="jcr-tabcontainer">
+											<div class="panel">
+												<div class="panel panel-primary mt-3 tabs-style-9">
+													<div class="tab-menu-heading">
+														<div class="tabs-menu ">
+															<!-- Tabs -->
+															<ul class="nav panel-tabs">
+																<li>
+																	<a href="#tab209" class="active text-capitalize" data-toggle="tab">Internal</a>
+																</li>
+																<li class="tab-ls">
+																	<a href="#tab300" data-toggle="tab">External</a>
+																</li>
+															</ul>
+														</div>
+													</div>
+													<div class="panel-body tabs-menu-body">
+														<div class="tab-content">
+															<input type="text" hidden readonly value="{{job_obj.id}}" name="job_obj">
+															<div class="tab-pane active" id="tab209">
+																<!--table start-->
+																<div class="table-responsive">
+																	<table class="table bd bd-10 internal">
+																	  <thead>
+																		<tr>
+																		  <th scope="col text-uppercase">Select</th>
+																		  <th scope="col text-uppercase">Name</th>
+																		  <th scope="col text-uppercase">Department</th>
+																		  <th scope="col text-uppercase">Role</th>
+																		  <th scope="col text-uppercase">Email</th>
+																		  <th scope="col text-uppercase">Contact no</th>
+																		</tr>
+																	  </thead>
+																	  <tbody>
+																		{% for internaluser in job_owner %}
+																		<tr>
+																			<td scope="row" class="align-center">
+																			{% if internaluser.employee_id.id in internal_assign %}
+																			Assign
+																			{% else %}
+																			<input type="checkbox" name="internal-selector-1" value="{{internaluser.employee_id.id}}" class="irSelectorRowItem">
+																			{% endif %}
+																			</td>
+																		  <td hidden>{{internaluser.employee_id.id}}</td>
+																		  <td>{{internaluser.first_name}} {{internaluser.last_name}}</td>
+																		  <td>{{internaluser.department.name}}</td>
+																		  <td>{{internaluser.role.name}}</td>
+																		  <td>{{internaluser.employee_id.email}}</td>
+																		  <td>{{internaluser.contact_num}}</td>
+																		</tr>
+																		{% endfor %}
+																	  </tbody>
+																	</table>
+																</div>
+																<!--table end-->
+															</div>
+															<div class="tab-pane" id="tab300">
+
+																<!--table start-->
+																<div class="table-responsive">
+																	<table class="table table-bordered mg-b-1 text-md-nowrap">
+																		<thead>
+																			<tr>
+																				<th class="text-uppercase">Select</th>
+																				<th class="text-uppercase">Name</th>
+																				<!-- <th class="text-uppercase">Office location</th> -->
+																				<th class="text-uppercase">Email</th>
+																				<th class="text-uppercase">Contact no</th>
+																			</tr>
+																		</thead>
+																		<tbody>
+
+																			{% for i in  external_agency %}
+																			<tr>
+																				<td scope="row">
+																					{% if i.agency_id.agency_id.id in external_assign %}
+																					Assign
+																					{% else %}
+																						<input type="checkbox" id="{{i.agency_id.id}}" name="external-selector-1" value="{{i.agency_id.agency_id.id}}" class="rd-selector">
+																					{% endif %}
+																				</td>
+																				<td hidden>{{i.agency_id.agency_id.id}}</td>
+																				<td>{{i.agency_id.agency_id.company_name}}</td>
+																				<td>{{i.contact_email}}</td>
+																				<td>{{i.contact_no}}</td>
+																			</tr>
+																			{% endfor %}
+																			{% for i in external_freelancer %}
+																			<tr>
+																				<td scope="row">
+																					{% if i.agency_id.agency_id.id in external_assign %}
+																					Assign
+																					{% else %}
+																					<input type="checkbox" id="{{i.agency_id.agency_id.id}}" name="external-selector-1" value="{{i.agency_id.agency_id.id}}" class="rd-selector">
+																					{% endif %}
+																				</td>
+																				<td hidden>{{i.agency_id.agency_id.id}}</td>
+																				<td>{{i.agency_id.agency_id.first_name}} {{i.agency_id.agency_id.last_name}}</td>
+																				<td>{{i.agency_id.agency_id.email}}</td>
+																				<td>{{i.contact_no}}</td>
+																			</tr>
+																			{% endfor %}
+																		</tbody>
+																	</table>
+																</div>
+																<!--table end-->
+															</div>
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+									<div class="row row-sm mg-10">
+										<div class="col-lg col-md col-sm">
+											<div class="form-btn">
+												<button type="submit" class="btn btn-primary btn-sm rounded-20" id="assi-gnErInfo">Assign</button>
+											</div>
+										</div>
+									</div>
+								</form>
+
+					  </div>
+
+					</div>
+				  </div>
+        <!--Model 2 End-->
+
+
+{% endblock %}
+
+{% block script %}
+		<!-- Custom-->
+        <script src="{% static 'assets/js/ATS/job_view.js' %}"></script>
+		<script>
+			$(document).ready(function(){
+				$("#assignMERForm").on('click',function(e){
+                        $('#external-recruiter-modal').modal('show');
+                });
+			})
+		</script>
+		<script>
+			$(document).ready(function() {
+				$('.read-more-job_des').click(function() {
+				//	$('.read_more_to_job_des_text').slideToggle();
+					if ($('.read-more-job_des').text() == "Read more") {
+						$('.read_more_to_job_des_text').addClass('selecionado');
+						$(this).text("Read less");
+					} else {
+						$(this).text("Read more");
+						$('.read_more_to_job_des_text').removeClass('selecionado');
+					}
+				});
+			});
+
+		</script>
+{% endblock %}
+

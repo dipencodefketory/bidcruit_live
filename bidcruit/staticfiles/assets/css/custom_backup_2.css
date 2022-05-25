@@ -1,0 +1,435 @@
+/*Edit Profile start here*/
+body{
+    font-family: 'Rubik', sans-serif !important;
+}
+.edit-profile-wrap .card-header a {
+    position: absolute;
+    right: 12px;
+    top: 10px;
+}
+.edit-profile-wrap .card-header a {
+    position: absolute;
+    right: 12px;
+    top: 10px;
+    width: 17px;
+    height: 24px;
+    padding: 11px;
+}
+.card-title {
+    border-bottom: 1px solid #e2e8f5;
+    padding: 0 0 9px;
+    text-transform: capitalize;
+    font-size: 21px;
+    font-weight: 500;
+}
+.custom-form {
+    padding: 20px;
+    border: 1px solid #eee;
+    border-radius: 20px;;
+}
+.custom-form .row {
+    margin-bottom: 14px;
+}
+.form-control, .SumoSelect>.CaptionCont {
+    border-radius: 20px !important;
+}
+textarea.form-control {
+    height: 94px;
+    resize: none;
+}
+.add-exp {
+    position: relative;
+    margin: 0 0 19px;
+}
+.add-exp .btn-icon {
+    position: absolute;
+    right: 13px;
+    top: 6px;
+    width: 25px;
+    height: 26px;
+    padding: 0;
+}
+label.form-control-label,.form-label {
+    color: #031b4e;
+    font-weight: 400;
+    font-size: 18px;
+}
+.SumoSelect>.CaptionCont {
+    color: #031b4e;
+}
+.SumoSelect>.CaptionCont i {
+    font-size: 20px;
+}
+.datepicker {
+    position: relative;
+}
+.datepicker .cale-icon {
+    position: absolute;
+    top: 8px;
+    left: 15px;
+}
+.datepicker input {
+    padding-left: 33px;
+}
+.input-group.file-browser {
+    position: relative;
+}
+label.input-group-btn {
+    position: absolute;
+    right: 8px;
+    top: 6px;
+    margin: 0;
+}
+label.input-group-btn .btn-default {
+    padding: 2px 20px;
+    border-radius: 14px !important;
+}
+.btn-block {
+    border-radius: 20px;
+    padding: 1px 9px;
+    font-size: 18px;
+}
+.butn-form .btn {
+    display: inline-block !important;
+    max-width: 124px;
+    /* vertical-align: top; */
+    margin: 0;
+}
+.butn-form {
+    text-align: right;
+}
+.form-control::-webkit-input-placeholder { /* Edge */
+    color: #596882 !important;
+  }
+  .form-control:-ms-input-placeholder { /* Internet Explorer 10-11 */
+    color: #596882 !important;
+  }
+  .form-control::placeholder {
+    color: #596882 !important;
+  }
+  .SumoSelect>.CaptionCont i {
+    font-size: 20px;
+    color: #7b7e85;
+}
+a.add-more {
+    color: #0068ff;
+    font-size: 17px;
+    margin: 10px 5px 0;
+    display: block;
+    font-weight: 500;
+}
+.add-more i {
+    padding: 2px;
+    background: #0068ff;
+    color: #fff;
+    border-radius: 50%;
+    margin: 0 9px 0 2px;
+}
+.open-custom-form{
+    display: none;
+    margin-top:12px;
+}
+/*Edit Profile End here*/
+/*Dashbaord start here*/
+.card.card-profile p {
+    font-size: 24px;
+    text-align: center;
+    margin: 0;
+    color: #031b4e;
+    font-weight: 500;
+}
+.heading-with-toggle {
+    display: flex;
+    justify-content: center;
+    padding: 20px 0 0;
+    align-items: center;
+    position: relative;
+}
+.form-group.toggle-cus {
+    margin: 6px 8px 0;
+}
+.heading-with-toggle:before {
+    border-right: 2px solid #056bff;
+    position: absolute;
+    height: 23px;
+    right: 0;
+    content: "";
+}
+.add-profile {
+    padding: 21px;
+    text-align: center;
+    min-height: 193px;
+}
+.links-edit ul li {
+    list-style: none;
+    display: inline-block;
+    vertical-align: text-bottom;
+    padding: 0 6px;
+}
+.links-edit ul li a {
+    font-size: 20px;
+    display: block;
+}
+.links-edit ul li a i {
+    border: 2px solid #000;
+    width: 31px;
+    vertical-align: middle;
+    text-align: center;
+    line-height: 29px;
+    height: 31px;
+    font-weight: 800;
+    border-radius: 7px;
+}
+i.las.la-eye {
+    font-size: 26px;
+}
+.add-profile h2 {
+    margin: 0 0 21px;
+}
+.links-edit {
+    margin: 21px 0 0;
+}
+.add-profile .btn {
+    max-width: 192px;
+    margin: 0 auto;
+    text-align: center;
+}
+.disable {
+    opacity: 0.2;
+}
+ul.security-lock li a {
+    color: #0068ff;
+    font-size: 18px;
+}
+ul.security-lock li {
+    display: inline-block;
+    padding: 0 6px;
+    border-right: 1px solid #eaeefb;
+}
+ul.security-lock {
+    text-align: right;
+    margin: 0;
+}
+ul.security-lock li:last-child {
+    border-right: 0;
+}
+.security-enable p{
+    font-size: 18px;
+    font-weight: 400;
+}
+.dashboard-profile .card {
+    height: 100%;
+    margin: 0;
+}
+.dashboard-profile .row > div {
+    margin-bottom: 1.3rem;
+}
+.dashboard-profile .card-body {
+    padding: 10px 25px;
+}
+.security-enable .row > div {
+    margin: 0;
+    width: 50% !important;
+}
+.card.card-profile .row .col-lg-6:last-child .heading-with-toggle:before {
+    border: 0;
+}
+.links-edit ul {
+    margin: 0;
+    padding: 0;
+}
+/*Dashbaord End here*/
+/*Dashbaord preference Satrt here*/
+span.select2-selection.select2-selection--multiple {
+    border: 1px solid #e0e6f0 !important;
+    border-radius: 20px;
+    padding: 0 12px;
+}
+.SumoSelect>.CaptionCont ,.select2-container .select2-search--inline .select2-search__field,.SlectBox.form-control{
+    color: #455865;
+}
+.select2-custom label i:before {
+    display: inline-block;
+    width: 0;
+    height: 0;
+    margin-left: .255em;
+    vertical-align: .255em;
+    content: "";
+    border-top: .3em solid;
+    border-right: .3em solid transparent;
+    border-bottom: 0;
+    border-left: .3em solid transparent;
+    margin-top: 17px;
+}
+.select2-custom {
+    position: relative;
+}
+.select2-custom label {
+    position: absolute;
+    right: 12px;
+    top: 0;
+    z-index: 9;
+}
+.select2-custom label i {
+    font-size: 20px;
+}
+.select2-container--default .select2-selection--multiple .select2-selection__choice {
+    background-color:#c4d9f9;
+    border: 1px solid #c4d9f9;
+    border-radius: 10px;
+    cursor: default;
+    float: left;
+    margin-right: 5px;
+    margin-top: 8px;
+    padding: 0 13px;
+    color: #000;
+}
+.select2-container--default .select2-selection--multiple .select2-selection__choice__remove {
+    top: -5px;
+    left: unset;
+    right: -6px;
+    width: 13px;
+    height: 13px;
+    background: red;
+    opacity: 1;
+    color: #fff;
+    line-height: 14px;
+    text-align: center;
+    border-radius: 50%;
+    font-weight: 300;
+    font-size: 14px;
+}
+label.ckbox.form-control-label {
+    margin-bottom: 0.5rem;
+}
+.custon-checkbox label span {
+    margin: 0 10px 0 0;
+}
+/*Dashbaord preference End here*/
+/*Step wizard css start here*/
+.form-control {
+    border-radius: 30px;
+}
+.select2-container--default .select2-selection--single {
+    border-radius: 20px;
+    border: 1px solid #e2e8f5;
+    height: 38px;
+    color: #596882;
+    padding-top: 4px;
+}
+.select2-container--default .select2-selection--single .select2-selection__placeholder{
+    color: #596882;
+}
+.input-group.file-browser .form-control, .task-container .form-control {
+    height: 35px;
+}
+.wizard > .content > .title {
+    font-size: 18px;
+    color: #031b4e;
+    font-weight: 700!important;
+    margin-bottom: 18px;
+    display: none;
+}
+.wizard > .content > .title {
+    /* border-bottom: 1px solid #e2e8f5; */
+    padding: 0 0 9px;
+    text-transform: capitalize;
+    font-size: 21px;
+    font-weight: 500;
+}
+.select2-selection__arrow {
+    right: 6px !important;
+    left: auto !important;
+    top: 5px !important;
+}
+.select2-selection__arrow b {
+    border-color: #031b4e transparent transparent transparent !important;
+    border-width: 6px 5px 0 5px !important;
+}
+span.cale-icon {
+    position: absolute;
+    left: 11px;
+    z-index: 1;
+    top: 9px;
+}
+input.form-control.fc-datepicker {
+    padding-left: 29px;
+}
+.add-inputfile-border {
+    border: 1px solid #e2e8f5;
+    /* padding: 30px; */
+    border-radius: 20px;
+    height: 93px;
+    position: relative;
+}
+.add-inputfile-border label {
+    color: #596882;
+    font-size: 20px;
+    position: absolute;
+    display: block;
+    width: 100%;
+    height: 100%;
+    left: 0;
+    margin: 0 auto;
+    right: 0;
+    text-align: center;
+    cursor: pointer;
+    padding: 29px 0 0;
+}
+.question input {
+    margin: 1px 9px  0 0px;
+}
+.question {
+    margin: 6px 0 10px;
+}
+.add-inputfile-border input {
+    appearance: none !important;
+    -moz-appearance: none;
+    -webkit-appearance: none !important;
+    /* visibility: hidden; */
+    background: transparent !important;
+    border: none !important;
+}
+.element {
+    border: 1px solid #e2e8f5;
+    padding: 13px;
+    border-radius: 20px;
+    margin: 0 0 15px;
+    background: white;
+}
+.add-morc span {
+    margin: 0 5px 0 0;
+}
+.section-sart h3,.title-section {
+    font-size: 21px;
+    color: #031b4e;
+    font-weight: 700!important;
+    margin-bottom: 12px;
+}
+.select2-container[dir="rtl"] .select2-selection--single .select2-selection__rendered {
+    padding-right: 20px;
+    padding-left: 8px;
+}
+.select2-container {
+    width: 100% !important;
+}
+.app.sidebar-mini .main-header.main-header-fixed.fixed-header {
+    z-index: 2 !important;
+}
+/*Step wizard css End here*/
+/*@media here*/
+@media (max-width:767px){
+    .heading-with-toggle:before {
+        border-right: 0;
+        border-bottom: 1px solid #056bff;
+        width: 100%;
+        bottom: -25px;
+    }
+}
+.section-border{
+    border: 1px solid #eee;
+    padding: 15px;
+    border-radius: 6px;
+    margin: 0 0 10px;
+    background: #e3e3e3;
+}

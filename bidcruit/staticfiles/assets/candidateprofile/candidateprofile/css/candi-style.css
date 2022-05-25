@@ -1,0 +1,605 @@
+@font-face {
+    font-family: 'RubikBlack';
+    src: url('../fonts/Rubik-black/RubikBlack.eot');
+    src: url('../fonts/Rubik-black/RubikBlack.eot') format('embedded-opentype'),
+         url('../fonts/Rubik-black/RubikBlack.woff2') format('woff2'),
+         url('../fonts/Rubik-black/RubikBlack.woff') format('woff'),
+         url('../fonts/Rubik-black/RubikBlack.ttf') format('truetype'),
+         url('../fonts/Rubik-black/RubikBlack.svg#RubikBlack') format('svg');
+}
+@font-face {
+    font-family: 'RubikBold';
+    src: url('../fonts/Rubik-bold/RubikBold.eot');
+    src: url('../fonts/Rubik-bold/RubikBold.eot') format('embedded-opentype'),
+         url('../fonts/Rubik-bold/RubikBold.woff2') format('woff2'),
+         url('../fonts/Rubik-bold/RubikBold.woff') format('woff'),
+         url('../fonts/Rubik-bold/RubikBold.ttf') format('truetype'),
+         url('../fonts/Rubik-bold/RubikBold.svg#RubikBold') format('svg');
+}
+@font-face {
+    font-family: 'RubikMedium';
+    src: url('../fonts/Rubik-medium/RubikMedium.eot');
+    src: url('../fonts/Rubik-medium/RubikMedium.eot') format('embedded-opentype'),
+         url('../fonts/Rubik-medium/RubikMedium.woff2') format('woff2'),
+         url('../fonts/Rubik-medium/RubikMedium.woff') format('woff'),
+         url('../fonts/Rubik-medium/RubikMedium.ttf') format('truetype'),
+         url('../fonts/Rubik-medium/RubikMedium.svg#RubikMedium') format('svg');
+}
+@font-face {
+    font-family: 'RubikRegular';
+    src: url('../fonts/Rubik-regular/RubikRegular.eot');
+    src: url('../fonts/Rubik-regular/RubikRegular.eot') format('embedded-opentype'),
+         url('../fonts/Rubik-regular/RubikRegular.woff2') format('woff2'),
+         url('../fonts/Rubik-regular/RubikRegular.woff') format('woff'),
+         url('../fonts/Rubik-regular/RubikRegular.ttf') format('truetype'),
+         url('../fonts/Rubik-regular/RubikRegular.svg#RubikRegular') format('svg');
+}
+@font-face {
+    font-family: 'RubikSemiBold';
+    src: url('../fonts/Rubik-semibold/RubikSemiBold.eot');
+    src: url('../fonts/Rubik-semibold/RubikSemiBold.eot') format('embedded-opentype'),
+         url('../fonts/Rubik-semibold/RubikSemiBold.woff2') format('woff2'),
+         url('../fonts/Rubik-semibold/RubikSemiBold.woff') format('woff'),
+         url('../fonts/Rubik-semibold/RubikSemiBold.ttf') format('truetype'),
+         url('../fonts/Rubik-semibold/RubikSemiBold.svg#RubikSemiBold') format('svg');
+}
+*
+{
+    margin:0;
+    padding: 0;
+    box-sizing: border-box;
+}
+a,a:hover{text-decoration: none;}
+p{line-height: 1.2;}
+body{background-color: #F6F7FC;}
+.brandlogo{width: 45px;}
+.dash-logo img{width: 45px;}
+header
+{
+    width: 100%;
+    position: fixed;
+    top: 0;
+    z-index: 99;
+}
+.top-header
+{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #00B0F0;
+    padding: 15px 30px;
+}
+.contact-btn a
+{
+    background-color: #fff;
+    border-radius: 20px;
+    text-align: center;
+    padding: 10px 50px;
+    color: #000;
+    font-size: 16px;
+    font-family: 'RubikMedium';
+    text-transform: uppercase;
+} 
+.contact-btn a:hover
+{
+    color: #fff;
+    background-color: #000;
+    transition: all 0.2s ease-in-out;
+}
+.cadidate-title h1
+{
+    color: #fff;
+    font-size: 32px;
+    font-family: 'RubikBold';
+    text-transform: capitalize;
+}
+/* profile card css */
+.profile-pic-sec{margin-top:1rem;}
+.profile-radius {
+    position: absolute;
+    top: 5.2rem;
+    left: 2px;
+    width: 16%;
+    height: 31.5rem;
+    border: 1rem solid #00B0F0;
+    border-radius: 33px;
+    z-index: -99;
+}
+.cad-nameinfo h2::before {
+    content: "";
+    display: block;
+    background: url(../img/polygonicon.png) no-repeat;
+    width: 47px;
+    height: 37px;
+    float: left;
+    margin: 7px 6px 0 0;
+    position: absolute;
+    left: -6px;
+    background-size: 18px;
+}
+.profile-card
+{
+    position: relative;
+    background-color: #fff;
+    width: 100%;
+    height:295px;
+    padding:15px;
+    margin-top:5rem;
+    border-radius: 20px;
+}
+.candidate-profile
+{
+    background-color: #f6f7fc;
+    border-radius: 20px;
+    padding: 5px 18px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.cad-nameinfo{display: flex;justify-content: center;}
+.cad-nameinfo h2
+{
+    font-size: 28px;
+    color: #000;
+    margin: 0;
+    font-family: 'RubikBold';
+    text-transform: capitalize;
+}
+.cad-nameinfo h2 span{font-family: 'RubikRegular';}
+.cad-nameinfo a
+{
+    background: #00bff0;
+    color: #fff;
+    width: 35px;
+    height: 35px;
+    text-align: center;
+    border-radius: 50%;
+    vertical-align: middle;
+    position: relative;
+    margin-left: 2rem;
+}
+.cad-role p
+{
+    margin: 0;
+    color: #000;
+    font-size: 24px;
+    font-family: 'RubikMedium';
+    text-transform: capitalize;
+}
+.cad-experiance{text-align: right;}
+.cad-experiance p
+{
+    color: #000;
+    font-size: 13.33px;
+    font-family: 'RubikMedium';
+    text-transform: capitalize;
+    margin-top: 0.5rem;
+    margin-bottom: 0.5rem;
+}
+.cad-experiance p span
+{
+    color: #00b0f0;
+}
+.cad-nameinfo a i{text-align: center;vertical-align: middle;padding: 10px;}
+.profile-box {
+    position: relative;
+    padding: 12px;
+    margin-top: 6rem;
+}
+.candi-info{margin-top: 1.5rem;}
+.candi-info p,.candi-info p a
+{
+    color: #000;
+    font-size: 12px;
+    font-family: 'RubikMedium';
+}
+.candi-info p i{padding-right: 10px;}
+.candi-scaninfo{text-align: right;padding-right: 5px;padding-top: 1rem;}
+.candi-scaninfo i{font-size: 8rem;color: #000;}
+.candi-pic img{width: 135px;margin-bottom: 1rem;margin-left: 10px;}
+.candi-pic 
+{
+    border-right: 1px solid #ccc;
+    border-radius: 1px;
+}
+.resume-btn
+{
+    background: #00aff0;
+    text-align: center;
+    border-radius: 30px;
+    width: 150px;
+    padding: 7px;
+   
+}
+.resume-btn a
+{
+    text-align: center;
+    color: #fff;
+    text-transform: uppercase;
+    font-family: 'RubikMedium';
+}
+.resume-btn a:hover{color:#000;}
+
+
+  /* ABOUT US */
+  .master-box  
+  {
+    margin-top: 2rem;
+    background: #fff;
+    border-radius: 20px;
+    overflow: hidden;
+  }
+.master-box-inner
+{
+    border-left: 6px solid #00b0f0;
+    border-radius: 10px;
+    height: auto;
+}
+.sec-title {
+    display: inline-block;
+    background: #00aff0;
+    border-radius: 0 20px 20px 0;
+    margin-top: 1rem;
+    width: 200px;
+    height: 41px;
+    margin-top: 17px;
+}
+.sec-title img{width: 13px;}
+.master-box-inner h2
+{
+    color: #000;
+    font-size: 16px;
+    font-family: 'RubikMedium';
+}
+.title-icon {
+    vertical-align: middle;
+    position: relative;
+    width: 55px;
+    height: 55px;
+    border-radius: 50px;
+    background: #00aff0;
+    text-align: center;
+    padding: 13px;
+    float: left;
+    margin-top: -7px;
+    margin-right: 15px;
+    margin-left: 15px;
+}
+.sec-title h2 {
+    font-size: 16px;
+    color: #fff;
+    font-family: 'RubikMedium';
+    margin-bottom: 0px;
+    padding: 0px;
+    margin-top: 13px;
+}
+.title-icon img
+{
+    text-align: center;
+}
+.aboutus-info p
+{
+    font-size: 14px;
+    padding: 35px 25px;
+    color: #0a0a0a;
+    font-family: 'RubikRegular';
+    text-align: justify;
+    margin:0;
+}
+/* Accordian css */
+.exp-icon {
+    width: 25px;
+    margin-top: 5px;
+    position: absolute;
+    left: 23px;
+    top: 7px;
+}
+.edu-icon {
+    width: 25px;
+    margin-top: 5px;
+    position: absolute;
+    left: 24px;
+    top: 6px;
+}
+.certi-icon {
+    width: 20px;
+    margin-top: 5px;
+    position: absolute;
+    left: 26px;
+    top: 0px;
+}
+.award-icon {
+    width: 19px;
+    margin-top: 5px;
+    position: absolute;
+    left: 26px;
+    top: 4px;
+}
+
+/* collapse css */
+button:focus{outline: none;}
+.panel-default>.panel-heading {
+    color: #333;
+    background-color: #fff;
+    border-color: #fff;
+    border-radius: 15px;
+    padding: 0;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+  }
+  
+  .panel-default > .panel-heading a {
+    display: block;
+    padding: 15px 26px 15px 0px;
+}
+  
+  .panel-default>.panel-heading a:after {
+    content: "";
+    position: relative;
+    top: -35px;
+    display: inline-block;
+    font-family: 'Glyphicons Halflings';
+    font-style: normal;
+    font-weight: 400;
+    line-height: 1;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    float: right;
+    transition: transform .25s linear;
+    -webkit-transition: -webkit-transform .25s linear;
+    font-size: 25px;
+    color: #00b0f0;
+    font-weight: bolder;
+  }
+  
+  .panel-default>.panel-heading a[aria-expanded="true"] {
+    background-color: #fff;
+    padding: 26px 26px 26px 0;
+  }
+.panel-default>.panel-heading+.panel-collapse>.panel-body {
+    border-top-color: transparent;
+}
+.panel-group .panel-heading+.panel-collapse>.list-group, .panel-group .panel-heading+.panel-collapse>.panel-body {
+    border-top: none;
+    padding: 5px 35px 15px;
+}
+  .panel-default>.panel-heading a[aria-expanded="true"]:after {
+    content: "\2212";
+    -webkit-transform: rotate(180deg);
+    transform: rotate(180deg);
+  }
+  
+  .panel-default>.panel-heading a[aria-expanded="false"]:after {
+    content: "\002b";
+    -webkit-transform: rotate(90deg);
+    transform: rotate(90deg);
+  }
+  
+  .accordion-option {
+    width: 100%;
+    float: left;
+    clear: both;
+    margin: 15px 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    flex-direction: row;
+  }
+  
+  .accordion-option .title {
+    font-size: 20px;
+    font-weight: bold;
+    float: left;
+    padding: 0;
+    margin: 0;
+  }
+  
+  .accordion-option .toggle-accordion {
+    float: right;
+    font-size: 16px;
+    color: #ffffff;
+    font-family: 'RubikMedium';
+    text-decoration: none;
+    background: #00b0f0;
+    padding: 5px 18px;
+    border-radius: 30px;
+}
+  
+  .accordion-option .toggle-accordion:before {
+    content: "Expand All";
+  }
+  
+  .accordion-option .toggle-accordion.active:before {
+    content: "Collapse All";
+  }
+  .title-set {
+    background: #00b0f0;
+    padding: 11px 70px;
+    border-radius: 0 20px 20px 0px;
+    color: #fff;
+    display: block;
+    width: 200px;
+    font-family: 'RubikMedium';
+}
+
+  .panel-group .panel {
+    margin-bottom: 1rem;
+    border-radius: 15px;
+    border-left: 6px solid #00b0f0;;
+}
+
+.panel-default {
+    border-color: transparent; 
+}
+.panel-title a
+{
+    text-decoration: none;
+    position: relative;
+    border-radius: 15px;
+    -webkit-border-radius: 15px;
+    -moz-border-radius: 15px;
+    -ms-border-radius: 15px;
+    -o-border-radius: 15px;
+}
+.title-set{position: relative;}
+span.title-set:before {
+    content: "";
+    background: #00B0F0;
+    height: 50px;
+    width: 50px;
+    font-size: 40px;
+    color: #999;
+    line-height: 0;
+    display: inline-block;
+    margin: 0px 15px 0 0;
+    text-align: center;
+    /* background-image: url(../images/bidcruit-img/info-white.png); */
+    background-repeat: no-repeat;
+    background-size: 13px;
+    background-position: 18px;
+    border-radius: 40px;
+    position: absolute;
+    left: 10px;
+    top: -6px;
+}
+.acc-haeding h4
+{
+    font-size: 14px;
+    color: #000;
+    font-family: 'RubikMedium';
+    margin-bottom: 5px;
+    padding: 0px;
+    margin-top: 5px;
+}
+.acc-haeding
+{
+    display: flex;
+    justify-content: space-between;
+}
+.acc-year
+{
+    font-family: 'RubikMedium';
+    font-size: 14px;
+    color: #00aff0;
+}
+.acc-sub
+{
+    display: block;
+    font-family: 'RubikMedium';
+    font-size: 12px;
+    color: #000;
+    margin-bottom: 5px;
+}
+.panel-body
+{
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+}
+.panel-body p
+{
+    line-height: 1.4;
+    color: #7e7e7e;
+}
+.left-area img
+{
+    width: 32px;
+    margin-right: 10px;
+}
+.right-area
+{
+    width: 100%;
+}
+
+/* timeline */
+.timeline {
+    position: absolute;
+    max-width: 1200px;
+    top: 14px;
+    right: 20px;
+     /* margin: 22px 71px; */
+}
+.sidenav::before {
+    content: '';
+    position: absolute;
+    width: 6px;
+    background-color: #000;
+    top: 0;
+    bottom: 0;
+    left: 50%;
+    margin-left: -3px;
+}
+.time-title {
+    position: relative;
+}
+.time-title {
+    background: #00b0f0;
+    padding: 11px 70px;
+    border-radius: 0 20px 20px 0px;
+    color: #fff;
+    display: block;
+    width: 200px;
+    font-family: 'RubikMedium';
+}
+#mySidenav a {
+    position: absolute;
+    right: -80px;
+    transition: 0.3s;
+    padding: 15px;
+    width: 100px;
+    text-decoration: none;
+    font-size: 20px;
+    color: white;
+    border-radius: 20px 0px 0px 20px;
+  }
+  
+  #mySidenav a:hover {
+    right: -80;
+    width: 150px;
+  }
+  
+  #about {
+    top: 20px;
+    background-color: #04AA6D;
+  }
+  
+  #blog {
+    top: 80px;
+    background-color: #2196F3;
+  }
+  
+  #projects {
+    top: 140px;
+    background-color: #f44336;
+  }
+  
+  #contact {
+    top: 200px;
+    background-color: #555
+  }
+
+  /* timeline css */
+.circle {position: relative;border-radius: 100%; width: 50px; line-height: 50px; text-align: center; margin-top: 50px; z-index: 2;}
+.circle:first-child {margin-top: 0;}
+.circle:before {position: absolute; border: 1px solid #000; width: 0; height: 50px; display: block; content: ''; left: 50%; z-index: 1; top: -50px; margin-left: -1px;}
+.circle:first-child:before {display: none;}
+.circle a{text-decoration: none;}
+.circle-break {position: relative;border-radius: 100%; width: 50px; line-height: 50px; text-align: center; margin-top: 50px; z-index: 2;}
+.circle-break-child {margin-top: 0;}
+.circle-break:before {position: absolute; border: 1px solid #000; width: 0; height: 50px; display: block; content: ''; left: 50%; z-index: 1; top: -50px; margin-left: -1px;}
+.circle-break:first-child:before {display: none;}
+
+
+#time_title{background-color: #000;}
+#time_title img{width: 25px;}
+#expe{background-color: #fcc103;}
+#expe a{color: #fff;font-size: 15px;font-family: 'RubikRegular';}
+#expe img{width: 30px;}
+#education{background-color: #fa327a;}
+#education img{width: 30px;}
+#education a{color: #fff;font-size: 15px;font-family: 'RubikRegular';}
+#demo{background-color: #8935bf;}
+#demo img{width: 30px;}
+#demo a{color: #fff;font-size: 15px;font-family: 'RubikRegular';}

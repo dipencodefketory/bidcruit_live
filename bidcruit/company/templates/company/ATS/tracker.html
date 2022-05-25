@@ -1,0 +1,48 @@
+
+{% for i in job_tracker %}
+<ul>
+    <li><b>{{i.company}}</b><br></li>
+    <li>{{i.job_title}}({{i.qpplicant}})<br></li>
+    <li>{{i.remote_job}}<br></li>
+    <li>{{i.exp}}<br></li>
+    <li>{{i.opening_date}}<br></li>
+    <li>{{i.opening_date}}<br></li>
+    <li>{{i.job_type}}<br></li>
+    <li>{{i.salary_range}}<br></li>
+    <li>Candidate</li>
+    
+    {% for candidate in i.candidates %}
+    <ol>
+        <li>{{candidate.candidate_name}}</li>
+        <li>{{candidate.current.name}}</li>
+        <li>{{candidate.next.name}}</li>
+        <li>{{candidate.action}}</li>
+    </ol>
+    {% endfor %}
+</ul>   
+{% endfor %}
+==================================================
+
+{% for i in candidate_tracker %}
+<ul>
+    <li><b>{{i.candidatename}}</b><br></li>
+    <li>{{i.designation}}<br></li>
+    <li>{{i.email}}<br></li>
+    <li>{{i.contact}}<br></li>
+    <li>{{i.total_exper}}<br></li>
+    <li>{{i.notice}}<br></li>
+    <li>{{i.current}}<br></li>
+    <li>{{i.expectedctc}}<br></li>
+    <li>Jobs</li>
+    
+    {% for job in i.jobs %}
+    <ol>
+        <li>{{job.job_title}}</li>
+        <li>{{job.company}}</li>
+        <li>{{job.current.name}}</li>
+        <li>{{job.next.name}}</li>
+        <li>{{job.action}}</li>
+    </ol>
+    {% endfor %}
+</ul>   
+{% endfor %}

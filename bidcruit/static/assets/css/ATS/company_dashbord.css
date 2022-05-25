@@ -1,0 +1,347 @@
+.company_dashbord_tracker_list .card.toggleTabSection {
+    box-shadow: none;
+    border: 2px solid #c9d0ea;
+    margin-bottom: 7px;
+    border-radius: 10px !important;
+}
+.company_dashbord_tracker_list .toggle-head {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    padding: 10px 10px;
+}
+.company_dashbord_tracker_list .toggleListContainer {
+    display: none;
+}
+.company_dashbord_tracker_list .toggleListContainer {
+    padding: 10px 10px;
+}
+.company_dashbord_tracker_list .toggle-head .lft-20 {
+    width: 10%;
+    max-width: 70px;
+}
+.company_dashbord_tracker_list .logo_box_user_track {
+    width: 57px;
+    height: 57px;
+    border-radius: 50px;
+    background-color: #f9fafc;
+    padding: 11px;
+}
+.company_dashbord_tracker_list .toggle-head .mid-80 {
+    display: flex;
+    width: 90%;
+}
+.company_dashbord_tracker_list .title-details {
+    flex: 90%;
+}
+.company_dashbord_tracker_list .titleView {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 10px;
+    align-items: center;
+}
+.company_dashbord_tracker_list .company_name_main {
+    font-size: 16px;
+    margin-bottom: 0;
+    font-weight: bold;
+}
+.company_dashbord_tracker_list .job_title_main {
+    font-size: 14px;
+    margin-bottom: 0;
+    font-weight: normal;
+}
+.company_dashbord_tracker_list .details-ls ul {
+    display: flex;
+    margin: 0;
+    padding: 0;
+    color: #97a3b9;
+    gap: 40px;
+}
+.company_dashbord_tracker_list .collapse-btn {
+    flex: 10%;
+    display: flex;
+    justify-content: flex-end;
+    padding: 10px 0;
+}
+.company_dashbord_tracker_list .collps-btn {
+    width: 32px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 18px;
+    background: #EAF2FF;
+    cursor: pointer;
+    height: 32px;
+}
+.company_dashbord_tracker_list .collps-btn .fa-minus {
+    display: none;
+}
+.company_dashbord_tracker_list .toggleListContainer.active {
+    display: block;
+}
+.company_dashbord_tracker_list .flx-container {
+    border: 2px solid #e2e8f5;
+    border-radius: 12px;
+}
+.company_dashbord_tracker_list .flx-innerSection {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    width: 100%;
+    flex: 100%;
+}
+.company_dashbord_tracker_list .flx-left.flx-40 {
+    flex: 20%;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    border-right: 2px solid #e2e8f5;
+    margin-right: 10px;
+    padding: 0 10px;
+}
+.company_dashbord_tracker_list .profile-img {
+    width: 50px;
+    height: 50px;
+    border-radius: 50px;
+    background-color: #f9fafc;
+    padding: 11px;
+}
+.company_dashbord_tracker_list .user-name {
+    display: flex;
+    justify-content: center;
+    align-items: baseline;
+    gap: 5px;
+}
+.company_dashbord_tracker_list .user-name h6 {
+    margin: 0;
+    font-size: 16px;
+    color: #031b4e;
+}
+.company_dashbord_tracker_list .user-name h6 span {
+    font-weight: normal;
+}
+.company_dashbord_tracker_list .flx-left.flx-60 {
+    flex: 80%;
+    display: flex;
+    align-items: center;
+    position: relative;
+    padding: 16px 0;
+}
+.company_dashbord_tracker_list .reject_job_c {
+    color: #ff5353;
+    font-weight: bold;
+    text-align: center;
+    width: 100%;
+}
+.company_dashbord_tracker_list .flx-sidels {
+    flex: 30%;
+}
+.company_dashbord_tracker_list lable.boldText {
+    font-weight: 600;
+}
+.company_dashbord_tracker_list .flx-sidels p {
+    padding-top: 4px;
+    color: #97a3b9;
+    margin:0px;
+}
+.company_dashbord_tracker_list .color_red_action {
+    color: #ff5353;
+}
+.company_dashbord_tracker_list .previewAction {
+    min-width: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: #EAF2FF;
+    position: absolute;
+    right: 0;
+    height: 100%;
+    top: 0;
+}
+.company_dashbord_tracker_list .preview-icon {
+    padding: 5px 10px;
+    cursor: pointer;
+}
+.company_dashbord_tracker_list .previewAction:after {
+    content: "";
+    border-top: 37px solid transparent;
+    border-bottom: 37px solid transparent;
+    border-right: 32px solid #EAF2FF;
+    position: absolute;
+    left: -32px;
+    top: 0;
+}
+.company_dashbord_tracker_list .details-ls ul li:first-child {
+    color: #0068ff;
+    list-style: none;
+}
+.company_dashbord_tracker_list {
+    height: 320px;
+    overflow: auto;
+}
+.company_dashbord_tracker_list .collps-btn.active .fa-plus {
+    display: none;
+}
+.company_dashbord_tracker_list .collps-btn.active .fa-minus {
+    display: block;
+}
+
+
+.toggleTabSection_latest_job{
+	box-shadow: none;
+    border: 2px solid #c9d0ea;
+    margin-bottom: 7px;
+    border-radius: 10px !important;
+}
+.toggleTabSection_latest_job .toggle-head {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    padding: 10px 10px;
+}
+.toggleTabSection_latest_job .latest_job_left{
+	display: flex;
+    width: 90%;
+}
+.toggleTabSection_latest_job .title-details {
+    flex: 90%;
+}
+.toggleTabSection_latest_job .titleView {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 10px;
+    align-items: center;
+}
+.toggleTabSection_latest_job .company_name_main {
+    font-size: 16px;
+    margin-bottom: 0;
+    font-weight: bold;
+}
+.toggleTabSection_latest_job .details-ls ul {
+    display: flex;
+    margin: 0;
+    padding: 0;
+    color: #97a3b9;
+    gap: 40px;
+}
+.toggleTabSection_latest_job .details-ls ul li:first-child {
+    color: #0068ff;
+    list-style: none;
+}
+.toggleTabSection_latest_job .collapse-btn {
+    flex: 10%;
+    display: flex;
+    justify-content: flex-end;
+    padding: 10px 0;
+}
+.toggleTabSection_latest_job a.view_job_d {
+    width: 32px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 18px;
+    background: #EAF2FF;
+    cursor: pointer;
+    height: 32px;
+}
+.Candidates_list_das .toggleTabSection_latest_job .details-ls ul li:first-child {
+    color: #97a3b9;
+}
+.Candidates_list_das {
+    height: 520px;
+    overflow: auto;
+}
+
+/* TODAY INTERVIEW  */
+
+.today_task_list_main .task-list {
+    margin-top: 0px;
+    border: 2px solid #c9d0ea;
+    margin-bottom: 7px;
+    border-radius: 10px !important;
+}
+.today_task_list_main .task-orientation {
+    display: flex;
+    align-items: center;
+    padding: 8px;
+    gap: 8px;
+}
+.today_task_list_main .task-tag {
+    flex: 10%;
+    display: flex;
+    justify-content: center;
+    margin-right: 10px;
+}
+.today_task_list_main .task-tag .task-batch {
+    text-align: center;
+    margin: 0;
+    padding: 3px 10px;
+    border-radius: 10px;
+    min-width: 75px;
+}
+.today_task_list_main .job-batch {
+    color: #FE5DA1;
+    background: #FFEAF3;
+}
+.today_task_list_main .interview-batch {
+    color: #3B7B7B;
+    background: #E2ECED;
+}
+.today_task_list_main .call-batch {
+    color: #C629FC;
+    background: #F8E1FE;
+}
+.today_task_list_main .email-batch {
+    color: #99A458;
+    background: #F0F3D6;
+}
+
+.today_task_list_main .task-details {
+    flex: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+.today_task_list_main .tfxt-row .task-title-bold {
+    font-weight: 500;
+    margin: 0;
+    font-size: 14px;
+    line-height: normal;
+}
+.today_task_list_main .tfxb-row .task-info {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    gap: 14px;
+}
+.today_task_list_main .task-info li {
+    position: relative;
+}
+.today_task_list_main .task-info .info-title,
+.today_task_list_main .task-info .info-decs {
+    margin: 0;
+}
+.today_task_list_main .task-actions {
+    display: flex;
+    justify-content: flex-end;
+    padding: 0 0px 0 0;
+}
+.today_task_list_main .task-info li:after {
+    position: absolute;
+    content: "";
+    border-right: 2px solid #ccc;
+    height: 16px;
+    right: -8px;
+    top: 3px;
+}
+.today_task_list_main .task-info li:last-child:after {
+    border: 0px;
+}
+.task-list__container.today_task_list_main {
+    height: 320px;
+    overflow: auto;
+}
+.dashbord_top_detail_couter .card-body{
+    padding: 10px;
+}

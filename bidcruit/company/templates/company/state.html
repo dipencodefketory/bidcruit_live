@@ -1,0 +1,5 @@
+<select name="state" id="c_state" class="custom-select form-control " onchange="getCity(this.value)" >
+{%for state in states%}
+  <option value="{{state.id}}" >{{state.state_name}}</option>
+        {%endfor%}
+		</select>

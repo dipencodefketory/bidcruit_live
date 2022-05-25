@@ -1,0 +1,327 @@
+{% extends 'agency/base.html' %}
+{% load static %}
+{% block title %}Coding View{% endblock %}
+{% block css %}
+
+		<!-- - Internal Sweet-Alert css -->
+		<link href="{% static 'assets/plugins/sweet-alert/sweetalert.css' %}" rel="stylesheet">
+
+		<link href="{% static 'assets/css/ATS/coding_based_exam_view.css' %}" rel="stylesheet">
+
+{% endblock %}
+{% block main %}
+				<!-- Container-fluid -->
+				<div class="container-fluid">
+
+					<!-- Main-content-body -->
+					<div class="main-content-body">
+						{% csrf_token %}
+						<!-- row opened -->
+						<div class="row row-sm">
+							<div class="col-xl-12">
+								<div class="card image_based_question_main_section">
+									
+									<div class="row card-body mcq_list_inner pt-0 pb-0">
+										
+										<div class="col-md-12 col-xl-12 mcq_list p-0">
+
+											<div class="mcq_header_listing">
+											<h4 class="coding_ques_title card-title mg-b-0">Coding Question Bank: </h4>
+												<div class="d-flex justify-contentbetween">
+													<div class="input-group mb-0">
+														<span class="input-group-append search_btn">
+															<button class="btn ripple" type="button"><i class="fa fa-search"></i></button>
+														</span>
+														<input type="text" class="search_text form-control border-right-0 pl-3" value="" placeholder="Search Template">
+													</div>
+													<div class="candidate_right_filters_section">															
+													
+														<!-- <div class="candidate_filters_header">
+															<a href=""><i class="fas fa-file-download"></i></a>
+														</div>
+														<div class="candidate_filters_header">
+															<a href=""><i class="fas fa-filter"></i></a>
+														</div>
+														<div class="candidate_filters_header">
+															<a href=""><i class="fas fa-print"></i></a>
+														</div>
+														<div class="candidate_filters_header">	
+															<a href=""><i class="fas fa-ellipsis-v"></i></a>
+														</div> -->
+														<div class="candidate_filters_header">
+															{% if Add %}
+															<a class="Add_mcq_Question" href="{% url 'agency:coding_question_add' category_id %}">Add New</a>
+															{% endif %}
+														</div>
+														
+													</div>
+												</div>
+												
+											</div>
+										</div>
+
+									</div>
+								</div>
+
+								<!--card list view-->
+								<div class="col-12 para-preview-slidelist" id="paraPreviewSlideList">
+									{% if questions %}
+									{% for question in questions %}
+									<div class="slide-list row row-sm card">
+										<input type="hidden" name="que_id" value="{{question.id}}">
+										<div class="title-section col-12">
+											<div class="info-section fx-row">
+												<div class="fx-col-sm left-side">
+													<label class="tab-counter-label">{{ forloop.counter }}</label>
+												
+													<label class="main-content-label mb-0">{{question.coding_que_title}}</label>
+												
+													
+												</div>
+												<div class="fx-col-sm right-side">
+													<label class="category-type__info text-capitalize">{{question.question_type}}</label>
+													{% if Edit %}
+													<div class="edit-btn edit-que" data-id="{{question.id}}"><i class="fas fa-edit"></i></div>
+													{% endif %}
+													{% if Delete %}
+													<div class="delete-btn"><i class="fas fa-trash-alt"></i></div>
+													{% endif %}
+													<div class="slide-tab-btn"><i class="fas fa-chevron-down"></i></div>
+												</div>
+											</div>
+											<div class="short-details">
+												
+												<div class="detail-section">
+													<pre>
+														{% autoescape off %}
+														{{question.coding_que_description}}
+														{% endautoescape %}
+													</pre>
+												</div>
+											</div>
+										</div>
+									</div>
+									{% endfor %}
+									{% else %}
+										<p>No Question Found</p>
+									{% endif %}
+								</div>
+
+
+							</div>
+							<!--/div-->
+					
+						</div>
+						<!-- /row -->
+					</div>
+					<!-- Main-content-body closed -->
+				</div>
+				<!-- Container-fluid closed -->
+ <!-- Basic modal Edit_subject_modal -->
+ <div class="modal" id="Edit_question_modal">
+	<div class="modal-dialog modal-dialog-centered" role="document">
+		<div class="modal-content modal-content-demo">
+			<div class="modal-header">
+				<h6 class="modal-title">Edit Question</h6><button aria-label="Close" class="close" data-dismiss="modal" type="button"><span aria-hidden="true">&times;</span></button>
+			</div>
+			<form id="coding-add-que" action="{% url 'agency:update_coding_question'%}" data-parsley-validate="" method="POST">
+				{% csrf_token %}
+				<input type="text" class="queid" name="queid" value="" hidden>
+				<!--Start Form Section-->
+				<div class="form-group__layout">
+				<!--Basic Form-->
+				<div class="basic_form" id="basicForm">
+
+					<div class="row row-sm mg-t-20">
+						<div class="col-lg">
+							<div class="row basicInfo-section">
+
+								<div class="col-lg-12 mg-t-10 mg-lg-t-0">
+									<input class="form-control coding_based_title_name"  name="title" value="" placeholder="Enter Title" type="text" required="">
+								</div>
+								<div class="col-lg-12 mg-t-10 mg-lg-t-0">
+
+									<div class="radio-group basic_type_select mg-t-10 mg-b-10">
+
+										<div class="radio-btn__tab">
+											<label class="rdiobox">
+												<input required name="basic_type" type="radio" value="Basic"><span>Basic</span>
+											</label>
+										</div>
+										<div class="radio-btn__tab">
+											<label class="rdiobox">
+												<input required name="basic_type" type="radio" value="Intermediate"><span>Intermediate</span>
+											</label>
+										</div>
+										<div class="radio-btn__tab">
+											<label class="rdiobox">
+												<input required name="basic_type" type="radio" value="Advance"><span>Advance</span>
+											</label>
+										</div>
+
+									</div>
+
+								</div>
+							</div>
+
+							<div class="row basicInfo-section">
+								<div class="form-group col-lg mg-t-10 mg-lg-t-0">
+									<textarea name="coding-que-description" id="coding-que-description"></textarea>
+								</div>
+							</div>
+						</div>
+					</div>
+
+
+				</div>
+				<!--Basic Form End-->
+
+				</div>
+				<!--form action button section-->
+				<div class="descriptive_question_add_btn mg-t-0" id="question_add_Btns">
+					<button class="btn btn-sm btn-primary questionFormSubmit btn-sm btn-rounded" id="update" type="submit">Update</button>
+				</div>
+				<!--form action button section End-->
+			</form>
+
+		</div>
+	</div>
+</div>
+<!-- End Basic modal -->
+{% endblock %}
+
+{% block script %}
+
+		<!-- tinymce js -->
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/tinymce/4.5.6/tinymce.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/tinymce/4.5.6/jquery.tinymce.min.js"></script>
+		
+		<!--- Internal Sweet-Alert js -->
+		<script src="{% static 'assets/plugins/sweet-alert/sweetalert.min.js' %}"></script>
+		<script src="{% static 'assets/plugins/sweet-alert/jquery.sweet-alert.js' %}"></script>
+
+		<script>
+			tinymce.init({
+			selector: "#coding-que-description",
+			menubar: false,
+			plugins: 'lists advlist',
+			toolbar: 'bullist numlist bold',
+			branding: 'False',
+		});
+			$(function(){
+				$(document).on('click','.edit-que',function(){
+                    var queid=$(this).data('id');
+                   
+                    // $('.edit_subject_name').val($(this).data('name'));
+                    if(queid!==''){
+                    $.ajax({
+                            url:"/agency/get_coding_question/",
+                            headers: {'X-CSRFToken': $("input[name=csrfmiddlewaretoken]").val() },
+                            type:'POST',
+                            contentType: 'application/json; charset=UTF-8',
+                            data: JSON.stringify(queid),
+                            error: function (request, status, error) {
+                                alert(error);
+                            }
+                        }).done(function(response){
+                            response=JSON.parse(response);
+                            console.log(response.que_type)
+                            if(response.status==true){
+                                $("#Edit_question_modal").modal("show");
+                                $('.queid').val(queid);
+								$("input[name=title]").val(response.title)
+                                $("input[name=basic_type][value=" + response.que_type + "]").attr('checked', 'checked');
+                                tinymce.get('coding-que-description').setContent(response.question);
+                                // window.location.reload();
+                            }
+                            else{
+                                alert('Something went wrong !');
+                                $("#Edit_question_modal").modal("hide");
+                            }
+                        });
+                    }
+                
+                });
+
+				$("#coding-add-que").on("submit", function(e){
+                    e.preventDefault();
+                    tinymce.triggerSave();
+
+                    var que = $('#coding-que-description').val();
+                    var textmsg = $.trim($(que).text());
+                    if(textmsg == ''){
+                        alert('Please fill out the Question !!')
+                        return false;
+                    }
+                    this.submit()
+                })
+				
+				
+				$('#update').click(function(){
+                    e.preventDefault();
+                    tinymce.triggerSave();
+
+                    var que = $('#coding-que-description').val();
+                    var textmsg = $.trim($(que).text());
+                    if(textmsg == ''){
+                        alert('Please fill out the Question !!')
+                        return false;
+                    }
+                })
+
+				$(document).on('click','.slide-tab-btn',function(){
+					currentListEle = $(this);
+					if(currentListEle.closest('.slide-list').find('.detail-section').is(":visible")){
+						console.log('true')
+						$('.detail-section').slideUp();
+						currentListEle.closest('.slide-list').find('.detail-section').slideUp();
+					}else{
+						console.log('false')
+						$('.detail-section').slideUp();
+						currentListEle.closest('.slide-list').find('.detail-section').slideDown();
+					}
+				})
+
+
+				$(document).on('click','.delete-btn',function(){
+					var deletequestion = {'que_id':$(this).closest('.slide-list').find('[name="que_id"]').val()}
+					console.log('deletequestion', deletequestion)
+					var question_card = $(this).closest('.slide-list')
+					swal({
+						title: "Are you sure?",
+						text: "You will not be able to recover deleted question!",
+						type: "warning",
+						showCancelButton: true,
+						confirmButtonClass: "btn-danger",
+						confirmButtonText: "Yes, delete it!",
+						cancelButtonText: "Cancel",
+						closeOnConfirm: false,
+						closeOnCancel: false
+					},function(isConfirm) { //send ajax request for detele category action
+						if (isConfirm){
+							$.ajax({
+								url:"/agency/delete_coding_question/",
+								headers: {'X-CSRFToken': $("input[name=csrfmiddlewaretoken]").val() },
+								type:'POST',
+								contentType: 'application/json; charset=UTF-8',
+								data: JSON.stringify(deletequestion),
+								error: function (request, status, error) {
+									  alert(error);
+								}
+							}).done(function(response){
+								if(response == 'True'){
+									swal("Deleted!", "Your question has been deleted.", "success");
+									question_card.remove();
+								}else{
+									swal("Error!", "Something Wrong !!", "error");
+								}
+							});
+						} else {
+							swal("Cancelled", "Your question is safe :)", "error");
+						}
+					});
+				})
+
+			})
+		</script>
+{% endblock %}

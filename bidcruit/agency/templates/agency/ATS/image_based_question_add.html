@@ -1,0 +1,469 @@
+{% extends 'agency/base.html' %}
+{% load static %}
+{% block title %}Image Question Add{% endblock %}
+{% block css %}
+    
+        <!-- Internal Data table css -->
+		<link href="{% static 'assets/plugins/datatable/css/dataTables.bootstrap4.min.css' %}" rel="stylesheet" />
+		<link href="{% static 'assets/plugins/datatable/css/buttons.bootstrap4.min.css' %}" rel="stylesheet">
+		<link href="{% static 'assets/plugins/datatable/css/responsive.bootstrap4.min.css' %}" rel="stylesheet" />
+		<link href="{% static 'assets/plugins/datatable/css/jquery.dataTables.min.css' %}" rel="stylesheet">
+		<link href="{% static 'assets/plugins/datatable/css/responsive.dataTables.min.css' %}" rel="stylesheet">
+		<link href="{% static 'assets/plugins/select2/css/select2.min.css' %}" rel="stylesheet">
+    
+         <!-- Internal Fileupload css -->
+		<link href="{% static 'assets/plugins/fileuploads/css/fileupload.css' %}" rel="stylesheet" type="text/css"/>
+    
+        <!-- Internal Fancy uploader css -->
+		<link href="{% static 'assets/plugins/fancyuploder/fancy_fileupload.css' %}" rel="stylesheet" />
+    
+        <!--custom desciptive list css-->
+        <link href="{% static 'assets/css/ATS/image_based_question_add.css' %}" rel="stylesheet">
+    
+        <!-- - Internal Sweet-Alert css -->
+        <link href="{% static 'assets/plugins/sweet-alert/sweetalert.css' %}" rel="stylesheet">
+		<style>
+			.image_upload_question .dropify-preview{z-index: 0;}
+			.edit-btn.edit-que { display: block; z-index: 999999;cursor: pointer; width: 20px;height: 20px; text-align: center;}
+		</style>
+
+{% endblock %}
+{% block main %}
+				<!-- Container-fluid -->
+				<div class="container-fluid">
+
+					<!-- Main-content-body -->
+					<div class="main-content-body">
+
+						<!-- row opened -->
+						<div class="row row-sm">
+							<div class="col-xl-12">
+								<div class="card add_view_main_section">
+									
+									<div class="row card-body mcq_list_inner pt-0 pb-0">
+										<input type="hidden" value="{{sub_id}}" id="sub_id">
+										<div class="col-md-3 pl-2">
+											<div class="title_stage">Add New Question</div>
+											<div class="main_user_add_view">
+													<form id="image-question-add-form" role="form" enctype="multipart/form-data">
+														{% csrf_token %}
+														<div class="form-group">
+															<label class="form-label">Question Level :</label>
+														    <select class="form-control" name="question_level" id="question_level">
+																<option label="Select Question Level" disabled></option>
+																{% for levels in level %}
+																	<option class="text-capitalize" value="{{levels.id}}">{{levels.level_name}}</option>
+																{% endfor %}
+															</select>	
+														</div>
+														<div class="form-group">
+															<label class="form-label">Enter New Question :</label>
+															<textarea class="form-control queInputText" name="question" required></textarea>
+															<div class="image_upload_question">
+																<input type="file" name="question_file" class="question_image_upload" data-height="80" required />
+															</div>
+														</div>
+
+														<div class="option-ls__container">
+															<div class="form-group two_box_apply">
+																<div class="left_side_textbox">
+																	<label class="form-label">A : <input class="correct_answer_radio" name="correct_answer" type="radio" value="a" required><span class="correct_answer_title">Marked As Correct Answer</span></label>
+																	<input class="form-control" placeholder="" type="text" name="option_1" required>
+																</div>
+																<div class="imageupload_option">
+																	<label for="file-input-a" class="file-color">
+																		<i class="fas fa-paperclip"></i>
+																	</label>															
+																	<input class="up_attachment" name="option_file1" id="file-input-a" type="file"/>
+																</div>
+															</div>
+															<div class="form-group two_box_apply">
+																<div class="left_side_textbox">
+																	<label class="form-label">B : <input class="correct_answer_radio" name="correct_answer" type="radio" value="b"><span class="correct_answer_title">Marked As Correct Answer</span></label>
+																	<input class="form-control" placeholder="" type="text" name="option_2" required>
+																</div>
+																<div class="imageupload_option">
+																	<label for="file-input-b" class="file-color">
+																		<i class="fas fa-paperclip"></i>
+																	</label>															
+																	<input class="up_attachment" name="option_file2" id="file-input-b" type="file"/>
+																</div>
+															</div>
+															<div class="form-group two_box_apply">
+																<div class="left_side_textbox">
+																	<label class="form-label">C : <input class="correct_answer_radio" name="correct_answer" type="radio" value="c"><span class="correct_answer_title">Marked As Correct Answer</span></label>
+																	<input class="form-control" placeholder="" type="text" name="option_3" required>
+																</div>
+																<div class="imageupload_option">
+																	<label for="file-input-c" class="file-color">
+																		<i class="fas fa-paperclip"></i>
+																	</label>															
+																	<input class="up_attachment" name="option_file3" id="file-input-c" type="file"/>
+																</div>
+															</div>
+															<div class="form-group two_box_apply">
+																<div class="left_side_textbox">
+																	<label class="form-label">D : <input class="correct_answer_radio" name="correct_answer" type="radio" value="d"><span class="correct_answer_title">Marked As Correct Answer</span></label>
+																	<input class="form-control" placeholder="" type="text" name="option_4" required>
+																</div>
+																<div class="imageupload_option">
+																	<label for="file-input-d" class="file-color">
+																		<i class="fas fa-paperclip"></i>
+																	</label>															
+																	<input class="up_attachment"  name="option_file4" id="file-input-d" type="file"/>
+																</div>
+															</div>
+														</div>
+
+														<div class="add_views_btn"><button type="submit" class="btn btn-main-primary btn-block">Add</button></div>
+													
+													</form>
+											</div>												
+											
+										</div>
+
+										<div class="col-md-9 mcq_list p-0">
+
+											<div class="mcq_header_listing">
+												<div class="title_stage m-0"><span class="cap_text">Image based MCQ Subject:</span> {{sub_name}}</div>
+												<!-- <div class="d-flex justify-content-between">
+													<div class="input-group mb-0">
+													
+														<span class="input-group-append search_btn">
+															<button class="btn ripple" type="button"><i class="fa fa-search"></i></button>
+														</span>
+														<input type="text" class="search_text form-control border-right-0 pl-3" value="" placeholder="Search Template">
+			
+													</div>
+													<div class="candidate_right_filters_section">															
+													
+														<div class="candidate_filters_header">
+															<a href=""><i class="fas fa-file-download"></i></a>
+														</div>
+														<div class="candidate_filters_header">
+															<a href=""><i class="fas fa-filter"></i></a>
+														</div>
+														<div class="candidate_filters_header">
+															<a href=""><i class="fas fa-print"></i></a>
+														</div>
+														<div class="candidate_filters_header">	
+															<a href=""><i class="fas fa-ellipsis-v"></i></a>
+														</div>
+														
+													</div>
+												</div> -->
+											
+											</div>
+
+											
+											<div class="view_list_of_mcq table-responsive" id="all-questions">
+
+
+												<ul class="template_question_list">
+												  {% for i in image_question %}	
+													<li>
+														<div class="slide-list row row-sm card mb-0">
+															<div class="title-section col-12">
+																<div class="info-section fx-row">
+																	<div class="fx-col-sm left-side">
+																		<label class="tab-counter-label">{{forloop.counter}}</label>
+																		<label class="main-content-label mb-0"><span class="quote-text">{{i.question}}</span><i class="far fa-images"></i></label>
+																	</div>
+																	<div class="fx-col-sm right-side">
+																		<label class="category-type__info text-capitalize">{{i.question_level}}</label>
+																		<div class="edit-btn edit-que" data-id="11"><i class="fas fa-edit"></i></div>
+																		<div class="delete-btn"><i class="fas fa-trash-alt"></i></div>
+																		
+																		
+																	</div>
+																</div>
+																<div class="short-details">
+																	<div class="para-description">
+																		<ul class="list_view_option">
+																			<li {% ifequal i.correct_option 'a' %} class="correct_ans" {% endifequal %}>(A) <span class="opt-text">{{i.option1}}</span><i class="far fa-images"></i></li>
+																			<li {% ifequal i.correct_option 'b' %} class="correct_ans" {% endifequal %}>(B) <span class="opt-text">{{i.option2}}</span><i class="far fa-images"></i></li>
+																			<li {% ifequal i.correct_option 'c' %} class="correct_ans" {% endifequal %}>(C) <span class="opt-text">{{i.option3}}</span><i class="far fa-images"></i></li>
+																			<li {% ifequal i.correct_option 'd' %} class="correct_ans" {% endifequal %}>(D)<span class="opt-text">{{i.option4}}</span><i class="far fa-images"></i></li>
+																		</ul>
+																	</div>			
+																</div>
+															</div>
+														</div>
+													</li>
+												  {% endfor %}
+
+												</ul>
+
+												
+											</div>
+											
+											
+
+
+
+
+
+										</div>
+
+									</div>
+								</div>
+							</div>
+							<!--/div-->
+					
+						</div>
+						<!-- /row -->
+					</div>
+					<!-- Main-content-body closed -->
+				</div>
+				<!-- Container-fluid closed -->
+{% endblock %}
+
+{% block script %}
+
+         <!-- Internal Data tables -->
+		<script src="{% static 'assets/plugins/datatable/js/jquery.dataTables.min.js' %}"></script>
+		<script src="{% static 'assets/plugins/datatable/js/dataTables.dataTables.min.js' %}"></script>
+		<script src="{% static 'assets/plugins/datatable/js/dataTables.responsive.min.js' %}"></script>
+		<script src="{% static 'assets/plugins/datatable/js/responsive.dataTables.min.js' %}"></script>
+		<script src="{% static 'assets/plugins/datatable/js/jquery.dataTables.js' %}"></script>
+		<script src="{% static 'assets/plugins/datatable/js/dataTables.bootstrap4.js' %}"></script>
+		<script src="{% static 'assets/plugins/datatable/js/dataTables.buttons.min.js' %}"></script>
+		<script src="{% static 'assets/plugins/datatable/js/buttons.bootstrap4.min.js' %}"></script>
+		<script src="{% static 'assets/plugins/datatable/js/jszip.min.js' %}"></script>
+		<script src="{% static 'assets/plugins/datatable/js/pdfmake.min.js' %}"></script>
+		<script src="{% static 'assets/plugins/datatable/js/vfs_fonts.js' %}"></script>
+		<script src="{% static 'assets/plugins/datatable/js/buttons.html5.min.js' %}"></script>
+		<script src="{% static 'assets/plugins/datatable/js/buttons.print.min.js' %}"></script>
+		<script src="{% static 'assets/plugins/datatable/js/buttons.colVis.min.js' %}"></script>
+		<script src="{% static 'assets/plugins/datatable/js/dataTables.responsive.min.js' %}"></script>
+		<script src="{% static 'assets/plugins/datatable/js/responsive.bootstrap4.min.js' %}"></script>
+
+		<!-- datatable js -->
+		<script src="{% static 'assets/js/table-data.js' %}"></script>
+    
+        <!-- Fileuploads js -->
+		<script src="{% static 'assets/plugins/fileuploads/js/fileupload.js' %}"></script>
+
+        <script>
+		   $('.question_image_upload').dropify({
+				messages: {
+					'default': 'Click here to upload file',
+					'replace': 'Drag and drop or click to replace',
+					'remove': 'Remove',
+					'error': 'Ooops, something wrong appended.'
+				},
+				error: {
+					'fileSize': 'The file size is too big (2M max).'
+				}
+			});
+	    </script>
+
+		<!-- Fancy uploader js -->
+		<script src="{% static 'assets/plugins/fancyuploder/jquery.ui.widget.js' %}"></script>
+        <script src="{% static 'assets/plugins/fancyuploder/jquery.fileupload.js' %}"></script>
+        <script src="{% static 'assets/plugins/fancyuploder/jquery.iframe-transport.js' %}"></script>
+        <script src="{% static 'assets/plugins/fancyuploder/jquery.fancy-fileupload.js' %}"></script>
+        <script src="{% static 'assets/plugins/fancyuploder/fancy-uploader.js' %}"></script>
+
+		<!--- Internal Sweet-Alert js -->
+		<script src="{% static 'assets/plugins/sweet-alert/sweetalert.min.js' %}"></script>
+		<script src="{% static 'assets/plugins/sweet-alert/jquery.sweet-alert.js' %}"></script>
+	   	
+		<script>
+			$('input[type=radio][name=correct_answer]').change(function() {				 
+				$(".correct_answer_title").css("display", "none")
+				$(this).next(".correct_answer_title").css("display", "inline-block");
+			});
+		</script>
+
+        <script>
+            $(document).ready( function(){
+				$(".question_image_upload").change(function(e) {
+						var file, img;
+
+
+						if ((file = this.files[0])) {
+							img = new Image();
+							img.onload = function() {
+							console.log('asdasdasddasddasdsdasadas')
+								alert(this.width + " " + this.height);
+							};
+							img.onerror = function() {
+								alert( "not a valid file: " + file.type);
+							};
+
+						}
+
+					});
+                  $("#file-input-a").on('change', function(event) {
+                      let fileName = event.target.files.length;
+                      if (fileName > 0){
+                          $(this).closest('.imageupload_option').find('.file-color').css('color','#0068ff');
+                      }else{
+                          $(this).closest('.imageupload_option').find('.file-color').css('color','black');
+                      }
+                  });
+                  $("#file-input-b").on('change', function(event) {
+                      let fileName = event.target.files.length;
+                      if (fileName > 0){
+                          $(this).closest('.imageupload_option').find('.file-color').css('color','#0068ff');
+                      }else{
+                          $(this).closest('.imageupload_option').find('.file-color').css('color','black');
+                      }
+                  });
+                  $("#file-input-c").on('change', function(event) {
+                      let fileName = event.target.files.length;
+                      if (fileName > 0){
+                          $(this).closest('.imageupload_option').find('.file-color').css('color','#0068ff');
+                      }else{
+                          $(this).closest('.imageupload_option').find('.file-color').css('color','black');
+                      }
+                  });
+                  $("#file-input-d").on('change', function(event) {
+                      let fileName = event.target.files.length;
+                      if (fileName > 0){
+                          $(this).closest('.imageupload_option').find('.file-color').css('color','#0068ff');
+                      }else{
+                          $(this).closest('.imageupload_option').find('.file-color').css('color','black');
+                      }
+                  });
+            });
+        </script>
+
+		<script>
+			$(document).ready(function(){
+
+				$('#image-question-add-form').on('submit',function(e){
+        			e.preventDefault();
+					var form = document.getElementById("image-question-add-form");
+    				var fd = new FormData(form);
+    				var sub_id = $('#sub_id').val();
+    				var url = "/agency/image_based_question_add/" + sub_id;
+    				 $.ajax({
+						url: url,
+						headers: {'X-CSRFToken': $("input[name=csrfmiddlewaretoken]").val() },
+                		type:'POST',
+						data: fd,
+						cache: false,
+						processData: false,
+						contentType: false,
+					}).done(function(response){
+							console.log('json data>>>>>', JSON.parse(response));
+							CreatedQuestion = JSON.parse(response);
+							if(CreatedQuestion.length > 0){
+								location.reload();
+							}else{
+								$(document).find('.mcq_header_listing').remove();
+								location.reload();
+							}
+							// var listLength = $(document).find('.template_question_list li').length + 1;
+							// var tabClone = `<li>
+							// 					<div class="slide-list row row-sm card mb-0">
+							// 						<div class="title-section col-12">
+							// 							<div class="info-section fx-row">
+							// 								<div class="fx-col-sm left-side">
+							// 									<label class="tab-counter-label">`+listLength+`</label>
+							// 									<label class="main-content-label mb-0"><span class="quote-text">`+CreatedQuestion['question']+`</span><i class="far fa-images"></i></label>
+							// 								</div>
+							// 								<div class="fx-col-sm right-side">
+							// 									<label class="category-type__info text-capitalize">basic</label>
+							// 									<div class="edit-btn edit-que" data-id="11"><i class="fas fa-edit"></i></div>
+							// 									<div class="delete-btn"><i class="fas fa-trash-alt"></i></div>
+							// 								</div>
+							// 							</div>
+							// 							<div class="short-details">
+							// 								<div class="para-description">
+							// 									<ul class="list_view_option">
+							// 										<li class="correct_ans">(A) <span class="opt-text">`+CreatedQuestion['option1']+`</span><i class="far fa-images"></i></li>
+							// 										<li>(B) <span class="opt-text">`+CreatedQuestion['option2']+`</span><i class="far fa-images"></i></li>
+							// 										<li>(C) <span class="opt-text">`+CreatedQuestion['option3']+`</span><i class="far fa-images"></i></li>
+							// 										<li>(D)<span class="opt-text">`+CreatedQuestion['option4']+`</span><i class="far fa-images"></i></li>
+							// 									</ul>
+							// 								</div>			
+							// 							</div>
+							// 						</div>
+							// 					</div>
+							// 				</li>`;
+							// $('#all-questions .template_question_list').append(tabClone);
+							// $("#image-question-add-form").trigger("reset");
+							// $(".dropify-clear").trigger("click");
+							// $('.correct_answer_title').css('display','none');
+            		});
+				});
+
+
+				$(document).on('click','.questions_trash',function(){
+					var deletequestion = {'que_id':$(this).closest('.template_basic-question').find('#created_que_id').val()}
+					console.log('deletequestion', deletequestion)
+					var question_card = $(this).closest('.img-question')
+					swal({
+						title: "Are you sure?",
+						text: "You will not be able to recover deleted question!",
+						type: "warning",
+						showCancelButton: true,
+						confirmButtonClass: "btn-danger",
+						confirmButtonText: "Yes, delete it!",
+						cancelButtonText: "Cancel",
+						closeOnConfirm: false,
+						closeOnCancel: false
+					},function(isConfirm) { //send ajax request for detele category action
+						if (isConfirm){
+							$.ajax({
+								url:"/agency/delete_image_question/",
+								headers: {'X-CSRFToken': $("input[name=csrfmiddlewaretoken]").val() },
+								type:'POST',
+								contentType: 'application/json; charset=UTF-8',
+								data: JSON.stringify(deletequestion),
+								error: function (request, status, error) {
+									  alert(error);
+								}
+							}).done(function(response){
+								if(response == 'True'){
+									swal("Deleted!", "Your question has been deleted.", "success");
+									question_card.remove();
+								}else{
+									swal("Error!", "Something Wrong !!", "error");
+								}
+							});
+						} else {
+							swal("Cancelled", "Your question is safe :)", "error");
+						}
+					});
+				});
+
+				/**
+				 * Action Btns
+				 * **/
+				$(document).on('click','.delete-btn',function(){ //remove Question list
+					$(this).closest('li').remove()
+				})
+				$(document).on('click','.edit-que',function(){ //Edit Question list
+					var quesText = $(this).closest('.info-section').find('.left-side .quote-text').text();
+					var queCatType = $(this).closest('.info-section').find('.right-side .category-type__info').text();
+					var optListEle = $(this).closest('.title-section').find('.short-details .para-description ul.list_view_option li');
+					$('.dropify-preview .dropify-render').html('');
+					$('textarea.queInputText').val(quesText);
+					$('#question_level option').each(function(idx){
+						var selectorText = $(this).text();
+						if(queCatType == selectorText){
+							$(this).prop('selected',true)
+						}
+					})
+					
+					optListEle.each(function(idx, lsEle){
+						var listEle = $(this);
+						var listVal = $(this).find('.opt-text').text();
+						if(listEle.hasClass('correct_ans')){
+							$('.option-ls__container').find('.two_box_apply').eq(idx).find('.left_side_textbox .form-label .correct_answer_radio').prop('checked',true);
+							$('.option-ls__container').find('.two_box_apply').eq(idx).find('.left_side_textbox input[type=text]').val(listVal);
+						}else{
+							$('.option-ls__container').find('.two_box_apply').eq(idx).find('.left_side_textbox input[type=text]').val(listVal);
+						}
+					})
+				})
+			});
+
+		</script>
+	   
+{% endblock %}
+

@@ -1,0 +1,520 @@
+{% extends 'company/base.html' %}
+{% load static %}
+{% load custom_filters %}
+{% block title %} Applied Candidates {% endblock %}
+{% block css %}
+
+		<!--- Internal Ion.rangeSlider css -->
+		<link href="{% static 'assets/plugins/ion-rangeslider/css/ion.rangeSlider.css' %}" rel="stylesheet">
+		<link href="{% static 'assets/plugins/ion-rangeslider/css/ion.rangeSlider.skinFlat.css' %}" rel="stylesheet">
+
+		<!--- Internal RatingThemes css -->
+		<link rel="stylesheet" href="{% static 'assets/plugins/rating/ratings.css' %}">
+		<link rel="stylesheet" href="{% static 'assets/plugins/rating/themes/bars-1to10.css' %}">
+		<link rel="stylesheet" href="{% static 'assets/plugins/rating/themes/bars-movie.css' %}">
+		<link rel="stylesheet" href="{% static 'assets/plugins/rating/themes/bars-square.css' %}">
+		<link rel="stylesheet" href="{% static 'assets/plugins/rating/themes/bars-pill.css' %}">
+		<link rel="stylesheet" href="{% static 'assets/plugins/rating/themes/bars-reversed.css' %}">
+		<link rel="stylesheet" href="{% static 'assets/plugins/rating/themes/bars-horizontal.css' %}">
+		<link rel="stylesheet" href="{% static 'assets/plugins/rating/themes/fontawesome-stars.css' %}">
+		<link rel="stylesheet" href="{% static 'assets/plugins/rating/themes/css-stars.css' %}">
+		<link rel="stylesheet" href="{% static 'assets/plugins/rating/themes/bootstrap-stars.css' %}">
+		<link rel="stylesheet" href="{% static 'assets/plugins/rating/themes/fontawesome-stars-o.css' %}">
+
+        <!--custom dashboard css-->
+        <link href="{% static 'assets/css/dashboard-layout.css' %}" rel="stylesheet">
+        <link href="{% static 'assets/css/ATS/applied_candidate_view.css' %}" rel="stylesheet">
+		
+{% endblock %}
+
+{% block main %}
+
+			<div class="singlemenu applyCandidatePreview">
+
+				<!-- Main-content-body -->
+				<div class="main-content-body">
+					<div class="row row-sm acv-main-continer">
+						<div class="col-12 card acv_card">
+
+
+							 <div class="row row-sm upperside-section">
+	                            <div class="col-12">
+	                                <div class="fxh-title-bar">
+	                                    <div class="left-side-tab">
+											
+											<div class="top_header_candid">
+												<h4 class="card-title mg-b-0">{{job_obj.job_title}} ({{job_obj.company_id.company_id.company_name}})</h4>	
+												<div class="fx-icotext">
+
+													{% ifequal job_obj.experience_year_max '0' %}
+														<div class="header_candidate_type"><i class="fas fa-clock" style="color:#0068ff"></i> &nbsp; Exp : <span>{{job_obj.experience_year_min}} Years of Above</span></div>
+													{% endifequal %}
+
+													{% ifequal job_obj.experience_year_min '0' %}
+														<div class="header_candidate_type"><i class="fas fa-clock" style="color:#0068ff"></i> &nbsp; Exp : <span>Up to {{job_obj.experience_year_max}} Years</span></div>
+													{% endifequal %}
+
+													{% ifnotequal job_obj.experience_year_min '0' %}
+														{% ifnotequal job_obj.experience_year_max '0' %}
+															<div class="header_candidate_type"><i class="fas fa-clock" style="color:#0068ff"></i> &nbsp;  Exp : <span>{{job_obj.experience_year_min}} to {{job_obj.experience_year_max}} Years</span></div>
+														{% endifnotequal %}
+													{% endifnotequal %}
+													
+													<div class="header_candidate_type"><i class="fas fa-briefcase"  style="color:#0068ff"></i> &nbsp; Job Type : <span>{{job_obj.job_type.name}}</span></div>
+													<div class="header_candidate_type"><i class="fas fa-rupee-sign" style="color:#0068ff"></i> &nbsp; Salary : <span>{{job_obj.min_salary}} - {{job_obj.max_salary}}</span></div>
+													<div class="header_candidate_type"><i class="fa fa-user" style="color:#0068ff"></i>  &nbsp; Contact Person : <span>{{job_obj.contact_name.first_name}} {{job_obj.contact_name.last_name}}</span></div>
+
+												</div>
+											
+											</div>
+
+											
+
+	                                    </div>
+	                                    <div class="right-side-tab header_candid">
+	                                        <ul class="top-button-group">
+										
+												{% if job_workflow_obj.onthego %}
+	                                            <li class="btn-list">
+	                                                <button data-toggle="modal" class="btn btn-sm btn-primary rounded-20 add_stages_btn" href="#AddNewStagePopUp">Add stages</button>
+	                                            </li>
+												{% endif %}
+												<li class="btn-list">
+												
+													{% if job_obj.close_job %}
+													<div class="text-capitalize">Close Job</div>
+													{% else %}
+													<form action="{% url 'company:job_close' job_obj.id %}" method="post">
+														{% csrf_token %}
+														<button type="submit" class="btn btn-sm btn-primary rounded-20 close_job_btn">Close This Job</button>
+													</form>
+													{% endif %}
+	                                        	</li>
+	                                        </ul>
+	                                    </div>
+	                                </div>
+	                            </div>
+	                        </div>
+
+
+
+	                        <div class="row card row-sm tab-container two-col__container" id="listViewTab">
+	                            <div class="col-12 p-0">
+									{% for candidate in candidates %}
+									<div class="tab-listing" data-userid="0{{candidate.candidate_id.id}}">
+										<div class="fx-left_section">
+											<span class="flag-border green-flag"></span>
+											<div class="profile_view">
+												<div class="candidate_avtar">
+													<span class="profile_first_letter_pic_inner_c">
+													{% for candidates in candidate_stages_data %}
+																{% ifequal candidates.id.id candidate.candidate_id.id %} {{candidates.candidate_fname.0 }}{{candidates.candidate_lname.0 }}{% endifequal %}{% endfor %}</span>
+												</div>
+												<div class="candidate_info">
+													<div class="row_up">
+														<ul class="presonal-info">
+															<li>
+																<a href="{% url 'company:company_portal_candidate_tablist' candidate.candidate_id.id job_id %}"><label style="cursor:pointer" class="candidate-name text-capitalize" ><strong>{% for candidates in candidate_stages_data %}
+																{% ifequal candidates.id.id candidate.candidate_id.id %} {{candidates.candidate_fname }}{% endifequal %}{% endfor %}</strong></label></a>
+															</li>
+															<li>
+																<label class="field-title text-capitalize designation_title_n">{{candidate.designation}}</label>
+															</li>
+															<li>
+																<label class="relative-tag text-uppercase">{% for candidates in candidate_stages_data %}{% ifequal candidates.id.id candidate.candidate_id.id %} {{candidates.candidatetype }}{% endifequal %}{% endfor %}</label>
+															</li>
+														</ul>
+													</div>
+													<div class="row_down">
+														<ul class="candidate_carrier-ls">
+															<li>
+																<div class="icon-with-title">
+																	<i class="fas fa-rupee-sign" style="color:#0068ff"></i>
+																	<label class="c-title text-capitalize">current salary: <span class="title_b5">{% if SalaryView %}{{candidate.ctc}}{% else %}Confidential{% endif %}</span></label>
+																</div>
+																<!-- <div class="btm-text">
+																	<label class="c-details text-capitalize">{{candidate.ctc}}</label>
+																</div> -->
+															</li>
+															<li>
+																<div class="icon-with-title">
+																	<i class="fas fa-rupee-sign" style="color:#0068ff"></i>
+																	<label class="c-title text-capitalize">Exp salary: <span class="title_b5">{% if SalaryView %}{{candidate.expectedctc}}{% else %}Confidential{% endif %}</span></label>
+																</div>
+																<!-- <div class="btm-text">
+																	<label class="c-details text-capitalize">{{candidate.expectedctc}}</label>
+																</div> -->
+															</li>
+															<li>
+																<div class="icon-with-title">
+																	<i class="fas fa-clock" style="color:#0068ff"></i>
+																	<label class="c-title text-capitalize">notice period: <span class="title_b5">{{candidate.notice.notice_period}}</span></label>
+																</div>
+																<!-- <div class="btm-text">
+																	<label class="c-details text-capitalize">{{candidate.notice.notice_period}}</label>
+																</div> -->
+															</li>
+														</ul>
+													</div>
+												</div>
+											</div>
+										</div>
+										<div class="fx-right_section">
+											<ul class="score-ls">
+												<li class="twise-col">
+													<div class="fx-twise">
+														<div class="score-view">
+															<label class="text-capitalize">fit score</label>
+															<label class="percent-view">80%</label>
+														</div>
+														<div class="score-view">
+															<label class="text-capitalize">JCR</label>
+															<label class="percent-view">40%</label>
+														</div>
+													</div>
+												</li>
+												<li class="single-col">
+													<label class="stage-type-title text-capitalize">stage: {% for candidates in candidate_stages_data %}{% ifequal candidates.id.id candidate.candidate_id.id %} {{candidates.current_stage }}{% endifequal %}{% endfor %}</label>
+												</li>
+											</ul>
+											<!-- <span class="notification-bar">20</span> -->
+										</div>
+									</div>
+									{% endfor %}
+								</div>
+	                        </div>
+							<div class="row card row-sm tab-container two-col__container" id="kanbanViewTab">
+								<div class="col-12">
+									<div class="container">
+										<h2>Work In Progress</h2>
+									</div>
+								</div>
+							</div>
+
+	                    </div>
+					</div>
+				</div>
+				<!-- Main-content-body closed -->
+		
+
+				<div class="drawer-list">
+					{% for candidate in candidate_stages_data %}
+						<div class="row row-sm sidebar-preview" data-item="0{{candidate.id.id}}">
+							<div class="slideClose"><i class="fa fa-chevron-right"></i></div>
+								<div class="col-12 card side-barContainer rounded-0">
+									<div class="row row-sm preview-list-container side-bar-row">
+										<div class="col-12 twise-upper-col">
+											<div class="profile-section_top">
+												<div class="fxt-left profile_name_d">
+													<div class="avatar-img">
+														<span class="profile_first_letter_pic_inner_c">{{candidate.candidate_fname.0}}</span>
+													</div>
+													<div class="name-skills">
+														<label class="text-capitalize"><strong>{{candidate.candidate_fname}}</strong></label>
+														<label class="skill-title text-capitalize">{{candidate.candidate_detail.designation}}</label>
+													</div>
+													{% csrf_token %}
+													{% if candidate.secure %}
+														{% if candidate.secure and candidate.requested %}
+															<button disabled class="btn btn-sm btn-primary rounded-20" id="requested">Requested</button>
+														{% else %}
+															<button data-id="{{candidate.id.id}}" data-jobid="{{job_id}}" class="btn btn-sm btn-primary rounded-20" id="request_for_detail">Request For Details</button>
+														{% endif %}
+													{% endif %}
+
+<!--													<div class="category__selector">-->
+<!--														<select class="form-control form-control-sm cat-select">-->
+<!--															<option label="change Stage: General Interview">-->
+<!--															<option value="value 1">value 1</option>-->
+<!--															<option value="value 2">value 2</option>-->
+<!--															<option value="value 3">value 3</option>-->
+<!--														</select>-->
+<!--													</div>-->
+												</div>
+												<div class="fxt-right">
+													<div class="fx-twise">
+														<div class="score-view">
+															<label class="text-capitalize">fit score</label>
+															<label class="percent-view">80%</label>
+														</div>
+														<div class="score-view">
+															<label class="text-capitalize">JCR</label>
+															<label class="percent-view">40%</label>
+														</div>
+														<div class="score-view">
+															<a class="btn btn-sm btn-primary rounded-20 text-capitalize view_more_btn_sli" href="{% url 'company:company_portal_candidate_tablist' candidate.id.id job_id %}" id="viewMoreBtn">View more</a>
+<!--															<button type="button" id="hiredCandidate" class="btn btn-sm btn-primary rounded-20 text-capitalize">Hire</button>-->
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+
+									</div>
+
+									<div class="row row-sm side-bar-row pt-0">
+										<div class="col-12 panel panel-primary">
+											<div class="tab-menu-heading">
+												<div class="tabs-menu1">
+													<!-- Tabs -->
+													<ul class="nav panel-tabs main-nav-line">
+														<li class="nav-item">
+															<a href="#overView{{candidate.id.id}}" class="nav-link active text-capitalize" data-toggle="tab">overview</a>
+														</li>
+														<li class="nav-item">
+															<a href="#resumeView{{candidate.id.id}}" class="nav-link text-capitalize" data-toggle="tab">resume</a>
+														</li>
+													</ul>
+												</div>
+											</div>
+											<div class="panel-body tabs-menu-body main-content-body-right pl-0">
+												<div class="tab-content">
+													<div class="tab-pane active" id="overView{{candidate.id.id}}">
+														<div class="first_container">
+															<div class="row row-sm overview-twisecol">
+																<div class="col-4">
+																	<div class="vertical-flowlist">
+																		<ul class="steps-list">
+																			{% for stage in candidate.stages %}
+																			<li class="
+																				{% ifequal stage.status 0 %}
+																					disable
+																				{% endifequal %}
+																				{% ifequal stage.status 1 %}
+																					progess
+																				{% endifequal %}
+																				{% ifequal stage.status 2 %}
+																					complete
+																				{% endifequal %}
+																				{% ifequal stage.status -1 %}
+																					failed
+																				{% endifequal %}">
+																				<div class="title-text active">
+																					<span class="icon-view">
+																						{% ifequal stage.status 0 %}
+																						{% endifequal %}
+																						{% ifequal stage.status 1 %}
+																							<i class="fas fa-clock"></i>
+																						{% endifequal %}
+																						{% ifequal stage.status 2 %}
+																							<i class="fas fa-check-double"></i>
+																						{% endifequal %}
+																						{% ifequal stage.status -1 %}
+																							<i class="fas fa-times"></i>
+																						{% endifequal %}
+																					</span>
+																					<label class="h5 text-bold">0{{ forloop.counter }}</label>
+																					{% ifequal stage.status -1 %}
+																						<label class="simple-text text-capitalize">{{stage.custom_stage_name}} <span class="danger-bedge text-capitalize">rejected</span></label>
+																					{% else %}
+																					<label class="simple-text text-capitalize">{{stage.custom_stage_name}}</label>
+																					{% endifequal %}
+																				</div>
+																			</li>
+																			{% endfor %}
+																		</ul>
+																	</div>
+																</div>
+																<div class="col-8">
+																	<div class="candidate-info___section">
+																		<ul class="info__list-view">
+																		{% if candidate.secure %}
+																			<li>
+																				<div class="main-info__view">
+																					<label class="info-mini-title text-capitalize">Email:- <span class="mini-details active" style="float: right;"><img src="{% static 'assets/img/blur_icon.png' %}"></span></label>
+																				</div>
+																			</li>
+																			<li>
+																				<div class="main-info__view">
+																					<label class="info-mini-title text-capitalize">Contact:- <span class="mini-details active" style="float: right;"><img src="{% static 'assets/img/blur_icon.png' %}"></span></label>
+																				</div>
+																			</li>
+																			{% else %}
+																			<li>
+																				<div class="main-info__view">
+																					<label class="info-mini-title">Email:- <span class="mini-details active">{{candidate.id.email}}</span></label>
+																				</div>
+																			</li>
+																			<li>
+																				<div class="main-info__view">
+																					<label class="info-mini-title text-capitalize">Contact:- <span class="mini-details active">{{candidate.contactno}}</span></label>
+																				</div>
+																			</li>
+																			{% endif %}
+																			<li>
+																				<div class="main-info__view">
+																					<label class="info-mini-title text-capitalize">experience:- <span class="mini-details active text-capitalize">{{candidate.candidate_detail.total_exper}} year</span></label>
+																				</div>
+																				<!-- <div class="subdetails-info__view">
+																					<label class="plan-description text-capitalize">blue Technologies pvt. ltd.(2 year)</label>
+																					<label class="plan-description text-capitalize">toche Technologies pvt. ltd.(2.5 year)</label>
+																				</div> -->
+																			</li>
+																			<li>
+																				<div class="main-info__view">
+																					<label class="info-mini-title text-capitalize">preferred city:- <span class="mini-details active text-capitalize">{% for city in candidate.candidate_detail.prefered_city.all %}{{city.city_name}}{% if not forloop.last %}, {% endif %}{% endfor %}.</span></label>
+																				</div>
+																				<!-- <div class="subdetails-info__view"> -->
+																					<!-- <label class="plan-description text-capitalize">blue Technologies pvt. ltd.(2 year)</label>
+																					<label class="plan-description text-capitalize">toche Technologies pvt. ltd.(2.5 year)</label> -->
+																				<!-- </div> -->
+																			</li>
+																			<li>
+																				<div class="main-info__view">
+																					<label class="info-mini-title text-capitalize">Skills:- <span class="mini-details active text-capitalize">{% for skill in candidate.candidate_detail.skills.all %}{{skill.name}}{% if not forloop.last %}, {% endif %}{% endfor %}.</span></label>
+																				</div>
+																				<!-- <div class="subdetails-info__view"> -->
+																					<!-- <label class="plan-description text-capitalize">blue Technologies pvt. ltd.(2 year)</label>
+																					<label class="plan-description text-capitalize">toche Technologies pvt. ltd.(2.5 year)</label> -->
+																				<!-- </div> -->
+																			</li>
+																			<!-- <li>
+																				<div class="main-info__view">
+																					<label class="info-mini-title text-capitalize">language:- -->
+																						<!-- <span class="mini-details active text-capitalize">surat, ahemdanad, pune.</span> -->
+																					<!-- </label>
+																				</div>
+																				<div class="subdetails-info__view">
+																					<label class="plan-description text-capitalize">english (
+																						<span class="done">read,</span>
+																						<span class="done">write,</span>
+																						<span class="avrage">speak</span>
+																					)</label>
+																					<label class="plan-description text-capitalize">hindi (
+																						<span class="done">read,</span>
+																						<span class="done">write,</span>
+																						<span class="done">speak</span>
+																					)</label>
+																				</div>
+																			</li> -->
+																			<!-- <li>
+																				<div class="main-info__view">
+																					<label class="info-mini-title text-capitalize">matching skills:- <span class="mini-details done text-capitalize">workflow, software development, software seding, programming,java programming, code, data transformation, computer science</span></label>
+																				</div>
+																				<div class="subdetails-info__view"> -->
+																					<!-- <label class="plan-description text-capitalize">blue Technologies pvt. ltd.(2 year)</label>
+																					<label class="plan-description text-capitalize">toche Technologies pvt. ltd.(2.5 year)</label> -->
+																				<!-- </div> -->
+																			<!-- </li> -->
+<!--																			<li>-->
+<!--																				<div class="main-info__view">-->
+<!--																					<label class="info-mini-title text-capitalize">skill match with other jobs:- -->
+<!--																						&lt;!&ndash; <span class="mini-details avrage text-capitalize">python, performance tunning, javascript, automation</span> &ndash;&gt;-->
+<!--																					</label>-->
+<!--																				</div>-->
+<!--																				<div class="subdetails-info__view">-->
+<!--																					<label class="plan-description text-capitalize">database analyst</label>-->
+<!--																					<label class="plan-description text-capitalize">java design</label>-->
+<!--																				</div>-->
+<!--																			</li>-->
+																		</ul>
+																	</div>
+																</div>
+															</div>
+														</div>
+													</div>
+													<div class="tab-pane embed-responsive embed-responsive-16by9" id="resumeView{{candidate.id.id}}">
+														<embed class="embed-responsive-item" src="{{candidate.resume|image_path_remove}}#toolbar=0&navpanes=0&scrollbar=0">
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+
+								</div>
+						</div>
+					{% endfor %}
+				</div>
+
+			</div>
+			<!-- Main-content closed -->
+
+			<div class="modal" id="AddNewStagePopUp">
+				<div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+					<div class="modal-content modal-content-demo">
+						<form method="POST">
+							{% csrf_token %}
+							<div class="modal-header">
+								<h6 class="modal-title">Add Stage</h6>
+								<button aria-label="Close" class="close" data-dismiss="modal" type="button"><span aria-hidden="true">&times;</span></button>
+							</div>
+							<div class="modal-body">
+								<div class="row">
+									<div class="col-4">
+										<div class="form-group">
+											<label class="main-content-label">Stage :</label>
+											<select class="form-control text-capitalize" name="stage" id="stageSelectorList" required>
+												<option label="Select Stages"></option>
+											</select>
+										</div>
+									</div>
+									<div class="col-4">
+										<div class="form-group">
+											<label class="main-content-label">Category :</label>
+											<select class="form-control" id="categorySelectorList" name="category" required disabled>
+												<option label="Select Category"></option>
+											</select>
+										</div>
+									</div>
+									<div class="col-4">
+										<div class="form-group">
+											<label class="main-content-label">Template:</label>
+											<select class="form-control" id="templateSelectorList" name="template" required disabled>
+												<option label="Select Template"></option>
+											</select>
+										</div>
+									</div>
+								</div>
+								<div class="row">
+									<div class="col-4">
+										<label class="main-content-label">Stage Name:</label>
+										<input class="form-control" name="stage_name" required>
+									</div>
+								</div>
+								<div class="row">
+									<div class="col-12">
+										<ul id="userFacets" class="facet-list">
+										</ul>
+										<div class="drag-box"></div>
+									</div>
+								</div>
+							</div>
+							<div class="modal-footer">
+								<button class="btn ripple btn-primary text-uppercase" name="add_stage_submit" type="submit">Submit</button>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+
+{% endblock %}
+
+{% block script %}
+		<!--- Internal Ion.rangeSlider.min js -->
+		<script src="{% static 'assets/plugins/ion-rangeslider/js/ion.rangeSlider.min.js' %}"></script>
+		<!-- Custom js -->
+        <script src="{% static 'assets/js/ATS/applied_candidate_view.js' %}"></script>
+<script>
+	$(document).ready(function(){
+		$('#request_for_detail').click(function(){
+
+			$.ajax({
+				type:"POST",
+				headers: {'X-CSRFToken': $("input[name=csrfmiddlewaretoken]").val() },
+				url:"/company/request_for_detail/",
+				data:{"candidate_id":$(this).data('id'),"job_id":$(this).data('jobid')},
+			}).done(function(response){
+			console.log("================",response)
+				if(response=='True'){
+				console.log("================")
+<!--							$('#request_for_detail').hide();-->
+					$('#request_for_detail').prop('disabled', true);
+					$('#request_for_detail').text('Requested');
+				}
+			})
+
+		});
+	});
+</script>
+{% endblock %}
+

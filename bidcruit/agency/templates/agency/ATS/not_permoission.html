@@ -1,0 +1,48 @@
+{% extends 'agency/base.html' %}
+{% load static %}
+{% load custom_filters %}
+{% block title %}No Permission Allow{% endblock %}
+{% block css %}
+		<!-- Bootstrap css -->
+		<link rel="stylesheet" href="{% static 'assets/plugins/bootstrap/css/bootstrap.min.css' %}">
+
+		<!-- Internal Data table css -->
+		<link href="{% static 'assets/plugins/datatable/css/dataTables.bootstrap4.min.css' %}" rel="stylesheet" />
+		<link href="{% static 'assets/plugins/datatable/css/buttons.bootstrap4.min.css' %}" rel="stylesheet">
+		<link href="{% static 'assets/plugins/datatable/css/responsive.bootstrap4.min.css' %}" rel="stylesheet" />
+		<link href="{% static 'assets/plugins/datatable/css/jquery.dataTables.min.css' %}" rel="stylesheet">
+		<link href="{% static 'assets/plugins/datatable/css/responsive.dataTables.min.css' %}" rel="stylesheet">
+		<link href="{% static 'assets/plugins/select2/css/select2.min.css' %}" rel="stylesheet">
+
+
+		<link href="{% static 'assets/css/ATS/internal_candidates.css' %}" rel="stylesheet">
+		<style>
+			.dataTables_filter {
+			   display: none;
+			}
+		</style>
+
+{% endblock %}
+{% block main %}
+				<!-- Container-fluid -->
+				<div class="container-fluid">
+					
+					<!-- Main-content-body -->
+					<div class="main-content-body">
+						<!-- row opened -->
+						<div class="row row-sm">
+							<div class="col-xl-12">
+								You do not have a permission. If you think is incorrect, please contact your Company Administrators.
+							</div>
+							<!--/div-->
+						</div>
+						<!-- /row -->
+					</div>
+					<!-- Main-content-body closed -->
+				</div>
+				<!-- Container-fluid closed -->
+{% endblock %}
+{% block script %}
+
+
+{% endblock %}

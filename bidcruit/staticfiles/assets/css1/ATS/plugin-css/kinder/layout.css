@@ -1,0 +1,26 @@
+.mentions-kinder-wrap {
+    width: 620px;
+}
+
+.mentions-kinder-multiline {
+    width: 300px;
+    min-height: 74px;
+}
+.mentions-kinder-singleline {
+    width: 300px;
+}
+
+.debug-area {
+    float: right;
+    width: 300px;
+}
+textarea.debug-area {
+    min-height: 74px;
+}
+
+.mention .tag-trigger {
+    color: yellow;
+}
+.mention .member-trigger {
+    color: #9ad717;
+}

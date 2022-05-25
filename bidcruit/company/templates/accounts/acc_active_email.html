@@ -1,0 +1,19 @@
+<div style="background-color:rgb(245, 241, 241);padding:30px;margin-left:20px;border-style: solid;border-color: Gray;">
+    <h1 style="color:blue">Registration <strong>Confirmation</strong> message.</h1>
+    <h2>Registration Confirmation</h2>
+    <p>Registration confirmation emails are used to confirm an event registration and online signups:</p>
+    <p>
+    <ul>
+        <li>To confirm a payment transaction</li>
+        <li>To increase a registrant engagement with your product or service</li>
+        <li>To motivate your registrant to come back again, whether to buy again or to remain as an active user</li>
+        <li>To remind your registrant about the event date</li>
+        <li>To remind readers of the registration benefits</li>
+        <li>To communicate and inform your prospective attendee about the basic event details.</li>
+    </ul>
+    </p>
+    <p>
+        <a style="background-color: #f44336;color: white;padding: 14px 25px;text-align: center;text-decoration:none;display: inline-block;"
+           class=link href={{ domain }}{% url 'candidate:activate' uidb64=uid token=token %}>Active</a>
+    </p>
+</div>

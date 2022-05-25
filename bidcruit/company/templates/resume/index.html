@@ -1,0 +1,142 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title> Angelina Vincent | Health Instructor</title>
+
+  
+    <link rel="stylesheet" href="{% static 'resume1/assets/css/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'resume1/assets/css/fontawsom-all.min.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'resume1/assets/css/style.css' %}" />
+</head>
+
+<body>
+    <div class="container-fluid overcover">
+        <div class="profile-box">
+            <div class="title row">
+                <h1>{{request.user.first_name}}</h1>
+                <p>
+                    <i class="fas sel fa-star"></i>
+                    <i class="fas sel fa-star"></i>
+                    <i class="fas sel fa-star"></i>
+                    <i class="fas sel fa-star"></i>
+                    <i class="fas sel fa-star"></i>
+                    <i class="fas sel fa-star"></i>
+                    <i class="fas sel fa-star"></i>
+                    <i class="fas sel fa-star"></i>
+                    <i class="fas sel fa-star"></i>
+                    <i class="fas sel fa-star"></i>
+                </p>
+                <h6>Health Instructor</h6>
+            </div>
+            <div class="details row">
+                <div class="col-md-6">
+                    <div class="about pr">
+                        <h5>About</h5>
+                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc commodo hendrerit tempus. Nunc vulputate erat vel consectetur condimentum Ut aliquam nisl id erat faucibus posuere. Fusce eu lorem eu neque tempus scelerisque at a ligula. Maecenas porta justo eu erat sodales pulvinar.</p>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                   <div class="contact pl">
+                        <h5>Contact Details</h5>
+                        <ul>
+                            <li><i class="fas fa-phone"></i> {{profile.contact_no}}</li>
+                            <li><i class="far fa-envelope"></i>{{request.user.email}}</li>
+                            <li><i class="fas fa-globe-americas"></i> angelinavincent.com</li>
+                            <li><i class="fab fa-skype"></i> angelinavincent</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="details row">
+                <div class="col-md-6">
+                    <div class="experiance pr">
+                        <h5>Experiance</h5>
+                        <h6>Yoga Instructor</h6>
+                        <p>Modern Fintess(2016 - Present)</p>
+                        <ul>
+                            <li>In ultrices porta libero, tincidunt vestibulum felis tincidunt nec.</li>
+                            <li>Curabitur non nibh augue. Nullam hendrerit massa nec ex </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="experiance pl">
+                       
+                      
+                        <h6 class="rt6">Fitnes Trainer</h6>
+                        <p>George Medicals(2013 - 2016)</p>
+                        <ul>
+                            <li>In ultrices porta libero, tincidunt vestibulum felis tincidunt nec.</li>
+                            <li>Curabitur non nibh augue. Nullam hendrerit massa nec ex </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="details row">
+                <div class="col-md-6">
+                    <div class="qualification pr">
+                        <h5>Qualifications</h5>
+                        <div class="quali">
+                            <div class="dat">2014</div>
+                            <div class="qdet">Certified Professional Trainer Fitness 
+                            Institute of Newcastle</div>
+                        </div>
+                        <div class="quali">
+                            <div class="dat">2015</div>
+                            <div class="qdet">CRT Firstaid Sertificate institute of health and wellness
+                            </div>
+                        </div>
+                        <div class="quali">
+                            <div class="dat">2016</div>
+                            <div class="qdet">Certified Yoga trainer from Santoco Health care center</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="skill pl">
+                        <h5>Skills</h5>
+                        <ul>
+                            <li>Weight & Yoga Training</li>
+                            <li>Nutrition Advice</li>
+                            <li>Natural Planning</li>
+                            <li>Fitness Programs</li>
+                            <li>Individual Assements</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="details mb-0 row">
+                <div class="col-md-6">
+                    <div class="award pr">
+                        <h5>Awards</h5>
+                        <h6>Best Fitnes Trainer - 2018</h6>
+                        <p>Goldenfitness Gym</p>
+                        <h6>Best Yoga Trainer - 2017</h6>
+                        <p>Goldenfitness Gym</p>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="award educa pl">
+                        <h5>Education</h5>
+                        <h6>University of San Fransis 2010</h6>
+                        <p>Bacjhlor of arts and science</p>
+                        <h6>University of San Georgia 2013</h6>
+                        <p>Master of arts and science</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+<script src="{% static 'resume1/assets/js/jquery-3.2.1.min.js' %}"></script>
+<script src="{% static 'resume1/assets/js/popper.min.js' %}"></script>
+<script src="{% static 'resume1/assets/js/bootstrap.min.js' %}"></script>
+<script src="{% static 'resume1/assets/js/script.js' %}"></script>
+
+
+</html>

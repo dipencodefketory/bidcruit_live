@@ -1,0 +1,266 @@
+{% extends 'candidate/base.html' %}
+{% load static %}
+{% load candidate_extras %}
+{% block main %}
+                <!-- Container-fluid -->
+                <div class="container-fluid">
+
+                    <!-- Main-content-body -->
+                    <div class="main-content-body">
+
+                        <!-- header-title -->
+                        <div class="header-title">
+                            <div class="mb-0 mb-lg-0 mb-xl-0">
+                                <h4 class="mb-2">Request</h4>
+                                <div class="main-content-breadcrumb"> <span>E-commerce</span> <span>Product-whishlist</span> </div>
+                            </div>
+                            <div class="ml-auto my-auto">
+                                <a href="#" class="btn btn-primary"><i class="fe fe-plus-square"></i> Create Report</a>
+                                <a href="#" class="btn btn-pink"><i class="fe fe-external-link"></i> Export</a>
+                            </div>
+                        </div>
+                        <!-- header-title -->
+
+                        <!-- row opened -->
+                         <div class="row">
+                            <div class="col-xl-12 col-md-12">
+                                <div class="card">
+                                    <div class="card-body wishlist">
+                                        <!-- Shopping Cart-->
+                                        <div class="col-xl-12">
+                            <!-- div -->
+                            <div class="card mg-b-20" id="tabs-style3">
+                                <div class="card-body">
+                                    
+                                    <div class="text-wrap">
+                                        <div class="example">
+                                            <div class="panel panel-primary tabs-style-3">
+                                                <div class="tab-menu-heading">
+                                                    <div class="tabs-menu ">
+                                                        <!-- Tabs -->
+                                                        <ul class="nav panel-tabs">
+                                                            <li class=""><a href="#tab11" class="active" data-toggle="tab"><i class="fe fe-airplay mr-1"></i> Active</a></li>
+                                                            <li><a href="#tab12" data-toggle="tab"><i class="fe fe-box mr-1"></i> New</a></li>
+                                                            <li><a href="#tab13" data-toggle="tab"><i class="fe fe-settings mr-1"></i> Archive</a></li>
+                                                            
+                                                        </ul>
+                                                    </div>
+                                                </div>
+                                                <div class="panel-body tabs-menu-body">
+                                                    <div class="tab-content">
+                                                        <div class="tab-pane active" id="tab11">
+                                                            <div class="wishlist-table border border-top-0 table-responsive text-nowrap">
+                                            <table class="table table-bordered table-hover mb-0 text-nowrap">
+                                                <thead>
+                                                    <tr>
+                                                        <th class="text-left">Company-Logo</th>
+                                                        <th class="w-150">Company Name</th>
+                                                        <th>Message</th>
+                                                        <th>Reject</th>
+                                                        
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                
+                                                    {% for actives in active %}
+                                                                                        <!-- Modal effects -->
+        <div class="modal" id="reject_request">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content modal-content-demo">
+                    <div class="modal-header">
+                        <h6 class="modal-title">Reject Request</h6><button aria-label="Close" class="close" data-dismiss="modal" type="button"><span aria-hidden="true">&times;</span></button>
+                    </div>
+                    <form method="POST" action="{% url 'candidate:reject_request' actives.profile_id actives.company_id %}">
+                        {% csrf_token %}
+                    <div class="modal-body">
+                        <h6>Message</h6>
+                        <input class="form-control" type="text" value="" name='reject_message' required="required">
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-danger btn-block" type="button">Reject
+                        </button></form>
+                        <button class="btn ripple btn-secondary" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- End Modal effects-->
+                                                    <tr>
+                                                        <td class="card-aside-img ">
+                                                            <a href="products.html"><img alt="" src="{{actives.company_id|get_company_image}}" class=""></a>
+                                                         
+                                                         </td>
+                                                        <td class="">
+                                                            <div class="">
+                                                                <a href="products.html" class="tx-12 text-muted">{{actives.company_id|get_companyname}}</a>
+                                                            </div>
+                                                            
+                                                        </td>
+                                                        
+                                                        <td class=""><div class="label text-success d-flex mb-0"><p>{{actives.message}}</p></div></td>
+                                                        
+                                                        
+                                                        <td class="">
+                                                            
+                                                        <a data-effect="effect-sign" data-toggle="modal" href="#reject_request" class="btn btn-danger btn-block">Reject</a></td>
+                                                    </tr>
+                                                    {% endfor %}
+                                            </table>
+                                        </div>
+                                                        </div>
+                                                        <div class="tab-pane" id="tab12">
+                                                            <div class="wishlist-table border border-top-0 table-responsive text-nowrap">
+                                            <table class="table table-bordered table-hover mb-0 text-nowrap">
+                                                <thead>
+                                                    <tr>
+                                                        <th class="text-left">Company-Logo</th>
+                                                        <th class="w-150">Company Name</th>
+                                                        <th>Message</th>
+                                                        <th>Accept</th>
+                                                        <th>Accept</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    {% for new in new_request %}
+
+                    <!-- Modal accept -->
+        <div class="modal" id="accept">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content modal-content-demo">
+                    <div class="modal-header">
+                        <h6 class="modal-title">Accept Request</h6><button aria-label="Close" class="close" data-dismiss="modal" type="button"><span aria-hidden="true">&times;</span></button>
+                    </div>
+                    <form method="POST" action="{% url 'candidate:accept_request' new.profile_id new.company_id %}">
+                        {% csrf_token %}
+                    <div class="modal-body">
+                        <h6>Message</h6>
+                        <input class="form-control" type="text" value="" name='accept_message' required="required">
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-primary btn-block">Accept
+                        </button></form>
+                        <button class="btn ripple btn-secondary" data-dismiss="modal" type="button">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- End Modal effects-->       
+                                                                            <!-- Modal effects -->
+        <div class="modal" id="reject">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content modal-content-demo">
+                    <div class="modal-header">
+                        <h6 class="modal-title">Reject Request</h6><button aria-label="Close" class="close" data-dismiss="modal" type="button"><span aria-hidden="true">&times;</span></button>
+                    </div>
+                    <form method="POST" action="{% url 'candidate:reject_request' new.profile_id new.company_id %}">
+                        {% csrf_token %}
+                    <div class="modal-body">
+                        <h6>Message</h6>
+                        <input class="form-control" type="text" value="" name='reject_message' required="required">
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-danger btn-block" type="button">Reject
+                        </button></form>
+                        <button class="btn ripple btn-secondary" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- End Modal effects-->                           
+                                                    <tr>
+                                                        <td class="card-aside-img ">
+                                                            <a href="products.html"><img alt="" src="{{new.company_id|get_company_image}}" class=""></a>
+                                                         
+                                                        </td>
+                                                        <td class="">
+                                                            <div class="">
+                                                                <a href="products.html" class="tx-12 text-muted">{{new.company_id|get_companyname}}</a>
+                                                            </div>
+                                                            
+                                                        </td>
+                                                        
+                                                        <td class=""><div class="label text-success d-flex mb-0"><p>{{new.message}}</p></div></td>
+                                                        
+                                                        <td class=""><a data-effect="effect-sign" data-toggle="modal" href="#accept" class="btn btn-primary btn-block">Accept</a></td>
+                                                        <td class="">
+                                                        <a data-effect="effect-sign" data-toggle="modal" href="#reject" class="btn btn-danger btn-block">Reject</a></td>
+                                                    </tr>
+                                                    {% endfor %}
+                                            </table>
+                                        </div>
+                                                        </div>
+                                                        <div class="tab-pane" id="tab13">
+                                                            <div class="wishlist-table border border-top-0 table-responsive text-nowrap">
+                                            <table class="table table-bordered table-hover mb-0 text-nowrap">
+                                                <thead>
+                                                    <tr>
+                                                        <th class="text-left">Company-Logo</th>
+                                                        <th class="w-150">Company Name</th>
+                                                        <th>Message</th>
+                                                        <th>Accept</th>
+                                                        
+
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    {% for archives in archive %}
+                                                
+            <!-- Modal effects -->
+        <div class="modal" id="accept_request">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content modal-content-demo">
+                    <div class="modal-header">
+                        <h6 class="modal-title">Reject Request</h6><button aria-label="Close" class="close" data-dismiss="modal" type="button"><span aria-hidden="true">&times;</span></button>
+                    </div>
+                    <form method="POST" action="{% url 'candidate:accept_request' archives.profile_id archives.company_id %}">
+                        {% csrf_token %}
+                    <div class="modal-body">
+                        <h6>Message</h6>
+                        <input class="form-control" type="text" value="" name='accept_message' required="required">
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-primary btn-block">Accept
+                        </button></form>
+                        <button class="btn ripple btn-secondary" data-dismiss="modal" type="button">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- End Modal effects-->
+                                                    <tr>
+                                                        <td class="card-aside-img ">
+                                                            <a href="products.html"><img alt="" src="{{archives.company_id|get_company_image}}" class=""></a>
+                                                         
+                                                        </td>
+                                                        <td class="">
+                                                            <div class="">
+                                                                <a href="products.html" class="tx-12 text-muted">{{archives.company_id|get_companyname}}</a>
+                                                            </div>
+                                                            
+                                                        </td>
+                                                        
+                                                        <td class=""><div class="label text-success d-flex mb-0"><p>{{archives.message}}</p></div></td>
+                                                        
+                                                        <td class=""><a data-effect="effect-sign" data-toggle="modal" href="#accept_request" class="btn btn-primary btn-block" type="button">Accept</a></td>
+                                                        
+                                                    </tr>
+                                                    {% endfor %}
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                                        </div>
+                                                        
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- /div -->
+        
+
+        {% endblock %}
+

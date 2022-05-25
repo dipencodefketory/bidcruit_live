@@ -1,0 +1,672 @@
+{%load static%}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+  
+    <!-- <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script> -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/golden-layout/1.5.9/goldenlayout.min.js" integrity="sha256-NhJAZDfGgv4PiB+GVlSrPdh3uc75XXYSM4su8hgTchI=" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/golden-layout/1.5.9/css/goldenlayout-base.css" integrity="sha256-oIDR18yKFZtfjCJfDsJYpTBv1S9QmxYopeqw2dO96xM=" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/golden-layout/1.5.9/css/goldenlayout-dark-theme.css" integrity="sha256-ygw8PvSDJJUGLf6Q9KIQsYR3mOmiQNlDaxMLDOx9xL0=" crossorigin="anonymous" />
+    <script>
+        var require = {
+            paths: {
+                "vs": "https://unpkg.com/monaco-editor/min/vs",
+                "monaco-vim": "https://unpkg.com/monaco-vim/dist/monaco-vim",
+                "monaco-emacs": "https://unpkg.com/monaco-emacs/dist/monaco-emacs"
+            }
+        };
+    </script>
+    <!-- <script src="https://unpkg.com/monaco-editor/min/vs/loader.js"></script>
+    <script src="https://unpkg.com/monaco-editor@0.23.0/min/vs/editor/editor.main.nls.js"></script>
+    <script src="https://unpkg.com/monaco-editor@0.23.0/min/vs/editor/editor.main.js"></script> -->
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.32.1/min/vs/loader.min.js" integrity="sha512-O9SYDgWAM3bEzit1z6mkFd+dxKUplO/oB8UwYGAkg2Zy/WzDUQ2mYA/ysk3c0CxiXAN4u8T9JeZ0Ahk2Jj/33Q==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.32.1/min/vs/editor/editor.main.js" integrity="sha512-q5FuwQfPfkE43pDXeLPh0CGl0WPAnQtfoCFFbyInQlPeYvQCiq+C7LsrNAnntYJRgNZ62+nBgjhQdOmEwLu/GA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.32.1/min/vs/editor/editor.main.nls.min.js" integrity="sha512-RBJMO+2Jx4onKLqQIADPuWIVjoc7AJXsOht63iSKCPIxelX/+3SJAH1BKfmCBMUVJdsZPxNbLDQfje0QZMz75A==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.min.css" integrity="sha256-9mbkOfVho3ZPXfM7W8sV2SndrGDuh7wuyLjtsWeTI1Q=" crossorigin="anonymous" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.min.js" integrity="sha256-t8GepnyPmw9t+foMh3mKNvcorqNHamSKtKRxxpUEgFI=" crossorigin="anonymous"></script>
+    <style>
+/*    #question_description_box pre.python-exec {min-height: 650px !important;margin-bottom:0px !important;!important;background: #222222;border-color: #222222 !important;border-radius: 0px !important;}*/
+    .code-header {display: flex;justify-content: space-between;align-items: center;padding: 15px 5px;background: #007bff;}
+    .code-edit__head {background: #fff;display: flex;justify-content: space-between;align-items: center;padding: 8px 6px;border-radius: 7px;}
+    .head__container {padding: 16px 10px;}
+    #countdown2 {font-size: 18px; font-weight: 600;}
+    h2{font: 14px Arial, sans-serif;color:#fff;padding: 10px; text-align: center;}
+#question-content button {
+    border: none;
+    border-radius: 20px;
+    padding: 5px 10px;
+    margin-right: 5px;
+    font-weight: 700;
+}
+.fx-right {
+    /*display: flex;*/
+    justify-content: flex-start;
+    background: #000;
+    color:white;
+    padding: 0 10px;
+}
+#question-content button:focus {
+    border: none;
+    outline: 0;
+}
+.active-que{
+    background: green;
+    color: #fff;
+}
+.fx-right #question-content {
+    width: 30% !important;
+}
+.fx-right #site-content {
+    width: 70%;
+}
+#utils{
+	position: relative;
+}
+#question-content button{
+	background: #bdbdbd;
+}
+#question-content button.paginate-btn.active-que{
+	background: green;
+}
+
+
+    </style>
+<!--     <link type="text/css" rel="stylesheet" href="{% static 'assets/css/ATS/ide.css' %}">-->
+</head>
+<body>
+
+    <div class="container-fluid">
+        <div class="fx-left">
+            <div style="background-color: black;" class="bidcruitEditor">
+                    <div class="code-header">
+                        <div class="head-logo">
+                            <img src="{% static 'assets/img/brand/bid-logo-white.png' %}">
+                        </div>
+                        <div class="nav-list">
+                            <button class="quit-exam btn btn-danger rounded-20 text-capitalize" id="quitExamBtn"><i class="fas fa-power-off"></i>quit exam</button>
+                        </div>
+                    </div>
+                    {%csrf_token%}
+                    <div class="head__container">
+                        <div class="code-edit__head">
+                            <div class="action__btns">
+                                <button id="run-btn" class="ui primary labeled icon button" onclick="execute_code()"><i class="play icon"></i>Run </button>
+<!--                                <button class="ui primary labeled icon button"><i class="stop icon"></i>Save</button>-->
+                            </div>
+                            <div class="timer">
+                                <div class="quickClock">
+                                    <div id="countdown2"></div>
+                                </div>
+                            </div>
+                            <div class="submit-code__section">
+                                <button data-toggle="modal" data-target="#confirmationModal" class="btn btn-success rounded-20" id="submitExam">submit</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <input id="select_language" type="hidden" value="{{language}}">
+
+                    <!-- Modal -->
+                    <div class="modal fade" id="confirmationModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                          <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                      <div class="modal-header">
+                                        <h5 class="modal-title" id="exampleModalLabel">Confirmation</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                          <span aria-hidden="true">&times;</span>
+                                        </button>
+                                      </div>
+                                      <div class="modal-body">
+                                        Are you sure you want to end the exam?
+                                      </div>
+                                      <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">No,I am not done yet.</button>
+                                        <button type="button" class="btn btn-primary" id="finish" onclick="save_code()" >Finish Exam</button>
+                                      </div>
+                                </div>
+                          </div>
+                    </div>
+            </div>
+        </div>
+
+        <div class="fx-right">
+            <div id='question-content' style="height:calc(100vh);overflow-x: scroll;overflow-y: scroll;">
+                {% for i in question_no_iterator %}
+                    <button class="paginate-btn {% if forloop.first %}active-que{% endif %}" onclick="update_editor('{{i}}')">{{i|add:"1"}}</button>
+                {% endfor %}
+                <div id="question_title_box"></div>
+                <div id="question_description_box"></div>
+            </div>
+            <div id='site-content' style="height:calc(100vh)" ></div>
+        </div>
+    </div>
+
+</body>
+
+
+{% autoescape off %}
+    <script type="text/javascript">
+        var mylist = {{coding_questions}};
+    </script>
+{% endautoescape %}
+
+<script>
+var fileNames = {
+    "c":"c",
+    "cpp":"cpp",
+    "python":"py",
+    "csharp": "cs",
+    "clojure":"clj",
+    "java":'java',
+    "javascript":"js",
+    "php":"php"
+};
+var total_mins = parseInt('{{available_minutes}}');
+var total_secs = parseInt('{{available_seconds}}');
+console.log('total_mins>>>>>>>>>',total_mins)
+
+countdown( "countdown2", total_mins, total_secs );
+
+var editors ={}
+var displayed_tabs = ['source']
+var no_of_questions =parseInt(JSON.parse("{{no_of_questions}}"))
+var no_of_shown_files= 1
+var no_of_hidden_files = no_of_questions-1
+
+console.log('mylist >>>>>>>>>>>>>>',mylist);
+var questions = mylist;
+
+$(document).ready(function () {
+
+    $('.paginate-btn').on('click',function(){
+        $(this).prevAll('.paginate-btn').removeClass('active-que');
+        $(this).nextAll('.paginate-btn').removeClass('active-que');
+        $(this).addClass('active-que');
+    })
+
+
+
+    require(["vs/editor/editor.main", "monaco-vim", "monaco-emacs"], function (ignorable, MVim, MEmacs)
+    {
+        var language = document.getElementById('select_language').value;
+        var file_extension = fileNames[language];
+        var layoutConfig = {
+            settings: {
+                showPopoutIcon: false,
+                reorderEnabled: false,
+                selectionEnabled: false,
+                responsiveMode: 'onload',
+            },
+            dimensions: {
+                borderWidth: 3,
+                headerHeight: 22,
+              minItemHeight: 10,
+              minItemWidth: 25,
+              dragProxyWidth: 300,
+              dragProxyHeight: 200
+            },
+            content: [{
+                type: "row",
+                content: [{
+                        type: "stack",
+                        id:"file_stack",
+                        content:[],
+                    },{
+                    type: "column",
+                    content:[{
+                        type: "stack",
+                        content:[{
+                            type: "component",
+                            componentName: "stdin",
+                            title: "STDIN",
+                            isClosable: false,
+                            componentState: {
+                            readOnly: false
+                            },
+                        }]
+                    },{
+                        type: "stack",
+                        content:[{
+                            type: "component",
+                            componentName: "stdout",
+                            title: "STDOUT",
+                            isClosable: false,
+                            componentState: {
+                            readOnly: false
+                            },
+                        },{
+                            type: "component",
+                            componentName: "stderr",
+                            title: "STDERR",
+                            id:"error_component",
+                            isClosable: false,
+                            componentState: {
+                            readOnly: false
+                            },
+                        },{
+                            type: "component",
+                            componentName: "compile output",
+                            title: "COMPILE OUTPUT",
+                            isClosable: false,
+                            componentState: {
+                            readOnly: false
+                            },
+                        }]
+                    }
+                ]
+                }]
+            }]
+        };
+
+        for(var i=0;i<no_of_questions;i++)
+        {
+            layoutConfig['content'][0]['content'][0]['content'].push({
+                            type: "component",
+                            componentName:i.toString(),
+                            title: `<span ondblclick="change_title(this,`+i+`)">`+i+`.`+file_extension+`</span>`,
+                            isClosable: false,
+                            componentState: {
+                            readOnly: false
+                            },
+                            width: 60
+                        })
+        }
+
+        myLayout = new GoldenLayout( layoutConfig,$("#site-content"));
+
+
+        var flag = false;
+        console.log("flag",flag)
+
+            editors['dynamic_editors'] =[]
+            for(var j=0;j<no_of_questions;j++){
+            
+            myLayout.registerComponent(j.toString(), function (container, state) {
+                console.log('in progresss',container.title)
+
+                var question_tab_no = container.title
+            temp_editor =  monaco.editor.create(container.getElement()[0], {
+                    automaticLayout: true,
+                    theme: "vs-light",
+                    scrollBeyondLastLine: true,
+                    readOnly: state.readOnly,
+                    language: language,
+                    minimap: {
+                        enabled: false
+                    }
+                });
+                flag = true;
+                editors['dynamic_editors'].push(temp_editor)
+            });
+    }
+
+
+
+        myLayout.registerComponent("stdin", function (container, state) {
+            stdinEditor = monaco.editor.create(container.getElement()[0], {
+                automaticLayout: true,
+                theme: "vs-light",
+                scrollBeyondLastLine: true,
+                readOnly: state.readOnly,
+                language: "plaintext",
+                minimap: {
+                    enabled: false
+                }
+            });
+            
+        });
+
+        myLayout.registerComponent("stdout", function (container, state) {
+            stdoutEditor = monaco.editor.create(container.getElement()[0], {
+                automaticLayout: true,
+                theme: "vs-dark",
+                scrollBeyondLastLine: true,
+                readOnly: state.readOnly,
+                language: "plaintext",
+                minimap: {
+                    enabled: false
+                }
+            });
+            
+
+            container.on("tab", function(tab) {
+                tab.element.append("<span id=\"stdout-dot\" class=\"dot\" hidden></span>");
+                tab.element.on("mousedown", function(e) {
+                    e.target.closest(".lm_tab").children[3].hidden = true;
+                });
+            });
+        });
+
+
+
+        myLayout.registerComponent("stderr", function (container, state) {
+            stderrEditor = monaco.editor.create(container.getElement()[0], {
+                automaticLayout: true,
+                theme: "vs-dark",
+                scrollBeyondLastLine: true,
+                readOnly: state.readOnly,
+                language: "plaintext",
+                minimap: {
+                    enabled: false
+                }
+            });
+
+
+            container.on("tab", function(tab) {
+                tab.element.append("<span id=\"stderr-dot\" class=\"dot\" hidden></span>");
+                tab.element.on("mousedown", function(e) {
+                    e.target.closest(".lm_tab").children[3].hidden = true;
+                });
+            });
+        });
+
+        myLayout.registerComponent("compile output", function (container, state) {
+            compileOutputEditor = monaco.editor.create(container.getElement()[0], {
+                automaticLayout: true,
+                theme: "vs-dark",
+                scrollBeyondLastLine: true,
+                readOnly: state.readOnly,
+                language: "plaintext",
+                minimap: {
+                    enabled: false
+                }
+            });
+
+            container.on("tab", function(tab) {
+                tab.element.append("<span id=\"compile-output-dot\" class=\"dot\" hidden></span>");
+                tab.element.on("mousedown", function(e) {
+                    e.target.closest(".lm_tab").children[3].hidden = true;
+                });
+            });
+        });
+
+        myLayout.on( 'initialised', function(){
+            var elements = document.getElementsByClassName('lm_tab')
+            console.log("elementsz",elements)
+            for(var i=1;i<no_of_questions;i++)
+            {
+                $(elements[i]).hide()
+            }
+        });
+            
+        myLayout.init();
+        
+
+        document.querySelector("#question_description_box").innerHTML = questions[0].description
+        document.querySelector("#question_title_box").innerHTML = questions[0].title
+
+    });
+
+});
+
+function execute_code()
+{   
+    stdoutEditor.setValue("")
+    compileOutputEditor.setValue("")
+    stderrEditor.setValue("")
+    componentName =myLayout.root.contentItems[0].contentItems[0].getActiveContentItem().componentName
+    console.log("bbb",componentName)
+    console.log("value ",editors['dynamic_editors'][1])
+    console.log(editors['dynamic_editors'][componentName].getValue())
+    code = editors['dynamic_editors'][componentName].getValue()
+    var language = document.getElementById('select_language').value
+    file_extension = fileNames[language]
+    document.getElementById("stdout-dot").hidden = true;
+    document.getElementById("stderr-dot").hidden = true;
+    document.getElementById("compile-output-dot").hidden = true;
+    input_code = stdinEditor.getValue()
+    let id = {{id}};
+    let job_id = {{job_id}};
+    var url = '/candidate/coding_test/'+id+'/'+job_id;
+    $.ajax({
+        url: url,
+        type: "POST",
+        // crossDomain: true,
+        // dataType: 'json',
+        headers: {'Authorization': 'Token 6f18027a-2ea7-40cf-8b7b-4b91b49fda0a','X-CSRFToken': $("input[name=csrfmiddlewaretoken]").val()},
+        contentType : 'application/json; charset=UTF-8',
+        data:JSON.stringify({"stdin": input_code,"files": [{"name": "main."+file_extension, "content": code}]})
+    }).done(function(response){
+        response = JSON.parse(response)
+        if(response['message'])
+        {
+            reason = response['message'].split(':')[0]
+            console.log("reason",reason)
+            if (reason == "Failed while reading stream")
+            {
+                stderrEditor.setValue("Failed while reading stream: Max execution time exceeded")
+                document.getElementById("stderr-dot").hidden = false;
+            }
+            else if (reason == "Invalid request body")
+            {
+                stderrEditor.setValue("Empty file was sent for Execution")
+                document.getElementById("stderr-dot").hidden = false;
+            }
+        }
+        else
+        {
+        stdoutEditor.setValue(response['stdout'])
+        compileOutputEditor.setValue(response['error'])
+        stderrEditor.setValue(response['stderr'])
+
+        if (response['stdout'])
+        {
+            document.getElementById("stdout-dot").hidden = false;
+            
+        }
+
+        if (response['stduerr'])
+        {
+            document.getElementById("stderr-dot").hidden = false;
+            
+        }
+            
+        if (response['error'])
+        {
+            document.getElementById("compile-output-dot").hidden = false;
+            document.getElementById("stderr-dot").hidden = false;
+        }
+        else
+        {
+            document.getElementById("stdout-dot").hidden = false;
+        }
+        }
+
+    });
+}
+
+
+
+
+function save_code()
+{
+    var language = document.getElementById('select_language').value;
+    var file_extension = fileNames[language];
+
+    stdoutEditor.setValue("")
+    compileOutputEditor.setValue("")
+    stderrEditor.setValue("")
+    var language = document.getElementById('select_language').value
+
+    document.getElementById("stdout-dot").hidden = true;
+    document.getElementById("stderr-dot").hidden = true;
+    document.getElementById("compile-output-dot").hidden = true;
+    input_code = stdinEditor.getValue()
+
+    all_titles = document.getElementsByClassName('lm_title')
+    files=[]
+    for(var i=0;i<editors['dynamic_editors'].length;i++){
+        code = editors['dynamic_editors'][i].getValue()
+
+        if (code == ""){
+            files.push({"que_id":questions[i].id,"name":all_titles[i].querySelector('span').innerHTML,"content":"The candidate did not attempt this question"})
+        }else{
+            file_name = document.querySelector('[title="'+i+'.'+file_extension+'"]').querySelector('.lm_title').querySelector('span').innerHTML
+            files.push({"que_id":questions[i].id,"name":file_name,"content":code})
+        }
+
+    }
+    let t_id = {{id}};
+    let job_id = {{job_id}};
+    var url = '/candidate/save_code/'+t_id+'/'+job_id;
+    $.ajax({
+        url:url,
+        type: "POST",
+        headers: {'Authorization': 'Token 6f18027a-2ea7-40cf-8b7b-4b91b49fda0a','X-CSRFToken': $("input[name=csrfmiddlewaretoken]").val()},
+        contentType : 'application/json; charset=UTF-8',
+        data:JSON.stringify({"language":language,"stdin": input_code,"files": files,'language':language})
+    }).done(function(response){
+        console.log(response)
+        if (response == 'True'){
+            $('#confirmationModal').modal('hide');
+            window.location.replace("/candidate/applied_job_detail/"+job_id+"/company")
+        }
+    });
+}
+
+
+function get_current_stack_element(){
+     var newItemConfig = {
+        type: 'component',
+        componentName: 'example',
+     };
+}
+
+
+function add_file()
+{
+    if((no_of_hidden_files) != 0)
+    {
+        console.log("subtration")
+        var elements =document.getElementsByClassName('lm_tab')
+        $(elements[no_of_shown_files]).show()
+        no_of_shown_files += 1 
+        no_of_hidden_files -=1
+    }
+}
+
+
+function change_title(event,i)
+{
+    var file_name = prompt("Please enter file name (without_extension)")
+    if (file_name.includes('.'))
+    {
+        alert("Do not enter '.'(dot symbol) in file name!!!!")
+        change_title(event,i)
+    }
+    else if(file_name =="")
+    {
+        alert("Do not enter empty file name!!!!")
+        change_title(event,i)
+    }
+    else if(file_name.length >10)
+    {
+        alert("File name should be less than 10 characters!!!")
+        change_title(event,i)
+    }
+    else{
+        var language = document.getElementById('select_language').value
+        event.innerHTML = file_name +'.'+fileNames[language]
+    }
+}
+
+function update_editor(question_no)
+{
+    var elements = document.getElementsByClassName('lm_tab')
+    for(var i=0;i<no_of_questions;i++)
+    {
+        if(i==question_no)
+        {
+           var component_name = i
+            $(elements[i]).show()
+
+            for (var j = 0; j < myLayout._getAllContentItems().length; j++) {
+                if (myLayout._getAllContentItems()[j].componentName == component_name) {
+                    var contentItem = myLayout._getAllContentItems()[j];
+                    contentItem.parent.setActiveContentItem(contentItem);
+                    document.querySelector("#question_description_box").innerHTML = questions[i].description
+                    document.querySelector("#question_title_box").innerHTML = questions[i].title
+                    break;
+                }
+            }
+        }
+        else
+        {
+            $(elements[i]).hide()
+        }
+    }
+}
+
+/**CountDown Timer**/
+function countdown( elementName, minutes, seconds )
+{
+    var element, endTime, hours, mins, msLeft, time;
+
+    function twoDigits( n )
+    {
+        return (n <= 9 ? "0" + n : n);
+    }
+
+    function updateTimer()
+    {
+        msLeft = endTime - (+new Date);
+        if ( msLeft < 1000 ) {
+            element.innerHTML = "countdown's over!";
+            $('#finish').trigger('click');
+
+        } else {
+            time = new Date( msLeft );
+            hours = time.getUTCHours();
+            mins = time.getUTCMinutes();
+            element.innerHTML = (hours ? hours + ':' + twoDigits( mins ) : mins) + ':' + twoDigits( time.getUTCSeconds() );
+            setTimeout( updateTimer, time.getUTCMilliseconds() + 500 );
+        }
+    }
+
+    element = document.getElementById( elementName );
+    endTime = (+new Date) + 1000 * (60*minutes + seconds) + 500;
+    updateTimer();
+}
+
+</script>
+
+<script>
+	if (window.performance) {
+		console.info("window.performance works fine on this browser");
+	}
+	if (performance.navigation.type == performance.navigation.TYPE_RELOAD) {
+		alert('page reload detected');
+		var stage_id = '{{stage_id}}';
+		var data = {'stage_id': stage_id}
+		var url = '/candidate/refresh_detect/' + stage_id;
+		console.log('url', url)
+		$.ajax({
+			url:url,
+			headers: {'X-CSRFToken': $("input[name=csrfmiddlewaretoken]").val() },
+			type:'POST',
+			contentType: 'application/json; charset=UTF-8',
+			data: JSON.stringify(data),
+			error: function (request, status, error) {
+					alert(error);
+			}
+		}).done(function(response){
+			if(response == 'True'){
+				window.location.replace("/candidate/applied_job_detail/" + "{{job_id}}"+"/company");
+			}
+		});
+	} else {
+		console.info( "This page is not reloaded");
+	}
+</script>
+
+</html>

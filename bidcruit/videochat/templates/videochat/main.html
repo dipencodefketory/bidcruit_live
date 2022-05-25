@@ -1,0 +1,89 @@
+{%load static%}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <base href="/">
+    <link rel="stylesheet" href="{% static 'assets/videochat/videochat.css' %}" type="text/css">
+    <!-- Bootstrap css -->
+		<link rel="stylesheet" href="{% static 'assets/plugins/bootstrap/css/bootstrap.min.css' %}">
+</head>
+<body>
+    <h3 id="label-username"></h3>
+    <div>
+        <input type="text" value="{{request.user.email}}" id="username-input" style="display:none"> <button id="btn-join">Join</button>
+    </div>
+
+    <div class="main-grid-container" >
+        <button id="btn-toggle-audio">Audio Mute</button>
+            <button id="btn-toggle-video">Video Off</button>
+            <div id="video-container" style="width: 100%;height: 100%;" >
+                <div class="div-item">
+                    <video src="" id="local-video"  autoplay playsinline></video>
+                </div>
+            </div>
+            
+            <div id="chat">
+                <h3>Chat</h3>
+                <div id="messages">
+                    <ul id="message-list">
+                    </ul>
+                </div>
+                <div>
+                    <input type="text" id="msg"> <button id="btn-sen-msg">Send Message</button>
+                    <button id="btn-share-screen">Share scrren</button>
+                    <button id="btn-share-leave" data-toggle="modal"  data-target="#leave-modal">Leave</button>
+                </div>
+            </div>
+    </div>
+<!-- ASSIGN RECRUITER Modal 1 -->
+                <div class="modal fade" id="leave-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header border-bottom-0 head-preview_modal">
+                                <h5 class="modal-title" id="exampleModalLabel">Leave this Interview</h5>
+                                <div class="fx-right-flote">
+
+
+                                </div>
+                                <button type="button" id="popUpModelClose" class="close" data-dismiss="modal"
+                                        aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="popmodel-ir-table pd-l-10 pd-r-10">
+
+                            </div>
+                            <div class="row row-sm mg-10">
+                                <div class="col-lg col-md col-sm">
+                                    <div class="form-btn">
+                                        <a type="button" href="{{ request.META.HTTP_REFERER }}" class="btn btn-primary btn-sm rounded-20" id="yes">Yes</a>
+                                        <button type="button" class="btn btn-primary btn-sm rounded-20" id="no">No</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+       <!-- ASSIGN RECRUITER Modal 1 :End-->
+
+</body>
+<script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
+<script src="{% static 'assets/videochat/videochat.js' %}"></script>
+<!-- Bootstrap Bundle js -->
+		<script src="{% static 'assets/plugins/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+        <script>
+
+            var room_no = "{{link}}"
+
+            function get_room_no()
+            {
+                return room_no
+            }
+
+        </script>
+</html>

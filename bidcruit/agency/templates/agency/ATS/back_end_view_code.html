@@ -1,0 +1,825 @@
+{%load static%}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <!-- <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script> -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/golden-layout/1.5.9/goldenlayout.min.js" integrity="sha256-NhJAZDfGgv4PiB+GVlSrPdh3uc75XXYSM4su8hgTchI=" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/golden-layout/1.5.9/css/goldenlayout-base.css" integrity="sha256-oIDR18yKFZtfjCJfDsJYpTBv1S9QmxYopeqw2dO96xM=" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/golden-layout/1.5.9/css/goldenlayout-dark-theme.css" integrity="sha256-ygw8PvSDJJUGLf6Q9KIQsYR3mOmiQNlDaxMLDOx9xL0=" crossorigin="anonymous" />
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" integrity="sha512-1ycn6IcaQQ40/MKBW2W4Rhis/DbILU74C1vSrLJxCq57o941Ym01SwNsOMqvEBFlcgUa6xLiPY/NS5R+E6ztJQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <script>
+        var require = {
+            paths: {
+                "vs": "https://unpkg.com/monaco-editor/min/vs",
+                "monaco-vim": "https://unpkg.com/monaco-vim/dist/monaco-vim",
+                "monaco-emacs": "https://unpkg.com/monaco-emacs/dist/monaco-emacs"
+            }
+        };
+    </script>
+    <!-- <script src="https://unpkg.com/monaco-editor/min/vs/loader.js"></script>
+    <script src="https://unpkg.com/monaco-editor@0.23.0/min/vs/editor/editor.main.nls.js"></script>
+    <script src="https://unpkg.com/monaco-editor@0.23.0/min/vs/editor/editor.main.js"></script> -->
+
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.32.1/min/vs/loader.min.js" integrity="sha512-O9SYDgWAM3bEzit1z6mkFd+dxKUplO/oB8UwYGAkg2Zy/WzDUQ2mYA/ysk3c0CxiXAN4u8T9JeZ0Ahk2Jj/33Q==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.32.1/min/vs/editor/editor.main.js" integrity="sha512-q5FuwQfPfkE43pDXeLPh0CGl0WPAnQtfoCFFbyInQlPeYvQCiq+C7LsrNAnntYJRgNZ62+nBgjhQdOmEwLu/GA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.32.1/min/vs/editor/editor.main.nls.min.js" integrity="sha512-RBJMO+2Jx4onKLqQIADPuWIVjoc7AJXsOht63iSKCPIxelX/+3SJAH1BKfmCBMUVJdsZPxNbLDQfje0QZMz75A==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.min.css" integrity="sha256-9mbkOfVho3ZPXfM7W8sV2SndrGDuh7wuyLjtsWeTI1Q=" crossorigin="anonymous" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.min.js" integrity="sha256-t8GepnyPmw9t+foMh3mKNvcorqNHamSKtKRxxpUEgFI=" crossorigin="anonymous"></script>
+    <style>
+    .code-header {display: flex;justify-content: space-between;align-items: center;padding: 15px 5px;background: #007bff;}
+    .code-edit__head {background: #fff;display: flex;justify-content: space-between;align-items: center;padding: 8px 6px;border-radius: 7px;}
+    .head__container {padding: 16px 10px;}
+    #countdown2 {font-size: 18px; font-weight: 600;}
+    h2{font: 14px Arial, sans-serif;color:#fff;padding: 10px; text-align: center;}
+#question-content button {
+    border: none;
+    border-radius: 20px;
+    padding: 5px 10px;
+    margin-right: 5px;
+    font-weight: 700;
+}
+.fx-right {
+    display: flex;
+    justify-content: flex-start;
+    background: #000;
+    color:white;
+    padding: 0 10px;
+}
+#question-content button:focus {
+    border: none;
+    outline: 0;
+}
+.active-que{
+    background: green;
+    color: #fff;
+}
+.fx-right #question-content {
+    width: 30% !important;
+}
+.fx-right #site-content {
+    width: 70%;
+}
+
+/**side panel preview**/
+.sidepanel-title-bar{
+    border-bottom: 1px solid #dfe6f9;
+    padding: 10px;
+    font-size: 20px;
+    text-align: center;
+    font-weight: bold
+}
+.all-cards{
+    padding: 0px 15px 15px 15px;
+}
+.single-card{
+    padding: 10px;
+    border-bottom: 1px solid #dfe6f9;
+}
+.comment{
+    border-radius: 10px !important
+}
+.form-submit{
+    padding:15px;
+    float:right;
+}
+.applyCandidatePreview { position: relative;}
+.applyCandidatePreview { position: relative;}
+.sidebar-preview {width: 0%;margin-left: 0px !important;margin-right: 0px !important;right: 0px;position: absolute;top: 0px;height: 100vh;border: 0px;transition: all .4s ease-in-out;visibility: hidden;z-index: 999;}
+.sidebar-preview:after {content: "";opacity: 0.5;top: 0;left: 0;bottom: 0;right: 0;position: absolute;z-index: 1;width: 100%;background: #000;}
+.side-barContainer {position: absolute;overflow:auto;width: 70%;right: 0;height: 100%;z-index: 2;padding: 0px !important;}
+.slideClose {
+    font-size: 24px;
+    padding: 10px 4px;
+    background: #eaeaea;
+    width: 45px;
+    height: 45px;
+    position: relative;
+    border-radius: 25px;
+    top: 50%;
+    right: calc(32%);
+    cursor: pointer;
+    z-index: 99999;
+    margin: 0 0px 0 auto;
+    text-align: center;
+}
+.slideCloseMarking {
+    font-size: 24px;
+    padding: 10px 4px;
+    background: #eaeaea;
+    width: 45px;
+    height: 45px;
+    position: relative;
+    border-radius: 25px;
+    top: 50%;
+    right: calc(68%);
+    cursor: pointer;
+    z-index: 99999;
+    margin: 0 0px 0 auto;
+    text-align: center;
+}
+body.body_overflow{
+    overflow: hidden;
+}
+
+/***side panel header***/
+
+.stars {
+  --s:25px;
+  position:relative;
+  display:inline-flex;
+}
+.stars input {
+  width:var(--s);
+  height:var(--s);
+  margin:0;
+  opacity:0;
+  cursor:pointer;
+}
+
+.stars i {
+  position:absolute;
+  inset:0 0 calc(var(--s)*0.1);
+  pointer-events:none;
+  --v1:transparent,#000 0.5deg 108deg,#0000 109deg;
+  --v2:transparent,#000 0.5deg  36deg,#0000  37deg;
+  -webkit-mask:
+    conic-gradient(from 54deg  at calc(var(--s)*0.68) calc(var(--s)*0.57),var(--v1)),
+    conic-gradient(from 90deg  at calc(var(--s)*0.02) calc(var(--s)*0.35),var(--v2)),
+    conic-gradient(from 126deg at calc(var(--s)*0.5)  calc(var(--s)*0.7) ,var(--v1)),
+    conic-gradient(from 162deg at calc(var(--s)*0.5)  0                  ,var(--v2));
+  -webkit-mask-size: var(--s) var(--s);
+  -webkit-mask-composite: xor,destination-over;
+  mask-composite: exclude,add;
+  background:
+    linear-gradient(rgba(255,0,0,var(--o,0.3)) 0 0),
+    linear-gradient(gold                       0 0)
+    #ccc;
+  background-size:calc(var(--l,0)*var(--s)) 100%,calc(var(--p,0)*var(--s)) 100%;
+  background-repeat:no-repeat;
+}
+
+.stars:focus-within {
+  outline:1px solid;
+}
+
+input:active ~ i{--o:1}
+
+input:nth-of-type(1):checked ~ i {--p:1}
+input:nth-of-type(2):checked ~ i {--p:2}
+input:nth-of-type(3):checked ~ i {--p:3}
+input:nth-of-type(4):checked ~ i {--p:4}
+input:nth-of-type(5):checked ~ i {--p:5}
+input:nth-of-type(6):checked ~ i {--p:6}
+input:nth-of-type(7):checked ~ i {--p:7}
+input:nth-of-type(8):checked ~ i {--p:8}
+input:nth-of-type(9):checked ~ i {--p:9}
+input:nth-of-type(10):checked ~ i {--p:10}
+/*input:nth-of-type(N):checked ~ i {--p:N}*/
+
+input:nth-of-type(1):hover ~ i {--l:1}
+input:nth-of-type(2):hover ~ i {--l:2}
+input:nth-of-type(3):hover ~ i {--l:3}
+input:nth-of-type(4):hover ~ i {--l:4}
+input:nth-of-type(5):hover ~ i {--l:5}
+input:nth-of-type(6):hover ~ i {--l:6}
+input:nth-of-type(7):hover ~ i {--l:7}
+input:nth-of-type(8):hover ~ i {--l:8}
+input:nth-of-type(9):hover ~ i {--l:9}
+input:nth-of-type(10):hover ~ i {--l:10}
+
+
+
+
+.descriptive_questions_action {
+    float: right;
+    display: flex;
+    align-items: center;
+    width: 38%;
+}
+.descriptive_questions{
+    display: inline-block;
+    width: 100%;
+}
+.descriptive_questions_no{
+    float: left;
+    width: 3%;
+}
+.descriptive_question_heading{
+    display: flex;
+}
+.descriptive_question_heading .cardtitle{
+    color: #031b4e;
+    font-size: 16px;
+    font-weight: 900;
+    text-transform: capitalize;
+    font-family: "Rubik", sans-serif;
+    margin-right: 15px;
+}
+.descriptive_question_heading span{
+    color: #0068ff;
+    font-size: 12px;
+    background: #ebf1ff;
+    padding: 4px 12px;
+    border-radius: 10px;
+}
+.questions_details_text {
+    width: 59%;
+    float: left;
+    color: #041b4e;
+    font-size: 14px;
+    font-weight: 500;
+    line-height: normal;
+    margin-top: 0 !important;
+}
+.questions_details_text p{
+    color: #041b4e;
+    font-size: 14px;
+    line-height: normal;
+}
+.questions_list_append_here.card-header {
+    padding: 16px;
+    margin-bottom: 10px;
+    border-radius: 10px !important;
+    border-bottom: none;
+}
+.descriptive_assesment_detail {
+    background: #fff;
+    border-radius: 10px;
+    padding: 18px 18px;
+    width: 100%;
+    display: inline-block;
+    color: #041b4e;
+    font-size: 14px;
+    line-height: normal;
+    margin-top: 18px;
+}
+.question_marks_title {
+    font-weight: 500;
+    font-size: 16px;
+    margin-left: 10px;
+}
+input.marks_number{
+    border-right: 1px solid #e2e8f5 !important;
+    border-radius: 14px;
+    width: 134px;
+}
+.slide-tab-btn {
+    background: #E9EFFD;
+    padding: 5px 8px 3px 8px;
+    border-radius: 20px !important;
+    cursor: pointer;
+    margin-left: 12px;
+}
+.slide-tab-btn i {
+    color: #0068ff;
+}
+.descriptive_assesment_detail {
+    display: none;
+}
+.all_questions{
+    margin: 15px 15px 0px;
+}
+    </style>
+</head>
+<body>
+    <div class="applyCandidatePreview">
+
+        <div class="container-fluid">
+            <div class="fx-left">
+                <div style="background-color: black;" class="bidcruitEditor">
+                        <div class="code-header">
+                            <div class="head-logo">
+                                <img src="{% static 'assets/img/brand/bid-logo-white.png' %}">
+                            </div>
+                        </div>
+                        {% csrf_token %}
+                        <div class="head__container">
+                            <div class="code-edit__head">
+                                <div class="action__btns">
+                                    <button id="run-btn" class="ui primary labeled icon button" onclick="execute_code()"><i class="play icon"></i>Run</button>
+                                </div>
+                                {% if not assessment_done %}
+                                 <div class="submit-code__section">
+                                     {% if assignment_type == 'rating' %}
+                                         <button class="tab-listing btn btn-success rounded-20" id="give_rating">Give Ratings</button>
+                                     {% endif %}
+                                     {% if assignment_type == 'marks' %}
+                                         <button class="tab-listing btn btn-success rounded-20" id="give_marking">Give Marking</button>
+                                     {% endif %}
+                                </div>
+                                 {% endif %}
+                            </div>
+                        </div>
+
+                        <input id="select_language" type="hidden" value="{{language}}">
+
+                </div>
+            </div>
+
+            <div class="fx-right">
+                <div id='question-content' style="height:calc(100vh);overflow-x: scroll;overflow-y: scroll;">
+                    {% for i in question_no_iterator %}
+                        <button class="paginate-btn {% if forloop.first %}active-que{% endif %}" onclick="update_editor('{{i}}')">{{i|add:"1"}}</button>
+                    {% endfor %}
+                    <div id="question_title_box"></div>
+                    <div id="question_description_box"></div>
+                </div>
+                <div id='site-content' style="height:calc(100vh)"></div>
+            </div>
+        </div>
+
+        {% if not assessment_done %}
+            {% if assignment_type == 'rating' %}
+            <div class="drawer-list">
+                <div class="row row-sm sidebar-preview">
+                    <div class="slideClose"><i class="fa fa-chevron-right"></i></div>
+                    <div class="col-4 card side-barContainer rounded-0">
+                        <div class="sidepanel-title-bar">
+                            <span class="heading">Comments & Ratings</span>
+                        </div>
+                        <div class="all-cards">
+                            <form role="form" method="post">
+                                {% csrf_token %}
+                                {% for scorecard in scorecards %}
+                                <div class="single-card">
+                                    <h5 class="scorecard-title text-capitalize">{{scorecard.title}}</h5>
+                                    <div class="stars">
+                                        <input type="radio" name="rating{{scorecard.id}}" value="1" required>
+                                        <input type="radio" name="rating{{scorecard.id}}" value="2">
+                                        <input type="radio" name="rating{{scorecard.id}}" value="3">
+                                        <input type="radio" name="rating{{scorecard.id}}" value="4">
+                                        <input type="radio" name="rating{{scorecard.id}}" value="5">
+                                        <i></i>
+                                    </div>
+                                    <textarea class="form-control comment" name="comment{{scorecard.id}}" placeholder="comment.." required></textarea>
+                                </div>
+                                {% endfor %}
+                                <div class="form-submit">
+                                    <button name="rating_submit" class="btn btn-primary rounded-20">Submit</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+
+            {% if assignment_type == 'marks' %}
+            <div class="drawer-list">
+                <div class="row row-sm sidebar-preview">
+                    <div class="slideCloseMarking"><i class="fa fa-chevron-right"></i></div>
+                    <div class="col-12 card side-barContainer rounded-0">
+                        <div class="sidepanel-title-bar">
+                            <span class="heading">Marking</span>
+                        </div>
+                        <form role="form" method="post">
+                            {% csrf_token %}
+                            <div class="all_questions">
+
+                                {% for question in all_questions %}
+                                    <div class="questions_list_append_here card-header mg-b-10">
+                                        <div class="descriptive_questions">
+                                            <div class="descriptive_questions_no">
+                                                <div class="descriptive_question_heading">
+                                                    <div class="cardtitle">{{forloop.counter}}</div>
+                                                </div>
+                                            </div>
+                                            <div class="questions_details_text">
+                                                {{question.exam_question_id.question_id.coding_que_title}}
+                                            </div>
+                                            <div class="descriptive_questions_action">
+                                                <input type="number" required name="obtain_marks{{question.id}}" class="marks_number form-control pl-3" max="{{question.exam_question_id.marks}}" placeholder="Enter Marks">
+                                                <div class="question_marks_title"> / Question Marks:{{question.exam_question_id.marks}}</div>
+                                                <div class="slide-tab-btn"><i class="fas fa-chevron-down"></i></div>
+                                            </div>
+                                        </div>
+                                        <div class="descriptive_assesment_detail">
+                                            {% autoescape off %}
+                                                {{question.exam_question_id.question_id.coding_que_description}}
+                                            {% endautoescape %}
+                                        </div>
+                                    </div>
+                                {% endfor %}
+                            </div>
+                            <div class="form-submit">
+                                <button name="marking_submit" class="btn btn-primary rounded-20">Submit</button>
+                            </div>
+                        </form>
+
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+        {% endif %}
+
+
+    </div>
+</body>
+
+
+{% autoescape off %}
+    <script type="text/javascript">
+        var mylist = {{coding_questions}};
+    </script>
+{% endautoescape %}
+
+<script>
+var fileNames = {
+    "c":"c",
+    "cpp":"cpp",
+    "python":"py",
+    "csharp": "cs",
+    "clojure":"clj",
+    "java":'java',
+    "javascript":"js",
+    "php":"php"
+};
+
+
+var editors ={}
+var displayed_tabs = ['source']
+var no_of_questions =parseInt(JSON.parse("{{no_of_questions}}"))
+var no_of_shown_files= 1
+var no_of_hidden_files = no_of_questions-1
+console.log(no_of_questions)
+
+var hidden_tabs = ['second','third','fourth','fifth']
+
+
+var questions = mylist;
+
+$(document).ready(function () {
+
+    $(document).on('click','.slide-tab-btn',function(){
+        currentListEle = $(this);
+        if(currentListEle.closest('.questions_list_append_here').find('.descriptive_assesment_detail').is(":visible")){
+            $('.descriptive_assesment_detail').slideUp();
+            currentListEle.closest('.questions_list_append_here').find('.descriptive_assesment_detail').slideUp();
+        }else{
+            $('.descriptive_assesment_detail').slideUp();
+            currentListEle.closest('.questions_list_append_here').find('.descriptive_assesment_detail').slideDown();
+        }
+    })
+
+    $(document).on('click','.delete-btn',function(){ //remove list
+        $(this).closest('.questions_list_append_here').remove()
+    })
+
+    $(document).on('click','.tab-listing',function(){
+        $('.drawer-list .sidebar-preview').css({'width':'100%','visibility':'visible'});
+        $('body').addClass('body_overflow');
+	})
+
+	$(document).on('click','.slideClose',function(){
+        $('.sidebar-preview').css({'width':'0%','visibility':'hidden'});
+        $('.slideClose').addClass('inside');
+        $('body').removeClass('body_overflow');
+    })
+
+    $(document).on('click','.slideCloseMarking',function(){
+        $('.sidebar-preview').css({'width':'0%','visibility':'hidden'});
+        $('.slideClose').addClass('inside');
+        $('body').removeClass('body_overflow');
+    })
+
+    $('.paginate-btn').on('click',function(){
+        $(this).prevAll('.paginate-btn').removeClass('active-que');
+        $(this).nextAll('.paginate-btn').removeClass('active-que');
+        $(this).addClass('active-que');
+    })
+
+
+    require(["vs/editor/editor.main", "monaco-vim", "monaco-emacs"], function (ignorable, MVim, MEmacs) 
+    {
+        var language = document.getElementById('select_language').value;
+        var file_extension = fileNames[language];
+        var layoutConfig = {
+            settings: {
+                showPopoutIcon: false,
+                reorderEnabled: false,
+                selectionEnabled: false,
+            },
+            dimensions: {
+                borderWidth: 3,
+                headerHeight: 22,
+              minItemHeight: 10,
+              minItemWidth: 25,
+              dragProxyWidth: 300,
+              dragProxyHeight: 200
+            },
+            content: [{
+                type: "row",
+                content: [{
+                        type: "stack",
+                        id:"file_stack",
+                        content:[],
+                        width : 60
+                    },{
+                    type: "column",
+                    content:[{
+                        type: "stack",
+                        content:[{
+                            type: "component",
+                            componentName: "stdin",
+                            title: "STDIN",
+                            isClosable: false,
+                            componentState: {
+                            readOnly: false
+                            },
+                        }]
+                    },{
+                        type: "stack",
+                        content:[{
+                            type: "component",
+                            componentName: "stdout",
+                            title: "STDOUT",
+                            isClosable: false,
+                            componentState: {
+                            readOnly: false
+                            },
+                        },{
+                            type: "component",
+                            componentName: "stderr",
+                            title: "STDERR",
+                            id:"error_component",
+                            isClosable: false,
+                            componentState: {
+                            readOnly: false
+                            },
+                        },{
+                            type: "component",
+                            componentName: "compile output",
+                            title: "COMPILE OUTPUT",
+                            isClosable: false,
+                            componentState: {
+                            readOnly: false
+                            },
+                        }]
+                    }
+                ]
+                }]
+            }]
+        };
+
+        for(var i=0;i<no_of_questions;i++)
+        {
+            layoutConfig['content'][0]['content'][0]['content'].push({
+                            type: "component",
+                            componentName:i.toString(),
+                            title: `<span>`+i+`.`+file_extension+`</span>`,
+                            isClosable: false,
+                            componentState: {
+                            readOnly: false
+                            },
+                            width: 60
+                        })
+        }
+
+        myLayout = new GoldenLayout( layoutConfig,$("#site-content"));
+
+        var flag = false;
+
+            editors['dynamic_editors'] =[]
+            for(var j=0;j<no_of_questions;j++){
+            
+            myLayout.registerComponent(j.toString(), function (container, state) {
+                console.log('in progresss',container.title)
+
+                var question_tab_no = container.title
+            temp_editor =  monaco.editor.create(container.getElement()[0], {
+                    automaticLayout: true,
+                    theme: "vs-dark",
+                    scrollBeyondLastLine: true,
+                    readOnly: state.readOnly,
+                    language: "c",
+                    minimap: {
+                        enabled: false
+                    }
+                });
+                flag = true;
+                editors['dynamic_editors'].push(temp_editor)
+                console.log("editors dfynamic",editors)
+            });
+      
+        console.log("j",j)
+        console.log("flag",flag)
+
+    }
+
+
+        myLayout.registerComponent("stdin", function (container, state) {
+            stdinEditor = monaco.editor.create(container.getElement()[0], {
+                automaticLayout: true,
+                theme: "vs-light",
+                scrollBeyondLastLine: true,
+                readOnly: state.readOnly,
+                language: "plaintext",
+                minimap: {
+                    enabled: false
+                }
+            });
+            
+        });
+
+        myLayout.registerComponent("stdout", function (container, state) {
+            stdoutEditor = monaco.editor.create(container.getElement()[0], {
+                automaticLayout: true,
+                theme: "vs-dark",
+                scrollBeyondLastLine: true,
+                readOnly: state.readOnly,
+                language: "plaintext",
+                minimap: {
+                    enabled: false
+                }
+            });
+            
+
+            container.on("tab", function(tab) {
+                tab.element.append("<span id=\"stdout-dot\" class=\"dot\" hidden></span>");
+                tab.element.on("mousedown", function(e) {
+                    e.target.closest(".lm_tab").children[3].hidden = true;
+                });
+            });
+        });
+
+
+
+        myLayout.registerComponent("stderr", function (container, state) {
+            stderrEditor = monaco.editor.create(container.getElement()[0], {
+                automaticLayout: true,
+                theme: "vs-dark",
+                scrollBeyondLastLine: true,
+                readOnly: state.readOnly,
+                language: "plaintext",
+                minimap: {
+                    enabled: false
+                }
+            });
+
+
+            container.on("tab", function(tab) {
+                tab.element.append("<span id=\"stderr-dot\" class=\"dot\" hidden></span>");
+                tab.element.on("mousedown", function(e) {
+                    e.target.closest(".lm_tab").children[3].hidden = true;
+                });
+            });
+        });
+
+        myLayout.registerComponent("compile output", function (container, state) {
+            compileOutputEditor = monaco.editor.create(container.getElement()[0], {
+                automaticLayout: true,
+                theme: "vs-dark",
+                scrollBeyondLastLine: true,
+                readOnly: state.readOnly,
+                language: "plaintext",
+                minimap: {
+                    enabled: false
+                }
+            });
+
+            container.on("tab", function(tab) {
+                tab.element.append("<span id=\"compile-output-dot\" class=\"dot\" hidden></span>");
+                tab.element.on("mousedown", function(e) {
+                    e.target.closest(".lm_tab").children[3].hidden = true;
+                });
+            });
+        });
+
+        myLayout.on( 'initialised', function(){
+            var all_files = JSON.parse("{{all_files|escapejs}}")
+            console.log('all_files>>>>>>>>>>', all_files)
+            var language = document.getElementById('select_language').value
+
+            for(var i=0;i<all_files.length;i++)
+            {
+                var cleaned_file_document =all_files[i]['fields']['source_code'];
+                console.log('cleaned_file_document', cleaned_file_document)
+                editors['dynamic_editors'][i].setValue(cleaned_file_document)
+            }
+        });
+
+        myLayout.init();
+        
+        document.querySelector("#question_description_box").innerHTML = questions[0].description
+        document.querySelector("#question_title_box").innerHTML = questions[0].title
+
+    });
+
+});
+
+
+function execute_code()
+{
+    stdoutEditor.setValue("")
+    compileOutputEditor.setValue("")
+    stderrEditor.setValue("")
+    componentName =myLayout.root.contentItems[0].contentItems[0].getActiveContentItem().componentName
+    console.log("bbb",componentName)
+    console.log("value ",editors['dynamic_editors'][1])
+    console.log(editors['dynamic_editors'][componentName].getValue())
+    code = editors['dynamic_editors'][componentName].getValue()
+    var language = document.getElementById('select_language').value
+    file_extension = fileNames[language]
+    document.getElementById("stdout-dot").hidden = true;
+    document.getElementById("stderr-dot").hidden = true;
+    document.getElementById("compile-output-dot").hidden = true;
+    input_code = stdinEditor.getValue()
+    let id = {{id}};
+    var url = '/agency/agency_coding_assessment/'+id;
+    $.ajax({
+        url: url,
+        type: "POST",
+        headers: {'Authorization': 'Token 6f18027a-2ea7-40cf-8b7b-4b91b49fda0a','X-CSRFToken': $("input[name=csrfmiddlewaretoken]").val()},
+        contentType : 'application/json; charset=UTF-8',
+        data:JSON.stringify({"stdin": input_code,"files": [{"name": "main."+file_extension, "content": code}]})
+    }).done(function(response){
+        response = JSON.parse(response)
+        if(response['message'])
+        {
+            reason = response['message'].split(':')[0]
+            console.log("reason",reason)
+            if (reason == "Failed while reading stream")
+            {
+                stderrEditor.setValue("Failed while reading stream: Max execution time exceeded")
+                document.getElementById("stderr-dot").hidden = false;
+            }
+            else if (reason == "Invalid request body")
+            {
+                stderrEditor.setValue("Empty file was sent for Execution")
+                document.getElementById("stderr-dot").hidden = false;
+            }
+        }
+        else
+        {
+        stdoutEditor.setValue(response['stdout'])
+        compileOutputEditor.setValue(response['error'])
+        stderrEditor.setValue(response['stderr'])
+
+        if (response['stdout'])
+        {
+            document.getElementById("stdout-dot").hidden = false;
+
+        }
+
+        if (response['stduerr'])
+        {
+            document.getElementById("stderr-dot").hidden = false;
+
+        }
+
+        if (response['error'])
+        {
+            document.getElementById("compile-output-dot").hidden = false;
+            document.getElementById("stderr-dot").hidden = false;
+        }
+        else
+        {
+            document.getElementById("stdout-dot").hidden = false;
+        }
+        }
+
+    });
+}
+
+
+function update_editor(question_no){
+    var elements = document.getElementsByClassName('lm_tab')
+    for(var i=0;i<no_of_questions;i++)
+    {
+        if(i==question_no)
+        {
+            var component_name = i
+            $(elements[i]).show()
+
+            for (var j = 0; j < myLayout._getAllContentItems().length; j++) {
+                if (myLayout._getAllContentItems()[j].componentName == component_name) {
+                    var contentItem = myLayout._getAllContentItems()[j];
+                    contentItem.parent.setActiveContentItem(contentItem);
+                    document.querySelector("#question_description_box").innerHTML = questions[i].description
+                    document.querySelector("#question_title_box").innerHTML = questions[i].title
+                    break;
+                }
+            }
+        }
+        else
+        {
+            $(elements[i]).hide()
+        }
+    }
+}
+
+</script>
+
+</html>

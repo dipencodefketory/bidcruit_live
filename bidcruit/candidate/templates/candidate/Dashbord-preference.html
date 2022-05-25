@@ -1,0 +1,163 @@
+
+
+
+{% extends 'candidate/base.html' %}
+{% load static %}
+{% block main %}
+{% block css %}
+ 		<!-- Select2 css -->
+		<link href="{% static 'assets/plugins/select2/css/select2.min.css' %}" rel="stylesheet">
+{% endblock %}
+	<br>
+	<!-- row -->
+	<div class="row row-sm">
+		<div class="col-md-12 col-xl-12 col-lg-12">
+			<div class="card">
+				{% if candidate_preference_exist %}
+				<form role="form" method="POST" action="{% url 'candidate:job_preference' %}">
+					{% csrf_token %}
+				<div class="card-body ">
+					<div class="custom-form2 custom-form-job-pre">
+						<div class="row row-sm">
+							<div class="col-md-6 col-lg-6 col-sm-12">
+								<label class="form-control-label">Job Type: <span class="tx-danger">*</span></label>
+								<div class="SumoSelect sumo_somename" tabindex="0" role="button" aria-expanded="false">
+									<select class="form-control SlectBox SumoUnder" name="job-type"  onclick="console.log($(this).val())" onchange="console.log('change is firing')" tabindex="-1">
+										{% for value, job in job_types %}
+											<option value="{{ value }}" {% ifequal value candidate_preference_get.job_type %} selected {% endifequal %}>{{job}}</option>
+										{% endfor %}
+									</select>
+							</div>
+							</div>
+							<div class="col-md-6 col-lg-6 col-sm-12">
+								<label class="form-control-label">Working Days:<span class="tx-danger">*</span></label>
+								<div class="SumoSelect sumo_somename" tabindex="0" role="button" aria-expanded="false">
+									<select  class="form-control SlectBox SumoUnder" name="working-day" onclick="console.log($(this).val())" onchange="console.log('change is firing')" tabindex="-1">
+										{% for value, work in working_day_types %}
+											<option value="{{ value }}" {% ifequal value candidate_preference_get.working_days %} selected {% endifequal %}>{{work}}</option>
+										{% endfor %}
+									</select>
+								</div>
+							</div>
+							<div class="col-md-6 col-lg-6 col-sm-12">
+								<label class="form-control-label">Shift Type:<span class="tx-danger">*</span></label>
+								<div class="SumoSelect sumo_somename" tabindex="0" role="button" aria-expanded="false">
+									<select class="form-control SlectBox SumoUnder"  name="shift-type" onclick="console.log($(this).val())" onchange="console.log('change is firing')" tabindex="-1">
+										{% for value, shift in preferred_shift_types %}
+											<option value="{{ value }}" {% ifequal value candidate_preference_get.preferred_shift %} selected {% endifequal %}>{{shift}}</option>
+										{% endfor %}
+									</select>
+							</div>
+							</div>
+							<div class="col-md-6 col-lg-6 col-sm-12">
+								<label class="form-control-label">No. of Employee:<span class="tx-danger">*</span></label>
+								<div class="SumoSelect sumo_somename" tabindex="0" role="button" aria-expanded="false">
+									<select class="form-control SlectBox SumoUnder"  name="no-of-employee" onclick="console.log($(this).val())" onchange="console.log('change is firing')" tabindex="-1">
+										{% for value, employee in number_of_employee %}
+											<option value="{{ value }}" {% ifequal value candidate_preference_get.number_of_employee %} selected {% endifequal %}>{{employee}}</option>
+										{% endfor %}
+									</select>
+								</div>
+							</div>
+							<div class="col-md-6 col-lg-6 col-sm-12">
+								<div class="custon-checkbox">
+									<label class="form-control-label" for="relocate_checkbox"><span>Ready to Relocate :</span>
+									<input id="relocate_checkbox" name="relocate"  type="checkbox" {% if candidate_preference_get.relocation %} checked {% endif %}></label>
+								</div>
+
+								<div class="select2-custom">
+									<label></label>
+									<select class="form-control selectPreferredCities" name="relocation_cities" multiple="multiple">
+										{% for city in candidate_selected_cities %}
+											<option value="{{city.id}}" selected>{{city.city_name}}</option>
+										{% endfor %}
+									</select>
+								</div>
+							</div>
+						</div>
+						<div class="custom-preference" id="custom-preference"></div>
+						<div class="butn-form">
+							<button type="submit" class="btn btn-primary btn-block">Submit</button>
+						</div>
+					</div>
+					<!-- <a href="" title="" class="add-more"> <i data-v-e08301e8="" class="las la-plus"></i>Add More</a> -->
+				</div>
+				</form>
+				{% else %}
+				<form role="form" method="POST" action="{% url 'candidate:job_preference' %}">
+					{% csrf_token %}
+				<div class="card-body ">
+					<div class="custom-form2 custom-form-job-pre">
+						<div class="row row-sm">
+							<div class="col-md-6 col-lg-6 col-sm-12">
+								<label class="form-control-label">Job Type: <span class="tx-danger">*</span></label>
+								<div class="SumoSelect sumo_somename" tabindex="0" role="button" aria-expanded="false">
+									<select class="form-control SlectBox SumoUnder" name="job-type"  onclick="console.log($(this).val())" onchange="console.log('change is firing')" tabindex="-1">
+										{% for value, job in job_types %}
+											<option value="{{ value }}">{{job}}</option>
+										{% endfor %}
+									</select>
+							</div>
+							</div>
+							<div class="col-md-6 col-lg-6 col-sm-12">
+								<label class="form-control-label">Working Days:<span class="tx-danger">*</span></label>
+								<div class="SumoSelect sumo_somename" tabindex="0" role="button" aria-expanded="false">
+									<select  class="form-control SlectBox SumoUnder" name="working-day" onclick="console.log($(this).val())" onchange="console.log('change is firing')" tabindex="-1">
+										  {% for value, work in working_day_types %}
+											<option value="{{ value }}">{{work}}</option>
+										  {% endfor %}
+									</select>
+								</div>
+							</div>
+							<div class="col-md-6 col-lg-6 col-sm-12">
+								<label class="form-control-label">Shift Type:<span class="tx-danger">*</span></label>
+								<div class="SumoSelect sumo_somename" tabindex="0" role="button" aria-expanded="false">
+									<select class="form-control SlectBox SumoUnder"  name="shift-type" onclick="console.log($(this).val())" onchange="console.log('change is firing')" tabindex="-1">
+										{% for value, shift in preferred_shift_types %}
+											<option value="{{ value }}">{{shift}}</option>
+										{% endfor %}
+									</select>
+							</div>
+							</div>
+							<div class="col-md-6 col-lg-6 col-sm-12">
+								<label class="form-control-label">No. of Employee:<span class="tx-danger">*</span></label>
+								<div class="SumoSelect sumo_somename" tabindex="0" role="button" aria-expanded="false">
+									<select class="form-control SlectBox SumoUnder"  name="no-of-employee" onclick="console.log($(this).val())" onchange="console.log('change is firing')" tabindex="-1">
+									{% for value, employee in number_of_employee %}
+										<option value="{{ value }}">{{employee}}</option>
+									{% endfor %}
+									</select>
+								</div>
+							</div>
+							<div class="col-md-6 col-lg-6 col-sm-12">
+								<div class="custon-checkbox">
+									<label class="form-control-label" for="relocate_checkbox"><span>Ready to Relocate :</span>
+									<input id="relocate_checkbox" name="relocate"  type="checkbox"></label>
+								</div>
+
+								<div class="select2-custom">
+									<label></label>
+									<select class="form-control selectPreferredCities" name="relocation_cities" multiple="multiple">
+									</select>
+								</div>
+							</div>
+						</div>
+						<div class="custom-preference" id="custom-preference"></div>
+						<div class="butn-form">
+							<button type="submit" class="btn btn-primary btn-block">Submit</button>
+						</div>
+					</div>
+					<!-- <a href="" title="" class="add-more"> <i data-v-e08301e8="" class="las la-plus"></i>Add More</a> -->
+				</div>
+				</form>
+				{% endif %}
+			</div>
+		</div>
+
+	</div>
+{% block script %}
+	<!-- Select2.min js -->
+    <script src="{% static 'assets/plugins/select2/js/select2.min.js' %}"></script>
+{% endblock %}
+
+{% endblock %}

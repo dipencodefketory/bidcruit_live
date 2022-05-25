@@ -1,0 +1,285 @@
+
+.add_view_main_section .card-header{
+    border-bottom: 2px solid #e2e8f5;
+    padding-bottom: 12px !important;
+}
+
+.action_icons i.fas.fa-eye {
+    color: #0068ff;
+}
+.action_icons i.fas.fa-edit {
+    color: #0068ff;
+    padding-left: 6px;
+}
+.action_icons i.fas.fa-trash-alt {
+    color: #ff5353;
+    padding-left: 6px;
+}
+.search_icon_cus{
+    position: relative;
+    width: 100%;
+    display: inline-block;
+}
+.search_icon_cus i{
+    position: absolute;
+    top: -47px;
+    right: 14px;
+    font-size: 18px;
+}
+.candidate_filters_header {
+    float: left;
+    padding-top: 5px;
+}
+.candidate_filters_header a {
+    color: #041b4e;
+    margin: 0 15px;
+    font-size: 16px;
+}
+.candidate_filters_header a:hover {
+    color: #0068ff;
+}
+.main_user_add_view label {
+    font-size: 14px;
+    color: #031b4e;
+    font-weight: bold;
+}
+.main_user_add_view .form-control {
+    height: 30px;
+    border: 1px solid #e2e8f5;
+    border-radius: 10px !important;    
+}
+.add_views_btn button {
+    border-radius: 10px;
+    padding: 5px 26px;
+}
+.add_views_btn {
+    float: right;
+    margin-bottom: 26px;
+}
+a.credentials_link {
+    color: #0068ff;
+}
+.title_stage {    
+    color: #041b4e;
+    font-size: 20px;
+    font-weight: 700;
+    margin-bottom: 14px;
+    margin-top: 11px;
+    text-transform: uppercase;
+    border-bottom: 3px solid #e2e8f5;
+    padding-bottom: 3px;
+}
+.correct_answer_title {
+    padding-left:  5px;
+}
+input.correct_answer_radio {
+    margin-left: 5px;
+    width: 11px;
+    height: 11px;
+}
+.mcq_header_listing .input-group {
+    width: 238px;
+}
+.search_btn button {
+    border: none;
+    border-right: 0;
+    background: #0068ff;
+    border-radius: 10px 0px 0px 10px !important;
+    padding: 5px 15px;
+    height: 32px;
+    color: #fff;
+}
+.search_btn button:hover{
+    color: #fff;
+}
+.mcq_header_listing input.search_text {
+    border-top-right-radius: 10px;
+    border-bottom-right-radius: 10px;
+    border-right: 1px solid #e2e8f5 !important;
+    height: 32px;
+}
+.mcq_list {
+    border-left: 2px solid #e2e8f5;
+}
+ul.template_question_list {
+    list-style: none;
+    margin: 0;
+    padding: 0;    
+}
+ul.template_question_list li {
+    margin: 0;
+    padding: 0px 16px 0px;
+    border-bottom: 2px solid #e2e8f5;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+}
+ul.template_question_list li .form-group {
+    margin-bottom: 0;
+}
+ul.template_question_list li .form-group>label {
+    margin-bottom: 0;
+    color: #041b4e;
+    font-weight: 500;
+    width: 91%;
+    line-height: normal;
+    text-transform: unset;
+    font-size: 16px;
+}
+.template_basic-question .rdiobox {
+    margin-bottom: 0;
+    margin-right: 20px;
+}
+.template_basic-question .rdiobox input[type="radio"] {
+    display: none;
+}
+.template_basic-question .rdiobox span {
+    padding-left: 0;
+    padding-right: 30px;
+}
+.template_basic-question .rdiobox span {
+    color: #7987a1;
+    font-weight: 500;
+}
+.template_basic-question .rdiobox span:before {
+    left: inherit !important;
+    right: 0 !important;
+    top: 0px;
+}
+.template_basic-question .rdiobox input[type="radio"]:checked+span {
+    color: #51bb23;
+}
+.rdiobox input[type='radio']:checked + span:after {
+    display: block;
+}
+.template_basic-question .rdiobox span:after {
+    left: inherit !important;
+    right: 5px !important;
+    top: 5px;
+}
+.template_basic-question .rdiobox input[type="radio"]:checked+span:before {
+    background-color: #51bb23;
+}
+.descriptive_questions_action {
+    float: right;
+}
+.descriptive_questions_action a {
+    color: #0068ff;
+    margin-left: 10px;
+    font-size: 14px;
+}
+.descriptive_questions_action a.questions_trash {
+    color: #ff5353;
+}
+ul.list_view_option {
+    list-style: none;
+    padding: 0;
+    width: 100%;
+    display: inline-block;
+    margin-top: 5px;
+}
+ul.list_view_option li {
+   width: 50%;
+    padding: 0;
+    border-bottom: none;
+    background-color: #f8fafc;
+    justify-content: space-between;
+    align-items: center;
+    float: left;
+    color: #7987a1;
+    font-weight: 500;
+    margin-top: 9px !important;
+    font-size: 16px;
+}
+ul.list_view_option li.correct_ans{
+    color: #51bb23;
+}
+.mcq_list_inner{
+    padding-right: 11px;
+}
+.mcq_header_listing {
+    padding: 11px 20px 0px 20px;
+}
+.template_question_footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    min-height: 105px;
+    padding: 0 16px;
+    border-top: 0;
+}
+.template_question_footer h3{
+    color: #041b4e;
+    font-weight: 700;
+    font-size: 16px;
+    line-height: 22px;
+    margin-bottom: 0;
+}
+.template_question_footer .pagination .page-item {
+    margin-right: 10px;
+}
+.template_question_footer .pagination .page-item .page-link {
+    width: auto;
+    height: 30px;
+    padding: 0 16px;
+    border-radius: 10px;
+    margin-right: 0;
+    font-size: 16px;
+}
+.main_user_add_view textarea.form-control{
+    height: 60px;
+}
+.cap_text{
+    text-transform: capitalize;
+}
+
+
+.info-section.fx-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 13px 20px 5px 0;
+}
+.slide-list .left-side {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 10px;
+}
+.tab-counter-label {
+    background: #0068ff;
+    color: #fff;
+    padding: 4px 18px;
+    border-radius: 0 10px 10px 0;
+    margin: 0;
+}
+.category-type__info {
+    background: #E9EFFD;
+    padding: 3px 12px;
+    border-radius: 20px;
+    font-weight: 400;
+    color: #0068ff;
+    margin: 0;
+}
+.slide-list .right-side {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 20px;
+}
+.short-details {
+    padding: 5px 18px 5px;
+    font-weight: 500;
+    margin: 0 48px 10px;
+    background: #f9fafc;
+    border-radius: 10px;
+    color: #041b4e;
+}
+.delete-btn{
+    color: #ff5353;
+}
+label.main-content-label {
+    text-transform: none;
+    word-break: break-all;
+}

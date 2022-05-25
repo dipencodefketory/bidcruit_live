@@ -1,0 +1,141 @@
+
+.descriptive_view_header .card-header{
+    border-bottom: 2px solid #e2e8f5;
+    padding-bottom: 15px !important;
+    padding-top: 15px !important;
+}
+.descriptive_questions_action {
+    float: right;
+}
+.descriptive_questions_action a {
+    color: #0068ff;
+    margin-left: 15px;
+    font-size: 16px;
+}
+.descriptive_questions_action a.questions_trash{
+    color: #ff5353;
+}
+.descriptive_questions{
+    display: inline-block;
+    width: 100%;
+    background: #f8f9fb;
+    border-radius: 10px;
+    padding: 18px 18px;
+    margin-bottom: 12px;
+}
+.descriptive_questions_no{
+    float: left;
+}
+.descriptive_question_heading{
+    display: flex;
+}
+.descriptive_question_heading .cardtitle{
+    color: #031b4e;
+    font-size: 16px;
+    font-weight: 900;
+    text-transform: capitalize;
+    font-family: "Rubik", sans-serif;
+    margin-right: 15px;
+}
+.descriptive_question_heading span{
+    color: #0068ff;
+    font-size: 12px;
+    background: #ebf1ff;
+    padding: 4px 12px;
+    border-radius: 10px;
+}
+.questions_details_text {
+    width: 100%;
+    display: inline-block;
+    color: #041b4e;
+    font-size: 14px;
+    line-height: normal;
+    margin-top: 18px;
+}
+.questions_details_text p{
+    color: #041b4e;
+    font-size: 14px;
+    line-height: normal;    
+}
+button.questionFormSubmit{
+    font-size: 14px;
+    border-radius: 10px;
+    padding: 4px 18px;
+    background-color: #0068ff;
+    background: #0068ff;
+    float: right;
+}
+.questions_list_append_here {
+    min-height: 463px;
+    margin-bottom: 20px;
+}
+.search_btn button{
+    border: none;
+    border-right: 0;
+    background: #0068ff;
+    border-radius: 10px 0px 0px 10px !important;
+    padding: 5px 15px;
+    height: 32px;
+    color: #fff;
+}
+.search_btn button:hover{
+    color: #fff;
+}
+.descriptive_view_header input.search_text{
+    border-top-right-radius: 10px;
+    border-bottom-right-radius: 10px;
+    border-right: 1px solid #e2e8f5 !important;
+    height: 32px;
+}
+.descriptive_view_header .input-group {
+    width: 238px;
+}
+.descriptive_right_filters_section a {
+    color: #041b4e;
+    margin-left: 18px;
+    font-size: 14px;
+}
+.descriptive_list_add_btn a.btn-add-list {
+    color: #ffffff;
+    background-color: #0068ff;
+    border-color: #0068ff;
+    border-radius: 10px;
+    font-size: 14px;
+    padding: 3.5px 8px;
+}
+.descriptive_list_add_btn{
+    float: right;
+}
+.descriptive_right_filters_section .filters_section{
+    float: left;
+    margin-top: 6px;
+}
+.descriptive_list_add_btn {
+    display: flex;
+ 
+}
+.justify-contentbetween{
+    justify-content: end;
+}
+.audio_ques_title{
+    width: auto;
+    float: left;
+    margin-top: 9px;
+}
+#Edit_question_modal .modal-content {
+    padding: 0 20px 20px;
+}
+#Edit_question_modal .add_views_btn #update{
+    float: right;
+    width: auto;
+    border-radius: 10px;
+}
+#Edit_question_modal .modal-dialog {
+    max-width: 800px;
+    width: 90%;
+}
+.des_ques_title {
+    width: auto;
+    float: left;
+    margin-top: 9px;
+}

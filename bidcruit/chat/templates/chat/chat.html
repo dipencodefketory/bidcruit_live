@@ -1,0 +1,405 @@
+{% extends base %}
+
+{% load static %}
+{% load tz %}
+{% load custom_filters %}
+{% load candidate_extras %}
+{% block title %}Candidate Detail View{% endblock %}
+{% block css %}
+	<link href="{% static 'assets/css/ATS/chat.css' %}" rel="stylesheet">
+{% endblock %}
+{% block main %}
+{% csrf_token %}
+			
+		<!-- Main-content-body -->
+		<div class="main-content-body">
+
+			<!-- header-title -->
+			<div class="header-title">
+				<div class="mb-0 mb-lg-0 mb-xl-0">
+					<h4 class="mb-2">Mail</h4>
+					<div class="main-content-breadcrumb"> <span>Mail</span> <span>Chat</span> </div>
+				</div>
+				<div class="ml-auto my-auto">
+					<a href="#" class="btn btn-primary"><i class="fe fe-plus-square"></i> Create Report</a>
+					<a href="#" class="btn btn-pink"><i class="fe fe-external-link"></i> Export</a>
+				</div>
+			</div>
+			<!-- header-title -->
+
+			<!-- row -->
+			<div class="row row-sm main-content-app mb-4">
+				<div class="col-xl-4 col-lg-12">
+					<div class="">
+						<div class="main-content-left main-content-left-chat card">
+							<nav class="nav main-nav-line main-nav-line-chat">
+								<a class="nav-link active" data-toggle="tab" href="#ChatList">Private Chat{{privatesinglechat}}</a>
+								<a class="nav-link" data-toggle="tab" href="#GroupChat">Group Chat</a>
+								
+							</nav>
+							<div class="p-2 border-bottom">
+
+							</div><!-- main-chat-active-contacts -->
+							<div class="tab-content main-chat-list">
+								<div class="tab-pane active" id="ChatList">
+									<div class="main-chat-list tab-pane">
+										<label class="main-content-label main-content-label-sm  ml-2 ">Recent Chats</label>
+										{% for private_chats in private_chat %}
+										<a class="media private" data-id="{{private_chats.chat.unique_code}}">
+											<div class="main-img-user online">
+												<img alt="" src="{% static '/assets/img/faces/5.jpg' %}"> <span>2</span>
+											</div>
+											<div class="media-body">
+												<div class="media-contact-name">
+													<span>
+														{% ifequal request.user.id private_chats.chat.user1.id%}
+															{{private_chats.chat.user2.first_name}} {{private_chats.chat.user2.last_name}}
+														{% endifequal %}
+														{% ifequal request.user.id private_chats.chat.user2.id%}
+															{{private_chats.chat.user1.first_name}} {{private_chats.chat.user1.last_name}}
+														{% endifequal %}
+													</span> <span>{{private_chats.date_created|whenpublished}}</span>
+												</div>
+												<p>Nam quam nunc, blandit vel aecenas et ante tincid</p>
+											</div>
+										</a>
+										{% endfor %}
+									</div><!-- main-chat-list -->
+								</div><!-- main-chat-list -->
+								<div class="tab-pane" id="GroupChat">
+									<label class="main-content-label main-content-label-sm  ml-2 ">Recent Calls</label>
+									{% for group_chats in group_chat %}
+										<a class="media new group" data-id="{{group_chats.chat.unique_code}}">
+											<div class="main-img-user online">
+												<img alt="" src="{% static '/assets/img/faces/5.jpg' %}"> <span>2</span>
+											</div>
+											<div class="media-body">
+												<div class="media-contact-name">
+													<span>{{group_chats.chat.title}} {% if request.user.is_candidate %} {{group_chats.chat.job_id.company_id.company_id.company_name}} {% else %}{% endif %} </span> <span>{{group_chats.date_created|whenpublished}}</span>
+												</div>
+												<p>{% if group_chats.read %}{{group_chats.text}}{% else %}<b>{{group_chats.text}}</b>{% endif %}</p>
+											</div>
+										</a>
+									{% endfor %}
+								</div>
+
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="col-xl-8 col-lg-12">
+					<div class="">
+						<a class="main-header-arrow" href="" id="ChatBodyHide"><i class="icon ion-md-arrow-back"></i></a>
+						<div class="main-content-body main-content-body-chat mt-0 pt-0 br-br-0 br-bl-0 mb-lg-0 card">
+							<div class="main-chat-header">
+								<!-- <div class="main-img-user"><img alt="" src="{% static '/assets/img/faces/9.jpg' %}"></div> -->
+								<div class="main-chat-msg-name">
+									<h6 id="group-name">Select user to chat</h6><small></small>
+									<input type="text" id="chat_id"  value="" hidden readonly>
+									<input type="text" id="userid"  value="" hidden readonly>
+									<input type="text" id="chat_type"  value="" hidden readonly>
+								</div>
+						<!--		<nav class="nav">-->
+						<!--		<a class="nav-link" href="#"><i class="icon ion-md-more"></i></a>-->
+						<!--	<a class="nav-link" data-toggle="tooltip" href="#" title="" data-original-title="Call"><i class="bx bx-phone-call"></i></a>-->
+						<!--		<a class="nav-link" data-toggle="tooltip" href="" title="" data-original-title="Video"><i class="bx bx-video"></i></a>-->
+						<!--	<a class="nav-link" data-toggle="tooltip" href="" title="" data-original-title="More"><i class="bx bx-dots-vertical-rounded"></i></a>-->
+						<!--	</nav>-->
+							</div><!-- main-chat-header -->
+							<div class="main-chat-body">
+								<div class="content-inner" id="ChatBody" style="max-height: 400px;overflow-y: scroll;">
+								</div>
+							</div>
+						</div>
+						<div class="main-chat-footer input_chat_msg_box" style="display: none;">
+				<!--		<nav class="nav">-->
+				<!--		<a class="nav-link" data-toggle="tooltip" href="#" title="Add Photo"><i class="bx bx-microphone"></i></a>-->
+				<!--	<a class="nav-link" data-toggle="tooltip" href="#" title="Attach a File"><i class="bx bx-paperclip"></i></a>-->
+				<!--	<a class="nav-link" data-toggle="tooltip" href="#" title="Attach a File"><i class="bx bx-smile"></i></a>-->
+				<!--	<a class="nav-link" data-toggle="tooltip" href="#" title="Add Emoticons" href="#"><i class="bx bx-smile"></i></a>-->
+				<!--	</nav>-->
+							<input class="form-control" id="msg-input" placeholder="Type your message here..." type="text"> <a class="main-msg-send" id="msg-submit" ><i class="bx bx-paper-plane"></i></a>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!-- /row -->
+		</div>
+		<!-- Main-content-body closed -->
+
+
+
+{% endblock %}
+
+{% block script %}
+		<!-- Custom -->
+	<!-- Internal Chat js -->
+		<script src="{% static '/assets/js/chat.js' %}"></script>
+
+		<!-- Custom js -->
+		<!-- <script src="{% static '/assets/js/custom.js' %}"></script> -->
+
+
+		<script>
+
+            var currentUser = '{{ request.user.email }}';
+            // $(document).ready(get_unread_messages);
+        </script>
+<!--		<script src="{% static 'chat/js/app.js' %}"></script>-->
+<script>
+	
+const getTimeAMPMFormat = () => {
+
+  date=new Date();
+  let hours = date.getHours();
+  let minutes = date.getMinutes();
+  const ampm = hours >= 12 ? 'PM' : 'AM';
+  hours = hours % 12;
+  hours = hours ? hours : 12; // the hour '0' should be '12'
+  hours = hours < 10 ? '0' + hours : hours;
+  // appending zero in the start if hours less than 10
+  minutes = minutes < 10 ? '0' + minutes : minutes;
+  return hours + ':' + minutes + ' ' + ampm;
+};
+	var currentgroupid = '';
+    var msgdiv = $('.content-inner');
+    var memberdiv = $('#members-list');
+
+    window.onload = function(e){
+        msgdiv.scrollTop(msgdiv.prop("scrollHeight"));
+    }
+	// var socket = new WebSocket('wss://' + window.location.host +':9000/ws/chat_chat/');
+	// socket.onerror=function(e){
+	// 		console.log(e.code)
+
+	// 	}
+	// socket.onopen=function(e){
+	// 		console.log('sucessfully')
+
+	// 	}
+    // socket.onmessage = function(e) {
+    // console.log(e)
+	// var message =JSON.parse(e.data)
+	// console.log(currentgroupid,"====",message['unique_code'])
+    // if(currentgroupid==message['unique_code']){
+    //             msgdiv.append(`
+
+	// 				<div class="media">
+	// 					<div class="main-img-user online"><img alt="" src="{% static '/assets/img/faces/9.jpg' %}"></div>
+	// 					<div class="media-body">
+	// 						<div class="main-msg-wrapper">
+	// 							`+message['message']+`
+	// 						</div>
+	// 						<div>
+	// 							<span>`+message['time']+`</span> <a href=""><i class="icon ion-android-more-horizontal"></i></a>
+	// 						</div>
+	// 					</div>
+	// 				</div>
+    //             `);
+	// 			$('#message').toast('show');
+	// 			$('#chat').append(
+	// 				`<a class="d-flex pl-3 pr-3  border-bottom" href="#">
+	// 										<div class="media new">
+	// 											<div class="main-img-user online"><img alt="avatar" src="{% static 'assets/img/faces/5.jpg' %}"></div>
+	// 											<div class="media-body">
+	// 												<p>Congratulate <strong> Dipen </strong> for New template start</p><span>Oct 10 10:10pm</span>
+	// 											</div>
+	// 										</div>
+	// 									</a>`
+	// 			);
+	// 	msgdiv.scrollTop(msgdiv.prop("scrollHeight"));
+	// 	}
+
+    // };
+
+    socket.onclose = function(e) {
+        console.error('Socket closed unexpectedly');
+    };
+
+    document.querySelector('#msg-input').focus();
+    document.querySelector('#msg-input').onkeyup = function(e) {
+        if (e.keyCode === 13) {  // enter, return
+            document.querySelector('#msg-submit').click();
+        }
+    };
+
+    document.querySelector('#msg-submit').onclick = function(e) {
+		var chat_id = $('#chat_id').val();
+		var chat_type = $('#chat_type').val();
+        var messageInputDom = document.querySelector('#msg-input');
+        var userInputDom = document.querySelector('#userid');
+        var message = messageInputDom.value;
+        var user = userInputDom.value;
+		var dt = new Date();
+        if(message !=''){
+        msgdiv.append(
+          `<div class="media flex-row-reverse">
+			<div class="main-img-user online"><img alt="" src="{% static '/assets/img/faces/6.jpg' %}"></div>
+			<div class="media-body">
+				<div class="main-msg-wrapper">
+					`+message+`
+				</div>
+				<div>
+					<span>`+dt.toLocaleString("en-US")+`</span> <a href=""><i class="icon ion-android-more-horizontal"></i></a>
+				</div>
+			</div>
+		</div>
+        `);
+
+        msgdiv.scrollTop(msgdiv.prop("scrollHeight"));
+
+			socket.send(JSON.stringify({'text': message,'chat_type':chat_type,'chat_id':chat_id}));
+			$('#{{request.user.id}}');
+
+
+
+        messageInputDom.value = '';
+        userInputDom.value = '';
+       }else{
+       	  alert('Enter message!');
+       	  $('#msg-input').focus();
+       }
+    };
+
+			
+
+
+</script>
+
+<script>
+	$(document).ready(function () {
+		
+		$('.group').click(function(){
+		$('.content-inner').html('');
+		$('#chat_id').val('');
+		var htm='';
+			$.ajax({
+				  url:'{% url 'chat:get_message' %}',
+				  type:'POST',
+				  headers: {'X-CSRFToken': '{{ csrf_token }}'},
+				  data:{chat_id:$(this).data('id'),type:'group'}
+				})
+				.done(function(response){
+				response=JSON.parse(response);
+					if(response.status==true){
+
+					$('#group-name').html(response.Group_title);	
+					$('.input_chat_msg_box').css('display','flex');
+					console.log(response.chat_id)
+					$('#chat_id').val(response.chat_id);
+					currentgroupid=response.chat_id;
+					$('#chat_type').val('group');
+
+					var msg=JSON.parse(response.message)
+						for(var i=0 ;i<msg.length;i++)
+						{
+							var date_time=new Date({% localtime on %}msg[i].fields.date_created{% endlocaltime %});
+								if(msg[i].fields.author=={{request.user.id}}){
+								
+								htm+=`<div class="media flex-row-reverse">
+											<div class="main-img-user online"><img alt="" src="{% static '/assets/img/faces/6.jpg' %}"></div>
+											<div class="media-body">
+												<div class="main-msg-wrapper">
+													`+msg[i].fields.text+`
+												</div>
+												<div>
+													<span>`+date_time.toLocaleString("en-US")+`</span> <a href=""><i class="icon ion-android-more-horizontal"></i></a>
+												</div>
+											</div>
+										</div>`
+								}else{
+											htm+=`<div class="media">
+													<div class="main-img-user online"><img alt="" src="{% static '/assets/img/faces/9.jpg' %}"></div>
+													<div class="media-body">
+														<div class="main-msg-wrapper">
+															`+msg[i].fields.text+`
+														</div>
+														<div>
+															<span>`+msg[i].fields.author+`</span><span>`+date_time.toLocaleString("en-US")+`</span> <a href=""><i class="icon ion-android-more-horizontal"></i></a>
+														</div>
+													</div>
+												</div>`
+								}
+						}
+						$('.content-inner').append(htm);
+					}
+					else{
+
+					}
+				}).fail(function(){
+					  console.log("failed");
+				})
+		});
+		$('.private').click(function(){
+
+		$('.private').removeClass('selected');	
+		$('.content-inner').html('');
+		$('#chat_id').val('');
+
+        $(this).addClass('selected');
+
+		var htm='';
+			$.ajax({
+				  url:'{% url 'chat:get_message' %}',
+				  type:'POST',
+				  headers: {'X-CSRFToken': '{{ csrf_token }}'},
+				  data:{chat_id:$(this).data('id'),type:'private'}
+				})
+				.done(function(response){
+				response=JSON.parse(response);
+					if(response.status==true){
+
+					$('#group-name').html(response.Group_title);						
+					$('.input_chat_msg_box').css('display','flex');
+					console.log(response.userid)
+					$('#userid').val(response.userid);
+					console.log(response.chat_id)
+					$('#chat_id').val(response.chat_id);
+					currentgroupid=response.chat_id;
+					$('#chat_type').val('private');
+					var msg=JSON.parse(response.message)
+					console.log(msg)
+						for(var i=0 ;i<msg.length;i++)
+						{
+							date_time=new Date({% localtime on %}msg[i].fields.date_created{% endlocaltime %});
+								if(msg[i].fields.author=={{request.user.id}}){
+								
+								htm+=`<div class="media flex-row-reverse">
+											<div class="main-img-user online"><img alt="" src="{% static '/assets/img/faces/6.jpg' %}"></div>
+											<div class="media-body">
+												<div class="main-msg-wrapper">
+													`+msg[i].fields.body+`
+												</div>
+												<div>
+													<span>`+date_time.toLocaleString("en-US")+`</span> <a href=""><i class="icon ion-android-more-horizontal"></i></a>
+												</div>
+											</div>
+										</div>`
+								}else{
+
+											htm+=`<div class="media">
+													<div class="main-img-user online"><img alt="" src="{% static '/assets/img/faces/9.jpg' %}"></div>
+													<div class="media-body">
+														<div class="main-msg-wrapper">
+															`+msg[i].fields.body+`
+														</div>
+														<div>
+															<span>`+date_time.toLocaleString("en-US")+`</span> <a href=""><i class="icon ion-android-more-horizontal"></i></a>
+														</div>
+													</div>
+												</div>`
+								}
+						}
+						$('.content-inner').append(htm);
+					}
+					else{
+
+					}
+				}).fail(function(){
+					  console.log("failed");
+				})
+		});
+	})
+</script>
+
+{% endblock %}

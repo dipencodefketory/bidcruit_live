@@ -1,0 +1,652 @@
+{%load static%}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+<title></title>
+
+<!--general meta information-->
+<meta charset="utf-8">
+<meta name="author" content="">
+<meta name="description" content="">
+<meta name="keywords" content="">
+
+
+
+<!--font styles-->
+<link rel="stylesheet prefetch prerender" href="https://cdn.rawgit.com/tonsky/FiraCode/1.206/distr/fira_code.css" data-noprefix>
+<link rel="stylesheet prefetch prerender" href="https://fonts.googleapis.com/css?family=Source+Code+Pro:400,700" data-noprefix>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+<!--jquery ui styles-->
+<link rel="stylesheet" href="{% static 'assets/front_end_editor/css/jquery-ui.min.css' %}">
+<link rel="stylesheet" href="{% static 'assets/front_end_editor/css/jquery-ui.structure.min.css' %}">
+
+<!-- Bootstrap css -->
+<link rel="stylesheet" href="{% static 'assets/plugins/bootstrap/css/bootstrap.min.css' %}">
+
+<!--codemirror styles-->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/codemirror@latest/lib/codemirror.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/codemirror@latest/addon/fold/foldgutter.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/codemirror@latest/addon/scroll/simplescrollbars.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/codemirror@latest/addon/lint/lint.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/codemirror@latest/theme/dracula.css">
+
+<!--requried styles-->
+<link rel="stylesheet" href="{% static 'assets/front_end_editor/css/styles.css' %}">
+
+<!--html5 shiv-->
+<!--[if lt IE 9]>
+<script src="{% static 'assets/front_end_editor/js/html5shiv-printshiv.min.js"></script>
+<![endif]-->
+
+<!--required scripts-->
+<script src="{% static 'assets/front_end_editor/js/prefixfree.min.js' %}"></script>
+<script src="{% static 'assets/plugins/jquery/jquery.min.js' %}"></script>
+
+<script src="{% static 'assets/front_end_editor/js/jquery-ui.min.js' %}"></script>
+<script src="https://cdn.jsdelivr.net/npm/htmlhint@latest/lib/htmlhint.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/csslint@latest/dist/csslint.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jshint@latest/dist/jshint.js"></script>
+
+<!--codemirror main-->
+<script src="https://cdn.jsdelivr.net/npm/codemirror@latest/lib/codemirror.min.js"></script>
+
+<!--codemirror modes-->
+<script src="https://cdn.jsdelivr.net/npm/codemirror@latest/mode/xml/xml.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/codemirror@latest/mode/htmlmixed/htmlmixed.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/codemirror@latest/mode/css/css.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/codemirror@latest/mode/javascript/javascript.min.js"></script>
+
+<!--codemirror addons-->
+<script src="https://cdn.jsdelivr.net/npm/codemirror@latest/addon/fold/xml-fold.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/codemirror@latest/addon/fold/foldcode.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/codemirror@latest/addon/fold/foldgutter.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/codemirror@latest/addon/fold/brace-fold.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/codemirror@latest/addon/edit/matchtags.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/codemirror@latest/addon/edit/matchbrackets.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/codemirror@latest/addon/edit/closetag.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/codemirror@latest/addon/edit/closebrackets.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/codemirror@latest/addon/edit/trailingspace.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/codemirror@latest/addon/scroll/simplescrollbars.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/codemirror@latest/addon/selection/active-line.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/codemirror@latest/addon/comment/comment.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/codemirror@latest/addon/lint/lint.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/codemirror@latest/addon/lint/html-lint.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/codemirror@latest/addon/lint/css-lint.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/codemirror@latest/addon/lint/javascript-lint.min.js"></script>
+
+<!--codemirror keymap-->
+<script src="https://cdn.jsdelivr.net/npm/codemirror@latest/keymap/sublime.min.js"></script>
+
+<!--twitter typeahead-->
+<script src="{% static 'assets/front_end_editor/js/typeahead.bundle.min.js' %}"></script>
+
+<!--file saver-->
+<script defer src="{% static 'assets/front_end_editor/js/Blob.min.js' %}"></script>
+<script defer src="{% static 'assets/front_end_editor/js/FileSaver.min.js' %}"></script>
+
+<!--font awesome-->
+<script src="https://kit.fontawesome.com/b4c06aa200.js"></script>
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.min.css" integrity="sha256-9mbkOfVho3ZPXfM7W8sV2SndrGDuh7wuyLjtsWeTI1Q=" crossorigin="anonymous" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.min.js" integrity="sha256-t8GepnyPmw9t+foMh3mKNvcorqNHamSKtKRxxpUEgFI=" crossorigin="anonymous"></script>
+
+<style>
+    .code-header {display: flex;justify-content: space-between;align-items: center;padding: 15px 5px;background: #007bff;}
+    .code-edit__head {background: #fff;display: flex;justify-content: space-between;align-items: center;padding: 8px 6px;border-radius: 7px;}
+    .head__container {padding: 16px 10px;}
+    .exam-prompt { display: flex; justify-content: flex-start; align-items: baseline;}
+    #countdown2 {font-size: 18px; font-weight: 600;}
+    h2{font: 14px Arial, sans-serif;color:#fff;padding: 10px; text-align: center;}
+#question-content button {
+    border: none;
+    border-radius: 20px;
+    padding: 5px 10px;
+    margin-right: 5px;
+    font-weight: 700;
+}
+.paginate-btn{
+    color:white;
+}
+.fx-right {
+    display: flex;
+    justify-content: flex-start;
+    background: #000;
+    color:white;
+    padding: 0 10px;
+}
+#question-content button:focus {
+    border: none;
+    outline: 0;
+}
+.active-que{
+    background: green;
+    color: #fff;
+}
+.fx-right #question-content {
+    width: 30% !important;
+    /*flex: 1 1 auto;*/
+}
+.fx-right #site-content {
+    width: 70%;
+    /*flex: 1 1 auto;*/
+}
+
+
+
+/**side panel preview**/
+.sidepanel-title-bar{
+    border-bottom: 1px solid #dfe6f9;
+    padding: 10px;
+    font-size: 20px;
+    text-align: center;
+    font-weight: bold
+}
+.all-cards{
+    padding: 0px 15px 15px 15px;
+}
+.single-card{
+    padding: 10px;
+    border-bottom: 1px solid #dfe6f9;
+}
+.comment{
+    border-radius: 10px !important
+}
+.form-submit{
+    padding:15px;
+    float:right;
+}
+.applyCandidatePreview { position: relative;}
+.applyCandidatePreview { position: relative;}
+.sidebar-preview {width: 0%;margin-left: 0px !important;margin-right: 0px !important;right: 0px;position: absolute;top: 0px;height: 100vh;border: 0px;transition: all .4s ease-in-out;visibility: hidden;z-index: 999;}
+.sidebar-preview:after {content: "";opacity: 0.5;top: 0;left: 0;bottom: 0;right: 0;position: absolute;z-index: 1;width: 100%;background: #000;}
+.side-barContainer {position: absolute;overflow:auto;width: 70%;right: 0;height: 100%;z-index: 2;padding: 0px !important;}
+.slideClose {
+    font-size: 24px;
+    padding: 10px 4px;
+    background: #eaeaea;
+    width: 45px;
+    height: 45px;
+    position: relative;
+    border-radius: 25px;
+    top: 50%;
+    right: calc(32%);
+    cursor: pointer;
+    z-index: 99999;
+    margin: 0 0px 0 auto;
+    text-align: center;
+}
+.slideCloseMarking {
+    font-size: 24px;
+    padding: 10px 4px;
+    background: #eaeaea;
+    width: 45px;
+    height: 45px;
+    position: relative;
+    border-radius: 25px;
+    top: 50%;
+    right: calc(68%);
+    cursor: pointer;
+    z-index: 99999;
+    margin: 0 0px 0 auto;
+    text-align: center;
+}
+body.body_overflow{
+    overflow: hidden;
+}
+
+/***side panel header***/
+
+.stars {
+  --s:25px;
+  position:relative;
+  display:inline-flex;
+}
+.stars input {
+  width:var(--s);
+  height:var(--s);
+  margin:0;
+  opacity:0;
+  cursor:pointer;
+}
+
+.stars i {
+  position:absolute;
+  inset:0 0 calc(var(--s)*0.1);
+  pointer-events:none;
+  --v1:transparent,#000 0.5deg 108deg,#0000 109deg;
+  --v2:transparent,#000 0.5deg  36deg,#0000  37deg;
+  -webkit-mask:
+    conic-gradient(from 54deg  at calc(var(--s)*0.68) calc(var(--s)*0.57),var(--v1)),
+    conic-gradient(from 90deg  at calc(var(--s)*0.02) calc(var(--s)*0.35),var(--v2)),
+    conic-gradient(from 126deg at calc(var(--s)*0.5)  calc(var(--s)*0.7) ,var(--v1)),
+    conic-gradient(from 162deg at calc(var(--s)*0.5)  0                  ,var(--v2));
+  -webkit-mask-size: var(--s) var(--s);
+  -webkit-mask-composite: xor,destination-over;
+  mask-composite: exclude,add;
+  background:
+    linear-gradient(rgba(255,0,0,var(--o,0.3)) 0 0),
+    linear-gradient(gold                       0 0)
+    #ccc;
+  background-size:calc(var(--l,0)*var(--s)) 100%,calc(var(--p,0)*var(--s)) 100%;
+  background-repeat:no-repeat;
+}
+
+.stars:focus-within {
+  outline:1px solid;
+}
+
+input:active ~ i{--o:1}
+
+input:nth-of-type(1):checked ~ i {--p:1}
+input:nth-of-type(2):checked ~ i {--p:2}
+input:nth-of-type(3):checked ~ i {--p:3}
+input:nth-of-type(4):checked ~ i {--p:4}
+input:nth-of-type(5):checked ~ i {--p:5}
+input:nth-of-type(6):checked ~ i {--p:6}
+input:nth-of-type(7):checked ~ i {--p:7}
+input:nth-of-type(8):checked ~ i {--p:8}
+input:nth-of-type(9):checked ~ i {--p:9}
+input:nth-of-type(10):checked ~ i {--p:10}
+/*input:nth-of-type(N):checked ~ i {--p:N}*/
+
+input:nth-of-type(1):hover ~ i {--l:1}
+input:nth-of-type(2):hover ~ i {--l:2}
+input:nth-of-type(3):hover ~ i {--l:3}
+input:nth-of-type(4):hover ~ i {--l:4}
+input:nth-of-type(5):hover ~ i {--l:5}
+input:nth-of-type(6):hover ~ i {--l:6}
+input:nth-of-type(7):hover ~ i {--l:7}
+input:nth-of-type(8):hover ~ i {--l:8}
+input:nth-of-type(9):hover ~ i {--l:9}
+input:nth-of-type(10):hover ~ i {--l:10}
+
+
+
+
+.descriptive_questions_action {
+    float: right;
+    display: flex;
+    align-items: center;
+    width: 38%;
+}
+.descriptive_questions{
+    display: inline-block;
+    width: 100%;
+}
+.descriptive_questions_no{
+    float: left;
+    width: 3%;
+}
+.descriptive_question_heading{
+    display: flex;
+}
+.descriptive_question_heading .cardtitle{
+    color: #031b4e;
+    font-size: 16px;
+    font-weight: 900;
+    text-transform: capitalize;
+    font-family: "Rubik", sans-serif;
+    margin-right: 15px;
+}
+.descriptive_question_heading span{
+    color: #0068ff;
+    font-size: 12px;
+    background: #ebf1ff;
+    padding: 4px 12px;
+    border-radius: 10px;
+}
+.questions_details_text {
+    width: 59%;
+    float: left;
+    color: #041b4e;
+    font-size: 14px;
+    font-weight: 500;
+    line-height: normal;
+    margin-top: 0 !important;
+}
+.questions_details_text p{
+    color: #041b4e;
+    font-size: 14px;
+    line-height: normal;
+}
+.questions_list_append_here.card-header {
+    padding: 16px;
+    margin-bottom: 10px;
+    border-radius: 10px !important;
+    border-bottom: none;
+}
+.descriptive_assesment_detail {
+    background: #fff;
+    border-radius: 10px;
+    padding: 18px 18px;
+    width: 100%;
+    display: inline-block;
+    color: #041b4e;
+    font-size: 14px;
+    line-height: normal;
+    margin-top: 18px;
+}
+.question_marks_title {
+    font-weight: 500;
+    font-size: 16px;
+    margin-left: 10px;
+}
+input.marks_number{
+    border-right: 1px solid #e2e8f5 !important;
+    border-radius: 14px;
+    width: 134px;
+}
+.slide-tab-btn {
+    background: #E9EFFD;
+    padding: 5px 8px 3px 8px;
+    border-radius: 20px !important;
+    cursor: pointer;
+    margin-left: 12px;
+}
+.slide-tab-btn i {
+    color: #0068ff;
+}
+.descriptive_assesment_detail {
+    display: none;
+}
+.all_questions{
+    margin: 15px 15px 0px;
+}
+
+
+
+    </style>
+
+</head>
+
+<body>
+
+    {%csrf_token%}
+
+    <div class="container-fluid">
+        <div class="fx-left">
+                <div style="background-color: black;" class="bidcruitEditor">
+                        <div class="code-header">
+                            <div class="head-logo">
+                                <img src="{% static 'assets/img/brand/bid-logo-white.png' %}">
+                            </div>
+<!--                            <div class="nav-list">-->
+<!--                                <button class="quit-exam btn btn-danger rounded-20 text-capitalize" id="quitExamBtn"><i class="fas fa-power-off"></i>quit exam</button>-->
+<!--                            </div>-->
+                        </div>
+                        {% csrf_token %}
+                        <div class="head__container">
+                            <div class="code-edit__head">
+                                <div class="action__btns">
+                                    <button id="run-btn" class="ui primary labeled icon button run-script"><i class="play icon"></i>Run</button>
+                                </div>
+                                {% if not assessment_done %}
+                                 <div class="submit-code__section">
+                                     {% if assignment_type == 'rating' %}
+                                         <button class="tab-listing btn btn-success rounded-20" id="give_rating">Give Ratings</button>
+                                     {% endif %}
+                                     {% if assignment_type == 'marks' %}
+                                         <button class="tab-listing btn btn-success rounded-20" id="give_marking">Give Marking</button>
+                                     {% endif %}
+                                </div>
+                                 {% endif %}
+
+                            </div>
+                        </div>
+                </div>
+            </div>
+        <div class="fx-right">
+            <div id="wrapper">
+                <section id="utils">
+                    <div class="code-swap">
+                        <span class="toggle-view">view<span class="fas fa-fw fa-chevron-down"></span></span>
+                        <span class="code-swap-html active" href="#">HTML</span>
+                        <span class="code-swap-css" href="#">CSS</span>
+                        <span class="code-swap-js" href="#">JS</span>
+                        <span class="toggle-preview" href="#">preview<span class="fas fa-fw fa-eye"></span></span>
+                    </div>
+                    <div class="font-size">
+                        <label class="fa-layers fa-fw" for="fs">
+                            <span class="fas fa-font"></span>
+                            <span class="fas fa-percent" data-fa-transform="shrink-7 up-2 right-12"></span>
+                        </label>
+                        <input id="fs" type="number" min="50" max="200" value="100">
+                    </div>
+
+                    <div class="code-tools">
+                        <span class="toggle-tools">tools<span class="fas fa-fw fa-chevron-down"></span></span>
+                        <span class="toggle-lineWrapping html">wrap<span class="fas fa-fw fa-toggle-off"></span></span>
+                        <span class="toggle-lineWrapping css">wrap<span class="fas fa-fw fa-toggle-off"></span></span>
+                        <span class="toggle-lineWrapping js">wrap<span class="fas fa-fw fa-toggle-off"></span></span>
+                        <span class="save">save<span class="fas fa-fw fa-file-download"></span></span>
+                    </div>
+                    <div class="cdnjs-search">
+                        <input class="query" type="text" placeholder="cdnjs...">
+                    </div>
+                </section>
+                <section id="editor">
+                    <div id='question-content' class="" style="width: 40%;float: left;">
+                        {% for i in question_list %}
+                            <button class="paginate-btn {% if forloop.first %}active-que{% endif %}" onclick="view_question('{{i}}')">{{i|add:"1"}}</button>
+                        {% endfor %}
+                        <div id="question_title_box"></div>
+                        <div id="question_description_box"></div>
+                    </div>
+                    <div class="code-pane" style="width:40%; float: right;">
+                        <div class="code-pane-html">
+                            <textarea id="htmlcode" name="htmlcode"></textarea>
+                        </div>
+                        <div class="code-pane-css">
+                            <textarea id="csscode" name="csscode"></textarea>
+                        </div>
+                        <div class="code-pane-js">
+                            <textarea id="jscode" name="jscode"></textarea>
+                        </div>
+                    </div>
+                    <div class="preview-pane">
+                        <iframe id="preview" name="preview" width="30%" src="{% url 'candidate:preview' %}" sandbox="allow-forms allow-modals allow-pointer-lock allow-popups allow-same-origin allow-scripts" allowfullscreen="true" allowtransparency="true" allowpaymentrequest="true"></iframe>
+                        <span class="preview-width"></span>
+                    </div>
+                </section>
+            </div>
+        </div>
+    </div>
+
+
+        {% if not assessment_done %}
+            {% if assignment_type == 'rating' %}
+            <div class="drawer-list">
+                <div class="row row-sm sidebar-preview">
+                    <div class="slideClose"><i class="fa fa-chevron-right"></i></div>
+                    <div class="col-4 card side-barContainer rounded-0">
+                        <div class="sidepanel-title-bar">
+                            <span class="heading">Comments & Ratings</span>
+                        </div>
+                        <div class="all-cards">
+                            <form role="form" method="post">
+                                {% csrf_token %}
+                                {% for scorecard in scorecards %}
+                                <div class="single-card">
+                                    <h5 class="scorecard-title text-capitalize">{{scorecard.title}}</h5>
+                                    <div class="stars">
+                                        <input type="radio" name="rating{{scorecard.id}}" value="1" required>
+                                        <input type="radio" name="rating{{scorecard.id}}" value="2">
+                                        <input type="radio" name="rating{{scorecard.id}}" value="3">
+                                        <input type="radio" name="rating{{scorecard.id}}" value="4">
+                                        <input type="radio" name="rating{{scorecard.id}}" value="5">
+                                        <i></i>
+                                    </div>
+                                    <textarea class="form-control comment" name="comment{{scorecard.id}}" placeholder="comment.." required></textarea>
+                                </div>
+                                {% endfor %}
+                                <div class="form-submit">
+                                    <button name="rating_submit" class="btn btn-primary rounded-20">Submit</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+
+            {% if assignment_type == 'marks' %}
+            <div class="drawer-list">
+                <div class="row row-sm sidebar-preview">
+                    <div class="slideCloseMarking"><i class="fa fa-chevron-right"></i></div>
+                    <div class="col-12 card side-barContainer rounded-0">
+                        <div class="sidepanel-title-bar">
+                            <span class="heading">Marking</span>
+                        </div>
+                        <form role="form" method="post">
+                            {% csrf_token %}
+                            <div class="all_questions">
+
+                                {% for question in all_questions %}
+                                    <div class="questions_list_append_here card-header mg-b-10">
+                                        <div class="descriptive_questions">
+                                            <div class="descriptive_questions_no">
+                                                <div class="descriptive_question_heading">
+                                                    <div class="cardtitle">{{forloop.counter}}</div>
+                                                </div>
+                                            </div>
+                                            <div class="questions_details_text">
+                                                {{question.exam_question_id.question_id.coding_que_title}}
+                                            </div>
+                                            <div class="descriptive_questions_action">
+                                                <input type="number" required name="obtain_marks{{question.id}}" class="marks_number form-control pl-3" max="{{question.exam_question_id.marks}}" placeholder="Enter Marks">
+                                                <div class="question_marks_title"> / Question Marks:{{question.exam_question_id.marks}}</div>
+                                                <div class="slide-tab-btn"><i class="fas fa-chevron-down"></i></div>
+                                            </div>
+                                        </div>
+                                        <div class="descriptive_assesment_detail">
+                                            {% autoescape off %}
+                                                {{question.exam_question_id.question_id.coding_que_description}}
+                                            {% endautoescape %}
+                                        </div>
+                                    </div>
+                                {% endfor %}
+                            </div>
+                            <div class="form-submit">
+                                <button name="marking_submit" class="btn btn-primary rounded-20">Submit</button>
+                            </div>
+                        </form>
+
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+        {% endif %}
+
+{% autoescape off %}
+    <script type="text/javascript">
+        var mylist = {{coding_questions}};
+        console.log('mylist', mylist);
+    </script>
+{% endautoescape %}
+
+
+<!-- main -->
+<script src="{% static 'assets/front_end_editor/js/main1.js' %}"></script>
+
+<script>
+    var no_of_questions = parseInt(JSON.parse("{{no_of_questions}}"));
+    var current_question_pointer = 0
+
+    all_codes = JSON.parse("{{all_front_end_codes|escapejs}}")
+
+    function getCodingAnswersList(){
+        return all_codes;
+    }
+    console.log("all_codes>>>>>>>>>",all_codes)
+
+    console.log('111111111111111111')
+    localStorage.setItem('htmlcode',all_codes[0]['fields']['html_code'])
+    localStorage.setItem('csscode',all_codes[0]['fields']['css_code'])
+    localStorage.setItem('jscode',all_codes[0]['fields']['js_code'])
+
+    function view_question(pointer){
+        if(pointer <0){
+            pointer = 0
+        }else if(pointer >no_of_questions-1){
+            pointer = no_of_questions-1
+        }
+
+        current_question_pointer = pointer
+
+        html_code = all_codes[pointer]['fields']['html_code']
+        css_code = all_codes[pointer]['fields']['css_code']
+        js_code = all_codes[pointer]['fields']['js_code']
+
+        localStorage.setItem('htmlcode',html_code)
+        localStorage.setItem('csscode',css_code)
+        localStorage.setItem('jscode',js_code)
+
+        loadTempHTML();
+        loadTempCSS();
+        loadTempJS();
+
+        html_editor.setValue(html_code)
+        css_editor.setValue(css_code)
+        js_editor.setValue(js_code)
+
+        updateFontSize(html_editor, fontSize.val());
+        updateFontSize(css_editor, fontSize.val());
+        updateFontSize(js_editor, fontSize.val());
+    
+        document.getElementsByClassName('code-swap-html')[0].click()
+        update_selected_question(current_question_pointer);
+    }
+
+    function update_selected_question(question_index){
+        document.querySelector("#question_description_box").innerHTML = mylist[question_index].description
+        document.querySelector("#question_title_box").innerHTML = mylist[question_index].title
+    }
+
+    function getQuestionList(){
+        return mylist;
+    }
+
+    $(document).ready(function () {
+
+        $(document).on('click','.slide-tab-btn',function(){
+            currentListEle = $(this);
+            if(currentListEle.closest('.questions_list_append_here').find('.descriptive_assesment_detail').is(":visible")){
+                $('.descriptive_assesment_detail').slideUp();
+                currentListEle.closest('.questions_list_append_here').find('.descriptive_assesment_detail').slideUp();
+            }else{
+                $('.descriptive_assesment_detail').slideUp();
+                currentListEle.closest('.questions_list_append_here').find('.descriptive_assesment_detail').slideDown();
+            }
+        })
+
+        $(document).on('click','.delete-btn',function(){ //remove list
+            $(this).closest('.questions_list_append_here').remove()
+        })
+
+        $(document).on('click','.tab-listing',function(){
+            $('.drawer-list .sidebar-preview').css({'width':'100%','visibility':'visible'});
+            $('body').addClass('body_overflow');
+        })
+
+        $(document).on('click','.slideClose',function(){
+            $('.sidebar-preview').css({'width':'0%','visibility':'hidden'});
+            $('.slideClose').addClass('inside');
+            $('body').removeClass('body_overflow');
+        })
+
+        $(document).on('click','.slideCloseMarking',function(){
+            $('.sidebar-preview').css({'width':'0%','visibility':'hidden'});
+            $('.slideClose').addClass('inside');
+            $('body').removeClass('body_overflow');
+        })
+    });
+
+
+
+</script>
+</body>
+</html>

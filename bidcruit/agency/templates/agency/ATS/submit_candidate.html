@@ -1,0 +1,122 @@
+{% extends 'agency/base.html' %}
+{% load static %}
+{% load agency_filter %}
+{% block title %} Submit Candidate {% endblock %}
+{% block css %}
+<!--<link href="{% static 'assets/css/ATS/custom_template.css' %}" rel="stylesheet">-->
+        <!-- Internal Data table css -->
+		<link href="{% static 'assets/plugins/datatable/css/dataTables.bootstrap4.min.css' %}" rel="stylesheet" />
+		<link href="{% static 'assets/plugins/datatable/css/buttons.bootstrap4.min.css' %}" rel="stylesheet">
+		<link href="{% static 'assets/plugins/datatable/css/responsive.bootstrap4.min.css' %}" rel="stylesheet" />
+		<link href="{% static 'assets/plugins/datatable/css/jquery.dataTables.min.css' %}" rel="stylesheet">
+		<link href="{% static 'assets/plugins/datatable/css/responsive.dataTables.min.css' %}" rel="stylesheet">
+{% endblock %}
+
+{% block main %}
+<style>
+	.submit_candidate_applied_b{
+		padding: 7px 20px;
+	    font-size: 16px;
+	    color: #ffffff;
+	    background-color: #0068ff;
+	    border-color: #0068ff;
+	    border: none;
+	    border-radius: 10px;
+	    margin-top: 16px;
+	}
+</style>
+<div class="main-content-body">
+    <div class="row row-sm">
+        <div class="col-xl-12">
+            <div class="card">
+               <div class="card-body">
+                   <form method="POST" role="form" enctype="multipart/form-data">
+                       {% csrf_token %}
+                       <div class="table-responsive">
+                        <table class="table text-md-nowrap submit_candidate_table">
+                            <thead>
+                                <tr>
+                                    <th class="border-bottom-0">Select</th>
+                                    <th class="border-bottom-0">Name</th>
+                                    <th class="border-bottom-0">Job Title</th>
+                                    <th class="border-bottom-0">total experience</th>
+                                    <th class="border-bottom-0">ex-salary</th>
+                                    <th class="border-bottom-0">last updated</th>
+                                    <th class="border-bottom-0">Notice period</th>
+                                    <th class="border-bottom-0">City</th>
+                                    <th class="border-bottom-0">Source</th>
+                                    <th class="border-bottom-0">View</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            {% for candidate in candidates %}
+                                <tr>
+                                     <td class="text-capitalize">
+                                        {% if candidate.candidate_id.email|check_candidate_is_applied:job_id %}
+                                            Applied 
+                                         {% else %}
+                                            <input type="radio" name="selected_candidate" value="{{candidate.id}}" required>
+                                         {% endif%}
+                                    </td>
+
+                                    <td class="text-capitalize">{{candidate.first_name}} {{candidate.last_name}}</td>
+                                    <td class="text-capitalize">{{candidate.designation}}</td>
+                                    <td class="text-capitalize">{{candidate.total_exper|experiance_show}}</td>
+                                    <td class="text-capitalize">{{candidate.expectedctc}}</td>
+                                    <td class="text-capitalize">{{candidate.update_at|whenpublished}}</td>
+                                    <td class="text-capitalize">{{candidate.notice.notice_period}}</td>
+                                    <td class="text-capitalize">{{candidate.current_city.city_name}}</td>
+                                    <td class="text-capitalize">{{candidate.source.name}}</td>
+                                    <td class="action_icons">
+                                        <a href="{% url 'agency:view_candidate' candidate.id %}" target="_blank"><i class="fas fa-eye"></i></a>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                       <button class="submit_candidate_applied_b" type="submit">Submit</button>
+                   </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+
+
+{% block script %}
+<!-- Internal Data tables -->
+		<script src="{% static 'assets/plugins/datatable/js/jquery.dataTables.min.js' %}"></script>
+		<script src="{% static 'assets/plugins/datatable/js/dataTables.dataTables.min.js' %}"></script>
+		<script src="{% static 'assets/plugins/datatable/js/dataTables.responsive.min.js' %}"></script>
+		<script src="{% static 'assets/plugins/datatable/js/responsive.dataTables.min.js' %}"></script>
+		<script src="{% static 'assets/plugins/datatable/js/jquery.dataTables.js' %}"></script>
+		<script src="{% static 'assets/plugins/datatable/js/dataTables.bootstrap4.js' %}"></script>
+		<script src="{% static 'assets/plugins/datatable/js/dataTables.buttons.min.js' %}"></script>
+		<script src="{% static 'assets/plugins/datatable/js/buttons.bootstrap4.min.js' %}"></script>
+		<script src="{% static 'assets/plugins/datatable/js/jszip.min.js' %}"></script>
+		<script src="{% static 'assets/plugins/datatable/js/pdfmake.min.js' %}"></script>
+		<script src="{% static 'assets/plugins/datatable/js/vfs_fonts.js' %}"></script>
+		<script src="{% static 'assets/plugins/datatable/js/buttons.html5.min.js' %}"></script>
+		<script src="{% static 'assets/plugins/datatable/js/buttons.print.min.js' %}"></script>
+		<script src="{% static 'assets/plugins/datatable/js/buttons.colVis.min.js' %}"></script>
+		<script src="{% static 'assets/plugins/datatable/js/dataTables.responsive.min.js' %}"></script>
+		<script src="{% static 'assets/plugins/datatable/js/responsive.bootstrap4.min.js' %}"></script>
+
+
+        <script>
+            var mcq_table = $('.submit_candidate_table').DataTable({
+                language: {
+                    searchPlaceholder: 'Search...',
+                    sSearch: '',
+                    lengthMenu: '_MENU_',
+                }
+            });
+        </script>
+
+        <script src="{% static 'assets/js/ATS/interview_template.js' %}"></script>
+
+
+{% endblock %}

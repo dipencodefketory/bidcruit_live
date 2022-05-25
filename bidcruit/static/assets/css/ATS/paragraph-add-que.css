@@ -1,0 +1,157 @@
+.flex-box-col {
+    display: flex;
+    justify-content: space-between;
+    flex-direction: row;
+    padding: 10px 10px;
+}
+.title-section {
+    display: flex;
+    align-items: center;
+}
+.title-section .page-title {
+    margin: 0;
+}
+.head-action-btns {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 12px;
+}
+.upper-lavel.col-12 {
+    display: flex;
+    justify-content: space-between;
+    flex-direction: row;
+    align-items: center;
+    padding: 20px 0;
+}
+.upper-lavel .fx-right {
+    padding-right: 15px;
+}
+.flex-inline {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+}
+.flex-inline label {
+    margin: 0;
+    margin-right: 15px;
+}
+.questionView__container {
+    margin: 0 auto;
+    max-width: 98.4% !important;
+}
+.title-covered {
+    background: #0068ff;
+    color: #fff;
+    padding: 8px 15px;
+    border-radius: 0 10px 10px 0;
+}
+.title-covered .que-count {
+    margin: 0;
+}
+.que-bottm-section {
+    margin-top: 30px;
+}
+.fx-sm__radio-btn {
+    display: flex;
+}
+.count-que_lable {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 15px;
+    position: relative;
+}
+.count-que_lable label {
+    background: #0068ff;
+    color: #fff;
+    padding: 5px 10px;
+    border-radius: 10px;
+    margin: 0;
+    width: 55px;
+    margin-bottom: 10px;
+}
+.count-que_lable .quote-text {
+    margin: 0;
+    font-size: 16px;
+    font-weight: normal;
+    width: auto;
+    min-width: 87%;
+    margin-bottom: 10px;
+}
+.showOption-layout {
+    position: relative;
+    margin-top: 28px;
+}
+.group-opt.grid-view {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    column-gap: 15px;
+    width: 85%;
+    margin: 0 auto;
+    padding-top: 25px;
+}
+.grid-col {
+    margin-bottom: 10px;
+}
+.grid-col .fx-col-sm {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    flex-direction: column;
+}
+.bottom-row {
+    width: 100%;
+}
+.fx-col-sm .top-row {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+}
+.fx-col-sm .top-row .smp-opt-num {
+    margin: 0;
+    font-weight: 500;
+}
+.addButtonView {
+    display: flex;
+    justify-content: flex-end;
+    position: relative;
+    padding: 15px 0 0 0;
+}
+.showOption-layout:after {
+    content: "";
+    border-bottom: 2px solid #e2e8f5;
+    width: 93.5%;
+    position: absolute;
+    bottom: -10px;
+    left: 59px;
+}
+.count-que_lable label:last-child {
+    position: absolute;
+    background: transparent;
+    width: 100%;
+    top: 36px;
+    left: 4%;
+    color: #e7505a;
+    margin-left: 10px;
+}
+.action-btn__que {
+    cursor: pointer;
+    color: #0068ff;
+    font-weight: 600;
+    margin: 15px;
+}
+.action-btn__que .fa-plus-circle {
+    padding-right: 5px;
+}
+.que-delete-btn .fa-trash-alt {
+    padding-right: 10px;
+}
+.delete-quote {
+    width: 85%;
+    margin: 0 auto;
+    display: flex;
+    justify-content: flex-end;
+}

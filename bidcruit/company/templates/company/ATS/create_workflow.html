@@ -1,0 +1,123 @@
+{% extends 'company/base.html' %}
+{% load static %}
+{% block title %}Workflow Management{% endblock %}
+{% block css %}
+		<link href="{% static 'assets/css/ATS/create_workflow.css' %}" rel="stylesheet">
+{% endblock %}
+
+{% block main %}
+		<!-- Container-fluid -->
+
+			<!-- Main-content-body -->
+			<div class="main-content-body">
+				<!-- row opened -->
+				<div class="row row-sm">
+					<div class="col-xl-12">
+						<div class="card workflow_main_section mg-b-0">
+							<div class="workflow_card_h card-header pb-0">
+								<form id="workflow_form" method="post">
+								 	{% csrf_token %}
+									<div class="d-flex justify-content-between">
+										<h4 class="card-title mg-b-0">Workflow Name :<span class="tx-danger">*</span>
+											<input class="form-control" placeholder="Marketing Executive Recruitment"
+												   type="text" id="worflow_name" {% if is_edit %} value="{{workflow_obj.name}}" {% endif %}
+												   name="workflow_name" required="">
+										</h4>
+										<div class="workflow_right_save_btn">
+											<div class="workflow_save_btn">
+												<button id="Save_and_Next" class="btn btn-jobs btn-block" type="button">Save & Next</button>
+											</div>
+										</div>
+									</div>
+								</form>
+							</div>
+						</div>
+
+							<div class="facet-container">
+									<div class="left">
+										<div class="title_stage">Add New Stages Workflow</div>
+										<div class="add_stages_box">
+											<input type="hidden" id="stage-hidden-id" value="">
+											<div class="col-lg mg-t-10">
+												<label class="req-field">Stages :</label>
+												<select class="form-control text-capitalize" id="stageSelectorList">
+													<option label="Select Stages"></option>
+												</select>
+											</div>
+
+                                            <div class="col-lg mg-t-20">
+												<label class="req-field">Category :</label>
+												<select class="form-control" id="categorySelectorList" disabled>
+													<option label="Select Category"></option>
+												</select>
+											</div>
+
+											<div class="col-lg mg-t-20">
+												<label class="req-field">Template :</label>
+												<select class="form-control" id="templateSelectorList" disabled>
+													<option label="Select Template"></option>
+												    <option value="1">Afghanistan</option>
+													<option value="6">Angola</option>
+													<option value="7">Anguilla</option>
+													<option value="8">Antarctica</option>
+												</select>
+											</div>
+
+											<div class="col-lg mg-t-20">
+												<label class="req-field">Stage Name : <i style="color: #0068ff;" data-container="body" data-popover-color="head-primary" data-placement="top" title="" data-content="This name will be shown to candidates as interview process or stages." data-original-title=" " class="fas fa-info-circle"></i></label>
+												<input class="form-control edu-name" value="" name="stage_name" type="text">
+											</div>
+
+											<div class="workflow_add_btn">
+												<button id="Addworkflow" class="btn btn-jobs-add btn-block" type="button">Add</button>
+										    </div>
+
+
+										</div>
+									</div>
+									<div class="scrumb_card right">
+										<div class="create_stages_title">Create Stages</div>
+										<ul id="userFacets" class="facet-list">
+											{% if is_edit %}
+												{% for stage in stages %}
+													<li class="facet" id="{{stage.id}}">
+														<div class="title_stages_name">
+															<div class="name_list_h" data-sname="{{stage.stage_name}}">Stages Name : {{stage.stage_name}}</div>
+															<div class="edit_delete_action">
+																<a href="javascript:void(0);" class="edit-btn"><i class="fas fa-edit"></i></a>
+																<a href="javascript:void(0);" class="remove-btn"><i class="fas fa-trash-alt"></i></a>
+															</div>
+														</div>
+														<div class="info_data stage-ls" data-sid="{{stage.stage.id}}" data-stitle="{{stage.stage.name}}">Stage Type  : {{stage.stage.name}}</div>
+														<div class="info_data category-ls" data-cid="{{stage.category.id}}" data-ctitle="{{stage.category.name}}">Category :  {{stage.category.name}}</div>
+														<div class="info_data temp-ls" data-tempid="{{stage.template.id}}" data-temptitle="{{stage.template.name}}">Template :  {{stage.template.name}}</div>
+													</li>
+												{% endfor %}
+											{% endif %}
+										</ul>
+										<div class="drag-box"></div>
+									</div>
+								</div>
+
+								<div class="toastMsgBox">
+									<div class="msg-section"></div>
+								</div>
+					</div>
+					<!--/div-->
+				</div>
+				<!-- /row -->
+			</div>
+			<!-- Main-content-body closed -->
+			<input type="hidden" id="position" name="position">
+{% endblock %}
+
+{% block script %}
+      	<script src="{% static 'assets/plugins/jquery/jquery-ui.min.js' %}"></script>
+      	<script src="{% static 'assets/js/ATS/create-workflow.js' %}"></script>
+		<script>
+			var edit_flag = "{{ is_edit }}";
+			if(edit_flag){
+				var w_id = "{{workflow_obj.id}}"
+			}
+		</script>
+{% endblock %}

@@ -1,0 +1,259 @@
+{% extends 'agency/base.html' %}
+{% load static %}
+{% load agency_filter %}
+{% block title %} Connections Request {% endblock %}
+{% block css %}
+
+		<link href="{% static 'assets/css/ATS/connection_request.css' %}" rel="stylesheet">
+{% endblock %}
+{% block main %}
+
+				
+			<!-- Main-content-body -->
+			<div class="main-content-body">
+
+				<!-- header-title -->
+				<div class="header-title">
+					<div class="mb-0 mb-lg-0 mb-xl-0">
+						<h4 class="mb-2">Components</h4>
+						<div class="main-content-breadcrumb"> <span>Components</span> <span>Data-tables</span> </div>
+					</div>
+					<div class="ml-auto my-auto">
+						<a href="#" class="btn btn-primary"><i class="fe fe-plus-square"></i> Create Report</a>
+						<a href="#" class="btn btn-pink"><i class="fe fe-external-link"></i> Export</a>
+					</div>
+				</div>
+				<!-- header-title -->
+
+				<!-- row opened -->
+				<div class="row row-sm">
+					<div class="col-xl-12">
+						<div class="card candidate_view_main_section mg-b-10">
+							<div class="card-header pb-0">
+								<div class="d-flex justify-content-between" style="align-items: center;">
+								
+									<div class="tab-menu-heading">
+										<div class="tabs-menu ">
+											<!-- Tabs -->
+											<ul class="nav panel-tabs">
+												<li class=""><a href="#tab209" class="active" data-toggle="tab"> pending connections</a></li>
+												<li><a href="#tab300" data-toggle="tab">Accepted connections</a></li>
+											</ul>													
+										</div>
+									</div>
+									
+									<div class="candidate_right_filters_section">												
+										<div class="candidate_filters_header add_job_btn">	
+											<a class="head-btn btn-primary btn-sm rounded-20 bd-0 text-capitalize header_main_t_cust_btn" href="{% url 'agency:add_client' %}">Add Client</a>	
+										</div>												
+										
+									</div>
+									
+									
+								</div>
+								
+							</div>
+						
+						</div>
+
+						<div class="panel panel-primary mt-0 tabs-style-8">
+							
+							<div class="panel-body p-0">
+								<div class="tab-content connection_req">
+									<div class="tab-pane active" id="tab209">
+										
+										<div class="view_profile_card card mg-b-10 mg-t-0">
+											{% if pending_connections %}
+											{% for pending_connection in pending_connections %}
+											<div class="card-body">
+												<div class="cardheader">
+													<div class="media list_external_box">
+														<div class="media-user mr-2">
+															<div class="main_img-user"><img alt="" src="{% if pending_connection.company_id|company_profile:'logo' %}{{pending_connection.company_id|company_profile:'logo'}} {% else %} {% static 'assets/img/bidcruit_logo.png' %} {% endif %}"></div>
+														</div>
+														<div class="media-body name_skils_title">
+															<div class="info_view_candidate_row">
+																{% if pending_connection.company_id.company_id.company_name %}
+																	{% if pending_connection.company_id.company_id.company_name %}
+																		<h1 class="mb-0 mg-t-0 name">{{pending_connection.company_id.company_id.company_name}}</h1>
+																	{% endif %}
+																{% endif %}
+															</div>
+															
+															<div class="media mg-t-5 profile_footer">
+																{% if pending_connection.company_id.company_id.email %}
+																<div class="candidate_profile_footer">
+																	<div class="candidate_profile_title"><i class="fas fa-envelope"></i> {{pending_connection.company_id.company_id.email}}</div>
+																</div>
+																{% endif %}
+																{% if pending_connection.company_id|company_profile:'contact' %}
+																<div class="candidate_profile_footer">
+																	<div class="candidate_profile_title"><i class="fas fa-phone-alt"></i> {{pending_connection.company_id|company_profile:'contact'}}</div>
+																</div>
+																{% endif %}
+																<!-- <div class="candidate_profile_footer">
+																	<div class="candidate_profile_title"><i class="fas fa-map-marker-alt"></i> Ahmedabad, Gujarat, India</div>
+																</div>						 -->
+															</div>	
+															<div class="rate_details">
+																<ul>
+																	<li>Commission Rate :- {{pending_connection.commission_rate}}%</li>	
+																	<li>Payment Terms :- {{pending_connection.payment_terms.name}}</li>
+																	<li>Replacement Terms :- {{pending_connection.replacement_terms.name}}</li>
+																</ul>
+															</div>						
+														</div>
+														
+														
+													</div>
+												</div>
+												<div class="Business_req_footer">
+													<div class="req_title">
+														<i class="fas fa-business-time"></i> Requested For Business
+													</div>
+													<div class="candidate_view_header">
+														<!-- <a class="btn btn-Accept btn-block" href="">Accept</a> -->
+														<a class="btn btn-jobs btn-block" href="{% url 'agency:client_detail_view' pending_connection.id %}">View</a>
+													</div>
+												</div>	
+											
+											</div>
+											{% endfor %}
+											{% else %}
+											<div class="Business_req_footer">
+												<div class="req_title pl-3">
+													<h3>No Request</h3>
+												</div>
+												
+											</div>	
+											{% endif %}	
+										</div>
+									
+									   
+									</div>
+					
+									<div class="tab-pane" id="tab300">
+					
+										<div class="view_profile_card card mg-b-10 mg-t-0">
+											{% if active_connections %}
+											{% for active_connection in active_connections %}
+											<div class="card-body">
+												<div class="cardheader">
+													<div class="media list_external_box">
+														<div class="media-user mr-2">
+															<div class="main_img-user"><img alt="" src="{% if active_connection.company_id|company_profile:'logo' %}{{active_connection.company_id|company_profile:'logo'}} {% else %} {% static 'assets/img/bidcruit_logo.png' %} {% endif %}"></div>
+														</div>
+														<div class="media-body name_skils_title">
+															<div class="info_view_candidate_row">
+																{% if active_connection.company_id.company_id.company_name %}
+																	{% if active_connection.company_id.company_id.company_name %}
+																		<h1 class="mb-0 mg-t-0 name">{{active_connection.company_id.company_id.company_name}}</h1>
+																	{% endif %}
+																{% endif %}
+															</div>
+															
+															<div class="media mg-t-5 profile_footer">
+																{% if active_connection.company_id.company_id.email %}
+																<div class="candidate_profile_footer">
+																	<div class="candidate_profile_title"><i class="fas fa-envelope"></i> {{active_connection.company_id.company_id.email}}</div>
+																</div>
+																{% endif %}
+																{% if active_connection.company_id|company_profile:'contact' %}
+																<div class="candidate_profile_footer">
+																	<div class="candidate_profile_title"><i class="fas fa-phone-alt"></i> {{active_connection.company_id|company_profile:'contact'}}</div>
+																</div>
+																{% endif %}
+																<!-- <div class="candidate_profile_footer">
+																	<div class="candidate_profile_title"><i class="fas fa-map-marker-alt"></i> Ahmedabad, Gujarat, India</div>
+																</div>						 -->
+															</div>	
+															<div class="rate_details">
+																<ul>
+																	<li>Commission Rate :- {{active_connection.commission_rate}}%</li>	
+																	<li>Payment Terms :- {{active_connection.payment_terms.name}}</li>
+																	<li>Replacement Terms :- {{active_connection.replacement_terms.name}}</li>
+																</ul>
+															</div>						
+														</div>
+														
+														
+													</div>
+												</div>
+												<div class="Business_req_footer">
+													<div class="req_title">
+														<!-- <i class="fas fa-business-time"></i> Requested For Business -->
+													</div>
+													<div class="candidate_view_header">
+														<!-- <a class="btn btn-Accept btn-block" href="">Accept</a> -->
+														<a class="btn btn-jobs btn-block" href="{% url 'agency:active_connection_view' active_connection.id %}">View</a>
+													</div>
+												</div>	
+											
+											</div>
+											{% endfor %}
+											{% else %}
+											<div class="Business_req_footer">
+												<div class="req_title pl-3">
+													<h3>No Request</h3>
+												</div>
+												
+											</div>	
+											{% endif %}	
+										</div>
+					
+									</div>
+					
+									
+								</div>
+							</div>
+						</div>
+
+					</div>
+					<!--/div-->
+			
+				</div>
+				<!-- /row -->
+			</div>
+			<!-- Main-content-body closed -->
+				
+			<!-- ASSIGN RECRUITER Modal 1 -->
+			<div class="modal fade" id="contract_details" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+				<div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+					<div class="modal-content">
+						<div class="modal-header border-bottom-0 head-preview_modal">
+							<h5 class="modal-title"></h5>
+							
+							<button type="button" id="popUpModelClose" class="close" data-dismiss="modal"
+									aria-label="Close">
+								<span aria-hidden="true">&times;</span>
+							</button>
+						</div>
+						<div class="popmodel-ir-table pd-l-10 pd-r-10">
+							
+							<embed src="" id="contract-pdf"
+							frameborder="0" width="100%" height="400px">
+
+						
+						</div>
+						
+					</div>
+				</div>
+			</div>
+   <!-- ASSIGN RECRUITER Modal 1 :End-->
+{% endblock %}
+{% block script %}
+<script>
+	$(document).ready(function() {
+		
+
+		$(".contract").on('click',function(e){
+			
+				$('#contract_details').modal('show');
+				var pdfurl=$(this).attr("href");
+				$("#contract-pdf").attr('src',pdfurl+'#toolbar=0&navpanes=0&scrollbar=0' );
+			
+		});
+
+	});
+</script>
+{% endblock %}

@@ -1,0 +1,317 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<meta name='viewport' content='width=device-width, initial-scale=1.0, user-scalable=0'>
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="Description" content="Bootstrap Responsive Admin Web Dashboard HTML5 Template">
+		<meta name="Author" content="Spruko Technologies Private Limited">
+		<meta name="Keywords" content="bootstrap admin panel template,bootstrap admin template premium,bootstrap backend template,bootstrap dashboard template,bootstrap panel template,dashboard admin bootstrap 4,dashboard template bootstrap 4,html css dashboard template,html dashboard template,html web app template,modern admin template,nice admin template,simple bootstrap admin template,simple dashboard html template,simple dashboard template bootstrap,template dashboard bootstrap 4"/>
+
+		<!-- Title -->
+		<title> Admix - Admin Panel html template </title>
+
+		<!-- Favicon -->
+		<link rel="icon" href="{% static 'assets/img/brand/favicon.png' %}" type="image/x-icon"/>
+
+		<!-- Icons css -->
+		<link href="{% static 'assets/css/icons.css' %}" rel="stylesheet">
+
+		<!-- Bootstrap css -->
+		<link rel="stylesheet" href="{% static 'assets/plugins/bootstrap/css/bootstrap.min.css' %}">
+
+		<!-- Right-sidemenu css -->
+		<link href="{% static 'assets/plugins/sidebar/sidebar.css' %}" rel="stylesheet">
+
+		<!-- Style css -->
+		<link rel="stylesheet" type="text/css" media="all" href="{% static 'assets/css/style.css' %}">
+
+		<!-- Colors css -->
+		<link id="theme" rel="stylesheet" type="text/css" media="all" href="{% static 'assets/css/colors/color.css' %}">
+
+		<!-- Skinmodes css -->
+		<link href="{% static 'assets/css/skin-modes.css' %}" rel="stylesheet">
+
+		<!-- Darktheme css -->
+		<link href="{% static 'assets/css/style-dark.css' %}" rel="stylesheet">
+
+		<!-- Sidemenu css -->
+		<link rel="stylesheet" href="{% static 'assets/css/single-sidemenu/singlemenu.css' %}">
+
+		<!-- Internal Nice-select css  -->
+		<link href="{% static 'assets/plugins/jquery-nice-select/css/nice-select.css' %}" rel="stylesheet"/>
+
+		<!-- Animations css -->
+		<link href="{% static 'assets/css/animate.css' %}" rel="stylesheet">
+		
+		<link href="{% static 'assets/css/ATS/candidate_image_exam_if_question.css' %}" rel="stylesheet">
+
+	</head>
+
+	<body class="main-body app sidebar-mini sidenav-toggled">
+
+
+		<!-- Page -->
+		<div class="page">
+
+
+			<!-- main-sidebar -->
+
+			<!-- Main-content -->
+
+		    <div class="apply_job_main_header">
+				<div class="apply_job_main_content">
+					<img src="img/logo.png' %}">
+					<div class="quit_exam_btn"><a href="">Quit Exam <i class="fas fa-power-off"></i></a></div>
+				</div>
+		    </div>
+
+			<div class="main-content-mcq">
+
+				<!-- Container-fluid add-candidate layout-->
+				<div class="container-fluid">
+{% csrf_token %}
+					<!-- Maincontentbody -->
+					<div class="maincontentbody">						
+
+						<!-- row add new candidate layout-->
+						<div class="row candidate_mcq_layout" id="">
+							<div class="col-md-9 col-xl-9 col-xs-12 col-sm-12">
+
+
+								<div class="card mg-b-15">
+									<div class="card-body pt-2 pb-2">
+										<div class="mcq_exam_header">
+											<div class="technologies_info">
+												<div class="technologies_title">Bidcruit Technologies LLP <span>(Java Developer)</span></div>												
+												<div class="mcq_test_name">Java MCQ Test</div>												
+											</div>
+											
+											<div class="mcq_test_time_section">
+												<div class="mcq_test_time_title">Time Left</div>
+												<div id="timer_exam" class="mcq_test_time_count">00x:00:00</div>												
+											</div>										
+											
+										</div>
+									</div>										
+								</div>
+								
+								<!--div-->
+								<div class="card mg-b-15">
+									<div class="card-body">
+										
+										
+
+										<div class="Question_listing">
+
+											<div class="question_listing_inner">
+
+												<div class="candidate_image_exam">
+													<div class="questionimage_exam_section">
+														<div class="question_listing_count">Question <span class='question-no'></span></div>
+														<input type="text" name="que_id" hidden value="" id="que_id">
+														<div class="question_text">
+
+														</div>	
+														<div class="question_image">
+															
+														</div>
+														
+													</div>	
+													<div class="question_optionlist_img">
+														<div class="question_option_box">
+															<div class="choiceList radio-group gender-select mg-t-10">
+																<!-- <div class="option_tab_q">
+																	<label class="rdiobox">
+																		<input name="basic_radio" type="radio" value="Lorem Ipsum" data-parsley-multiple="basic_radio"><span>A) Lorem Ipsum</span>
+																	</label>
+																</div>
+																<div class="option_tab_q">
+																	<label class="rdiobox">
+																		<input name="basic_radio" type="radio" value="Lorem Ipsum" data-parsley-multiple="basic_radio"><span>B) Lorem Ipsum</span>
+																	</label>
+																</div>
+																<div class="option_tab_q">
+																	<label class="rdiobox">
+																		<input name="basic_radio" type="radio" value="Lorem Ipsum" data-parsley-multiple="basic_radio"><span>C) Lorem Ipsum</span>
+																	</label>
+																</div>
+																<div class="option_tab_q">
+																	<label class="rdiobox">
+																		<input name="basic_radio" type="radio" value="Lorem Ipsum" data-parsley-multiple="basic_radio"><span>D) Lorem Ipsum</span>
+																	</label>
+																</div> -->
+
+
+															</div>
+														</div>
+													</div>
+												</div>
+
+
+												<div class="QuestionSubmit_btn">
+													<div class="previous_next_btn">
+														<button class="btn btn-sm btn_next QuestionSubmit btn-sm btn-rounded" type="submit">Next</button>
+													</div>
+												</div>	
+
+											</div>
+
+											
+                                               
+
+										</div>
+										
+
+									
+									</div>
+									
+								</div>
+							</div>
+
+							<div class="col-md-3 col-xl-3 col-xs-12 col-sm-12 calendar_view_selection">
+								<div class="calendar_view_inner">
+									<div class="card mg-b-15">
+										<div class="card-body p-2">
+											<div class="calendar_user_img">
+												<img src="img/candidate_user.png' %}">
+											</div>
+											<div class="calendar_user_name">Jone Lare</div>
+										</div>
+									</div>
+									<div class="card mg-b-15">
+										<div class="card-body p-2">
+											<div class="calendar_view_box">
+												<div class="selection_info">
+													<ul>
+														<li class="answer_t">Answer</li>
+														<li class="skip_miss_t">Miss</li>
+														<li class="not_visited_t">Not Visited</li>
+													</ul>
+												</div>
+												<div class="question_selection_info">
+													<ul class='question-no-list'>
+														<!-- <li class="answer">1</li>
+														<li class="answer">2</li>
+														<li class="skip">3</li>
+														<li class="answer">4</li>
+														<li class="review">5</li>
+														<li class="answer">6</li> -->
+														<!-- <li id="que-1" class="notvisited">7</li> -->
+														
+														
+													</ul>
+												</div>
+											</div>
+										</div>
+									</div>
+
+								</div>
+							</div>
+							
+						</div>
+						<!-- /row -->
+					</div>
+					<!-- Main-content-body closed -->
+				</div>
+				<!-- Container-fluid add-candidate layout closed -->
+
+				<input type="text" hidden readOnly value="{{job_obj.id}}" id="job_id">
+				<input type="text" hidden readOnly value="{{temp_id}}" id="temp_id">
+
+			</div>
+			<!-- Main-content closed -->
+
+			<!-- Footer opened -->
+			<div class="main-footer ht-40">
+				<div class="container-fluid pd-t-0-f ht-100p">
+					<span>Copyright &copy; 2020 <a href="#">Admix</a>. Designed by <a href="https://www.spruko.com/">Spruko</a> All rights reserved.</span>
+				</div>
+			</div>
+			<!-- Footer closed -->
+
+		</div>
+		<!-- Page closed -->
+
+        <!-- Back-to-top -->
+		<a href="#top" id="back-to-top"><i class="las la-angle-double-up"></i></a>
+
+		<!-- JQuery min js -->
+		<script src="{% static 'assets/plugins/jquery/jquery.min.js' %}"></script>
+
+		<!-- Popper js -->
+		<script src="{% static 'assets/plugins/popper/popper.min.js' %}"></script>
+
+		<!-- Bootstrap Bundle js -->
+		<script src="{% static 'assets/plugins/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+
+		<!-- Ionicons js -->
+		<script src="{% static 'assets/plugins/ionicons/ionicons.js' %}"></script>
+
+		<!-- Moment js -->
+		<script src="{% static 'assets/plugins/moment/moment.js' %}"></script>
+
+		<!-- JQuery sparkline js -->
+		<script src="{% static 'assets/plugins/jquery-sparkline/jquery.sparkline.min.js' %}"></script>
+
+		
+		<!-- Rating js -->
+		<script src="{% static 'assets/plugins/rating/jquery.rating-stars.js' %}"></script>
+		<script src="{% static 'assets/plugins/rating/jquery.barrating.js' %}"></script>
+
+		
+		<!-- Right-sidebar js -->
+		<script src="{% static 'assets/plugins/sidebar/sidebar-custom.js' %}"></script>
+
+		<!-- Internal Nice-select js-->
+		<script src="{% static 'assets/plugins/jquery-nice-select/js/jquery.nice-select.js' %}"></script>
+		<script src="{% static 'assets/plugins/jquery-nice-select/js/nice-select.js' %}"></script>
+
+		<!-- Custom js -->
+		<script src="{% static 'assets/js/custom.js' %}"></script>
+		<script src="{% static 'assets/js/ATS/candidate_image_exam_if_question.js' %}"></script>
+        <script>
+		function get_mcqData(){
+				var checkimageList =JSON.parse("{{getStoreData|escapejs}}");
+	
+				console.log(checkimageList)
+				console.log(jQuery.type(checkimageList))
+				return checkimageList;
+			}
+
+		</script>
+		
+		<script>
+			if (window.performance) {
+				console.info("window.performance works fine on this browser");
+			}
+			if (performance.navigation.type == performance.navigation.TYPE_RELOAD) {
+				alert('page reload detected');
+				var stage_id = '{{stage_id}}';
+				var data = {'stage_id': stage_id}
+				var url = '/candidate/refresh_detect/' + stage_id;
+				console.log('url', url)
+				$.ajax({
+					url:url,
+					headers: {'X-CSRFToken': $("input[name=csrfmiddlewaretoken]").val() },
+					type:'POST',
+					contentType: 'application/json; charset=UTF-8',
+					data: JSON.stringify(data),
+					error: function (request, status, error) {
+							alert(error);
+					}
+				}).done(function(response){
+					if(response == 'True'){
+						window.location.replace("/candidate/applied_job_detail/" + "{{job_obj.id}}"+"/company");
+					}
+				});
+			} else {
+				console.info( "This page is not reloaded");
+			}
+		</script>
+		
+	</body>
+</html>
+
+

@@ -1,0 +1,755 @@
+{%load static%}
+{% load custom_filters %}
+<!doctype html>
+<html lang="en" dir="ltr">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name='viewport' content='width=device-width, initial-scale=1.0, user-scalable=0'>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="Description" content="Search Results">
+    <meta name="Author" content="Bidcruit">
+    <meta name="Keywords" content=""/>
+
+    <title>Bidcruit - Search Results</title>
+
+    <!-- favicon -->
+    <link rel="icon" href="{% static 'assets/img/brand/bluelogo.png' %}" type="image/x-icon"/>
+
+    <!-- Icons css -->
+    <link href="{% static 'assets/css/icons.css' %}" rel="stylesheet">
+
+    <!-- Bootstrap css -->
+    <link rel="stylesheet" href="{% static 'assets/plugins/bootstrap/css/bootstrap.min.css' %}">
+
+    <link
+            href="https://fonts.googleapis.com/css2?family=Rubik:ital,wght@0,300;0,400;0,500;0,700;0,800;0,900;1,600&display=swap"
+            rel="stylesheet">
+
+
+    <!-- Style css -->
+    <link rel="stylesheet" type="text/css" media="all" href="{% static 'assets/css/style.css' %}">
+
+    <!-- Colors css -->
+    <link id="theme" rel="stylesheet" type="text/css" media="all" href="{% static 'assets/css/colors/color.css' %}">
+
+
+    <!-- Internal Nice-select css  -->
+    <!-- <link href="{% static 'assets/plugins/select2/css/select2.min.css' %}" rel="stylesheet"> -->
+    <!-- <link href="{% static 'assets/js/select2-4.1.0-rc.0/dist/css/select2.min.css' %}" rel="stylesheet"> -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/css/select2.min.css" rel="stylesheet"/>
+
+
+    <!-- Animations css -->
+    <link href="{% static 'assets/css/animate.css' %}" rel="stylesheet">
+    <link href="{% static 'assets/css/custom.css' %}" rel="stylesheet">
+
+
+</head>
+<body class="main-body app sidebar-mini search-page">
+<!-- Page -->
+<div class="page">
+    <!-- Loader -->
+    <div id="global-loader">
+        <img src="{% static 'assets/img/loader.svg' %}" class="loader-img" alt="Loader">
+    </div>
+    <!-- /Loader -->
+    <!-- Main-content -->
+    <div class="">
+        <!-- Main-header closed -->
+        <header class="main-header-search text-center">
+            <a href="{% url 'bidcruit_home' %}"><img src="{% static 'assets/img/brand/full-logo-white.png' %}"></a>
+        </header>
+
+        <!-- Container-fluid -->
+        <div class="container-fluid">
+            <!-- Main-content-body -->
+            <div class="main-content-body">
+                <!-- row -->
+                <div class="row row-sm">
+                    <div class="col-md-12 col-xl-3 mb-3 mb-md-0">
+                        <div class="card search-sidebar">
+                            <form id="search_form" class="pl-3 pr-3" action="{%url 'company:advanced_search'%}" method="GET">
+                                <br>
+                                {{ form }}
+                                <br>
+                                <br>
+                                <center>
+                                    <button type="submit" style="background-color:#0068FF" class="btn btn-primary rounded-20 pt-0 pb-0 bd-0" value="Search">Search</button>
+                                    <button style="background-color:#FF5353" class="btn btn-danger rounded-20 pt-0 pb-0 bd-0" onclick="return clear_form()">Clear Search</button>
+                                    <br>
+                                    <br>
+                                </center>
+                            </form>
+                        </div>
+                    </div>
+                    <div class="col-xl-9 col-md-12">
+                        <div class="card item2-gl-nav">
+                            
+                            <div class="card-body d-flex p-3">
+                                <div class="row mt-3 px-2">
+                                    {% if search_string %}
+                                        <h5 class="px-1"><span>Skill:-</span></h5>{{search_string}}
+                                    {% endif %}
+                                    {% if search_string_city %}
+                                        <h5 class="px-1"><span>City:-</span></h5>{{search_string_city}}
+                                    {% endif %}
+                                </div>    
+                                <ul class="nav item2-gl-menu ml-auto">
+                                    <li><a href="#" data-toggle="tab" class="box"><i
+                                            class="bx bx-search-alt icon p-2"></i><input
+                                            class="search form-control" type="search"
+                                            placeholder="Search"/></a></li>
+                                    <li class=""><a href="#tab-1551" class="active show" data-toggle="tab"><i
+                                            class="bx bx-grid-alt p-2"></i></a></li>
+                                    <li><a href="#tab-1552" data-toggle="tab" class=""><i
+                                            class="bx bx-list-ul p-2"></i></a></li>
+                                </ul>
+<!--                                <div class="d-flex">-->
+<!--                                    <select name="item" class="form-control ml-2 wd-200 nice-select">-->
+<!--                                        <option value="1">Latest</option>-->
+<!--                                        <option value="2">Oldest</option>-->
+<!--                                        <option value="3">Price:Low-to-High</option>-->
+<!--                                        <option value="5">Price:Hight-to-Low</option>-->
+<!--                                    </select>-->
+<!--                                </div>-->
+                            </div>
+                        </div>
+
+                        <div class="tab-content">
+                            <div class="tab-pane active" id="tab-1551">
+                                <div class="row row-sm">
+                                    {%if users%}
+                                    {%for i in users%}
+                                    <div class="col-12 col-sm-6 col-md-6 col-lg-6 col-xl-6">
+                                        <div class="card card-for-candi">
+                                            <div class="card-header">
+                                                <div class="header-for">
+                                                    <div class="cad-nameinfo cad-nameinfo-new">
+                                                        <h5>{{i|get_fname}} <span> {{i|get_lname}}</span></h5>
+                                                        {% if request.user.is_authenticated %}
+                                                            {% if request.user.is_company %}
+                                                                {% if i|is_shortlisted:request.user.id %}
+                                                                <img style="width:25px;margin-left:auto" id="shortlist{{i}}"
+                                                                     onclick="shortlistCandidate('{{i}}')"
+                                                                     src="{% static 'assets/img/heart.png' %}"/>
+                                                                {% else %}
+                                                                <img style="width:25px;margin-left:auto" id="shortlist{{i}}"
+                                                                     onclick="shortlistCandidate('{{i}}')"
+                                                                     src="{% static 'assets/img/heart1.png' %}"/>
+                                                                {% endif %}
+                                                            {% endif %}
+														{% else %}
+															<img style="width:25px;margin-left:auto" data-toggle="modal" data-target="#myModal1"
+																 src="{% static 'assets/img/heart1.png' %}"/>
+                                                        {% endif %}
+                                                    </div>
+                                                    <h3>{{i|get_job_title}}</h3>
+                                                </div>
+
+                                            </div>
+                                            <div class="product-grid">
+                                                <div class="product-image">
+                                                    {%if i|get_profile_picture%}
+                                                    <img src="{% get_media_prefix %}{{i|get_profile_picture}}"
+                                                         alt="cand-pic"
+                                                         class="img-fluid">
+                                                    {%else%}
+                                                    <img src="{% static 'assets/img/6.jpg' %}" alt="cand-pic"
+                                                         class="img-fluid">
+                                                    {%endif%}
+                                                    <ul class="list-of-icon">
+
+                                                        <li>
+                                                            <p><i
+                                                                    class="fas fa-map-marker-alt"></i><span>{{i|get_current_city}}</span>
+                                                            </p>
+                                                        </li>
+                                                       <li>
+                                                        <p><i
+                                                            class="fas fa-eye"></i><span>{{i|get_view_counter}} </span>
+                                                        </p>
+                                                       </li>
+                                                        <li>
+                                                            <p><i class="fas fa-calendar-alt"></i><span>Active on
+																			{{i|get_latest_active_date}}</span></p>
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                                <div class="product-content p-4">
+                                                    <div class="total-detail">
+                                                        <table>
+                                                            <tr>
+                                                                <td>Total Experience</td>
+                                                                <td>-</td>
+                                                                <td>{{i|get_total_experience}} Years</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td> Notice Period</td>
+                                                                <td>-</td>
+                                                                <td> {{i|get_notice_period}}</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>Current Salary</td>
+                                                                <td>-</td>
+                                                                <td> {{i|get_current_salary}}</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>Expected Salary</td>
+                                                                <td>-</td>
+                                                                <td>{{i|get_expected_salary_min}}</td>
+
+                                                            </tr>
+                                                        </table>
+                                                        
+                                                    </div>
+                                                </div>
+                                                <p> <a href="https://bidcruit.com/{{i|get_candidate_url}}" class="nav-item nav-link" target="_blank">View Profile</a>
+                                            </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    {%endfor%}
+                                    {%endif%}
+                                </div>
+                            </div>
+
+                            <div class="tab-pane" id="tab-1552">
+                                <div class="row">
+                                    {%for i in users%}
+                                    <div class="col-lg-12">
+                                        <!-- List group-->
+                                        <ul class="list-group product-list parent-forlist-view">
+                                            <!-- list group item-->
+                                            <li class="list-group-item">
+                                                <div class="card-for-candi">
+                                                    <div class="card-header">
+                                                        <div class="header-for">
+                                                            <div class="cad-nameinfo cad-nameinfo-new">
+                                                                <h5>{{i|get_fname}} <span>{{i|get_lname}}</span></h5>
+                                                            </div>
+                                                            <h3>{{i|get_job_title}}</h3>
+                                                            {% if request.user.is_authenticated %}
+                                                                {% if request.user.is_company %}
+                                                                    {% if i|is_shortlisted:request.user.id %}
+                                                                    <img style="width:28px;margin-left:auto" id="shortlist{{i}}"
+                                                                         onclick="shortlistCandidate('{{i}}')"
+                                                                         src="{% static 'assets/img/heart.png' %}"/>
+                                                                    {% else %}
+                                                                    <img style="width:28px;margin-left:auto" id="shortlist{{i}}"
+                                                                         onclick="shortlistCandidate('{{i}}')"
+                                                                         src="{% static 'assets/img/heart1.png' %}"/>
+                                                                    {% endif %}
+                                                                {% endif %}
+                                                            {% else %}
+                                                                <img style="width:28px;margin-left:auto" data-toggle="modal" data-target="#myModal1"
+                                                                     src="{% static 'assets/img/heart1.png' %}"/>
+                                                            {% endif %}
+                                                        </div>
+
+                                                    </div>
+                                                    <div class="product-grid">
+                                                        <div class="row">
+                                                            <div class="col-lg-7 col-sm-12 col-xs-12">
+                                                                <div class="product-image">
+                                                                    {%if i|get_profile_picture%}
+                                                                    <img src="{% get_media_prefix %}{{i|get_profile_picture}}"
+                                                                         alt="cand-pic"
+                                                                         class="img-fluid">
+                                                                    {%else%}
+                                                                    <img src="{% static 'assets/img/6.jpg' %}"
+                                                                         alt="cand-pic"
+                                                                         class="img-fluid">
+                                                                    {%endif%}
+                                                                    <ul class="list-of-icon">
+
+                                                                        <li>
+                                                                            <p><i
+                                                                                    class="fas fa-map-marker-alt"></i><span>{{i|get_current_city}}</span>
+                                                                            </p>
+                                                                        </li>
+                                                                        <li>
+                                                                            <p><i
+                                                                                    class="fas fa-eye"></i><span>{{i|get_view_counter}} </span>
+                                                                            </p>
+                                                                        </li>
+                                                                        <li>
+                                                                            <p><i
+                                                                                    class="fas fa-calendar-alt"></i><span>Active
+																						on {{i|get_latest_active_date}}</span>
+                                                                            </p>
+                                                                        </li>
+                                                                    </ul>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-lg-5 col-sm-12 col-xs-12">
+                                                                <div class="product-content ">
+                                                                    <div class="total-detail">
+                                                                        <table>
+                                                                            <tr>
+                                                                                <td>Total Experience</td>
+                                                                                <td>- {{i|get_total_experience}} Years
+                                                                                </td>
+                                                                            </tr>
+                                                                            <tr>
+                                                                                <td> Notice Period</td>
+                                                                                <td>- {{i|get_notice_period}}</td>
+                                                                            </tr>
+                                                                            <tr>
+                                                                                <td>Current Salary</td>
+                                                                                <td>- {{i|get_current_salary}}</td>
+                                                                            </tr>
+                                                                            <tr>
+                                                                                <td>Expected Salary</td>
+                                                                                <td>- {{i|get_expected_salary_min}}</td>
+                                                                                
+                                                                            </tr>
+                                                                        </table>
+
+                                                                    </div>
+                                                                </div>
+                                                               
+                                                            </div>
+                                                        </div>
+                                                        <div class="row">
+                                                            <div class="col-lg-12 col-sm-12 col-xs-12">
+                                                                <div class="exp-details">
+                                                                    <p><strong>Experience :-</strong> <span>{{i|get_latest_experience}}</span>
+                                                                    </p>
+                                                                    <p><strong>Latest Education :-</strong> <span>{{i|get_education_title}}</span>
+                                                                    </p>
+                                                                    <p><strong>Skills :-</strong>
+                                                                        <span>{{i|get_skills}}</span></p>
+                                                                    <p><strong>Preferred Location :-</strong> <span>{{i|get_preferred_job_locations}}</span>
+                                                                    </p>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                       
+                                                    </div>
+                                                    <center><p> <a href="https://bidcruit.com/{{i|get_candidate_url}}" class="nav-item nav-link" target="_blank">View Profile</a>
+                                                    </p></center>
+                                                </div>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    {%endfor%}
+                                </div>
+                            </div>
+
+                            {%if users%}
+                            <div class="">
+                                {% if users.has_other_pages %}
+                                <ul class="pagination global pagination-radius float-right mb-xl-0 ml-3">
+                                    {% if users.has_previous %}
+                                    <li class="page-item"><a class="page-link"
+                                                             href="?{% url_replace request 'page' paginator.next_page_number %}">&laquo;</a>
+                                    </li>
+                                    {% else %}
+                                    <li class="page-item"><span>&laquo;</span></li>
+                                    {% endif %}
+                                    {% for i in users.paginator.page_range %}
+                                    {% if users.number == i %}
+                                    <li class="page-item active"><a class="page-link" href="#">{{i}}</a></li>
+                                    {% else %}
+                                    <li class="page-item"><a class="page-link"
+                                                             href="?{% url_replace request 'page' i %}">{{i}}</a></li>
+                                    {% endif %}
+                                    {% endfor %}
+                                    {% if users.has_next %}
+                                    <li class="page-item"><a class="page-link"
+                                                             href="?{% url_replace request 'page' paginator.next_page_number %}">&raquo;</a>
+                                    </li>
+                                    {% else %}
+                                    <li class="page-item">&raquo;</li>
+                                    {% endif %}
+                                </ul>
+                                {% endif %}
+                            </div>
+                            {%endif%}
+                        </div>
+
+                        {%if users%}
+                        {%else%}
+                        <div style="width: 100%;height: 81%;text-align: center;background-color: white;border-radius: 10px;">
+                            <span style="position: relative;font-size: 3em;top: 30%;">Sorry,can't find candidates meeting your criteria.</span>
+                        </div>
+                        {%endif%}
+                    </div>
+                </div>
+            </div>
+            <!-- Main-content-body closed -->
+        </div>
+        <!-- Container-fluid closed -->
+    </div>
+    <!-- Main-content closed -->
+
+<!--Modal: Login / Register Form-->
+<!-- Modal  Popup 1 -->
+<div class="modal" id="myModal1" tabindex="-1" role="dialog">
+<div class="modal-dialog">
+   <div class="modal-content" role="document">
+       <div class="modal-header">
+         <h4 class="modal-title" id="myModalLabel1">Please Login to continue.</h4>
+         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+             <span aria-hidden="true">&times;</span></button>
+       </div>
+           <div class="modal-body">
+                   {% csrf_token %}
+                   <div class="form-label-group">
+                       <label for="company_email">Enter Email :</label>
+                       <input type="email" id="company_email" required="required" name="company_email" class="form-control required"
+                              placeholder="Email address" value="">
+                   </div>
+                   <br>
+                   <div class="text-center">
+                        Don't have an account ? <a  href="{% url 'company:signup' %}" target="_blank"><span>Sign Up </span></a>
+                   </div>
+           </div>
+           <div class="modal-footer">
+               <button type="button" style="background-color:#0068FF;border-radius:20px" class="btn btn-primary pt-0 pb-0 bd-0 btn-next" onclick="submit_company_email('hire')">Next</button>
+               <button type="button" style="background-color:#7987A1;border-radius:20px" class="btn btn-secondary pt-0 pb-0 bd-0" data-dismiss="modal">Close</button>
+           </div>
+   </div>
+</div>
+</div>
+<!-- Modal  Popup 2 -->
+<div class="modal" id="login_password" tabindex="-1" role="dialog">
+<div class="modal-dialog" role="document">
+   <div class="modal-content">
+       <div class="modal-header">
+         <h4 class="modal-title" id="myModalLabel2">Company Password</h4>
+         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+             <span aria-hidden="true">&times;</span></button>
+       </div>
+       <div class="modal-body">
+           <div class="form-label-group">
+               <label for="company-password">Enter Password</label>
+               <input type="password" name="company-password" id="company-password" class="form-control"
+                   placeholder="Password" required>
+           </div>
+           <br>
+       </div>
+       <div class="modal-footer">
+           <button type="button" style="background-color:#0068FF;border-radius:20px" class="btn btn-primary pt-0 pb-0 bd-0 btn-next" onclick="company_login_password()">Next</button>
+           <button type="button" style="background-color:#7987A1;border-radius:20px" class="btn btn-secondary pt-0 pb-0 bd-0" data-dismiss="modal">Close</button>
+       </div>
+   </div>
+</div>
+</div>
+<!-- Modal  Popup 3 -->
+<div class="modal" id="login_otp" tabindex="-1" role="dialog">
+<div class="modal-dialog">
+   <div class="modal-content">
+       <div class="modal-header">
+         <h4 class="modal-title" id="myModalLabel3">Enter OTP</h4>
+         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+             <span aria-hidden="true">&times;</span></button>
+       </div>
+       <div class="modal-body">
+          <div class="form-label-group">
+              <label for="company-login-otp">OTP</label>
+              <input type="number" name="company-login-otp" class="form-control" id="company-login-otp" placeholder="Enter OTP"  required>
+           </div>
+       </div>
+       <div class="modal-footer">
+           <button type="button" style="background-color:#0068FF;border-radius:20px" class="btn btn-primary pt-0 pb-0 bd-0 btn-next" onclick="company_login_otp()">Verify Otp</button>
+           <button type="button" style="background-color:#7987A1;border-radius:20px" class="btn btn-secondary pt-0 pb-0 bd-0" data-dismiss="modal">Close</button>
+       </div>
+   </div>
+</div>
+</div>
+    <!-- Footer opened -->
+   <div class="main-footer ht-40">
+        <div class="container-fluid pd-t-0-f ht-100p">
+            <span>Copyright &copy; 2020 <a href="#">Bidcruit Technologies LLP</a></span>
+        </div>
+    </div>
+    <!-- Footer closed -->
+
+</div>
+<!-- Page closed -->
+
+
+<!-- Back-to-top -->
+<a href="#top" id="back-to-top"><i class="las la-angle-double-up"></i></a>
+
+<!-- JQuery min js -->
+<script src="{% static 'assets/plugins/jquery/jquery.min.js' %}"></script>
+
+<!-- Popper js -->
+<script src="{% static 'assets/plugins/popper/popper.min.js' %}"></script>
+
+<!-- Datepicker js -->
+<script src="{% static 'assets/plugins/jquery-ui/ui/widgets/datepicker.js' %}"></script>
+<!-- Bootstrap Bundle js -->
+<script src="{% static 'assets/plugins/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+
+<!-- Internal jquery.maskedinput js -->
+<script src="{% static 'assets/plugins/jquery.maskedinput/jquery.maskedinput.js' %}"></script>
+<!-- Internal Spectrum-colorpicker js -->
+<script src="{% static 'assets/plugins/spectrum-colorpicker/spectrum.js' %}"></script>
+
+<!-- Internal Nice-select js-->
+<!-- <script src="{% static 'assets/js/select2-4.1.0-rc.0/dist/js/select2.min.js' %}"></script> -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.min.js"></script>
+
+
+<!-- form-elements js -->
+<script src="{% static 'assets/js/form-elements.js' %}"></script>
+<!-- Custom js -->
+<script src="{% static 'assets/js/custom.js' %}"></script>
+
+
+<script>
+
+	var cities= [];
+
+		function getCookie(name) {
+				var cookieValue = null;
+				if (document.cookie && document.cookie !== '') {
+					var cookies = document.cookie.split(';');
+					for (var i = 0; i < cookies.length; i++) {
+						var cookie = jQuery.trim(cookies[i]);
+						// Does this cookie string begin with the name we want?
+						if (cookie.substring(0, name.length + 1) === (name + '=')) {
+							cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+							break;
+						}
+					}
+				}
+				return cookieValue;
+			}
+	$(document).ready(function()
+				{
+					var form = document.getElementById('search_form')
+				        $('#search_form input,select').change(function(){
+				        
+					    form.submit()
+					   
+					});
+					var notice_period = document.getElementsByName("notice_period")[0];
+
+					$(notice_period).select2({
+						tags:true,
+						minimumResultsForSearch: -1
+					})
+
+					var education = document.getElementsByName("education")[0]
+					options = education.querySelectorAll('option')
+					for(var i=0;i<options.length;i++)
+					{
+						options[i].selected = true
+					}
+
+					var preferred_cities = document.getElementsByName("preferred_cities")[0]
+					options = preferred_cities.querySelectorAll('option')
+					for(var i=0;i<options.length;i++)
+					{
+						options[i].selected = true
+					}
+
+					var include_skills = document.getElementsByName("include_skills")[0]
+					options = include_skills.querySelectorAll('option')
+					for(var i=0;i<options.length;i++)
+					{
+						options[i].selected = true
+					}
+
+					var exclude_skills = document.getElementsByName("exclude_skills")[0]
+					options = exclude_skills.querySelectorAll('option')
+					for(var i=0;i<options.length;i++)
+					{
+						options[i].selected = true
+					}
+					var options=[];
+					var csrftoken = getCookie('csrftoken');
+					console.log(csrftoken)
+
+					$(".select2_skill").select2({
+						data:options,
+						tags:true,
+						createTag: function (params) {
+							return {
+								id: params.term,
+								text: params.term,
+								newOption: true,
+							}
+						},
+						templateResult: function (data) {
+							var $result = $("<span></span>");
+							$result.text(data.text);
+							if (data.newOption) {
+								$result.append(" <em>(new)</em>");
+							}
+							return $result;
+						},
+						minimumInputLength: 1
+					});
+
+					$(".select2_cities").select2({
+						tags:true,
+					});
+
+					// $(".select2_degrees").select2({
+					// 	tags:true,
+
+					// });
+
+				$('.select2_cities').select2({
+					ajax: {
+						url:"/company/get_cities",
+						dataType: 'json',
+						processResults: function (data) {
+							return {
+								results: $.map(data, function (item) {
+									return {id: item.id, text: item.city_name};
+							})
+						};
+					}
+				},
+				minimumInputLength: 1
+				});
+
+				$('.select2_degrees').select2({
+					ajax: {
+						url:"/company/get_degrees/",
+						dataType: 'json',
+						processResults: function (data) {
+							return {
+								results: $.map(data, function (item) {
+									return {id: item.id, text: item.name};
+							})
+						};
+					}
+				},
+				minimumInputLength: 1
+				});
+	});
+
+function clear_form()
+{
+	window.location.href = "https://bidcruit.com/company/advanced_search?notice_period=1&minimum_experience=&maximum_experience="
+	return false
+}
+function shortlistCandidate(user_id){
+	let id =  'shortlist' + user_id;
+	var img_dom = document.querySelectorAll('#'+ id);
+	
+	var img_div = document.getElementById(id);
+	$.ajax({
+		url:"/company/shortlist",
+		type:'GET',
+		data: {'user_id':user_id},
+		error: function (request, status, error) {
+			alert(error);
+		}
+	}).done(function(response){
+		if(response=="removed"){
+		    for (let i = 0; i < img_dom.length; i++) {
+                img_dom[i].src = "/static/assets/img/heart1.png";
+            }
+			console.log("removed");
+		}else if(response=="shortlisted"){
+		    for (let i = 0; i < img_dom.length; i++) {
+                img_dom[i].src = "/static/assets/img/heart.png";
+            }
+			console.log("shortlisted");
+		}else{
+			console.log("false");
+		}
+	});
+}
+
+function submit_company_email(type_name){
+
+    email=$('#company_email').val()
+
+    if(email==''){
+        $(".email_error").remove();
+        $("<span class='email_error' style='padding: 3px;color: red;'> Please Enter email id</span>").insertAfter("#company_email");
+    }else{
+        $.ajax({
+            url:"/company/user_login_email_popup",
+            headers: {'X-CSRFToken': $("input[name=csrfmiddlewaretoken]").val() },
+            type:'POST',
+            contentType: 'application/json; charset=UTF-8',
+            data: JSON.stringify({email:email,type_name:type_name}),
+            error: function (request, status, error) {
+              alert(error);
+            }
+        }).done(function(response){
+            if(response=="True"){
+                $('#myModal1').modal('hide');
+                $('#login_password').modal('show');
+            }else{
+                $(".email_error").remove();
+                $("<span class='email_error' style='padding: 3px;color: red;'> Please Enter Valid email id</span>").insertAfter("#company_email");
+                console.log("false");
+                $('#company_email').val('')
+            }
+        })
+    }
+}
+
+function company_login_password(){
+    if($('#company-password').val()==''){
+        $(".email_error").remove();
+        $("<span class='email_error' style='padding: 3px;color: red;'> Please Enter password</span>").insertAfter("#company-password");
+    }else{
+        $.ajax({
+            url:"/company/user_login_password_popup",
+            headers: {'X-CSRFToken': $("input[name=csrfmiddlewaretoken]").val() },
+            type:'POST',
+            contentType: 'application/json; charset=UTF-8',
+            data: JSON.stringify({password:$('#company-password').val()}),
+            error: function (request, status, error) {
+              alert(error);
+            }
+        }).done(function(response){
+            if(response=="True"){
+                $('#login_password').modal('hide');
+                $('#login_otp').modal('show');
+            }else{
+                $(".email_error").remove();
+                $("<span class='email_error' style='padding: 3px;color: red;'> Please Enter Valid password</span>").insertAfter("#company-password");
+                console.log("false");
+                $('#company-password').val('')
+            }
+        });
+    }
+}
+
+function company_login_otp(){
+    if($('#company-login-otp').val()==''){
+        $(".email_error").remove();
+        $("<span class='email_error' style='padding: 3px;color: red;'> Please Enter OTP</span>").insertAfter("#company-login-otp");
+    }else{
+        $.ajax({
+            url:"/company/user_login_verify_otp_popup",
+            headers: {'X-CSRFToken': $("input[name=csrfmiddlewaretoken]").val() },
+            type:'POST',
+            contentType: 'application/json; charset=UTF-8',
+            data: JSON.stringify({otp:$('#company-login-otp').val()}),
+            error: function (request, status, error) {
+              alert(error);
+            }
+        }).done(function(response){
+            if(response=="hire"){
+                $('#login_otp').modal('hide');
+                window.location.reload();
+            }else{
+                  $(".email_error").remove();
+                  $("<span class='email_error' style='padding: 3px;color: red;'> Please Enter Valid OTP</span>").insertAfter("#company-login-otp");
+                  console.log("false");
+                  $('#company-login-otp').val('')
+            }
+        })
+    }
+}
+
+</script>
+</body>
+
+</html>

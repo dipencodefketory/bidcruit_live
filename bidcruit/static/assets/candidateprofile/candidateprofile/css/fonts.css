@@ -1,0 +1,45 @@
+@font-face {
+    font-family: 'RubikBlack';
+    src: url('../fonts/Rubik-black/RubikBlack.eot');
+    src: url('../fonts/Rubik-black/RubikBlack.eot') format('embedded-opentype'),
+         url('../fonts/Rubik-black/RubikBlack.woff2') format('woff2'),
+         url('../fonts/Rubik-black/RubikBlack.woff') format('woff'),
+         url('../fonts/Rubik-black/RubikBlack.ttf') format('truetype'),
+         url('../fonts/Rubik-black/RubikBlack.svg#RubikBlack') format('svg');
+}
+@font-face {
+    font-family: 'RubikBold';
+    src: url('../fonts/Rubik-bold/RubikBold.eot');
+    src: url('../fonts/Rubik-bold/RubikBold.eot') format('embedded-opentype'),
+         url('../fonts/Rubik-bold/RubikBold.woff2') format('woff2'),
+         url('../fonts/Rubik-bold/RubikBold.woff') format('woff'),
+         url('../fonts/Rubik-bold/RubikBold.ttf') format('truetype'),
+         url('../fonts/Rubik-bold/RubikBold.svg#RubikBold') format('svg');
+}
+@font-face {
+    font-family: 'RubikMedium';
+    src: url('../fonts/Rubik-medium/RubikMedium.eot');
+    src: url('../fonts/Rubik-medium/RubikMedium.eot') format('embedded-opentype'),
+         url('../fonts/Rubik-medium/RubikMedium.woff2') format('woff2'),
+         url('../fonts/Rubik-medium/RubikMedium.woff') format('woff'),
+         url('../fonts/Rubik-medium/RubikMedium.ttf') format('truetype'),
+         url('../fonts/Rubik-medium/RubikMedium.svg#RubikMedium') format('svg');
+}
+@font-face {
+    font-family: 'RubikRegular';
+    src: url('../fonts/Rubik-regular/RubikRegular.eot');
+    src: url('../fonts/Rubik-regular/RubikRegular.eot') format('embedded-opentype'),
+         url('../fonts/Rubik-regular/RubikRegular.woff2') format('woff2'),
+         url('../fonts/Rubik-regular/RubikRegular.woff') format('woff'),
+         url('../fonts/Rubik-regular/RubikRegular.ttf') format('truetype'),
+         url('../fonts/Rubik-regular/RubikRegular.svg#RubikRegular') format('svg');
+}
+@font-face {
+    font-family: 'RubikSemiBold';
+    src: url('../fonts/Rubik-semibold/RubikSemiBold.eot');
+    src: url('../fonts/Rubik-semibold/RubikSemiBold.eot') format('embedded-opentype'),
+         url('../fonts/Rubik-semibold/RubikSemiBold.woff2') format('woff2'),
+         url('../fonts/Rubik-semibold/RubikSemiBold.woff') format('woff'),
+         url('../fonts/Rubik-semibold/RubikSemiBold.ttf') format('truetype'),
+         url('../fonts/Rubik-semibold/RubikSemiBold.svg#RubikSemiBold') format('svg');
+}

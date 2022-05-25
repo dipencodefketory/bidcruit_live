@@ -1,0 +1,260 @@
+{% extends 'agency/base.html' %}
+{% load static %}
+{% block title %}Coding Add {% endblock %}
+{% block css %}
+
+		<!-- - Internal Sweet-Alert css -->
+		<link href="{% static 'assets/plugins/sweet-alert/sweetalert.css' %}" rel="stylesheet">
+
+		<!-- Internal Nice-select css  -->
+		<link href="{% static 'assets/plugins/jquery-nice-select/css/nice-select.css' %}" rel="stylesheet"/>
+
+		<link href="{% static 'assets/css/ATS/coding_based_exam.css' %}" rel="stylesheet">
+
+{% endblock %}
+{% block main %}
+
+		<!-- Container-fluid -->
+		<div class="container-fluid">
+
+			<!-- Main-content-body -->
+			<div class="main-content-body">
+
+				<!-- row opened -->
+				<div class="row row-sm">
+					<div class="col-xl-12">
+						<div class="card descriptive_add mg-b-0">
+
+							<div class="card-body">
+
+								<form id="coding-add-que" data-parsley-validate="">
+									{% csrf_token %}
+									<input type="hidden" id="category_id" value="{{ category_id }}">
+									<!--Start Form Section-->
+									  <div class="title_stage m-0"><span class="cap_text">Add New Question  |   Coding Based Subject:</span> {{sub_name}}</div>
+									<div class="form-group__layout">
+									<!--Basic Form-->
+									<div class="basic_form" id="basicForm">
+
+										<div class="row row-sm mg-t-20">
+											<div class="col-lg">
+												<label>Please enter your question in below area.</label>
+												<div class="row basicInfo-section">
+
+													<div class="col-lg-8 mg-t-10 mg-lg-t-0">
+														<input class="form-control coding_based_title_name" name="title" value="" placeholder="Enter Title" type="text" required="">
+													</div>
+													<div class="col-lg-4 mg-t-10 mg-lg-t-0">
+
+														<div class="radio-group basic_type_select mg-t-10 mg-b-10">
+
+															<div class="radio-btn__tab">
+																<label class="rdiobox">
+																	<input name="basic_type" type="radio" value="Basic"><span>Basic</span>
+																</label>
+															</div>
+															<div class="radio-btn__tab">
+																<label class="rdiobox">
+																	<input name="basic_type" type="radio" value="Intermediate"><span>Intermediate</span>
+																</label>
+															</div>
+															<div class="radio-btn__tab">
+																<label class="rdiobox">
+																	<input name="basic_type" type="radio" value="Advance"><span>Advance</span>
+																</label>
+															</div>
+
+														</div>
+
+													</div>
+												</div>
+
+												<div class="row basicInfo-section">
+													<div class="form-group col-lg mg-t-10 mg-lg-t-0">
+														<textarea id="coding-que-description"></textarea>
+													</div>
+												</div>
+											</div>
+										</div>
+
+
+									</div>
+									<!--Basic Form End-->
+
+									</div>
+									<!--form action button section-->
+									<div class="descriptive_question_add_btn mg-t-0" id="question_add_Btns">
+										<button class="btn btn-sm btn-primary questionFormSubmit btn-sm btn-rounded" type="submit">Add</button>
+									</div>
+									<!--form action button section End-->
+								</form>
+
+							</div>
+
+							<div class="questions_list_append_here card-header pb-0" id="Questions_list_Append">
+								{% if coding_ques %}
+                                {% for coding_que in coding_ques %}
+									<div class="descriptive_questions">
+										<input type="hidden" name="que_id" value="`+CreatedQuestion['id']+`">
+										<div class="descriptive_questions_no">
+											<div class="descriptive_question_heading">
+												<div class="cardtitle">Q.{{forloop.counter}}</div>
+												<span>{{coding_que.question_type}}</span>
+											</div>
+										</div>
+										<div class="descriptive_questions_action">
+											<a class="questions_edit" href=""><i class="fas fa-edit"></i></a>
+											<a class="questions_trash" href=""><i class="fas fa-trash-alt"></i></a>
+										</div>
+										<div class="questions_details_text">
+											<div class="questions_title">{{coding_que.coding_que_title}}</div>
+												<pre>
+													{% autoescape off %}
+														{{coding_que.coding_que_description}}
+													{% endautoescape %}
+												</pre>
+										</div>
+									</div>
+								{% endfor %}
+                            	{% endif %}
+							</div>
+
+						</div>
+					</div>
+					<!--/div-->
+
+				</div>
+				<!-- /row -->
+			</div>
+			<!-- Main-content-body closed -->
+
+		</div>
+{% endblock %}
+
+{% block script %}
+
+        <!--- Internal Sweet-Alert js -->
+		<script src="{% static 'assets/plugins/sweet-alert/sweetalert.min.js' %}"></script>
+		<script src="{% static 'assets/plugins/sweet-alert/jquery.sweet-alert.js' %}"></script>
+
+		<!-- Internal Nice-select js-->
+		<script src="{% static 'assets/plugins/jquery-nice-select/js/jquery.nice-select.js' %}"></script>
+		<script src="{% static 'assets/plugins/jquery-nice-select/js/nice-select.js' %}"></script>
+
+ 		<script src="https://cdnjs.cloudflare.com/ajax/libs/tinymce/4.5.6/tinymce.min.js"></script>
+    	<script src="https://cdnjs.cloudflare.com/ajax/libs/tinymce/4.5.6/jquery.tinymce.min.js"></script>
+
+<script>
+	tinymce.init({
+		selector: 'textarea#coding-que-description',
+		menubar: false,
+		plugins: 'lists advlist',
+		toolbar: 'bullist numlist bold',
+		branding: 'False'
+	});
+	
+	$(document).ready(function(){
+            $('#coding-add-que').on('submit',async function(e) {
+                e.preventDefault();
+                tinymce.triggerSave();
+                let radio_val = $("input[name='basic_type']:checked").val();
+                if(radio_val == undefined){
+                    alert('Please select question type');
+                    return;
+                }
+                var que_title = $("input[name='title']").val();
+                console.log('que_title>>', que_title);
+                var que = $('#coding-que-description').val();
+                var textmsg = $.trim($(que).text());
+                if(textmsg == ''){
+                    alert('Please fill out the Question !!')
+                    return false;
+                }
+                else{
+                    var add_data={'question_type':radio_val,'que':que,'que_title':que_title};
+                    CreatedQuestion = JSON.parse(await Add_coding(add_data))
+                    console.log('CreatedQuestion',CreatedQuestion)
+					var tabClone = `<div class="descriptive_questions">
+									<input type="hidden" name="que_id" value="`+CreatedQuestion['id']+`">
+									<div class="descriptive_questions_no">
+										<div class="descriptive_question_heading">
+											<div class="cardtitle">Q.</div>
+											<span>`+CreatedQuestion['question_type']+`</span>
+										</div>
+									</div>
+									<div class="descriptive_questions_action">
+										<a class="questions_edit" href=""><i class="fas fa-edit"></i></a>
+										<a class="questions_trash" href=""><i class="fas fa-trash-alt"></i></a>
+									</div>
+									<div class="questions_details_text">
+										<div class="questions_title">`+CreatedQuestion['coding_que_title']+`</div>
+											<pre>
+												`+CreatedQuestion['coding_que_description']+`
+											</pre>
+										</div>
+									</div>`
+                    $('#Questions_list_Append').append(tabClone);
+                    $('#coding-add-que').trigger("reset");
+                }
+            });
+
+            async function Add_coding(add_data){
+                var category_id = $('#category_id').val();
+                let url = "/agency/coding_question_add/" + category_id;
+                console.log('url', url)
+                const return_data = await $.ajax({
+                    url:url,
+                    headers: {'X-CSRFToken': $("input[name=csrfmiddlewaretoken]").val() },
+                    type:'POST',
+                    contentType: 'application/json; charset=UTF-8',
+                    data: JSON.stringify(add_data),
+                    error: function (request, status, error) {
+                            console.log(error);
+                    }
+                }).done(function(response){
+                });
+                return return_data
+            }
+
+            $(document).on('click','.questions_trash',function(){
+                var data={'que_id':$(this).closest('.descriptive_questions').find('[name="que_id"]').val()}
+                var question_card = $(this).closest('.descriptive_questions');
+                swal({
+                    title: "Are you sure?",
+                    text: "You will not be able to recover deleted subjects!",
+                    type: "warning",
+                    showCancelButton: true,
+                    confirmButtonClass: "btn-danger",
+                    confirmButtonText: "Yes, delete it!",
+                    cancelButtonText: "Cancel",
+                    closeOnConfirm: false,
+                    closeOnCancel: false
+                },function(isConfirm) { //send ajax request for detele category action
+                    if (isConfirm){
+                        $.ajax({
+                            url:"/agency/delete_coding_question/",
+                            headers: {'X-CSRFToken': $("input[name=csrfmiddlewaretoken]").val() },
+                            type:'POST',
+                            contentType: 'application/json; charset=UTF-8',
+                            data: JSON.stringify(data),
+                            error: function (request, status, error) {
+                                  alert(error);
+                            }
+                        }).done(function(response){
+                            if(response == 'True'){
+                                swal("Deleted!", "Your question has been deleted.", "success");
+                                question_card.remove();
+                            }else{
+                                swal("Error!", "Something Wrong !!", "error");
+                            }
+                        });
+                    } else {
+                        swal("Cancelled", "Your question is safe :)", "error");
+                    }
+                });
+            })
+
+        });
+
+</script>
+{% endblock %}

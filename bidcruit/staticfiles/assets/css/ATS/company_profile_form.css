@@ -1,0 +1,49 @@
+label.form-control-label {
+    font-weight: 500;
+}
+.aboutus_text_c{
+	width: 100%;
+}
+.select2-container {
+    display: initial;
+}
+.select2-container--default .select2-selection--multiple .select2-selection__choice__remove {
+    color: #ffffff;
+    opacity: 1;
+    top: -1px;
+    left: auto;
+    right: -19px;
+}
+.select2-container--default .select2-selection--multiple .select2-selection__choice {
+    background-color: #0068ff !important;
+}
+.select2-container--default .select2-selection--multiple .select2-selection__choice__remove {
+    color: #000 !important;
+    font-size: 16px;
+    background-color: #e4e4e4;
+    padding: 1px 5px;
+}
+.select2-container--default .select2-selection--multiple .select2-selection__choice {
+    background-color: #e4e4e4;
+    border: 1px solid #aaa;
+    border-radius: 4px;
+    cursor: default;
+    float: left;
+    margin-right: 25px;
+    margin-top: 5px;
+    padding: 0 5px;
+        line-height: 24px;
+}
+.card-footer button{
+	color: #ffffff;
+    background-color: #0068ff;
+    border-color: #0068ff;
+    border-radius: 10px;
+    font-size: 16px;
+    text-align: center;
+    padding: 7px 36px;
+    font-weight: 500;
+}
+.card-footer {
+    text-align: right;
+}

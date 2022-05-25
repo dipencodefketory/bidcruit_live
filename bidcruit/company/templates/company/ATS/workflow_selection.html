@@ -1,0 +1,168 @@
+{% extends 'company/base.html' %}
+{% load static %}
+{% block title %}Workflow Selection{% endblock %}
+{% block css %}
+<!--		<link href="{% static 'assets/css/ATS/workflow_configuration.css' %}" rel="stylesheet">-->
+   <style type="text/css">
+   	.workflowselection_m .card-header {
+	    border-bottom: 2px solid #e2e8f5;
+	    padding-bottom: 12px !important;
+	}
+	.cus_line {
+		/*border-top: 2px solid #d8ddee;
+		padding-top: 17px;
+		margin-top: 25px;*/
+		text-align: right;
+	}
+	.cus_line button{
+		margin-bottom: 0;
+	    border-radius: 10px;
+	    padding: 6px 20px;
+	    font-size: 16px;
+	    font-weight: bold;
+	}
+	.selected_workflow_cu {
+    	margin-left: 21px;
+	}
+	.popover {
+    	z-index: 2;
+	}
+
+   </style>
+{% endblock %}
+
+{% block main %}
+		<!-- Container-fluid -->
+		<div class="workflowselection_m" id="workflow-selection">
+			<!-- Main-content-body -->
+			<div class="main-content-body">
+				<!--middle section-->
+				<div class="row row-sm workflow-main-layout">
+					<div class="col-md-12 col-xl-12 col-xs-12 col-sm-12">
+					 <form method="post">
+						 {% csrf_token %}
+						<div class="card">
+
+						 	<div class="card-header pb-0">
+								<div class="d-flex justify-content-between">
+									<h4 class="card-title mg-b-0">Workflow Selection</h4>
+									<div class="candidate_right_filters_section">
+																				
+									</div>
+								</div>
+								
+							</div>
+							<div class="card-body">
+							    <div class="row row-sm mg-0">
+									<div class="col-lg col-md col-sm">
+
+										<div class="row row-sm">
+											<div class="col-md-5">
+												<input name="workflowtype" type="radio" value="onthego" {% if selectedworkflows.onthego %} checked {% endif %} >
+												<label class="font-weight-bold ml-1">Proceed without workflow <i style="color: #0068ff;" data-container="body" data-popover-color="head-primary" data-placement="top" title="" data-content="By choosing this option, you can add stages during interview process, It can be for all candidate or per candidate stages." data-original-title=" " class="fas fa-info-circle" aria-describedby="popover156217"></i></label>
+											</div>
+											<div class="col-md-1">
+												<div class="font-weight-bold">- Or -</div>
+											</div>
+											<div class="col-md-6">
+												<input name="workflowtype" type="radio" value="withworkflow" {% if workflows %} {% if selectedworkflows.withworkflow %} checked {% endif %} {% else %} disabled {% endif %}>
+												<label class="font-weight-bold ml-1">Proceed With Workflow</label>
+												<span class="text-danger">{% if not workflows %} -  No Workflows Available{% endif %}</span>
+
+												<div class="selected_workflow_cu mt-2">
+													<label class="">Select Workflow:</label>
+													<select {% if selectedworkflows.workflow_id %}{% else %}disabled{% endif %} id="workflowlist" class="form-control" name="selected_workflow">
+														<option label="Select Workflow" class="null-selector"></option>
+														{% for workflow in workflows %}
+															<option value="{{workflow.id}}" {% ifequal selectedworkflows.workflow_id.id workflow.id %} selected {% endifequal %}>{{workflow.name}}</option>
+														{% endfor %}
+													</select>
+												</div>
+											</div>
+										</div>	
+
+									
+
+										
+
+									</div>
+								</div>
+							</div>
+					  	</div>
+
+
+					  	<div class="card">
+						 	
+							<div class="card-body">
+							    <div class="row row-sm mg-0">
+									<div class="col-lg col-md col-sm">										
+										
+										<div class="row row-sm">
+											<div class="col-md-4">
+												<label class="font-weight-bold mr-1">Allow Application Review <i style="color: #0068ff;" data-container="body" data-popover-color="head-primary" data-placement="top" title="" data-content="Choose this option if you want to review each application manually before proceed it to workflow" data-original-title=" " class="fas fa-info-circle" aria-describedby="popover156217"></i></label>
+												<input name="application_review" type="checkbox" value="application_review" {% if selectedworkflows.is_application_review %} checked {% endif %}>
+											</div>											
+										</div>										
+
+									</div>
+								</div>
+							</div>
+					  	</div>
+
+					  	<div class="card">
+						 	
+							<div class="card-body">
+							    <div class="row row-sm mg-0">
+									<div class="col-lg col-md col-sm">										
+										
+										<div class="cus_line">
+											<button type="submit" disabled class="btn btn-primary btn-sm rounded-10" id="draft-work-selection">Draft
+											</button>
+											<button type="submit" class="btn btn-primary btn-sm rounded-10 ml-2" id="finish-work-selection">Review & Next
+											</button>
+										</div>								
+
+									</div>
+								</div>
+							</div>
+					  	</div>
+						 
+					 </form>
+					</div>
+				 </div>
+				<!--middle section end-->
+			</div>
+			<!-- Main-content-body closed -->
+		</div>
+		<!-- Container-fluid closed -->
+{% endblock %}
+
+{% block script %}
+<script>
+
+     $(document).ready(function () {
+        $("input:radio[name='workflowtype']").change(function () {
+			var workflowtype=$("input[name='workflowtype']:checked").val()
+			if(workflowtype=='onthego'){
+				$('#draft-work-selection').prop("disabled",false)
+				$('#workflowlist').prop("disabled",true)
+			}
+			else if(workflowtype=='withworkflow'){
+				$('#workflowlist').prop("disabled",false)
+				$('#draft-work-selection').prop("disabled",true)
+			}
+        });
+        $("#workflowlist").change(function () {
+        	if($('#workflowlist :selected').attr('label')=='Select Workflow'){
+				$('#draft-work-selection').prop("disabled",true)
+			}
+			else{
+			$('#draft-work-selection').prop("disabled",false)
+			}
+
+        });
+    });
+</script>
+		<!-- Custom js -->
+<!--        <script src="{% static 'assets/js/ATS/workflow_configuration.js' %}"></script>-->
+{% endblock %}

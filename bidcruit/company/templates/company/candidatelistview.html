@@ -1,0 +1,394 @@
+
+{% load static %}
+{% load custom_filters %}
+
+	<!-- Icons css -->
+	<link href="{% static 'assets/css/icons.css' %}" rel="stylesheet">
+
+	<!-- Bootstrap css -->
+	<link rel="stylesheet" href="{% static 'assets/plugins/bootstrap/css/bootstrap.min.css' %}">
+
+	<!-- Right-sidemenu css -->
+	<link href="{% static 'assets/plugins/sidebar/sidebar.css' %}" rel="stylesheet">
+
+	<!-- Style css -->
+	<link rel="stylesheet" type="text/css" media="all" href="{% static 'assets/css/style.css' %}">
+
+	<!-- Colors css -->
+	<link id="theme" rel="stylesheet" type="text/css" media="all" href="{% static 'assets/css/colors/color.css' %}">
+
+	<!-- Skinmodes css -->
+	<link href="{% static 'assets/css/skin-modes.css' %}" rel="stylesheet">
+
+	<!-- Darktheme css -->
+	<link href="{% static 'assets/css/style-dark.css' %}" rel="stylesheet">
+
+	<!-- Sidemenu css -->
+	<link rel="stylesheet" href="{% static 'assets/css/single-sidemenu/singlemenu.css' %}">
+
+	<!-- Internal Nice-select css  -->
+	<link href="{% static 'assets/plugins/jquery-nice-select/css/nice-select.css' %}" rel="stylesheet"/>
+
+	<!-- Animations css -->
+	<link href="{% static 'assets/css/animate.css' %}" rel="stylesheet">
+
+	<!-- candidate font css -->
+	<link href="{% static 'assets/css/fonts.css' %}" rel="stylesheet">
+	
+	<!-- candidate css -->
+	<link href="{% static 'assets/css/candidate.css' %}" rel="stylesheet">
+
+				<!-- Container-fluid -->
+				<div class="container-fluid">
+
+					<!-- Main-content-body -->
+					<div class="main-content-body">
+
+						<!-- header-title -->
+					</br>
+						<!-- header-title -->
+
+						<!-- row -->
+						<div class="row row-sm" >
+							<div class="col-md-12 col-xl-3 mb-3 mb-md-0" >
+								<div class="card" id="advanced_candidate_search_form">
+									<div class="card-body pb-0" >
+										<div class="form-group">
+											<form action="{%url 'company:advanced_search'%}" method="post"  >
+											
+
+												{{ form }}
+												<!-- hello world -->
+												{% csrf_token %}
+												
+												<input type="submit" class="btn btn-secondary" value="Search">
+											</form>
+`	
+											
+										</div>
+				
+									</div>
+						
+								</div>
+							</div>
+							<div class="col-xl-9 col-md-12">
+								<div class="card item2-gl-nav">
+									<div class="card-body d-flex p-3">
+
+											
+
+
+
+										<ul class="nav item2-gl-menu ml-auto">
+											<!-- <li><a href="#" data-toggle="tab" class="box" ><i class="bx bx-search-alt icon p-2"></i><input class="search form-control" type="search" placeholder="Search"/></a></li> -->
+											<li class=""><a href="#tab-1551" class="active show" data-toggle="tab" ><i class="bx bx-grid-alt p-2" ></i></a></li>
+											<li><a href="#tab-1552" data-toggle="tab" class="" ><i class="bx bx-list-ul p-2"></i></a></li>
+										</ul>
+										
+									</div>
+								</div>
+
+								<div class="tab-content">
+									<div class="tab-pane active" id="tab-1551">
+										<div class="row row-sm">
+										
+										{%for i in users%}
+										<div class="col-12 col-sm-6 col-md-6 col-lg-6 col-xl-6">
+												<div class="card">
+													<div class="can-box">
+														<div class="can-title-box">
+															<h2 class="c-title-name">{{i.first_name}}<span class="c-title-sec-name">&nbsp;{{i.last_name}}</span></h2>
+															<p>{{i|get_job_title}}</p>
+															<p>{{i.email}}</p>
+														</div>
+														<div class="can-profile-box">
+															<div class="can-picture-box">
+																<!-- <img src="{% static 'assets/img/candidate/can1.png' %}" alt="can1"> -->
+																<img src="{% get_media_prefix %}{{i|get_profile_picture}}" alt="can1">
+															</div>
+															<div class="can-info">
+																<ul>
+																	<li><i class="fas fa-map-marker-alt mr-2"></i> <span>{{i|get_current_city}}</span></li>
+																	<li><i class="fas fa-eye  mr-2"></i> <span>172</span></li>
+																	<li><i class="fas fa-calendar-day  mr-2"></i> <span>Active on 25 May 2021</span></li>
+																</ul>
+															</div>
+														</div>
+														<hr>
+														<div class="can-sec-info">
+															<ul>
+																<li><label>Total Experiance</label><b>-</b> <span>{{i|get_total_experience}} year</span></li>
+																<li><label>Notice Period</label><b>-</b> <span>{{i|get_notice_period}}</span></li>
+																<li><label>Current Salry</label><b>-</b> <span>&#8377;{{i|get_current_salary}}</span></li>
+																<li><label>Expected Salary Min</label><b>-</b> <span>&#8377; {{i|get_expected_salary_min}}</span></li>
+
+
+															</ul>
+														</div>
+														<a {% if request.user.is_company %}href="{%url 'company:candidate_detail' i|get_candidate_url %}" {% else %}href="{%url 'timeline' i|get_candidate_url %}"{% endif %}><i class="fas fa-eye  mr-2"></i></a>
+												   </div>
+												</div>
+											</div>
+										{%endfor%}
+
+										</div>
+									</div>
+									
+									<div class="tab-pane" id="tab-1552">
+										<div class="row">
+											{%for i in users%}
+											<div class="col-md-12">
+												<div class="c-l-card">
+													<div class="c-l-title-box">
+														<div class="c-l-name"><h2>{{i.first_name}} <span>{{i.last_name}}</span></h2></div>
+														<div class="c-l-role"><p>{{i|get_job_title}}</p></div>
+													</div>
+
+													<div class="c-l-pic-box">
+														<div class="c-l-img">
+															<img src="{% get_media_prefix %}{{i|get_profile_picture}}" alt="can9">
+														</div>
+														<div class="c-l-info">
+															<ul>
+																<li><i class="fas fa-map-marker-alt mr-2"></i> <span>{{i|get_current_city}}</span></li>
+																<li><i class="fas fa-eye  mr-2"></i> <span>172</span></li>
+																<li><i class="fas fa-calendar-day  mr-2"></i> <span>Active on 25 May 2021</span></li>
+															</ul>
+														</div>
+														<div class="c-l-sec-info">
+															<ul>
+																<li><label>Total Experiance</label><b>-</b> <span>{{i|get_total_experience}} year</span></li>
+																<li><label>Notice Period</label><b>-</b> <span>{{i|get_notice_period}}</span></li>
+																<li><label>Current Salry</label><b>-</b> <span>&#8377; {{i|get_current_salary}}</span></li>
+																<li><label>Expected Salary</label><b>-</b> <span>&#8377; {{i|get_expected_salary_min}}</span></li>
+															</ul>
+														</div>
+													</div>
+													<hr>
+													<div class="c-l-more-info">
+														<ul>
+															<li><label>Latest Experience</label> <b>:-</b> <p>{{i|get_latest_experience}}</p></li>
+															<!-- <li><label>Latest Experience</label> <b>:-</b> <p>GZ Solutions Pvt. Ltd., Ahmedabad, India.</p></li> -->
+															<li><label>Latest Education</label> <b>:-</b> <p>{{i|get_education_title}}</p></li>
+															<li><label>Skills</label> <b>:-</b> <p>{{i|get_skills}} </p></li>
+															<li><label>Preferred Location</label> <b>:-</b> <p>{{i|get_preferred_job_locations}}</p></li>
+														</ul>
+													</div>
+													<a href="{%url 'company:candidate_detail' i|get_candidate_url %}"><i class="fas fa-eye  mr-2"></i></a>
+												</div>
+											</div>
+
+											{%endfor%}
+										</div>
+									</div>
+									
+									<div class="">
+										{% if users.has_other_pages %}
+										<ul class="pagination global pagination-radius float-right mb-xl-0 ml-3">
+											{% if users.has_previous %}
+											<li class="page-item"><a class="page-link" href="?page={{ users.previous_page_number }}">&laquo;</a></li>
+											{% else %}
+											<li class="page-item"><span>&laquo;</span></li>
+											{% endif %}
+											{% for i in users.paginator.page_range %}
+      											{% if users.number == i %}
+											<li class="page-item active"><a class="page-link" href="#">{{i}}</a></li>
+											{% else %}
+											<li class="page-item"><a class="page-link" href="?page={{ i }}">{{i}}</a></li>
+											{% endif %}
+											{% endfor %}
+											{% if users.has_next %}
+											<li class="page-item"><a class="page-link" href="?page={{ users.next_page_number }}">&raquo;</a></li>
+											{% else %}
+											<li class="page-item">&raquo;</li>
+											{% endif %}
+										</ul>
+										{% endif %}
+									</div>
+									
+								</div>
+							</div>
+						</div>
+					</div>
+					<!-- Main-content-body closed -->
+				</div>
+				<!-- Container-fluid closed -->
+			</div>
+			<!-- Main-content closed -->
+				
+			<script src="{% static 'assets/plugins/jquery/jquery.min.js' %}"></script>
+<!-- Select2.min js -->
+				<script src="{% static 'assets/plugins/select2/js/select2.min.js' %}"></script>
+		<!-- Popper js -->
+		<script src="{% static 'assets/plugins/popper/popper.min.js' %}"></script>
+
+		<!-- Bootstrap Bundle js -->
+		<script src="{% static 'assets/plugins/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+
+		<!-- Ionicons js -->
+		<script src="{% static 'assets/plugins/ionicons/ionicons.js' %}"></script>
+
+		<!-- Moment js -->
+		<script src="{% static 'assets/plugins/moment/moment.js' %}"></script>
+
+		<!-- JQuery sparkline js -->
+		<script src="{% static 'assets/plugins/jquery-sparkline/jquery.sparkline.min.js' %}"></script>
+
+		<!-- P-scroll js -->
+		<script src="{% static 'assets/plugins/perfect-scrollbar/perfect-scrollbar.min.js' %}"></script>
+		<script src="{% static 'assets/plugins/perfect-scrollbar/p-scroll.js' %}"></script>
+
+		<!-- Rating js -->
+		<script src="{% static 'assets/plugins/rating/jquery.rating-stars.js' %}"></script>
+		<script src="{% static 'assets/plugins/rating/jquery.barrating.js' %}"></script>
+
+		<!-- Sidemenu js -->
+		<script src="{% static 'assets/plugins/side-menu/single-menu.js' %}"></script>
+
+		<!-- Right-sidebar js -->
+		<script src="{% static 'assets/plugins/sidebar/sidebar.js' %}"></script>
+		<script src="{% static 'assets/plugins/sidebar/sidebar-custom.js' %}"></script>
+
+		<!-- Internal Nice-select js-->
+		<script src="{% static 'assets/plugins/jquery-nice-select/js/jquery.nice-select.js' %}"></script>
+		<script src="{% static 'assets/plugins/jquery-nice-select/js/nice-select.js' %}"></script>
+
+		<!-- Custom js -->
+		<script src="{% static 'assets/js/custom.js' %}"></script>
+		<script>
+			function show_recored(page_number)
+			{
+				document.getElementById('page_no_get').submit();
+				// $.ajax({
+                //     data: {"page_number":page_number}, // get the form data
+                //     url: "{% url 'company:search_result' %}",
+                //     // on success
+                //     success: function (response) {
+                //         if (response == true) {
+				// 			$('#sidebar').remove();
+                //             $('#sidebar').html(data);
+                //         }
+                //         else {
+                //             console.log(response)
+                //         }
+
+                //     },
+                //     // on error
+                //     error: function (response) {
+                //         // alert the error if any error occured
+                //         console.log(response.responseJSON.errors)
+                //     }
+				// });
+			}
+
+		
+			var cities= [];
+            
+			function getCookie(name) {
+				var cookieValue = null;
+				if (document.cookie && document.cookie !== '') {
+					var cookies = document.cookie.split(';');
+					for (var i = 0; i < cookies.length; i++) {
+						var cookie = jQuery.trim(cookies[i]);
+						// Does this cookie string begin with the name we want?
+						if (cookie.substring(0, name.length + 1) === (name + '=')) {
+							cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+							break;
+						}
+					}
+				}
+				return cookieValue;
+			}
+	
+	
+	
+	
+				$(document).ready(function()
+				{
+					console.log("calling the funcitonsssss")
+	
+	
+					var options=[];
+					var csrftoken = getCookie('csrftoken');
+					console.log(csrftoken)
+					$(".select2_skill").select2({
+						data:options,
+						tags:true,
+						createTag: function (params) {
+							return {
+								id: params.term,
+								text: params.term,
+								newOption: true,
+							}
+						},
+						templateResult: function (data) {
+							var $result = $("<span></span>");
+							$result.text(data.text);
+							if (data.newOption) {
+								$result.append(" <em>(new)</em>");
+							}
+							return $result;
+						}
+					});
+					console.log("first funciton done")
+
+
+
+					$(".select2_cities").select2({
+						tags:true,
+					});
+					
+					$(".select2_degrees").select2({
+						tags:true,
+					});
+
+					$('.select2_cities').select2({
+                    ajax: {
+                        url:"/company/get_cities",
+                        dataType: 'json',
+                        processResults: function (data) {
+                            return {
+                                results: $.map(data, function (item) {
+                                    return {id: item.id, text: item.city_name};
+                            })
+                        };
+                    }
+                },
+                minimumInputLength: 1
+                });
+	
+					$('.select2_degrees').select2({
+						ajax: {
+							url:"/company/get_degrees/",
+							dataType: 'json',
+							processResults: function (data) {
+								return {
+									results: $.map(data, function (item) {
+										return {id: item.id, text: item.name};
+								})
+							};
+						}
+					},
+					minimumInputLength: 1
+					});
+				});
+				
+	
+				function toggle_advanced_search_form()
+				{
+					console.log("hellllllo")
+					var form= document.getElementById('advanced_candidate_search_form');
+					
+					if(form.style.display =='block')
+					{
+						form.style.display  = 'none';
+					}
+					else if(form.style.display  =='none')
+					{
+						form.style.display = 'block';
+					}
+				}
+
+
+
+		</script>

@@ -1,0 +1,1288 @@
+{% extends 'company/base.html' %}
+{% load static %}
+{% load custom_filters %}
+{% block main %}
+
+
+<!-- SELECT JOB PREFERENCE MODEL-->
+<div class="modal job-preferences" id="HireModal1" tabindex="-1" role="dialog"
+aria-labelledby="myLargeModalLabel" aria-hidden="true">
+<div class="modal-dialog modal-lg">
+   <div class="modal-content" role="document">
+       <form role="form" method="POST" id="preferenceForm" action="">
+        
+           <input type="hidden" name="candidate_id" value="{{profile.candidate_id.id}}">
+          
+           <div class="modal-header">
+               <h4 class="modal-title" id="PreferenceLabel1">Candidate Preferences</h4>
+               <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                   <span aria-hidden="true">&times;</span></button>
+           </div>
+           
+           <div class="modal-body">
+                   {% csrf_token %}
+                   <div class="container-fluid">
+                       {%csrf_token%}
+                       {% for job_preference in job_preference%}
+                       <div class="row">
+                           <div class="col-md-6">
+                               <input type="checkbox" id="job_type"
+                                      class="filled-in" name="job_type">
+                               <label for="job_type">Job Type :
+                                   {{job_preference.job_type}}</label>
+                           </div>
+                           <div class="col-md-6">
+                               <input type="checkbox" id="number_of_employee"
+                                      class="filled-in"
+                                      name="number_of_employee">
+                               <label for="number_of_employee">Number Of
+                                   Employee :
+                                   {{job_preference.number_of_employee}}</label>
+                           </div>
+                       </div>
+                       <div class="row">
+                           <div class="col-md-6">
+                               <input type="checkbox" id="working_days"
+                                      class="filled-in" name="working_days">
+                               <label for="working_days">Working Days:
+                                   {{job_preference.working_days}}</label>
+                           </div>
+                           <div class="col-md-6">
+                               <input type="checkbox" id="preferred_shift"
+                                      class="filled-in" name="preferred_shift">
+                               <label for="preferred_shift">Preferred Shift:
+                                   {{job_preference.preferred_shift}}</label>
+                           </div>
+                       </div>
+                       <div class="row">
+                           <div class="col-md-6">
+                               <input type="checkbox" id="relocation"
+                                      class="filled-in" name="relocation">
+                               <label for="preferred_shift">Relocation :
+                                   {{job_preference.relocation}}</label>
+                           </div>
+                       </div>
+                       {% endfor %}
+                       <div class="row">
+                           {% for job_preference_other in job_preference_other%}
+                               <div class="col-md-6">
+                                   <input type="checkbox" id="{{job_preference_other.id}}"
+                                          class="filled-in" name="{{job_preference_other.id}}">
+                                   <label for="{{job_preference_other.id}}">{{job_preference_other.label}} :
+                                       {{job_preference_other.value}}</label>
+                               </div>
+                           {% endfor %}
+                       </div>
+                   </div>
+           </div>
+           <div class="modal-footer">
+               <button type="button" class="btn btn-primary preference-submit">Submit</button>
+               <button type="button" class="btn btn-secondary" data-dismiss="modal">Close
+               </button>
+           </div>
+       </form>
+   </div>
+
+</div>
+</div>
+
+
+<!-- HIRE ME MESSAGE MODAL-->
+<div class="modal job-preferences" id="HireModal2" tabindex="-1" role="dialog"
+aria-labelledby="myLargeModalLabel" aria-hidden="true">
+<div class="modal-dialog modal-lg">
+   <div class="modal-content" role="document">
+       <form role="form" method="POST" id="HireMeForm" action="">
+          
+           <input type="hidden" name="candidate_id" value="{{profile.candidate_id.id}}">
+           
+           <div class="modal-header">
+               <h4 class="modal-title" id="HireLabel1">Message</h4>
+               <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                   <span aria-hidden="true">&times;</span></button>
+           </div>
+           <div class="modal-body">
+                   {% csrf_token %}
+                   <div class="container-fluid">
+                       <div class="row">
+                           <div class="col-md-6">
+                               <textarea id="hire_message" maxlength="200" rows="3" name="hire_message"></textarea>
+                           </div>
+                       </div>
+                   </div>
+           </div>
+           <div class="modal-footer">
+               <button type="button" class="btn btn-primary hire-message-submit">Submit</button>
+               <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+           </div>
+       </form>
+   </div>
+</div>
+</div>
+
+<!-- resume download  -->
+
+<div class="modal job-preferences" id="download_model" tabindex="-1" role="dialog"
+aria-labelledby="myLargeModalLabel" aria-hidden="true">
+<div class="modal-dialog modal-lg">
+   <div class="modal-content" role="document">
+       <form role="form" method="POST" id="HireMeForm" action="">
+          
+           <input type="hidden" name="candidate_id" value="{{profile.candidate_id.id}}">
+           
+           <div class="modal-header">
+               <h4 class="modal-title" id="HireLabel1">Message</h4>
+               <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                   <span aria-hidden="true">&times;</span></button>
+           </div>
+           <div class="modal-body">
+                   {% csrf_token %}
+                   <div class="container-fluid">
+                       <div class="row">
+                           <div class="col-md-6">
+                                <label for="html">login</label><input type="radio" {% if request.user.is_company %} href=""data-toggle="modal" data-target=".job-preferences" {% else %} href="" data-toggle="modal" data-target="#myModal1" {% endif %} id="login" name="fav_language">
+                               
+                                <label for="css">password</label><input type="radio" data-toggle="modal" data-target="#download_by_password" id="password" name="fav_language"></a>
+                                
+                           </div>
+                       </div>
+                   </div>
+           </div>
+           <div class="modal-footer">
+               <button type="button" class="btn btn-primary hire-message-submit">Submit</button>
+               <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+           </div>
+       </form>
+   </div>
+</div>
+</div>
+
+<!-- password add -->
+<div class="modal job-preferences" id="download_by_password" tabindex="-1" role="dialog"
+aria-labelledby="myLargeModalLabel" aria-hidden="true">
+<div class="modal-dialog modal-lg">
+   <div class="modal-content" role="document">
+       <form role="form" method="POST" id="HireMeForm" action="">
+          
+
+           
+           <div class="modal-header">
+               <h4 class="modal-title" id="HireLabel1">Message</h4>
+               <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                   <span aria-hidden="true">&times;</span></button>
+           </div>
+           <div class="modal-body">
+                   {% csrf_token %}
+                   <div class="container-fluid">
+                       <div class="row">
+                           <div class="col-md-6">
+                                 <form method="POST" action="detail">
+                                    {% csrf_token %}
+                                    password:<input type="password" id="confirm_password" name="confirmpassword">
+                                    <input type="hidden" id="candidate_id" name="candidate_id" value="{{profile.candidate_id.id}}">
+                                    <input type="hidden" id="profile_id" name="profile_id" value="{{profile.profile_id.id}}">
+                                    <input type="hidden" id="recored_id" name="recored_id" value="{{profile.id}}">
+                                    <br>
+                                    <br>
+                                    <button type="button" class="btn btn-primary" onclick="file_download(this)">submit</button>
+                                </form>   
+                                
+                           </div>
+                       </div>
+                   </div>
+           </div>
+           <div class="modal-footer">
+               <button type="button" class="btn btn-primary hire-message-submit">Submit</button>
+               <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+           </div>
+       </form>
+   </div>
+</div>
+</div>
+<!-- end resume download -->
+<!--Modal: Login / Register Form-->
+<!-- Modal  Popup 1 -->
+<div class="modal" id="myModal1" tabindex="-1" role="dialog">
+<div class="modal-dialog">
+   <div class="modal-content" role="document">
+       <div class="modal-header">
+         <h4 class="modal-title" id="myModalLabel1">Company Email</h4>
+         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+             <span aria-hidden="true">&times;</span></button>
+       </div>
+           <div class="modal-body">
+                   {% csrf_token %}
+                   <div class="form-label-group">
+                       <label for="company_email">Enter Email :</label>
+                       <input type="email" id="company_email" name="company_email" class="form-control"
+                              placeholder="Email address" value="" required>
+                   </div>
+                   <br>
+                   <div class="text-center">
+                        Don't have an account ? <a  href="{% url 'company:signup' %}" target="_blank"><span>Sign Up </span></a>
+                   </div>
+           </div>
+           <div class="modal-footer">
+               <button type="button" class="btn btn-primary btn-next">Next</button>
+               <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+           </div>
+   </div>
+</div>
+</div>
+<!-- Modal  Popup 2 -->
+<div class="modal" id="myModal2" tabindex="-1" role="dialog">
+<div class="modal-dialog" role="document">
+   <div class="modal-content">
+       <div class="modal-header">
+         <h4 class="modal-title" id="myModalLabel2">Company Password</h4>
+         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+             <span aria-hidden="true">&times;</span></button>
+       </div>
+       <div class="modal-body">
+           <div class="form-label-group">
+               <label for="company-password">Enter Password</label>
+               <input type="password" name="company-password" id="company-password" class="form-control"
+                   placeholder="Password" required>
+           </div>
+           <br>
+       </div>
+       <div class="modal-footer">
+           <button type="button" class="btn btn-primary btn-next">Next</button>
+           <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+       </div>
+   </div>
+</div>
+</div>
+<!-- Modal  Popup 3 -->
+<div class="modal" id="myModal3" tabindex="-1" role="dialog">
+<div class="modal-dialog">
+   <div class="modal-content">
+       <div class="modal-header">
+         <h4 class="modal-title" id="myModalLabel3">Enter OTP</h4>
+         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+             <span aria-hidden="true">&times;</span></button>
+       </div>
+       <div class="modal-body">
+          <div class="form-label-group">
+              <label for="company-login-otp">OTP</label>
+              <input type="number" name="company-login-otp" class="form-control" id="company-login-otp" placeholder="Enter OTP"  required>
+           </div>
+       </div>
+       <div class="modal-footer">
+           <button type="button" class="btn btn-primary btn-next">Verify Otp</button>
+           <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+       </div>
+   </div>
+</div>
+</div>
+
+
+<!-- endpopup -->
+
+			<!-- Container-fluid -->
+			<div class="container-fluid">
+
+				<!-- Main-content-body -->
+				<div class="main-content-body dashboard-search">
+
+
+					<!-- row -->
+					<div class="row row-sm">
+						<div class="col-md-12 col-xl-12 col-lg-12">
+							<div class="card card-search">
+								<div class="row">
+									<div class="col-md-4 col-lg-4 col-sm-12 col-xs-12">
+										<div class="cad-nameinfo">
+											<!-- <h5>{{user.first_name}} <span>{{user.last_name}}</span></h5> -->
+											<h5><span>{{user.first_name}} {{user.last_name}}</span></h5>
+											<a href="#" class="shar-button">
+												<span class="share-icon"><i class="fas fa-share-alt"></i></span>
+												<span class="text"><i class="fab fa-facebook-f"></i></span>
+											</a>
+										</div>
+									</div>
+                                    <div class="col-md-4 col-lg-4 col-sm-12 col-xs-12">
+										<div class="cad-role">
+											<h6>{{user.id|get_job_title}}</h6>
+										</div>
+									</div>
+									
+									<div class="col-md-4 col-lg-4 col-sm-12 col-xs-12">
+										<div class="contacts-icon">
+										
+											<ul>
+												<li>
+													<a href="#"><i data-v-e08301e8="" class="las la-address-book"></i></a>
+												</li>
+												<li>
+													<a href="#"><i data-v-e08301e8="" class="fas fa-clipboard-list"></i></a>
+												</li>
+												<li>
+													<a href="#"><i data-v-e08301e8="" class="fas fa-ban"></i></a>
+												</li>
+											</ul>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+
+					</div>
+					<!-- /row -->
+					<div class="row row-sm">
+						<div class="col-md-12 col-xl-12 col-lg-12">
+							<div class="card candidate-detail">
+								<div class="flex-container">
+									<div class="profile-pic-box">
+										<div class="profile-pic">
+											<img src="{{profile_show.user_image.url}}" alt="cand-pic" class="img-fluid">
+										</div>
+										<div class="resume-btn">
+											<a id="resume_file_get" href="" {% if profile_show.resume %} {% if request.user.is_company %} value="{{profile_show.resume.url}}" {% else %}value=""{% endif %} {% else %} value=""{% endif %}data-toggle="modal" data-target="#download_model">Resume</a>
+										</div>
+									</div>
+									<div class="profile-info">
+										<div class="candi-info">
+											 {% if company_data_status %}
+												{% for j in company_data_status %}
+													{% ifequal j.type_name 'email' %}
+														{% ifequal j.doc_id i.id %}
+															{% ifequal j.status 1 %}
+																<p><i class="fas fa-envelope"></i><a
+																		href="mailto:info.********@gmail.com">{{user.email}}</a></p>
+															 {% else %}
+																<p><i class="fas fa-envelope"></i><a >********@gmail.com</a></p>        {% endifequal %}
+														{% endifequal %}
+													{% endifequal %}
+												{% endfor %}
+											 {% else %}
+												{% ifequal hidefield.email 0 %}
+													<p><i class="fas fa-envelope"></i><a
+																		>********@gmail.com</a></p>
+												{% else %}
+													<p><i class="fas fa-envelope"></i><a
+																		href="mailto:info.********@gmail.com">{{user.email}}</a></p>
+												{% endifequal %}
+											 {% endif %}
+			
+											 {% if company_data_status %}
+												{% for j in company_data_status %}
+													{% ifequal j.type_name 'contact' %}
+														{% ifequal j.doc_id i.id %}
+															{% ifequal j.status 1 %}
+																<p><i class="fas fa-phone-alt"></i><a href="tel:+91 123 456 789">{{profile_show.contact_no}}</a>
+															 {% else %}
+																<p><i class="fas fa-phone-alt"></i><a>+ 91 ***** *****</a>
+															 {% endifequal %}
+														{% endifequal %}
+													{% endifequal %}
+												{% endfor %}
+											 {% else %}
+												{% ifequal hidefield.contact 0 %}
+													<p><i class="fas fa-phone-alt"></i><a>+ 91 ***** *****</a>
+												{% else %}
+													<p><i class="fas fa-phone-alt"></i><a href="tel:+91 123 456 789">{{profile_show.contact_no}}</a>
+												{% endifequal %}
+											 {% endif %}
+											
+											</p>
+											<p><i class="fas fa-calendar-alt"></i>{{profile_show.dob}}</p>
+											<p><i class="fas fa-map-marker-alt"></i>{{profile_show.city.city_name}}</p>
+											<p><i class="fas fa-venus-mars"></i>{{profile_show.gender.name}}</p>
+										</div>
+									</div>
+									<div class="qr-scan-code">
+                            
+										<img src="{{profile_show.qr_code.url}}" alt="cand-pic" class="img-fluid">
+										<p class="looking-text" title="" >looking for job</p>
+									
+								</div>
+									
+							
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="row row-sm">
+                        <div class="col-md-12 col-xl-12 col-lg-12">
+                            <div class="candidate-tab">
+                                <div class="panel panel-primary tabs-style-2">
+                                    <div class=" tab-menu-heading">
+                                        <div class="tabs-menu1">
+                                            <!-- Tabs -->
+                                            <ul class="nav panel-tabs main-nav-line">
+                                                <li><a href="#tab4" class="nav-link active" data-toggle="tab">CV</a></li>
+                                                <li><a href="#tab5" class="nav-link" data-toggle="tab">Time Line</a></li>
+                                                <li><a href="#tab6" class="nav-link" data-toggle="tab">Analytics</a></li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <div class="panel-body tabs-menu-body main-content-body-right border">
+                                        <div class="tab-content">
+                                            <div class="tab-pane active" id="tab4">
+                                                <section id="abt_acc">
+                                                    <div class="container-fluid">
+                                                        <div class="row custome-callpase">
+                                                            <div class="custom-col">
+                                                                <div class="master-box">
+                                                                    <div class="master-box-inner">
+                                                                        <div class="sec-title">
+                                                                            <div class="title-icon">
+                                                                                <img src="{% static 'assets/candidateprofile/candidateprofile/img/info-white.png' %}" alt="info">
+                                                                            </div>
+                                                                            <h2>About Me</h2>
+                                                                        </div>
+                                                                        <div class="aboutus-info">
+                                                                            <!-- <p>Dedicated Java Developer with 7 years of experience managing various IT projects &amp;
+                                                                                products, building innovative new software systems &amp; databases, and creating
+                                                                                user-friendly websites according to the client’s business requirements. In-depth
+                                                                                knowledge of OOP, MVC Architecture, Micro Services, Spring Framework + Boot + Data,
+                                                                                Amazon AWS, Angular 7 and SDLC Process.</p> -->
+                                                                                <p>
+                                                                                    {{profile_show.about_me}}
+                                                                                </p>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            
+                                                                <div class="accrodion-box">
+                                                                    <div class="accordion-option">
+                                                                        <h3 class="title">More Information</h3>
+                                                                        <a href="javascript:void(0)" class="toggle-accordion" accordion-id="#accordion"></a>
+                                                                    </div>
+                                                                    <div class="clearfix"></div>
+                                                                    <div class="panel-group" id="accordion">
+                                                                        <div class="panel panel-default section" id="section1">
+                                                                           {% if experiences %}
+                                                                            <div class="panel-heading" id="headingOne">
+                                                                                <h4 class="panel-title">
+                                                                                    <a class="" data-toggle="collapse" data-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
+                                                                                        <!-- <span class="cat_circle"><img src="img/info.png' %}" class="img-fluid" alt=""></span> -->
+                                                                                        <span class="title-set"><img src="{% static 'assets/candidateprofile/candidateprofile/img/exp-icon.png' %}" alt="exp" class="exp-icon"> Experience</span>
+                                                                                    </a>
+                                                                                </h4>
+                                                                            </div>
+                                                                            <div id="collapseOne" class="collapse panel-collapse show" aria-labelledby="headingOne" data-parent="#accordion">
+                                                                                {%for i in experiences%}
+                                                                                  <!--Modal: Name-->
+                                                                                     <div class="modal fade" id="exp{{i.id}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                                                                                       <div class="modal-dialog modal-lg" role="document">
+                                                                                 
+                                                                                         <!--Content-->
+                                                                                         <div class="modal-content">
+                                                                                 
+                                                                                           <!--Body-->
+                                                                                           <div class="modal-body mb-0 p-0">
+                                                                                 
+                                                                                             <div class="embed-responsive embed-responsive-16by9 z-depth-1-half">
+                                                                                                    
+                                                                                                    {% if exps.extension == 'img' %}
+                                                                                                    <img class="embed-responsive-item" src="#"
+                                                                                                        allowfullscreen></img>
+                                                                                                    {% else %}
+                                                                                                    <embed  src="#toolbar=0&navpanes=0&scrollbar=0" height="500" width="500" type="application/pdf">
+                                                                                                    {% endif %}
+                                                                                             </div>
+                                                                                 
+                                                                                           </div>
+                                                                                 
+                                                                                           <!--Footer-->
+                                                                                           <div class="modal-footer justify-content-center">
+                                                                                            <button type="button"
+                                                                                                    class="btn btn-primary"
+                                                                                                    data-dismiss="modal">Close
+                                                                                            </button>
+                                                                                        </div>
+                                                                                         </div>
+                                                                                         <!--/.Content-->
+                                                                                 
+                                                                                       </div>
+                                                                                     </div>
+                                                                                     <!--Modal: Name-->
+                                                                                <!-- Modal effects -->
+                                                                                <div class="modal" id="experience_request{{i.id}}">
+                                                                                    <div class="modal-dialog modal-dialog-centered" role="document">
+                                                                                        <div class="modal-content modal-content-demo">
+                                                                                            <div class="modal-header">
+                                                                                                <h6 class="modal-title">Experience File Accept Request</h6><button aria-label="Close" class="close" data-dismiss="modal" type="button"><span aria-hidden="true">&times;</span></button>
+                                                                                            </div>
+                                                                                            <!-- <form method="POST" action=""> -->
+                                                                                                {% csrf_token %}
+                                                                                            <div class="modal-body">
+                                                                                                <h6>Message</h6>
+                                                                                                <input class="form-control" type="text" value="" name='exp_message' required="required">
+                                                                                            </div>
+                                                                                            <div class="modal-footer">
+                                                                                                <button type="button" class="btn btn-primary btn-block" type="button" onclick="doc_request('experiance','{{i.id}}','{{i.candidate_id.id}}','{{i.profile_id}}')">Send
+                                                                                                </button>
+                                                                                            <!-- </form> -->
+                                                                                                <button class="btn ripple btn-secondary" data-dismiss="modal">Close</button>
+                                                                                            </div>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+                                                                            <!-- End Modal effects-->
+                                                                                <div id="section_experience_{{i.id}}" class="panel-body section infoone ">
+                                                                                    <div class="left-area">
+                                                                                        {% ifequal hidefield.exp_document 0 %}
+                                                                                        
+                                                                                        {% if company_data_status %}
+                                                                                        
+                                                                                            {% for j in company_data_status %}
+                                                                                                
+                                                                                                {% ifequal j.type_name 'experiance' %}
+                                                                                                
+                                                                                                    {% ifequal j.doc_id|to_str i.id|to_str %}
+                                                                                                    
+                                                                                                        {% ifequal j.status 1 %}
+                                                                                                        
+                                                                                                            <a {% if request.user.is_company %} href="" data-toggle="modal" data-target="#exp{{i.id}}" {% else %} href="" data-toggle="modal" data-target="#exp{{i.id}}"  {% endif %}><img src="{% static 'assets/candidateprofile/candidateprofile/img/file-icon.png' %}" alt="img-responsive"></a>
+                                                                                                        {% else %}
+                                                                                                            <a {% if request.user.is_company %} href="" data-toggle="modal" data-target="#experience_request{{i.id}}" {% else %} href="" data-toggle="modal" data-target="#myModal1" {% endif %}><img src="{% static 'assets/candidateprofile/candidateprofile/img/lock_gif.gif' %}" alt="img-responsive"></a>
+                                                                                                        {% endifequal %}
+                                                                                                    {% else %}
+                                                                                                         <!-- <a{% if request.user.is_company %} href="" data-toggle="modal" data-target="#experience_request{{i.id}}" {% else %} href="" data-toggle="modal" data-target="#myModal1" {% endif %}><img src="{% static 'assets/candidateprofile/candidateprofile/img/lock_gif.gif' %}" alt="img-responsive"></a>
+                                                                                                        -->
+                                                                                                    {% endifequal %}
+                                                                                                    
+                                                                                                {% endifequal %}
+                                                                                            {% endfor %}
+                                                                                            {% else %}
+                                                                                            <!-- <a {% if request.user.is_company %} href="" data-toggle="modal" data-target="#experience_request{{i.id}}" {% else %} href="" data-toggle="modal" data-target="#myModal1" {% endif %}><img src="{% static 'assets/candidateprofile/candidateprofile/img/lock_gif.gif' %}" alt="img-responsive"></a>
+                                                                                                 -->       
+                                                                                        {% endif %}
+                                                                                    {% else %}
+                                                                                        
+                                                                                        <a {% if request.user.is_company %} href="" data-toggle="modal" data-target="#exp{{i.id}}" {% else %} href="" data-toggle="modal" data-target="#exp{{i.id}}"  {% endif %}><img src="{% static 'assets/candidateprofile/candidateprofile/img/file-icon.png' %}" alt="img-responsive"></a>
+                                                                                       
+                                                                                    {% endifequal %}
+                                                                                    </div>
+                                                                                    <div class="right-area">
+                                                                                        <div class="acc-haeding">
+                                                                                            <h4>{{i.company.company_name}}</h4>
+                                                                                            <span class="acc-year">{{i.start_date}} to {{i.end_date}}</span>
+                                                                                        </div>
+                                                                                        <span class="acc-sub">{{i.job_profile_name}}</span>
+                                                                                        <p>{{i.job_description_responsibility}}</p>
+                                                                                    </div>
+                                                                                </div>
+                                                                                {%endfor%}
+                                                                        
+                                                                            </div>
+                                                                            <!-- first pannel end -->
+                                                                        </div>
+                                                                        {% endif %}
+                                                                        {% if educations %}
+                                                                        <div class="panel panel-default section" id="section5">
+                                                                            <div class="panel-heading" id="headingTwo">
+                                                                                <h4 class="panel-title">
+                                                                                    <a class="" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                                                                                        <!-- <span class="cat_circle"><img src="img/info.png' %}" class="img-fluid" alt=""></span> -->
+                                                                                        <span class="title-set"><img src="{% static 'assets/candidateprofile/candidateprofile/img/education-icon.png' %}" alt="exp" class="edu-icon">Education</span>
+                                                                                    </a>
+                                                                                </h4>
+                                                                            </div>
+                                                                            <div id="collapseTwo" class="collapse panel-collapse show" aria-labelledby="headingTwo" data-parent="#accordion">
+                                                                                
+                                                                                {%for i in educations%}
+                                                                                 <!--Modal: Name-->
+                                                                                     <div class="modal fade" id="edu{{i.id}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                                                                                       <div class="modal-dialog modal-lg" role="document">
+                                                                                 
+                                                                                         <!--Content-->
+                                                                                         <div class="modal-content">
+                                                                                 
+                                                                                           <!--Body-->
+                                                                                           <div class="modal-body mb-0 p-0">
+                                                                                           
+                                                                                             <div class="embed-responsive embed-responsive-16by9 z-depth-1-half">
+                                                                                                {% if i.certificate %}    
+                                                                                                    {% if i.extension == 'img' %}
+                                                                                                    <img class="embed-responsive-item" src="{{i.certificate.url|image_path_remove}}"
+                                                                                                        allowfullscreen></img>
+                                                                                                    {% else %}
+                                                                                                    <embed  src="{{i.certificate.url|image_path_remove}}#toolbar=0&navpanes=0&scrollbar=0" height="500" width="500" type="application/pdf">
+                                                                                                    {% endif %}
+                                                                                                {% endif %}
+                                                                                             </div>
+                                                                                 
+                                                                                           </div>
+                                                                                 
+                                                                                           <!--Footer-->
+                                                                                           <div class="modal-footer justify-content-center">
+                                                                                            <button type="button"
+                                                                                                    class="btn btn-primary"
+                                                                                                    data-dismiss="modal">Close
+                                                                                            </button>
+                                                                                        </div>
+                                                                                         </div>
+                                                                                         <!--/.Content-->
+                                                                                 
+                                                                                       </div>
+                                                                                     </div>
+                                                                                     <!--Modal: Name-->
+                                                                                <!-- Modal effects -->
+                                                                                        <div class="modal" id="edu_request">
+                                                                                            <div class="modal-dialog modal-dialog-centered" role="document">
+                                                                                                <div class="modal-content modal-content-demo">
+                                                                                                    <div class="modal-header">
+                                                                                                        <h6 class="modal-title">Education File Accept Request</h6><button aria-label="Close" class="close" data-dismiss="modal" type="button"><span aria-hidden="true">&times;</span></button>
+                                                                                                    </div>
+                                                                                                    <!-- <form method="POST" action=""> -->
+                                                                                                        {% csrf_token %}
+                                                                                                    <div class="modal-body">
+                                                                                                        <h6>Message</h6>
+                                                                                                        <input class="form-control" type="text" value="" name='edu_message' required="required">
+                                                                                                    </div>
+                                                                                                    <div class="modal-footer">
+                                                                                                        <button type="button" class="btn btn-primary btn-block" type="button" onclick="doc_request('education','{{i.id}}','{{i.candidate_id.id}}','{{i.profile_id}}')">Send
+                                                                                                        </button>
+                                                                                                    <!-- </form> -->
+                                                                                                        <button class="btn ripple btn-secondary" data-dismiss="modal">Close</button>
+                                                                                                    </div>
+                                                                                                </div>
+                                                                                            </div>
+                                                                                        </div>
+                                                                                        <!-- End Modal effects-->
+                                                                                <div id="section_education_{{i.id}}" class="panel-body">
+                                                                                    <div class="left-area">
+                                                                                       
+                                                                                                            
+                                                                                                            
+                                                                                                    
+
+                                                                                        {% ifequal hidefield.edu_document 0 %}
+                                                                                        
+                                                                                        {% if company_data_status %}
+                                                                                        
+                                                                                            {% for j in company_data_status %}
+                                                                                                
+                                                                                                {% ifequal j.type_name 'education' %}
+                                                                                                
+                                                                                                    {% ifequal j.doc_id|to_str i.id|to_str %}
+                                                                                                    
+                                                                                                        {% ifequal j.status 1 %}
+                                                                                                        
+                                                                                                            <a {% if request.user.is_company %} href="" data-toggle="modal" data-target="#exp{{i.id}}" {% else %} href="" data-toggle="modal" data-target="#exp{{i.id}}"  {% endif %}><img src="{% static 'assets/candidateprofile/candidateprofile/img/file-icon.png' %}" alt="img-responsive"></a>
+                                                                                                        {% else %}
+                                                                                                            <a {% if request.user.is_company %} href="" data-toggle="modal" data-target="#edu_request" {% else %} href="" data-toggle="modal" data-target="#myModal1" {% endif %}><img src="{% static 'assets/candidateprofile/candidateprofile/img/lock_gif.gif' %}" alt="img-responsive"></a>
+                                                                                                        {% endifequal %}
+                                                                                                    {% else %}
+                                                                                                         <a {% if request.user.is_company %} href="" data-toggle="modal" data-target="#edu_request" {% else %} href="" data-toggle="modal" data-target="#myModal1" {% endif %}><img src="{% static 'assets/candidateprofile/candidateprofile/img/lock_gif.gif' %}" alt="img-responsive"></a>
+                                                                                                        
+                                                                                                    {% endifequal %}
+                                                                                                    
+                                                                                                {% endifequal %}
+                                                                                            {% endfor %}
+                                                                                            {% else %}
+                                                                                            <a {% if request.user.is_company %} href="" data-toggle="modal" data-target="#edu_request" {% else %} href="" data-toggle="modal" data-target="#myModal1" {% endif %}><img src="{% static 'assets/candidateprofile/candidateprofile/img/lock_gif.gif' %}" alt="img-responsive"></a>
+                                                                                                        
+                                                                                        {% endif %}
+                                                                                    {% else %}
+                                                                                        
+                                                                                        <a {% if request.user.is_company %} href="" data-toggle="modal" data-target="#edu{{i.id}}" {% else %} href="" data-toggle="modal" data-target="#edu{{i.id}}"  {% endif %}><img src="{% static 'assets/candidateprofile/candidateprofile/img/file-icon.png' %}" alt="img-responsive"></a>
+                                                                                                     
+                                                                                    {% endifequal %}
+                                                                                    </div>
+                                                                                    <div class="right-area">
+                                                                                        <div class="acc-haeding">
+                                                                                            <h4>{{i.degree.name}}   {{i.record_id}}</h4>
+                                                                                            <span class="acc-year">{{i.end_date}}</span>
+                                                                                        </div>
+                                                                                        <p>{{i.university_board.name}}</p>
+                                                                                        <p>'education','doc_id:{{i.id}}','candidate_id:{{i.candidate_id.id}}',profile_id'{{i.profile_id}}</p>
+                                                                                    </div>
+                                                                                </div>
+                                                                                {%endfor%}
+                                                                            </div>
+                                                                        </div>
+                                                                        <!-- second pannel end -->
+                                                                        {% endif %}
+                                                                        {% if certificates %}
+                                                                        <div class="panel panel-default" id="section9">
+                                                                            <div class="panel-heading" id="headingThree">
+                                                                                <h4 class="panel-title">
+                                                                                    <a class="" data-toggle="collapse" data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                                                                                        <!-- <span class="cat_circle"><img src="img/info.png' %}" class="img-fluid" alt=""></span> -->
+                                                                                        <span class="title-set"><img src="{% static 'assets/candidateprofile/candidateprofile/img/certi-icon.png' %}" alt="exp" class="certi-icon">Certificarte</span>
+                                                                                    </a>
+                                                                                </h4>
+                                                                            </div>
+                                                                            <div id="collapseThree" class="collapse panel-collapse show" aria-labelledby="headingThree" data-parent="#accordion">
+                                                                                {%for i in certificates%}
+                                                                                <!--Modal: Name-->
+                                                                                     <div class="modal fade" id="cer{{i.id}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                                                                                       <div class="modal-dialog modal-lg" role="document">
+                                                                                 
+                                                                                         <!--Content-->
+                                                                                         <div class="modal-content">
+                                                                                 
+                                                                                           <!--Body-->
+                                                                                           <div class="modal-body mb-0 p-0">
+                                                                                 
+                                                                                             <div class="embed-responsive embed-responsive-16by9 z-depth-1-half">
+                                                                                                {% if i.attached_certificate %}    
+                                                                                                    {% if i.extension == 'img' %}
+                                                                                                    <img class="embed-responsive-item" src="{{i.attached_certificate.url}}"
+                                                                                                        allowfullscreen></img>
+                                                                                                    {% else %}
+                                                                                                    <embed  src={{i.attached_certificate.url}}"#toolbar=0&navpanes=0&scrollbar=0" height="500" width="500" type="application/pdf">
+                                                                                                    {% endif %}
+                                                                                                {% endif %}
+                                                                                             </div>
+                                                                                 
+                                                                                           </div>
+                                                                                 
+                                                                                           <!--Footer-->
+                                                                                           <div class="modal-footer justify-content-center">
+                                                                                            <button type="button"
+                                                                                                    class="btn btn-primary"
+                                                                                                    data-dismiss="modal">Close
+                                                                                            </button>
+                                                                                        </div>
+                                                                                         </div>
+                                                                                         <!--/.Content-->
+                                                                                 
+                                                                                       </div>
+                                                                                     </div>
+                                                                                     <!--Modal: Name-->
+                                                                                <!-- Modal effects -->
+                                                                                <div class="modal" id="certificates_request">
+                                                                                    <div class="modal-dialog modal-dialog-centered" role="document">
+                                                                                        <div class="modal-content modal-content-demo">
+                                                                                            <div class="modal-header">
+                                                                                                <h6 class="modal-title">Certificate File Accept Request</h6><button aria-label="Close" class="close" data-dismiss="modal" type="button"><span aria-hidden="true">&times;</span></button>
+                                                                                            </div>
+                                                                                            <!-- <form method="POST" action=""> -->
+                                                                                                {% csrf_token %}
+                                                                                            <div class="modal-body">
+                                                                                                <h6>Message</h6>
+                                                                                                <input class="form-control" type="text" value="" name='cer_message' required="required">
+                                                                                            </div>
+                                                                                            <div class="modal-footer">
+                                                                                                <button type="button" class="btn btn-primary btn-block" type="button" onclick="doc_request('certificate','{{i.id}}','{{i.candidate_id.id}}','{{i.profile_id}}')">Send
+                                                                                                </button>
+                                                                                            <!-- </form> -->
+                                                                                                <button class="btn ripple btn-secondary" data-dismiss="modal">Close</button>
+                                                                                            </div>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+                                                                                <!-- End Modal effects-->
+                                                                                <div id="section_certificates_{{i.id}}" class="panel-body">
+                                                                                    <div class="left-area">
+                                                                                        
+                                                                                                            
+                                                                                                    
+                                                                                                           
+
+
+
+                                                                                     {% ifequal hidefield.certificate_document 0 %}
+                                                                                        
+                                                                                        {% if company_data_status %}
+                                                                                        
+                                                                                            {% for j in company_data_status %}
+                                                                                                
+                                                                                                {% ifequal j.type_name 'certificate' %}
+                                                                                                
+                                                                                                    {% ifequal j.doc_id|to_str i.id|to_str %}
+                                                                                                    
+                                                                                                        {% ifequal j.status 1 %}
+                                                                                                        
+                                                                                                            <a {% if request.user.is_company %} href="" data-toggle="modal" data-target="#cer{{i.id}}" {% else %} href="" data-toggle="modal" data-target="#cer{{i.id}}"  {% endif %}><img src="{% static 'assets/candidateprofile/candidateprofile/img/file-icon.png' %}" alt="img-responsive"></a>
+                                                                                                        {% else %}
+                                                                                                             <a {% if request.user.is_company %} href="" data-toggle="modal" data-target="#cer_request" {% else %} href="" data-toggle="modal" data-target="#myModal1" {% endif %}><img src="{% static 'assets/candidateprofile/candidateprofile/img/lock_gif.gif' %}" alt="img-responsive"></a>
+                                                                                                        {% endifequal %}
+                                                                                                    {% else %}
+                                                                                                         <a {% if request.user.is_company %} href="" data-toggle="modal" data-target="#cer_request" {% else %} href="" data-toggle="modal" data-target="#myModal1" {% endif %}><img src="{% static 'assets/candidateprofile/candidateprofile/img/lock_gif.gif' %}" alt="img-responsive"></a>
+                                                                                                        
+                                                                                                    {% endifequal %}
+                                                                                                    
+                                                                                                {% endifequal %}
+                                                                                            {% endfor %}
+                                                                                            {% else %}
+                                                                                             <a {% if request.user.is_company %} href="" data-toggle="modal" data-target="#cer_request" {% else %} href="" data-toggle="modal" data-target="#myModal1" {% endif %}><img src="{% static 'assets/candidateprofile/candidateprofile/img/lock_gif.gif' %}" alt="img-responsive"></a>
+                                                                                                        
+                                                                                        {% endif %}
+                                                                                    {% else %}
+                                                                                        
+                                                                                       <a {% if request.user.is_company %} href="" data-toggle="modal" data-target="#cer{{i.id}}" {% else %} href="" data-toggle="modal" data-target="#cer{{i.id}}"  {% endif %}><img src="{% static 'assets/candidateprofile/candidateprofile/img/file-icon.png' %}" alt="img-responsive"></a>
+                                                                                                     
+                                                                                    {% endifequal %}                
+                                                                                    </div>
+                                                                                    <div class="right-area">
+                                                                                        <div class="acc-haeding">
+                                                                                            <h4>{{i.name_of_certificate}}</h4>
+                                                                                        </div>
+                                                                                        <span class="acc-sub">{{i.institute_organisation}}</span>
+                                                                                        <span class="acc-sub">{{i.year}}</span>
+                                                                                        <p>{{i.summary}}</p>
+                                                                                    </div>
+                                                                                </div>
+                                                                                {%endfor%}
+                                                                            </div>
+                                                                        </div>
+                                                                        {% endif %}
+                                                                        {% if portfolios %}
+                                                                        <div class="panel panel-default" id="section9">
+                                                                            <div class="panel-heading" id="headingThree">
+                                                                                <h4 class="panel-title">
+                                                                                    <a class="" data-toggle="collapse" data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                                                                                        <!-- <span class="cat_circle"><img src="img/info.png' %}" class="img-fluid" alt=""></span> -->
+                                                                                        <span class="title-set"><img src="{% static 'assets/candidateprofile/candidateprofile/img/certi-icon.png' %}" alt="exp" class="certi-icon">Portfolio</span>
+                                                                                    </a>
+                                                                                </h4>
+                                                                            </div>
+                                                                            <div id="collapseThree" class="collapse panel-collapse show" aria-labelledby="headingThree" data-parent="#accordion">
+                                                                                     {%for i in portfolios%}
+                                                                                 <!--Modal: Name-->
+                                                                                     <div class="modal fade" id="por{{i.id}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                                                                                       <div class="modal-dialog modal-lg" role="document">
+                                                                                 
+                                                                                         <!--Content-->
+                                                                                         <div class="modal-content">
+                                                                                 
+                                                                                           <!--Body-->
+                                                                                           <div class="modal-body mb-0 p-0">
+                                                                                           
+                                                                                             <div class="embed-responsive embed-responsive-16by9 z-depth-1-half">
+                                                                                                {% if i.project_document %}
+                                                                                                    {% if i.extension == 'img' %}
+                                                                                                    <img class="embed-responsive-item" src="{{i.project_document.url|image_path_remove}}"
+                                                                                                        allowfullscreen></img>
+                                                                                                    {% else %}
+                                                                                                    <embed  src="{{i.project_document.url|image_path_remove}}#toolbar=0&navpanes=0&scrollbar=0" height="500" width="500" type="application/pdf">
+                                                                                                    {% endif %}
+                                                                                                {% endif %}
+                                                                                             </div>
+                                                                                 
+                                                                                           </div>
+                                                                                 
+                                                                                           <!--Footer-->
+                                                                                           <div class="modal-footer justify-content-center">
+                                                                                            <button type="button"
+                                                                                                    class="btn btn-primary"
+                                                                                                    data-dismiss="modal">Close
+                                                                                            </button>
+                                                                                        </div>
+                                                                                         </div>
+                                                                                         <!--/.Content-->
+                                                                                 
+                                                                                       </div>
+                                                                                     </div>
+                                                                                     <!--Modal: Name-->
+                                                                                <!-- Modal effects -->
+                                                                                        <div class="modal" id="por_request">
+                                                                                            <div class="modal-dialog modal-dialog-centered" role="document">
+                                                                                                <div class="modal-content modal-content-demo">
+                                                                                                    <div class="modal-header">
+                                                                                                        <h6 class="modal-title">portfolio File Accept Request</h6><button aria-label="Close" class="close" data-dismiss="modal" type="button"><span aria-hidden="true">&times;</span></button>
+                                                                                                    </div>
+                                                                                                    <!-- <form method="POST" action=""> -->
+                                                                                                        {% csrf_token %}
+                                                                                                    <div class="modal-body">
+                                                                                                        <h6>Message</h6>
+                                                                                                        <input class="form-control" type="text" value="" name='por_message' required="required">
+                                                                                                    </div>
+                                                                                                    <div class="modal-footer">
+                                                                                                        <button type="button" class="btn btn-primary btn-block" type="button" onclick="doc_request('portfolio','{{i.id}}','{{i.candidate_id.id}}','{{i.profile_id}}')">Send
+                                                                                                        </button>
+                                                                                                    <!-- </form> -->
+                                                                                                        <button class="btn ripple btn-secondary" data-dismiss="modal">Close</button>
+                                                                                                    </div>
+                                                                                                </div>
+                                                                                            </div>
+                                                                                        </div>
+                                                                                        <!-- End Modal effects-->
+                                                                                <div id="section_portfolio_{{i.id}}" class="panel-body">
+                                                                                    <div class="left-area">
+                                                                                        
+                                                                                                            
+                                                                                                     
+                                                                                                            
+                                                                                       
+
+
+
+                                                                                    {% ifequal hidefield.portfolio_document 0 %}
+                                                                                        
+                                                                                        {% if company_data_status %}
+                                                                                        
+                                                                                            {% for j in company_data_status %}
+                                                                                                
+                                                                                                {% ifequal j.type_name 'ptofolio' %}
+                                                                                                
+                                                                                                    {% ifequal j.doc_id|to_str i.id|to_str %}
+                                                                                                    
+                                                                                                        {% ifequal j.status 1 %}
+                                                                                                        
+                                                                                                            <a {% if request.user.is_company %} href="" data-toggle="modal" data-target="#por{{i.id}}" {% else %} href="" data-toggle="modal" data-target="#edu{{i.id}}"  {% endif %}><img src="{% static 'assets/candidateprofile/candidateprofile/img/file-icon.png' %}" alt="img-responsive"></a>
+                                                                                                        {% else %}
+                                                                                                             <a {% if request.user.is_company %} href="" data-toggle="modal" data-target="#por_request" {% else %} href="" data-toggle="modal" data-target="#myModal1" {% endif %}><img src="{% static 'assets/candidateprofile/candidateprofile/img/lock_gif.gif' %}" alt="img-responsive"></a>
+                                                                                                        {% endifequal %}
+                                                                                                    {% else %}
+                                                                                                         <a {% if request.user.is_company %} href="" data-toggle="modal" data-target="#por_request" {% else %} href="" data-toggle="modal" data-target="#myModal1" {% endif %}><img src="{% static 'assets/candidateprofile/candidateprofile/img/lock_gif.gif' %}" alt="img-responsive"></a>
+                                                                                                        
+                                                                                                    {% endifequal %}
+                                                                                                    
+                                                                                                {% endifequal %}
+                                                                                            {% endfor %}
+                                                                                            {% else %}
+                                                                                             <a {% if request.user.is_company %} href="" data-toggle="modal" data-target="#por_request" {% else %} href="" data-toggle="modal" data-target="#myModal1" {% endif %}><img src="{% static 'assets/candidateprofile/candidateprofile/img/lock_gif.gif' %}" alt="img-responsive"></a>
+                                                                                                        
+                                                                                        {% endif %}
+                                                                                    {% else %}
+                                                                                        
+                                                                                       <a {% if request.user.is_company %} href="" data-toggle="modal" data-target="#por{{i.id}}" {% else %} href="" data-toggle="modal" data-target="#edu{{i.id}}"  {% endif %}><img src="{% static 'assets/candidateprofile/candidateprofile/img/file-icon.png' %}" alt="img-responsive"></a>
+                                                                                                     
+                                                                                    {% endifequal %}    
+                                                                                    </div>
+                                                                                    <div class="right-area">
+                                                                                        <div class="acc-haeding">
+                                                                                            <h4>{{i.project_title}}   {{i.record_id}}</h4>
+                                                                                            <span class="acc-year">{{i.year}}</span>
+                                                                                        </div>
+                                                                                        <p>{{i.description}}</p>
+                                                                                        
+                                                                                    </div>
+                                                                                </div>
+                                                                                {%endfor%}
+                                                                            </div>
+                                                                        </div>
+                                                                        {% endif %}
+                                                                        {% if awards %}
+                                                                        <!-- third pannel end -->
+                                                                        <div class="panel panel-default">
+                                                                            <div class="panel-heading" id="headingFour">
+                                                                                <h4 class="panel-title">
+                                                                                    <a class="" data-toggle="collapse" data-target="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
+                                                                                        <!-- <span class="cat_circle"><img src="img/info.png' %}" class="img-fluid" alt=""></span> -->
+                                                                                        <span class="title-set"><img src="{% static 'assets/candidateprofile/candidateprofile/img/award-icon.png' %}" alt="exp" class="award-icon">Award</span>
+                                                                                    </a>
+                                                                                </h4>
+                                                                            </div>
+                                                                            <div id="collapseFour" class="collapse panel-collapse show" aria-labelledby="headingFour" data-parent="#accordion">
+                                                                                
+                                                                                {%for i in awards%}
+                                                                                <div id="section_awards_{{i.id}}" class="panel-body">
+                                                                                    <div class="left-area">
+                                                                                        <img src="{% static 'assets/candidateprofile/candidateprofile/img/file-icon.png' %}" alt="img-responsive">
+                                                                                    </div>
+                                                                                    <div class="right-area">
+                                                                                        <div class="acc-haeding">
+                                                                                            <h4>{{i.title}}</h4>
+                                                                                        </div>
+                                                                                        <span class="acc-sub">{{i.awarder}}</span>
+                                                                                        <span class="acc-sub">{{i.year}}</span>
+                                                                                        <p>{{i.summary}}</p>
+                                                                                    </div>
+                                                                                </div>
+                                                                                {%endfor%}
+                                                                            </div>
+                                                                        </div>
+                                                                        {% endif %}
+                                                                        <!-- forth pannel end -->
+                                                                    </div>
+                                                                    <!-- pannel group end -->
+                                                                </div>
+                                                            </div>
+                                                       
+                                                            
+                                                            </div>
+                                                        </div>
+                                                    
+                                                </section>                                          </div>
+                                            <div class="tab-pane time-line-tab" id="tab5">
+                                                <section id="abt_acc">
+                                                    <div class="container-fluid">
+                                                        <div class="row custome-callpase">
+                                                <div id="right-side" class="timeline-sidebar add-class col-md-12">
+                                                    <div class="timeline">
+                                                        <div class="" id="time_title">
+                                                            <div id="menu-wrapper">
+                                                                <ul class="nav">
+                                                                  <li class="cell">
+                                                                      <div class="tl-img">
+                                                                        <img src="{% static 'assets/candidateprofile/candidateprofile/img/education-icon.png' %}" alt="">
+                                                                      </div>
+                                                                      <span>TimeLine</span>
+                                                                  </li>
+                                                                </ul>
+                                                              </div>
+                                                        </div>
+                                                        <div class="nav-menu">
+                                                            {%for i in sorted_keys%}
+                                                                {%for j in year_title_pairs|get_dictonary_value:i%}
+                                                            
+                                                                <div class="circle-wrap list {{j|get_circle_color}}"> 
+                                                                    <div class="content-custom-view"">
+                                                                        <div class="inner-content">
+                                                                            <h6>{{j|get_required_title_giver}}</h6>
+                                                                            <span>{{j|get_required_title}} </span>
+                                                                                <!-- <div class="year-lable"><span>2019</span></div> -->
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="circle small-circle {{j|check_blink}}">
+                                                                        <a href="#section2">{{i}}</a>
+                                                                    </div>
+                                                                </div> 
+                                                            
+                                                    
+                                                                {%endfor%}
+                                                            {%endfor%}
+                                                            
+                                                        <!-- <div class="circle-wrap list drop-dot">
+                                                                    <div class="content">
+                                                                        <div class="inner-content">
+                                                                            <h6>IGZ Solutions Pvt. Ltd.,
+                                                                                Ahmedabad, India</h6>
+                                                                            <span>Sr. Software Engineer</span>
+                                                                                <div class="year-lable"><span>2019</span></div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="circle blinking">
+                                                                        <a href="#section3"></a>
+                                                                    </div>
+                                                                </div> -->
+                                                            </div>
+                                                     </div>
+                                                </div>
+                                                </div>
+                                                </div>
+                                                </section>
+
+                                            </div>
+                                            <div class="tab-pane" id="tab6">
+                                                <!-- <p>praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident,</p>
+                                                <p class="mb-0">similique sunt in culpa qui officia deserunt mollitia animi, id est laborum et dolorum fuga. Et harum quidem rerum facilis est et expedita distinctio. Nam libero tempore, cum soluta nobis est eligendi optio cumque nihil impedit quo minus id quod maxime placeat facere possimus, omnis voluptas assumenda est, omnis dolor repellendus.</p> -->
+                                                <div class="row row-sm">
+                                                    {%if skills%}
+                                                    <div class="col-sm-12 col-md-12 col-lg-6">
+                                                        <div class="card mg-b-md-20 overflow-hidden">
+                                                            <div class="card-body">
+                                                                <div class="main-content-label mg-b-5">
+                                                                    Skill Chart
+                                                                </div>
+                                                                <!-- <p class="mg-b-20">Basic Charts Of Admix template.</p> -->
+                                                                <div class="chartjs-wrapper-demo">
+                                                                    <canvas id="skill_bar_chart"></canvas>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div><!-- col-6 -->
+                                                    {%endif%}
+                                                    {%if year_salary_pair%}
+                                                    <div class="col-sm-12 col-md-12 col-lg-6">
+                                                        <div class="card mg-b-md-20 overflow-hidden">
+                                                            <div class="card-body">
+                                                                <div class="main-content-label mg-b-5">
+                                                                    Salary Chart
+                                                                </div>
+                                                                <!-- <p class="mg-b-20">Basic Charts Of Admix template.</p> -->
+                                                                <div class="chartjs-wrapper-demo">
+                                                                    <canvas id="salary_line_chart"></canvas>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div><!-- col-6 -->
+                                                    {%endif%}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+				</div>
+				<!-- Main-content-body closed -->
+			</div>
+			<!-- Container-fluid closed -->
+		
+	<!-- Page closed -->
+
+	
+{% block script %}
+<script>
+
+function getRandomColor() {
+  var letters = '0123456789ABCDEF';
+  var color = '#';
+  for (var i = 0; i < 6; i++) {
+    color += letters[Math.floor(Math.random() * 16)];
+  }
+  return color;
+}
+	// Accordion all expand and callpase
+
+$(document).ready(function () {
+
+	// code for chart js
+	
+		var start_years = JSON.parse("{{start_years|escapejs}}");
+		console.log("staaaaaaaaaaart yeaaaaaars",start_years);
+		
+		var end_years =JSON.parse("{{end_years|escapejs}}");
+		console.log("eeeeeeeeeeeeeend years",end_years);
+		learning_periods =[]
+		var skills ="{{skills|safe}}";
+		skills = skills.split(',')
+		// console.log("updated_skill_list",skills)
+		var my_dataset =[]
+		var temp_var = skills.pop()
+		console.log("skilllllsss",skills)
+		var company_names ="{{company_names|escapejs}}";
+		company_names = company_names.split(',')
+		console.log("company_names",company_names)
+
+		background_colors =[]
+		for(var i=0;i<skills.length;i++)
+		{
+			background_colors.push(getRandomColor())
+		}
+		console.log("background colors",background_colors)
+		for(var i=0;i<start_years.length;i++)
+		{
+			learning_periods.push([start_years[i],end_years[i]]);
+		}
+
+		console.log("learning perioooooooooooooods",learning_periods)
+		
+
+		// for salary charts
+		var year_salary_pair = JSON.parse("{{year_salary_pair|escapejs}}");
+	
+		console.log("yeaaaaaaaaaar saaaaaalary pairr",year_salary_pair)
+	
+
+		// console.log("year salary pair dataset sorted",sorted_dataset)
+
+
+		
+
+
+		
+		for(var i=0;i<year_salary_pair.length;i+=2)
+		{			
+			random_color = getRandomColor()
+				my_dataset.push({
+		label:company_names[i/2],
+         data: [{
+            x: year_salary_pair[i][0],
+            y: year_salary_pair[i][1]
+         }, 
+		 {
+            x: year_salary_pair[i+1][0],
+            y: year_salary_pair[i+1][1]
+         }],
+		 backgroundColor:random_color,
+         borderColor: random_color,
+         borderWidth: 1,
+         pointBackgroundColor: ['blue'],
+         pointBorderColor: ['black'],
+         pointRadius: 5,
+         pointHoverRadius: 5,
+         fill: false,
+         tension: 0,
+         showLine: true
+      })
+	
+		}
+		
+		
+
+
+
+		var ctx6 = document.getElementById('skill_bar_chart');
+		new Chart(ctx6, {
+        type: 'bar',
+        data: {
+          labels:skills,
+          datasets: [{
+            label: 'skills',
+            // data: [[2017, 2021], [2015, 2021], [2013, 2021]],
+            data: learning_periods,
+
+            // backgroundColor: 'lightblue',
+			backgroundColor: background_colors, 
+          }]
+        },
+        options: {
+			
+          responsive: true,
+		  scales : {
+			y : {
+				min: Math.min(...start_years)-5,
+				}
+    		}
+        },
+		
+      });
+	  var ctx = document.getElementById('salary_line_chart');
+	new Chart(ctx, {
+   type: 'scatter',
+   data: {
+      datasets: my_dataset
+   },
+   options: {
+      legend: false,
+      tooltips: false,
+      scales: {
+         xAxes: [{
+            ticks: {
+               min: 0,
+               max: 10
+            },
+            gridLines: {
+               color: '#888',
+               drawOnChartArea: false
+            }
+         }],
+         yAxes: [{
+            ticks: {
+               min: 0,
+               max: 8,
+               padding: 10
+            },
+            gridLines: {
+               color: '#888',
+               drawOnChartArea: false
+            }
+         }],
+		 
+      }
+   }
+});
+
+
+	// code for chartjs
+
+$(".toggle-accordion").on("click", function () {
+  var accordionId = $(this).attr("accordion-id"),
+	numPanelOpen = $(accordionId + ' .collapse.show').length;
+
+  $(this).toggleClass("active");
+
+  if (numPanelOpen == 0) {
+	openAllPanels(accordionId);
+  } else {
+	closeAllPanels(accordionId);
+  }
+})
+openAllPanels = function (aId) {
+  console.log("setAllPanelOpen");
+  $(aId + ' .panel-collapse:not(".show")').addClass('show').animate({duration:500});
+}
+closeAllPanels = function (aId) {
+  console.log("setAllPanelclose");
+  $(aId + ' .panel-collapse.show').removeClass('show').animate({duration:500});
+}
+
+});
+</script>
+{% endblock %}
+{% endblock %}
+	
+

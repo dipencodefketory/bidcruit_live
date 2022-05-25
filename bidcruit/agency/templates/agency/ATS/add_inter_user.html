@@ -1,0 +1,322 @@
+{% extends 'agency/base.html' %}
+{% load static %}
+{% load candidate_extras %}
+{% load agency_filter %}
+{% block title %}Add Candidate{% endblock %}
+{% block css %}
+        <!--apply job template css-->
+        <link href="{% static 'assets/css/ATS/add_internal_user.css' %}" rel="stylesheet">
+        <link href="{% static 'assets/plugins/spectrum-colorpicker/spectrum.css' %}" rel="stylesheet">
+        <link href="{% static 'assets/plugins/select2/css/select2.min.css' %}" rel="stylesheet">
+{% endblock %}
+{% block main %}
+
+                    <!-- Container-fluid -->
+                    <div class="container-fluid">
+
+                        <!-- Main-content-body -->
+                        <div class="main-content-body">
+                         
+
+
+                            <div class="row row-sm card">
+                                <div class="col-12 candidate-job-template">
+                                    {% if internaluser %}
+                                    <!-- start Edit form -->
+                                    <h2 class="mt-3">Edit User</h2>
+                                    <div class="border_line"></div>
+                                    <form class="job-new-form" action="{% url 'agency:update_internal_user' internaluser.id %}" id="formFeildsItems" enctype="multipart/form-data" method="POST" data-parsley-validate="">
+										{% csrf_token %}
+                                        <div class="row row-sm form-layout mg-t-30 mg-b-30">
+                                            <div class="form-group col-lg-4 col-md-6 col-sm-12 pd-b-20">
+                                                <label class="feild-title text-capitalize required-label">first name:</label>
+                                                <input type="text" name="f-name" value="{{internaluser.InternalUserid.first_name}}" class="form-control input-feild fname" required="">
+                                            </div>
+                                            <div class="form-group col-lg-4 col-md-6 col-sm-12 pd-b-20">
+                                                <label class="feild-title text-capitalize required-label">last name:</label>
+                                                <input type="text" name="l-name" value="{{internaluser.InternalUserid.last_name}}" class="form-control input-feild lname" required="">
+                                            </div>
+                                            <div class="form-group email-bar col-lg-4 col-md-6 col-sm-12 pd-b-20">
+												<label class="feild-title text-capitalize required-label">email:</label>
+												<div class="input-group email-input">
+													<input
+															aria-describedby="basic-addon2"
+															name="email" id="registerInputemail"
+															aria-label="Recipient's username"
+															class="form-control input-feild email"
+                                                            value="{{internaluser.InternalUserid.email}}"
+															required=""
+															placeholder="john@example.com"
+															type="email"
+                                                            pattern="^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$">
+													
+												</div>
+                                            </div>
+                                            <div class="form-group col-lg-4 col-md-6 col-sm-12 pd-b-20">
+                                                <label class="feild-title text-capitalize">Gender:</label>
+                                                <ul class="group-gender">
+                                                    <li class="g-inputs">
+                                                        <input type="radio" class="g-input" {% ifequal internaluser.gender 'male' %} checked{% endifequal %} value="male" name="gender"><label class="g-title text-capitalize">male</label>
+                                                    </li>
+                                                    <li class="g-inputs">
+                                                        <input type="radio" class="g-input" {% ifequal internaluser.gender 'female' %} checked{% endifequal %} value="female" name="gender"><label class="g-title text-capitalize">female</label>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                           
+                                            <div class="form-group col-lg-4 col-md-6 col-sm-12 pd-b-20">
+                                                <label class="feild-title text-capitalize required-label">contact number:</label>
+                                                <input type="text" name="contact-num" value="{{internaluser.contact_number}}" required class="form-control input-feild contact-num" maxlength="10" required="">
+                                            </div>
+                                            <div class="form-group col-lg-4 col-md-6 col-sm-12 pd-b-20">
+                                                <label class="feild-title text-capitalize required-label">Branch:</label>
+                                                <input type="text" name="branch" value="{{internaluser.branch}}" required class="form-control input-feild contact-num">
+                                            </div>
+                                            <div class="form-group col-lg-4 col-md-6 col-sm-12 pd-b-20">
+                                                <label class="feild-title text-capitalize required-label">Role:</label>
+                                                <select class="form-control company-size" name="role" required="">
+                                                    <option label="Select Role" class="placehold-option"></option>
+                                                    {% for roles in role %}
+                                                        <option value="{{roles.id}}" {% ifequal internaluser.role.id roles.id %} selected{% endifequal %}>{{roles.name}}</option>
+                                                    {% endfor %}
+                                                    
+                                                </select>
+                                                
+                                            </div>
+                                            <div class="form-group col-lg-4 col-md-6 col-sm-12 pd-b-20">
+                                                <label class="feild-title text-capitalize required-label">Department:</label>
+                                                <select class="form-control company-size" name="department" required="">
+                                                    <option label="Select Department" class="placehold-option"></option>
+                                                    {% for departments in department %}
+                                                        <option value="{{departments.id}}" {% ifequal internaluser.department.id departments.id %} selected{% endifequal %}>{{departments.name}}</option>
+                                                    {% endfor %}
+                                                    
+                                                </select>
+                                                
+                                            </div>
+                                            <div class="form-group col-lg-4 col-md-6 col-sm-12 pd-b-20">
+                                                <label class="feild-title text-capitalize required-label">RecruiterType:</label>
+                                                <select class="form-control company-size" name="recruitertype" required="">
+                                                    <option label="Select Department" class="placehold-option"></option>
+                                                    {% for RecruiterTypes in RecruiterType %}
+                                                        <option value="{{RecruiterTypes.id}}" {% ifequal internaluser.recruiter_type.id RecruiterTypes.id %} selected{% endifequal %}>{{RecruiterTypes.name}}</option>
+                                                    {% endfor %}
+                                                </select>
+                                            </div>
+                                            
+                                            
+                                            <div class="form-group col-lg-4 col-md-6 col-sm-12 pd-b-20">
+                                                <label class="feild-title text-capitalize required-label" >total experience:</label>
+                                                	<div class="fx-col__sm exp-inputbox">
+                                                        <div class="form-group col-lg-6 col-md-12 col-sm-12">
+                                                        <input type="number" value="{{internaluser.total_experiance|get_experianceYear_split}}"
+                                                               name="professional-experience-year" placeholder="Year"
+                                                               class="form-control three-ls experiance-val" min="0" step="1" max="99" maxlength="2" required="">
+                                                        </div>
+                                                        <div class="form-group col-lg-6 col-md-12 col-sm-12">
+                                                        <input type="number"  value="{{internaluser.total_experiance|get_experianceMonth_split}}"
+                                                               name="professional-experience-month" placeholder="Month"
+                                                               class="form-control three-ls experiance-val" min="0" step="1" max="11" maxlength="2" required="">
+                                                        </div>
+                                                    </div>
+                                            </div>
+                                           
+                                            <div class="form-group col-lg-4 col-md-6 col-sm-12 pd-b-20">
+                                                <label class="feild-title text-capitalize">Specialties :</label>
+                                                <select class="form-control skill-selector specialties"
+                                                                                name="specialties" value=""
+                                                                                multiple="multiple">
+                                                     <option></option>
+                                                    {% for i in internaluser.spaciility|get_spaciility_split %}
+                                                        <option selected>{{i}}</option>
+                                                    {% endfor %}
+                                                </select>
+                                            </div>
+                                            <div class="form-group col-lg-4 col-md-6 col-sm-12 pd-b-20">
+                                                <label class="feild-title text-capitalize">About Us :</label>
+                                               <textarea name="aboutus" placeholder="About Us"
+                                                         class="form-control three-ls">{{internaluser.aboutus}}</textarea>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="row row-sm bottom-action-tab">
+                                            <div class="col-12">
+                                                
+                                                <div class="fxc-right btm-tab">
+                                                    <button type="submit" id="submitAjtForm" name="submit" class="rounded-10 btn btn-sm btn-primary">Apply</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </form>
+                                    <!-- end edit form -->
+                                    {% else %}
+                                    <!-- start create form -->
+                                    <h2 class="mt-3">Add User</h2>
+                                    <div class="border_line"></div>
+                                    <form class="job-new-form" id="formFeildsItems" action="{% url 'agency:add_internal_user' %}" enctype="multipart/form-data" method="POST" data-parsley-validate="">
+										{% csrf_token %}
+                                        <div class="row row-sm form-layout mg-t-30 mg-b-30">
+                                            <div class="form-group col-lg-4 col-md-6 col-sm-12 pd-b-20">
+                                                <label class="feild-title text-capitalize required-label">first name:</label>
+                                                <input type="text" name="f-name" value="" class="form-control input-feild fname" required="">
+                                            </div>
+                                            <div class="form-group col-lg-4 col-md-6 col-sm-12 pd-b-20">
+                                                <label class="feild-title text-capitalize required-label">last name:</label>
+                                                <input type="text" name="l-name" value="" class="form-control input-feild lname" required="">
+                                            </div>
+                                            <div class="form-group email-bar col-lg-4 col-md-6 col-sm-12 pd-b-20">
+												<label class="feild-title text-capitalize required-label">email:</label>
+												<div class="input-group email-input">
+													<input
+															aria-describedby="basic-addon2"
+															name="email" id="registerInputemail"
+															aria-label="Recipient's username"
+															class="form-control input-feild email"
+															required=""
+															placeholder="john@example.com"
+															type="email"
+                                                            pattern="^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$">
+
+												</div>
+                                            </div>
+                                            <div class="form-group col-lg-4 col-md-6 col-sm-12 pd-b-20">
+                                                <label class="feild-title text-capitalize">Gender:</label>
+                                                <ul class="group-gender">
+                                                    <li class="g-inputs">
+                                                        <input type="radio" class="g-input" value="male" name="gender" checked><label class="g-title text-capitalize">male</label>
+                                                    </li>
+                                                    <li class="g-inputs">
+                                                        <input type="radio" class="g-input" value="fmale" name="gender"><label class="g-title text-capitalize">female</label>
+                                                    </li>
+                                                </ul>
+                                            </div>
+
+                                            <div class="form-group col-lg-4 col-md-6 col-sm-12 pd-b-20">
+                                                <label class="feild-title text-capitalize required-label">contact number:</label>
+                                                <input type="text" name="contact-num" value="" required class="form-control input-feild contact-num" maxlength="10">
+                                            </div>
+                                            <div class="form-group col-lg-4 col-md-6 col-sm-12 pd-b-20">
+                                                <label class="feild-title text-capitalize required-label">Branch:</label>
+                                                <input type="text" name="branch" value="" required class="form-control input-feild contact-num">
+                                            </div>
+                                            <div class="form-group col-lg-4 col-md-6 col-sm-12 pd-b-20">
+                                                <label class="feild-title text-capitalize required-label">Role:</label>
+                                                <select class="form-control company-size" name="role" required>
+                                                    <option label="Select Role" class="placehold-option"></option>
+                                                    {% for roles in role %}
+                                                        <option value="{{roles.id}}">{{roles.name}}</option>
+                                                    {% endfor %}
+
+                                                </select>
+
+                                            </div>
+                                            <div class="form-group col-lg-4 col-md-6 col-sm-12 pd-b-20">
+                                                <label class="feild-title text-capitalize required-label">Department:</label>
+                                                <select class="form-control company-size" name="department" required>
+                                                    <option label="Select Department" class="placehold-option"></option>
+                                                    {% for departments in department %}
+                                                        <option value="{{departments.id}}">{{departments.name}}</option>
+                                                    {% endfor %}
+
+                                                </select>
+
+                                            </div>
+                                            <div class="form-group col-lg-4 col-md-6 col-sm-12 pd-b-20">
+                                                <label class="feild-title text-capitalize required-label">RecruiterType:</label>
+                                                <select class="form-control company-size" name="recruitertype" required>
+                                                    <option label="Select Department" class="placehold-option"></option>
+                                                    {% for RecruiterTypes in RecruiterType %}
+                                                        <option value="{{RecruiterTypes.id}}">{{RecruiterTypes.name}}</option>
+                                                    {% endfor %}
+
+                                                </select>
+
+                                            </div>
+
+
+                                            <div class="form-group col-lg-4 col-md-6 col-sm-12 pd-b-20">
+                                                <label class="feild-title text-capitalize required-label">total experience:</label>
+                                                	<div class="fx-col__sm exp-inputbox">
+                                                        <div class="form-group col-lg-6 col-md-12 col-sm-12">
+                                                        <input type="number" value=""
+                                                               name="professional-experience-year" placeholder="Year"
+                                                               class="form-control three-ls experiance-val" min="0" max="99" required="">
+                                                        </div>
+                                                        <div class="form-group col-lg-6 col-md-12 col-sm-12">
+                                                        <input type="number" value=""
+                                                               name="professional-experience-month" placeholder="Month"
+                                                               class="form-control three-ls experiance-val" min="0" max="11" maxlength="2" required="">
+                                                        </div>
+                                                    </div>
+                                            </div>
+
+                                            <div class="form-group col-lg-4 col-md-6 col-sm-12 pd-b-20">
+                                                <label class="feild-title text-capitalize">Specialties :</label>
+                                                <select class="form-control skill-selector specialties"
+                                                                                name="specialties" value=""
+                                                                                multiple="multiple">
+
+
+                                                        <option></option>
+
+
+                                                </select>
+                                            </div>
+                                        </div>
+
+                                        <div class="row row-sm bottom-action-tab">
+                                            <div class="col-12">
+
+                                                <div class="fxc-right btm-tab">
+                                                    <button type="submit" id="submitAjtForm" name="submit" class="rounded-10 btn btn-sm btn-primary">Apply</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </form>
+                                    <!-- end create form -->
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Main-content-body closed -->
+                    </div>
+                    <!-- Container-fluid closed -->
+{% endblock %}
+{% block script %}
+
+<!-- Internal form validation plugin -->
+<script src="{% static 'assets/js/jquery-validation-1.19.3/dist/jquery.validate.js' %}"></script>
+<script src="{% static 'assets/js/form-elements.js' %}"></script>
+<script src="{% static 'assets/js/parsley.min.js' %}"></script>
+<script src="{% static 'assets/js/form-validation.js' %}"></script>
+
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+<script src="{% static 'assets/js/main.js' %}"></script>
+
+<script>
+      $(document).ready(function(){
+                $('.specialties').select2({
+                    placeholder: "Add Specialties",
+					 
+					 tags:true,
+					 createTag: function (params) {
+						return {
+							id: params.term,
+							text: params.term,
+							newOption: true,
+						}
+					 },
+					templateResult: function (data) {
+						var $result = $("<span></span>");
+						$result.text(data.text);
+						if (data.newOption) {
+							$result.append(" <em>(new)</em>");
+						}
+						return $result;
+					},
+					minimumInputLength: 1
+				});
+            })
+</script>
+
+{% endblock %}

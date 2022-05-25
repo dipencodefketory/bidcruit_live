@@ -1,0 +1,556 @@
+
+ {% extends 'candidate/base.html' %}
+ {% load static %}
+ {% block main %}
+ {% block css %}
+		 <!-- Internal Sumoselect css -->
+		 <link rel="stylesheet" href="{% static 'assets/plugins/sumoselect/sumoselect.css' %}">
+		 <link rel="stylesheet" href="{% static 'assets/plugins/jquery-ui/themes/base/datepicker.css' %}">
+ 
+ {% endblock %}
+ 
+		 <!-- Main-content-body -->
+		 <div class="main-content-body edit-profile-wrap">
+ 
+			 <!-- row -->
+			 <div class="row row-sm">
+				 <div class="col-md-12 col-xl-6 col-lg-6">
+					 <div class="card">
+						 <div class="card-header pb-0">
+ 
+							 <h4 class="card-title mg-b-10">Product Detail {{ static_url }}</h4>
+							 <a href="#" class="btn ripple btn-primary text-white btn-icon" data-placement="top" data-toggle="tooltip" title="" data-original-title="Edit Profile"><i class="bx bx-edit"></i></a>
+ 
+						 </div>
+						 <div class="card-body ">
+							 <div class="custom-form">
+								 <div class="row row-sm">
+									 <div class="col-md-6 col-lg-6 col-sm-12 col-xs-12">
+										 <label class="form-control-label">Firstname: <span class="tx-danger">*</span></label> <input class="form-control" id="firstname" name="firstname" value="{{request.user.first_name}}" placeholder="Enter firstname" required="" type="text">
+									 </div>
+									 <div class="col-md-6 col-lg-6 col-sm-12  col-xs-12 mg-t-20 mg-md-t-0 ">
+										 <label class="form-control-label">Lastname: <span class="tx-danger">*</span></label> <input class="form-control" id="lastname" name="lastname" value="{{request.user.last_name}}" placeholder="Enter lastname" required="" type="text">
+									 </div>
+								 </div>
+								 <div class="row row-sm">
+									 <div class="col-md-12 col-lg-12 col-sm-12">
+										 <label class="form-control-label">Email: <span class="tx-danger">*</span></label> <input class="form-control" id="email" name="email" value="{{request.user.email}}" placeholder="Email" required="" type="text">
+									 </div>
+ 
+								 </div>
+								 <div class="row row-sm">
+									 <div class="col-md-4 col-lg-4 col-sm-12">
+										 <label class="form-control-label">Country: <span class="tx-danger">*</span></label>
+										 <select name="somename" class="form-control SlectBox" onclick="console.log($(this).val())" onchange="console.log('change is firing')">
+											 <!--placeholder-->
+											 <option title="Volvo is a car"  value="volvo">Volvo</option>
+											 <option value="saab">Saab</option>
+											 <option value="mercedes">Mercedes</option>
+											 <option value="audi">Audi</option>
+										 </select>
+									 </div>
+									 <div class="col-md-4 col-lg-4 col-sm-12">
+										 <label class="form-control-label">City: <span class="tx-danger">*</span></label>
+										 <select name="somename" class="form-control SlectBox" onclick="console.log($(this).val())" onchange="console.log('change is firing')">
+											 <!--placeholder-->
+											 <option title="Volvo is a car"  value="volvo">Volvo</option>
+											 <option value="saab">Saab</option>
+											 <option value="mercedes">Mercedes</option>
+											 <option value="audi">Audi</option>
+										 </select>
+									 </div>
+									 <div class="col-md-4 col-lg-4 col-sm-12">
+										 <label class="form-control-label">State: <span class="tx-danger">*</span></label>
+										 <select name="somename" class="form-control SlectBox" onclick="console.log($(this).val())" onchange="console.log('change is firing')">
+											 <!--placeholder-->
+											 <option title="Volvo is a car"  value="volvo">Volvo</option>
+											 <option value="saab">Saab</option>
+											 <option value="mercedes">Mercedes</option>
+											 <option value="audi">Audi</option>
+										 </select>
+									 </div>
+								 </div>
+ 
+								 <div class="row row-sm">
+									 <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12">
+										 <label class="form-control-label">Address: <span class="tx-danger">*</span></label>
+										  <textarea class="form-control" id="address" name="address" placeholder="Address" required="" type="text">{{ profile.address  }}</textarea>
+									 </div>
+								 </div>
+								 <div class="row row-sm">
+									 <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12">
+										 <label class="form-control-label">Contact Number: <span class="tx-danger">*</span></label>
+										 <input class="form-control" id="number" name="number" placeholder="+91*********" value="{{ profile.contact_no  }}" required="" type="text">
+									 </div>
+									 </div>
+							 </div>
+						 </div>
+					 </div>
+				 </div>
+				 <div class="col-md-12 col-xl-6 col-lg-6">
+					 <div class="card">
+						 <div class="card-header pb-0">
+ 
+							 <h4 class="card-title mg-b-10">Experience</h4>
+ 
+						 </div>
+ 
+						 <div class="card-body">
+							 {%  for exp in experience %}
+							 <div class="all-subject">
+								 <div class="row row-sm">
+									 <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12">
+										 <div class="add-exp">
+											 <input class="form-control" id="job-name" name="job-name" value="{{exp.Job_profile_name}}" placeholder="Graphic Designer" type="text">
+											 <a href="javascript:void(0)" class="btn ripple btn-toggle-open btn-primary text-white btn-icon" data-placement="top" data-toggle="tooltip" title="" data-original-title="Edit Experience"><i id="open-custom-form" class="bx bx-edit"></i></a>
+										 </div>
+ 
+									 </div>
+ 
+								 </div>
+							 </div>
+							 <form method="post" action="" role="form" action="{% url 'candidate:edit_profile' %}" enctype="multipart/form-data">
+								 {% csrf_token %}
+								 <input type="hidden" name="record_id" value="{{exp.record_id}}">
+								 <input type="hidden" name="model_name" value="experience">
+								 <div class="open-custom-form custom-form">
+								 <div class="row row-sm">
+									 <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12">
+										 <label class="form-control-label">Job Profile Name <span class="tx-danger">*</span></label> <input class="form-control" id="job-name" name="job-name" value="{{exp.Job_profile_name}}" placeholder="UX-UI Developer" required="" type="text">
+									 </div>
+ 
+								 </div>
+								 <div class="row row-sm">
+									 <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12">
+										 <label class="form-control-label">Company Name <span class="tx-danger">*</span></label> <input class="form-control" id="company-name" name="company-name" value="{{exp.company.company_name}}" placeholder="Company Name" required="" type="text">
+									 </div>
+								 </div>
+								 <div class="row row-sm">
+									 <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12">
+										 <label class="form-control-label">Website <span class="tx-danger">*</span></label> <input class="form-control" id="website-name" name="website-name" value="{{exp.website}}" placeholder=" Enter Company Website" required="" type="text">
+									 </div>
+								 </div>
+								 <div class="row row-sm">
+ 
+									 <div class="col-md-6 col-lg-6 col-sm-12  col-xs-12">
+										 <label class="form-control-label">Start Date <span class="tx-danger">*</span></label>
+											<div class="datepicker">
+											 <input class="form-control" type="text" id="datepicker1" name="start-date" value="{{exp.start_date}}" placeholder="dd/mm/yyyy">
+											 <span class="cale-icon"><i data-v-e08301e8="" class="fas fa-calendar-alt"></i></span>
+											</div>
+ 
+									 </div>
+									 <div class="col-md-6 col-lg-6 col-sm-12  col-xs-12 ">
+										 <label class="form-control-label">End Date <span class="tx-danger">*</span></label>
+											<div class="datepicker">
+											 <input class="form-control" type="text"  id="datepicker1" name="end-date" value="{{exp.end_date}}" placeholder="dd/mm/yyyy">
+											 <span class="cale-icon"><i data-v-e08301e8="" class="fas fa-calendar-alt"></i></span>
+											</div>
+ 
+									 </div>
+ 
+								 </div>
+								 <div class="row row-sm">
+									 <div class="col-md-6 col-lg-6 col-sm-12 col-xs-12">
+										 <label class="form-control-label">Start Salary:</label> <input class="form-control" id="startSalary" name="startSalary" value="{{exp.start_salary}}" placeholder="3000"  type="number">
+									 </div>
+									 <div class="col-md-6 col-lg-6 col-sm-12  col-xs-12 mg-t-20 mg-md-t-0 ">
+										 <label class="form-control-label">End Salary: </label> <input class="form-control" id="endSalary" name="endSalary" value="{{exp.end_salary}}" placeholder="300000"  type="number">
+									 </div>
+								 </div>
+								 <div class="row row-sm">
+									 <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12">
+										 <label class="form-control-label">Job Description: <span class="tx-danger">*</span></label>
+										  <textarea class="form-control" id="job_description" name="job_desc" placeholder="Job Description" required="" type="text">{{exp.job_description_responsibility}}</textarea>
+									 </div>
+								 </div>
+								 <div class="row row-sm">
+									 <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12">
+										 <label class="form-control-label">Document<span class="tx-danger">*</span></label>
+										 <div class="input-group file-browser">
+											 <input type="text" class="form-control border-right-0 browse-file" placeholder="Experience Letter" readonly="">
+											 <label class="input-group-btn">
+												 <span class="btn btn-default">
+													 Browse <input type="file" style="display: none;" multiple="">
+												 </span>
+											 </label>
+										 </div>
+									 </div>
+									 </div>
+								 <div class="butn-form">
+										 <button type="submit" class="btn btn-primary btn-block">Submit</button>
+										 <button class="btn  btn-block  btn-danger">Cancel</button>
+								 </div>
+							 </div>
+							 </form>
+							 {%  endfor %}
+							<a href="" title="" class="add-more"> <i data-v-e08301e8="" class="las la-plus"></i>Add More</a>
+ 
+ 
+						 </div>
+ 
+					 </div>
+				 </div>
+				 <div class="col-md-12 col-xl-6 col-lg-6">
+					 <div class="card">
+						 <div class="card-header pb-0">
+ 
+							 <h4 class="card-title mg-b-10">Portfolio</h4>
+						 </div>
+						 {% for portfolio in portfolios %}
+							 <div class="card-body ">
+							 <div class="all-subject">
+								 <div class="row row-sm">
+									 <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12">
+										 <div class="add-exp">
+											 <lable class="form-control" id="Portfolio_title">E-commerce</lable>
+											 <a href="javascript:void(0)" id='portfolio' class="btn ripple btn-toggle-open btn-primary text-white btn-icon" data-placement="top" data-toggle="tooltip" title="" data-original-title="Edit Profile"><i id="open-custom-form" class="bx bx-edit"></i></a>
+										 </div>
+ 
+									 </div>
+ 
+								 </div>
+							 </div>
+							 <form method="post" action="" role="form" action="{% url 'candidate:edit_profile' %}" enctype="multipart/form-data">
+								 {% csrf_token %}
+								 <input type="hidden" name="record_id" value="{{portfolio.record_id}}">
+								 <input type="hidden" name="model_name" value="portfolio">
+								 <div class="custom-form open-custom-form" id="portfolio_data">
+									 <div class="row row-sm">
+										 <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12">
+											 <label class="form-control-label">Project Title <span class="tx-danger">*</span></label> <input class="form-control" id="job-name" name="project-title"  value="{{portfolio.project_title}}" placeholder="UX-UI Developer" required="" type="text">
+										 </div>
+									 </div>
+										 <div class="butn-form">
+											 <button type="submit" class="btn btn-primary btn-block">Submit</button>
+											 <button class="btn  btn-block  btn-danger">Cancle</button>
+										 </div>
+								 </div>
+							 </form>
+							<a href="" title="" class="add-more"> <i data-v-e08301e8="" class="las la-plus"></i>Add More</a>
+ 
+ 
+						 </div>
+						 {% endfor %}
+					 </div>
+				 </div>
+				 <div class="col-md-12 col-xl-6 col-lg-6">
+					 <div class="card">
+						 <div class="card-header pb-0">
+ 
+							 <h4 class="card-title mg-b-10">Education</h4>
+						 </div>
+						 {% for edu in education %}
+							 <div class="card-body ">
+								 <div class="all-subject">
+									 <div class="row row-sm">
+										 <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12">
+											 <div class="add-exp">
+												 <lable class="form-control" id="edu-name" name="job-name" value="Graphic Designer" >BCA</lable>
+												 <a href="javascript:void(0)" id="edu1" class="btn ripple btn-toggle-open btn-primary text-white btn-icon" data-placement="top" data-toggle="tooltip" title="" data-original-title="Edit Profile"><i class="bx bx-edit"></i></a>
+											 </div>
+ 
+										 </div>
+ 
+									 </div>
+								 </div>
+								 <form method="post" role="form" action="{% url 'candidate:edit_profile' %}" enctype="multipart/form-data">
+									 {% csrf_token %}
+									 <input type="hidden" name="record_id" value="{{edu.record_id}}">
+									 <input type="hidden" name="model_name" value="education">
+									 <div class="custom-form open-custom-form" id="edu_data_1">
+										 <div class="row row-sm">
+											 <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12">
+												 <label class="form-control-label">Degree <span class="tx-danger">*</span></label> <input class="form-control" id="degree-name" name="degree-name" value="{{edu.degree.name}}" placeholder="BCA" required="" type="text">
+											 </div>
+ 
+										 </div>
+										 <div class="row row-sm">
+											 <div class="col-md-6 col-lg-6 col-sm-12  col-xs-12 ">
+												 <label class="form-control-label">Start Date <span class="tx-danger">*</span></label>
+													<div class="datepicker">
+													 <input class="form-control" type="text" name="start-date" value="{{edu.start_date}}" id="datepicker" placeholder="dd/mm/yyyy">
+													 <span class="cale-icon"><i data-v-e08301e8="" class="fas fa-calendar-alt"></i></span>
+													</div>
+ 
+											 </div>
+											 <div class="col-md-6 col-lg-6 col-sm-12  col-xs-12 ">
+												 <label class="form-control-label">End Date <span class="tx-danger">*</span></label>
+													<div class="datepicker">
+													 <input class="form-control" type="text"name="end-date" value="{{edu.end_date}}" id="datepicker1" placeholder="dd/mm/yyyy">
+													 <span class="cale-icon"><i data-v-e08301e8="" class="fas fa-calendar-alt"></i></span>
+													</div>
+ 
+											 </div>
+ 
+										 </div>
+										 <div class="row row-sm">
+											 <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12">
+												 <label class="form-control-label">Univercity/Board: <span class="tx-danger">*</span></label>
+												  <input class="form-control" id="univercity_board" name="university_board" value="{{edu.university_board.name}}" placeholder="Univercity/Board" required="" type="text">
+											 </div>
+										 </div>
+										 <div class="row row-sm">
+											 <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12">
+												 <label class="form-control-label">Document<span class="tx-danger">*</span></label>
+												 <div class="input-group file-browser">
+													 <input type="text" class="form-control border-right-0 browse-file" placeholder="Experience Letter" readonly="">
+													 <label class="input-group-btn">
+														 <span class="btn btn-default">
+															 Browse <input type="file" style="display: none;" multiple="">
+														 </span>
+													 </label>
+												 </div>
+											 </div>
+										 </div>
+										 <div class="row row-sm">
+											 <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12">
+												 <label class="form-control-label">Summary: <span class="tx-danger">*</span></label>
+												  <textarea class="form-control" id="summary" name="summary" placeholder="Summary" required="" type="text">{{edu.summary}}</textarea>
+											 </div>
+										 </div>
+										 <div class="butn-form">
+											 <button type="submit" class="btn btn-primary btn-block">Submit</button>
+											 <button class="btn  btn-block  btn-danger">Cancle</button>
+										 </div>
+									 </div>
+								 </form>
+ 
+								 <a href="" title="" class="add-more"> <i data-v-e08301e8="" class="las la-plus"></i>Add More</a>
+							 </div>
+						 {% endfor %}
+					 </div>
+				 </div>
+				 <div class="col-md-12 col-xl-6 col-lg-6">
+					 <div class="card">
+						 <div class="card-header pb-0">
+							 <h4 class="card-title mg-b-10">Certificate</h4>
+						 </div>
+						 <div class="card-body">
+							 {% for certi in certificates %}
+								 <div class="all-subject">
+									 <div class="row row-sm">
+										 <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12">
+											 <div class="add-exp">
+												 <label class="form-control" id="certificate_title">{{ certi.name_of_certificate}}</label>
+												 <a href="javascript:void(0)" id='certificate' class="btn ripple btn-toggle-open btn-primary text-white btn-icon" data-placement="top" data-toggle="tooltip" title="" data-original-title="Edit Profile"><i class="bx bx-edit"></i></a>
+											 </div>
+										 </div>
+									 </div>
+								 </div>
+								 <form method="post" role="form" action="{% url 'candidate:edit_profile' %}" enctype="multipart/form-data">
+									 {% csrf_token %}
+									 <input type="hidden" name="record_id" value="{{certi.record_id}}">
+									 <input type="hidden" name="model_name" value="certificate">
+									 <div class="custom-form open-custom-form" id="certificate_data">
+										 <div class="row row-sm">
+											 <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12">
+												 <label class="form-control-label">Certificate Name <span class="tx-danger">*</span></label> <input class="form-control" id="certificate-name" name="certificate-name" value="{{ certi.name_of_certificate}}" placeholder="UX-UI Developer" required="" type="text">
+											 </div>
+										 </div>
+										 <div class="butn-form">
+											 <button type="submit" class="btn btn-primary btn-block">Submit</button>
+											 <button class="btn  btn-block  btn-danger">Cancle</button>
+										 </div>
+									 </div>
+									 <a href="" title="" class="add-more"> <i data-v-e08301e8="" class="las la-plus"></i>Add More</a>
+								 </form>
+								 </div>
+							 {% endfor %}
+						 </div>
+					 </div>
+				 <div class="col-md-12 col-xl-6 col-lg-6">
+					 <div class="card">
+						 <div class="card-header pb-0">
+							 <h4 class="card-title mg-b-10">Award</h4>
+						 </div>
+						 <div class="card-body ">
+							 {% for award in awards %}
+								 <div class="all-subject">
+									 <div class="row row-sm">
+										 <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12">
+											 <div class="add-exp">
+												 <label class="form-control" id="award_title">{{award.title}}</label>
+												 <a href="javascript:void(0)" id='award' class="btn ripple btn-toggle-open btn-primary text-white btn-icon" data-placement="top" data-toggle="tooltip" title="" data-original-title="Edit Profile"><i class="bx bx-edit"></i></a>
+											 </div>
+ 
+										 </div>
+ 
+									 </div>
+								 </div>
+								 <form method="post" role="form" action="{% url 'candidate:edit_profile' %}" enctype="multipart/form-data">
+									 {% csrf_token %}
+									 <input type="hidden" name="record_id" value="{{award.record_id}}">
+									 <input type="hidden" name="model_name" value="award">
+									 <div class="custom-form open-custom-form" id="award_data">
+										 <div class="row row-sm">
+											 <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12">
+												 <label class="form-control-label">award Name <span class="tx-danger">*</span></label> <input class="form-control" value="{{award.title}}" id="award-name" name="award-name" placeholder="UX-UI Developer" required="" type="text">
+											 </div>
+										 </div>
+										 <div class="butn-form">
+											 <button type="submit" class="btn btn-primary btn-block">Submit</button>
+											 <button class="btn  btn-block  btn-danger">Cancel</button>
+										 </div>
+									 </div>
+								 </form>
+							 {% endfor %}
+							<a href="" title="" class="add-more"> <i data-v-e08301e8="" class="las la-plus"></i>Add More</a>
+						 </div>
+ 
+					 </div>
+				 </div>
+				 <div class="col-md-12 col-xl-6 col-lg-6">
+					 <div class="card">
+						 <div class="card-header pb-0">
+ 
+							 <h4 class="card-title mg-b-10">Language</h4>
+						 </div>
+						 <div class="card-body ">
+							 {% for lang in c_language %}
+								 <div class="all-subject">
+									 <div class="row row-sm">
+										 <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12">
+											 <div class="add-exp">
+												 <lable class="form-control" id="language_name">{{lang.language_id.language_name}}</lable>
+												 <a href="javascript:void(0)" id='language' class="btn ripple btn-toggle-open btn-primary text-white btn-icon" data-placement="top" data-toggle="tooltip" title="" data-original-title="Edit Profile"><i class="bx bx-edit"></i></a>
+											 </div>
+										 </div>
+									 </div>
+								 </div>
+								 <form method="post" action="" role="form" action="{% url 'candidate:edit_profile' %}" enctype="multipart/form-data">
+									 {% csrf_token %}
+									 <input type="hidden" name="record_id" value="{{exp.record_id}}">
+									 <input type="hidden" name="model_name" value="experience">
+									 <div class="custom-form open-custom-form" id="language_data">
+										 <div class="row row-sm">
+											 <div class="col-md-6 col-lg-6 col-sm-12 col-xs-12">
+												 <label class="form-control-label">Language: <span class="tx-danger">*</span></label>
+													 <select name="language" class="form-control SlectBox">
+														 {% for i  in Languages %}
+															 <option value="English">{{i.language_name}}</option>
+														 {% endfor %}
+													 </select>
+											 </div>
+											 <div class="col-md-6 col-lg-6 col-sm-12  col-xs-12 mg-t-20 mg-md-t-0 ">
+												 <label class="form-control-label">Fluency: <span class="tx-danger">*</span></label>
+													 <select name="fluency" class="form-control SlectBox">
+														 {% for j  in fluency %}
+														 <option value="English">{{j.fluency}}</option>+
+														 {% endfor %}
+													 </select>
+											 </div>
+										 </div>
+										 <div class="butn-form">
+												 <button  type="submit" class="btn btn-primary btn-block">Submit</button>
+												 <button class="btn  btn-block  btn-danger">Cancel</button>
+										 </div>
+									 </div>
+								 </form>
+							 {% endfor %}
+							<a href="" title="" class="add-more"> <i data-v-e08301e8="" class="las la-plus"></i>Add More</a>
+						 </div>
+					 </div>
+				 </div>
+				 <div class="col-md-12 col-xl-6 col-lg-6">
+					 <div class="card">
+						 <div class="card-header pb-0">
+ 
+							 <h4 class="card-title mg-b-10">Skill</h4>
+						 </div>
+						 <div class="card-body ">
+							 {% for skill in skills %}
+								 <div class="all-subject">
+									 <div class="row row-sm">
+										 <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12">
+											 <div class="add-exp">
+												 <lable class="form-control" id="skill_name">{{skill.skill.name}}</lable>
+												 <a href="javascript:void(0)" id='skill' class="btn ripple btn-toggle-open btn-primary text-white btn-icon" data-placement="top" data-toggle="tooltip" title="" data-original-title="Edit Profile"><i class="bx bx-edit"></i></a>
+											 </div>
+ 
+										 </div>
+ 
+									 </div>
+								 </div>
+								 <form method="post" role="form" action="{% url 'candidate:edit_profile' %}" enctype="multipart/form-data">
+									 {% csrf_token %}
+									 <input type="hidden" name="record_id" value="{{exp.record_id}}">
+									 <input type="hidden" name="model_name" value="skill">
+									 <div class="custom-form open-custom-form" id="skill_data">
+									 <div class="row row-sm">
+										 <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12">
+											 <label class="form-control-label">skill Name <span class="tx-danger">*</span></label> <input class="form-control" id="skill-name" name="skill-name" value="{{skill.skill.name}}" placeholder="Skill Name" required="" type="text">
+										 </div>
+ 
+									 </div>
+									 <div class="butn-form">
+										 <button type="submit" class="btn btn-primary btn-block">Submit</button>
+										 <button class="btn  btn-block  btn-danger">Cancle</button>
+									 </div>
+								 </div>
+								 </form>
+							 {% endfor %}
+							<a href="" title="" class="add-more"> <i data-v-e08301e8="" class="las la-plus"></i>Add More</a>
+						 </div>
+					 </div>
+				 </div>
+ 
+				 <div class="col-md-12 col-xl-6 col-lg-6">
+					 <div class="card">
+						 <div class="card-header pb-0">
+							 <h4 class="card-title mg-b-10">Social Network</h4>
+						 </div>
+						 <div class="card-body ">
+							 {% for social in social_network %}
+								 <div class="all-subject">
+									 <div class="row row-sm">
+										 <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12">
+											 <div class="add-exp">
+												 <lable class="form-control" id="social_name">Facebook</lable>
+												 <a href="javascript:void(0)" id='social' class="btn ripple btn-toggle-open btn-primary text-white btn-icon" data-placement="top" data-toggle="tooltip" title="" data-original-title="Edit Profile"><i class="bx bx-edit"></i></a>
+											 </div>
+ 
+										 </div>
+ 
+									 </div>
+								 </div>
+								 <form method="post" role="form" action="{% url 'candidate:edit_profile' %}" enctype="multipart/form-data">
+									 {% csrf_token %}
+									 <input type="hidden" name="record_id" value="{{social.record_id}}">
+									 <input type="hidden" name="model_name" value="social">
+									 <div class="custom-form open-custom-form" id="social_data">
+										 <div class="row row-sm">
+											 <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12">
+												 <label class="form-control-label">Network Name <span class="tx-danger">*</span></label> <input class="form-control" id="network-name" name="network-name" value="{{social.network_name}}" placeholder="Facebook" required="" type="text">
+											 </div>
+										 </div>
+										 <div class="butn-form">
+											 <button type="submit" class="btn btn-primary btn-block">Submit</button>
+											 <button class="btn  btn-block  btn-danger">Cancel</button>
+										 </div>
+									 </div>
+								 </form>
+							 {% endfor %}
+							<a href="" title="" class="add-more"> <i data-v-e08301e8="" class="las la-plus"></i>Add More</a>
+						 </div>
+					 </div>
+				 </div>
+			 </div>
+			 <!-- /row -->
+		 </div>
+ 
+ {% block script %}
+	 <!-- JQuery min js -->
+	 <script src="{% static 'assets/plugins/jquery/jquery.min.js' %}"></script>
+	 <!--new added js----------------------------------------------------------------->
+	 <script src="{% static 'assets/js/advanced-form-elements.js' %}"></script>
+	 <script src="{% static 'assets/plugins/sumoselect/jquery.sumoselect.js' %}"></script>
+	 <!-- Datepicker js -->
+	 <script src="{% static 'assets/plugins/jquery-ui/ui/widgets/datepicker.js' %}"></script>
+ 
+ {% endblock %}
+ 
+ {% endblock %}
+ 
+ 
+ 

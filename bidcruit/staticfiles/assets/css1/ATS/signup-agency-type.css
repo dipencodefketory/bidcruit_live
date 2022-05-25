@@ -1,0 +1,58 @@
+.signin-layout {
+    margin: 0 !important;
+    height: 100%;
+}
+.singlemenu .container-fluid {
+    height: calc(100vh);
+    padding: 0;
+    margin: 0;
+}
+.main-content-body {
+    height: calc(100vh);
+}
+.left-col {
+    background: #0B6EFE;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.agency-logo-container {
+    background: #fff;
+    padding: 10px 20px;
+    border-radius: 50px;
+}
+.right-col {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: #fff;
+}
+.form-container {
+    width: 65%;
+    min-width: 350px;
+}
+.form-view {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+.form-type__tabs {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    justify-content: center;
+}
+.form-type-btn {
+    border: 1px solid #e2e2e2;
+    padding: 10px 16px;
+    border-radius: 15px;
+    cursor: pointer;
+    background: linear-gradient(#fdfdfd,#f0f0f0);
+    justify-content: space-between;
+    display: flex;
+    align-items: center;
+}
+.form-type-btn label {
+    margin: 0 !important;
+    font-size: 16px;
+}

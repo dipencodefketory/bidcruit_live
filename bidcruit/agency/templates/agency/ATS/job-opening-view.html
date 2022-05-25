@@ -1,0 +1,621 @@
+{% load static %}
+{% load agency_filter %}
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<meta name='viewport' content='width=device-width, initial-scale=1.0, user-scalable=0'>
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="Description" content="Bootstrap Responsive Admin Web Dashboard HTML5 Template">
+		<meta name="Author" content="Spruko Technologies Private Limited">
+		<meta name="Keywords" content="bootstrap admin panel template,bootstrap admin template premium,bootstrap backend template,bootstrap dashboard template,bootstrap panel template,dashboard admin bootstrap 4,dashboard template bootstrap 4,html css dashboard template,html dashboard template,html web app template,modern admin template,nice admin template,simple bootstrap admin template,simple dashboard html template,simple dashboard template bootstrap,template dashboard bootstrap 4"/>
+
+		<!-- Title -->
+		<title> Admix - Admin Panel html template </title>
+
+		<!-- Favicon -->
+		<link rel="icon" href="{% static 'assets/img/brand/favicon.png' %}" type="image/x-icon"/>
+
+		<!-- Icons css -->
+		<link href="{% static 'assets/css/icons.css' %}" rel="stylesheet">
+
+		<!-- Bootstrap css -->
+		<link rel="stylesheet" href="{% static 'assets/plugins/bootstrap/css/bootstrap.min.css' %}">
+
+		<!-- Right-sidemenu css -->
+		<link href="{% static 'assets/plugins/sidebar/sidebar.css' %}" rel="stylesheet">
+
+		<!-- Style css -->
+		<link rel="stylesheet" type="text/css" media="all" href="{% static 'assets/css/style.css' %}">
+
+		<!-- Colors css -->
+		<link id="theme" rel="stylesheet" type="text/css" media="all" href="{% static 'assets/css/colors/color.css' %}">
+
+		<!-- Skinmodes css -->
+		<link href="{% static 'assets/css/skin-modes.css' %}" rel="stylesheet">
+
+		<!-- Darktheme css -->
+		<link href="{% static 'assets/css/style-dark.css' %}" rel="stylesheet">
+
+		<!-- Horizontal css -->
+		<link href="{% static 'assets/css/horizontalmenu/horizontal-menu.css' %}" rel="stylesheet">
+
+		<!-- Animations css -->
+		<link href="{% static 'assets/css/animate.css' %}" rel="stylesheet">
+
+
+        <!--apply job template css-->
+        <link href="{% static 'assets/css/ATS/apply_job_view_creation.css' %}" rel="stylesheet">
+		<link href="{% static 'assets/css/ATS/job_view.css' %}" rel="stylesheet">
+		<link href="{% static 'assets/css/ATS/job_creation_view.css' %}" rel="stylesheet">
+
+	</head>
+
+	<body class="main-body">
+
+		<!-- Page -->
+		<div class="page">
+
+			<!-- Main-content -->
+			<div class="main-header main-header-fixed">
+				<div class="container">
+					<div class="main-header-left">
+						<!-- <a class="animated-arrow hor-toggle horizontal-navtoggle"><span></span></a> -->
+                        <!-- sidebar-toggle-->
+						<a class="header-brand" href="index.html">
+							<img src="{% static 'assets/img/brand/bid-logo-white.png' %}" class="desktop-logo" id="change-image">
+						</a>
+					</div>
+					<div class="main-header-center">
+						<div class="responsive-logo">
+							<a href="index.html"><img src="{% static 'assets/img/brand/bid-logo-white.png' %}" class="mobile-logo" alt="logo"></a>
+						</div>
+					</div>
+					<div class="main-header-right">
+                        <!-- <button class="btn btn-sm rounded-20 btn-top" id="loginBtn">Login</button> -->
+                        <div class="dropdown main-header-message right-toggle">
+							<!-- <a class="nav-link menu-icons" data-toggle="sidebar-right" data-target=".sidebar-right">
+								<svg class="svg-icon"  xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+							</a> -->
+                            <a class="text-capitalize login-btn user_v_login" id="loginBtn" href="{% url 'accounts:signin' %}">login</a>
+						</div>
+                    </div>
+				</div>
+			</div>
+			<!-- Main-header closed -->
+
+			<!-- Mobile-header -->
+			<div class="responsive main-header">
+				<div class="mb-1 navbar navbar-expand-lg  nav nav-item  navbar-nav-right responsive-navbar navbar-dark  ">
+					<div class="collapse navbar-collapse" id="navbarSupportedContent-4">
+						<div class="d-flex order-lg-2 ml-auto">
+							<form class="navbar-form nav-item my-auto" role="search">
+								<div class="input-group nav-item my-auto">
+									<input type="text" class="form-control" placeholder="Search">
+									<span class="input-group-btn">
+										<button type="reset" class="btn btn-default">
+											<i class="bx bx-x"></i>
+										</button>
+										<button type="submit" class="btn btn-default nav-link menu-icons ">
+											<svg class="svg-icon menu-icons" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+										</button>
+									</span>
+								</div>
+							</form><!-- Search closed -->
+							<div class="dropdown main-header-message right-toggle">
+								<div class="nav-item full-screen fullscreen-button">
+									<a class="new nav-link full-screen-link menu-icons fullscreen" href="#"><svg class="svg-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"></path></svg></a>
+									<a class="new nav-link full-screen-link exit-fullscreen" href="#"><svg class="svg-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 3v3a2 2 0 0 1-2 2H3m18 0h-3a2 2 0 0 1-2-2V3m0 18v-3a2 2 0 0 1 2-2h3M3 16h3a2 2 0 0 1 2 2v3"></path></svg></a>
+								</div>
+							</div><!-- Fullscreen closed -->
+							<div class="dropdown  nav-item main-header-message ">
+								<a class="new nav-link menu-icons" href="#"><svg class="svg-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg><span class=" pulse-danger"></span></a>
+								<div class="dropdown-menu animated fadeInUp">
+									<div class="menu-header-content text-left d-flex">
+										<div class="">
+											<h6 class="menu-header-title mb-0">5 new Messages</h6>
+										</div>
+										<div class="my-auto ml-auto">
+											<a class="badge badge-pill badge-teal float-right" href="#">Mark All Read</a>
+										</div>
+									</div>
+									<div class="main-message-list chat-scroll1">
+										<a href="#" class="p-3 d-flex border-bottom">
+											<div class="  drop-img  cover-image  " data-image-src="{% static 'assets/img/faces/11.jpg' %}">
+												<span class="avatar-status bg-teal"></span>
+											</div>
+
+											<div class="wd-90p">
+												<div class="d-flex">
+													<h5 class="mb-1 name">Paul Molive</h5>
+													<p class="time mb-0 text-right ml-auto float-right">10 min ago</p>
+												</div>
+												<p class="mb-0 desc">I'm sorry but i'm not sure how to help you with that..</p>
+											</div>
+										</a>
+										<a href="#" class="p-3 d-flex border-bottom">
+											<div class="drop-img cover-image" data-image-src="{% static 'assets/img/faces/2.jpg' %}">
+												<span class="avatar-status bg-teal"></span>
+											</div>
+											<div class="wd-90p">
+												<div class="d-flex">
+													<h5 class="mb-1 name">Sahar Dary</h5>
+													<p class="time mb-0 text-right ml-auto float-right">13 min ago</p>
+												</div>
+												<p class="mb-0 desc">Are you ready to pickup your Delivery...</p>
+											</div>
+										</a>
+										<a href="#" class="p-3 d-flex border-bottom">
+											<div class="drop-img cover-image" data-image-src="{% static 'assets/img/faces/9.jpg' %}">
+												<span class="avatar-status bg-teal"></span>
+											</div>
+											<div class="wd-90p">
+												<div class="d-flex">
+													<h5 class="mb-1 name">Khadija Mehr</h5>
+													<p class="time mb-0 text-right ml-auto float-right">20 min ago</p>
+												</div>
+												<p class="mb-0 desc">Here are some products i found for you form database...</p>
+											</div>
+										</a>
+										<a href="#" class="p-3 d-flex border-bottom">
+											<div class="drop-img cover-image" data-image-src="{% static 'assets/img/faces/12.jpg' %}">
+												<span class="avatar-status bg-teal"></span>
+											</div>
+											<div class="wd-90p">
+												<div class="d-flex">
+													<h5 class="mb-1 name">Barney Cull</h5>
+													<p class="time mb-0 text-right ml-auto float-right">30 min ago</p>
+												</div>
+												<p class="mb-0 desc">All set! Now, time to get to you now...</p>
+											</div>
+										</a>
+										<a href="#" class="p-3 d-flex border-bottom">
+											<div class="drop-img cover-image" data-image-src="{% static 'assets/img/faces/5.jpg' %}">
+												<span class="avatar-status bg-teal"></span>
+											</div>
+											<div class="wd-90p">
+												<div class="d-flex">
+													<h5 class="mb-1 name">Petey Cruiser</h5>
+													<p class="time mb-0 text-right ml-auto float-right">35 min ago</p>
+												</div>
+												<p class="mb-0 desc">I'm sorry but i'm not sure how...</p>
+											</div>
+										</a>
+									</div>
+									<div class="text-center dropdown-footer">
+										<a href="text-center">VIEW ALL</a>
+									</div>
+								</div>
+							</div><!-- Message closed -->
+							<div class="dropdown nav-item main-header-notification">
+								<a class="new nav-link menu-icons" href="#"><svg class="svg-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path><path d="M13.73 21a2 2 0 0 1-3.46 0"></path></svg><span class=" pulse"></span></a>
+								<div class="dropdown-menu animated fadeInUp">
+									<div class="menu-header-content text-left d-flex">
+										<p class="main-notification-text mb-0">You have 1 unread notification<a class="badge badge-pill badge-success ml-2 float-right" href="#">Mark All Read</a></p>
+									</div>
+									<div class="main-notification-list Notification-scroll1">
+										<a class="d-flex pl-3 pr-3  border-bottom" href="#">
+											<div class="media new">
+												<div class="main-img-user online"><img alt="avatar" src="{% static 'assets/img/faces/5.jpg' %}"></div>
+												<div class="media-body">
+													<p>Congratulate <strong> Olivia James </strong> for New template start</p><span>Oct 15 12:32pm</span>
+												</div>
+											</div>
+										</a>
+										<a class="d-flex pl-3 pr-3  border-bottom" href="#">
+											<div class="media">
+												<div class="main-img-user"><img alt="avatar" src="{% static 'assets/img/faces/13.jpg' %}"></div>
+												<div class="media-body">
+													<p> <strong> Joshua Gray </strong> New Message Received</p><span>Oct 13 02:56am</span>
+												</div>
+											</div>
+										</a>
+										<a class="d-flex pl-3 pr-3  border-bottom" href="#">
+											<div class="media">
+												<div class="main-img-user online"><img alt="avatar" src="{% static 'assets/img/faces/17.jpg' %}"></div>
+												<div class="media-body">
+													<p> <strong> Reuben Lewis </strong> added new schedule realease</p><span>Oct 12 10:40pm</span>
+												</div>
+											</div>
+										</a>
+										<a class="d-flex pl-3 pr-3  border-bottom" href="#">
+											<div class="media">
+												<div class="main-img-user online"><img alt="avatar" src="{% static 'assets/img/faces/10.jpg' %}"></div>
+												<div class="media-body">
+													<p><strong>Reanne Carnation</strong> Commented on you post</p><span>Sept 30 05:24pm</span>
+												</div>
+											</div>
+										</a>
+										<a class="d-flex pl-3 pr-3  border-bottom" href="#">
+											<div class="media">
+												<div class="main-img-user online"><img alt="avatar" src="{% static 'assets/img/faces/4.jpg' %}"></div>
+												<div class="media-body">
+													<p><strong>Vinny Gret </strong> Shared your post</p><span>Sept 12 9:05am</span>
+												</div>
+											</div>
+										</a>
+									</div>
+									<div class="dropdown-footer">
+										<a href="">VIEW ALL</a>
+									</div>
+								</div>
+							</div><!-- Notification closed -->
+							<div class="dropdown main-header-message right-toggle">
+								<a class="nav-link menu-icons" data-toggle="sidebar-right" data-target=".sidebar-right">
+									<i class="bx bx-menu bg-transparent"></i>
+								</a>
+							</div><!-- Right-toggle closed -->
+							<div class="dropdown main-profile-menu nav nav-item nav-link">
+								<a class="profile-user" href=""><img alt="" src="{% static 'assets/img/faces/6.jpg' %}"></a>
+								<div class="dropdown-menu animated fadeInUp">
+									<div class="main-header-profile header-img">
+										<h6>Mack Adamia</h6><span>Premium Member</span>
+									</div>
+									<a class="dropdown-item" href="profile.html"><i class="bx bx-user-circle"></i> My Profile</a>
+									<a class="dropdown-item" href="editprofile.html"><i class="bx bxs-edit"></i> Edit Profile</a>
+									<a class="dropdown-item" href="chat.html"><i class="bx bx-envelope"></i> Chat</a>
+									<a class="dropdown-item" href="account-setting.html"><i class="bx bx-cog"></i> Account Settings</a>
+									<a class="dropdown-item" href="signin.html"><i class="bx bx-log-out-circle"></i> Sign Out</a>
+								</div>
+							</div><!-- Main-profile-menu closed -->
+						</div>
+					</div>
+				</div>
+			</div>
+			<!-- Mobile-header closed -->
+
+
+
+			<!-- Main-content -->
+                <div class="main-content horizontal-content">
+                   <!-- Container-fluid -->
+				<div class="container-fluid">
+
+					<!-- Main-content-body -->
+					<div class="main-content-body">
+
+
+
+						<!-- row opened -->
+						<div class="row row-sm">
+							<div class="col-xl-12">
+								<!-- profile-page -->
+						 <div class="card mt-3 pd-t-20 pd-b-20 pd-l-15 pd-r-15">
+						 	<div class="main_title_job_u">
+						 		<h3 class="cover-main__title text-capitalize mb-0">Jop Opening From: {{job_obj.agency_id.agency_id.company_name}}</h3>
+						 		<div class="back_to_home_btn"><a href="https://bidcruit.com/">Back To Home</a></div>
+						 	</div>
+						 	
+						 </div>		
+
+						<div class="profile-page tx-13 mt-3">
+
+							<div class="row row-sm profile-body">
+
+								<div class="col-md-12 col-xl-8 col-lg-8 middle-wrapper">
+
+									<div class="main-profile-body p-0">
+                                        <!--header cover section-->
+                                        <div class="profile-header agency-head__view">
+
+                                            <div class="header-links">
+                                                <div class="cover-short-detail">
+                                                    <div class="top-main__info">
+                                                        <h3 class="cover-main__title text-capitalize">{{job_obj.job_title}}
+															<div class="candidate_view_Accept">
+																<!-- <a class="btn_users-cog" href="#"><i class="fas fa-users-cog"></i></a> -->
+																<!-- <a class="btn_bookmark" href="#"><i class="far fa-bookmark"></i></a> -->
+																<div class="btn_share_cog">
+																	<i class="fas fa-share-alt"></i>
+																	<p class="shar-button-url">
+																		<a target="_blank" href="https://facebook.com/sharer/sharer.php?u=https://www.bidcruit.com/nirav/&amp;p[title]=MYPROFILE" class="text"><i class="lab la-facebook-f"></i></a>
+																		<a target="_blank" href="https://web.whatsapp.com/send?text=https://www.bidcruit.com/nirav/" data-action="share/whatsapp/share" class="text"><i class="fab la-whatsapp"></i></a>
+																		<!-- <a target="_blank" class="text"><i class="fab la-instagram"></i></a> -->
+																		<a href="http://www.linkedin.com/shareArticle?mini=true&amp;url=https://www.bidcruit.com/nirav/" target="_blank" class="text"><i class="lab la-linkedin-in"></i></a>
+																		<a target="_blank" href="http://twitter.com/share?url=https://www.bidcruit.com/nirav/" class="text"><i class="lab fa-twitter"></i></a>
+																	</p>
+																</div>
+															</div>
+														</h3>
+                                                        <p class="subtitle text-capitalize job_date_id"><span> Last Updated : {% if job_obj.is_publish %}{{job_obj.updated_at|whenpublished}}{% endif %} </span>
+<!--															<span>Job ID : 6651182</span></p>-->
+                                                    </div>
+                                                    <div class="allabout_viewer">
+                                                        <div class="fx-icotext">
+                                                            <i class="fas fa-map-marker-alt"></i>
+                                                            <lable>{{job_obj.city.city_name}}</lable>
+                                                        </div>
+                                                        <div class="fx-icotext">
+                                                            <i class="fas fa-briefcase"></i>
+                                                            <lable>{{job_obj.job_type.name}}</lable>
+                                                        </div>
+														{% if job_obj.remote_job %}
+                                                        <div class="fx-icotext">
+															<i class="fas fa-laptop-code"></i>
+                                                            <lable>Remote (Worldwide)</lable>
+                                                        </div>
+														{% endif %}
+														<div class="fx-icotext">
+                                                            <i class="fas fa-user"></i>
+                                                            <lable>Applicant : {{job_obj.id|total_applied_candidates_internal}}</lable>
+                                                        </div>
+														<div class="fx-icotext">
+                                                            <i class="fas fa-user"></i>
+															{% ifequal job_obj.experience_year_max '0' %}
+															<lable>Exp: {{job_obj.experience_year_min}} Years of Above </lable>
+															{% endifequal %}
+															{% ifequal job_obj.experience_year_min '0' %}
+                                                            <lable>Exp: Up to {{job_obj.experience_year_max}} Years</lable>
+															{% endifequal %}
+															{% ifnotequal job_obj.experience_year_min '0' %}
+															{% ifnotequal job_obj.experience_year_max '0' %}
+															<lable>Exp: {{job_obj.experience_year_min}} to {{job_obj.experience_year_max}} Years</lable>
+															{% endifnotequal %}
+															{% endifnotequal %}
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    <!--header cover section-->
+
+									    <!--description container-->
+                                        <div class="card">
+                                            <div class="about-profile pd-t-20 pd-b-20 pd-l-15 pd-r-15">
+                                                <div class="info--section">
+                                                    <h5 class="text-uppercase">Job Description :</h5>
+													<div class="read_more_to_job_des_text">
+                                                   	 	{% autoescape off %}{{job_obj.job_description}}{% endautoescape %}
+													</div>
+													<button type="button" class="read-more-job_des">Read more</button>
+                                                </div>
+                                                <div class="info--section">
+                                                    <h5 class="text-uppercase mg-t-20">Benefits :</h5>
+                                                    {% autoescape off %}{{job_obj.benefits}}{% endautoescape %}
+                                                </div>
+												<div class="info--section">
+                                                    <h5 class="text-uppercase mg-t-20">Requirements :</h5>
+                                                    {% autoescape off %}{{job_obj.requirements}}{% endautoescape %}
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!--description container end-->
+
+									</div><!-- main-profile-body -->
+								</div>
+								<!-- middle wrapper end -->
+								<!-- right wrapper start -->
+								<div class="d-none d-xl-block col-lg-12 col-xl-4 right-wrapper">
+                                    <div class="fx-sticky-right-col">
+                                        <div class="row row-sm">
+                                            <!-- <div class="col-md-12 grid-margin">
+                                                <div class="card">
+                                                    <div class="card-body">
+                                                        <h6 class="card-title pl-0">latest photos</h6>
+                                                        <div class="row row-sm ">
+                                                            <div class="col-lg-4 pl-1 pr-1 mb-2">
+                                                                <a href="" class="member"> <img src="../../assets/img/faces/5.jpg" alt=""></a>
+                                                            </div>
+                                                            <div class="col-lg-4 pl-1 pr-1 mb-2">
+                                                                <a href="" class="member"> <img src="../../assets/img/faces/12.jpg" alt=""></a>
+                                                            </div>
+                                                            <div class="col-lg-4 pl-1 pr-1 mb-2">
+                                                                <a href="" class="member"> <img src="../../assets/img/faces/17.jpg" alt=""></a>
+                                                            </div>
+                                                            <div class="col-lg-4 pl-1 pr-1 mb-0">
+                                                                <a href="" class="member"> <img src="../../assets/img/faces/13.jpg" alt=""></a>
+                                                            </div>
+                                                            <div class="col-lg-4 pl-1 pr-1 mb-0">
+                                                                <a href="" class="member"> <img src="../../assets/img/faces/2.jpg" alt=""></a>
+                                                            </div>
+                                                            <div class="col-lg-4 pl-1 pr-1 mb-0">
+                                                                <a href="" class="member"> <img src="../../assets/img/faces/15.jpg" alt=""></a>
+                                                            </div>
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div> -->
+                                            <div class="col-md-12">
+
+												<div class="card">
+													<div class="card-body day_section_sa">
+														<div class="row row-sm ">
+
+															<div class="col-lg-6 pl-1 pr-1 mb-2">
+															 	<div class="day_left_section d-c">
+																	<div class="title_day_name">Closing In</div>
+																	<div class="day_value_get">{% if job_obj.is_publish %}{{job_obj.target_date|closing_in}} Days{% else%}00{% endif %}</div>
+																</div>
+															</div>
+															<div class="col-lg-6 pl-1 pr-1 mb-2">
+																<div class="day_left_section y-c">
+																	<div class="title_day_name">Yearly Salary (INR)</div>
+																	<div class="inr_yearly_s">
+																		{% if job_obj.salary_as_per_market %}
+																		<div class="day_value_get">As Per Market Rate</div>
+																		{% else %}
+																		<div class="day_value_get">{{job_obj.min_salary|convert_to_lacs}} <span>Lacs</span></div>
+																		<div class="day_value_get">-</div>
+																		<div class="day_value_get">{{job_obj.max_salary|convert_to_lacs}} <span>Lacs</span></div>
+																		{% endif %}
+																	</div>
+																</div>
+															</div>
+
+															<div class="right_side_btn_section pl-1 pr-1">
+																{% if job_obj.close_job %}
+																<button class="btn btn_submit btn-full" type="button">Close Job</button>
+																{% else %}
+																<form method="POST" action="{% url 'job_apply' job_obj.id %}">
+																	{% csrf_token %}
+															    	<button class="btn btn_submit btn-full" type="submit">Apply</button>
+																</form>
+																{% endif %}
+<!--																<a class="btn btn_submit btn-haft" href="">Edit</a>-->
+
+<!--																	<button type="submit" class="btn btn_submit btn-full" href="">Publish</button>-->
+
+<!--																	<a class="btn btn_submit btn-full" id="assignMERForm">Assign</a>-->
+
+<!--																<a class="btn btn_submit btn-haft" href="">Edit</a>-->
+<!--																<a class="btn btn_submit btn-full" href="">Apply</a>-->
+<!--														    	<a class="btn btn_cancel btn-danger btn-haft" href="">Cancel</a>-->
+
+															</div>
+
+															<div class="apply_job_info_view">
+																<a class="profile_view_l" href="#">
+																	<div class="company_profile_logo"><img src="{{job_obj.agency_id.id|get_agency_image}}"></div>
+																	<div class="name_dev">
+																		<h1 class="mb-0 mg-t-0 name">{{job_obj.agency_id.agency_id.company_name}}</h1>
+																		<span class="text-muted">{{job_obj.agency_id.id|get_agency_industry}}</span>
+																	</div>
+																</a>
+															</div>
+
+														</div>
+													</div>
+												</div>
+
+												<div class="card skills completed_user_job_details">
+
+                                                    <div class="card-body p-0">
+                                                        <div class="inbox-widget">
+															<div class="jobs_details_box_c">
+																<div class="clients_total_users">
+																	<div class="inbox-item">
+																		<p class="inbox-item-text">Active Jobs</p>
+																		<p class="inbox-item-author fb">{{active_job_count}}</p>
+																	</div>
+																</div>
+																<div class="clients_total_users">
+																	<div class="inbox-item">
+																		<p class="inbox-item-text">Close Jobs</p>
+																		<p class="inbox-item-author fg">{{close_job_count}}</p>
+																	</div>
+																</div>
+																<div class="clients_total_users">
+																	<div class="inbox-item">
+																		<p class="inbox-item-text">Hiring Ratio</p>
+																		<p class="inbox-item-author fp">12 %</p>
+																	</div>
+																</div>
+																<div class="clients_total_users">
+																	<div class="inbox-item">
+																		<p class="inbox-item-text">Last Close Jobs</p>
+																		<p class="inbox-item-author fy">{% if last_close_job %}{{last_close_job.close_job_at|date:'d-m-Y'}}{% else %}-{% endif %}</p>
+																	</div>
+																</div>
+															</div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="card suggestions job-suggest-list">
+                                                    <div class="card-body p-0">
+                                                        <div class="card-header pb-0">
+                                                            <h5 class="card-title pb-0 text-uppercase">similer jobs with organization</h5>
+                                                        </div>
+                                                        <div class="latestListView">
+                                                            {% if latest_10_job %}
+																{% for jobs in latest_10_job %}
+																	<div class="d-flex justify-content-between  p-3  border-bottom">
+																		<div class="d-flex align-items-center hover-pointer">
+																			<img class="img-xs rounded-circle" src="{{jobs.agency_id.id|get_agency_image}}" alt="">
+																			<div class="ml-2">
+																				<p class="comp-name">{{jobs.job_title}}</p>
+																				<p class="tx-11 comp-type">{{jobs.industry_type.name}}</p>
+																				<p class="tx-11 comp-address">{{jobs.city.city_name}}, {{jobs.city.state_code.state_name}}, {{jobs.country.country_name}}</p>
+																				<p class="tx-11 post-time">{{jobs.publish_at|whenpublished}}</p>
+																			</div>
+																		</div>
+																	</div>
+																{% endfor %}
+															{% endif %}
+
+															<!-- <div class="p-3">
+                                                                <button class="btn btn-primary btn-block border">
+                                                                    Load more
+                                                                </button>
+                                                            </div> -->
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                    </div>
+								</div>
+								<!-- right wrapper end -->
+							</div>
+						</div>
+						<!--profile page end -->
+							</div>
+							<!--/div-->
+						</div>
+						<!-- /row -->
+					</div>
+					<!-- Main-content-body closed -->
+				</div>
+				<!-- Container-fluid closed -->
+                </div>
+			<!-- Main-content closed -->
+
+
+
+			<!-- Footer opened -->
+			<div class="main-footer ht-40">
+				<div class="container-fluid pd-t-0-f ht-100p">
+					<span>Copyright © 2020 <a href="#">Admix</a>. Designed by <a href="https://www.spruko.com/">Spruko</a> All rights reserved.</span>
+				</div>
+			</div>
+			<!-- Footer closed -->
+
+		</div>
+		<!-- Page closed -->
+
+		<!-- Back-to-top -->
+		<a href="#top" id="back-to-top"><i class="las la-angle-double-up"></i></a>
+
+		<!-- JQuery min js -->
+		<script src="{% static 'assets/plugins/jquery/jquery.min.js' %}"></script>
+
+		<!-- Ionicons js -->
+		<script src="{% static 'assets/plugins/ionicons/ionicons.js' %}"></script>
+
+		<!-- Horizontalmenu js-->
+		<script src="{% static 'assets/plugins/horizontal-menu/horizontal-menu.js' %}"></script>
+
+		<script src="{% static 'assets/js/ATS/job_view.js' %}"></script>
+		<script>
+			$(document).ready(function(){
+				$("#assignMERForm").on('click',function(e){
+                        $('#external-recruiter-modal').modal('show');
+                });
+			})
+		</script>
+		<script>
+			$(document).ready(function() {
+				$('.read-more-job_des').click(function() {
+				//	$('.read_more_to_job_des_text').slideToggle();
+					if ($('.read-more-job_des').text() == "Read more") {
+						$('.read_more_to_job_des_text').addClass('selecionado');
+						$(this).text("Read less");
+					} else {
+						$(this).text("Read more");
+						$('.read_more_to_job_des_text').removeClass('selecionado');
+					}
+				});
+			});
+
+		</script>
+
+
+	</body>
+</html>
+
+
+
+
+

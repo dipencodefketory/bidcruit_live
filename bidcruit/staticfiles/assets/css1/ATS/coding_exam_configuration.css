@@ -1,0 +1,125 @@
+.add__exam-form {
+    padding: 15px;
+   /* border: 2px solid #e2e8f5;*/
+}
+
+.add__exam-form h5 {
+    font-size: 20px;
+    color: #041b4e;
+    font-weight: 600;
+}
+
+.add__exam-form label.main-content-label {
+    text-transform: capitalize !important;
+    font-size: 14px;
+    color: #041b4e;
+    font-weight: 500;
+    display: block;
+}
+
+.add__exam-form .form-control {
+    height: 50px;
+    border-radius: 10px;
+}
+
+.add__exam-form .SumoSelect>.CaptionCont {
+    height: 50px;
+    line-height: 40px;
+    border-radius: 10px;
+}
+
+.add__exam-form .SumoSelect>.CaptionCont>label>i:before {
+    margin-top: 22px;
+}
+
+.add__exam-form .rdiobox span {
+    font-size: 16px;
+    color: #1e1e1e;
+    font-weight: 500;
+}
+
+.add__exam-form .rdiobox input[type='radio']:checked+span {
+    color: #0068ff;
+}
+
+.add__exam-form .rdiobox span:before {
+    top: 0;
+}
+
+.add__exam-form .rdiobox span:after {
+    top: 5px;
+}
+
+.add__exam-form hr {
+    height: 2px;
+    background-color: #e2e8f5;
+    margin-top: 0;
+}
+
+.add__exam-form .ckbox span:before,
+.add__exam-form .ckbox span:after {
+    right: -30px;
+    left: inherit;
+}
+
+.add__exam-form .ckbox {
+    margin-top: 15px;
+    display: inline-block;
+}
+
+.add__exam-form .negative-marking .ckbox {
+    margin-top: 0px;
+    margin-bottom: 8px;
+    display: inline-block;
+}
+
+.add__exam-form .ckbox span {
+    font-size: 16px;
+    color: #1e1e1e;
+    font-weight: 500;
+    padding-left: 0;
+}
+
+.add__exam-form-action {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+}
+
+.add__exam-form-action a:first-child {
+    margin-right: 20px;
+}
+
+.add__exam-form-action a {
+    border-radius: 15px;
+    padding: 0.4rem 1.875rem;
+}
+
+.add__exam-form-action a.close-action {
+    padding: 0.4rem 1.5rem;
+}
+.template_selection_header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    border-bottom: 2px solid #e2e8f5;
+    padding: 17px 15px 12px;
+    gap: 10px;
+}
+.template_selection_header.one_header {
+    justify-content: normal;
+}
+.template_selection_header.one_header .t_ty_50 {
+    width: 50%;
+}
+.cus_line {
+    border-top: 2px solid #d8ddee;
+    padding-top: 20px;
+       padding-bottom: 6px;
+}
+.cus_line button {
+    border-radius: 10px;
+    font-size: 16px;
+    font-weight: bold;
+}

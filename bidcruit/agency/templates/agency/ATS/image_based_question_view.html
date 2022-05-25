@@ -1,0 +1,174 @@
+{% extends 'agency/base.html' %}
+{% load static %}
+{% block title %}Image Question View{% endblock %}
+{% block css %}
+        <!--custom desciptive list css-->
+        <link href="{% static 'assets/css/ATS/image_based_question_view.css' %}" rel="stylesheet">
+
+        <!-- - Internal Sweet-Alert css -->
+        <link href="{% static 'assets/plugins/sweet-alert/sweetalert.css' %}" rel="stylesheet">
+
+{% endblock %}
+{% block main %}
+        <!-- Container-fluid -->
+        <div class="container-fluid">
+
+            <!-- Main-content-body -->
+            <div class="main-content-body">
+
+                <!-- row opened -->
+                <div class="row row-sm">
+                    <div class="col-xl-12">
+                        <div class="card image_based_question_main_section">
+
+                            <div class="row card-body mcq_list_inner pt-0 pb-0">
+
+                                <div class="col-md-12 col-xl-12 mcq_list p-0">
+
+                                    <div class="mcq_header_listing">
+
+                                        <h4 class="card-title mg-b-0 image_based_main_ti">Mcq Question Bank: {{sub_name}}</h4>
+                                        <div class="d-flex justify-contentbetween">
+                                            <div class="input-group mb-0">
+                                                <span class="input-group-append search_btn">
+                                                    <button class="btn ripple" type="button"><i class="fa fa-search"></i></button>
+                                                </span>
+                                                <input type="text" class="search_text form-control border-right-0 pl-3" value="" placeholder="Search Template">
+                                            </div>
+                                            <div class="candidate_right_filters_section">
+
+                                               <!--  <div class="candidate_filters_header">
+                                                    <a href=""><i class="fas fa-file-download"></i></a>
+                                                </div>
+                                                <div class="candidate_filters_header">
+                                                    <a href=""><i class="fas fa-filter"></i></a>
+                                                </div>
+                                                <div class="candidate_filters_header">
+                                                    <a href=""><i class="fas fa-print"></i></a>
+                                                </div>
+                                                <div class="candidate_filters_header">
+                                                    <a href=""><i class="fas fa-ellipsis-v"></i></a>
+                                                </div> -->
+                                                <div class="candidate_filters_header">
+                                                    {% if Add %}
+                                                    <a class="Add_mcq_Question" href="{% url 'agency:image_based_question_add' sub_id %}">Add New</a>
+                                                    {% endif %}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!--card list view-->
+                        <div class="col-12 para-preview-slidelist" id="paraPreviewSlideList">
+                            {% csrf_token %}
+                            {% for question in questions %}
+                            <div class="slide-list row row-sm card">
+                                <input type="hidden" name="que_id" value="{{question.question_id.id}}">
+                                <div class="title-section col-12">
+                                    <div class="info-section fx-row">
+                                        <div class="fx-col-sm left-side">
+                                            <label class="tab-counter-label">{{ forloop.counter }}</label>
+                                            <label class="main-content-label mb-0">{{question.question_id.image_que_description}}</label>
+                                           
+                                        </div>
+                                        <div class="fx-col-sm right-side">
+                                             <label class="category-type__info text-capitalize">{{question.question_id.question_level.level_name}}</label>
+                                            {% if Edit %}
+                                            <div class="edit-btn"><i class="fas fa-edit"></i></div>
+                                            {% endif %}
+                                            {% if Delete %}
+                                            <div class="delete-btn"><i class="fas fa-trash-alt"></i></div>
+                                            {% endif %}
+                                            <div class="slide-tab-btn"><i class="fas fa-chevron-down"></i></div>
+                                        </div>
+                                    </div>
+                                   <!--  <div class="short-details">
+                                        <div class="para-description">
+                                            <p>{{question.question_id.image_que_description}}</p>
+                                        </div>
+                                    </div> -->
+                                </div>
+                                <div class="detail-section col-12">
+                                    <div class="row row-sm para-with-quotes">
+                                        <div class="para-left">
+                                           <!--  <div class="max-show-viewer">
+                                                <p>{{question.question_id.image_que_description}}</p>
+                                            </div> -->
+                                            <div class="q_image_view">
+                                                {% if question.question_id.question_file %}
+                                                    <img src="{{question.question_id.question_file.url}}">
+                                                {% endif %}
+                                            </div>
+                                        </div>
+                                        <div class="quotes-right">
+                                            <div class="quote-tab">
+
+                                                <div class="flex-option-viewer">
+                                                    <ul class="option-list">
+                                                        <li class="questionListItem active">
+                                                            <label class="opt-label">{{question.option1}}</label>
+                                                            <div class="markbox_image">
+                                                                {% if question.file1 %}
+                                                                <img src="{{question.file1.url}}">
+                                                                {% endif %}
+                                                            </div>
+                                                        </li>
+                                                        <li class="questionListItem">
+                                                            <label class="opt-label">{{question.option2}}</label>
+                                                            <div class="markbox_image">
+                                                                {% if question.file2 %}
+                                                                <img src="{{question.file2.url}}">
+                                                                {% endif %}
+                                                            </div>
+                                                        </li>
+                                                        <li class="questionListItem">
+                                                            <label class="opt-label">{{question.option3}}</label>
+                                                            <div class="markbox_image">
+                                                                {% if question.file3 %}
+                                                                <img src="{{question.file3.url}}">
+                                                                {% endif %}
+                                                            </div>
+                                                        </li>
+                                                        <li class="questionListItem">
+                                                            <label class="opt-label">{{question.option4}}</label>
+                                                            <div class="markbox_image">
+                                                                {% if question.file4 %}
+                                                                <img src="{{question.file4.url}}">
+                                                                {% endif %}
+                                                            </div>
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            {% endfor %}
+
+                        </div>
+
+
+                    </div>
+                    <!--/div-->
+
+                </div>
+                <!-- /row -->
+            </div>
+            <!-- Main-content-body closed -->
+        </div>
+        <!-- Container-fluid closed -->
+{% endblock %}
+
+{% block script %}
+
+        <!--- Internal Sweet-Alert js -->
+		<script src="{% static 'assets/plugins/sweet-alert/sweetalert.min.js' %}"></script>
+		<script src="{% static 'assets/plugins/sweet-alert/jquery.sweet-alert.js' %}"></script>
+
+        <script src="{% static 'assets/js/ATS/agency/image_based_question_view.js' %}"></script>
+{% endblock %}

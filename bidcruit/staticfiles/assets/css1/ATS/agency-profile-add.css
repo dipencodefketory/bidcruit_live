@@ -1,0 +1,19 @@
+.company_profile_add .card-header {border-bottom: 2px solid #e2e8f5;padding-bottom: 12px !important;}
+.company_profile_right_filters_section .filters_header {float: left;}
+.company_profile_right_filters_section .filters_header a {color: #041b4e;margin: 0 15px;font-size: 16px;}
+.company_profile_add .form-label {color: #031b4e;}
+.company_profile_add .form-group__layout {border: 2px solid #e2e8f5;padding: 20px;}
+.company_profile_add .form-control {border-radius: 10px;}
+.company_profile_add .form-control {height: 50px;}
+.company_profile_add .form-control.address-text-area,
+.company_profile_add .form-control.about-text-area{ height: auto;}
+.form_main_title {color: #041b4e;font-size: 16px;font-weight: 500;}
+.companyFormSubmit_btn {border: 2px solid #e2e8f5;padding: 12px 20px;border-top: 0;display: inline-block;width: 100%;}
+.companyFormSubmit {font-size: 14px;border-radius: 10px;padding: 4px 18px;background-color: #0068ff;background: #0068ff;float: right;}
+.req-field::after {content: "*";position: relative;left: 4px;top: 0;color: #f00;font-weight: 600;}
+
+/*****/
+.agency-head {display: flex;justify-content: space-between;align-items: center;}
+.banner-image__upload {display: flex;}
+.groupUpload-tab-1 { flex: 4;}
+.groupUpload-tab-2 { flex: 2; }

@@ -1,0 +1,166 @@
+{% extends 'company/base.html' %}
+{% load static %}
+{% load candidate_extras %}
+{% block title %}Add Paragraph {% endblock %}
+{% block css %}
+<!--custome paragraph-card-list css-->
+<link href="{% static 'assets/css/ATS/paragraph-add-que.css' %}" rel="stylesheet">
+
+{% endblock %}
+{% block main %}
+
+					<!-- Main-content-body -->
+					<div class="main-content-body">
+						<!-- header-title -->
+						<div class="header-title">
+							<div class="mb-0 mb-lg-0 mb-xl-0">
+								<h4 class="mb-2">Ecommerce Dashboard</h4>
+								<div class="main-content-breadcrumb"> <span>Dashboard</span> <span>Ecommerce</span> </div>
+							</div>
+						</div>
+						<!-- header-title -->
+						<form id="paraQuesForm" method="POST">
+						{% csrf_token %}
+						<div class="row row-sm paragraph-add-que" id="paraAddQueTemplate">
+							<div class="col-12 top-section">
+                                <div class="fx-row card flex-box-col">
+                                    <div class="fx-left title-section">
+                                        <div class="title-view">
+                                            <h5 class="page-title h6 text-uppercase">{{sub_name}}</h5>
+                                        </div>
+                                    </div>
+                                    <div class="fx-right grp-action-btn">
+                                        <div class="head-action-btns">
+                                           <button id="savePageBtn" type="submit" name='save' class="btn btn-primary rounded-10 btn-sm text-capitalize">save</button>
+                                           <button  name='save-add' type="submit" id="saveAndNewaddBtn" class="btn btn-primary rounded-10 btn-sm text-capitalize">save & add new</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!--card list view-->
+                            <div class="col-12 questionView__container card" id="queModalForm">
+                                <div class="que-top-section row row-sm">
+                                    <div class="upper-lavel col-12">
+                                        <div class="fx-left">
+                                            <div class="title-covered">
+                                                <h3 class="h6 que-count">01</h3>
+                                            </div>
+                                        </div>
+                                        <div class="fx-right">
+                                            <div class="fx-sm__radio-btn">
+                                                <div class="flex-inline">
+                                                    <input type="radio" class="form-control-sm" name="inlineRadioOptions" value="basic" required>
+                                                    <label class="caption-text text-capitalize" for="inlineRadio1">Basic</label>
+                                                </div>
+                                                <div class="flex-inline">
+                                                    <input type="radio" class="form-control-sm" name="inlineRadioOptions" value="intermediate" required>
+                                                    <label class="caption-text text-capitalize" for="inlineRadio2">intermediate</label>
+                                                </div>
+                                                <div class="flex-inline">
+                                                    <input type="radio" class="form-control-sm" name="inlineRadioOptions" value="advance" required>
+                                                    <label class="caption-text text-capitalize" for="inlineRadio3">advance</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="que-middle-section row row-sm">
+                                    <div class="col-12">
+                                        <h3 class="h6 text-capitalize">paragraph:</h3>
+                                        <textarea  id="edit-textarea" required class="form-control-sm editor-para" name='paragraph' rows="4" cols="50" value="">
+											
+										</textarea>
+										<!-- <textarea style="display:none;" name="parastory" class="para-story" value=""></textarea> -->
+                                    </div>
+                                </div>
+                                <div class="que-bottm-section row row-sm">
+                                    <div class="col-12 question-container">
+										<div class="showOption-layout">
+											<div class="que-head-section">
+												<div class="count-que_lable">
+													<label class="text-capitalize">Que.</label>
+													<input type="text" required class="required form-control form-control-sm quote-text h6" name="pq-quote-label" value="">
+												</div>
+											</div>
+											<div class="group-opt grid-view">
+												<div class="grid-col">
+													<div class="fx-col-sm">
+														<div class="top-row">
+															<input type="radio" required name="inlineRadioOptionsSelect-1" class="form-control-sm" value="a" checked>
+															<label class="smp-opt-num text-uppercase" for="inlineRadioBtn1">a</label>
+														</div>
+														<div class="bottom-row">
+															<input type="text" required class="required form-control form-control-sm opt-input-text" name="opt-input-1" value="">
+														</div>
+													</div>
+												</div>
+												<div class="grid-col">
+													<div class="fx-col-sm">
+														<div class="top-row">
+															<input type="radio" required name="inlineRadioOptionsSelect-1" class="form-control-sm" value="b">
+															<label class="smp-opt-num text-uppercase" for="inlineRadioBtn2">b</label> 
+														</div>
+														<div class="bottom-row">
+															<input type="text" required class="required form-control form-control-sm opt-input-text" name="opt-input-2" value="">
+														</div>
+													</div>
+												</div>
+												<div class="grid-col">
+													<div class="fx-col-sm">
+														<div class="top-row">
+															<input type="radio" required name="inlineRadioOptionsSelect-1" class="form-control-sm"  value="c">
+															<label class="smp-opt-num text-uppercase" for="inlineRadioBtn3">c</label>
+														</div>
+														<div class="bottom-row">
+															<input type="text" required class="required form-control form-control-sm opt-input-text" name="opt-input-3" value="">
+														</div>
+													</div>
+												</div>
+												<div class="grid-col">
+													<div class="fx-col-sm">
+														<div class="top-row">
+															<input type="radio" required name="inlineRadioOptionsSelect-1" class="form-control-sm" value="d">
+															<label class="smp-opt-num text-uppercase" for="inlineRadioBtn4">d</label>
+														</div>
+														<div class="bottom-row">
+															<input type="text" required class="required form-control form-control-sm opt-input-text" name="opt-input-4" value="">
+														</div>
+													</div>
+												</div>
+											</div>
+											<div class="delete-quote mg-t-10 mg-b-10">
+												<button class="que-delete-btn btn-sm btn btn-danger text-capitalize">
+													<i class="fas fa-trash-alt"></i>delete
+												</button>
+											</div>
+										</div>
+									</div>
+                                    <div class="col-12 addButtonView">
+										<div class="action-btn__que" id="addMoreQueList">
+											<i class="fas fa-plus-circle"></i>Add More
+										</div>
+                                    </div>
+                                    
+                                </div>
+                            </div>
+						</div>
+						</form>
+					</div>
+					<!-- Main-content-body closed -->
+				
+
+{% endblock %}
+
+{% block script %}
+<script src="{% static 'assets/js/jquery-validation-1.19.3/dist/jquery.validate.js' %}"></script>
+		<script src="{% static 'assets/js/jquery-validation-1.19.3/dist/additional-methods.js' %}"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tinymce/4.5.6/tinymce.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tinymce/4.5.6/jquery.tinymce.min.js"></script>
+   
+    <!-- Custom js -->
+		<script src="{% static 'assets/js/custom.js' %}"></script>
+        <script src="{% static 'assets/js/ATS/paragraph-add-que.js' %}"></script>
+
+		
+{% endblock %}

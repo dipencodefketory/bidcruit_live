@@ -1,0 +1,844 @@
+{% extends 'candidate/base.html' %}
+{% load static %}
+{% block title %}Applied Job detail {% endblock %}
+
+{% block css %}
+		<!--custom dashboard css-->
+        <link href="{% static 'assets/css/dashboard-layout.css' %}" rel="stylesheet">
+        <link href="{% static 'assets/css/ATS/applied-candidates-details.css' %}" rel="stylesheet">
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-timepicker/0.5.2/css/bootstrap-timepicker.min.css" integrity="sha512-/Ae8qSd9X8ajHk6Zty0m8yfnKJPlelk42HTJjOHDWs1Tjr41RfsSkceZ/8yyJGLkxALGMIYd5L2oGemy/x1PLg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+{% endblock %}
+
+{% block main %}
+			<!-- Main-content-body -->
+			<div class="main-content-body">
+
+				<div class="row row-sm acv-main-continer">
+					<div class="col-12">
+						<div class="row row-sm upperside-section">
+							<div class="headerCardSection col-12 card">
+								<div class="fxh-title-bar">
+									<div class="left-side-tab">
+										<div class="profile-snap user_porfile_icon">
+											<div class="profile-img job_c_icon">
+												<img src="{% static 'assets/img/ATS/man.png' %}" alt="profile-img">
+											</div>
+											<div class="user-name_section">
+												<div class="user-name text-capitalize">{{job_obj.agency_id.agency_id.company_name}}</div>
+												<div class="user-skills text-capitalize text_w_5">{{job_obj.job_title}}</div>
+											</div>
+										</div>
+									</div>
+									<div class="right-side-tab">
+										<ul class="candidate_carrier-ls">
+											<li>
+												<div class="icon-with-title">
+													<i class="fas fa-industry"></i>
+													<label class="c-title text-capitalize">industry :-</label>
+												</div>
+												<div class="btm-text">
+													<label class="c-details text-capitalize text_w_5">{{job_obj.industry_type.name}}</label>
+												</div>
+											</li>
+											<li>
+												<div class="icon-with-title">
+													<i class="fas fa-dollar-sign"></i>
+													<label class="c-title text-capitalize">salary :-</label>
+												</div>
+												<div class="btm-text">
+													<label class="c-details text-capitalize text_w_5">{{job_obj.min_salary}} - {{job_obj.max_salary}} </label>
+												</div>
+											</li>
+											<li>
+												<div class="icon-with-title">
+													<i class="fa fa-desktop"></i>
+													<label class="c-title text-capitalize">experience :-</label>
+												</div>
+												<div class="btm-text">
+													<label class="c-details text-capitalize text_w_5">{{job_obj.experience_year_min}} to {{job_obj.experience_year_max}} Years</label>
+												</div>
+											</li>
+											<li>
+												<div class="icon-with-title">
+													<i class="fas fa-laptop-code"></i>
+													<label class="c-title text-capitalize">remote job :-</label>
+												</div>
+												<div class="btm-text">
+													<label class="c-details text-capitalize text_w_5">{% if job_obj.remote_job %} Yes {% else %} No {% endif %}</label>
+												</div>
+											</li>
+										</ul>
+										{% if not candidate_job_status.is_hired %}
+											{% if not candidate_job_status.is_withdraw %}
+												<div>
+													<a data-toggle="modal" href="#WithdrawCandidate" class="btn btn-sm btn-primary rounded-20 text-capitalize top_btn_header_cus">Withdraw</a>
+												</div>
+											{% endif %}
+										{% endif %}
+
+										<div class="bookmark-tag">
+											<div class="chatOptionBtn">
+												<a data-toggle="modal" data-target="#exampleModalCenter"><i class="far fa-comments"></i></a>
+											</div>
+											<div class="addBookMarkBtn">
+												<i class="fa fa-bookmark"></i>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+
+						<div class="row row-sm tab-container" id="listViewTab">
+							<div class="col-12 tab-content">
+								<div class="tab-pane active" id="tab01">
+									<div class="row row-sm timeline-container">
+										<div class="col-3">
+											<div class="time-line__left_section card">
+												<ul class="steps-list">
+													{% for stage in stages_status %}
+													<li class="
+														{% ifequal stage.status 0 %}
+															disable
+														{% endifequal %}
+														{% ifequal stage.status 1 %}
+															progess
+														{% endifequal %}
+														{% if stage.status == 2 or stage.status == 3 %}
+															complete
+														{% endif %}
+														{% ifequal stage.status -1 %}
+															failed
+														{% endifequal %}">
+														<div class="title-text active">
+															<span class="icon-view">
+																{% ifequal stage.status 0 %}
+																{% endifequal %}
+																{% ifequal stage.status 1 %}
+																	<i class="fas fa-clock"></i>
+																{% endifequal %}
+																{% if stage.status == 2 or stage.status == 3 %}
+																	<i class="fas fa-check-double"></i>
+																{% endif %}
+																{% ifequal stage.status -1 %}
+																	<i class="fas fa-times"></i>
+																{% endifequal %}
+															</span>
+															<label class="h5 text-bold">0{{ forloop.counter }}</label>
+															{% ifequal stage.status -1 %}
+																<label class="simple-text text-capitalize">{{stage.stage.name}} <span class="danger-bedge text-capitalize">rejected</span></label>
+															{% else %}
+																<label class="simple-text text-capitalize">{{stage.custom_stage_name}}</label>
+															{% endifequal %}
+														</div>
+													</li>
+													{% endfor %}
+												 </ul>
+											</div>
+										</div>
+										<div class="col-9">
+											<div class="row timeline__right-card">
+												{% for stages in stages_data %}
+
+													{% ifequal stages.stage.stage.name 'Job Applied' %}
+														{% if stages.stage.status != 0 %}
+															<div class="col-12 timeline-ls card {% ifequal stages.stage.status 1 %} eligible-card {% endifequal %} Job Applied">
+																<div class="head__titlebar">
+																	<label class="text-capitalize text_w_5"><span class="h6 text-bold">0{{ forloop.counter }}</span> Job Applied</label>
+																</div>
+																<div class="head__detailList">
+																	<ul class="candidate_carrier-ls">
+																		<li>
+																			<div class="icon-with-title">
+																				<i class="fa fa-desktop"></i>
+																				<label class="c-title text-capitalize">recruiter name:-</label>
+																			</div>
+																			<div class="btm-text">
+																				<label class="c-details text-capitalize text_w_5">(pending)</label>
+																			</div>
+																		</li>
+																		<li>
+																			<div class="icon-with-title">
+																				<i class="fa fa-desktop"></i>
+																				<label class="c-title text-capitalize">location:-</label>
+																			</div>
+																			<div class="btm-text">
+																				<label class="c-details text-capitalize text_w_5">{{job_obj.city.city_name}},{{job_obj.country.country_name}}</label>
+																			</div>
+																		</li>
+																		<li>
+																			<div class="icon-with-title">
+																				<i class="fa fa-desktop"></i>
+																				<label class="c-title text-capitalize">last updated:-</label>
+																			</div>
+																			<div class="btm-text">
+																				<label class="c-details text-capitalize text_w_5">
+																					{% if job_obj.updated_at %}
+																						{{job_obj.updated_at|date}}
+																					{% else %}
+																						{{job_obj.publish_at|date}}
+																					{% endif %}
+																				</label>
+																				
+																			</div>
+																		</li>
+																		<li>
+																			<div class="icon-with-title">
+																				<i class="fa fa-desktop"></i>
+																				<label class="c-title text-capitalize">applied on:-</label>
+																			</div>
+																			<div class="btm-text">
+																				<label class="c-details text-capitalize text_w_5">{{candidate_apply_details.create_at|date}}</label>
+																			</div>
+																		</li>
+																	</ul>
+																</div>
+															</div>
+														{% endif %}
+													{% endifequal %}
+
+													{% ifequal stages.stage.stage.name 'Application Review' %}
+														{% if stages.stage.status != 0 %}
+															<div class="col-12 timeline-ls card {% ifequal stages.stage.status 1 %} eligible-card {% endifequal %} Application Review">
+																<div class="head__titlebar">
+																	<label class="text-capitalize text_w_5"><span class="h6 text-bold">0{{ forloop.counter }}</span> Application Review</label>
+																</div>
+																<div class="category__list text-center text_fn_16">
+																	{% ifequal stages.stage.status 1 %} 
+																		<span class="flag-mark color_b_hold text_b_16"> Your application is in review </span>
+																	{% endifequal %}
+																	{% ifequal stages.stage.status -1 %}
+																		<span class="flag-mark danger text_b_16">Not Shortlisted </span>
+																	{% endifequal %}
+																	{% ifequal stages.stage.status 3 %}
+																		<span class="flag-mark color_b_hold text_b_16"> On Hold </span> 
+																	{% endifequal %}
+																	{% ifequal stages.stage.status 2 %}
+																		{% if stages.stage.action_performed %}
+																		<span class="flag-mark success text_b_16">Congratulations! Your application has been shortlisted.</span>
+																		{% endif %}
+																	{% endifequal %}
+																</div>
+															</div>
+														{% endif %}
+													{% endifequal %}
+
+
+													{% ifequal stages.stage.stage.name 'JCR' %}
+														{% if stages.stage.status != 0 %}
+														<div class="col-12 timeline-ls card {% ifequal stages.stage.status 1 %} eligible-card {% endifequal %} skill-card">
+															<div class="head__titlebar">
+																<label class="text-capitalize text_w_5"><span class="h6 text-bold">0{{ forloop.counter }}</span>
+																	{{stages.stage.custom_stage_name}}</label>
+															</div>
+															<!-- <span class="notification-bar">5</span> -->
+															<div class="category__list">
+																{% ifequal stages.stage.status 2 %}
+																<ul class="result-ls">
+																	<li>
+																		<label class="result-title text-capitalize">primary:-</label>
+																		<label class="result-sub-title text-capitalize">{{stages.result.Primary}}%</label>
+																	</li>
+																	<li>
+																		<label class="result-title text-capitalize">secondry:-</label>
+																		<label class="result-sub-title text-capitalize">{{stages.result.Secondary}}%</label>
+																	</li>
+																	<li>
+																		<label class="result-title text-capitalize">objective:-</label>
+																		<label class="result-sub-title text-capitalize">{{stages.result.Objective}}%</label>
+																	</li>
+																	<li class="obtainer">
+																		<label class="result-title text-capitalize">obtained:-</label>
+																		<label class="result-sub-title text-capitalize">{{stages.result.Total}}%</label>
+																	</li>
+																</ul>
+																{% endifequal %}
+																<div class="show-details_link">
+																	{% ifequal stages.stage.status 1 %}
+																	<a  href="{% url 'candidate:candidate_jcr' stages.stage.template.id job_obj.id %}" class="btn btn-sm btn-primary rounded-20 text-capitalize view-btn" data-item="skill-compatible">submit</a>
+																	{% endifequal %}
+																</div>
+															</div>
+														</div>
+														{% endif %}
+													{% endifequal %}
+
+													{% ifequal stages.stage.stage.name 'Prerequisites' %}
+														{% if stages.stage.status != 0 %}
+														<div class="col-12 timeline-ls card {% ifequal stages.stage.status 1 %} eligible-card {% endifequal %} skill-card">
+															<div class="head__titlebar">
+																<label class="text-capitalize text_w_5"><span class="h6 text-bold ">0{{ forloop.counter }}</span> {{stages.stage.custom_stage_name}}</label>
+															</div>
+															<!-- <span class="notification-bar">5</span> -->
+															<div class="category__list info_detail_msg">
+																{% if stages.stage.status == 2 or stages.stage.status == -1 %}
+																	{% if not stages.stage.reject_by_candidate %}
+																		{% if stages.result.result %}
+																		<span class="flag-mark success text_b_16">
+																				Shortlisted
+																			</span>
+																		{% else %}
+																			<span class="flag-mark danger text_b_16">
+																				Not Shortlisted
+																			</span>
+																		{% endif %}
+																	{% else %}
+																		<span class="flag-mark danger text_b_16">
+																			Not Shortlisted- Exam Quit
+																		</span>
+																	{% endif %}
+																{% endif %}
+																
+															</div>
+															{% ifequal stages.stage.status 1 %}
+																<a href="{% url 'candidate:agency_prequisites_view' stages.stage.template.id job_obj.id %}" class="btn btn-sm btn-primary rounded-20 text-capitalize view-btn" data-item="eligible-card">submit</a>
+															{% endifequal %}
+														</div>
+														{% endif %}
+													{% endifequal %}
+
+													{% ifequal stages.stage.stage.name 'MCQ Test' %}
+														{% if stages.stage.status != 0 %}
+														<div class="col-12 timeline-ls {% ifequal stages.stage.status 1 %} eligible-card {% endifequal %} card">
+															<div class="mcq-section-card">
+																<div class="head__titlebar">
+																	<label class="text-capitalize text_w_5"><span class="h6 text-bold">0{{ forloop.counter }}</span>{{stages.stage.custom_stage_name}}</label>
+																</div>
+
+																<div class="category__list info_detail_msg">
+																    {% ifequal stages.stage.status -1 %}
+																		<span class="flag-mark danger text_b_16">Not Shortlisted {% if stages.stage.reject_by_candidate %} - Exam quit {% endif %}</span>
+																	{% endifequal %}
+
+																	{% ifequal stages.stage.status 3 %}
+																		<span class="flag-mark color_b_hold text_b_16"> On Hold </span> 
+																	{% endifequal %}
+
+																	{% ifequal stages.stage.status 2 %}
+																		{% if stages.stage.action_performed %}
+																			<span class="flag-mark success text_b_16">Shortlisted</span> 
+																		{% else %}
+																			<span class="flag-mark color_b_hold text_b_16">In Review </span> 
+																		{% endif %}
+																	{% endifequal %}
+																
+																</div>
+															
+															    <div class="show-details_link">
+																	{% ifequal stages.stage.status 1 %}
+																		<a href="{% url 'candidate:agency_mcq_exam' stages.stage.template.id job_obj.id %}" class="btn btn-sm btn-primary rounded-10 text-capitalize view-btn" data-item="mcq-test">start exam</a>
+																	{% endifequal %}
+																</div>
+																
+															</div>
+															{% if not stages.stage.reject_by_candidate %}
+																{% if stages.stage.status == -1 or stages.stage.status == 2 or stages.stage.status == 3 %}
+																<div class="collpase-container mcqCommentPreview">
+																	<div class="mini__card-layout">
+																		<div class="fx-row title_list">
+																		<div class="fx-col">
+																			<label class="text-capitalize h6">Total Question</label>
+																		</div>
+																		<div class="fx-col">
+																			<label class="text-capitalize h6">Answered</label>
+																		</div>
+																		<div class="fx-col">
+																			<label class="text-capitalize h6">Obtain Marks</label>
+																		</div>
+																		</div>
+																		<div class="fx-row fx-details__ls">
+																		<div class="fx-col col-view_caption">
+																			<p class="result_view h6">{{stages.result.total_question}}</p>
+																		</div>
+																		<div class="fx-col col-view_caption">
+																			<p class="result_view h6">{{stages.result.answered}}</p>
+																		</div>
+																		<div class="fx-col col-view_caption">
+																			<p class="result_view h6">{{stages.result.obain_marks}}</p>
+																		</div>
+																		</div>
+																	</div>
+																</div>
+																{% endif %}
+															{% endif %}
+														</div>
+														{% endif %}
+													{% endifequal %}
+
+													{% ifequal stages.stage.stage.name 'Descriptive Test' %}
+														{% if stages.stage.status != 0 %}
+														<div class="col-12 timeline-ls card {% ifequal stages.stage.status 1 %} eligible-card {% endifequal %} Descriptive  skill-card">
+															<div class="head__titlebar">
+																<label class="text-capitalize text_w_5"><span class="h6 text-bold">0{{ forloop.counter }}</span>{{stages.stage.custom_stage_name}}</label>
+															</div>
+															<!-- <span class="notification-bar">5</span> -->
+
+															   <div class="category__list info_detail_msg">
+															    {% ifequal stages.stage.status -1 %}
+																	<span class="flag-mark danger text_b_16">Not Shortlisted {% if stages.stage.reject_by_candidate %} - Exam quit {% endif %}</span>
+																{% endifequal %}
+
+																{% ifequal stages.stage.status 3 %}
+																	<span class="flag-mark color_b_hold text_b_16"> On Hold </span> 
+																{% endifequal %}
+
+																{% ifequal stages.stage.status 2 %}
+																	{% if stages.stage.action_performed %}
+																		<span class="flag-mark success text_b_16">Shortlisted</span> 
+																	{% else %}
+																		<span class="flag-mark color_b_hold text_b_16">In Review </span> 
+																	{% endif %}
+																{% endifequal %}
+																
+																</div>
+															    <div class="show-details_link">
+																	{% ifequal stages.stage.status 1 %}
+																	<a href="{% url 'candidate:agency_descriptive_exam' stages.stage.template.id job_obj.id %}" class="btn btn-sm btn-primary rounded-10 text-capitalize view-btn" data-item="skill-compatible">submit</a>
+																	{% endifequal %}
+																</div>
+
+														</div>
+														{% endif %}
+													{% endifequal %}
+
+													{% ifequal stages.stage.stage.name 'Image Test' %}
+														{% if stages.stage.status != 0 %}
+														<div class="col-12 timeline-ls card {% ifequal stages.stage.status 1 %} eligible-card {% endifequal %} Image card">
+															<div class="mcq-section-card">
+																<div class="head__titlebar">
+																	<label class="text-capitalize text_w_5"><span class="h6 text-bold">0{{ forloop.counter }}</span>{{stages.stage.custom_stage_name}}</label>
+																</div>
+																<!-- <span class="notification-bar">5</span> -->
+
+																<div class="category__list info_detail_msg">
+																    {% ifequal stages.stage.status -1 %}
+																		<span class="flag-mark danger text_b_16">Not Shortlisted {% if stages.stage.reject_by_candidate %} - Exam quit {% endif %} </span>
+																	{% endifequal %}
+
+																	{% ifequal stages.stage.status 3 %}
+																		<span class="flag-mark color_b_hold text_b_16"> On Hold </span> 
+																	{% endifequal %}
+
+																	{% ifequal stages.stage.status 2 %}
+																		{% if stages.stage.action_performed %}
+																			<span class="flag-mark success text_b_16">Shortlisted</span> 
+																		{% else %}
+																			<span class="flag-mark color_b_hold text_b_16">In Review </span> 
+																		{% endif %}
+																	{% endifequal %}
+																
+																</div>
+															
+															    <div class="show-details_link">
+																	{% ifequal stages.stage.status 1 %}
+																	<a href="{% url 'candidate:agency_image_exam' stages.stage.template.id job_obj.id %}" class="btn btn-sm btn-primary rounded-10 text-capitalize view-btn" data-item="skill-compatible">submit</a>
+																	{% endifequal %}
+															    </div>
+																
+															</div>
+															{% if not stages.stage.reject_by_candidate %}
+															{% if stages.stage.status == -1 or stages.stage.status == 2 or stages.stage.status == 3 %}
+																<div class="collpase-container mcqCommentPreview">
+																	<div class="mini__card-layout">
+																		<div class="fx-row title_list">
+																		<div class="fx-col">
+																			<label class="text-capitalize h6">Total Question</label>
+																		</div>
+																		<div class="fx-col">
+																			<label class="text-capitalize h6">Answered</label>
+																		</div>
+																		<div class="fx-col">
+																			<label class="text-capitalize h6">Obtain Marks</label>
+																		</div>
+																		</div>
+																		<div class="fx-row fx-details__ls">
+																		<div class="fx-col col-view_caption">
+																			<p class="result_view h6">{{stages.result.total_question}}</p>
+																		</div>
+																		<div class="fx-col col-view_caption">
+																			<p class="result_view h6">{{stages.result.answered}}</p>
+																		</div>
+																		<div class="fx-col col-view_caption">
+																			<p class="result_view h6">{{stages.result.obain_marks}}</p>
+																		</div>
+																		</div>
+																	</div>
+																</div>
+															{% endif %}
+															{% endif %}
+														</div>
+														{% endif %}
+													{% endifequal %}
+
+
+													{% ifequal stages.stage.stage.name 'Audio Test' %}
+														{% if stages.stage.status != 0 %}
+														<div class="col-12 timeline-ls card {% ifequal stages.stage.status 1 %} eligible-card {% endifequal %} Audio skill-card">
+															<div class="head__titlebar">
+																<label class="text-capitalize text_w_5"><span class="h6 text-bold">0{{ forloop.counter }}</span>{{stages.stage.custom_stage_name}}</label>
+															</div>
+															<!-- <span class="notification-bar">5</span> -->
+															<div class="category__list info_detail_msg">
+																{% ifequal stages.stage.status -1 %}
+																	<span class="flag-mark danger text_b_16">Not Shortlisted {% if stages.stage.reject_by_candidate %} - Exam quit {% endif %} </span>
+																{% endifequal %}
+
+																{% ifequal stages.stage.status 3 %}
+																	<span class="flag-mark color_b_hold text_b_16"> On Hold </span> 
+																{% endifequal %}
+
+																{% ifequal stages.stage.status 2 %}
+																	{% if stages.stage.action_performed %}
+																		<span class="flag-mark success text_b_16">Shortlisted</span> 
+																	{% else %}
+																		<span class="flag-mark color_b_hold text_b_16">In Review </span> 
+																	{% endif %}
+																{% endifequal %}
+																
+															</div>
+															<div class="show-details_link">
+																	{% ifequal stages.stage.status 1 %}
+																	<a href="{% url 'candidate:agency_audio_exam' stages.stage.template.id job_obj.id %}" class="btn btn-sm btn-primary rounded-10 text-capitalize view-btn" data-item="skill-compatible">submit</a>
+																	{% endifequal %}
+															</div>
+														</div>
+														{% endif %}
+													{% endifequal %}
+
+
+													{% ifequal stages.stage.stage.name 'Coding Test' %}
+														{% if stages.stage.status != 0 %}
+														<div class="col-12 timeline-ls card {% ifequal stages.stage.status 1 %} eligible-card {% endifequal %} Coding skill-card">
+															<div class="head__titlebar">
+																<label class="text-capitalize text_w_5"><span class="h6 text-bold">0{{ forloop.counter }}</span>{{stages.stage.custom_stage_name}}</label>
+															</div>
+															<!-- <span class="notification-bar">5</span> -->
+															<div class="category__list info_detail_msg">
+																{% ifequal stages.stage.status -1 %}
+																	<span class="flag-mark danger text_b_16">Not Shortlisted {% if stages.stage.reject_by_candidate %} - Exam quit {% endif %} </span>
+																{% endifequal %}
+
+																{% ifequal stages.stage.status 3 %}
+																	<span class="flag-mark color_b_hold text_b_16"> On Hold </span> 
+																{% endifequal %}
+
+																{% ifequal stages.stage.status 2 %}
+																	{% if stages.stage.action_performed %}
+																		<span class="flag-mark success text_b_16">Shortlisted</span> 
+																	{% else %}
+																		<span class="flag-mark color_b_hold text_b_16">In Review </span> 
+																	{% endif %}
+																{% endifequal %}
+																
+															</div>
+															<div class="show-details_link">
+																{% ifequal stages.stage.status 1 %}
+																	<a href="{% url 'candidate:agency_coding_test' stages.stage.template.id job_obj.id %}" class="btn btn-sm btn-primary rounded-10 text-capitalize view-btn" data-item="skill-compatible">submit</a>
+																{% endifequal %}
+															</div>
+														</div>
+														{% endif %}
+													{% endifequal %}
+
+													{% ifequal stages.stage.stage.name 'Interview' %}
+														{% if stages.stage.status != 0 %}
+														<div class="col-12 timeline-ls card {% ifequal stages.stage.status 1 %} eligible-card {% endifequal %} Interview skill-card">
+															<div class="head__titlebar">
+																<label class="text-capitalize text_w_5"><span class="h6 text-bold">0{{ forloop.counter }}</span> {{stages.stage.custom_stage_name}}</label>
+															</div>
+															<!-- <span class="notification-bar">5</span> -->
+															<div class="category__list">
+																{% if stages.stage.status == 1 %}
+																	{% if interview_schedule_data.status == 1 %}
+																		<ul class="shaduler-box">
+																			<li>
+																				<label class="result-title text-capitalize"><i class="fa fa-calendar"></i> {{interview_schedule_data.date}} <span class="time-view text-uppercase">{{interview_schedule_data.time}}</span></label>
+																			</li>
+																		</ul>
+																	{% endif %}
+																{% endif %}
+																{% ifequal stages.stage.status -1 %}
+																	<span class="flag-mark danger text_b_16">Not Shortlisted </span>
+																{% endifequal %}
+
+																{% ifequal stages.stage.status 3 %}
+																	<span class="flag-mark color_b_hold text_b_16"> On Hold </span> 
+																{% endifequal %}
+
+																{% ifequal stages.stage.status 2 %}
+																	{% if stages.stage.action_performed %}
+																		<span class="flag-mark success text_b_16">Shortlisted</span> 
+																	{% else %}
+																		<span class="flag-mark color_b_hold text_b_16">In Review </span> 
+																	{% endif %}
+																{% endifequal %}
+
+																<div class="show-details_link">
+																	{% ifequal stages.stage.status 1 %}
+																		{% if interview_schedule_data.status == 1 %}
+																			{% if not interview_schedule_data.is_accepted %}
+																				<form role="form" method="POST">
+																					{% csrf_token %}
+																					<input type="hidden" value="{{interview_schedule_data.id}}" name="interview_schedule_data">
+																					<button type="submit" class="btn btn-sm btn-primary rounded-10 text-capitalize">Accept</button>
+																				</form>
+																			{% endif %}
+																			{% if interview_schedule_data.is_accepted %}
+																				{% if interview_schedule_data.interview_template.interview_type == 'audio-video' %}
+																					{% if interview_schedule_data.interview_start_button_status %}
+																						<a class="btn btn-sm btn-primary rounded-10 text-capitalize" href="{% url 'videochat:main_view' interview_schedule_data.interview_link %}">Start</a>
+																					{% else %}
+																						<button class="btn btn-sm btn-primary rounded-10 text-capitalize" disabled>Start</button>
+																					{% endif %}
+																				{% endif %}
+																			{% endif %}
+																			<button data-toggle="modal" data-id="{{stages.stage.id}}" href="#InterviewReScheduleModel" class="btn btn-sm btn-primary rounded-10 text-capitalize ml-2">Re-Schedule</button>
+																		{% endif %}
+																	{% endifequal %}
+																</div>
+															</div>
+														</div>
+														{% endif %}
+													{% endifequal %}
+
+
+													{% ifequal stages.stage.stage.name 'Custom' %}
+														{% if stages.stage.status != 0 %}
+														<div class="col-12 timeline-ls card {% ifequal stages.stage.status 1 %} eligible-card {% endifequal %} Coding skill-card">
+															<div class="head__titlebar">
+																<label class="text-capitalize text_w_5"><span class="h6 text-bold">0{{ forloop.counter }}</span>{{stages.stage.custom_stage_name}}</label>
+															</div>
+															<!-- <span class="notification-bar">5</span> -->
+															<div class="category__list">
+																{% ifequal stages.stage.status -1 %}
+																	<span class="flag-mark danger text_b_16">Not Shortlisted </span>
+																{% endifequal %}
+
+																{% ifequal stages.stage.status 3 %}
+																	<span class="flag-mark color_b_hold text_b_16"> On Hold </span> 
+																{% endifequal %}
+
+																{% ifequal stages.stage.status 2 %}
+																	{% if stages.stage.action_performed %}
+																		<span class="flag-mark success text_b_16">Shortlisted</span> 
+																	{% else %}
+																		<span class="flag-mark color_b_hold text_b_16">In Review </span> 
+																	{% endif %}
+																{% endifequal %}
+																<div class="show-details_link">
+																	{% ifequal stages.stage.status 1 %}
+																		{% if custom_round_data %}
+																			{% if not custom_round_data.enable_response %}
+																			<a data-toggle="modal" href="#CustomRoundView" class="btn btn-sm btn-primary rounded-20 text-capitalize view-btn">View</a>
+																			<div class="modal" id="CustomRoundView">
+																				<div class="modal-dialog modal-dialog-centered" role="document">
+																					<div class="modal-content modal-content-demo">
+																						<form method="POST">
+																							{% csrf_token %}
+																							<input type="hidden" value="" name="interview_schedule_data">
+																							<div class="modal-header">
+																								<h6 class="modal-title">Custom Round Details</h6>
+																								<button aria-label="Close" class="close" data-dismiss="modal" type="button"><span aria-hidden="true">&times;</span></button>
+																							</div>
+																							<div class="modal-body">
+																								<div class="row">
+																									<label>Title :</label>{{custom_round_data.title}}
+																								</div>
+																								<div class="row">
+																									<label>Description :</label>{{custom_round_data.description}}
+																								</div>
+																								{% if custom_round_data.file_input %}
+																									<div class="row">
+																										<label>File :</label>
+																										<a href="{{custom_round_data.file_input.url}}" target="_blank">click here to view file</a>
+																									</div>
+																								{% endif %}
+
+																							</div>
+																						</form>
+																					</div>
+																				</div>
+																			</div>
+																			{% else %}
+																				<a href="{% url 'candidate:custom_round' stages.stage.id %}" class="btn btn-sm btn-primary rounded-20 text-capitalize view-btn">Start</a>
+																			{% endif %}
+																		{% endif %}
+																	{% endifequal %}
+																</div>
+															</div>
+														</div>
+														{% endif %}
+													{% endifequal %}
+
+
+													{% ifequal stages.stage.stage.name 'Job Offer' %}
+														{% if stages.stage.status != 0 %}
+															<div class="col-12 timeline-ls card {% ifequal stages.stage.status 1 %} eligible-card {% endifequal %}">
+																<div class="joboffer-section-card">
+																	<div class="head__titlebar">
+																		<label class="text-capitalize text_w_5"><span class="h6 text-bold">0{{ forloop.counter }}</span>Job offered</label>
+																	</div>
+																	<!-- <span class="notification-bar">5</span> -->
+																	{% if stages.stage.status != -1 %}
+																	<div class="category__list">
+																		<div class="show-details_link">
+																			{% if stages.stage.assessment_done %}
+																				<a href="{% url 'candidate:agency_candidate_negotiate_offer' stages.stage.id %}" class="btn btn-sm btn-primary rounded-20 text-capitalize show-details-btn">view</a>
+																			{% else %}
+																				<button class="btn btn-sm btn-primary rounded-20 text-capitalize show-details-btn" disabled>view</button>
+																			{% endif %}
+																		</div>
+																	</div>
+																	{% else %}
+																		{% if job_offer_data %}
+																			{% if job_offer_data.rejected_by_candidate %}
+																				<label class="flag-mark danger">You rejected the job offer</label>
+																			{% endif %}
+																		{% else %}
+																			<label class="flag-mark danger">Rejected</label>
+																		{% endif %}
+																	{% endif %}
+																</div>
+															</div>
+														{% endif %}
+													{% endifequal %}
+
+												{% endfor %}
+
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!-- Main-content-body closed -->
+	
+		<div class="modal" id="InterviewReScheduleModel">
+			<div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+				<div class="modal-content modal-content-demo">
+					<form method="POST">
+						{% csrf_token %}
+						<input type="hidden" value="{{interview_schedule_data.id}}" name="interview_schedule_data">
+						<div class="modal-header">
+							<h6 class="modal-title">Please provide your future interview times</h6>
+							<button aria-label="Close" class="close" data-dismiss="modal" type="button"><span aria-hidden="true">&times;</span></button>
+						</div>
+						
+						<div class="modal-body">
+							<div class="row">
+								<div class="col-3">
+									<div class="form-group">
+										<label class="main-content-label">Date :</label>
+										<input class="form-control" type="date" value="" name="interview_date" required>
+									</div>
+								</div>
+								<div class="col-3">
+									<div class="form-group">
+										<label class="main-content-label">Time :</label>
+										<input class="form-control" type="text" id="interview-timepicker1" value="" name="interview_time" required>
+									</div>
+								</div>
+								<div class="col-6">
+									<div class="form-group">
+										<label class="main-content-label">Instructions :</label>
+										<textarea class="form-control" name="reschedule_instruction" required></textarea>
+									</div>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-3">
+									<div class="form-group">
+										<label class="main-content-label">Date :</label>
+										<input class="form-control" type="date" value="" name="interview_date" required>
+									</div>
+								</div>
+								<div class="col-3">
+									<div class="form-group">
+										<label class="main-content-label">Time :</label>
+										<input class="form-control" type="text" id="interview-timepicker2" name="interview_time" required>
+									</div>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-3">
+									<div class="form-group">
+										<label class="main-content-label">Date :</label>
+										<input class="form-control" type="date" value="" name="interview_date" required>
+									</div>
+								</div>
+								<div class="col-3">
+									<div class="form-group">
+										<label class="main-content-label">Time :</label>
+										<input class="form-control" type="text" id="interview-timepicker3" name="interview_time" required>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="modal-footer">
+							<button class="btn ripple btn-primary text-uppercase" name="reschedule_interview" type="submit">Submit</button>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+
+		<!-- Modal -->
+		<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+		  <div class="modal-dialog modal-dialog-centered" role="document">
+			<div class="modal-content">
+			  <div class="modal-header">
+				<h5 class="modal-title" id="exampleModalLongTitle">Select User with chat</h5>
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+				  <span aria-hidden="true">&times;</span>
+				</button>
+			  </div>
+			  <div class="modal-body">
+				{% for user in chat_internal %}
+				  <a href="{% url 'chat:create_privatemsg' user.recruiter_id.id %}">{{user.recruiter_id.first_name}} {{user.recruiter_id.last_name}}</a>
+				{% endfor %}
+			  </div>
+			  <div class="modal-footer">
+				<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+				<button type="button" class="btn btn-primary">Save changes</button>
+			  </div>
+			</div>
+		  </div>
+		</div>
+
+		<div class="modal" id="WithdrawCandidate">
+			<div class="modal-dialog modal-dialog-centered" role="document">
+				<div class="modal-content modal-content-demo">
+					<form method="POST">
+						{% csrf_token %}
+						<input type="hidden" value="" name="interview_schedule_data">
+						<div class="modal-header">
+							<h6 class="modal-title">Withdraw From Job</h6>
+							<button aria-label="Close" class="close" data-dismiss="modal" type="button"><span aria-hidden="true">&times;</span></button>
+						</div>
+						<div class="modal-body">
+							Are you sure you want to withdraw from this job ?
+						</div>
+						<div class="modal-footer">
+							<button class="btn ripple btn-primary text-uppercase" name="withdraw_candidate" type="submit">Yes</button>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+{% endblock %}
+
+{% block script %}
+
+        <script src="{% static 'assets/js/ATS/agency/applied-candidates-details.js' %}"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-timepicker/0.5.2/js/bootstrap-timepicker.min.js" integrity="sha512-2xXe2z/uA+2SyT/sTSt9Uq4jDKsT0lV4evd3eoE/oxKih8DSAsOF6LUb+ncafMJPAimWAXdu9W+yMXGrCVOzQA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+		<!-- Custom js -->
+		
+		<script>
+			$('#interview-timepicker1').timepicker({});
+			$('#interview-timepicker2').timepicker({});
+			$('#interview-timepicker3').timepicker({});
+		</script>
+{% endblock %}

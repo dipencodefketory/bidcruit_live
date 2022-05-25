@@ -1,0 +1,247 @@
+{% extends 'agency/base.html' %}
+{% load static %}
+{% load agency_filter %}
+{% block title %} Tracker {% endblock %}
+{% block css %}
+        <link href="{% static 'assets/css/ATS/job_tracker.css' %}" rel="stylesheet">
+
+{% endblock %}
+
+{% block main %}
+		<!-- Main-content-body -->
+		<div class="main-content-body">
+			<!-- [Job Tracker Layout Start]-->
+			<div class="jobTrakerPage row row-sm">
+				<div class="listHeaderView col-12">
+                    <div class="card fx-row__filterTabView">
+                        <div class="tab-listing">
+                            <label class="text-uppercase act_tab" id="jobTabView">jobs</label>
+                            <label class="text-uppercase" id="candicateTabView">candidates</label>
+                        </div>
+                        <div class="filter-list">
+                            <div class="upload-btn__ls">
+                                <i class="fas fa-file-download"></i>
+                            </div>
+                            <div class="filter-btn__ls">
+                                <i class="fas fa-filter"></i>
+                            </div>
+                            <div class="nav-btn__ls">
+                                <i class="fas fa-ellipsis-v"></i>
+                            </div>
+                            <div class="search-btn__ls">
+                                <span class="input-group-append search_btn">
+                                    <button class="btn ripple" type="button"><i class="fa fa-search"></i></button>
+                                </span>
+                                <input type="text" class="search_text form-control border-right-0 pl-3" value="" placeholder="Search Template">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+				<div class="col-12 jobdetails-list active" id="jobDetailsSection">
+					{% for i in job_tracker %}
+					<div class="card toggleTabSection">
+						<div class="toggle-head">
+							<div class="lft-20">
+								<div class="logo_box_user_track">
+									<img class="logo_tracker_p" src="{% static 'assets/img/brand/bluelogo.png' %}" alt="logo">
+							    </div>
+							</div>
+							
+							<div class="mid-80">
+								
+								<div class="title-details">
+									
+									<div class="titleView">
+										<div class="company_name_main text-capitalize">{{i.company}} </div><div class="job_title_main text-capitalize"> ( {{i.job_title}} )</div>
+									</div>
+									<div class="details-ls">
+										<ul class="classial-ls">
+											<a href="#"><li>Total Applicant: {{i.qpplicant}}</li></a>
+											<li>Remote Job: {{i.remote_job}}</li>
+											<li>Exp.: {{i.exp}} Years</li>
+											<li>Opening Date: {{i.opening_date|date:'d-m-Y'}}</li>
+											<li>Salary Range: {{i.salary_range}}</li>
+											<li>Job Type: {{i.job_type}}</li>
+										</ul>
+									</div>
+								</div>
+								
+								
+							</div>
+							<div class="collapse-btn">
+								<a href="javascript:void(0)" class="collps-btn">
+									<i class="fa fa-plus"></i>
+									<i class="fa fa-minus"></i>
+								</a>
+							</div>
+							
+						</div>
+						
+						<div class="toggleListContainer">
+							{% for candidate in i.candidates %}
+							<div class="flx-container">
+								
+								<div class="flx-innerSection">
+									<div class="flx-left flx-40">
+										<div class="profile-img">
+											<img src="{% static 'assets/img/ATS/man.png' %}" alt="logo">
+										</div>
+										<div class="user-name">
+											<a href="#"><h6>{{candidate.candidatefname}} <span>{{candidate.candidatelname}}</span></h6></a> 
+										</div>
+									</div>
+									<div class="flx-left flx-60">
+										{% if candidate.reject or candidate.withdraw %}
+											{% if candidate.reject %}
+											<div class="reject_job_c">Rejected</div>
+											{% endif %}
+											{% if candidate.withdraw %}
+											<div class="reject_job_c">Withdraw</div>
+											{% endif %}
+										{% else %}
+											<div class="flx-sidels">
+												<lable class="boldText text-capitalize">Current Stage</lable>
+												<p class="text-capitalize">{{candidate.current.name}}</p>
+											</div>
+											{% if job.current.name == 'Job Offer' %}
+											<div class="flx-sidels">
+												<lable class="boldText text-capitalize">Next Stage</lable>
+												<p class="text-capitalize">---</p>
+											</div>
+											{% elif job.current.name == 'Application Review' %}
+											<div class="flx-sidels">
+												<lable class="boldText text-capitalize">Next Stage</lable>
+												<p class="text-capitalize">Waiting For Stage</p>
+											</div>
+											{% else %}
+											<div class="flx-sidels">
+												<lable class="boldText text-capitalize">Next Stage</lable>
+												<p class="text-capitalize">{{candidate.next.name}}</p>
+											</div>
+											{% endif %}
+										
+										<div class="flx-sidels">
+											<div class="actionPromt">
+												<lable class="boldText text-capitalize color_red_action">action required</lable>
+												<p class="text-capitalize">{{candidate.action}}</p>
+											</div>
+										
+											<div class="previewAction">
+												<div class="preview-icon">
+													<a href="{% url 'agency:company_portal_candidate_tablist' candidate.candidateid i.job_id  %}"><i class="fa fa-eye"></i></a>
+												</div>
+											</div>
+										
+										</div>
+										{% endif %}
+									</div>
+								</div>
+								
+							</div>
+							{% endfor %}
+						</div>
+
+
+					</div>
+					{% endfor %}
+				</div>
+
+
+				<div class="col-12 candidatedetails-list" id="candidateDetailsSection">
+					{% for i in candidate_tracker %}
+					<div class="card toggleTabSection">
+						<div class="toggle-head">
+							<div class="lft-20">
+								<div class="logo_box_user_track">
+									<img class="logo_tracker_p" src="{% static 'assets/img/ATS/man.png' %}" alt="logo">
+							    </div>
+								
+							</div>
+							<div class="mid-80">
+								<div class="title-details">
+									<div class="titleView">
+										<div class="company_name_main text-capitalize">{{i.candidatefname}} <span>{{i.candidatelname}}</span> </div><div class="job_title_main text-capitalize"> ({{i.designation}})</div>
+										
+									</div>
+									<div class="details-ls">
+										<ul class="classial-ls">
+											<li>{{i.email}}</li>
+											<li>{{i.contact}}</li>
+											<li>Exp: {{i.total_exper}} Years</li>
+											<li>Notice Period: {{i.notice}}</li>
+											<li>Current Salary: {{i.current}} LAP</li>
+											<li>Expected Salary: {{i.expectedctc}}</li>
+										</ul>
+									</div>
+								</div>
+								
+							</div>
+							<div class="collapse-btn">
+								<a href="javascript:void(0)" class="collps-btn">
+									<i class="fa fa-plus"></i>
+									<i class="fa fa-minus"></i>
+								</a>
+							</div>
+						</div>
+						{% for job in i.jobs %}
+						<div class="toggleListContainer">
+							<div class="flx-container">
+								<div class="flx-innerSection">
+									<div class="flx-left flx-40">
+										<div class="profile-img">
+											<img src="{% static 'assets/img/brand/bluelogo.png' %}" alt="logo" style="width: 52px;height: 52pxpx;">
+										</div> 
+										<div class="user-name candidate_name">
+											<h5>{{job.job_title}}</h5><span class="text-capitalize">({{job.company}})</span>
+										</div>
+									</div>
+									<div class="flx-left flx-60">
+										{% if i.reject %}
+										{% else %}
+										<div class="flx-sidels">
+											<lable class="boldText text-capitalize">Current Stage</lable>
+											<p class="text-capitalize">{{job.current.name}}</p>
+										</div>
+										{% ifequal job.current.name 'Job Offer' %}
+										<div class="flx-sidels">
+											<lable class="boldText text-capitalize">Next Stage</lable>
+											<p class="text-capitalize">----</p>
+										</div>
+										{% else %}
+										<div class="flx-sidels">
+											<lable class="boldText text-capitalize">Next Stage</lable>
+											<p class="text-capitalize">{{job.next.name}}</p>
+										</div>
+										{% endifequal %}
+										<div class="flx-sidels">
+											<div class="actionPromt">
+												<lable class="boldText text-capitalize color_red_action">action required</lable>
+												<p class="text-capitalize">{{job.action}}</p>
+											</div>
+										<div class="previewAction">
+											<div class="preview-icon">
+												<a href="{% url 'agency:request_job_view' job.job_id %}"><i class="fa fa-eye"></i></a>
+											</div>
+										
+										
+										</div>
+										</div>
+										{% endif %}
+									</div>
+								</div>
+							</div>
+						</div>
+						{% endfor %}
+					</div>
+					{% endfor %}
+				</div>
+			</div>
+			<!--[Job Tracker Layout End]-->
+		</div>
+		<!-- Main-content-body closed -->				
+
+{% endblock %}
+{% block script %}
+        <script src="{% static 'assets/js/ATS/job_tracker.js' %}"></script>
+{% endblock %}

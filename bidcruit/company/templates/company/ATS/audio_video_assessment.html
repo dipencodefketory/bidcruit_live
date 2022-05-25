@@ -1,0 +1,77 @@
+{% extends 'company/base.html' %}
+{% load static %}
+{% block title %} Audio/Video Assessment {% endblock %}
+
+{% block css %}
+	<link href="{% static 'assets/css/ATS/descriptive_assesment.css' %}" rel="stylesheet">
+{% endblock %}
+
+
+{% block main %}
+			<!-- Main-content-body -->
+			<div class="main-content-body">
+
+				<!-- row opened -->
+				<div class="row row-sm">
+					<div class="col-xl-12">
+						<form role="form" method="POST">
+							{% csrf_token %}
+							<div class="descriptive_add mg-b-0">
+							<div class="descriptive_view_header mg-b-10">
+								<div class="card-header pb-0">
+									<div class="d-flex justify-content-between descriptive_a_q">
+										<h4 class="card-title mg-b-0">All Questions</h4>
+										<div class="descriptive_right_filters_section">
+											<div class="descriptive_list_add_btn">
+												<button type="submit" name="submit_marks" class="btn btn-add-list btn-block">Submit</button>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+							<input type="hidden" name="stage" value="{{stage_id}}">
+							{% for question in questions_obj %}
+							<div class="questions_list_append_here card-header mg-b-10" style="font-size:12px !important">
+								<div class="descriptive_questions">
+									<div class="descriptive_questions_no">
+										<div class="descriptive_question_heading">
+											<div class="cardtitle">0{{forloop.counter}}</div>
+										</div>
+									</div>
+									<div class="descriptive_questions_action">
+										<input type="number" name="marks_given" class="marks_number form-control pl-3" min="0" max="{{question.audio_question.question_mark}}" placeholder="Enter Marks" required>
+										<div class="question_marks_title"> / Question Marks:{{question.audio_question.question_mark}}</div>
+									</div>
+									<div class="questions_details_text">
+										{% autoescape off %}
+											{{question.audio_question.question.paragraph_description}}
+										{% endautoescape %}
+									</div>
+								</div>
+								<div class="descriptive_assesment_detail">
+									{% if question.answer %}
+										{% if is_video %}
+											<video controls="controls">
+												<source src="{{question.answer.url}}">
+											</video>
+										{% else %}
+										<audio controls="controls"><source src="{{question.answer.url}}"></audio>
+										{% endif %}
+									{% else %}
+										<p>Not Attempted</p>
+									{% endif %}
+								</div>
+							</div>
+							{% endfor %}
+						</div>
+						</form>
+					</div>
+				</div>
+				<!-- /row -->
+
+			</div>
+			<!-- Main-content-body closed -->
+{% endblock %}
+
+{% block script %}
+{% endblock %}

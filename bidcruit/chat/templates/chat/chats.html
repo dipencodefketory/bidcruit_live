@@ -1,0 +1,43 @@
+{% extends "chat/Base.html" %}
+{% load static %}
+{% load candidate_extras %}
+{% block chat_messages_section %}
+     <div class="col-xl-8 col-lg-12">
+                        <div class="">
+                            <a class="main-header-arrow" href="" id="ChatBodyHide"><i class="icon ion-md-arrow-back"></i></a>
+                            <div class="main-content-body main-content-body-chat mt-0 pt-0 br-br-0 br-bl-0 mb-lg-0 card">
+                                <div class="main-chat-header">
+                                    <div class="main-img-user"><img alt="" src="#"></div>
+                                    <div class="main-chat-msg-name">
+                                        {% if friend.is_candidate %}
+                                            <h6>{{friend.first_name}}</h6><small></small>
+                                        {% else %}
+                                            <h6>{{friend.company_name}}</h6><small></small>
+                                        {% endif %}
+
+                                    </div>
+                                </div>
+                                <!-- main-chat-header -->
+                                <div class="messages">
+                                    {% block message %}
+                                    {% endblock %}
+                                </div>
+                            </div>
+                            <div class="main-chat-footer">
+
+
+                                    <div class="row">
+                                        <input style="width: calc(100% - 60px) !important;" class="form-control" placeholder="Type your message here..." type="text" name="message" id="msg-input">
+                                        <a class="main-msg-send" type="button" name="send" id="msg-submit"><i class="bx bx-paper-plane"></i></a>
+                                    </div>
+
+                            </div>
+                        </div>
+                    </div>
+ <script>
+
+    </script>
+{% endblock %}
+
+
+

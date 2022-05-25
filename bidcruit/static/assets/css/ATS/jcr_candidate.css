@@ -1,0 +1,206 @@
+
+.apply_job_main_header {
+    background: #0068ff;
+    padding: 18px 0;
+    margin-bottom: 25px;
+}
+.apply_job_main_content {
+    width: 100%;
+    max-width: 1140px;
+    margin: auto;
+    padding: 0 15px;
+}
+.main-content-jcr {
+    width: 100%;
+    max-width: 1140px;
+    margin: auto;
+    min-height: 514px;
+}
+.apply_job_info_view .name {
+    font-size: 20px;
+    color: #031b4e;
+    font-weight: 900;
+}
+.apply_job_info_view .name_dev span {
+    font-size: 16px;
+    color: #031b4e !important;
+    font-weight: 500;
+    display: inline-block;
+}
+
+.apply_job_info_view {
+    width: 100%;
+    display: inline-block;
+}
+.apply_job_info_view .name_dev {
+    float: left;
+}
+.apply_job_info_view .time_job_section {
+    float: right;
+}
+.applyjob_profile_footer {
+    padding-right: 18px;
+    padding-left: 18px;
+    padding-top: 0;
+    padding-bottom: 0px;
+    border-right: 2px solid #eef4fa;
+}
+.applyjob_profile_title {
+    font-size: 14px;
+    font-weight: 500;
+    color: #031b4e;
+}
+.applyjob_profilevalue {
+    font-size: 14px;
+    font-weight: 400;
+    color: #031b4e;
+    padding-left: 22px;
+}
+.applyjob_profile_title i {
+    color: #0068ff;
+    padding-right: 4px;
+    width: 19px;
+    text-align: right;
+}
+
+.app.main-body.sidebar-mini.sidenav-toggled .main-footer {
+    margin-left: 0;
+}
+.main-content-jcr .file-browser .btn-default {
+    padding: 0.76rem 15px;
+}
+
+.profile_applyjob {
+    float: right;
+}
+.company_profile_logo {
+    margin-right: 12px;
+    float: left;
+    width: 50px;
+    height: 50px;
+    border-radius: 50px;
+    text-align: center;
+    background-color: #f9fafc;
+    line-height: 50px;
+}
+.company_profile_logo img {
+    width: 30px;
+    height: 30px;
+    object-fit: fill;
+}
+.applyjob_profile_footer:first-child{
+    padding-left: 0;
+}
+.applyjob_profile_footer:last-child{
+    border: none;
+}
+.candidate_view_header a.btn-quit {
+    color: #ffffff;
+    background-color: #ff5353;
+    border-color: #ff5353;
+    border-radius: 10px;
+    font-size: 16px;
+    font-weight: 500;
+    padding: 6px 40px;
+}
+.job_compatibility .card-title{
+    font-weight: 900;
+    color: #041b4e;
+    font-size: 24px;
+    text-transform: uppercase;
+    position: relative;
+}
+.job_compatibility .card-title:after {
+    border-bottom: 5px solid #0068ff;
+    content: "";
+    position: absolute;
+    left: 0;
+    width: 150px;
+    bottom: 0;
+    border-radius: 4px;
+}
+.question_listing_inner {
+    border: 2px solid #E2E8F5;
+    border-radius: 10px;
+    padding: 18px 18px;
+    margin: 0 12px 12px;
+}
+.question_listing_count {
+    color: #7787a0;
+    font-size: 16px;
+}
+.question_text {
+    color: #031b4e;
+    font-size: 16px;
+    line-height: normal;
+    margin-top: 10px;
+}
+.option_tab_q span {
+    color: #031b4e;
+    font-size: 16px;
+}
+.question_option_box {
+    margin-top: 27px;
+    margin-bottom: 15px;
+    margin-left: 25px;
+}
+.option_tab_q input[type='radio'] {
+  
+    margin: 2px 0;
+}
+.Question_listing {
+    width: 100%;
+    display: inline-block;
+    margin-top: 34px;
+}
+.ckbox_q {
+    font-weight: normal;
+    position: relative;
+    display: block;
+    line-height: 18px;
+}
+.ckbox_q span {
+    padding-left: 15px;
+}
+.QuestionSubmit_btn .QuestionSubmit {
+    color: #ffffff;
+    background-color: #0068ff;
+    border-color: #0068ff;
+    font-size: 16px;
+    font-weight: 500;
+    float: right;
+    margin-right: 12px;
+    padding: 4px 33px;
+    border-radius: 10px;
+}
+.QuestionSubmit_btn {
+    width: 100%;
+    display: inline-block;
+    margin-top: 15px;
+    margin-bottom: 4px;
+}
+
+.sweet-alert p {
+    color: #3BB54A;
+    font-size: 16px;
+    font-weight: 500;
+}
+.sweet-alert button {
+    background-color: #fff !important;
+    padding: 9px 20px;
+    border-radius: 10px;
+    color: #3BB54A;
+    border: 1px solid #3BB54A;
+}
+.not_eligible.sweet-alert p {
+    color: #FF5353;
+    font-size: 16px;
+    font-weight: 500;
+}
+.not_eligible.sweet-alert button {
+    background-color: #fff !important;
+    padding: 9px 20px;
+    border-radius: 10px;
+    color: #FF5353;
+    border: 1px solid #FF5353;
+}

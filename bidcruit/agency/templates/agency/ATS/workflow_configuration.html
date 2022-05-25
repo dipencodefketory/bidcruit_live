@@ -1,0 +1,734 @@
+{% extends 'agency/base.html' %}
+{% load static %}
+{% load custom_filters %}
+{% block title %}Workflow Configuration{% endblock %}
+{% block css %}
+<link href="{% static 'assets/css/ATS/workflow_configuration.css' %}" rel="stylesheet">
+<!--Select2 SelectWithSearch CDN-->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.1/css/select2.min.css"/>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css"
+      integrity="sha512-5A8nwdMOWrSz20fDsjczgUidUBR8liPYU+WymTZP1lmY9G6Oc7HlZv156XqnsgNUzTyMefFTcsFH/tnJE/+xBg=="
+      crossorigin="anonymous" referrerpolicy="no-referrer"/>
+{% endblock %}
+
+{% block main %}
+<!-- Container-fluid -->
+<div class="container-fluid" id="workflow-management-system">
+    <!-- Main-content-body -->
+    <div class="main-content-body">
+        <!--middle section-->
+        <div class="row row-sm workflow-main-layout" id="workflow-tablist-template">
+            <div class="col-md-12 col-xl-12 col-xs-12 col-sm-12">
+                <div class="card">
+                    <form method="post">
+                        <div class="card-body">
+                            <div class="main-content-label mg-b-5 main-upper-top">
+                                <div class="row head-title">
+                                    <div class="col-8 left-top section-title">
+                                        <h5 class="mb-2 text-capitalize">Workflow Configuration: {{workflow_name}}</h5>
+                                    </div>
+                                    <!-- <div class="col-4 right-top btn-section">
+                                        <button class="btn btn-sm btn-primary btn-sm btn-rounded" type="button">Edit
+                                            Workflow
+                                        </button>
+                                    </div> -->
+                                </div>
+                            </div>
+                            <!--Two column tab listing Section Start-->
+
+                            {% csrf_token %}
+                            <div class="row middle-container">
+                                <div class="fx-lg-view">
+                                    <div class="left-tab-section">
+                                        <div class="panel panel-primary tabs-style-4">
+                                            <div class="tab-menu-heading">
+                                                <div class="tabs-menu">
+                                                    <ul class="tab-title__list">
+                                                        <li>
+                                                            <h5 class="text-capitalize">
+                                                                Stages
+                                                            </h5>
+                                                        </li>
+                                                    </ul>
+                                                    <!-- Tabs -->
+                                                    <ul class="nav wf-tabs-container panel-tabs">
+                                                        {% for stage in workflow_stages %}
+                                                            <li class="">
+                                                                <!-- <a href="#stage{{forloop.counter}}Tab" {% if forloop.first %} class="active" {% endif %}
+                                                                   data-toggle="tab"><i class="fe fe-airplay mr-1"></i>{{stage.stage.name}}</a> -->
+                                                                   <a {% if forloop.first %} class="active" {% endif %} >
+                                                                       <i class="fe fe-airplay mr-1"></i>
+                                                                       {{stage.stage.name}}
+                                                                    </a>
+                                                            </li>
+                                                        {% endfor %}
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="right-view-section">
+                                        <div class="panel-body tabs-menu-body rightColSection">
+                                            <div class="tab-content formWizardList">
+                                                {% for stages in workflow_data %}
+                                                    <div {% if forloop.first %} class="tab-pane active" {% else %}
+                                                        class="tab-pane" {% endif %}
+                                                        id="stage{{forloop.counter}}Tab">  
+
+                                                        {% ifequal stages.stage.stage.name 'JCR' %}
+                                                        <div class="row row-sm jcr__section">
+                                                            <div class="col-12 jcr__col">
+                                                                <div class="upper-selection-list">
+                                                                    <div class="right-selector wf_title">
+                                                                        <label class="text-capitalize">Selected
+                                                                            Template:</label>
+                                                                        <input class="form-control select-cat__list"
+                                                                            type="text" readonly
+                                                                            value="{{stages.stage.template.name}}">
+                                                                        
+                                                                    </div>
+                                                                </div>
+                                                                <div class="middle-section__jcr-col">
+                                                                    <div class="option_selector__ls">
+                                                                        <div class="radio-btn__tab">
+                                                                            <label class="rdiobox">
+                                                                                <input name="jcr-action" type="radio"
+                                                                                    value="manual"><span>Manual</span>
+                                                                            </label>
+                                                                        </div>
+                                                                        <div class="radio-btn__tab">
+                                                                            <label class="rdiobox">
+                                                                                <input name="jcr-action" type="radio"
+                                                                                    value="auto" checked><span>Automation</span>
+                                                                            </label>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div id="jcr" class="row second_row">
+                                                                        <div class="col-4">
+                                                                            <label class="label-title text-capitalize">Short
+                                                                                list:</label>
+                                                                            <input type="number" required name="jcr-short-list"
+                                                                                class="form-control" value=""
+                                                                                placeholder="add here">
+                                                                        </div>
+                                                                        <div class="col-4">
+                                                                            <label class="label-title text-capitalize">On
+                                                                                hold:</label>
+                                                                            <input type="number" required name="jcr-on-hold"
+                                                                                class="form-control" value=""
+                                                                                placeholder="add here">
+                                                                        </div>
+                                                                        <div class="col-4">
+                                                                            <label class="label-title text-capitalize">Rejected:</label>
+                                                                            <input type="number" required name="jcr-rejected"
+                                                                                class="form-control" value=""
+                                                                                placeholder="add here">
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <button type="button" class="btn btn-sm btn-primary nextBtn">Next</button>
+                                                            
+                                                        </div>
+                                                        {% endifequal %}
+
+                                                        {% ifequal stages.stage.stage.name 'Prerequisites' %}
+                                                            <div class="row row-sm pre-requis__section">
+                                                                <div class="col-12 pre-req__col">
+                                                                    <div class="upper-selection-list">
+                                                                        <div class="right-selector wf_title">
+                                                                            <label class="text-capitalize">Selected
+                                                                                Template:</label>
+                                                                            <input class="form-control select-cat__list"
+                                                                                type="text" readonly
+                                                                                value="{{stages.stage.template.name}}">
+                                                                            
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="navPaginate">
+                                                                {% if not forloop.first %}
+                                                                    <button type="button" class="btn btn-sm btn-primary prevBtn">Previous</button>
+                                                                {% endif %}
+                                                                {% if not forloop.last %}
+                                                                    <button type="button" class="btn btn-sm btn-primary nextBtn">Next</button>
+                                                                {% endif %}
+                                                                {% if forloop.last %}
+                                                                    <button type="submit" class="btn btn-primary btn-sm"  id="finish-work-config">Finish </button>
+                                                                {% endif %}
+                                                            </div>
+                                                        {% endifequal %}
+
+                                                        {% ifequal stages.stage.stage.name 'MCQ Test' %}
+                                                            <div class="row row-sm mcq__section testFormContainer">
+                                                                <div class="col-12 jcr__col">
+                                                                    <div class="upper-selection-list">
+                                                                        <div class="right-selector wf_title">
+                                                                            <label class="text-capitalize">Selected Template:</label>
+                                                                            <input class="form-control select-cat__list" type="text" readonly value="{{stages.stage.template.name}}"> 
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="middle-section__jcr-col">
+                                                                        <div class="option_selector__ls">
+                                                                            <div class="radio-btn__tab checkpoint-input">
+                                                                                <label class="rdiobox">
+                                                                                    <input name="mcq-action-{{stages.stage.template.id}}" id="{{stages.stage.template.id}}"  type="radio"
+                                                                                        value="manual" ><span>Manual</span>
+                                                                                </label>
+                                                                            </div>
+                                                                            <div class="radio-btn__tab checkpoint-input">
+                                                                                <label class="rdiobox">
+                                                                                    <input name="mcq-action-{{stages.stage.template.id}}" id="{{stages.stage.template.id}}" type="radio"
+                                                                                        value="auto" checked><span>Automation</span>
+                                                                                </label>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="collpase-container mcqCommentPreview">
+                                                                            <div class="mini__card-layout">
+                                                                                <div class="fx-row title_list">
+                                                                                    <div class="fx-col">
+                                                                                        <label class="text-capitalize h6">Total Question</label>
+                                                                                    </div>
+                                                                                    <div class="fx-col">
+                                                                                        <label class="text-capitalize h6">Total Time</label>
+                                                                                    </div>
+                                                                                    <div class="fx-col">
+                                                                                        <label class="text-capitalize h6">Total Marks</label>
+                                                                                    </div>
+                                                                                </div>
+                                                                                <div class="fx-row fx-details__ls">
+                                                                                    <div class="fx-col col-view_caption">
+                                                                                        <p class="result_view h6">{{stages.data.total_question}}</p>
+                                                                                    </div>
+                                                                                    <div class="fx-col col-view_caption">
+                                                                                        <p class="result_view h6">{{stages.mcq_time|date:'H:i:s'}}</p>
+                                                                                    </div>
+                                                                                    <div class="fx-col col-view_caption">
+                                                                                        <p class="result_view h6 grandMark">{{stages.mcq_marks}}</p>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="mini__card-layout">
+                                                                                {% ifequal stages.data.marking_system 'question_wise' %}
+                                                                                    {% if stages.data.allow_negative_marking %}
+                                                                                    <div class="fx-row title_list">    
+                                                                                        <label class="mark-title">Negative marks:- {{stages.data.negative_mark_percent}}%</label>
+                                                                                    </div>
+                                                                                    {% endif  %}
+                                                                                {% endifequal %}
+                                                                                {% ifequal stages.data.marking_system 'category_wise' %}
+                                                                                    <div class="fx-row title_list">
+                                                                                        <div class="fx-col">
+                                                                                            <label class="text-capitalize h6">Basic <span class="small-badge"></span></label>
+                                                                                        </div>
+                                                                                        <div class="fx-col">
+                                                                                            <label class="text-capitalize h6">Intermediate <span class="small-badge"></span></label>
+                                                                                        </div>
+                                                                                        <div class="fx-col">
+                                                                                            <label class="text-capitalize h6">Advanced <span class="small-badge"></span></label>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                <div class="fx-row fx-details__ls">
+                                                                                    <div class="fx-col col-view_caption">
+                                                                                        <div class="fx-half">
+                                                                                            <label class="mark-title">Positive marks</label>
+                                                                                            <p class="result_view h6">{{stages.data.basic_question_marks}}</p>
+                                                                                        </div>
+                                                                                        {% if stages.data.allow_negative_marking %}
+                                                                                            <div class="fx-half">
+                                                                                                <label class="mark-title">Negative marks</label>
+                                                                                                <p class="result_view h6">{{stages.data.basic_question_marks|nagative_marks:stages.data.negative_mark_percent}}</p>
+                                                                                            </div>
+                                                                                        {% endif %}
+                                                                                    </div>
+                                                                                    <div class="fx-col col-view_caption">
+                                                                                        <div class="fx-half">
+                                                                                            <label class="mark-title">Positive marks</label>
+                                                                                            <p class="result_view h6">{{stages.data.intermediate_question_marks}}</p>
+                                                                                        </div>
+                                                                                        {% if stages.data.allow_negative_marking %}
+                                                                                            <div class="fx-half">
+                                                                                                <label class="mark-title">Negative marks</label>
+                                                                                                <p class="result_view h6">{{stages.data.intermediate_question_marks|nagative_marks:stages.data.negative_mark_percent}}</p>
+                                                                                            </div>
+                                                                                        {% endif %}
+                                                                                    </div>
+                                                                                    <div class="fx-col col-view_caption">
+                                                                                        <div class="fx-half">
+                                                                                            <label class="mark-title">Positive marks</label>
+                                                                                            <p class="result_view h6">{{stages.data.advanced_question_marks}}</p>
+                                                                                        </div>
+                                                                                        {% if stages.data.allow_negative_marking %}
+                                                                                            <div class="fx-half">
+                                                                                                <label class="mark-title">Negative marks</label>
+                                                                                                <p class="result_view h6">{{stages.data.advanced_question_marks|nagative_marks:stages.data.negative_mark_percent}}</p>
+                                                                                            </div>
+                                                                                        {% endif %}
+                                                                                    </div>
+                                                                                </div>
+                                                                            
+                                                                                {% endifequal %}
+                                                                            </div>
+                                                                        </div>
+
+                                                                        <div id="mcq-{{stages.stage.template.id}}" class="row second_row selectionInputs">
+                                                                            <div class="col-4">
+                                                                                <label class="label-title text-capitalize">Short
+                                                                                    list:</label>
+                                                                                <input type="number" required name="mcq-short-list-{{stages.stage.template.id}}"
+                                                                                    class="form-control" value=""
+                                                                                    placeholder="add here">
+                                                                            </div>
+    <!--                                                                        <div class="col-4">-->
+    <!--                                                                            <label class="label-title text-capitalize">On-->
+    <!--                                                                                hold:</label>-->
+    <!--                                                                            <input type="number" required name="mcq-on-hold"-->
+    <!--                                                                                   class="form-control" value=""-->
+    <!--                                                                                   placeholder="add here">-->
+    <!--                                                                        </div>-->
+                                                                            <div class="col-4">
+                                                                                <label class="label-title text-capitalize">Rejected:</label>
+                                                                                <input type="number" required name="mcq-rejected-{{stages.stage.template.id}}"
+                                                                                    class="form-control" value=""
+                                                                                    placeholder="add here">
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="markValidMsg"></div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="navPaginate">
+                                                                {% if not forloop.first %}
+                                                                    <button type="button" class="btn btn-sm btn-primary prevBtn">Previous</button>
+                                                                {% endif %}
+                                                                {% if not forloop.last %}
+                                                                <button type="button" class="btn btn-sm btn-primary nextBtnWithValid">Next</button>
+                                                                {% endif %}
+                                                                {% if forloop.last %}
+                                                                    <button type="submit" class="btn btn-primary btn-sm"  id="finish-work-config">Finish </button>
+                                                                {% endif %}
+                                                            </div>
+                                                            
+                                                        {% endifequal %}
+
+                                                        {% ifequal stages.stage.stage.name 'Image Test' %}
+                                                            <div class="row row-sm mcq__section testFormContainer">
+                                                                <div class="col-12 jcr__col">
+                                                                    <div class="upper-selection-list">
+                                                                        <div class="right-selector wf_title">
+                                                                            <label class="text-capitalize">Selected Template:</label>
+                                                                            <input class="form-control select-cat__list" type="text" readonly value="{{stages.stage.template.name}}">
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="middle-section__jcr-col">
+                                                                        <div class="option_selector__ls">
+                                                                            <div class="radio-btn__tab checkpoint-input">
+                                                                                <label class="rdiobox">
+                                                                                    <input name="image-action-{{stages.stage.template.id}}" id="{{stages.stage.template.id}}" type="radio"
+                                                                                        value="manual"><span>Manual</span>
+                                                                                </label>
+                                                                            </div>
+                                                                            <div class="radio-btn__tab checkpoint-input">
+                                                                                <label class="rdiobox">
+                                                                                    <input name="image-action-{{stages.stage.template.id}}" id="{{stages.stage.template.id}}" type="radio"
+                                                                                        value="auto" checked><span>Automation</span>
+                                                                                </label>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="collpase-container mcqCommentPreview">
+                                                                            <div class="mini__card-layout">
+                                                                                <div class="fx-row title_list">
+                                                                                    <div class="fx-col">
+                                                                                        <label class="text-capitalize h6">Total Question</label>
+                                                                                    </div>
+                                                                                    <div class="fx-col">
+                                                                                        <label class="text-capitalize h6">Total Time</label>
+                                                                                    </div>
+                                                                                    <div class="fx-col">
+                                                                                        <label class="text-capitalize h6">Total Marks</label>
+                                                                                    </div>
+                                                                                    </div>
+                                                                                    <div class="fx-row fx-details__ls">
+                                                                                        <div class="fx-col col-view_caption">
+                                                                                            <p class="result_view h6">{{stages.data.total_question}}</p>
+                                                                                        </div>
+                                                                                        <div class="fx-col col-view_caption">
+                                                                                            <p class="result_view h6">{{stages.image_time|date:'H:i:s'}}</p>
+                                                                                        </div>
+                                                                                        <div class="fx-col col-view_caption">
+                                                                                            <p class="result_view h6 grandMark">{{stages.image_marks}}</p>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="mini__card-layout">
+                                                                                {% ifequal stages.data.marking_system 'question_wise' %}
+                                                                                    {% if stages.data.allow_negative_marking %}
+                                                                                    <div class="fx-row title_list">    
+                                                                                        <label class="mark-title">Negative marks:- {{stages.data.negative_mark_percent}}%</label>
+                                                                                    </div>
+                                                                                    {% endif  %}
+                                                                                {% endifequal %}
+                                                                                {% ifequal stages.data.marking_system 'category_wise' %}
+                                                                                <div class="fx-row title_list">
+                                                                                    <div class="fx-col">
+                                                                                        <label class="text-capitalize h6">Basic <span class="small-badge"></span></label>
+                                                                                    </div>
+                                                                                    <div class="fx-col">
+                                                                                        <label class="text-capitalize h6">Intermediate <span class="small-badge"></span></label>
+                                                                                    </div>
+                                                                                    <div class="fx-col">
+                                                                                        <label class="text-capitalize h6">Advanced <span class="small-badge"></span></label>
+                                                                                    </div>
+                                                                                </div>
+                                                                                <div class="fx-row fx-details__ls">
+                                                                                    <div class="fx-col col-view_caption">
+                                                                                        <div class="fx-half">
+                                                                                            <label class="mark-title">Positive marks</label>
+                                                                                            <p class="result_view h6">{{stages.data.basic_question_marks}}</p>
+                                                                                        </div>
+                                                                                        {% if stages.data.allow_negative_marking %}
+                                                                                        <div class="fx-half">
+                                                                                            <label class="mark-title">Negative marks</label>
+                                                                                            <p class="result_view h6">{{stages.data.basic_question_marks|nagative_marks:stages.data.negative_mark_percent}}</p>
+                                                                                        </div>
+                                                                                        {% endif %}
+                                                                                    </div>
+                                                                                    <div class="fx-col col-view_caption">
+                                                                                        <div class="fx-half">
+                                                                                            <label class="mark-title">Positive marks</label>
+                                                                                            <p class="result_view h6">{{stages.data.intermediate_question_marks}}</p>
+                                                                                        </div>
+                                                                                        {% if stages.data.allow_negative_marking %}
+                                                                                        <div class="fx-half">
+                                                                                            <label class="mark-title">Negative marks</label>
+                                                                                            <p class="result_view h6">{{stages.data.intermediate_question_marks|nagative_marks:stages.data.negative_mark_percent}}</p>
+                                                                                        </div>
+                                                                                        {% endif %}
+                                                                                    </div>
+                                                                                    <div class="fx-col col-view_caption">
+                                                                                        <div class="fx-half">
+                                                                                            <label class="mark-title">Positive marks</label>
+                                                                                            <p class="result_view h6">{{stages.data.advanced_question_marks}}</p>
+                                                                                        </div>
+                                                                                        {% if stages.data.allow_negative_marking %}
+                                                                                        <div class="fx-half">
+                                                                                            <label class="mark-title">Negative marks</label>
+                                                                                            <p class="result_view h6">{{stages.data.advanced_question_marks|nagative_marks:stages.data.negative_mark_percent}}</p>
+                                                                                        </div>
+                                                                                        {% endif %}
+                                                                                    </div>
+                                                                                </div>
+                                                                            
+                                                                            {% endifequal %}
+                                                                        </div>
+                                                                        </div>
+                                                                        <div id="image-{{stages.stage.template.id}}" class="row second_row selectionInputs">
+                                                                            <div class="col-4">
+                                                                                <label class="label-title text-capitalize">Short
+                                                                                    list:</label>
+                                                                                <input type="number" required name="image-short-list-{{stages.stage.template.id}}"
+                                                                                    class="form-control" value=""
+                                                                                    placeholder="add here">
+                                                                            </div>
+                                                                            <div class="col-4">
+                                                                                <label class="label-title text-capitalize">Rejected:</label>
+                                                                                <input type="number" required name="image-rejected-{{stages.stage.template.id}}"
+                                                                                    class="form-control" value=""
+                                                                                    placeholder="add here">
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="markValidMsg"></div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="navPaginate">
+                                                                {% if not forloop.first %}
+                                                                <button type="button" class="btn btn-sm btn-primary prevBtn">Previous</button>
+                                                                {% endif %}
+                                                                {% if not forloop.last %}
+                                                                <button type="button" class="btn btn-sm btn-primary nextBtnWithValid">Next</button>
+                                                                {% endif %}
+                                                                {% if forloop.last %}
+                                                                    <button type="submit" class="btn btn-primary btn-sm"  id="finish-work-config">Finish </button>
+                                                                {% endif %}
+                                                            </div>
+                                                        {% endifequal %}
+
+                                                        {% ifequal stages.stage.stage.name 'Paragraph MCQ Test' %}
+                                                        {% endifequal %}
+
+                                                        {% ifequal stages.stage.stage.name 'Descriptive Test' %}
+                                                            <div class="row row-sm descriptive__section">
+                                                                <div class="col-12 mcq__col">
+                                                                    <div class="upper-selection-list">
+                                                                        <div class="right-selector wf_title">
+                                                                        <label class="text-capitalize">Selected
+                                                                            Template:</label>
+                                                                            <input class="form-control select-cat__list"
+                                                                            type="text" readonly
+                                                                            value="{{stages.stage.template.name}}">
+                                                                        
+                                                                    </div>
+                                                                    </div>
+                                                                    <div class="middle-section__mcq-col">
+                                                                        <div class="mini__card-layout">
+                                                                            <div class="fx-row title_list">
+                                                                                <div class="fx-col">
+                                                                                    <label class="text-capitalize h6">Total Question</label>
+                                                                                </div>
+                                                                                <div class="fx-col">
+                                                                                    <label class="text-capitalize h6">Time</label>
+                                                                                </div>
+                                                                                <div class="fx-col">
+                                                                                    <label class="text-capitalize h6">Total Marks</label>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="fx-row fx-details__ls">
+                                                                                <div class="fx-col col-view_caption">
+                                                                                    <p class="result_view h6">{{stages.data.total_question}}</p>
+                                                                                </div>
+                                                                                <div class="fx-col col-view_caption">
+                                                                                    <p class="result_view h6">{{stages.descriptive_time|date:'H:i:s'}}</p>
+                                                                                </div>
+                                                                                <div class="fx-col col-view_caption">
+                                                                                    <p class="result_view h6">{{stages.descriptive_marks}}</p>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="navPaginate">
+                                                                {% if not forloop.first %}
+                                                                <button type="button" class="btn btn-sm btn-primary prevBtn">Previous</button>
+                                                                {% endif %}
+                                                                {% if not forloop.last %}
+                                                                <button type="button" class="btn btn-sm btn-primary nextBtn">Next</button>
+                                                                {% endif %}
+                                                                {% if forloop.last %}
+                                                                    <button type="submit" class="btn btn-primary btn-sm"  id="finish-work-config">Finish </button>
+                                                                {% endif %}
+                                                            </div>
+                                                            
+                                                        {% endifequal %}
+
+
+                                                        {% ifequal stages.stage.stage.name 'Audio Test' %}
+                                                            <div class="row row-sm audio__section">
+                                                                <div class="col-12 mcq__col">
+                                                                    <div class="upper-selection-list">
+                                                                        <div class="right-selector wf_title">
+                                                                        <label class="text-capitalize">Selected
+                                                                            Template:</label>
+                                                                            <input class="form-control select-cat__list"
+                                                                            type="text" readonly
+                                                                            value="{{stages.stage.template.name}}">
+                                                                        
+                                                                    </div>
+                                                                    </div>
+                                                                    <div class="middle-section__mcq-col">
+                                                                        <div class="mini__card-layout">
+                                                                            <div class="fx-row title_list">
+                                                                                <div class="fx-col">
+                                                                                    <label class="text-capitalize h6">Total Question</label>
+                                                                                </div>
+                                                                                <div class="fx-col">
+                                                                                    <label class="text-capitalize h6">Time</label>
+                                                                                </div>
+                                                                                <div class="fx-col">
+                                                                                    <label class="text-capitalize h6">Total Marks</label>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="fx-row fx-details__ls">
+                                                                                <div class="fx-col col-view_caption">
+                                                                                    <p class="result_view h6">{{stages.data.total_question}}</p>
+                                                                                </div>
+                                                                                <div class="fx-col col-view_caption">
+                                                                                    <p class="result_view h6">{{stages.data.total_exam_time}}</p>
+                                                                                </div>
+                                                                                <div class="fx-col col-view_caption">
+                                                                                    <p class="result_view h6">{{stages.audio_marks}}</p>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="navPaginate">
+                                                                {% if not forloop.first %}
+                                                                <button type="button" class="btn btn-sm btn-primary prevBtn">Previous</button>
+                                                                {% endif %}
+                                                                {% if not forloop.last %}
+                                                                <button type="button" class="btn btn-sm btn-primary nextBtn">Next</button>
+                                                                {% endif %}
+                                                                {% if forloop.last %}
+                                                                    <button type="submit" class="btn btn-primary btn-sm"  id="finish-work-config">Finish </button>
+                                                                {% endif %}
+                                                            </div>
+                                                            
+                                                        {% endifequal %}
+
+
+                                                        {% ifequal stages.stage.stage.name 'Coding Test' %}
+                                                            <div class="row row-sm coding__section">
+                                                                <div class="col-12 mcq__col">
+                                                                    <div class="upper-selection-list">
+                                                                        <div class="right-selector wf_title">
+                                                                        <label class="text-capitalize">Selected
+                                                                            Template:</label>
+                                                                            <input class="form-control select-cat__list"
+                                                                            type="text" readonly
+                                                                            value="{{stages.stage.template.name}}">
+                                                                        
+                                                                    </div>
+                                                                    </div>
+                                                                    <div class="middle-section__mcq-col">
+                                                                        <div class="mini__card-layout">
+                                                                            <div class="fx-row title_list">
+                                                                                <div class="fx-col">
+                                                                                    <label class="text-capitalize h6">Total Question</label>
+                                                                                </div>
+                                                                                <div class="fx-col">
+                                                                                    <label class="text-capitalize h6">Time</label>
+                                                                                </div>
+                                                                                {% ifequal stages.data.assignment_type 'marks' %}
+                                                                                    <div class="fx-col">
+                                                                                        <label class="text-capitalize h6">Total Marks</label>
+                                                                                    </div>
+                                                                                {% endifequal %}
+                                                                            </div>
+                                                                            <div class="fx-row fx-details__ls">
+                                                                                <div class="fx-col col-view_caption">
+                                                                                    <p class="result_view h6">{{stages.data.total_question}}</p>
+                                                                                </div>
+                                                                                <div class="fx-col col-view_caption">
+                                                                                    <p class="result_view h6">{{stages.data.total_time}}</p>
+                                                                                </div>
+                                                                                {% ifequal stages.data.assignment_type 'marks' %}
+                                                                                    <div class="fx-col col-view_caption">
+                                                                                        <p class="result_view h6">{{stages.total_marks}}</p>
+                                                                                    </div>
+                                                                                {% endifequal %}
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    {% ifequal stages.data.assignment_type 'rating' %}
+                                                                    {% for coding_que_ratings in stages.coding_que_rating %}
+                                                                        <p class="result_view h6">{{coding_que_ratings.title}}</p>
+                                                                    {% endfor %}
+                                                                    {% endifequal %}
+                                                                </div>
+                                                            </div>
+                                                            <div class="navPaginate">
+                                                                {% if not forloop.first %}
+                                                                <button type="button" class="btn btn-sm btn-primary prevBtn">Previous</button>
+                                                                {% endif %}
+                                                                {% if not forloop.last %}
+                                                                <button type="button" class="btn btn-sm btn-primary nextBtn">Next</button>
+                                                                {% endif %}
+                                                                {% if forloop.last %}
+                                                                    <button type="submit" class="btn btn-primary btn-sm"  id="finish-work-config">Finish </button>
+                                                                {% endif %}
+                                                            </div>
+                                                           
+                                                        {% endifequal %}
+
+                                                        {% ifequal stages.stage.stage.name 'Interview' %}
+                                                            <div class="row row-sm interview__section">
+                                                                <div class="col-12 interview__col">
+                                                                    <div class="upper-selection-list">
+                                                                        <div class="right-selector wf_title">
+                                                                        <label class="text-capitalize">Selected
+                                                                            Template:</label>
+                                                                            <input class="form-control select-cat__list"
+                                                                            type="text" readonly
+                                                                            value="{{stages.stage.template.name}}">
+                                                                        
+                                                                    </div>
+                                                                    </div>
+                                                                    
+                                                                </div>
+                                                            </div>
+                                                            <div class="navPaginate">
+                                                                {% if not forloop.first %}
+                                                                <button type="button" class="btn btn-sm btn-primary prevBtn">Previous</button>
+                                                                {% endif %}
+                                                                {% if not forloop.last %}
+                                                                <button type="button" class="btn btn-sm btn-primary nextBtn">Next</button>
+                                                                {% endif %}
+                                                                {% if forloop.last %}
+                                                                    <button type="submit" class="btn btn-primary btn-sm"  id="finish-work-config">Finish </button>
+                                                                {% endif %}
+                                                            </div>
+                                                            
+                                                        {% endifequal %}
+
+                                                        {% ifequal stages.stage.stage.name 'Custom' %}
+                                                            <div class="row row-sm pre-requis__section">
+                                                                <div class="col-12 pre-req__col">
+                                                                    <div class="upper-selection-list">
+                                                                        <div class="right-selector wf_title">
+                                                                            <label class="text-capitalize">Selected
+                                                                                Template:</label>
+                                                                            <input class="form-control select-cat__list"
+                                                                                type="text" readonly
+                                                                                value="{{stages.stage.template.name}}">
+                                                                            
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="navPaginate">
+                                                                {% if not forloop.first %}
+                                                                    <button type="button" class="btn btn-sm btn-primary prevBtn">Previous</button>
+                                                                {% endif %}
+                                                                {% if not forloop.last %}
+                                                                    <button type="button" class="btn btn-sm btn-primary nextBtn">Next</button>
+                                                                {% endif %}
+                                                                {% if forloop.last %}
+                                                                    <button type="submit" class="btn btn-primary btn-sm"  id="finish-work-config">Finish </button>
+                                                                {% endif %}
+                                                            </div>
+                                                        {% endifequal %}
+
+                                                       
+                                                            <!-- <div class="row row-sm mg-10">
+                                                                <div class="col-lg col-md col-sm">
+                                                                    <div class="form-btn float-right">
+                                                                        <button type="submit" class="btn btn-primary btn-sm rounded-10"  id="finish-work-config">Finish </button>
+                                                                    </div>
+                                                                </div>
+                                                            </div> -->
+                                                        
+                                                    </div>
+                                                   
+                                                {% endfor %}
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+
+                           
+                            <!--Two column tab listing Section End-->
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <!--middle section end-->
+    </div>
+    <!-- Main-content-body closed -->
+</div>
+<!-- Container-fluid closed -->
+{% endblock %}
+
+{% block script %}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.1/js/select2.min.js"></script>
+<!-- Custom js -->
+<script src="{% static 'assets/js/ATS/agency/workflow_configuration.js' %}"></script>
+
+{% endblock %}
