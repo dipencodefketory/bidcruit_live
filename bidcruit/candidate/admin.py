@@ -1,7 +1,7 @@
 from django.contrib import admin
 from . import models
-from django.contrib.admin import AdminSite
-from django.utils.translation import ugettext_lazy
+# from django.contrib.admin import AdminSite
+# from django.utils.translation import ugettext_lazy
 
 admin.site.site_header = 'Bidcruit Administration'
 admin.site.site_title = 'Bidcruit admin'
