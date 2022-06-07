@@ -122,14 +122,14 @@ ASGI_APPLICATION = 'bidcruit.asgi.application'
 # https://docs.djangoproject.com/en/2.2/ref/settings/#databases
 #
 DATABASES = {
-    'default': {
+     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
         # 'NAME': 'timeline',
-        'NAME': 'bid_test_18_04',
+        'NAME': 'bidcruit06',
         'USER': 'postgres',
-        'PASSWORD': 'postgres',
-        'HOST': 'localhost',
-        'PORT': '',
+        'PASSWORD': 'Bidcruit*909#2707',
+        'HOST': 'database-1.c65leiqqukeb.us-east-1.rds.amazonaws.com',
+        'PORT': '5432',
     }
 }
 # DATABASES = {
