@@ -16,6 +16,10 @@
 		<link href="{% static 'assets/plugins/select2/css/select2.min.css' %}" rel="stylesheet">
 
 		<link href="{% static 'assets/css/ATS/job_openings_table.css' %}" rel="stylesheet">
+		<style>
+			.jbt-down {display: flex;align-items: baseline;gap: 8px;}
+			.jbt-down .dataTables_length label {font-weight: 500 !important;text-transform: lowercase !important;}
+		</style>
         {{ form.media.css }} 
 
 {% endblock %}
@@ -38,6 +42,7 @@
 
 											    <div class="candidate_filters_header">
 													<input id="search_data_in_filtter" type="text" class="search_data_t form-control" value="" placeholder="Search...">
+													<input style="display: none;" id="search_data_in_filtter2" type="text" class="search_data_t form-control" value="" placeholder="Search...">
 												</div>
 												
 												
@@ -80,8 +85,8 @@
 										<div class="tabs-menu ">
 											<!-- Tabs -->
 											<ul class="nav panel-tabs">
-												<li class=""><a href="#tab-table1" class="active" data-toggle="tab"> All Jobs</a></li>
-												<li><a href="#tab-table2" data-toggle="tab">Archive Jobs</a></li>
+												<li class=""><a href="#tab-table1" class="active" data-toggle="tab" id="allJobTab"> All Jobs</a></li>
+												<li><a href="#tab-table2" data-toggle="tab" id="achTableTab">Archive Jobs</a></li>
 											</ul>
 										</div>
 									</div>
@@ -145,7 +150,7 @@
 										<div class="tab-pane" id="tab-table2">
 											<div class="card-body">
 												<div class="table-responsive">
-													<table class="table text-md-nowrap candidate_table" data-ordering="false" id="jobopening">
+													<table class="table text-md-nowrap candidate_table" data-ordering="false" id="jobopening-2">
 														<thead>
 															<tr>
 																<!--<th class="circle_plush_icon"><a href="javascript:void(0)"><i class="fas fa-plus-circle"></i></a></th>-->
@@ -227,7 +232,7 @@
 		<script src="{% static 'assets/plugins/datatable/js/responsive.bootstrap4.min.js' %}"></script>
         
 		<!-- datatable js -->
-		<script src="{% static 'assets/js/table-data.js' %}"></script>
+		<!-- <script src="{% static 'assets/js/table-data.js' %}"></script> -->
 		<script>
 			$(document).on('click','.delete-row',function(){ //remove template row to the table
         var getCurrentRow = $(this).closest('tr');
@@ -274,15 +279,98 @@
 	// $('#search_data_in_filtter').keyup(function() { 
 	//     var table_d = $('.candidate_table').DataTable();
 	//     table_d.search($(this).val()).draw();
-	// });		
+	// });	
+
+
+	$( "#allJobTab" ).click(function() {
+	    $("#search_data_in_filtter").css("display", "block");
+        $("#search_data_in_filtter2").css("display", "none");
+        $("#search_data_in_filtter").val('');
+
+        var filter = "",
+		count = 0;
+		$('#jobopening tr').each(function() {
+			if ($(this).text().search(new RegExp(filter, "i")) < 0) {
+				$(this).hide();
+			} else {
+				$(this).show();
+				count++;
+			}
+		});
+
+	});
+
+	$( "#achTableTab" ).click(function() {
+	    $("#search_data_in_filtter").css("display", "none");
+        $("#search_data_in_filtter2").css("display", "block");
+        $("#search_data_in_filtter2").val('');
+
+        var filter = "",
+		count = 0;
+		$('#jobopening-2 tr').each(function() {
+			if ($(this).text().search(new RegExp(filter, "i")) < 0) {
+				$(this).hide();
+			} else {
+				$(this).show();
+				count++;
+			}
+		});
+
+	});
+
+    $(window).ready(function(){
+		$("#search_data_in_filtter").keyup(function() {
+			var filter = $(this).val(),
+			count = 0;
+			$('#jobopening tr').each(function() {
+				if ($(this).text().search(new RegExp(filter, "i")) < 0) {
+					$(this).hide();
+				} else {
+					$(this).show();
+					count++;
+				}
+			});
+		});		
+
+		$("#search_data_in_filtter2").keyup(function() {
+			var filter = $(this).val(),
+			count = 0;
+			$('#jobopening-2 tr').each(function() {
+				if ($(this).text().search(new RegExp(filter, "i")) < 0) {
+					$(this).hide();
+				} else {
+					$(this).show();
+					count++;
+				}
+			});
+		});		
+
+
+	});
+
+
+
 </script>
 
 
 <script>
     $(document).ready(function(){
+	  var jobOpen2 = 0;
       $("#jobfilter").click(function(){
         $("#showfilter").toggle();
       });
+	  $('#jobopening').dataTable( {
+		"dom": 't<"jbt-down"ilp><"clear">'
+	  });
+	  $('#achTableTab').on('click',function(){
+		if(jobOpen2 == '0'){
+			$('#jobopening-2').dataTable( {
+			"dom": 't<"jbt-down"ilp><"clear">'
+	  		});
+			jobOpen2 = 1;
+			return jobOpen2;
+		}
+	  })
     });
 </script>
 

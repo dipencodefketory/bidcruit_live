@@ -12,6 +12,10 @@
  <link href="{% static 'assets/plugins/datatable/css/responsive.dataTables.min.css' %}" rel="stylesheet">
  <link href="{% static 'assets/plugins/select2/css/select2.min.css' %}" rel="stylesheet">
  <link href="{% static 'assets/plugins/sweet-alert/sweetalert.css' %}" rel="stylesheet">
+ <style>
+	 .jbt-down {display: flex;align-items: baseline;gap: 8px;}
+	 .jbt-down #jobopening_length label {font-weight: 500;text-transform: lowercase;}
+ </style>
 {% endblock %}
 {% block main %}
 		
@@ -217,108 +221,110 @@
  <script src="{% static 'assets/plugins/datatable/js/responsive.bootstrap4.min.js' %}"></script>
 
  <!-- datatable js -->
- <script src="{% static 'assets/js/table-data.js' %}"></script>
+ <!-- <script src="{% static 'assets/js/table-data.js' %}"></script> -->
  		<!--- Internal Sweet-Alert js -->
 		 <script src="{% static 'assets/plugins/sweet-alert/sweetalert.min.js' %}"></script>
 		 <script src="{% static 'assets/plugins/sweet-alert/jquery.sweet-alert.js' %}"></script>
  <script>
-	$(document).ready(function(){
+$(document).ready(function(){
+	$('.candidate_table').dataTable( {
+		"dom": 't<"jbt-down"ilp><"clear">'
+	});
 
+	$(document).on('click','.questions_trash',function(){
+		var q_id=$(this).attr('id')
+		var question_card = $(this).closest('.template_question_list');
+		q_id={'question_id':q_id.split("-")[1]};
+		swal({
+			title: "Are you sure?",
+			text: "You will not be able to recover deleted subjects!",
+			type: "warning",
+			showCancelButton: true,
+			confirmButtonClass: "btn-danger",
+			confirmButtonText: "Yes, delete it!",
+			cancelButtonText: "Cancel",
+			closeOnConfirm: false,
+			closeOnCancel: false
+		},function(isConfirm) { //send ajax request for detele category action
+			if (isConfirm){
+				$.ajax({
+					url:"/company/mcq_delete_question/",
+					headers: {'X-CSRFToken': $("input[name=csrfmiddlewaretoken]").val() },
+					type:'POST',
+					contentType: 'application/json; charset=UTF-8',
+					data: JSON.stringify(q_id),
+					error: function (request, status, error) {
+						alert(error);
+					}
+				}).done(function(response){
+					if(response == 'True'){
+						swal("Deleted!", "Your Question has been deleted.", "success");
+						question_card.remove();
+					}else{
+						swal("Error!", "Something Wrong !!", "error");
+					}
+				});
+			} else {
+				swal("Cancelled", "Your Question is safe :)", "error");
+			}
+		});
 
-$(document).on('click','.questions_trash',function(){
-	var q_id=$(this).attr('id')
-	var question_card = $(this).closest('.template_question_list');
-	q_id={'question_id':q_id.split("-")[1]};
-	swal({
-		title: "Are you sure?",
-		text: "You will not be able to recover deleted subjects!",
-		type: "warning",
-		showCancelButton: true,
-		confirmButtonClass: "btn-danger",
-		confirmButtonText: "Yes, delete it!",
-		cancelButtonText: "Cancel",
-		closeOnConfirm: false,
-		closeOnCancel: false
-	},function(isConfirm) { //send ajax request for detele category action
-		if (isConfirm){
+	});
+
+	$(document).on('click','.edit-que',function(){
+			var queid=$(this).data('id');
+			// $('.edit_subject_name').val($(this).data('name'));
+			if(queid!==''){
 			$.ajax({
-				url:"/company/mcq_delete_question/",
-				headers: {'X-CSRFToken': $("input[name=csrfmiddlewaretoken]").val() },
-				type:'POST',
-				contentType: 'application/json; charset=UTF-8',
-				data: JSON.stringify(q_id),
-				error: function (request, status, error) {
-					  alert(error);
-				}
-			}).done(function(response){
-				if(response == 'True'){
-					swal("Deleted!", "Your Question has been deleted.", "success");
-					question_card.remove();
-				}else{
-					swal("Error!", "Something Wrong !!", "error");
-				}
-			});
-		} else {
-			swal("Cancelled", "Your Question is safe :)", "error");
-		}
-	});
-
-});
-
-$(document).on('click','.edit-que',function(){
-        var queid=$(this).data('id');
-        // $('.edit_subject_name').val($(this).data('name'));
-		if(queid!==''){
-		$.ajax({
-                url:"/company/get_mcq_question/",
-                headers: {'X-CSRFToken': $("input[name=csrfmiddlewaretoken]").val() },
-                type:'POST',
-                contentType: 'application/json; charset=UTF-8',
-                data: JSON.stringify(queid),
-                error: function (request, status, error) {
-                    alert(error);
-                }
-            }).done(function(response){
-				response=JSON.parse(response);
-				console.log(response.question)
-                if(response.status==true){
-					$("#Edit_question_modal").modal("show");
-					$('.queid').val(queid);
-					$('textarea[name=question]').text(response.question);
-					$('input[name=option_1]').val(response.option1);
-					$('input[name=option_2]').val(response.option2);
-					$('input[name=option_3]').val(response.option3);
-					$('input[name=option_4]').val(response.option4);
-					$("input[name=correct_answer][value=" + response.correctans + "]").attr('checked', 'checked');
-					$("input[name=correct_answer][value=" + response.correctans + "]").next(".correct_answer_title").css("display", "inline-block");
-					$("#subject [value="+response.levelid+"]").prop('selected',true);
-                    // window.location.reload();
-                }
-                else{
-                    alert('Something went wrong !');
-                    $("#Edit_question_modal").modal("hide");
-                }
-            });
-		}
-       
-    });
-	$('input[type=radio][name=correct_answer]').change(function() {				 
-				$(".correct_answer_title").css("display", "none")
-				$(this).next(".correct_answer_title").css("display", "inline-block");
-			});
-	$('#update').click(function(){
-		var subject = $("#subject option:selected").val();
-		console.log(subject);
-		if(subject == "")
-		{
-			$("#msg").html("Please select at least One option");
-			return false;
-		}
-		else
-		{
-			return true;
-		}
-	});
+					url:"/company/get_mcq_question/",
+					headers: {'X-CSRFToken': $("input[name=csrfmiddlewaretoken]").val() },
+					type:'POST',
+					contentType: 'application/json; charset=UTF-8',
+					data: JSON.stringify(queid),
+					error: function (request, status, error) {
+						alert(error);
+					}
+				}).done(function(response){
+					response=JSON.parse(response);
+					console.log(response.question)
+					if(response.status==true){
+						$("#Edit_question_modal").modal("show");
+						$('.queid').val(queid);
+						$('textarea[name=question]').text(response.question);
+						$('input[name=option_1]').val(response.option1);
+						$('input[name=option_2]').val(response.option2);
+						$('input[name=option_3]').val(response.option3);
+						$('input[name=option_4]').val(response.option4);
+						$("input[name=correct_answer][value=" + response.correctans + "]").attr('checked', 'checked');
+						$("input[name=correct_answer][value=" + response.correctans + "]").next(".correct_answer_title").css("display", "inline-block");
+						$("#subject [value="+response.levelid+"]").prop('selected',true);
+						// window.location.reload();
+					}
+					else{
+						alert('Something went wrong !');
+						$("#Edit_question_modal").modal("hide");
+					}
+				});
+			}
+		
+		});
+		$('input[type=radio][name=correct_answer]').change(function() {				 
+					$(".correct_answer_title").css("display", "none")
+					$(this).next(".correct_answer_title").css("display", "inline-block");
+				});
+		$('#update').click(function(){
+			var subject = $("#subject option:selected").val();
+			console.log(subject);
+			if(subject == "")
+			{
+				$("#msg").html("Please select at least One option");
+				return false;
+			}
+			else
+			{
+				return true;
+			}
+		});
   
 
 });

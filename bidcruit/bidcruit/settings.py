@@ -209,7 +209,7 @@ EMAIL_BACKEND ='django.core.mail.backends.smtp.EmailBackend'
 EMAIL_USE_TLS = True
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_HOST_USER = 'support@bidcruit.com'
-EMAIL_HOST_PASSWORD = 'Bidcruit@909@910#2707'
+EMAIL_HOST_PASSWORD = 'Virus#2707&909#'
 EMAIL_PORT = 587
 
 

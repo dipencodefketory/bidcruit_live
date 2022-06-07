@@ -57,6 +57,7 @@
 												<section>
 													<form method="POST" role="form" enctype="multipart/form-data" id="personalDetails">
 														{% csrf_token %}
+														
 														<div class="row">
 															<div class="col-md-6">
 																<div class="control-group form-group">
@@ -98,7 +99,10 @@
 																		<select class="form-control required" onChange="getState(this.value)" name="country">
 																			<option label="Choose one"></option>
 																			{% for countrys in country %}
-																				<option value="{{countrys.id}}" >{{countrys.country_name}}</option>
+																				<option value="{{countrys.id}}" 
+																					{% ifequal candid_basic_details.current_city.state_code.country_code.id countrys.id %} selected {% endifequal %}>
+																					{{countrys.country_name}}
+																				</option>
 																			{% endfor %}
 																		</select>
 																</div>
@@ -108,8 +112,12 @@
 																	<label class="form-label">Select State</label>
 																	<div id="statediv">
 																		<select class="form-control required" id="c_state" name="state">
-																			<option label="Choose one">
-																			</option>
+																			<option label="Choose one"></option>
+																			{% if candid_basic_details.current_city.state_code %}
+																				<option value="{{candid_basic_details.current_city.state_code.id}}" selected>
+																					{{candid_basic_details.current_city.state_code.state_name}}
+																				</option>
+																			{% endif %}
 																		</select>
 																	</div>
 																</div>
@@ -123,6 +131,11 @@
 																	<div id="citydiv">
 																		<select class="form-control required" name="city">
 																			<option label="Choose one"></option>
+																			{% if candid_basic_details.current_city.id %}
+																				<option value="{{candid_basic_details.current_city.id}}" selected>
+																					{{candid_basic_details.current_city.city_name}}
+																				</option>
+																			{% endif %}
 																		</select>
 																	</div>
 																</div>
@@ -140,7 +153,7 @@
 														<div class="row">
 															<div class="col-md-6">
 																<div class="control-group form-group">
-																	<label class="form-label">Gender {{candid_basic_details.gender}}</label>
+																	<label class="form-label">Gender</label>
 																	<select class="form-control required" name="gender">
 																		<option label="Choose one"></option>
 																		 {% for type in gender %}
@@ -176,10 +189,15 @@
 																		<label class="form-label" for="user_photo">
 																			Photo
 																			<br>
-																			<img id="file-ip-1-preview" style="width: 100px;height: 100px;"
+																			{% if candid_basic_details.profile_pic %}
+																				<img id="file-ip-1-preview" style="width: 100px;height: 100px;"
+																				 src="{{candid_basic_details.profile_pic.url}}" alt="Profile Image">
+																			{% else %}
+																				<img id="file-ip-1-preview" style="width: 100px;height: 100px;"
 																				 src="https://i.ibb.co/ZVFsg37/default.png" alt="Profile Image">
+																			{% endif %}
 																		</label>
-																		<input   name="user_image" class="form-control required candidate_image" id="user_photo"
+																		<input name="user_image" class="form-control {% if not candid_basic_details.profile_pic %} required {% endif %} candidate_image" id="user_photo"
 																			   type="file" accept="image/*"  onchange="showPreviewOne(event);">
 																	</div>
 																</div>
@@ -221,36 +239,36 @@
 														<div class="row">
 															<div class="col-md-6">
 																<div class="control-group form-group">
-																	<label class="form-label">Current Salary(Annual)</label>
-																	<input type="number" maxlength="3" class="form-control required" name="current_salary"
+																	<label class="form-label">Current Salary(LPA)</label>
+																	<input type="number" class="form-control required" name="current_salary" value="{{candid_basic_details.ctc}}"
 																		placeholder="Current Salary">
 																</div>
 															</div>
 															<div class="col-md-6">
 																<div class="control-group form-group">
 																	<div class="check-SalInputVisible">
-																		<label class="form-label">Expected salary(Annual in %)</label>
-																		<fieldset class="question d-flex">
+																		<label class="form-label">Expected salary(LPA)</label>
+																		<!-- <fieldset class="question d-flex">
 																			<input class="coupon_question" type="checkbox" name="salary_checkbox" value="1" />
 																			<label class="ckbox">As per
 																				company standard OR</label>
-																		</fieldset>
+																		</fieldset> -->
 																	</div>
 																	<!-- <input type="checkbox" id="checkbox1" checked="checked" /> -->
 																	<div class="form-group mg-b-20 salery-inputs">
 																		
 																		<fieldset class="answer">
 																			<div class="row">
-																				<div class="col-md-6 form-group">
+																				<div class="col-md-12 form-group">
 																					<input type="number"  name="expected_salary_min"
 																						id="coupon_field" class="form-control required"
-																						placeholder="Min(%)" min="1" max="100" />
+																						placeholder="" min="1" value="{{candid_basic_details.expectedctc}}" />
 																				</div>
-																				<div class="col-md-6">
+																				<!-- <div class="col-md-6">
 																					<input type="number"
 																						id="coupon_field" class="form-control required"  name="expected_salary_max"
 																						placeholder="Max(%)" min="0" max="100" />
-																				</div>
+																				</div> -->
 																			</div>
 																		</fieldset>
 																	</div>
@@ -319,6 +337,7 @@
 																</div>
 															</div>
 														</div>
+														
 													</form>
 												</section>
 												<!-- Education -->
@@ -896,39 +915,76 @@
 												<section>
 													<form method="POST" role="form" enctype="multipart/form-data" id="SkillForm">
 														<div id="all_skill" class="section-border">
-														<div id="single_skill" class="element">
-														<input style="display:none" class="record_id" value="1" id="1" type="text">
-														<div class="row">
-															<div class="col-md-4">
-																<div class="control-group form-group">
-																	<label class="form-label">Skill Name</label>
-																	<input type="text" maxlength="50" class="form-control required" id="c_skill_name1"
-																		placeholder="Skill Name">
+															{% if candid_basic_details.skills.all %}
+																{% for skill in candid_basic_details.skills.all %}
+																<div id="single_skill" class="element">
+																	<input style="display:none" class="record_id" value="{{forloop.counter}}" id="{{forloop.counter}}" type="text">
+																	<div class="row">
+																		<div class="col-md-4">
+																			<div class="control-group form-group">
+																				<label class="form-label">Skill Name</label>
+																				<input type="text" maxlength="50" class="form-control required" name="c_skill_name{{forloop.counter}}" id="c_skill_name{{forloop.counter}}"
+																					placeholder="Skill Name" value="{{skill.name}}">
+																			</div>
+																		</div>
+																		<div class="col-md-4">
+																			<div class="control-group form-group">
+																				<label class="form-label">Total experience</label>
+																				<select class="form-control required" name="skill_total_experience{{forloop.counter}}" id="skill_total_experience{{forloop.counter}}">
+																					<option label="Years"></option>
+																					{% for i in exp_years %}
+																						<option value="{{i}}">{{i}}</option>
+																					{% endfor %}
+																				</select>
+																			</div>
+																		</div>
+																		<div class="col-md-4">
+																			<div class="control-group form-group">
+																				<label class="form-label">Last Used(Year)</label>
+																				<select class="form-control required skill_year" name="last_used" id="last_used{{forloop.counter}}">
+																					<option label="Year"></option>
+																					<option value="present" selected>Present</option>
+																				</select>
+																			</div>
+																		</div>
+																	</div>
+																</div>
+																{% endfor %}
+															{% else %}
+															<div id="single_skill" class="element">
+																<input style="display:none" class="record_id" value="1" id="1" type="text">
+																<div class="row">
+																	<div class="col-md-4">
+																		<div class="control-group form-group">
+																			<label class="form-label">Skill Name</label>
+																			<input type="text" maxlength="50" class="form-control required" id="c_skill_name1"
+																				placeholder="Skill Name">
+																		</div>
+																	</div>
+																	<div class="col-md-4">
+																		<div class="control-group form-group">
+																			<label class="form-label">Total experience</label>
+																			<select class="form-control required" name="skill_total_experience" id="skill_total_experience1">
+																				<option label="Years"></option>
+																				{% for i in exp_years %}
+																					<option value="{{i}}">{{i}}</option>
+																				{% endfor %}
+																			</select>
+																		</div>
+																	</div>
+																	<div class="col-md-4">
+																		<div class="control-group form-group">
+																			<label class="form-label">Last Used(Year)</label>
+																			<select class="form-control required skill_year" name="last_used" id="last_used1">
+																				<option label="Year"></option>
+																				<option value="present" selected>Present</option>
+																			</select>
+																		</div>
+																	</div>
 																</div>
 															</div>
-															<div class="col-md-4">
-																<div class="control-group form-group">
-																	<label class="form-label">Total experience</label>
-																	<select class="form-control required" name="skill_total_experience" id="skill_total_experience1">
-																		<option label="Years"></option>
-																		 {% for i in exp_years %}
-																			<option value="{{i}}">{{i}}</option>
-																		 {% endfor %}
-																	</select>
-																</div>
-															</div>
-															<div class="col-md-4">
-																<div class="control-group form-group">
-																	<label class="form-label">Last Used(Year)</label>
-																	 <select class="form-control required skill_year" name="last_used" id="last_used1">
-																		<option label="Year"></option>
-																		<option value="present" selected>Present</option>
-																	</select>
-																</div>
-															</div>
+															{% endif %}
 														</div>
-													</div>
-													</div>
 													</form>
 
 													<button type="button" class="btn btn-primary add-morc" onclick="addMoreSkill(event)">

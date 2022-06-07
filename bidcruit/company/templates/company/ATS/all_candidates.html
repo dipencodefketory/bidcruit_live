@@ -52,7 +52,8 @@
 				margin: 0;
     			text-decoration: underline;
 			}
-			
+			.jbt-down {display: flex;align-items: baseline;gap: 8px;}
+			.jbt-down .dataTables_length label {font-weight: 500 !important;text-transform: lowercase !important;}
 		</style>
 		
 
@@ -77,6 +78,7 @@
 
 													<div class="candidate_filters_header mr-3">
 														<input id="search_data_in_filtter" type="text" class="search_data_t form-control" value="" placeholder="Search...">
+														<input style="display: none;" id="search_data_in_filtter2" type="text" class="search_data_t form-control" value="" placeholder="Search...">
 													</div>
 
 													
@@ -135,8 +137,8 @@
 										<div class="tabs-menu ">
 											<!-- Tabs -->
 											<ul class="nav panel-tabs">
-												<li class=""><a href="#tab209" class="active" data-toggle="tab"> Verified Candidate</a></li>
-												<li><a href="#tab300" data-toggle="tab">In Review</a></li>
+												<li class=""><a href="#tab209" class="active" data-toggle="tab" id="verifiedTab"> Verified Candidate</a></li>
+												<li><a href="#tab300" data-toggle="tab" id="reviewTab">In Review</a></li>
 											</ul>
 										</div>
 									</div>
@@ -267,7 +269,7 @@
 		<script src="{% static 'assets/plugins/datatable/js/responsive.bootstrap4.min.js' %}"></script>
 		<script src="{% static 'assets/js/djangoselect2.min.js' %}"></script>
 		<!-- datatable js -->
-		<script src="{% static 'assets/js/table-data.js' %}"></script>
+		<!-- <script src="{% static 'assets/js/table-data.js' %}"></script> -->
 		<!--Internal  Clipboard js-->
 		<script src="{% static 'assets/plugins/clipboard/clipboard.min.js' %}"></script>
 		<script src="{% static 'assets/plugins/clipboard/clipboard.js' %}"></script>
@@ -298,12 +300,96 @@
 		//     table.search($(this).val()).draw();
 		// });
 
+        
+        $( "#verifiedTab" ).click(function() {
+		    $("#search_data_in_filtter").css("display", "block");
+	        $("#search_data_in_filtter2").css("display", "none");
+	        $("#search_data_in_filtter").val('');
+
+	        var filter = "",
+			count = 0;
+			$('#jobopening tr').each(function() {
+				if ($(this).text().search(new RegExp(filter, "i")) < 0) {
+					$(this).hide();
+				} else {
+					$(this).show();
+					count++;
+				}
+			});
+
+		});
+
+		$( "#reviewTab" ).click(function() {
+		    $("#search_data_in_filtter").css("display", "none");
+	        $("#search_data_in_filtter2").css("display", "block");
+	        $("#search_data_in_filtter2").val('');
+
+	        var filter = "",
+			count = 0;
+			$('#companyinternalcandidate tr').each(function() {
+				if ($(this).text().search(new RegExp(filter, "i")) < 0) {
+					$(this).hide();
+				} else {
+					$(this).show();
+					count++;
+				}
+			});
+
+		});
+
+	    $(window).ready(function(){
+			$("#search_data_in_filtter").keyup(function() {
+				var filter = $(this).val(),
+				count = 0;
+				$('#jobopening tr').each(function() {
+					if ($(this).text().search(new RegExp(filter, "i")) < 0) {
+						$(this).hide();
+					} else {
+						$(this).show();
+						count++;
+					}
+				});
+			});		
+
+			$("#search_data_in_filtter2").keyup(function() {
+				var filter = $(this).val(),
+				count = 0;
+				$('#companyinternalcandidate tr').each(function() {
+					if ($(this).text().search(new RegExp(filter, "i")) < 0) {
+						$(this).hide();
+					} else {
+						$(this).show();
+						count++;
+					}
+				});
+			});	
+
+		});
+
+
+
 		</script>
 		<script>
 			$(document).ready(function(){
+			var secTable = 0;
 			  $("#candidatefilter").click(function(){
 				$("#showfilter").toggle();
 			  });
+
+			  $('#jobopening').dataTable( {
+				"dom": 't<"jbt-down"ilp><"clear">'
+			  });
+
+			  $('#reviewTab').on('click',function(){
+				if(secTable == '0'){
+					$('#companyinternalcandidate').dataTable( {
+					"dom": 't<"jbt-down"ilp><"clear">'
+					});
+					secTable = 1;
+					return secTable;
+				}
+			})
+
 			});
 			</script>
 			

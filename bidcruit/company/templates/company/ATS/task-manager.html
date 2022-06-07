@@ -180,9 +180,23 @@
 																<label class="info-title">Assignee :</label>
 																<label class="info-decs" style="color: #0068ff;font-width:bold;">
 																{% for assign in task.assignee.all %}
-																	{{assign.employee_id.first_name}} {{assign.employee_id.last_name}},
+																	{% if forloop.first %}
+																	{{assign.employee_id.first_name}} {{assign.employee_id.last_name}}
+																	{% endif %}
 																{% endfor %}
 																</label>
+
+																<span class="more_assignee_list">...
+																	<div class="list_assignee_task">
+																	    <div class="arrow_top_ass"></div>
+																		<div class="tooltipinner_assignee">
+																			{% for assign in task.assignee.all %}
+																				<span>{{assign.employee_id.first_name}} {{assign.employee_id.last_name}}</span>
+																			{% endfor %}					
+																		</div>
+																	</div>
+																</span>
+																
 															</li>
 															{% if task.applied_candidate_id %}
 															<li>
@@ -215,9 +229,10 @@
 												</div>
 											</div>
 										</div>
-										{% endfor %}
-										
 									</div>
+									{% endfor %}
+										
+									
 								</form>
                             </div>
 						</div>

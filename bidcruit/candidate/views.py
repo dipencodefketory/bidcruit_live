@@ -1,6 +1,5 @@
 import os
 import shutil
-from django.contrib.auth.forms import PasswordResetForm
 from bidcruit import settings
 import re
 from elasticsearch_dsl import Q as Elastic_Q
@@ -11,15 +10,11 @@ import string
 from datetime import datetime
 from dateutil.relativedelta import relativedelta
 import datetime
-from rest_framework.response import Response
 from django.contrib.sites.shortcuts import get_current_site
-from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
-from django.utils.encoding import force_bytes, force_text
 from accounts.tokens import account_activation_token
-from django.core.mail import EmailMessage, BadHeaderError, EmailMultiAlternatives
+from django.core.mail import BadHeaderError, EmailMultiAlternatives
 from django.contrib.auth.decorators import login_required
 from . import models
-import pyotp
 import re
 from accounts.views import activate_account_confirmation
 import socket
@@ -28,38 +23,27 @@ from django.http import HttpResponse, request
 from django.contrib.auth.models import User
 from django.template.loader import render_to_string
 from django.db.models.query_utils import Q
-from django.contrib.auth.tokens import default_token_generator
 from django.utils.encoding import force_bytes
-from .utils.charts import months, colorPrimary, colorSuccess, colorDanger, generate_color_palette, get_year_dict
+from .utils.charts import generate_color_palette
 from django.shortcuts import (
     render,
-    get_object_or_404,
     redirect,
 )
 from django.utils import timezone
-from django.utils.timezone import localdate
-
 from django.contrib.auth import (
-    authenticate,
     get_user_model,
-    login,
-    logout,
 )
 from notifications.signals import notify
-from rest_framework.decorators import api_view
 from django.http.response import JsonResponse
-import pyqrcode
 from company.models import CandidateHire, CompanyProfile, JCR, JobCreation, Workflows,WorkflowConfiguration,JobWorkflow, \
-    WorkflowStages, PreRequisites, Template_creation, ExamQuestionUnit, ExamTemplate, QuestionPaper, ExamQuestionUnit, \
-    mcq_Question,CodingExamConfiguration,CodingExamQuestions,Descriptive_subject,Descriptive,CodingScoreCard,\
-    DescriptiveExamTemplate,DescriptiveExamQuestionUnit,DescriptiveQuestionPaper,ImageSubject,ImageQuestion,ImageOption,\
-    ImageExamTemplate,ImageExamQuestionUnit,ImageQuestionPaper,CandidateJobStagesStatus,AudioExamTemplate,AudioQuestionPaper,\
+    WorkflowStages, PreRequisites, Template_creation, ExamQuestionUnit, ExamTemplate, ExamQuestionUnit, \
+    mcq_Question,CodingExamConfiguration,CodingExamQuestions,Descriptive,CodingScoreCard,\
+    DescriptiveExamTemplate,DescriptiveExamQuestionUnit,DescriptiveQuestionPaper,ImageQuestion,ImageOption,\
+    ImageExamTemplate,ImageExamQuestionUnit,CandidateJobStagesStatus,AudioExamTemplate,AudioQuestionPaper,\
     AudioExamQuestionUnit,Audio,AppliedCandidate,AssociateCandidateAgency,Company,InterviewSchedule,JobOffer,OfferNegotiation,JobOffer,\
     CompanyAssignJob,InternalCandidateBasicDetails,Employee,OnTheGoStages,CandidateJobStatus,CustomTemplate,Tracker,CustomResult,DailySubmission,\
-    AssociateCandidateInternal
+    AssociateCandidateInternal,TaskManagment,TaskCategories
 from agency import models as AgencyModels
-import png
-from pyqrcode import QRCode
 import qrcode
 from io import BytesIO
 from django.core.files import File
@@ -67,9 +51,7 @@ import pandas as pd
 from chat.models import Messages
 from django.contrib.auth.hashers import make_password
 from django.contrib.auth.hashers import check_password
-import candidate
 from io import BytesIO
-import zipfile
 from itertools import zip_longest
 from django.utils.crypto import get_random_string
 
@@ -81,7 +63,6 @@ from chat import models as ChatModels
 
 User = get_user_model()
 cureent_user = False
-from django.core import serializers
 import pdfkit
 config = pdfkit.configuration(wkhtmltopdf='/usr/bin/wkhtmltopdf')
 def bidcruit_home(request):
@@ -635,12 +616,8 @@ def personal_detail_temp(request):
             gender = models.Gender.objects.get(id=request.POST.get('gender'))
             notice_period_obj = models.NoticePeriod.objects.get(id=request.POST.get('notice_period'))
             marital_status = models.MaritalType.objects.get(id=request.POST.get('marital_status'))
-            if request.POST.get('salary_checkbox') == '1':
-                expected_salary_min = 'As Per Company'
-                expected_salary_max = 'As Per Company'
-            else:
-                expected_salary_min = request.POST.get('expected_salary_min')
-                expected_salary_max = request.POST.get('expected_salary_max')
+            expected_salary_min = request.POST.get('expected_salary_min')
+            expected_salary_max = request.POST.get('expected_salary_min')
             random_no = random.randint(1000, 99999)
             url_name = request.user.first_name + '_' + request.user.last_name + '_' + str(random_no)
             custom_url = url_name
@@ -667,6 +644,13 @@ def personal_detail_temp(request):
             technical = request.POST.get('technical-knowledge')
             technical = re.sub('\s+style="(.*?)"', "", technical)
             print('\n\n\n=========== session', request.session['profile_id'])
+
+            if models.candidate_job_apply_detail.objects.filter(candidate_id=request.user).exists():
+                candid_basic_details = models.candidate_job_apply_detail.objects.get(candidate_id=request.user)
+            if request.FILES.get('user_image'):
+                user_image = request.FILES.get('user_image')
+            else:
+                user_image = candid_basic_details.profile_pic
             candidate_profile_obj, obj_created = models.CandidateProfile.objects.update_or_create(candidate_id=user_id,
                                                                                                   profile_id=models.Profile.objects.get(
                                                                                                       id=
@@ -693,11 +677,8 @@ def personal_detail_temp(request):
                                                                                                                   'city'))),
                                                                                                       'gender': gender,
                                                                                                       'marital_status': marital_status,
-                                                                                                      'user_image': request.FILES.get(
-                                                                                                          'user_image'),
-                                                                                                      'current_salary': int(
-                                                                                                          request.POST.get(
-                                                                                                              'current_salary')),
+                                                                                                      'user_image': user_image,
+                                                                                                      'current_salary':request.POST.get('current_salary'),
                                                                                                       'notice_period': notice_period_obj,
                                                                                                       'expected_salary_min': expected_salary_min,
                                                                                                       'expected_salary_max': expected_salary_max,
@@ -2662,10 +2643,10 @@ def timeline(request, url):
                 candidate_id = profile_id_get.candidate_id_id
                 hire = CandidateHire.objects.filter(profile_id=activeprofile.id, candidate_id=candidate_id,
                                                     company_id=User.objects.get(id=request.user.id))
-                company_data_status = models.company_data_request.objects.filter(profile_id=activeprofile.id,
-                                                                                 candidate_id=candidate_id,
-                                                                                 company_id=User.objects.get(
-                                                                                     id=request.user.id))
+                # company_data_status = models.company_data_request.objects.filter(profile_id=activeprofile.id,
+                #                                                                  candidate_id=candidate_id,
+                #                                                                  company_id=User.objects.get(
+                #                                                                      id=request.user.id))
             elif request.user.is_candidate:
                 candidate_id = request.user.id
         else:
@@ -5170,6 +5151,16 @@ def mcq_result(request, id, job_id):
     total_que=0
     ans_que=0
     no_ans_que=0
+    candidate=User.objects.get(id=request.user.id)
+    job_assign_recruiter = CompanyAssignJob.objects.filter(job_id=job_obj)
+    description = "New candidate "+candidate.first_name+" "+candidate.last_name+" has been submitted to Job "+job_obj.job_title+" By"+request.user.first_name+" "+request.user.last_name
+    to_task=[]
+    to_task.append(job_obj.contact_name.id)
+    to_task.append(job_obj.job_owner.id)
+    all_assign_users=job_assign_recruiter.filter(job_id=job_obj)
+    for i in all_assign_users:
+        if i.recruiter_type_internal:
+            to_task.append(i.recruiter_id.id)
     for i in get_result:
 
         if i.status == 1:
@@ -5244,12 +5235,6 @@ def mcq_result(request, id, job_id):
                                           'not_answered':no_ans_que, 'obain_time':10, 'obain_marks':obain_marks,
                                           'mcq_pdf':path +request.user.first_name+ "mcq.pdf"})
     pdfkit.from_string(a, output_path=path +request.user.first_name+ "mcq.pdf", configuration=config)
-
-
-
-    # move to next stage process
-
-    # onthego change
     job_workflow = JobWorkflow.objects.get(job_id=job_obj)
     stage_status = CandidateJobStagesStatus.objects.get(template=template_obj, candidate_id=user_obj,
                                                         job_id=job_obj)
@@ -5273,10 +5258,11 @@ def mcq_result(request, id, job_id):
                 stage_status.assessment_done = True
                 currentcompleted=True
                 stage_status.save()
-                notify.send(request.user, recipient=User.objects.get(id=i), verb="Application Shortlisted",
-                            description="Your profile has been shortlisted, please wait for further instruction.",image="/static/notifications/icon/company/Job_Create.png",
-                            target_url=header+"://"+current_site.domain+"/candidate/applied_job_detail/" + str(
-                                job_obj.id)+"/company")
+                # for i in to_task:
+                #     notify.send(request.user, recipient=User.objects.get(id=i), verb="Application Shortlisted",
+                #                 description="Your profile has been shortlisted, please wait for further instruction.",image="/static/notifications/icon/company/Job_Create.png",
+                #                 target_url=header+"://"+current_site.domain+"/candidate/applied_job_detail/" + str(
+                #                     job_obj.id)+"/company")
                 
             elif int(obain_marks) <= int(config_obj.reject):
                 flag = False
@@ -5285,10 +5271,11 @@ def mcq_result(request, id, job_id):
                 stage_status.assessment_done = True
                 reject=True
                 stage_status.save()
-                notify.send(request.user, recipient=User.objects.get(id=i), verb="Application Rejected",
-                            description="Sorry! Your profile has been rejected for the Job "+str(job_obj.job_title),image="/static/notifications/icon/company/Job_Create.png",
-                            target_url=header+"://"+current_site.domain+"/candidate/applied_job_detail/" + str(
-                                job_obj.id)+"/company")
+                # for i in to_task:
+                #     notify.send(request.user, recipient=User.objects.get(id=i), verb="Application Rejected",
+                #                 description="Sorry! Your profile has been rejected for the Job "+str(job_obj.job_title),image="/static/notifications/icon/company/Job_Create.png",
+                #                 target_url=header+"://"+current_site.domain+"/candidate/applied_job_detail/" + str(
+                #                     job_obj.id)+"/company")
             elif int(config_obj.shortlist) > int(obain_marks) > int(config_obj.reject):
                 flag = False
                 stage_status.status = 3
@@ -5304,17 +5291,21 @@ def mcq_result(request, id, job_id):
                                                                             sequence_number=new_sequence_no)
                     new_stage_status.status = 1
                     new_stage_status.save()
-                    notify.send(request.user, recipient=User.objects.get(email=email), verb="Interview Round",
-                            description="Please start your interview round : "+new_stage_status.custom_stage_name,image="/static/notifications/icon/company/Job_Create.png",
-                            target_url=header+"://"+current_site.domain+"/candidate/applied_job_detail/" + str(
-                                job_obj.id)+"/company")
+                    # notify.send(request.user, recipient=request.user, verb="Interview Round",
+                    #         description="Please start your interview round : "+new_stage_status.custom_stage_name,image="/static/notifications/icon/company/Job_Create.png",
+                    #         target_url=header+"://"+current_site.domain+"/candidate/applied_job_detail/" + str(
+                    #             job_obj.id)+"/company")
         else:
             stage_status.status = 2
             stage_status.action_performed = False
             stage_status.assessment_done = True
             action_required='Company'
             stage_status.save()
-
+            # if stage_status.stage.name=='Interview' :
+            #     taskcreate(job_obj,'title','description','Interview',user_obj,job_obj.contact_name.id,to_task)
+            if stage_status.stage.name=='MCQ Test' :
+                taskcreate(job_obj,'title','description','MCQ',user_obj,job_obj.contact_name.id,to_task)
+                
         if not reject:
             new_sequence_no = stage_status.sequence_number + 1
             if CandidateJobStagesStatus.objects.filter(job_id=job_obj, candidate_id=user_obj,
@@ -5322,14 +5313,20 @@ def mcq_result(request, id, job_id):
                 new_stage_status = CandidateJobStagesStatus.objects.get(job_id=job_obj, candidate_id=user_obj,
                                                                             sequence_number=new_sequence_no)
                 next_stage=new_stage_status.stage
+                if next_stage.name=='Interview' :
+                    taskcreate(job_obj,'title','description','Interview',user_obj,job_obj.contact_name.id,to_task)
     if job_workflow.onthego:
         stage_status.status = 2
         stage_status.action_performed = False
         stage_status.assessment_done = True
         stage_status.save()
-    
+        # if stage_status.stage.name=='Interview' :
+        #     taskcreate(job_obj,'title','description','Interview',user_obj,job_obj.contact_name.id,to_task)
+        if stage_status.stage.name=='MCQ Test' :
+            taskcreate(job_obj,'title','description','MCQ',user_obj,job_obj.contact_name.id,to_task)
     if not next_stage==None and action_required=='':
         if next_stage.name=='Interview' :
+            # taskcreate(job_obj,'title','description','Interview',user_obj,job_obj.contact_name.id,to_task)
             action_required='Company/Agency'
         else:
             action_required='Candidate'
@@ -5371,6 +5368,15 @@ def end_mcq(template_id, job_id,loginuser_id):
     total_que=0
     ans_que=0
     no_ans_que=0
+    job_assign_recruiter = CompanyAssignJob.objects.filter(job_id=job_obj)
+    to_task=[]
+    to_task.append(job_obj.contact_name.id)
+    to_task.append(job_obj.job_owner.id)
+    all_assign_users=job_assign_recruiter.filter(job_id=job_obj)
+    for i in all_assign_users:
+        if i.recruiter_type_internal:
+            to_task.append(i.recruiter_id.id)
+            
     for i in get_result:
 
         if i.status == 1:
@@ -5459,6 +5465,7 @@ def end_mcq(template_id, job_id,loginuser_id):
     next_stage = None
     action_required=''
     reject=False
+    
     if job_workflow.withworkflow:
         main_workflow = Workflows.objects.get(id=job_workflow.workflow_id.id)
         workflow_stage = WorkflowStages.objects.get(workflow=main_workflow,template=template_obj)
@@ -5472,10 +5479,7 @@ def end_mcq(template_id, job_id,loginuser_id):
                 stage_status.assessment_done = True
                 currentcompleted=True
                 stage_status.save()
-                notify.send(request.user, recipient=User.objects.get(id=i), verb="Application Shortlisted",
-                            description="Your profile has been shortlisted, please wait for further instruction.",image="/static/notifications/icon/company/Job_Create.png",
-                            target_url=header+"://"+current_site.domain+"/candidate/applied_job_detail/" + str(
-                                job_obj.id))
+               
             elif int(obain_marks) <= int(config_obj.reject):
                 flag = False
                 stage_status.status = -1
@@ -5483,10 +5487,7 @@ def end_mcq(template_id, job_id,loginuser_id):
                 stage_status.assessment_done = True
                 reject=True
                 stage_status.save()
-                notify.send(request.user, recipient=User.objects.get(id=i), verb="Application Rejected",
-                            description="Sorry! Your profile has been rejected for the Job "+str(job_obj.job_title),image="/static/notifications/icon/company/Job_Create.png",
-                            target_url=header+"://"+current_site.domain+"/candidate/applied_job_detail/" + str(
-                                job_obj.id)+"/company")
+                
             elif int(config_obj.shortlist) > int(obain_marks) > int(config_obj.reject):
                 flag = False
                 stage_status.status = 3
@@ -5503,16 +5504,18 @@ def end_mcq(template_id, job_id,loginuser_id):
                                                                             sequence_number=new_sequence_no)
                     new_stage_status.status = 1
                     new_stage_status.save()
-                    notify.send(request.user, recipient=User.objects.get(email=email), verb="Interview Round",
-                            description="Please start your interview round : "+new_stage_status.custom_stage_name,image="/static/notifications/icon/company/Job_Create.png",
-                            target_url=header+"://"+current_site.domain+"/candidate/applied_job_detail/" + str(
-                                job_obj.id)+"/company")
+                    # notify.send(request.user, recipient=User.objects.get(email=email), verb="Interview Round",
+                    #         description="Please start your interview round : "+new_stage_status.custom_stage_name,image="/static/notifications/icon/company/Job_Create.png",
+                    #         target_url=header+"://"+current_site.domain+"/candidate/applied_job_detail/" + str(
+                    #             job_obj.id)+"/company")
         else:
             stage_status.status = 2
             stage_status.action_performed = False
             stage_status.assessment_done = True
             action_required='Company'
             stage_status.save()
+            if stage_status.stage.name=='MCQ Test' :
+                taskcreate(job_obj,'title','description','MCQ',user_obj,job_obj.contact_name.id,to_task)
             
         if not reject:
             new_sequence_no = stage_status.sequence_number + 1
@@ -5521,12 +5524,15 @@ def end_mcq(template_id, job_id,loginuser_id):
                 new_stage_status = CandidateJobStagesStatus.objects.get(job_id=job_obj, candidate_id=user_obj,
                                                                             sequence_number=new_sequence_no)
                 next_stage=new_stage_status.stage
+                if next_stage.name=='Interview' :
+                    taskcreate(job_obj,'title','description','Interview',user_obj,job_obj.contact_name.id,to_task)
     if job_workflow.onthego:
         stage_status.status = 2
         stage_status.action_performed = False
         stage_status.assessment_done = True
         stage_status.save()
-    
+        if stage_status.stage.name=='MCQ Test' :
+            taskcreate(job_obj,'title','description','MCQ',user_obj,job_obj.contact_name.id,to_task)
     if not next_stage==None and action_required=='':
         if next_stage.name=='Interview' :
             action_required='Company/Agency'
@@ -5673,6 +5679,16 @@ def save_front_end_code(request,template_id,job_id):
                                                             job_id=job_obj)
         stage_status.status = 2
         stage_status.save()
+        job_assign_recruiter = CompanyAssignJob.objects.filter(job_id=job_obj)
+        to_task=[]
+        to_task.append(job_obj.contact_name.id)
+        to_task.append(job_obj.job_owner.id)
+        all_assign_users=job_assign_recruiter.filter(job_id=job_obj)
+        for i in all_assign_users:
+            if i.recruiter_type_internal:
+                to_task.append(i.recruiter_id.id)
+        if stage_status.stage.name=='Coding Test' :
+                taskcreate(job_obj,'title','description','Coding',user_obj,job_obj.contact_name.id,to_task)
         Tracker.objects.update_or_create(job_id=job_obj,candidate_id=user_obj,company_id=stage_status.company_id,defaults={
                                                                 'action_required':'Assessment by Company','update_at':datetime.datetime.now()})
         current_site = get_current_site(request)
@@ -5721,6 +5737,16 @@ def save_code(request,template_id,job_id):
                                 target_url=header+"://"+current_site.domain+"/candidate/applied_job_detail/" + str(
                                     job_obj.id)+"/company")
         getjob=Scheduler.get_jobs()
+        job_assign_recruiter = CompanyAssignJob.objects.filter(job_id=job_obj)
+        to_task=[]
+        to_task.append(job_obj.contact_name.id)
+        to_task.append(job_obj.job_owner.id)
+        all_assign_users=job_assign_recruiter.filter(job_id=job_obj)
+        for i in all_assign_users:
+            if i.recruiter_type_internal:
+                to_task.append(i.recruiter_id.id)
+        if stage_status.stage.name=='Coding Test' :
+                taskcreate(job_obj,'title','description','Coding',user_obj,job_obj.contact_name.id,to_task)
         for job in getjob:
             if job.id==str(template_id)+str(job_id)+str(request.user.id):
                 print(job.id,'=====',str(template_id)+str(job_id)+str(request.user.id))
@@ -5742,6 +5768,16 @@ def end_backend_coding(template_id, job_id,loginuser_id):
                                                         job_id=job_obj)
     stage_status.status = 2
     stage_status.save()
+    job_assign_recruiter = CompanyAssignJob.objects.filter(job_id=job_obj)
+    to_task=[]
+    to_task.append(job_obj.contact_name.id)
+    to_task.append(job_obj.job_owner.id)
+    all_assign_users=job_assign_recruiter.filter(job_id=job_obj)
+    for i in all_assign_users:
+        if i.recruiter_type_internal:
+            to_task.append(i.recruiter_id.id)
+    if stage_status.stage.name=='Coding Test' :
+            taskcreate(job_obj,'title','description','Coding',user_obj,job_obj.contact_name.id,to_task)
 
 def end_frontend_coding(template_id, job_id,loginuser_id):
     user_obj = User.objects.get(id=loginuser_id)
@@ -5758,6 +5794,16 @@ def end_frontend_coding(template_id, job_id,loginuser_id):
                                                         job_id=job_obj)
     stage_status.status = 2
     stage_status.save()
+    job_assign_recruiter = CompanyAssignJob.objects.filter(job_id=job_obj)
+    to_task=[]
+    to_task.append(job_obj.contact_name.id)
+    to_task.append(job_obj.job_owner.id)
+    all_assign_users=job_assign_recruiter.filter(job_id=job_obj)
+    for i in all_assign_users:
+        if i.recruiter_type_internal:
+            to_task.append(i.recruiter_id.id)
+    if stage_status.stage.name=='Coding Test' :
+            taskcreate(job_obj,'title','description','Coding',user_obj,job_obj.contact_name.id,to_task)
     Tracker.objects.update_or_create(job_id=job_obj,candidate_id=user_obj,company_id=stage_status.company_id,defaults={
                                                             'action_required':'Assessment by Company','update_at':datetime.datetime.now()})
 
@@ -5790,6 +5836,7 @@ def descriptive_exam(request, id, job_id):
         schedule_end_mcq = start_time + datetime.timedelta(seconds=total_time)
         schedule_end_mcq = schedule_end_mcq.astimezone(pytz.utc)
         print('end mcq===========================',schedule_end_mcq)
+        
         getjob=Scheduler.get_jobs()
         for job in getjob:
             if job.id==str(id)+str(job_id)+str(request.user.id):
@@ -5903,6 +5950,16 @@ def descriptive_result(request, id, job_id):
                             description="Thank you for submitting your interview, please wait for results.",image="/static/notifications/icon/company/Job_Create.png",
                             target_url=header+"://"+current_site.domain+"/candidate/applied_job_detail/" + str(
                                 job_obj.id)+"/company")
+    job_assign_recruiter = CompanyAssignJob.objects.filter(job_id=job_obj)
+    to_task=[]
+    to_task.append(job_obj.contact_name.id)
+    to_task.append(job_obj.job_owner.id)
+    all_assign_users=job_assign_recruiter.filter(job_id=job_obj)
+    for i in all_assign_users:
+        if i.recruiter_type_internal:
+            to_task.append(i.recruiter_id.id)
+    if stage_status.stage.name=='Descriptive Test' :
+            taskcreate(job_obj,'title','description','descriptive',user_obj,job_obj.contact_name.id,to_task)
     getjob=Scheduler.get_jobs()
     for job in getjob:
         if job.id==str(id)+str(job_id)+str(request.user.id):
@@ -5954,7 +6011,16 @@ def end_descriptive(template_id, job_id,loginuser_id):
     print("=============================================================")
     Tracker.objects.update_or_create(job_id=job_obj,candidate_id=user_obj,company_id=stage_status.company_id,defaults={
                                                                 'action_required':'Assessment by Company','update_at':datetime.datetime.now()})
-
+    job_assign_recruiter = CompanyAssignJob.objects.filter(job_id=job_obj)
+    to_task=[]
+    to_task.append(job_obj.contact_name.id)
+    to_task.append(job_obj.job_owner.id)
+    all_assign_users=job_assign_recruiter.filter(job_id=job_obj)
+    for i in all_assign_users:
+        if i.recruiter_type_internal:
+            to_task.append(i.recruiter_id.id)
+    if stage_status.stage.name=='Descriptive Test' :
+            taskcreate(job_obj,'title','description','descriptive',user_obj,job_obj.contact_name.id,to_task)
 # Image exam
 
 
@@ -6290,6 +6356,14 @@ def image_result(request, id, job_id):
                                                 job_id=job_obj,
                                                 template=template_obj)
     mcqtem = ImageExamTemplate.objects.get(company_id=job_obj.company_id, template=template_obj)
+    job_assign_recruiter = CompanyAssignJob.objects.filter(job_id=job_obj)
+    to_task=[]
+    to_task.append(job_obj.contact_name.id)
+    to_task.append(job_obj.job_owner.id)
+    all_assign_users=job_assign_recruiter.filter(job_id=job_obj)
+    for i in all_assign_users:
+        if i.recruiter_type_internal:
+            to_task.append(i.recruiter_id.id)
     obain_marks = 0
     obain_time = 0
     total_que=0
@@ -6401,6 +6475,8 @@ def image_result(request, id, job_id):
                     new_stage_status = CandidateJobStagesStatus.objects.get(job_id=job_obj, candidate_id=user_obj,
                                                                             sequence_number=new_sequence_no+1)
                     next_stage=new_stage_status.stage
+                    # if next_stage.name=='Interview' :
+                        # taskcreate(job_obj,'title','description','Interview',user_obj,job_obj.contact_name.id,to_task)
                     print(next_stage)
                 if not next_stage==None:
                     if next_stage.name=='Interview' :
@@ -6444,6 +6520,8 @@ def image_result(request, id, job_id):
                                                                             sequence_number=new_sequence_no)
                     new_stage_status.status = 1
                     new_stage_status.save()
+                    if next_stage.name=='Interview' :
+                        taskcreate(job_obj,'title','description','Interview',user_obj,job_obj.contact_name.id,to_task)
                     notify.send(request.user, recipient=User.objects.get(email=email), verb="Interview Round",
                             description="Please start your interview round : "+new_stage_status.custom_stage_name,image="/static/notifications/icon/company/Job_Create.png",
                             target_url=header+"://"+current_site.domain+"/candidate/applied_job_detail/" + str(
@@ -6459,12 +6537,15 @@ def image_result(request, id, job_id):
                                     description="Thank you for submitting your interview, please wait for results.",image="/static/notifications/icon/company/Job_Create.png",
                                     target_url=header+"://"+current_site.domain+"/candidate/applied_job_detail/" + str(
                                         job_obj.id)+"/company")
+            if stage_status.stage.name=='Image Test' :
+                taskcreate(job_obj,'title','description','Image',user_obj,job_obj.contact_name.id,to_task)
 
     if job_workflow.onthego:
         stage_status.status = 2
         stage_status.action_performed = False
         stage_status.assessment_done = True
         stage_status.save()
+
     getjob=Scheduler.get_jobs()
     for job in getjob:
         if job.id==str(id)+str(job_id)+str(request.user.id):
@@ -6488,8 +6569,15 @@ def end_image(template_id, job_id,loginuser_id):
     total_que=0
     ans_que=0
     no_ans_que=0
+    job_assign_recruiter = CompanyAssignJob.objects.filter(job_id=job_obj)
+    to_task=[]
+    to_task.append(job_obj.contact_name.id)
+    to_task.append(job_obj.job_owner.id)
+    all_assign_users=job_assign_recruiter.filter(job_id=job_obj)
+    for i in all_assign_users:
+        if i.recruiter_type_internal:
+            to_task.append(i.recruiter_id.id)
     for i in get_result:
-
         if i.status == 1:
             obain_marks = obain_marks + i.marks
             ans_que+=1
@@ -6636,7 +6724,9 @@ def end_image(template_id, job_id,loginuser_id):
                                                                             sequence_number=new_sequence_no)
                     new_stage_status.status = 1
                     new_stage_status.save()
-                    notify.send(request.user, recipient=User.objects.get(email=email), verb="Interview Round",
+                    if next_stage.name=='Interview' :
+                        taskcreate(job_obj,'title','description','Interview',user_obj,job_obj.contact_name.id,to_task)
+                    notify.send(request.user, recipient=request.user, verb="Interview Round",
                             description="Please start your interview round : "+new_stage_status.custom_stage_name,image="/static/notifications/icon/company/Job_Create.png",
                             target_url=header+"://"+current_site.domain+"/candidate/applied_job_detail/" + str(
                                 job_obj.id)+"/company")
@@ -6645,13 +6735,23 @@ def end_image(template_id, job_id,loginuser_id):
             stage_status.action_performed = False
             stage_status.assessment_done = True
             stage_status.save()
-
+            if stage_status.stage.name=='Image Test' :
+                taskcreate(job_obj,'title','description','Image',user_obj,job_obj.contact_name.id,to_task)
     if job_workflow.onthego:
         stage_status.status = 2
         stage_status.action_performed = False
         stage_status.assessment_done = True
         stage_status.save()
-
+        if stage_status.stage.name=='Image Test' :
+                taskcreate(job_obj,'title','description','Image',user_obj,job_obj.contact_name.id,to_task)
+        new_sequence_no = stage_status.sequence_number + 1
+        if CandidateJobStagesStatus.objects.filter(job_id=job_obj, candidate_id=user_obj,
+                                                    sequence_number=new_sequence_no).exists():
+            new_stage_status = CandidateJobStagesStatus.objects.get(job_id=job_obj, candidate_id=user_obj,
+                                                                        sequence_number=new_sequence_no)
+            next_stage=new_stage_status.stage
+            if next_stage.name=='Interview' :
+                    taskcreate(job_obj,'title','description','Interview',user_obj,job_obj.contact_name.id,to_task)
     print("DEACTIVATE CAAAAAAAALEEEEEDEDEDEDEDE")
 
 # audio
@@ -6789,6 +6889,14 @@ def audio_result(request, id, job_id):
                                                          company_id=audio_question_paper.company_id,
                                                          audio_question_paper=audio_question_paper, job_id=job_obj)
     print("==========================",attempt.audio_question_attempts.all())
+    to_task=[]
+    to_task.append(job_obj.contact_name.id)
+    to_task.append(job_obj.job_owner.id)
+    job_assign_recruiter = CompanyAssignJob.objects.filter(job_id=job_obj)
+    all_assign_users=job_assign_recruiter.filter(job_id=job_obj)
+    for i in all_assign_users:
+        if i.recruiter_type_internal:
+            to_task.append(i.recruiter_id.id)
     get_result = {'total_question':len(attempt.audio_question_attempts.all())}
     ans_count=0
     noans_count=0
@@ -6824,6 +6932,8 @@ def audio_result(request, id, job_id):
                             description="Thank you for submitting your interview, please wait for results.",image="/static/notifications/icon/company/Job_Create.png",
                             target_url=header+"://"+current_site.domain+"/candidate/applied_job_detail/" + str(
                                 job_obj.id)+"/company")
+    if stage_status.stage.name=='Audio Test' :
+        taskcreate(job_obj,'title','description','Audio',user_obj,job_obj.contact_name.id,to_task)
     getjob=Scheduler.get_jobs()
     for job in getjob:
         if job.id==str(id)+str(job_id)+str(request.user.id):
@@ -6849,12 +6959,21 @@ def end_audio(template_id, job_id,loginuser_id):
             ans_count+=1
         else:
             noans_count+=1
+    to_task=[]
+    to_task.append(job_obj.contact_name.id)
+    to_task.append(job_obj.job_owner.id)
+    job_assign_recruiter = CompanyAssignJob.objects.filter(job_id=job_obj)
+    all_assign_users=job_assign_recruiter.filter(job_id=job_obj)
+    for i in all_assign_users:
+        if i.recruiter_type_internal:
+            to_task.append(i.recruiter_id.id)
     get_result['answered']=ans_count
     get_result['not_answered']=noans_count
     obain_time = 0
     total_que = 0
     ans_que = 0
     no_ans_que = 0
+
     for i in attempt.audio_question_attempts.all():
         if i.answer != '':
             ans_que += 1
@@ -6868,6 +6987,8 @@ def end_audio(template_id, job_id,loginuser_id):
     stage_status.action_performed = False
     stage_status.assessment_done = False
     stage_status.save()
+    if stage_status.stage.name=='Audio Test' :
+        taskcreate(job_obj,'title','description','Audio',user_obj,job_obj.contact_name.id,to_task)
     Tracker.objects.update_or_create(job_id=job_obj,candidate_id=user_obj,company_id=stage_status.company_id,defaults={
                                                                 'action_required':'Assessment by Company','update_at':datetime.datetime.now()})
 
@@ -6880,13 +7001,193 @@ def create_interview_link():
 
 
 # def applied_job_detail(request, id,company_type):
-#     if company_type=='company':
-#         job_obj = JobCreation.objects.get(id=id)
-#         current_stage==None
-#         workflow = JobWorkflow.objects.get(job_id=job_obj)
+# #     if company_type=='company':
+# #         job_obj = JobCreation.objects.get(id=id)
+# #         current_stage==None
+# #         workflow = JobWorkflow.objects.get(job_id=job_obj)
+# #         candidate_obj = User.objects.get(id=request.user.id)
+# #         workflow_stages = WorkflowStages.objects.filter(workflow=workflow.workflow_id,display=True).order_by('sequence_number')
+# #         stages_status = CandidateJobStagesStatus.objects.filter(company_id=job_obj.company_id,
+# #                                                                     candidate_id=candidate_obj,
+# #                                                                     job_id=job_obj).order_by('sequence_number')
+
+# #         if request.method == 'POST':
+            
+# #             if 'reschedule_interview' in request.POST:
+# #                 date_time = '<ul>'
+# #                 for (date,time) in zip_longest(request.POST.getlist('interview_date'),request.POST.getlist('interview_time'),fillvalue=None):
+# #                     date_time += """<li><b>""" + str(date) + ' ' + str(time) + """</b></li>"""
+# #                 date_time += '</ul>'
+# #                 date_time += """<p>""" + request.POST.get('reschedule_instruction') + """</p>"""
+# #                 interview_schedule_obj.reschedule_message = date_time
+# #                 interview_schedule_obj.is_accepted = False
+# #                 interview_schedule_obj.status = 0
+# #                 interview_schedule_obj.save()
+# #                 all_assign_users = CompanyAssignJob.objects.filter(job_id=job_obj)
+# #                 if not current_stage==None:
+# #                     for i in all_assign_users:
+# #                         if i.recruiter_type_internal:
+# #                             if i.recruiter_id.id != request.user.id:
+# #                                 notify.send(request.user, recipient=User.objects.get(id=i.recruiter_id.id),verb="Interview Reschedule",
+# #                                                                                     description="Candidate requested for reschedule, please provide new timing.",image="/static/notifications/icon/company/Application_Review.png",
+# #                                                                                     target_url=header+"://"+current_site.domain+"/company/company_portal_candidate_tablist/"+str(candidate_obj.id)+"/" + str(
+# #                                                                                         job_obj.id))
+# #                 Tracker.objects.update_or_create(job_id=job_obj,candidate_id=candidate_obj,company_id=interview_schedule_obj.company_id,defaults={
+# #                                                                     'action_required':'Reschedule interview by Company','update_at':datetime.datetime.now()})
+# #             elif 'withdraw_candidate' in request.POST:
+# #                 CandidateJobStatus.objects.update_or_create(candidate_id=candidate_obj,
+# #                                                                 job_id=job_obj,
+# #                                                                 company_id=job_obj.company_id,
+# #                                                                 defaults={'withdraw_by':User.objects.get(id=request.user.id),'is_withdraw':True})
+# #                 Tracker.objects.update_or_create(job_id=job_obj,candidate_id=candidate_obj,company_id=job_obj.company_id,defaults={
+# #                                                                     'withdraw':True,'update_at':datetime.datetime.now()})
+# #                 current_site = get_current_site(request)
+# #                 header=request.is_secure() and "https" or "http"
+# #                 notify.send(request.user, recipient=request.user, verb="Withdraw",
+# #                                 description="You have withdrawn your application from Job "+str(job_obj.job_title),image="/static/notifications/icon/company/Job_Create.png",
+# #                                 target_url=header+"://"+current_site.domain+"/candidate/applied_job_detail/" + str(
+# #                                     job_obj.id)+"/company")
+# #             else:
+# #                 interview_schedule_id = request.POST.get('interview_schedule_data')
+# #                 interview_schedule_obj = InterviewSchedule.objects.get(id=interview_schedule_id)
+# #                 link = create_interview_link()
+# #                 interview_schedule_obj.is_accepted = True
+# #                 interview_schedule_obj.interview_link = link
+# #                 interview_schedule_obj.save()
+# #                 # Date Trigger
+# #                 Tracker.objects.update_or_create(job_id=job_obj,candidate_id=candidate_obj,company_id=interview_schedule_obj.company_id,defaults={
+# #                                                                     'action_required':'By Both','update_at':datetime.datetime.now()})
+# #                 time_zone = pytz.timezone("Asia/Calcutta")
+# #                 schedule_date=datetime.datetime.combine(datetime.datetime.strptime(str(interview_schedule_obj.date),'%Y-%m-%d').date(),datetime.datetime.strptime(str(interview_schedule_obj.time), '%H:%M:%S').time())
+# #                 schedule_activelink = schedule_date - datetime.timedelta(minutes=15)
+# #                 schedule_activelink = time_zone.localize(schedule_activelink)
+# #                 schedule_activelink = schedule_activelink.astimezone(pytz.utc)
+# #                 print(schedule_activelink)
+# #                 print("sdasdsadsa",datetime.datetime.now())
+# #                 all_assign_users = CompanyAssignJob.objects.filter(job_id=job_obj)
+# #                 if not current_stage==None:
+# #                     for i in all_assign_users:
+# #                         if i.recruiter_type_internal:
+# #                             if i.recruiter_id.id != request.user.id:
+# #                                 notify.send(request.user, recipient=User.objects.get(id=i.recruiter_id.id),verb="Interview Confirmed",
+# #                                                                                     description="Candidate confirmed the InterView time.",image="/static/notifications/icon/company/Application_Review.png",
+# #                                                                                     target_url=header+"://"+current_site.domain+"/company/company_portal_candidate_tablist/"+str(candidate_obj.id)+"/" + str(
+# #                                                                                         job_obj.id))
+# #                 Scheduler.add_job(
+# #                                 activate_link,
+# #                                 trigger=DateTrigger(run_date=schedule_activelink),
+# #                                 args = [interview_schedule_obj],
+# #                                 misfire_grace_time=6000
+# #                                 # replace_existing=True
+# #                             )
+# #                 duration=datetime.datetime.strptime(str(interview_schedule_obj.interview_duration), '%H:%M').time()
+# #                 A= datetime.timedelta(hours = duration.hour,minutes = duration.minute)
+# #                 totalsecond = A.total_seconds()
+# #                 schedule_deactivelink = schedule_date + datetime.timedelta(seconds=totalsecond)
+# #                 schedule_deactivelink = time_zone.localize(schedule_deactivelink)
+# #                 schedule_deactivelink = schedule_deactivelink.astimezone(pytz.utc)
+# #                 print(schedule_deactivelink)
+# #                 Scheduler.add_job(
+# #                                 deactivate_link,
+# #                                 trigger=DateTrigger(run_date=schedule_deactivelink),
+# #                                 args = [interview_schedule_obj],
+# #                                 misfire_grace_time=6000
+# #                                 # replace_existing=True
+# #                             )
+                
+# #         interview_schedule_data = None
+# #         job_offer_data = None
+# #         custom_round_data = None
+# #         stages_data = []
+# #         for stage in stages_status:
+# #             stage_dict = {'stage': stage, 'result': ''}
+# #             if stage.stage.name == 'Custom':
+# #                 custom_template = CustomTemplate.objects.filter(company_id=stage.company_id,template=stage.template)
+# #                 if custom_template.exists():
+# #                     custom_template = custom_template[0]
+# #                     custom_round_data = CustomResult.objects.filter(candidate_id=stage.candidate_id,company_id=stage.company_id,
+# #                                                 job_id=stage.job_id,custom_template=custom_template)
+# #                     custom_round_data = custom_round_data.first() if custom_round_data.exists() else None
+# #             if stage.stage.name == 'Interview':
+
+# #                 interview_schedule_obj = InterviewSchedule.objects.filter(candidate_id=candidate_obj,
+# #                                                                                 job_id=job_obj,
+# #                                                         company_id=stage.company_id,
+# #                                                         template=stage.template,
+# #                                                         job_stages_id=stage)
+# #                 print('\n\nin Interview',interview_schedule_obj)
+# #                 if interview_schedule_obj.exists():
+# #                     interview_schedule_data = interview_schedule_obj[0]
+
+# #             if stage.stage.name == 'Job Offer':
+# #                 print('\n\nin Job Offer')
+# #                 job_offer_obj = JobOffer.objects.filter(candidate_id=candidate_obj, job_id=job_obj,
+# #                                                                                 company_id=stage.company_id,
+# #                                                                                 job_stages_id=stage)
+# #                 if job_offer_obj.exists():
+# #                     job_offer_data = job_offer_obj[0]
+
+# #             if stage.status == 2 or stage.status == -1 or stage.status == 3:
+# #                 if stage.stage.name == 'JCR':
+# #                     jcr_result = models.JcrRatio.objects.get(company_id=stage.company_id,candidate_id=stage.candidate_id,job_id=job_obj,
+# #                                                 template=stage.template)
+# #                     stage_dict['result'] = jcr_result
+
+# #                 if stage.stage.name == 'Prerequisites':
+# #                     prerequisites_result = models.PreRequisitesFill.objects.get(company_id=stage.company_id,candidate_id=stage.candidate_id,job_id=job_obj,
+# #                                                 template=stage.template)
+# #                     stage_dict['result'] = prerequisites_result
+
+# #                 if stage.stage.name == 'MCQ Test':
+# #                     if not stage.reject_by_candidate:
+# #                         mcq_test_result = models.Mcq_Exam_result.objects.get(company_id=stage.company_id,candidate_id=stage.candidate_id,job_id=job_obj,
+# #                                                     template=stage.template)
+# #                         print('\n\n \nmcq_test_result', mcq_test_result)
+# #                         stage_dict['result'] = mcq_test_result
+# #                     else:
+# #                         stage_dict['result'] = None
+
+# #                 if stage.stage.name == 'Descriptive Test':
+# #                     if not stage.reject_by_candidate:
+# #                         descriptive_result = models.Descriptive_Exam_result.objects.get(company_id=stage.company_id,candidate_id=stage.candidate_id,job_id=job_obj,
+# #                                                     template=stage.template)
+# #                         stage_dict['result'] = descriptive_result
+# #                     else:
+# #                         stage_dict['result'] = None
+
+
+# #                 if stage.stage.name == 'Image Test':
+# #                     if not stage.reject_by_candidate:
+# #                         image_result = models.Image_Exam_result.objects.get(company_id=stage.company_id,candidate_id=stage.candidate_id,job_id=job_obj,
+# #                                                     template=stage.template)
+# #                         stage_dict['result'] = image_result
+# #                     else:
+# #                         stage_dict['result'] = None
+
+# #             stages_data.append(stage_dict)
+
+# #         print('stages_data>>>>>>>>>>>>>>>>>', stages_data)
+# #         chat_internal =CompanyAssignJob.objects.filter(job_id=job_obj, recruiter_type_internal=True,company_id=job_obj.company_id)
+
+# #         candidate_job_status = None
+# #         if CandidateJobStatus.objects.filter(candidate_id=candidate_obj, job_id=job_obj).exists():
+# #             candidate_job_status = CandidateJobStatus.objects.get(candidate_id=candidate_obj, job_id=job_obj)
+
+# #         candidate_apply_details = None
+# #         if AppliedCandidate.objects.filter(candidate=candidate_obj,company_id=job_obj.company_id).exists():
+# #             candidate_apply_details = AppliedCandidate.objects.get(candidate_id=candidate_obj, job_id=job_obj)
+# #         return render(request, 'candidate/ATS/applied-candidates-details.html',
+# #                   {'workflow_stages': workflow_stages, 'job_obj': job_obj,'stages_status':stages_status,'candidate_apply_details':candidate_apply_details,
+# #                    'stages_data':stages_data,'interview_schedule_data':interview_schedule_data,
+# #                    'job_offer_data':job_offer_data,'chat_internal':chat_internal,'custom_round_data':custom_round_data,
+# #                    'candidate_job_status':candidate_job_status})
+# #     if company_type=='agency':
+#         job_obj = AgencyModels.JobCreation.objects.get(id=id)
+#         current_stage=None
+#         workflow = AgencyModels.JobWorkflow.objects.get(job_id=job_obj)
 #         candidate_obj = User.objects.get(id=request.user.id)
-#         workflow_stages = WorkflowStages.objects.filter(workflow=workflow.workflow_id,display=True).order_by('sequence_number')
-#         stages_status = CandidateJobStagesStatus.objects.filter(company_id=job_obj.company_id,
+#         workflow_stages = AgencyModels.WorkflowStages.objects.filter(workflow=workflow.workflow_id,display=True).order_by('sequence_number')
+#         stages_status = AgencyModels.CandidateJobStagesStatus.objects.filter(agency_id=job_obj.agency_id,
 #                                                                     candidate_id=candidate_obj,
 #                                                                     job_id=job_obj).order_by('sequence_number')
 
@@ -6902,40 +7203,40 @@ def create_interview_link():
 #                 interview_schedule_obj.is_accepted = False
 #                 interview_schedule_obj.status = 0
 #                 interview_schedule_obj.save()
-#                 all_assign_users = CompanyAssignJob.objects.filter(job_id=job_obj)
+#                 all_assign_users = AgencyModels.AgencyAssignJob.objects.filter(job_id=job_obj)
 #                 if not current_stage==None:
 #                     for i in all_assign_users:
 #                         if i.recruiter_type_internal:
 #                             if i.recruiter_id.id != request.user.id:
 #                                 notify.send(request.user, recipient=User.objects.get(id=i.recruiter_id.id),verb="Interview Reschedule",
 #                                                                                     description="Candidate requested for reschedule, please provide new timing.",image="/static/notifications/icon/company/Application_Review.png",
-#                                                                                     target_url=header+"://"+current_site.domain+"/company/company_portal_candidate_tablist/"+str(candidate_obj.id)+"/" + str(
+#                                                                                     target_url=header+"://"+current_site.domain+"/agency/agency_portal_candidate_tablist/"+str(candidate_obj.id)+"/" + str(
 #                                                                                         job_obj.id))
-#                 Tracker.objects.update_or_create(job_id=job_obj,candidate_id=candidate_obj,company_id=interview_schedule_obj.company_id,defaults={
-#                                                                     'action_required':'Reschedule interview by Company','update_at':datetime.datetime.now()})
+#                 # Tracker.objects.update_or_create(job_id=job_obj,candidate_id=candidate_obj,company_id=interview_schedule_obj.company_id,defaults={
+#                 #                                                     'action_required':'Reschedule interview by Company','update_at':datetime.datetime.now()})
 #             elif 'withdraw_candidate' in request.POST:
-#                 CandidateJobStatus.objects.update_or_create(candidate_id=candidate_obj,
+#                 AgencyModels.CandidateJobStatus.objects.update_or_create(candidate_id=candidate_obj,
 #                                                                 job_id=job_obj,
-#                                                                 company_id=job_obj.company_id,
+#                                                                 agency_id=job_obj.agency_id,
 #                                                                 defaults={'withdraw_by':User.objects.get(id=request.user.id),'is_withdraw':True})
-#                 Tracker.objects.update_or_create(job_id=job_obj,candidate_id=candidate_obj,company_id=job_obj.company_id,defaults={
-#                                                                     'withdraw':True,'update_at':datetime.datetime.now()})
+#                 # Tracker.objects.update_or_create(job_id=job_obj,candidate_id=candidate_obj,company_id=job_obj.company_id,defaults={
+#                 #                                                     'withdraw':True,'update_at':datetime.datetime.now()})
 #                 current_site = get_current_site(request)
 #                 header=request.is_secure() and "https" or "http"
 #                 notify.send(request.user, recipient=request.user, verb="Withdraw",
 #                                 description="You have withdrawn your application from Job "+str(job_obj.job_title),image="/static/notifications/icon/company/Job_Create.png",
 #                                 target_url=header+"://"+current_site.domain+"/candidate/applied_job_detail/" + str(
-#                                     job_obj.id)+"/company")
+#                                     job_obj.id)+"/agency")
 #             else:
 #                 interview_schedule_id = request.POST.get('interview_schedule_data')
-#                 interview_schedule_obj = InterviewSchedule.objects.get(id=interview_schedule_id)
+#                 interview_schedule_obj = AgencyModels.InterviewSchedule.objects.get(id=interview_schedule_id)
 #                 link = create_interview_link()
 #                 interview_schedule_obj.is_accepted = True
 #                 interview_schedule_obj.interview_link = link
 #                 interview_schedule_obj.save()
 #                 # Date Trigger
-#                 Tracker.objects.update_or_create(job_id=job_obj,candidate_id=candidate_obj,company_id=interview_schedule_obj.company_id,defaults={
-#                                                                     'action_required':'By Both','update_at':datetime.datetime.now()})
+#                 # Tracker.objects.update_or_create(job_id=job_obj,candidate_id=candidate_obj,company_id=interview_schedule_obj.company_id,defaults={
+#                 #                                                     'action_required':'By Both','update_at':datetime.datetime.now()})
 #                 time_zone = pytz.timezone("Asia/Calcutta")
 #                 schedule_date=datetime.datetime.combine(datetime.datetime.strptime(str(interview_schedule_obj.date),'%Y-%m-%d').date(),datetime.datetime.strptime(str(interview_schedule_obj.time), '%H:%M:%S').time())
 #                 schedule_activelink = schedule_date - datetime.timedelta(minutes=15)
@@ -6943,14 +7244,14 @@ def create_interview_link():
 #                 schedule_activelink = schedule_activelink.astimezone(pytz.utc)
 #                 print(schedule_activelink)
 #                 print("sdasdsadsa",datetime.datetime.now())
-#                 all_assign_users = CompanyAssignJob.objects.filter(job_id=job_obj)
+#                 all_assign_users = AgencyModels.AgencyAssignJob.objects.filter(job_id=job_obj)
 #                 if not current_stage==None:
 #                     for i in all_assign_users:
 #                         if i.recruiter_type_internal:
 #                             if i.recruiter_id.id != request.user.id:
 #                                 notify.send(request.user, recipient=User.objects.get(id=i.recruiter_id.id),verb="Interview Confirmed",
 #                                                                                     description="Candidate confirmed the InterView time.",image="/static/notifications/icon/company/Application_Review.png",
-#                                                                                     target_url=header+"://"+current_site.domain+"/company/company_portal_candidate_tablist/"+str(candidate_obj.id)+"/" + str(
+#                                                                                     target_url=header+"://"+current_site.domain+"/agency/agency_portal_candidate_tablist/"+str(candidate_obj.id)+"/" + str(
 #                                                                                         job_obj.id))
 #                 Scheduler.add_job(
 #                                 activate_link,
@@ -6981,17 +7282,17 @@ def create_interview_link():
 #         for stage in stages_status:
 #             stage_dict = {'stage': stage, 'result': ''}
 #             if stage.stage.name == 'Custom':
-#                 custom_template = CustomTemplate.objects.filter(company_id=stage.company_id,template=stage.template)
+#                 custom_template = AgencyModels.CustomTemplate.objects.filter(agency_id=stage.agency_id,template=stage.template)
 #                 if custom_template.exists():
 #                     custom_template = custom_template[0]
-#                     custom_round_data = CustomResult.objects.filter(candidate_id=stage.candidate_id,company_id=stage.company_id,
+#                     custom_round_data = AgencyModels.CustomResult.objects.filter(candidate_id=stage.candidate_id,agency_id=stage.agency_id,
 #                                                 job_id=stage.job_id,custom_template=custom_template)
 #                     custom_round_data = custom_round_data.first() if custom_round_data.exists() else None
 #             if stage.stage.name == 'Interview':
 
-#                 interview_schedule_obj = InterviewSchedule.objects.filter(candidate_id=candidate_obj,
+#                 interview_schedule_obj = AgencyModels.InterviewSchedule.objects.filter(candidate_id=candidate_obj,
 #                                                                                 job_id=job_obj,
-#                                                         company_id=stage.company_id,
+#                                                         agency_id=stage.agency_id,
 #                                                         template=stage.template,
 #                                                         job_stages_id=stage)
 #                 print('\n\nin Interview',interview_schedule_obj)
@@ -7000,26 +7301,26 @@ def create_interview_link():
 
 #             if stage.stage.name == 'Job Offer':
 #                 print('\n\nin Job Offer')
-#                 job_offer_obj = JobOffer.objects.filter(candidate_id=candidate_obj, job_id=job_obj,
-#                                                                                 company_id=stage.company_id,
+#                 job_offer_obj = AgencyModels.JobOffer.objects.filter(candidate_id=candidate_obj, job_id=job_obj,
+#                                                                                 agency_id=stage.agency_id,
 #                                                                                 job_stages_id=stage)
 #                 if job_offer_obj.exists():
 #                     job_offer_data = job_offer_obj[0]
 
 #             if stage.status == 2 or stage.status == -1 or stage.status == 3:
 #                 if stage.stage.name == 'JCR':
-#                     jcr_result = models.JcrRatio.objects.get(company_id=stage.company_id,candidate_id=stage.candidate_id,job_id=job_obj,
+#                     jcr_result = models.JcrRatio.objects.get(agency_id=stage.agency_id,candidate_id=stage.candidate_id,job_id=job_obj,
 #                                                 template=stage.template)
 #                     stage_dict['result'] = jcr_result
 
 #                 if stage.stage.name == 'Prerequisites':
-#                     prerequisites_result = models.PreRequisitesFill.objects.get(company_id=stage.company_id,candidate_id=stage.candidate_id,job_id=job_obj,
+#                     prerequisites_result = models.Agency_PreRequisitesFill.objects.get(agency_id=stage.agency_id,candidate_id=stage.candidate_id,job_id=job_obj,
 #                                                 template=stage.template)
 #                     stage_dict['result'] = prerequisites_result
 
 #                 if stage.stage.name == 'MCQ Test':
 #                     if not stage.reject_by_candidate:
-#                         mcq_test_result = models.Mcq_Exam_result.objects.get(company_id=stage.company_id,candidate_id=stage.candidate_id,job_id=job_obj,
+#                         mcq_test_result = models.Agency_Mcq_Exam_result.objects.get(agency_id=stage.agency_id,candidate_id=stage.candidate_id,job_id=job_obj,
 #                                                     template=stage.template)
 #                         print('\n\n \nmcq_test_result', mcq_test_result)
 #                         stage_dict['result'] = mcq_test_result
@@ -7028,7 +7329,7 @@ def create_interview_link():
 
 #                 if stage.stage.name == 'Descriptive Test':
 #                     if not stage.reject_by_candidate:
-#                         descriptive_result = models.Descriptive_Exam_result.objects.get(company_id=stage.company_id,candidate_id=stage.candidate_id,job_id=job_obj,
+#                         descriptive_result = models.AgencyDescriptive_Exam_result.objects.get(agency_id=stage.agency_id,candidate_id=stage.candidate_id,job_id=job_obj,
 #                                                     template=stage.template)
 #                         stage_dict['result'] = descriptive_result
 #                     else:
@@ -7037,7 +7338,7 @@ def create_interview_link():
 
 #                 if stage.stage.name == 'Image Test':
 #                     if not stage.reject_by_candidate:
-#                         image_result = models.Image_Exam_result.objects.get(company_id=stage.company_id,candidate_id=stage.candidate_id,job_id=job_obj,
+#                         image_result = models.AgencyImage_Exam_result.objects.get(agency_id=stage.agency_id,candidate_id=stage.candidate_id,job_id=job_obj,
 #                                                     template=stage.template)
 #                         stage_dict['result'] = image_result
 #                     else:
@@ -7046,200 +7347,20 @@ def create_interview_link():
 #             stages_data.append(stage_dict)
 
 #         print('stages_data>>>>>>>>>>>>>>>>>', stages_data)
-#         chat_internal =CompanyAssignJob.objects.filter(job_id=job_obj, recruiter_type_internal=True,company_id=job_obj.company_id)
+#         chat_internal =AgencyModels.AgencyAssignJob.objects.filter(job_id=job_obj, recruiter_type_internal=True,agency_id=job_obj.agency_id)
 
 #         candidate_job_status = None
-#         if CandidateJobStatus.objects.filter(candidate_id=candidate_obj, job_id=job_obj).exists():
-#             candidate_job_status = CandidateJobStatus.objects.get(candidate_id=candidate_obj, job_id=job_obj)
+#         if AgencyModels.CandidateJobStatus.objects.filter(candidate_id=candidate_obj, job_id=job_obj).exists():
+#             candidate_job_status = AgencyModels.CandidateJobStatus.objects.get(candidate_id=candidate_obj, job_id=job_obj)
 
 #         candidate_apply_details = None
-#         if AppliedCandidate.objects.filter(candidate=candidate_obj,company_id=job_obj.company_id).exists():
-#             candidate_apply_details = AppliedCandidate.objects.get(candidate_id=candidate_obj, job_id=job_obj)
-#         return render(request, 'candidate/ATS/applied-candidates-details.html',
-#                   {'workflow_stages': workflow_stages, 'job_obj': job_obj,'stages_status':stages_status,'candidate_apply_details':candidate_apply_details,
-#                    'stages_data':stages_data,'interview_schedule_data':interview_schedule_data,
-#                    'job_offer_data':job_offer_data,'chat_internal':chat_internal,'custom_round_data':custom_round_data,
-#                    'candidate_job_status':candidate_job_status})
-#     if company_type=='agency':
-        job_obj = AgencyModels.JobCreation.objects.get(id=id)
-        current_stage=None
-        workflow = AgencyModels.JobWorkflow.objects.get(job_id=job_obj)
-        candidate_obj = User.objects.get(id=request.user.id)
-        workflow_stages = AgencyModels.WorkflowStages.objects.filter(workflow=workflow.workflow_id,display=True).order_by('sequence_number')
-        stages_status = AgencyModels.CandidateJobStagesStatus.objects.filter(agency_id=job_obj.agency_id,
-                                                                    candidate_id=candidate_obj,
-                                                                    job_id=job_obj).order_by('sequence_number')
-
-        if request.method == 'POST':
-            
-            if 'reschedule_interview' in request.POST:
-                date_time = '<ul>'
-                for (date,time) in zip_longest(request.POST.getlist('interview_date'),request.POST.getlist('interview_time'),fillvalue=None):
-                    date_time += """<li><b>""" + str(date) + ' ' + str(time) + """</b></li>"""
-                date_time += '</ul>'
-                date_time += """<p>""" + request.POST.get('reschedule_instruction') + """</p>"""
-                interview_schedule_obj.reschedule_message = date_time
-                interview_schedule_obj.is_accepted = False
-                interview_schedule_obj.status = 0
-                interview_schedule_obj.save()
-                all_assign_users = AgencyModels.AgencyAssignJob.objects.filter(job_id=job_obj)
-                if not current_stage==None:
-                    for i in all_assign_users:
-                        if i.recruiter_type_internal:
-                            if i.recruiter_id.id != request.user.id:
-                                notify.send(request.user, recipient=User.objects.get(id=i.recruiter_id.id),verb="Interview Reschedule",
-                                                                                    description="Candidate requested for reschedule, please provide new timing.",image="/static/notifications/icon/company/Application_Review.png",
-                                                                                    target_url=header+"://"+current_site.domain+"/agency/agency_portal_candidate_tablist/"+str(candidate_obj.id)+"/" + str(
-                                                                                        job_obj.id))
-                # Tracker.objects.update_or_create(job_id=job_obj,candidate_id=candidate_obj,company_id=interview_schedule_obj.company_id,defaults={
-                #                                                     'action_required':'Reschedule interview by Company','update_at':datetime.datetime.now()})
-            elif 'withdraw_candidate' in request.POST:
-                AgencyModels.CandidateJobStatus.objects.update_or_create(candidate_id=candidate_obj,
-                                                                job_id=job_obj,
-                                                                agency_id=job_obj.agency_id,
-                                                                defaults={'withdraw_by':User.objects.get(id=request.user.id),'is_withdraw':True})
-                # Tracker.objects.update_or_create(job_id=job_obj,candidate_id=candidate_obj,company_id=job_obj.company_id,defaults={
-                #                                                     'withdraw':True,'update_at':datetime.datetime.now()})
-                current_site = get_current_site(request)
-                header=request.is_secure() and "https" or "http"
-                notify.send(request.user, recipient=request.user, verb="Withdraw",
-                                description="You have withdrawn your application from Job "+str(job_obj.job_title),image="/static/notifications/icon/company/Job_Create.png",
-                                target_url=header+"://"+current_site.domain+"/candidate/applied_job_detail/" + str(
-                                    job_obj.id)+"/agency")
-            else:
-                interview_schedule_id = request.POST.get('interview_schedule_data')
-                interview_schedule_obj = AgencyModels.InterviewSchedule.objects.get(id=interview_schedule_id)
-                link = create_interview_link()
-                interview_schedule_obj.is_accepted = True
-                interview_schedule_obj.interview_link = link
-                interview_schedule_obj.save()
-                # Date Trigger
-                # Tracker.objects.update_or_create(job_id=job_obj,candidate_id=candidate_obj,company_id=interview_schedule_obj.company_id,defaults={
-                #                                                     'action_required':'By Both','update_at':datetime.datetime.now()})
-                time_zone = pytz.timezone("Asia/Calcutta")
-                schedule_date=datetime.datetime.combine(datetime.datetime.strptime(str(interview_schedule_obj.date),'%Y-%m-%d').date(),datetime.datetime.strptime(str(interview_schedule_obj.time), '%H:%M:%S').time())
-                schedule_activelink = schedule_date - datetime.timedelta(minutes=15)
-                schedule_activelink = time_zone.localize(schedule_activelink)
-                schedule_activelink = schedule_activelink.astimezone(pytz.utc)
-                print(schedule_activelink)
-                print("sdasdsadsa",datetime.datetime.now())
-                all_assign_users = AgencyModels.AgencyAssignJob.objects.filter(job_id=job_obj)
-                if not current_stage==None:
-                    for i in all_assign_users:
-                        if i.recruiter_type_internal:
-                            if i.recruiter_id.id != request.user.id:
-                                notify.send(request.user, recipient=User.objects.get(id=i.recruiter_id.id),verb="Interview Confirmed",
-                                                                                    description="Candidate confirmed the InterView time.",image="/static/notifications/icon/company/Application_Review.png",
-                                                                                    target_url=header+"://"+current_site.domain+"/agency/agency_portal_candidate_tablist/"+str(candidate_obj.id)+"/" + str(
-                                                                                        job_obj.id))
-                Scheduler.add_job(
-                                activate_link,
-                                trigger=DateTrigger(run_date=schedule_activelink),
-                                args = [interview_schedule_obj],
-                                misfire_grace_time=6000
-                                # replace_existing=True
-                            )
-                duration=datetime.datetime.strptime(str(interview_schedule_obj.interview_duration), '%H:%M').time()
-                A= datetime.timedelta(hours = duration.hour,minutes = duration.minute)
-                totalsecond = A.total_seconds()
-                schedule_deactivelink = schedule_date + datetime.timedelta(seconds=totalsecond)
-                schedule_deactivelink = time_zone.localize(schedule_deactivelink)
-                schedule_deactivelink = schedule_deactivelink.astimezone(pytz.utc)
-                print(schedule_deactivelink)
-                Scheduler.add_job(
-                                deactivate_link,
-                                trigger=DateTrigger(run_date=schedule_deactivelink),
-                                args = [interview_schedule_obj],
-                                misfire_grace_time=6000
-                                # replace_existing=True
-                            )
-                
-        interview_schedule_data = None
-        job_offer_data = None
-        custom_round_data = None
-        stages_data = []
-        for stage in stages_status:
-            stage_dict = {'stage': stage, 'result': ''}
-            if stage.stage.name == 'Custom':
-                custom_template = AgencyModels.CustomTemplate.objects.filter(agency_id=stage.agency_id,template=stage.template)
-                if custom_template.exists():
-                    custom_template = custom_template[0]
-                    custom_round_data = AgencyModels.CustomResult.objects.filter(candidate_id=stage.candidate_id,agency_id=stage.agency_id,
-                                                job_id=stage.job_id,custom_template=custom_template)
-                    custom_round_data = custom_round_data.first() if custom_round_data.exists() else None
-            if stage.stage.name == 'Interview':
-
-                interview_schedule_obj = AgencyModels.InterviewSchedule.objects.filter(candidate_id=candidate_obj,
-                                                                                job_id=job_obj,
-                                                        agency_id=stage.agency_id,
-                                                        template=stage.template,
-                                                        job_stages_id=stage)
-                print('\n\nin Interview',interview_schedule_obj)
-                if interview_schedule_obj.exists():
-                    interview_schedule_data = interview_schedule_obj[0]
-
-            if stage.stage.name == 'Job Offer':
-                print('\n\nin Job Offer')
-                job_offer_obj = AgencyModels.JobOffer.objects.filter(candidate_id=candidate_obj, job_id=job_obj,
-                                                                                agency_id=stage.agency_id,
-                                                                                job_stages_id=stage)
-                if job_offer_obj.exists():
-                    job_offer_data = job_offer_obj[0]
-
-            if stage.status == 2 or stage.status == -1 or stage.status == 3:
-                if stage.stage.name == 'JCR':
-                    jcr_result = models.JcrRatio.objects.get(agency_id=stage.agency_id,candidate_id=stage.candidate_id,job_id=job_obj,
-                                                template=stage.template)
-                    stage_dict['result'] = jcr_result
-
-                if stage.stage.name == 'Prerequisites':
-                    prerequisites_result = models.Agency_PreRequisitesFill.objects.get(agency_id=stage.agency_id,candidate_id=stage.candidate_id,job_id=job_obj,
-                                                template=stage.template)
-                    stage_dict['result'] = prerequisites_result
-
-                if stage.stage.name == 'MCQ Test':
-                    if not stage.reject_by_candidate:
-                        mcq_test_result = models.Agency_Mcq_Exam_result.objects.get(agency_id=stage.agency_id,candidate_id=stage.candidate_id,job_id=job_obj,
-                                                    template=stage.template)
-                        print('\n\n \nmcq_test_result', mcq_test_result)
-                        stage_dict['result'] = mcq_test_result
-                    else:
-                        stage_dict['result'] = None
-
-                if stage.stage.name == 'Descriptive Test':
-                    if not stage.reject_by_candidate:
-                        descriptive_result = models.AgencyDescriptive_Exam_result.objects.get(agency_id=stage.agency_id,candidate_id=stage.candidate_id,job_id=job_obj,
-                                                    template=stage.template)
-                        stage_dict['result'] = descriptive_result
-                    else:
-                        stage_dict['result'] = None
-
-
-                if stage.stage.name == 'Image Test':
-                    if not stage.reject_by_candidate:
-                        image_result = models.AgencyImage_Exam_result.objects.get(agency_id=stage.agency_id,candidate_id=stage.candidate_id,job_id=job_obj,
-                                                    template=stage.template)
-                        stage_dict['result'] = image_result
-                    else:
-                        stage_dict['result'] = None
-
-            stages_data.append(stage_dict)
-
-        print('stages_data>>>>>>>>>>>>>>>>>', stages_data)
-        chat_internal =AgencyModels.AgencyAssignJob.objects.filter(job_id=job_obj, recruiter_type_internal=True,agency_id=job_obj.agency_id)
-
-        candidate_job_status = None
-        if AgencyModels.CandidateJobStatus.objects.filter(candidate_id=candidate_obj, job_id=job_obj).exists():
-            candidate_job_status = AgencyModels.CandidateJobStatus.objects.get(candidate_id=candidate_obj, job_id=job_obj)
-
-        candidate_apply_details = None
-        if AgencyModels.AppliedCandidate.objects.filter(candidate=candidate_obj,agency_id=job_obj.agency_id).exists():
-            candidate_apply_details = AgencyModels.AppliedCandidate.objects.get(candidate_id=candidate_obj, job_id=job_obj)
-        return render(request, 'candidate/ATS/agency_applied-candidates-details.html',
-                    {'workflow_stages': workflow_stages, 'job_obj': job_obj,'stages_status':stages_status,'candidate_apply_details':candidate_apply_details,
-                    'stages_data':stages_data,'interview_schedule_data':interview_schedule_data,
-                    'job_offer_data':job_offer_data,'chat_internal':chat_internal,'custom_round_data':custom_round_data,
-                    'candidate_job_status':candidate_job_status})
+#         if AgencyModels.AppliedCandidate.objects.filter(candidate=candidate_obj,agency_id=job_obj.agency_id).exists():
+#             candidate_apply_details = AgencyModels.AppliedCandidate.objects.get(candidate_id=candidate_obj, job_id=job_obj)
+#         return render(request, 'candidate/ATS/agency_applied-candidates-details.html',
+#                     {'workflow_stages': workflow_stages, 'job_obj': job_obj,'stages_status':stages_status,'candidate_apply_details':candidate_apply_details,
+#                     'stages_data':stages_data,'interview_schedule_data':interview_schedule_data,
+#                     'job_offer_data':job_offer_data,'chat_internal':chat_internal,'custom_round_data':custom_round_data,
+#                     'candidate_job_status':candidate_job_status})
 
 def activate_link(interview_schedule_obj):
     interview_schedule_obj.interview_start_button_status=True
@@ -7355,6 +7476,14 @@ def custom_round(request,id):
     if stage_obj.status == 1:
         custom_round_obj = CustomTemplate.objects.filter(company_id=stage_obj.company_id,
                                                                 template=stage_obj.template)
+        job_assign_recruiter = CompanyAssignJob.objects.filter(job_id=job_obj)
+        to_task=[]
+        to_task.append(stage_obj.job_id.contact_name.id)
+        to_task.append(stage_obj.job_id.job_owner.id)
+        all_assign_users=job_assign_recruiter.filter(job_id=stage_obj.job_id)
+        for i in all_assign_users:
+            if i.recruiter_type_internal:
+                to_task.append(i.recruiter_id.id)
         if custom_round_obj.exists():
             custom_round_data = custom_round_obj[0]
             if request.method == 'POST':
@@ -7371,11 +7500,13 @@ def custom_round(request,id):
                 stage_obj.status = 2
                 stage_obj.save()
                 current_site = get_current_site(request)
+                if stage_obj.stage.name=='Custom' :
+                    taskcreate(stage_obj.job_id,'title','description','Custom',request.user,stage_obj.job_id.contact_name.id,to_task)
                 header=request.is_secure() and "https" or "http"
                 notify.send(request.user, recipient=request.user, verb="Manual",
                                         description="Thank you for submitting your interview, please wait for results.",image="/static/notifications/icon/company/Job_Create.png",
                                         target_url=header+"://"+current_site.domain+"/candidate/applied_job_detail/" + str(
-                                            job_obj.id)+"/company")
+                                            stage_obj.job_id.id)+"/company")
                 return redirect('candidate:applied_job_detail', stage_obj.job_id.id)
             return render(request, "candidate/ATS/custom_round_exam.html", {'custom_round_data': custom_round_data})
     else:
@@ -12028,3 +12159,24 @@ def candidate_verify(request,applicantid):
         # try:
         msg.send()
     return render(request,'candidate/ATS/verify_detail.html',context)
+
+
+def taskcreate(job_obj,title,description,c_name,user_obj,owner,to_task):
+    tastcreate=TaskManagment.objects.create(company_id=job_obj.company_id,
+    user_id=User.objects.get(id=job_obj.contact_name.id),
+    title=title,
+    priority_id=models.Priority.objects.get(name__iexact='High'),
+    description=description,
+    category_id=TaskCategories.objects.get(category_name__iexact=c_name),
+    job_id=job_obj,
+    applied_candidate_id=request.user,
+    internal_candidate_id=InternalCandidateBasicDetails.objects.get(candidate_id=user_obj.id),
+    owner=Employee.objects.get(id=owner),
+    status=models.TastStatus.objects.all()[0],
+    due_date=datetime.datetime.now()
+    )
+    tastcreate.assignee.clear()
+    for i in to_task:
+        assign = models.Employee.objects.get(employee_id=i)
+        tastcreate.assignee.add(assign)
+    tastcreate.save()

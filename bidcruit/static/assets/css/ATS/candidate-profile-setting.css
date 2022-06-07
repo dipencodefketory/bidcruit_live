@@ -1,0 +1,22 @@
+a.copy-link:active { transform: scale(0.85);box-shadow: 3px 2px 25px 1px rgb(0 0 0 / 25%);}
+.add-profile {padding: 10px;}
+.flex-ed { display: flex; justify-content: space-between; align-items: center;}
+.flex-ed .toggle-cus { margin: 0; }
+.links-edit ul{list-style:none;display:flex;justify-content:space-between;align-items:center;margin:0;padding:0;gap:12px}
+.add-profile h2{font-size:22px;font-weight:400}
+.links-edit ul li a i {font-size: 16px; }
+#ResumeUpdateForm .file-browser .input-group-btn{margin:0;padding:0}
+#ResumeUpdateForm .file-browser .input-group-btn .btn-default{position:absolute;right:0;top:1px}
+#ShareUrlForm .row .col-4:first-child{align-items:center;display:flex;justify-content:flex-start}
+#ShareUrlForm .row .col-4:first-child p {margin: 0;}
+.clip-board-copy__section{display:flex;justify-content:space-between;align-items:center}
+.fxc-box ul{padding:0;margin:0;list-style:none;display:flex;gap: 8px;}
+.share-link-list{display:flex;justify-content:space-between;align-items:center}
+.share-link-list .copy-clipboard, .share-link-list .fxc-box{flex:1 1 auto}
+.fxc-box{display:flex;gap:12px}
+.fxc-box label{margin:0}
+.clip-board-copy__section .ref-id{font-weight:700;color:#1c273c;font-size:14px;text-transform:uppercase}
+.clip-board-copy__section  .ref-id .short-code{text-transform:capitalize;font-weight:400;padding-left:12px}
+.share-link-list .fxc-box {  display: flex; align-items: baseline; }
+.share-button li a { font-size: 16px;}
+.copy-clipboard .copy-link {font-size: 16px; }

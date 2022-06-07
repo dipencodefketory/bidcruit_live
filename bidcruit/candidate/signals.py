@@ -27,12 +27,14 @@ def create_user_folder(sender, instance, **kwargs):
     path1 = path +"/Candidate_Profile"
     if not os.path.exists(path):
         os.mkdir(path, mode=0o777)
+        os.chmod(path, mode=0o777)
         path1 = path +"/Candidate_Profile"
         path2 = path +"/Candidate_Education"
         path3 = path +"/Candidate_Experience"
         path4 = path +"/Candidate_Certificate"
         path5 = path +"/Candidate_Portfolio"
         path6 = path +"/Candidate_Awards"
+        # os.mkdir(path, mode=0o777)
         os.mkdir(path1, mode=0o777)
         os.mkdir(path2, mode=0o777)
         os.mkdir(path3, mode=0o777)

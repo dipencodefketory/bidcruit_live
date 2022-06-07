@@ -248,4 +248,31 @@
 {% endblock %}
 {% block script %}
         <script src="{% static 'assets/js/ATS/job_tracker.js' %}"></script>
+		<script type="text/javascript">
+			$(window).ready(function(){
+				$(".search_text").keyup(function() {
+					var filter = $(this).val(),
+					count = 0;
+						$('#candidateDetailsSection .toggleTabSection').each(function() {
+							if ($(this).text().search(new RegExp(filter, "i")) < 0) {
+							$(this).hide();
+							} else {
+							$(this).show();
+							count++;
+							}
+						});
+
+						$('#jobDetailsSection .toggleTabSection').each(function() {
+							if ($(this).text().search(new RegExp(filter, "i")) < 0) {
+							$(this).hide();
+							} else {
+							$(this).show();
+							count++;
+							}
+						});
+					});
+
+					
+			});
+		</script>
 {% endblock %}

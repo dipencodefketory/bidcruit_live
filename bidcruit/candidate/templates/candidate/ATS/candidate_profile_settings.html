@@ -4,13 +4,7 @@
 {% block title %}Dashboard{% endblock %}
 
 	{% block css %}
-		<style>
-			a.copy-link:active {
-			    transform: scale(0.85);
-			    box-shadow: 3px 2px 25px 1px rgb(0 0 0 / 25%);
-			}
-		</style>
-
+		<link href="{% static 'assets/css/ATS/candidate-profile-setting.css' %}" rel="stylesheet">
 	{% endblock %}
 
 {% block main %}
@@ -66,32 +60,33 @@
 								<div class="card">
 								<div class="add-profile">
 									<h2>{{i.id|get_profile_designation:request.user.id}} </h2>
-									<div class="form-group toggle-cus">
-
-										{%if i.active%}
-										<label class="custom-switch">
-											<input type="radio" name="custom-switch-checkbox1" checked id='{{i.id}}' oninput="select_candidate_profile('{{i.id}}')" class="custom-switch-input">
-											<span class="custom-switch-indicator"></span>
-										</label>
-										{%else%}
-										<label class="custom-switch">
-											<input type="radio" name="custom-switch-checkbox1"  id='{{i.id}}' oninput="select_candidate_profile('{{i.id}}')" class="custom-switch-input">
-											<span class="custom-switch-indicator"></span>
-										</label>
-										{%endif%}
-									</div>
-									<div class="links-edit">
-										<ul>
-											<li>
-												<a target="_blank"  href="{% url 'timeline' i.id|get_profile_url:request.user.id  %}" {% if i.active %} disable="true" {% else %} class="disabled" {% endif %}><i data-v-e08301e8="" class="fas fa-eye"></i></a>
-											</li>
-											<li>
-												<a  href="{% url 'candidate:edit_profile' i.id %}" {% if i.active %} disable="true" {% else %} class="disabled" {% endif %}><i class="bx bx-edit"></i></a>
-											</li>
-											<li>
-												<a href="#" {% if i.active %} disable="true" {% else %} class="disabled" {% endif %}><i data-v-e08301e8="" class="fas fa-share-alt"></i></a>
-											</li>
-										</ul>
+									<div class="flex-ed">
+										<div class="form-group toggle-cus">
+											{%if i.active%}
+											<label class="custom-switch">
+												<input type="radio" name="custom-switch-checkbox1" checked id='{{i.id}}' oninput="select_candidate_profile('{{i.id}}')" class="custom-switch-input">
+												<span class="custom-switch-indicator"></span>
+											</label>
+											{%else%}
+											<label class="custom-switch">
+												<input type="radio" name="custom-switch-checkbox1"  id='{{i.id}}' oninput="select_candidate_profile('{{i.id}}')" class="custom-switch-input">
+												<span class="custom-switch-indicator"></span>
+											</label>
+											{%endif%}
+										</div>
+										<div class="links-edit">
+											<ul>
+												<li>
+													<a target="_blank"  href="{% url 'timeline' i.id|get_profile_url:request.user.id  %}" {% if i.active %} disable="true" {% else %} class="disabled" {% endif %}><i data-v-e08301e8="" class="fas fa-eye"></i></a>
+												</li>
+												<li>
+													<a  href="{% url 'candidate:edit_profile' i.id %}" {% if i.active %} disable="true" {% else %} class="disabled" {% endif %}><i class="bx bx-edit"></i></a>
+												</li>
+												<li>
+													<a href="#" {% if i.active %} disable="true" {% else %} class="disabled" {% endif %}><i data-v-e08301e8="" class="fas fa-share-alt"></i></a>
+												</li>
+											</ul>
+										</div>
 									</div>
 								</div>
 								</div>
@@ -189,18 +184,22 @@
 										<div class="card-body ">
 											<div class="security-enable">
 												<div class="row">
-													<form method="POST" id="ShareUrlForm"  role="form" enctype="multipart/form-data">
-														{% csrf_token %}
-														<div class="col-4 cell-1">
-															<p>bidcruit.com/</p>
-														</div>
-														<div class="col-4 cell-2">
-															<input type="text" class="form-control"  id="share-url" name="share-url"{% if userdata.custom_url %} placeholder="{{userdata.custom_url}}" value="{{userdata.custom_url}}" {% else %}  placeholder="{{userdata.url_name}}" value="{{userdata.url_name}}" {% endif %}>
-														</div>
-														<div class="col-4 cell-3">
-															<button type="button" id="share-url-btn" class="btn btn-main-primary btn-block share-url-resume-pass-btn" >Submit</button>
-														</div>
-													</form>
+													<div class="col-12">
+														<form method="POST" id="ShareUrlForm"  role="form" enctype="multipart/form-data">
+															{% csrf_token %}
+															<div class="row row-sm">
+																<div class="col-4 cell-1">
+																	<p>bidcruit.com/</p>
+																</div>
+																<div class="col-4 cell-2">
+																	<input type="text" class="form-control"  id="share-url" name="share-url"{% if userdata.custom_url %} placeholder="{{userdata.custom_url}}" value="{{userdata.custom_url}}" {% else %}  placeholder="{{userdata.url_name}}" value="{{userdata.url_name}}" {% endif %}>
+																</div>
+																<div class="col-4 cell-3">
+																	<button type="button" id="share-url-btn" class="btn btn-main-primary btn-block share-url-resume-pass-btn" >Submit</button>
+																</div>
+															</div>
+														</form>
+													</div>
 												</div>
 											</div>
 										</div>
@@ -209,25 +208,35 @@
 								<div class="col-md-12 col-xl-6 col-lg-6">
 									<div class="card">
 										<div class="card-header pb-0">
-
-											<h4 class="mg-b-10 text-to-copy">
-												Referral :  {{request.user.referral_number}}
-												<label>Share - </label>
-												<p class="shar-button">
-													<span class="share-icon"><i class="fas fa-share-alt"></i></span>
-													<a target="_blank" href="https://facebook.com/sharer/sharer.php?u=https://www.bidcruit.com/candidate/signup/{{request.user.referral_number}}&p[title]=MYPROFILE" class="text"><i class="lab la-facebook-f"></i></a>
-													<a target="_blank" href="https://web.whatsapp.com/send?text=https://www.bidcruit.com/candidate/signup/{{request.user.referral_number}}" data-action="share/whatsapp/share" class="text"><i class="fab la-whatsapp"></i></a>
-													<!-- <a target="_blank" class="text"><i class="fab la-instagram"></i></a> -->
-													<a href="http://www.linkedin.com/shareArticle?mini=true&url=https://www.bidcruit.com/candidate/signup/{{request.user.referral_number}}" target="_blank" class="text"><i class="lab la-linkedin-in"></i></a>
-													<a target="_blank" href="http://twitter.com/share?url=https://www.bidcruit.com/candidate/signup/{{request.user.referral_number}}" class="text"><i class="lab fa-twitter"></i></a>
-
-												</p>
-												<a class="copy-link" style="float:right;cursor:pointer" data-clipboard-text="https://www.bidcruit.com/candidate/signup/{{request.user.referral_number}}"
-												   data-toggle="tooltip" data-placement="top" title="Copy link">
-													<i class="fa fa-copy"></i>
-												</a>
-											</h4>
-
+											<div class="mg-b-10 text-to-copy clip-board-copy__section">
+												<div class="ref-id">Referral :  <span class="short-code">{{request.user.referral_number}}</span></div>
+											</div>
+											<div class="share-link-list">
+												<div class="fxc-box">
+													<label>Share - </label>
+													<ul class="share-button">
+														<li>
+															<a target="_blank" href="https://facebook.com/sharer/sharer.php?u=https://www.bidcruit.com/candidate/signup/{{request.user.referral_number}}&p[title]=MYPROFILE" class="text"><i class="lab la-facebook-f"></i></a>
+														</li>
+														<li>
+															<a target="_blank" href="https://web.whatsapp.com/send?text=https://www.bidcruit.com/candidate/signup/{{request.user.referral_number}}" data-action="share/whatsapp/share" class="text"><i class="fab la-whatsapp"></i></a>
+														</li>
+														<li>
+															<a href="http://www.linkedin.com/shareArticle?mini=true&url=https://www.bidcruit.com/candidate/signup/{{request.user.referral_number}}" target="_blank" class="text"><i class="lab la-linkedin-in"></i></a>
+														</li>
+														<li>
+															<a target="_blank" href="http://twitter.com/share?url=https://www.bidcruit.com/candidate/signup/{{request.user.referral_number}}" class="text"><i class="lab fa-twitter"></i></a>
+														</li>
+													</ul>
+												</div>
+												
+												<div class="copy-clipboard">
+													<a class="copy-link" style="float:right;cursor:pointer" data-clipboard-text="https://www.bidcruit.com/candidate/signup/{{request.user.referral_number}}"
+													data-toggle="tooltip" data-placement="top" title="Copy link">
+													 <i class="fa fa-copy"></i>
+												 </a>
+												</div>
+											</div>
 
 										</div>
 										<div class="card-body ">

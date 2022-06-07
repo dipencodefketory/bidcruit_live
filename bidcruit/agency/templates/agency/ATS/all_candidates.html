@@ -40,8 +40,9 @@
 			.dataTables_filter {
 			   display: none;
 			}
+			.jbt-down {display: flex;align-items: baseline;gap: 8px;}
+			.jbt-down .dataTables_length label {font-weight: 500 !important;text-transform: lowercase !important;}
 		</style>
-		
 
 {% endblock %}
 {% block main %}
@@ -228,15 +229,18 @@
 		<script src="{% static 'assets/plugins/datatable/js/responsive.bootstrap4.min.js' %}"></script>
 
 		<!-- datatable js -->
-		<script src="{% static 'assets/js/table-data.js' %}"></script>
+		<!-- <script src="{% static 'assets/js/table-data.js' %}"></script> -->
 		<!--Internal  Clipboard js-->
 		<script src="{% static 'assets/plugins/clipboard/clipboard.min.js' %}"></script>
 		<script src="{% static 'assets/plugins/clipboard/clipboard.js' %}"></script>
 		<script>
-		$(document).ready(function(){
-			  $("#candidatefilter").click(function(){
-				$("#showfilter").toggle();
-			  });
+			$(document).ready(function(){
+				$("#candidatefilter").click(function(){
+					$("#showfilter").toggle();
+				});
+				$('.candidate_table').dataTable( {
+					"dom": 't<"jbt-down"ilp><"clear">'
+				});
 			});
 		</script>
 

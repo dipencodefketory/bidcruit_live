@@ -24,6 +24,9 @@
 			.dataTables_wrapper .row:nth-child(1) .dataTables_filter {visibility: hidden;}
 			.candidate_table tr[visible='false'],.no-result {display: none;}
 			.candidate_table tr[visible='true'] {display: table-row;}
+			.right-tab-section .tabs-menu-body h1 {font-size: 24px;}
+			.jbt-down {display: flex;align-items: baseline;gap: 8px;}
+			.jbt-down .dataTables_length label {font-weight: 500 !important;text-transform: lowercase !important;}
 		</style>
 
 {% endblock %}
@@ -67,7 +70,7 @@
 																			{% for get_categories in get_category %}
 																				{% ifequal get_categories.stage.id stages.id %}
 																					<li>
-																						<a href="#category{{get_categories.id}}" data-toggle="tab"><span class="dot_c"></span>
+																						<a href="#category{{get_categories.id}}" data-toggle="tab" data-tbl-id="category{{get_categories.id}}"><span class="dot_c"></span>
 																							<input type="text" id="{{get_categories.id}}" hidden value="{{get_categories.id}}" name="cat_id" readonly>
 																							<input type="text" id="{{get_categories.id}}" class="es-subtitle" value="{{get_categories.name}}" readonly>
 																						</a>
@@ -145,7 +148,7 @@
 															<div class="row row-sm smaple-tab">
 																<!--add fiels-->
 																<div class="col-12">
-																	<table class="table text-md-nowrap candidate_table">
+																	<table class="table text-md-nowrap candidate_table" id="category{{get_categories.id}}">
 																		<thead>
 																			<tr>
 																				<th></th>

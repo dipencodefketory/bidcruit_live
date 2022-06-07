@@ -85,6 +85,8 @@
 			    text-transform: capitalize;
 			    line-height: 19px;
 			}
+			.jbt-down {display: flex;align-items: baseline;gap: 8px;}
+			.jbt-down .dataTables_length label {font-weight: 500 !important;text-transform: lowercase !important;}
 		</style>
 		
 
@@ -171,11 +173,10 @@
 																<tr>
 																<form method="POST" action="{% url 'company:daily_submission' %}">
 																	{% csrf_token %}
-																	<td hidden>
 																	
-																	<td class="text-capitalize"><a href="#">{{candidate.candidate.first_name}} {{candidate.candidate.last_name}}</a></td>
+																	<td class="text-capitalize"><a href="{% url 'company:dailysubmitcandidateview' candidate.candidate.id %}">{{candidate.candidate.first_name}} {{candidate.candidate.last_name}}</a></td>
                                                                     <td class="text-capitalize">
-                                                                        {{candidate.candidate.company_job_id.job_title}}
+                                                                        <a href="{% url 'company:created_job_view' candidate.candidate.company_job_id.id %}">{{candidate.candidate.company_job_id.job_title}}</a>
                                                                     </td>
                                                                     <td class="text-capitalize">Codefaktory</td>
 
@@ -283,7 +284,7 @@
 		<script src="{% static 'assets/plugins/datatable/js/responsive.bootstrap4.min.js' %}"></script>
 
 		<!-- datatable js -->
-		<script src="{% static 'assets/js/table-data.js' %}"></script>
+		<!-- <script src="{% static 'assets/js/table-data.js' %}"></script> -->
 		<!--Internal  Clipboard js-->
 		<script src="{% static 'assets/plugins/clipboard/clipboard.min.js' %}"></script>
 		<script src="{% static 'assets/plugins/clipboard/clipboard.js' %}"></script>
@@ -311,7 +312,6 @@
 				} , 
 				altFormat: "yy-mm-dd", 
 				dateFormat: 'yy-mm-dd',
-				
 			});
 
 
@@ -321,6 +321,11 @@
 				var jobid=$('#jobs_'+candidate).val()
 			  	console.log(candidate,jobid)
 			}
-			</script>
+			$(document).ready(function(){
+				$('.candidate_table').dataTable({
+					"dom": 't<"jbt-down"ilp><"clear">'
+				});
+			})
+		</script>
 		
 {% endblock %}

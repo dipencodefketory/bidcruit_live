@@ -6,7 +6,8 @@ $(document).ready(function() {
             searchPlaceholder: 'Search...',
             sSearch: '',
             lengthMenu: '_MENU_'
-        }
+        },
+        "dom": 't<"jbt-down"ilp><"clear">'
     });
 
     console.log("from js fiiiiiile", $(".tab-pane#basic"))

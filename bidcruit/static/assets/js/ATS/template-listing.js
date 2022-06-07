@@ -1,13 +1,17 @@
 
 $(document).ready(function() {
     initDomElement(); //init function
+    // var templates_table = $('.candidate_table').DataTable({
+    //     language: {
+    //         searchPlaceholder: 'Search...',
+    //         sSearch: '',
+    //         lengthMenu: '_MENU_'
+    //     }
+    // });
+
     var templates_table = $('.candidate_table').DataTable({
-        language: {
-            searchPlaceholder: 'Search...',
-            sSearch: '',
-            lengthMenu: '_MENU_'
-        }
-    });
+        "dom": 't<"jbt-down"ilp><"clear">'
+      });
 
     
     //console.log("from js fiiiiiile", $(".tab-pane#basic"))
@@ -305,7 +309,7 @@ $(document).ready(function() {
     });
 
     $('#newTemplateModal').on('hidden.bs.modal', function () {
-        console.log('Popup Modal Closed..');
+        //console.log('Popup Modal Closed..');
         $("#newTemplateModal")
                 .find("input[name=template-name],input[name=template-description],textarea,select")
                     .val('')
@@ -318,7 +322,7 @@ $(document).ready(function() {
 });
 
 $(window).ready(function(){
-    console.log('onload')
+    //console.log('onload')
    $("#newTemplateModal")
             .find("input[name=template-name],input[name=template-description],textarea,select")
                 .val('')
@@ -413,14 +417,14 @@ $('.select-new-stage-list').on('change', function() {
 // });
 
 function triggerTabActive(getTriggerId){
-    console.log(getTriggerId);
+    //console.log(getTriggerId);
     $(".collapes_wrapper .collapse_parent_tab").eq(getTriggerId.mainId).children('.collapse_title').click();
     $("a[href='#category"+getTriggerId.childId+"']")[0].click();
 }
 function tabsAutoSet(){
     var sesIdOfStage =  $("#stageItemId").text();
     var sesIdOfCat = $("#categoryItemId").text();
-    console.log('stageid-categid', sesIdOfStage,sesIdOfCat)
+    //console.log('stageid-categid', sesIdOfStage,sesIdOfCat)
     if(sesIdOfStage != ""){
         $(".collapes_wrapper .collapse_parent_tab").each(function(idx){
             var collapseId = $(this).find('.collapse_title').attr('data-id');

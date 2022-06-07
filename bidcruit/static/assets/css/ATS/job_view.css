@@ -245,7 +245,7 @@ p.job_date_id span {
     padding-bottom: 10px;
 }
 .day_value_get {
-    font-size: 25px;
+    font-size: 20px;
     font-weight: 500;
     line-height: normal;
 }
@@ -444,7 +444,7 @@ p.job_date_id span {
 }
 .inr_yearly_s .day_value_get {
     line-height: 18px;
-    font-size: 22px;
+    font-size: 20px;
 }
 .shar-button-url{
     width: 160px;
@@ -592,4 +592,7 @@ p.job_date_id span {
 }
 .card-upper-title .fx-left-view h4{
     margin:0px;
+}
+.day_section_sa .col-lg-6 .day_left_section {
+    min-height: 125px;
 }

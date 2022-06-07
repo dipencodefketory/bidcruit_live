@@ -170,7 +170,7 @@ def user_login_password(request):
                 from_email = settings.EMAIL_HOST_USER
                 msg = EmailMultiAlternatives(mail_subject, mail_subject, from_email, to=[to_email])
                 msg.attach_alternative(html_content, "text/html")
-                msg.send()
+                # msg.send()
             if request.user.is_candidate:
                 if 'view_job' in request.session:
                     return redirect('candidate:job_view')

@@ -100,6 +100,8 @@ def dashbord(request):
         context['hire']=AgencyModels.CompanyAgencyConnection.objects.filter(company_id=models.Company.objects.get(user_id=request.user),is_accepted=False,is_rejected=False).count()
         context['job_offer']=AgencyModels.CompanyAgencyConnection.objects.filter(company_id=models.Company.objects.get(user_id=request.user),is_accepted=False,is_rejected=False).count()
         context['total_applicants']=models.AppliedCandidate.objects.filter(company_id=models.Company.objects.get(user_id=request.user)).count()
+        getemoloyee=models.Employee.objects.get(employee_id=request.user)
+        context['today_tasks']=models.TaskManagment.objects.filter(company_id=models.Company.objects.get(user_id=request.user.id),due_date=datetime.datetime.today(),assignee__id=getemoloyee.id)
         job_list=models.Tracker.objects.filter(company_id=models.Company.objects.get(user_id=User.objects.get(id=request.user.id)),job_id__close_job=False).distinct('job_id')[:5]
         print(job_list)
         for i in job_list:
@@ -7017,6 +7019,14 @@ def applied_candidates_view(request, id):
         requested=''
         header=request.is_secure() and "https" or "http"
         current_site = get_current_site(request)
+        job_assign_recruiter = models.CompanyAssignJob.objects.filter(job_id=job_obj)
+        to_task=[]
+        to_task.append(job_obj.contact_name.id)
+        to_task.append(job_obj.job_owner.id)
+        all_assign_users=job_assign_recruiter.filter(job_id=job_obj)
+        for i in all_assign_users:
+            if i.recruiter_type_internal:
+                to_task.append(i.recruiter_id.id)
         # onthego change
         if request.method == 'POST':
             if 'add_stage_submit' in request.POST:
@@ -7036,6 +7046,8 @@ def applied_candidates_view(request, id):
                                                         user_id=request.user,
                                                         template=template_id,
                                                         sequence_number=int(onthego_last_stages.sequence_number) + 1)
+                    if stage_id.name=='Interview' :
+                        taskcreate(job_obj,'title','description','Interview',candidate_obj,job_obj.contact_name.id,to_task)
                     for candidate in candidates_array:
                         notify.send(request.user, recipient=User.objects.get(id=candidate), verb="New stage",
                                     description="New stage has been added to your profile for the job "+job_obj.job_title+". Please visit to appear for interview round.",image="/static/notifications/icon/company/Job_Create.png",
@@ -7182,6 +7194,14 @@ def company_portal_candidate_tablist(request, candidate_id, job_id):
         id_resume=None
         current_site = get_current_site(request)
         header=request.is_secure() and "https" or "http"
+        job_assign_recruiter = models.CompanyAssignJob.objects.filter(job_id=job_obj)
+        to_task=[]
+        to_task.append(job_obj.contact_name.id)
+        to_task.append(job_obj.job_owner.id)
+        all_assign_users=job_assign_recruiter.filter(job_id=job_obj)
+        for i in all_assign_users:
+            if i.recruiter_type_internal:
+                to_task.append(i.recruiter_id.id)
         if request.method == 'POST':
             if 'schedule_interview' in request.POST:
                 if request.POST.get('interview_stage'):
@@ -7247,10 +7267,13 @@ def company_portal_candidate_tablist(request, candidate_id, job_id):
                                                                         template=template_id,
                                                                         sequence_number=int(candidate_job_last_stage.sequence_number) + 1,
                                                                         status=status,custom_stage_name=request.POST.get('stage_name'))
+                            if stage_id.name=='Interview' :
+                                taskcreate(job_obj,'title','description','Interview',candidate_obj,job_obj.contact_name.id,to_task)
                             notify.send(request.user, recipient=candidate_obj, verb="New stage",
                                     description="New stage has been added to your profile for the job "+job_obj.job_title+". Please visit to appear for interview round.",image="/static/notifications/icon/company/Job_Create.png",
                                     target_url=header+"://"+current_site.domain+"/candidate/applied_job_detail/" + str(
                                         job_obj.id)+"/company")
+                            
             elif 'withdraw_candidate' in request.POST:
                 models.CandidateJobStatus.objects.update_or_create(candidate_id=candidate_obj,
                                                                 job_id=job_obj,
@@ -7317,6 +7340,7 @@ def company_portal_candidate_tablist(request, candidate_id, job_id):
                     stage_obj.status = 2
                     current_stage=stage_obj.stage
                     stage_obj.save()
+                    
                     notify.send(request.user, recipient=candidate_obj, verb="Application Shortlisted",
                                 description="Your profile has been shortlisted, please wait for further instruction.",image="/static/notifications/icon/company/Job_Create.png",
                                 target_url=header+"://"+current_site.domain+"/candidate/applied_job_detail/" + str(
@@ -7334,7 +7358,8 @@ def company_portal_candidate_tablist(request, candidate_id, job_id):
                             stage_status = models.CandidateJobStagesStatus.objects.get(job_id=job_obj, candidate_id=candidate_obj,
                                                                                     sequence_number=new_sequence_no+1)
                             next_stage=stage_status.stage
-
+                            if new_stage_status.stage.name=='Interview' :
+                                taskcreate(job_obj,'title','description','Interview',candidate_obj,job_obj.contact_name.id,to_task)
                         if new_stage_status.stage.name=='Interview' :
                             action_required='schedule interview By Company'
                         else:
@@ -10159,8 +10184,24 @@ def internal_candidate_basic_detail(request,int_cand_detail_id=None):
                 expectedctc = request.POST.get('expected-ctc')
                 total_exper = request.POST.get('professional-experience-year') +'.'+ request.POST.get(
                     'professional-experience-month')
+                password = get_random_string(length=12)
                 # source=CandidateModels.Source.objects.get(id=request.POST.get('source'))
-
+                x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
+                if x_forwarded_for:
+                    ip = x_forwarded_for.split(',')[0]
+                else:
+                    ip = request.META.get('REMOTE_ADDR')
+                device_type = ""
+                if request.user_agent.is_mobile:
+                    device_type = "Mobile"
+                if request.user_agent.is_tablet:
+                    device_type = "Tablet"
+                if request.user_agent.is_pc:
+                    device_type = "PC"
+                browser_type = request.user_agent.browser.family
+                browser_version = request.user_agent.browser.version_string
+                os_type = request.user_agent.os.family
+                os_version = request.user_agent.os.version_string
                 models.InternalCandidateBasicDetails.objects.update_or_create(email=email,company_id = models.Company.objects.get(user_id=request.user.id),defaults={
                     'user_id' : User.objects.get(id=request.user.id),
                     'first_name' : fname,
@@ -10235,8 +10276,8 @@ def internal_candidate_basic_detail(request,int_cand_detail_id=None):
                     msg.attach_alternative(html_content, "text/html")
                     # try:
                     msg.send()
-                    get_internalcandidate.candidate_id = User.objects.get(email=email.lower())
-                    get_internalcandidate.save()
+                    add_skill.candidate_id = User.objects.get(email=email.lower())
+                    add_skill.save()
                     add_candidate,create=CandidateModels.candidate_job_apply_detail.objects.update_or_create(candidate_id = User.objects.get(email=email.lower()),defaults={
                                                                                         'gender' :gender,
                                                                                         'resume' : resume,
@@ -10247,11 +10288,11 @@ def internal_candidate_basic_detail(request,int_cand_detail_id=None):
                                                                                         'expectedctc' : expectedctc,
                                                                                         'total_exper' :  total_exper})
 
-                    for i in get_internalcandidate.skills.all():
+                    for i in add_skill.skills.all():
                         print(type(int(i.id)))
                         main_skill_obj = CandidateModels.Skill.objects.get(id=int(i.id))
                         add_candidate.skills.add(main_skill_obj.id)
-                    for i in get_internalcandidate.prefered_city.all():
+                    for i in add_skill.prefered_city.all():
                         main_city_obj = CandidateModels.City.objects.get(id=i.id)
                         add_candidate.prefered_city.add(main_city_obj.id)
                     add_candidate.save()
@@ -10321,10 +10362,10 @@ def internal_candidate_basic_detail(request,int_cand_detail_id=None):
                         add_deatil.prefered_city.add(main_city_obj)
                 for i in request.POST.getlist('candidate_category'):
                     if i.isnumeric():
-                        main_categ_obj = models.CandidateCategories.objects.get(category_name=i,company_id=models.Company.objects.get(user_id=request.user.id))
+                        main_categ_obj = models.CandidateCategories.objects.get(id=i,company_id=models.Company.objects.get(user_id=request.user.id))
                         add_deatil.categories.add(main_categ_obj)
                     else:
-                        main_categ_obj = models.CandidateCategories.objects.create(id=i,company_id=models.Company.objects.get(user_id=request.user.id),user_id=User.objects.get(id=request.user.id))
+                        main_categ_obj = models.CandidateCategories.objects.create(category_name=i,company_id=models.Company.objects.get(user_id=request.user.id),user_id=User.objects.get(id=request.user.id))
                         add_deatil.categories.add(main_categ_obj)
                 if not verifydata:
                     add_deatil.verified=True
@@ -10637,6 +10678,9 @@ def internal_candidate_basic_detail(request,int_cand_detail_id=None):
                             job_assign_recruiter = models.CompanyAssignJob.objects.filter(job_id=job_obj)
                             description = "New candidate "+candidate.first_name+" "+candidate.last_name+" has been submitted to Job "+job_obj.job_title+" By"+request.user.first_name+" "+request.user.last_name
                             to_email=[]
+                            to_task=[]
+                            to_task.append(job_obj.contact_name.id)
+                            to_task.append(job_obj.job_owner.id)
                             to_email.append(job_obj.contact_name.email)
                             to_email.append(job_obj.job_owner.email)
                             if job_obj.contact_name.id != request.user.id:
@@ -10652,6 +10696,7 @@ def internal_candidate_basic_detail(request,int_cand_detail_id=None):
                             all_assign_users=job_assign_recruiter.filter(job_id=job_obj)
                             for i in all_assign_users:
                                 if i.recruiter_type_internal:
+                                    to_task.append(i.recruiter_id.id)
                                     to_email.append(i.recruiter_id.email)
                                     if i.recruiter_id.id != request.user.id:
                                         notify.send(request.user, recipient=User.objects.get(id=i.recruiter_id.id),verb="Candidate submission",
@@ -10689,6 +10734,45 @@ def internal_candidate_basic_detail(request,int_cand_detail_id=None):
                             msg.attach_alternative(html_content, "text/html")
                             # try:
                             msg.send()
+                            if not current_stage==None:
+                                if current_stage.name=='Interview':
+                                    tastcreate=models.TaskManagment.objects.create(company_id=models.Company.objects.get(user_id=request.user.id),
+                                    user_id=User.objects.get(id=request.user.id),
+                                    title='title',
+                                    priority_id=CandidateModels.Priority.objects.get(name__iexact='High'),
+                                    description='description',
+                                    category_id=models.TaskCategories.objects.get(category_name__iexact='interview'),
+                                    job_id=job_obj,
+                                    applied_candidate_id=candidate,
+                                    internal_candidate_id=get_internalcandidate,
+                                    owner=models.Employee.objects.get(employee_id=job_obj.job_owner),
+                                    status=CandidateModels.TastStatus.objects.all()[0],
+                                    due_date=datetime.datetime.now()
+                                    )
+                                    tastcreate.assignee.clear()
+                                    for i in to_task:
+                                        assign = models.Employee.objects.get(employee_id=i)
+                                        tastcreate.assignee.add(assign)
+                                    tastcreate.save()
+                                elif current_stage.name == 'Application Review':
+                                    tastcreate=models.TaskManagment.objects.create(company_id=models.Company.objects.get(user_id=request.user.id),
+                                    user_id=User.objects.get(id=request.user.id),
+                                    title='title',
+                                    priority_id=CandidateModels.Priority.objects.get(name__iexact='High'),
+                                    description='description',
+                                    category_id=models.TaskCategories.objects.get(category_name__iexact='Review'),
+                                    job_id=job_obj,
+                                    applied_candidate_id=candidate,
+                                    internal_candidate_id=get_internalcandidate,
+                                    owner=models.Employee.objects.get(employee_id=job_obj.job_owner),
+                                    status=CandidateModels.TastStatus.objects.all()[0],
+                                    due_date=datetime.datetime.now()
+                                    )
+                                    tastcreate.assignee.clear()
+                                    for i in to_task:
+                                        assign = models.Employee.objects.get(employee_id=i)
+                                        tastcreate.assignee.add(assign)
+                                    tastcreate.save()
                 return redirect('company:daily_submission')
 
             return render(request,'company/ATS/internal_candidate_basic_form.html',context)
@@ -11112,6 +11196,14 @@ def applied_candidate_form(request,int_cand_detail_id=None):
                             current_stage=None
                             next_stage = None
                             next_stage_sequance=0
+                            job_assign_recruiter = models.CompanyAssignJob.objects.filter(job_id=job_obj)
+                            to_task=[]
+                            to_task.append(job_obj.contact_name.id)
+                            to_task.append(job_obj.job_owner.id)
+                            all_assign_users=job_assign_recruiter.filter(job_id=job_obj)
+                            for i in all_assign_users:
+                                if i.recruiter_type_internal:
+                                    to_task.append(i.recruiter_id.id)
                             # onthego change
                             if workflow.withworkflow:
                                 print("==========================withworkflow================================")
@@ -11135,6 +11227,7 @@ def applied_candidate_form(request,int_cand_detail_id=None):
                                                                                     sequence_number=stage.sequence_number, status=status,custom_stage_name='Application Review')
                                             sequence_number = stage.sequence_number + 1
                                             status = 0
+                                            taskcreate(job_obj,'title','description','Review',User.objects.get(email=email.lower()),job_obj.contact_name.id,to_task)
                                         else:
                                             status = 0
                                             sequence_number = stage.sequence_number + 1
@@ -11149,9 +11242,12 @@ def applied_candidate_form(request,int_cand_detail_id=None):
                                         if stage.sequence_number == 1:
                                             status = 2
                                             current_stage = stage.stage
+                                            
                                         elif stage.sequence_number == 2:
                                             status = 1
                                             next_stage = stage.stage
+                                            if next_stage.name=='Interview':
+                                                taskcreate(job_obj,'title','description','Interview',User.objects.get(email=email.lower()),job_obj.contact_name.id,to_task)
                                             notify.send(request.user, recipient=User.objects.get(email=email.lower()), verb="Interview Round",
                                                 description="Please start your interview round : "+stage.stage_name,image="/static/notifications/icon/company/Job_Create.png",
                                                 target_url=header+"://"+current_site.domain+"/candidate/applied_job_detail/" + str(
@@ -11187,6 +11283,7 @@ def applied_candidate_form(request,int_cand_detail_id=None):
                                                                                     candidate_id=User.objects.get(email=email.lower()),
                                                                                     job_id=job_obj, stage=stage_list_obj,
                                                                                     sequence_number=sequence_number, status=status,custom_stage_name='Application Review')
+                                            taskcreate(job_obj,'title','description','Review',User.objects.get(email=email.lower()),job_obj.contact_name.id,to_task)
                                         else:
                                             status = 0
                                             sequence_number = stage.sequence_number + 1
@@ -11204,10 +11301,13 @@ def applied_candidate_form(request,int_cand_detail_id=None):
                                         elif stage.sequence_number == 2:
                                             status = 1
                                             next_stage = stage.stage
+                                            if next_stage.name=='Interview':
+                                                taskcreate(job_obj,'title','description','Interview',User.objects.get(email=email.lower()),job_obj.contact_name.id,to_task)
                                             notify.send(request.user, recipient=User.objects.get(email=email.lower()), verb="Interview Round",
                                                 description="Please start your interview round : "+stage.stage_name,image="/static/notifications/icon/company/Job_Create.png",
                                                 target_url=header+"://"+current_site.domain+"/candidate/applied_job_detail/" + str(
                                                     job_obj.id)+"/company")
+                                            
                                         else:
                                             status = 0
                                         models.CandidateJobStagesStatus.objects.create(company_id=stage.company_id,
@@ -11561,3 +11661,88 @@ def get_applied_candidate(request):
         return HttpResponse(json.dumps(data))
     else:
         return HttpResponse(False)
+
+def dailysubmitcandidateview(request,candidate_id):
+    context={}
+    current_site = get_current_site(request)
+    header=request.is_secure() and "https" or "http"  
+    context['profile']=check_profile(models.Company.objects.get(user_id=request.user.id))
+    if check_profile(models.Company.objects.get(user_id=request.user.id)):
+        if models.DailySubmission.objects.filter(id=candidate_id,company_id=models.Company.objects.get(user_id=request.user.id)).exists():
+            basic_detail = models.DailySubmission.objects.get(id=candidate_id,
+                                                                            company_id=models.Company.objects.get(
+                                                                                user_id=request.user.id))
+            # ==============
+            candidates = models.AppliedCandidate.objects.filter(candidate=basic_detail.candidate_id,job_id__close_job=False).values_list('job_id', flat=True)
+            agency_submit_candidate = models.AssociateCandidateAgency.objects.filter(candidate_id=basic_detail.candidate_id,job_id__close_job=False).values_list('job_id', flat=True)
+            job_array = list(chain(candidates, agency_submit_candidate))
+            print(job_array)
+            # agencyjob = models.AssignJobInternal.objects.filter(agency_id=models.Agency.objects.get(user_id=request.user.id))
+            # context['job_list'] = agencyjob.filter(~Q(job_id__in=job_array))
+            print('\n', job_array)
+            # context['applied_job_list'] = models.AssignJobInternal.objects.filter(job_id__in=job_array,agency_id=models.Agency.objects.get(user_id=request.user.id))
+            agencyjob=models.JobCreation.objects.filter(company_id=models.Company.objects.get(user_id=request.user.id),is_publish=True)
+            # print('no applied job',agencyjob.filter(Q(id__in=job_array)))
+            context['opening_job']=models.JobCreation.objects.filter(company_id=models.Company.objects.get(user_id=request.user.id),is_publish=True,close_job=False)
+            context['appliedjob']=models.JobCreation.objects.filter(id__in=job_array,company_id=models.Company.objects.get(user_id=request.user.id),is_publish=True)
+            # ==============
+            # context['opening_job']=models.JobCreation.objects.filter(company_id=models.Company.objects.get(user_id=request.user.id),is_publish=True)
+            context['assign_job']=models.AssociateCandidateInternal.objects.filter(company_id=models.Company.objects.get(user_id=request.user.id),internal_candidate_id=basic_detail.internal_candidate_id_company)
+
+            # professional_detail = models.InternalCandidateProfessionalDetail.objects.get(internal_candidate_id=candidate_id)
+            # candidate_preference = models.InternalCandidatePreference.objects.get(internal_candidate_id=candidate_id)
+            context['candidate_education'] = CandidateModels.CandidateEducation.objects.filter(candidate_id=basic_detail.candidate_id)
+            context['candidate_experience'] = CandidateModels.CandidateExperience.objects.filter(candidate_id=basic_detail.candidate_id)
+            context['candidate_certification']=CandidateModels.CandidateCertificationAttachment.objects.filter(candidate_id=basic_detail.candidate_id)
+            context['candidate_award']=CandidateModels.CandidateAward.objects.filter(candidate_id=basic_detail.candidate_id)
+            context['candidate_portfolio']=CandidateModels.CandidatePortfolio.objects.filter(candidate_id=basic_detail.candidate_id)
+            context['candidate_preferences']=CandidateModels.CandidateJobPreference.objects.filter(candidate_id=basic_detail.candidate_id)
+            notes = models.InternalCandidateNotes.objects.filter(internal_candidate_id=candidate_id,company_id=models.Company.objects.get(user_id=request.user.id))
+            skills = []
+            for i in basic_detail.skills.all():
+                skills.append(i.name)
+            
+            context['basic_detail'] = basic_detail
+            context['skills'] = skills
+            context['notes'] = notes
+            applied_job=models.AppliedCandidate.objects.filter(candidate_id=basic_detail.candidate_id,company_id=models.Company.objects.get(user_id=request.user.id))
+            context['appliedjobcount']=len(applied_job)
+            # if ChatModels.PrivateChat.objects.filter(Q(user1=User.objects.get(id=basic_detail.candidate_id.id)) & Q(user2=request.user)|Q(user1=request.user) & Q(user2=User.objects.get(id=basic_detail.candidate_id.id))).exists():
+            #     context['chat_unique_id']=ChatModels.PrivateChat.objects.filter(Q(user1=User.objects.get(id=basic_detail.candidate_id.id)) & Q(user2=request.user)|Q(user1=request.user) & Q(user2=User.objects.get(id=basic_detail.candidate_id.id)))
+            
+            # =================
+            candidate_stages_data = []
+            for job in applied_job:
+                stages = models.CandidateJobStagesStatus.objects.filter(
+                    company_id=models.Company.objects.get(user_id=request.user.id),
+                    candidate_id=job.candidate_id,
+                    job_id=job.job_id).order_by('sequence_number')
+
+                data = {'id': User.objects.get(id=job.candidate_id),'job_obj':job.job_id, 'stages': stages,'applied_date':job.create_at}
+                candidate_stages_data.append(data)
+            context['applied_job']= candidate_stages_data
+        return render(request,'company/ATS/dailysubmitcandidateview.html',context)
+    else:
+        return redirect('company:add_edit_profile')
+
+
+
+def taskcreate(job_obj,title,description,c_name,user_obj,owner,to_task):
+    tastcreate=models.TaskManagment.objects.create(company_id=job_obj.company_id,
+    user_id=User.objects.get(id=job_obj.contact_name.id),
+    title=title,
+    priority_id=CandidateModels.Priority.objects.get(name__iexact='High'),
+    description=description,
+    category_id=CandidateModels.TaskCategories.objects.get(category_name__iexact=c_name),
+    job_id=job_obj,
+    applied_candidate_id=user_obj,
+    internal_candidate_id=models.InternalCandidateBasicDetails.objects.get(candidate_id=user_obj.id),
+    owner=models.Employee.objects.get(id=owner),
+    status=models.TastStatus.objects.all()[0],
+    due_date=datetime.datetime.now()
+    )
+    tastcreate.assignee.clear()
+    for i in to_task:
+        assign = models.Employee.objects.get(employee_id=i)
+        tastcreate.assignee.add(assign)
+    tastcreate.save()

@@ -40,7 +40,9 @@
                           </div>
                         </div>
                         <div class="col-md-8 col col-sm-8 col-xs-8 my-auto">
-                          <div class="float-right text-right tx-20 font-weight-bold my-auto"><span class="tx-20">$</span>53,186<i class=""></i></div>
+                          <div class="float-right text-right tx-20 font-weight-bold my-auto">
+                            <!-- <span class="tx-20">$</span> --><i class="fas fa-rupee-sign"></i>53,186
+                            </div>
                         </div>
                       </div>
                      
@@ -64,7 +66,10 @@
                           </div>
                         </div>
                         <div class="col-md-8 col col-sm-8 col-xs-8 my-auto">
-                          <div class="float-right text-right tx-20 font-weight-bold"><span class="tx-20 ">$</span>7,560<i class=""></i></div>
+                          <div class="float-right text-right tx-20 font-weight-bold">
+                            <!-- <span class="tx-20 ">$</span> -->
+                            <i class="fas fa-rupee-sign"></i>7,560
+                          </div>
                         </div>
                       </div>
                      
@@ -86,7 +91,10 @@
                           </div>
                         </div>
                         <div class="col-md-8 col col-sm-8 col-xs-8 my-auto">
-                          <div class="float-right text-right tx-20 font-weight-bold my-auto"><span class="tx-20">$</span>53,186<i class=""></i></div>
+                          <div class="float-right text-right tx-20 font-weight-bold my-auto">
+                            <!-- <span class="tx-20">$</span> -->
+                            <i class="fas fa-rupee-sign"></i>53,186
+                            </div>
                         </div>
                       </div>
                       
@@ -110,7 +118,10 @@
                           </div>
                         </div>
                         <div class="col-md-8 col col-sm-8 col-xs-8 my-auto">
-                          <div class="float-right text-right tx-20 font-weight-bold"><span class="tx-20 ">$</span>7,560<i class=""></i></div>
+                          <div class="float-right text-right tx-20 font-weight-bold">
+                            <!-- <span class="tx-20 ">$</span> -->
+                            <i class="fas fa-rupee-sign"></i>7,560
+                          </div>
                         </div>
                       </div>
                      
@@ -135,7 +146,9 @@
                           {%for i in profiles%}
                           <!-- <span class="tx-14 mb-3 ">For your achievement of this month</span> -->
                             <div class="my-auto text-center">
+                              {% if userdata.user_image %}
                               <img src="{{userdata.user_image.url}}" alt="" class="ht-150 wd-150 mt-3 sales-img">
+                              {% endif %}
                             </div>
                             <div class="text-center mt-3 candidate_name">
                               <span class="text-muted">
@@ -150,7 +163,7 @@
                             {% endfor %}
                         </div>
                         <div class="">
-                          {%if profile_count < 1 %}                          
+                          {%if profile_count < 3 %}                          
                                  <a href="{%url 'candidate:add_profile'%}" class="btn btn-outline-primary  mt-3">Create Profile</a>
                           {%endif%}
                         </div>
@@ -197,7 +210,8 @@
                                               </li>
                                               <li>
                                                   <div class="icon-with-title">
-                                                  <i class="fas fa-dollar-sign"></i>
+                                                  <!-- <i class="fas fa-dollar-sign"></i> -->
+                                                  <i class="fas fa-rupee-sign"></i>
                                                       <label class="c-title text-capitalize">Salary :</label>
                                                   </div>
                                                   <div class="btm-text">

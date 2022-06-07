@@ -53,7 +53,7 @@ urlpatterns = [
          name='password_reset_complete'),
     
     path('tinymce/', include('tinymce.urls')),
-    path('/<str:url>/', candidate_views.timeline, name="timeline"),
+    path('<str:url>/', candidate_views.timeline, name="timeline"),
     path('view_job/<int:id>',company_view.view_job,name="view_job"),#Company
     path('job_view/<int:id>',agency_view.job_view,name="job_view"),#agency
     path('apply_job/<int:id>/',candidate_views.apply_job,name='apply_job'),#Company

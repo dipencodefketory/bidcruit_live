@@ -19,6 +19,10 @@
 
 		<!--custom workflow-management css-->
         <link href="{% static 'assets/css/ATS/template-listing.css' %}" rel="stylesheet">
+		<style>
+			.jbt-down {display: flex;align-items: baseline;gap: 8px;}
+			.jbt-down .dataTables_length label {font-weight: 500 !important;text-transform: lowercase !important;}
+		</style>
 
 {% endblock %}
 {% block main %}
@@ -135,7 +139,7 @@
 													</div>
 												</div>
 												<div class="panel-body tabs-menu-body">
-													<h1 class="text-center" id="header" >Please select a stage and category</h1>
+													<h1 class="text-center" id="header" style="font-size: 22px;">Please select a stage and category</h1>
 													<div class="tab-content">
 														{% for get_categories in get_category %}
 														<div class="tab-pane" id="category{{get_categories.id}}">

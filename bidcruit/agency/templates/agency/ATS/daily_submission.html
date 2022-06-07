@@ -15,31 +15,13 @@
 		<link href="{% static 'assets/plugins/datatable/css/jquery.dataTables.min.css' %}" rel="stylesheet">
 		<link href="{% static 'assets/plugins/datatable/css/responsive.dataTables.min.css' %}" rel="stylesheet">
 		<link href="{% static 'assets/plugins/select2/css/select2.min.css' %}" rel="stylesheet">
-
-
 		<link href="{% static 'assets/css/ATS/job_openings_table.css' %}" rel="stylesheet">
-		
 		<style>
-
-			.tab-menu-heading .tabs-menu .nav.panel-tabs li a.active {
-				color: #0068ff;
-			}
-			.tab-menu-heading .tabs-menu .nav.panel-tabs li a {
-				font-size: 14px;
-				color: #041b4e;
-				border-radius: 0;
-				padding: 10px 12px;
-				margin-right: 0;
-				border: none;
-				border-right: none;
-				text-transform: uppercase;
-				position: relative;
-				transition: all 0.3s ease 0s;
-				font-weight: 500;
-			}
-			.dataTables_filter {
-			   display: none;
-			}
+			.tab-menu-heading .tabs-menu .nav.panel-tabs li a.active {color: #0068ff;}
+			.tab-menu-heading .tabs-menu .nav.panel-tabs li a {font-size: 14px;color: #041b4e;border-radius: 0;padding: 10px 12px;margin-right: 0;border: none;border-right: none;text-transform: uppercase;position: relative;transition: all 0.3s ease 0s;font-weight: 500;}
+			.dataTables_filter { display: none;}
+			.jbt-down {display: flex;align-items: baseline;gap: 8px;}
+			.jbt-down .dataTables_length label {font-weight: 500 !important;text-transform: lowercase !important;}
 		</style>
 		
 
@@ -185,24 +167,25 @@
 		<script src="{% static 'assets/plugins/datatable/js/responsive.bootstrap4.min.js' %}"></script>
 
 		<!-- datatable js -->
-		<script src="{% static 'assets/js/table-data.js' %}"></script>
+		<!-- <script src="{% static 'assets/js/table-data.js' %}"></script> -->
 		<!--Internal  Clipboard js-->
 		<script src="{% static 'assets/plugins/clipboard/clipboard.min.js' %}"></script>
 		<script src="{% static 'assets/plugins/clipboard/clipboard.js' %}"></script>
 		<script>
 		$(document).ready(function(){
-			  $("#candidatefilter").click(function(){
+			$("#candidatefilter").click(function(){
 				$("#showfilter").toggle();
-			  });
 			});
-
-
+			$('#jobopening').dataTable( {
+				"dom": 't<"jbt-down"ilp><"clear">'
+			});
+		});
 		</script>
 		<script>
 			function myFunction(candidate) {
 				var jobid=$('#jobs_'+candidate).val()
 			  	console.log(candidate,jobid)
 			}
-			</script>
+		</script>
 		
 {% endblock %}

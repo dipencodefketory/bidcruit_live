@@ -91,7 +91,7 @@ span.view_edit_profile_d a{
 	padding: 0;
 }
 .candidate_job_list_das .com-short-details {
-    flex: 3;
+    flex: 4;
     display: flex;
 }
 
@@ -356,3 +356,4 @@ span.view_edit_profile_d a{
     display: inherit;
     justify-content: unset;
 }
+.my-auto i { font-size: 16px; transform: translate(-6px,-1px);}

@@ -175,7 +175,7 @@
                 <div class="card">
                   <div class="card-body pt-3">
                     <div class="d-flex justify-content-between">
-                      <h4 class="card-title mg-b-10">Today Interview</h4>
+                      <h4 class="card-title mg-b-10">Today Task</h4>
                     </div>
 
                     <div class="row card row-sm">
@@ -185,7 +185,7 @@
                                 <div class="fxm-mini">
                                     <div class="task-list__container today_task_list_main">
 
-
+                                      {% for today_task in today_tasks %}
                                       <div class="task-list card">
                                         <div class="task-orientation">
                                           <div class="task-tag">
@@ -217,102 +217,8 @@
                                           </div>
                                         </div>
                                       </div>
-
-                                      <div class="task-list card">
-                                        <div class="task-orientation">
-                                          <div class="task-tag">
-                                            <label class="task-batch interview-batch">Interview</label>
-                                          </div>
-                                          <div class="task-details">
-                                            <div class="tfxt-row">
-                                              <label class="task-title-bold" data-target="#taskManagerModal" data-toggle="modal">Lorem Ipsum is simply dummy text of the printing and typesetting</label>                           
-                                            </div>
-                                            <div class="tfxb-row">
-                                              <ul class="task-info">
-                                                <li>
-                                                  <label class="info-title">Assignee :</label>
-                                                  <label class="info-decs" style="color: #0068ff;font-width:bold;">Jone Lare</label>
-                                                </li>
-                                                <li>
-                                                  <label class="info-title">Priority :</label>
-                                                  <label class="info-decs">low</label>
-                                                </li>
-                                              </ul>
-                                            </div>
-                                          </div>
-                                          <div class="task-actions">
-                                            <div class="classic-btns">
-                                              <div class="view_today_task">
-                                                <a href="#"><i class="fa fa-eye"></i></a>
-                                              </div>
-                                            </div>
-                                          </div>
-                                        </div>
-                                      </div>
-
-                                      <div class="task-list card">
-                                        <div class="task-orientation">
-                                          <div class="task-tag">
-                                            <label class="task-batch call-batch">Call</label>
-                                          </div>
-                                          <div class="task-details">
-                                            <div class="tfxt-row">
-                                              <label class="task-title-bold" data-target="#taskManagerModal" data-toggle="modal">Lorem Ipsum is simply dummy text of the printing and typesetting</label>                           
-                                            </div>
-                                            <div class="tfxb-row">
-                                              <ul class="task-info">
-                                                <li>
-                                                  <label class="info-title">Assignee :</label>
-                                                  <label class="info-decs" style="color: #0068ff;font-width:bold;">Jone Lare</label>
-                                                </li>
-                                                <li>
-                                                  <label class="info-title">Priority :</label>
-                                                  <label class="info-decs">low</label>
-                                                </li>
-                                              </ul>
-                                            </div>
-                                          </div>
-                                          <div class="task-actions">
-                                            <div class="classic-btns">
-                                              <div class="view_today_task">
-                                                <a href="#"><i class="fa fa-eye"></i></a>
-                                              </div>
-                                            </div>
-                                          </div>
-                                        </div>
-                                      </div>
-
-                                      <div class="task-list card">
-                                        <div class="task-orientation">
-                                          <div class="task-tag">
-                                            <label class="task-batch email-batch">Email</label>
-                                          </div>
-                                          <div class="task-details">
-                                            <div class="tfxt-row">
-                                              <label class="task-title-bold" data-target="#taskManagerModal" data-toggle="modal">Lorem Ipsum is simply dummy text of the printing and typesetting</label>                           
-                                            </div>
-                                            <div class="tfxb-row">
-                                              <ul class="task-info">
-                                                <li>
-                                                  <label class="info-title">Assignee :</label>
-                                                  <label class="info-decs" style="color: #0068ff;font-width:bold;">Jone Lare</label>
-                                                </li>
-                                                <li>
-                                                  <label class="info-title">Priority :</label>
-                                                  <label class="info-decs">low</label>
-                                                </li>
-                                              </ul>
-                                            </div>
-                                          </div>
-                                          <div class="task-actions">
-                                            <div class="classic-btns">
-                                              <div class="view_today_task">
-                                                <a href="#"><i class="fa fa-eye"></i></a>
-                                              </div>
-                                            </div>
-                                          </div>
-                                        </div>
-                                      </div>
+                                      {% endfor %}
+                                      
                                     </div>       
                                      
                                 </div>

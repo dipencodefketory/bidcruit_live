@@ -229,7 +229,7 @@ label.ls-text {
     border: 0px;
     transition: all .4s ease-in-out;
     visibility: hidden;
-    z-index: 999;
+    z-index: 99999;
 }
 .sidebar-preview:after {
     content: "";

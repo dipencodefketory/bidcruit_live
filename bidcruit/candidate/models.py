@@ -310,7 +310,7 @@ class CandidateProfile(models.Model):
                                       null=True)
     url_name = models.CharField(max_length=50, null=True)
     custom_url = models.CharField(max_length=300, null=True)
-    current_salary = models.IntegerField(null=True)
+    current_salary = models.CharField(null=True, max_length=20)
     expected_salary_min = models.CharField(null=True, max_length=50)
     expected_salary_max = models.CharField(null=True, max_length=50)
     total_experience = models.FloatField(null=True)

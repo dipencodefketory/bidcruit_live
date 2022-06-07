@@ -314,3 +314,48 @@ label.check-label {
     padding: 5px 10px;
     border: none;
 }
+
+
+
+.more_assignee_list {
+    cursor: pointer;
+    position: relative;
+    padding: 5px 0;
+}
+.list_assignee_task {
+    position: absolute;
+    z-index: 2;
+    width: 200px;
+    top: 28px;
+    display: none;
+    cursor: text;
+    right: -90px;
+}
+span.more_assignee_list:hover .list_assignee_task {
+    display: block;
+}
+.arrow_top_ass {
+    position: relative;
+}
+.arrow_top_ass:before {
+    border-color: transparent;
+    border-bottom-color: #0068ff;
+    position: absolute;
+    content: "";
+    border-style: solid;
+    border-width: 0 0.5rem 0.5rem;
+    bottom: 0px;
+    left: 48%;
+}
+.tooltipinner_assignee {
+    background-color: #0068ff;
+    color: #ffffff;
+    max-width: 200px;
+    padding: 0.25rem 0.5rem;
+    border-radius: 3px;
+}
+.tooltipinner_assignee span {
+    width: 100%;
+    display: inline-block;
+    text-align: center;
+}

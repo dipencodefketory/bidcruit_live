@@ -380,6 +380,7 @@ urlpatterns = [
 
     path('gettask/',views.get_task,name='get_task'),
     path('get_applied_candidate/',views.get_applied_candidate,name='get_applied_candidate'),
+    path('dailysubmitcandidateview/<int:candidate_id>/',views.dailysubmitcandidateview,name='dailysubmitcandidateview'),
     
 
 ]
